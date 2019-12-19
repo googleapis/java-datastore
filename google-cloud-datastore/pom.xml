@@ -33,14 +33,6 @@
     <dependency>
       <groupId>io.grpc</groupId>
       <artifactId>grpc-api</artifactId>
-      <exclusions>
-        <!-- currently collides with animal-sniffer-annotations from guava -->
-        <!-- TODO(#3) try to remove after the next bump of guava -->
-        <exclusion>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>animal-sniffer-annotations</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.google.api</groupId>
