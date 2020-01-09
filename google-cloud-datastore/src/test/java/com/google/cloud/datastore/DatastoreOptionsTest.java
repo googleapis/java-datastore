@@ -17,6 +17,7 @@
 package com.google.cloud.datastore;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -24,6 +25,7 @@ import com.google.cloud.TransportOptions;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import org.easymock.EasyMock;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -82,9 +84,14 @@ public class DatastoreOptionsTest {
     assertEquals(original.getCredentials(), copy.getCredentials());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testInvalidTransport() {
-    DatastoreOptions.newBuilder()
-        .setTransportOptions(EasyMock.<TransportOptions>createMock(TransportOptions.class));
+    try {
+      DatastoreOptions.newBuilder()
+          .setTransportOptions(EasyMock.createMock(TransportOptions.class));
+      Assert.fail();
+    } catch (IllegalArgumentException ex) {
+      assertNotNull(ex.getMessage());
+    }
   }
 }

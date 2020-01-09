@@ -31,6 +31,7 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -84,17 +85,22 @@ public class ITLocalDatastoreHelperTest {
     assertEquals(NAMESPACE, options.getNamespace());
   }
 
-  @Test(expected = DatastoreException.class)
+  @Test
   public void testStartStopReset() throws IOException, InterruptedException, TimeoutException {
-    LocalDatastoreHelper helper = LocalDatastoreHelper.create();
-    helper.start();
-    Datastore datastore = helper.getOptions().getService();
-    Key key = datastore.newKeyFactory().setKind("kind").newKey("name");
-    datastore.put(Entity.newBuilder(key).build());
-    assertNotNull(datastore.get(key));
-    helper.reset();
-    assertNull(datastore.get(key));
-    helper.stop(Duration.ofMinutes(1));
-    datastore.get(key);
+    try {
+      LocalDatastoreHelper helper = LocalDatastoreHelper.create();
+      helper.start();
+      Datastore datastore = helper.getOptions().getService();
+      Key key = datastore.newKeyFactory().setKind("kind").newKey("name");
+      datastore.put(Entity.newBuilder(key).build());
+      assertNotNull(datastore.get(key));
+      helper.reset();
+      assertNull(datastore.get(key));
+      helper.stop(Duration.ofMinutes(1));
+      datastore.get(key);
+      Assert.fail();
+    } catch (DatastoreException ex) {
+      assertNotNull(ex.getMessage());
+    }
   }
 }

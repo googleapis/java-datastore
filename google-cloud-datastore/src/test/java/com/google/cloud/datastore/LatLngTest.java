@@ -19,6 +19,7 @@ package com.google.cloud.datastore;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class LatLngTest {
@@ -43,43 +44,47 @@ public class LatLngTest {
     assertNotEquals(gp1, gp2);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testUpperLatRange() {
     try {
       new LatLng(90, 0);
-    } catch (IllegalArgumentException e) {
-      assertEquals(INVALID_LAT_MESSAGE, e.getMessage());
+      new LatLng(91, 0);
+      Assert.fail();
+    } catch (IllegalArgumentException ex) {
+      assertEquals(INVALID_LAT_MESSAGE, ex.getMessage());
     }
-    new LatLng(91, 0);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testLowerLatRange() {
     try {
       new LatLng(-90, 0);
-    } catch (IllegalArgumentException e) {
-      assertEquals(INVALID_LAT_MESSAGE, e.getMessage());
+      new LatLng(-91, 0);
+      Assert.fail();
+    } catch (IllegalArgumentException ex) {
+      assertEquals(INVALID_LAT_MESSAGE, ex.getMessage());
     }
-    new LatLng(-91, 0);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testUpperLngRange() {
     try {
       new LatLng(0, 180);
-    } catch (IllegalArgumentException e) {
-      assertEquals(INVALID_LNG_MESSAGE, e.getMessage());
+      new LatLng(0, 181);
+      Assert.fail();
+    } catch (IllegalArgumentException ex) {
+      assertEquals(INVALID_LNG_MESSAGE, ex.getMessage());
     }
-    new LatLng(0, 181);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testLowerLngRange() {
     try {
       new LatLng(0, 180);
-    } catch (IllegalArgumentException e) {
-      assertEquals(INVALID_LNG_MESSAGE, e.getMessage());
+      new LatLng(0, -181);
+      Assert.fail();
+    } catch (IllegalArgumentException ex) {
+      assertEquals(INVALID_LNG_MESSAGE, ex.getMessage());
     }
-    new LatLng(0, -181);
   }
 }

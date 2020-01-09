@@ -63,6 +63,7 @@ import java.util.Set;
 import java.util.concurrent.TimeoutException;
 import org.easymock.EasyMock;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -1104,7 +1105,7 @@ public class ITDatastoreTest {
     EasyMock.verify(rpcFactoryMock, rpcMock);
   }
 
-  @Test(expected = DatastoreException.class)
+  @Test
   public void testNonRetryableException() {
     LookupRequest requestPb = LookupRequest.newBuilder().addKeys(KEY1.toPb()).build();
     EasyMock.expect(rpcMock.lookup(requestPb))
@@ -1112,30 +1113,30 @@ public class ITDatastoreTest {
             new DatastoreException(DatastoreException.UNKNOWN_CODE, "denied", "PERMISSION_DENIED"))
         .times(1);
     EasyMock.replay(rpcFactoryMock, rpcMock);
-    Datastore datastore = null;
     try {
-      datastore = rpcMockOptions.getService();
-    } catch (DatastoreException e) {
-      assertEquals("denied", e.getMessage());
+      Datastore datastore = rpcMockOptions.getService();
+      datastore.get(KEY1);
+      Assert.fail();
+      EasyMock.verify(rpcFactoryMock, rpcMock);
+    } catch (DatastoreException ex) {
+      assertEquals("denied", ex.getMessage());
     }
-    datastore.get(KEY1);
-    EasyMock.verify(rpcFactoryMock, rpcMock);
   }
 
-  @Test(expected = DatastoreException.class)
+  @Test
   public void testRuntimeException() throws Exception {
     LookupRequest requestPb = LookupRequest.newBuilder().addKeys(KEY1.toPb()).build();
     String exceptionMessage = "Artificial runtime exception";
     EasyMock.expect(rpcMock.lookup(requestPb)).andThrow(new RuntimeException(exceptionMessage));
     EasyMock.replay(rpcFactoryMock, rpcMock);
-    Datastore datastore = null;
     try {
-      datastore = rpcMockOptions.getService();
-    } catch (DatastoreException e) {
-      assertEquals(exceptionMessage, e.getMessage());
+      Datastore datastore = rpcMockOptions.getService();
+      datastore.get(KEY1);
+      Assert.fail();
+      EasyMock.verify(rpcFactoryMock, rpcMock);
+    } catch (DatastoreException ex) {
+      assertEquals(exceptionMessage, ex.getCause().getMessage());
     }
-    datastore.get(KEY1);
-    EasyMock.verify(rpcFactoryMock, rpcMock);
   }
 
   @Test
