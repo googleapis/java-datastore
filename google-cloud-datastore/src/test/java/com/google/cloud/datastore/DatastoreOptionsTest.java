@@ -25,9 +25,7 @@ import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import org.easymock.EasyMock;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class DatastoreOptionsTest {
 
@@ -36,8 +34,6 @@ public class DatastoreOptionsTest {
   private DatastoreRpcFactory datastoreRpcFactory;
   private DatastoreRpc datastoreRpc;
   private DatastoreOptions.Builder options;
-
-  @Rule public ExpectedException thrown = ExpectedException.none();
 
   @Before
   public void setUp() {
@@ -86,9 +82,8 @@ public class DatastoreOptionsTest {
     assertEquals(original.getCredentials(), copy.getCredentials());
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testInvalidTransport() {
-    thrown.expect(IllegalArgumentException.class);
     DatastoreOptions.newBuilder()
         .setTransportOptions(EasyMock.<TransportOptions>createMock(TransportOptions.class));
   }
