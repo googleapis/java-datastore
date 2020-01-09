@@ -1092,7 +1092,7 @@ public class ITDatastoreTest {
   }
 
   @Test
-  public void testRetryableException() throws Exception {
+  public void testRetryableException() {
     LookupRequest requestPb = LookupRequest.newBuilder().addKeys(KEY1.toPb()).build();
     LookupResponse responsePb =
         LookupResponse.newBuilder()
@@ -1109,7 +1109,7 @@ public class ITDatastoreTest {
   }
 
   @Test
-  public void testNonRetryableException() throws Exception {
+  public void testNonRetryableException() {
     LookupRequest requestPb = LookupRequest.newBuilder().addKeys(KEY1.toPb()).build();
     EasyMock.expect(rpcMock.lookup(requestPb))
         .andThrow(
@@ -1124,7 +1124,7 @@ public class ITDatastoreTest {
   }
 
   @Test
-  public void testRuntimeException() throws Exception {
+  public void testRuntimeException() {
     LookupRequest requestPb = LookupRequest.newBuilder().addKeys(KEY1.toPb()).build();
     String exceptionMessage = "Artificial runtime exception";
     EasyMock.expect(rpcMock.lookup(requestPb)).andThrow(new RuntimeException(exceptionMessage));
