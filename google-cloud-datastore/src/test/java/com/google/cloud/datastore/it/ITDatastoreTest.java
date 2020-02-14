@@ -856,10 +856,9 @@ public class ITDatastoreTest {
   }
 
   @Test
-  public void testSkippedResults() throws InterruptedException {
+  public void testSkippedResults() {
     Query<Key> query = Query.newKeyQueryBuilder().setOffset(Integer.MAX_VALUE).build();
     int numberOfEntities = DATASTORE.run(query).getSkippedResults();
-    Thread.sleep(1000);
     assertEquals(2, numberOfEntities);
   }
 
