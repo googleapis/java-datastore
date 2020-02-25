@@ -47,6 +47,8 @@ import com.google.datastore.v1.PartitionId;
 import com.google.datastore.v1.QueryResultBatch;
 import com.google.datastore.v1.ReadOptions;
 import com.google.datastore.v1.ReadOptions.ReadConsistency;
+import com.google.datastore.v1.ReserveIdsRequest;
+import com.google.datastore.v1.ReserveIdsResponse;
 import com.google.datastore.v1.RollbackRequest;
 import com.google.datastore.v1.RollbackResponse;
 import com.google.datastore.v1.RunQueryRequest;
@@ -838,6 +840,19 @@ public class ITDatastoreTest {
     } catch (IllegalArgumentException expected) {
       assertEquals(expected.getMessage(), "keys must be IncompleteKey instances");
     }
+  }
+
+  @Test
+  public void testReserveIds() {
+    ReserveIdsRequest reserveIdsRequest =
+        ReserveIdsRequest.newBuilder().addKeys(KEY1.toPb()).build();
+    EasyMock.expect(rpcMock.reserveIds(reserveIdsRequest))
+        .andReturn(ReserveIdsResponse.newBuilder().build())
+        .times(1);
+    EasyMock.replay(rpcFactoryMock, rpcMock);
+    Datastore datastore = rpcMockOptions.getService();
+    datastore.reserveIds(KEY1);
+    EasyMock.verify(rpcFactoryMock, rpcMock);
   }
 
   @Test

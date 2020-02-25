@@ -59,6 +59,7 @@ import com.google.cloud.datastore.Value;
 import com.google.cloud.datastore.ValueType;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.base.Preconditions;
+import com.google.datastore.v1.ReserveIdsResponse;
 import com.google.datastore.v1.TransactionOptions;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -595,6 +596,15 @@ public class ITDatastoreTest {
     Key key2 = DATASTORE.allocateId(pk1);
     assertNotEquals(key1, key2);
     assertEquals(Key.newBuilder(pk1, key2.getId()).build(), key2);
+  }
+
+  @Test
+  public void testReserveIds() {
+    KeyFactory keyFactory = DATASTORE.newKeyFactory().setKind("MyKind");
+    Key key1 = keyFactory.newKey(10);
+    Key key2 = keyFactory.newKey("name");
+    ReserveIdsResponse response = DATASTORE.reserveIds(key1, key2);
+    assertEquals(Boolean.TRUE, response.isInitialized());
   }
 
   @Test

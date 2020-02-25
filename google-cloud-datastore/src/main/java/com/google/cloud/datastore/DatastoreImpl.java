@@ -31,6 +31,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.datastore.v1.ReadOptions.ReadConsistency;
+import com.google.datastore.v1.ReserveIdsRequest;
+import com.google.datastore.v1.ReserveIdsResponse;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.protobuf.ByteString;
 import java.util.ArrayList;
@@ -390,6 +392,36 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
             @Override
             public com.google.datastore.v1.LookupResponse call() throws DatastoreException {
               return datastoreRpc.lookup(requestPb);
+            }
+          },
+          retrySettings,
+          EXCEPTION_HANDLER,
+          getOptions().getClock());
+    } catch (RetryHelperException e) {
+      throw DatastoreException.translateAndThrow(e);
+    }
+  }
+
+  @Override
+  public ReserveIdsResponse reserveIds(Key... keys) {
+    ReserveIdsRequest.Builder requestPb = ReserveIdsRequest.newBuilder();
+    for (Key key : keys) {
+      if (key instanceof Key) {
+        key = (Key) IncompleteKey.fromPb(key.toPb());
+        requestPb.addKeys(key.toPb());
+      }
+    }
+    return reserveIds(requestPb.build());
+  }
+
+  com.google.datastore.v1.ReserveIdsResponse reserveIds(
+      final com.google.datastore.v1.ReserveIdsRequest requestPb) {
+    try {
+      return RetryHelper.runWithRetries(
+          new Callable<com.google.datastore.v1.ReserveIdsResponse>() {
+            @Override
+            public com.google.datastore.v1.ReserveIdsResponse call() throws DatastoreException {
+              return datastoreRpc.reserveIds(requestPb);
             }
           },
           retrySettings,

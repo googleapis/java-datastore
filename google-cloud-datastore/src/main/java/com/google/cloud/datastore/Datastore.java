@@ -17,6 +17,7 @@
 package com.google.cloud.datastore;
 
 import com.google.cloud.Service;
+import com.google.datastore.v1.ReserveIdsResponse;
 import com.google.datastore.v1.TransactionOptions;
 import java.util.Iterator;
 import java.util.List;
@@ -167,6 +168,23 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
    * @see #allocateId(IncompleteKey)
    */
   List<Key> allocateId(IncompleteKey... keys);
+
+  /**
+   * Reserve a list of IDs from a complete key
+   *
+   * <p>Example of reserving multiple ids in a single batch.
+   *
+   * <pre>{@code
+   * KeyFactory keyFactory = datastore.newKeyFactory().setKind("MyKind");
+   * Key key1 = keyFactory.newKey(10);
+   * Key key2 = keyFactory.newKey("name");
+   * ReserveIdsResponse response = datastore.reserveIds(key1, key2);
+   *
+   * }</pre>
+   *
+   * @throws DatastoreException upon failure
+   */
+  ReserveIdsResponse reserveIds(Key... keys);
 
   /**
    * {@inheritDoc}
