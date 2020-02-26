@@ -170,7 +170,7 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
   List<Key> allocateId(IncompleteKey... keys);
 
   /**
-   * Reserve a list of IDs from a complete key
+   * Reserve a list of IDs from a multiple complete key
    *
    * <p>Example of reserving multiple ids in a single batch.
    *
