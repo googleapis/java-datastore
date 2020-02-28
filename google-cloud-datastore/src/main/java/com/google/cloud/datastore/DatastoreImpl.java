@@ -32,7 +32,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.datastore.v1.ReadOptions.ReadConsistency;
 import com.google.datastore.v1.ReserveIdsRequest;
-import com.google.datastore.v1.ReserveIdsResponse;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.protobuf.ByteString;
 import java.util.ArrayList;
@@ -403,15 +402,20 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   }
 
   @Override
-  public ReserveIdsResponse reserveIds(Key... keys) {
+  public List<Key> reserveIds(Key... keys) {
     ReserveIdsRequest.Builder requestPb = ReserveIdsRequest.newBuilder();
     for (Key key : keys) {
-      if (key instanceof Key) {
-        key = (Key) IncompleteKey.fromPb(key.toPb());
-        requestPb.addKeys(key.toPb());
+      IncompleteKey incompleteKey = IncompleteKey.fromPb(key.toPb());
+      requestPb.addKeys(incompleteKey.toPb());
+    }
+    com.google.datastore.v1.ReserveIdsResponse responsePb = reserveIds(requestPb.build());
+    ImmutableList.Builder<Key> keyList = ImmutableList.builder();
+    if (responsePb.isInitialized()) {
+      for (Key key : keys) {
+        keyList.add(key);
       }
     }
-    return reserveIds(requestPb.build());
+    return keyList.build();
   }
 
   com.google.datastore.v1.ReserveIdsResponse reserveIds(

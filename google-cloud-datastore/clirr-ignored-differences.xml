@@ -3,7 +3,7 @@
 <differences>
     <difference>
         <className>com/google/cloud/datastore/Datastore</className>
-        <method>com.google.datastore.v1.ReserveIdsResponse reserveIds(com.google.cloud.datastore.Key[])</method>
+        <method>java.util.List reserveIds(com.google.cloud.datastore.Key[])</method>
         <differenceType>7012</differenceType>
     </difference>
     <difference>
