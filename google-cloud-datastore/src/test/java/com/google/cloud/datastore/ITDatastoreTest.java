@@ -16,6 +16,9 @@
 
 package com.google.cloud.datastore;
 
+import static org.easymock.EasyMock.createStrictMock;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -57,6 +60,7 @@ import com.google.datastore.v1.TransactionOptions;
 import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -853,6 +857,17 @@ public class ITDatastoreTest {
     Datastore datastore = rpcMockOptions.getService();
     datastore.reserveIds(KEY1);
     EasyMock.verify(rpcFactoryMock, rpcMock);
+  }
+
+  @Test
+  public void testReserveIdsWithKeys() {
+    Datastore datastore = createStrictMock(Datastore.class);
+    EasyMock.expect(datastore.reserveIds(KEY1, KEY2)).andReturn(Arrays.asList(KEY1, KEY2));
+    replay(datastore);
+    List<Key> result = datastore.reserveIds(KEY1, KEY2);
+    assertEquals(KEY1, result.get(0));
+    assertEquals(KEY2, result.get(1));
+    verify(datastore);
   }
 
   @Test

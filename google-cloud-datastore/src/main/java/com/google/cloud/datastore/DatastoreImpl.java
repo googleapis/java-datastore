@@ -405,8 +405,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   public List<Key> reserveIds(Key... keys) {
     ReserveIdsRequest.Builder requestPb = ReserveIdsRequest.newBuilder();
     for (Key key : keys) {
-      IncompleteKey incompleteKey = IncompleteKey.fromPb(key.toPb());
-      requestPb.addKeys(incompleteKey.toPb());
+      requestPb.addKeys(key.toPb());
     }
     com.google.datastore.v1.ReserveIdsResponse responsePb = reserveIds(requestPb.build());
     ImmutableList.Builder<Key> keyList = ImmutableList.builder();
