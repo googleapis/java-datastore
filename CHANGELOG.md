@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.101.5](https://www.github.com/googleapis/java-datastore/compare/v1.101.4...v1.101.5) (2020-04-17)
+
+
+### Dependencies
+
+* update dependency com.google.guava:guava-bom to v29 ([#95](https://www.github.com/googleapis/java-datastore/issues/95)) ([32d5e37](https://www.github.com/googleapis/java-datastore/commit/32d5e37f244969ba980cd94a8eaa8165b368ebc6))
+
 ### [1.101.4](https://www.github.com/googleapis/java-datastore/compare/v1.101.3...v1.101.4) (2020-04-08)
 
 
