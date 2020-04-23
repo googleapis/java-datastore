@@ -44,11 +44,26 @@ license_header = """/*
 service = 'datastore'
 versions = ['v1']
 
-for version in versions:
+protos = [
+  {
+    'service': 'datastore',
+    'version': 'v1',
+  },
+  {
+    'service': 'datastore-admin',
+    'version': 'v1',
+  }
+]
+
+for proto in protos:
+  service = proto['service']
+  version = proto['version']
+  bazel_path = service.replace('-', '/')
+
   library = gapic.java_library(
       service=service,
       version=version,
-      bazel_target=f'//google/{service}/{version}:google-cloud-{service}-{version}-java',
+      bazel_target=f'//google/{bazel_path}/{version}:google-cloud-{service}-{version}-java',
       proto_path=f'google/{service}/{version}',
   )
 
