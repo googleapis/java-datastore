@@ -41,9 +41,6 @@ license_header = """/*
  */
 """
 
-service = 'datastore'
-versions = ['v1']
-
 protos = [
   {
     'service': 'datastore',
