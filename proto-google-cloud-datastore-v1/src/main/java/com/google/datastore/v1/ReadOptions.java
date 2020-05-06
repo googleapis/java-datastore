@@ -19,37 +19,36 @@
 package com.google.datastore.v1;
 
 /**
- *
- *
  * <pre>
  * The options shared by read requests.
  * </pre>
  *
  * Protobuf type {@code google.datastore.v1.ReadOptions}
  */
-public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
-    implements
+public  final class ReadOptions extends
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:google.datastore.v1.ReadOptions)
     ReadOptionsOrBuilder {
-  private static final long serialVersionUID = 0L;
+private static final long serialVersionUID = 0L;
   // Use ReadOptions.newBuilder() to construct.
   private ReadOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-
-  private ReadOptions() {}
+  private ReadOptions() {
+  }
 
   @java.lang.Override
   @SuppressWarnings({"unused"})
-  protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
+  protected java.lang.Object newInstance(
+      UnusedPrivateParameter unused) {
     return new ReadOptions();
   }
 
   @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+  public final com.google.protobuf.UnknownFieldSet
+  getUnknownFields() {
     return this.unknownFields;
   }
-
   private ReadOptions(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -68,66 +67,59 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
           case 0:
             done = true;
             break;
-          case 8:
-            {
-              int rawValue = input.readEnum();
-              consistencyTypeCase_ = 1;
-              consistencyType_ = rawValue;
-              break;
+          case 8: {
+            int rawValue = input.readEnum();
+            consistencyTypeCase_ = 1;
+            consistencyType_ = rawValue;
+            break;
+          }
+          case 18: {
+            consistencyTypeCase_ = 2;
+            consistencyType_ = input.readBytes();
+            break;
+          }
+          default: {
+            if (!parseUnknownField(
+                input, unknownFields, extensionRegistry, tag)) {
+              done = true;
             }
-          case 18:
-            {
-              consistencyTypeCase_ = 2;
-              consistencyType_ = input.readBytes();
-              break;
-            }
-          default:
-            {
-              if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
       throw e.setUnfinishedMessage(this);
     } catch (java.io.IOException e) {
-      throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+      throw new com.google.protobuf.InvalidProtocolBufferException(
+          e).setUnfinishedMessage(this);
     } finally {
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
   }
-
-  public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
-    return com.google.datastore.v1.DatastoreProto
-        .internal_static_google_datastore_v1_ReadOptions_descriptor;
+  public static final com.google.protobuf.Descriptors.Descriptor
+      getDescriptor() {
+    return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_ReadOptions_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.google.datastore.v1.DatastoreProto
-        .internal_static_google_datastore_v1_ReadOptions_fieldAccessorTable
+    return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_ReadOptions_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.google.datastore.v1.ReadOptions.class,
-            com.google.datastore.v1.ReadOptions.Builder.class);
+            com.google.datastore.v1.ReadOptions.class, com.google.datastore.v1.ReadOptions.Builder.class);
   }
 
   /**
-   *
-   *
    * <pre>
    * The possible values for read consistencies.
    * </pre>
    *
    * Protobuf enum {@code google.datastore.v1.ReadOptions.ReadConsistency}
    */
-  public enum ReadConsistency implements com.google.protobuf.ProtocolMessageEnum {
+  public enum ReadConsistency
+      implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     *
-     *
      * <pre>
      * Unspecified. This value must not be used.
      * </pre>
@@ -136,8 +128,6 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      */
     READ_CONSISTENCY_UNSPECIFIED(0),
     /**
-     *
-     *
      * <pre>
      * Strong consistency.
      * </pre>
@@ -146,8 +136,6 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      */
     STRONG(1),
     /**
-     *
-     *
      * <pre>
      * Eventual consistency.
      * </pre>
@@ -159,8 +147,6 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
     ;
 
     /**
-     *
-     *
      * <pre>
      * Unspecified. This value must not be used.
      * </pre>
@@ -169,8 +155,6 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      */
     public static final int READ_CONSISTENCY_UNSPECIFIED_VALUE = 0;
     /**
-     *
-     *
      * <pre>
      * Strong consistency.
      * </pre>
@@ -179,8 +163,6 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      */
     public static final int STRONG_VALUE = 1;
     /**
-     *
-     *
      * <pre>
      * Eventual consistency.
      * </pre>
@@ -188,6 +170,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      * <code>EVENTUAL = 2;</code>
      */
     public static final int EVENTUAL_VALUE = 2;
+
 
     public final int getNumber() {
       if (this == UNRECOGNIZED) {
@@ -213,38 +196,35 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      */
     public static ReadConsistency forNumber(int value) {
       switch (value) {
-        case 0:
-          return READ_CONSISTENCY_UNSPECIFIED;
-        case 1:
-          return STRONG;
-        case 2:
-          return EVENTUAL;
-        default:
-          return null;
+        case 0: return READ_CONSISTENCY_UNSPECIFIED;
+        case 1: return STRONG;
+        case 2: return EVENTUAL;
+        default: return null;
       }
     }
 
-    public static com.google.protobuf.Internal.EnumLiteMap<ReadConsistency> internalGetValueMap() {
+    public static com.google.protobuf.Internal.EnumLiteMap<ReadConsistency>
+        internalGetValueMap() {
       return internalValueMap;
     }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        ReadConsistency> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<ReadConsistency>() {
+            public ReadConsistency findValueByNumber(int number) {
+              return ReadConsistency.forNumber(number);
+            }
+          };
 
-    private static final com.google.protobuf.Internal.EnumLiteMap<ReadConsistency>
-        internalValueMap =
-            new com.google.protobuf.Internal.EnumLiteMap<ReadConsistency>() {
-              public ReadConsistency findValueByNumber(int number) {
-                return ReadConsistency.forNumber(number);
-              }
-            };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor getValueDescriptor() {
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
       return getDescriptor().getValues().get(ordinal());
     }
-
-    public final com.google.protobuf.Descriptors.EnumDescriptor getDescriptorForType() {
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
       return getDescriptor();
     }
-
-    public static final com.google.protobuf.Descriptors.EnumDescriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
       return com.google.datastore.v1.ReadOptions.getDescriptor().getEnumTypes().get(0);
     }
 
@@ -253,7 +233,8 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
     public static ReadConsistency valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
       }
       if (desc.getIndex() == -1) {
         return UNRECOGNIZED;
@@ -272,16 +253,13 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
 
   private int consistencyTypeCase_ = 0;
   private java.lang.Object consistencyType_;
-
   public enum ConsistencyTypeCase
-      implements
-          com.google.protobuf.Internal.EnumLite,
+      implements com.google.protobuf.Internal.EnumLite,
           com.google.protobuf.AbstractMessage.InternalOneOfEnum {
     READ_CONSISTENCY(1),
     TRANSACTION(2),
     CONSISTENCYTYPE_NOT_SET(0);
     private final int value;
-
     private ConsistencyTypeCase(int value) {
       this.value = value;
     }
@@ -297,37 +275,31 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
 
     public static ConsistencyTypeCase forNumber(int value) {
       switch (value) {
-        case 1:
-          return READ_CONSISTENCY;
-        case 2:
-          return TRANSACTION;
-        case 0:
-          return CONSISTENCYTYPE_NOT_SET;
-        default:
-          return null;
+        case 1: return READ_CONSISTENCY;
+        case 2: return TRANSACTION;
+        case 0: return CONSISTENCYTYPE_NOT_SET;
+        default: return null;
       }
     }
-
     public int getNumber() {
       return this.value;
     }
   };
 
-  public ConsistencyTypeCase getConsistencyTypeCase() {
-    return ConsistencyTypeCase.forNumber(consistencyTypeCase_);
+  public ConsistencyTypeCase
+  getConsistencyTypeCase() {
+    return ConsistencyTypeCase.forNumber(
+        consistencyTypeCase_);
   }
 
   public static final int READ_CONSISTENCY_FIELD_NUMBER = 1;
   /**
-   *
-   *
    * <pre>
    * The non-transactional read consistency to use.
    * Cannot be set to `STRONG` for global queries.
    * </pre>
    *
    * <code>.google.datastore.v1.ReadOptions.ReadConsistency read_consistency = 1;</code>
-   *
    * @return The enum numeric value on the wire for readConsistency.
    */
   public int getReadConsistencyValue() {
@@ -337,34 +309,26 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
     return 0;
   }
   /**
-   *
-   *
    * <pre>
    * The non-transactional read consistency to use.
    * Cannot be set to `STRONG` for global queries.
    * </pre>
    *
    * <code>.google.datastore.v1.ReadOptions.ReadConsistency read_consistency = 1;</code>
-   *
    * @return The readConsistency.
    */
   public com.google.datastore.v1.ReadOptions.ReadConsistency getReadConsistency() {
     if (consistencyTypeCase_ == 1) {
       @SuppressWarnings("deprecation")
-      com.google.datastore.v1.ReadOptions.ReadConsistency result =
-          com.google.datastore.v1.ReadOptions.ReadConsistency.valueOf(
-              (java.lang.Integer) consistencyType_);
-      return result == null
-          ? com.google.datastore.v1.ReadOptions.ReadConsistency.UNRECOGNIZED
-          : result;
+      com.google.datastore.v1.ReadOptions.ReadConsistency result = com.google.datastore.v1.ReadOptions.ReadConsistency.valueOf(
+          (java.lang.Integer) consistencyType_);
+      return result == null ? com.google.datastore.v1.ReadOptions.ReadConsistency.UNRECOGNIZED : result;
     }
     return com.google.datastore.v1.ReadOptions.ReadConsistency.READ_CONSISTENCY_UNSPECIFIED;
   }
 
   public static final int TRANSACTION_FIELD_NUMBER = 2;
   /**
-   *
-   *
    * <pre>
    * The identifier of the transaction in which to read. A
    * transaction identifier is returned by a call to
@@ -372,7 +336,6 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
    * </pre>
    *
    * <code>bytes transaction = 2;</code>
-   *
    * @return The transaction.
    */
   public com.google.protobuf.ByteString getTransaction() {
@@ -383,7 +346,6 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
   }
 
   private byte memoizedIsInitialized = -1;
-
   @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -395,12 +357,14 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
   }
 
   @java.lang.Override
-  public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+  public void writeTo(com.google.protobuf.CodedOutputStream output)
+                      throws java.io.IOException {
     if (consistencyTypeCase_ == 1) {
       output.writeEnum(1, ((java.lang.Integer) consistencyType_));
     }
     if (consistencyTypeCase_ == 2) {
-      output.writeBytes(2, (com.google.protobuf.ByteString) consistencyType_);
+      output.writeBytes(
+          2, (com.google.protobuf.ByteString) consistencyType_);
     }
     unknownFields.writeTo(output);
   }
@@ -412,14 +376,13 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
 
     size = 0;
     if (consistencyTypeCase_ == 1) {
-      size +=
-          com.google.protobuf.CodedOutputStream.computeEnumSize(
-              1, ((java.lang.Integer) consistencyType_));
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(1, ((java.lang.Integer) consistencyType_));
     }
     if (consistencyTypeCase_ == 2) {
-      size +=
-          com.google.protobuf.CodedOutputStream.computeBytesSize(
-              2, (com.google.protobuf.ByteString) consistencyType_);
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(
+            2, (com.google.protobuf.ByteString) consistencyType_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -429,7 +392,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
   @java.lang.Override
   public boolean equals(final java.lang.Object obj) {
     if (obj == this) {
-      return true;
+     return true;
     }
     if (!(obj instanceof com.google.datastore.v1.ReadOptions)) {
       return super.equals(obj);
@@ -439,10 +402,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
     if (!getConsistencyTypeCase().equals(other.getConsistencyTypeCase())) return false;
     switch (consistencyTypeCase_) {
       case 1:
-        if (getReadConsistencyValue() != other.getReadConsistencyValue()) return false;
+        if (getReadConsistencyValue()
+            != other.getReadConsistencyValue()) return false;
         break;
       case 2:
-        if (!getTransaction().equals(other.getTransaction())) return false;
+        if (!getTransaction()
+            .equals(other.getTransaction())) return false;
         break;
       case 0:
       default:
@@ -475,126 +440,118 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
     return hash;
   }
 
-  public static com.google.datastore.v1.ReadOptions parseFrom(java.nio.ByteBuffer data)
+  public static com.google.datastore.v1.ReadOptions parseFrom(
+      java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-
   public static com.google.datastore.v1.ReadOptions parseFrom(
-      java.nio.ByteBuffer data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.nio.ByteBuffer data,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-
-  public static com.google.datastore.v1.ReadOptions parseFrom(com.google.protobuf.ByteString data)
+  public static com.google.datastore.v1.ReadOptions parseFrom(
+      com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-
   public static com.google.datastore.v1.ReadOptions parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-
   public static com.google.datastore.v1.ReadOptions parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-
   public static com.google.datastore.v1.ReadOptions parseFrom(
-      byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      byte[] data,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-
   public static com.google.datastore.v1.ReadOptions parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input);
   }
-
   public static com.google.datastore.v1.ReadOptions parseFrom(
-      java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.io.InputStream input,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(
-        PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input, extensionRegistry);
   }
-
   public static com.google.datastore.v1.ReadOptions parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseDelimitedWithIOException(PARSER, input);
   }
-
   public static com.google.datastore.v1.ReadOptions parseDelimitedFrom(
-      java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.io.InputStream input,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(
-        PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-
   public static com.google.datastore.v1.ReadOptions parseFrom(
-      com.google.protobuf.CodedInputStream input) throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
+      com.google.protobuf.CodedInputStream input)
+      throws java.io.IOException {
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input);
   }
-
   public static com.google.datastore.v1.ReadOptions parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(
-        PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
   @java.lang.Override
-  public Builder newBuilderForType() {
-    return newBuilder();
-  }
-
+  public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-
   public static Builder newBuilder(com.google.datastore.v1.ReadOptions prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
-
   @java.lang.Override
   public Builder toBuilder() {
-    return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    return this == DEFAULT_INSTANCE
+        ? new Builder() : new Builder().mergeFrom(this);
   }
 
   @java.lang.Override
-  protected Builder newBuilderForType(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+  protected Builder newBuilderForType(
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
   /**
-   *
-   *
    * <pre>
    * The options shared by read requests.
    * </pre>
    *
    * Protobuf type {@code google.datastore.v1.ReadOptions}
    */
-  public static final class Builder extends com.google.protobuf.GeneratedMessageV3.Builder<Builder>
-      implements
+  public static final class Builder extends
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:google.datastore.v1.ReadOptions)
       com.google.datastore.v1.ReadOptionsOrBuilder {
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
-      return com.google.datastore.v1.DatastoreProto
-          .internal_static_google_datastore_v1_ReadOptions_descriptor;
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_ReadOptions_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.google.datastore.v1.DatastoreProto
-          .internal_static_google_datastore_v1_ReadOptions_fieldAccessorTable
+      return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_ReadOptions_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.google.datastore.v1.ReadOptions.class,
-              com.google.datastore.v1.ReadOptions.Builder.class);
+              com.google.datastore.v1.ReadOptions.class, com.google.datastore.v1.ReadOptions.Builder.class);
     }
 
     // Construct using com.google.datastore.v1.ReadOptions.newBuilder()
@@ -602,15 +559,16 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
       maybeForceBuilderInitialization();
     }
 
-    private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+    private Builder(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
-
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {}
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
+      }
     }
-
     @java.lang.Override
     public Builder clear() {
       super.clear();
@@ -620,9 +578,9 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
     }
 
     @java.lang.Override
-    public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
-      return com.google.datastore.v1.DatastoreProto
-          .internal_static_google_datastore_v1_ReadOptions_descriptor;
+    public com.google.protobuf.Descriptors.Descriptor
+        getDescriptorForType() {
+      return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_ReadOptions_descriptor;
     }
 
     @java.lang.Override
@@ -657,39 +615,38 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
     public Builder clone() {
       return super.clone();
     }
-
     @java.lang.Override
     public Builder setField(
-        com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        java.lang.Object value) {
       return super.setField(field, value);
     }
-
     @java.lang.Override
-    public Builder clearField(com.google.protobuf.Descriptors.FieldDescriptor field) {
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
       return super.clearField(field);
     }
-
     @java.lang.Override
-    public Builder clearOneof(com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
       return super.clearOneof(oneof);
     }
-
     @java.lang.Override
     public Builder setRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field, int index, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, java.lang.Object value) {
       return super.setRepeatedField(field, index, value);
     }
-
     @java.lang.Override
     public Builder addRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        java.lang.Object value) {
       return super.addRepeatedField(field, value);
     }
-
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof com.google.datastore.v1.ReadOptions) {
-        return mergeFrom((com.google.datastore.v1.ReadOptions) other);
+        return mergeFrom((com.google.datastore.v1.ReadOptions)other);
       } else {
         super.mergeFrom(other);
         return this;
@@ -699,20 +656,17 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
     public Builder mergeFrom(com.google.datastore.v1.ReadOptions other) {
       if (other == com.google.datastore.v1.ReadOptions.getDefaultInstance()) return this;
       switch (other.getConsistencyTypeCase()) {
-        case READ_CONSISTENCY:
-          {
-            setReadConsistencyValue(other.getReadConsistencyValue());
-            break;
-          }
-        case TRANSACTION:
-          {
-            setTransaction(other.getTransaction());
-            break;
-          }
-        case CONSISTENCYTYPE_NOT_SET:
-          {
-            break;
-          }
+        case READ_CONSISTENCY: {
+          setReadConsistencyValue(other.getReadConsistencyValue());
+          break;
+        }
+        case TRANSACTION: {
+          setTransaction(other.getTransaction());
+          break;
+        }
+        case CONSISTENCYTYPE_NOT_SET: {
+          break;
+        }
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -742,12 +696,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     private int consistencyTypeCase_ = 0;
     private java.lang.Object consistencyType_;
-
-    public ConsistencyTypeCase getConsistencyTypeCase() {
-      return ConsistencyTypeCase.forNumber(consistencyTypeCase_);
+    public ConsistencyTypeCase
+        getConsistencyTypeCase() {
+      return ConsistencyTypeCase.forNumber(
+          consistencyTypeCase_);
     }
 
     public Builder clearConsistencyType() {
@@ -757,16 +711,14 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
 
+
     /**
-     *
-     *
      * <pre>
      * The non-transactional read consistency to use.
      * Cannot be set to `STRONG` for global queries.
      * </pre>
      *
      * <code>.google.datastore.v1.ReadOptions.ReadConsistency read_consistency = 1;</code>
-     *
      * @return The enum numeric value on the wire for readConsistency.
      */
     public int getReadConsistencyValue() {
@@ -776,15 +728,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
       return 0;
     }
     /**
-     *
-     *
      * <pre>
      * The non-transactional read consistency to use.
      * Cannot be set to `STRONG` for global queries.
      * </pre>
      *
      * <code>.google.datastore.v1.ReadOptions.ReadConsistency read_consistency = 1;</code>
-     *
      * @param value The enum numeric value on the wire for readConsistency to set.
      * @return This builder for chaining.
      */
@@ -795,39 +744,30 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The non-transactional read consistency to use.
      * Cannot be set to `STRONG` for global queries.
      * </pre>
      *
      * <code>.google.datastore.v1.ReadOptions.ReadConsistency read_consistency = 1;</code>
-     *
      * @return The readConsistency.
      */
     public com.google.datastore.v1.ReadOptions.ReadConsistency getReadConsistency() {
       if (consistencyTypeCase_ == 1) {
         @SuppressWarnings("deprecation")
-        com.google.datastore.v1.ReadOptions.ReadConsistency result =
-            com.google.datastore.v1.ReadOptions.ReadConsistency.valueOf(
-                (java.lang.Integer) consistencyType_);
-        return result == null
-            ? com.google.datastore.v1.ReadOptions.ReadConsistency.UNRECOGNIZED
-            : result;
+        com.google.datastore.v1.ReadOptions.ReadConsistency result = com.google.datastore.v1.ReadOptions.ReadConsistency.valueOf(
+            (java.lang.Integer) consistencyType_);
+        return result == null ? com.google.datastore.v1.ReadOptions.ReadConsistency.UNRECOGNIZED : result;
       }
       return com.google.datastore.v1.ReadOptions.ReadConsistency.READ_CONSISTENCY_UNSPECIFIED;
     }
     /**
-     *
-     *
      * <pre>
      * The non-transactional read consistency to use.
      * Cannot be set to `STRONG` for global queries.
      * </pre>
      *
      * <code>.google.datastore.v1.ReadOptions.ReadConsistency read_consistency = 1;</code>
-     *
      * @param value The readConsistency to set.
      * @return This builder for chaining.
      */
@@ -841,15 +781,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The non-transactional read consistency to use.
      * Cannot be set to `STRONG` for global queries.
      * </pre>
      *
      * <code>.google.datastore.v1.ReadOptions.ReadConsistency read_consistency = 1;</code>
-     *
      * @return This builder for chaining.
      */
     public Builder clearReadConsistency() {
@@ -862,8 +799,6 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
     }
 
     /**
-     *
-     *
      * <pre>
      * The identifier of the transaction in which to read. A
      * transaction identifier is returned by a call to
@@ -871,7 +806,6 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      * </pre>
      *
      * <code>bytes transaction = 2;</code>
-     *
      * @return The transaction.
      */
     public com.google.protobuf.ByteString getTransaction() {
@@ -881,8 +815,6 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
       return com.google.protobuf.ByteString.EMPTY;
     }
     /**
-     *
-     *
      * <pre>
      * The identifier of the transaction in which to read. A
      * transaction identifier is returned by a call to
@@ -890,22 +822,19 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      * </pre>
      *
      * <code>bytes transaction = 2;</code>
-     *
      * @param value The transaction to set.
      * @return This builder for chaining.
      */
     public Builder setTransaction(com.google.protobuf.ByteString value) {
       if (value == null) {
-        throw new NullPointerException();
-      }
-      consistencyTypeCase_ = 2;
+    throw new NullPointerException();
+  }
+  consistencyTypeCase_ = 2;
       consistencyType_ = value;
       onChanged();
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The identifier of the transaction in which to read. A
      * transaction identifier is returned by a call to
@@ -913,7 +842,6 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      * </pre>
      *
      * <code>bytes transaction = 2;</code>
-     *
      * @return This builder for chaining.
      */
     public Builder clearTransaction() {
@@ -924,9 +852,9 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     @java.lang.Override
-    public final Builder setUnknownFields(final com.google.protobuf.UnknownFieldSet unknownFields) {
+    public final Builder setUnknownFields(
+        final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.setUnknownFields(unknownFields);
     }
 
@@ -936,12 +864,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
       return super.mergeUnknownFields(unknownFields);
     }
 
+
     // @@protoc_insertion_point(builder_scope:google.datastore.v1.ReadOptions)
   }
 
   // @@protoc_insertion_point(class_scope:google.datastore.v1.ReadOptions)
   private static final com.google.datastore.v1.ReadOptions DEFAULT_INSTANCE;
-
   static {
     DEFAULT_INSTANCE = new com.google.datastore.v1.ReadOptions();
   }
@@ -950,16 +878,16 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<ReadOptions> PARSER =
-      new com.google.protobuf.AbstractParser<ReadOptions>() {
-        @java.lang.Override
-        public ReadOptions parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ReadOptions(input, extensionRegistry);
-        }
-      };
+  private static final com.google.protobuf.Parser<ReadOptions>
+      PARSER = new com.google.protobuf.AbstractParser<ReadOptions>() {
+    @java.lang.Override
+    public ReadOptions parsePartialFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return new ReadOptions(input, extensionRegistry);
+    }
+  };
 
   public static com.google.protobuf.Parser<ReadOptions> parser() {
     return PARSER;
@@ -974,4 +902,6 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.ReadOptions getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
+
 }
+

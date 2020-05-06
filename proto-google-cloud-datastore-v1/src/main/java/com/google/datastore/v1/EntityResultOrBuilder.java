@@ -18,38 +18,29 @@
 
 package com.google.datastore.v1;
 
-public interface EntityResultOrBuilder
-    extends
+public interface EntityResultOrBuilder extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.EntityResult)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   *
-   *
    * <pre>
    * The resulting entity.
    * </pre>
    *
    * <code>.google.datastore.v1.Entity entity = 1;</code>
-   *
    * @return Whether the entity field is set.
    */
   boolean hasEntity();
   /**
-   *
-   *
    * <pre>
    * The resulting entity.
    * </pre>
    *
    * <code>.google.datastore.v1.Entity entity = 1;</code>
-   *
    * @return The entity.
    */
   com.google.datastore.v1.Entity getEntity();
   /**
-   *
-   *
    * <pre>
    * The resulting entity.
    * </pre>
@@ -59,8 +50,6 @@ public interface EntityResultOrBuilder
   com.google.datastore.v1.EntityOrBuilder getEntityOrBuilder();
 
   /**
-   *
-   *
    * <pre>
    * The version of the entity, a strictly positive number that monotonically
    * increases with changes to the entity.
@@ -72,21 +61,17 @@ public interface EntityResultOrBuilder
    * </pre>
    *
    * <code>int64 version = 4;</code>
-   *
    * @return The version.
    */
   long getVersion();
 
   /**
-   *
-   *
    * <pre>
    * A cursor that points to the position after the result entity.
    * Set only when the `EntityResult` is part of a `QueryResultBatch` message.
    * </pre>
    *
    * <code>bytes cursor = 3;</code>
-   *
    * @return The cursor.
    */
   com.google.protobuf.ByteString getCursor();

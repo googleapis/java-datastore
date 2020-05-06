@@ -18,40 +18,31 @@
 
 package com.google.datastore.v1;
 
-public interface MutationResultOrBuilder
-    extends
+public interface MutationResultOrBuilder extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.MutationResult)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   *
-   *
    * <pre>
    * The automatically allocated key.
    * Set only when the mutation allocated a key.
    * </pre>
    *
    * <code>.google.datastore.v1.Key key = 3;</code>
-   *
    * @return Whether the key field is set.
    */
   boolean hasKey();
   /**
-   *
-   *
    * <pre>
    * The automatically allocated key.
    * Set only when the mutation allocated a key.
    * </pre>
    *
    * <code>.google.datastore.v1.Key key = 3;</code>
-   *
    * @return The key.
    */
   com.google.datastore.v1.Key getKey();
   /**
-   *
-   *
    * <pre>
    * The automatically allocated key.
    * Set only when the mutation allocated a key.
@@ -62,8 +53,6 @@ public interface MutationResultOrBuilder
   com.google.datastore.v1.KeyOrBuilder getKeyOrBuilder();
 
   /**
-   *
-   *
    * <pre>
    * The version of the entity on the server after processing the mutation. If
    * the mutation doesn't change anything on the server, then the version will
@@ -73,21 +62,17 @@ public interface MutationResultOrBuilder
    * </pre>
    *
    * <code>int64 version = 4;</code>
-   *
    * @return The version.
    */
   long getVersion();
 
   /**
-   *
-   *
    * <pre>
    * Whether a conflict was detected for this mutation. Always false when a
    * conflict detection strategy field is not set in the mutation.
    * </pre>
    *
    * <code>bool conflict_detected = 5;</code>
-   *
    * @return The conflictDetected.
    */
   boolean getConflictDetected();

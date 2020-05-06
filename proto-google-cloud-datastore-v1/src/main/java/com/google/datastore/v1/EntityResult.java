@@ -19,39 +19,37 @@
 package com.google.datastore.v1;
 
 /**
- *
- *
  * <pre>
  * The result of fetching an entity from Datastore.
  * </pre>
  *
  * Protobuf type {@code google.datastore.v1.EntityResult}
  */
-public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
-    implements
+public  final class EntityResult extends
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:google.datastore.v1.EntityResult)
     EntityResultOrBuilder {
-  private static final long serialVersionUID = 0L;
+private static final long serialVersionUID = 0L;
   // Use EntityResult.newBuilder() to construct.
   private EntityResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-
   private EntityResult() {
     cursor_ = com.google.protobuf.ByteString.EMPTY;
   }
 
   @java.lang.Override
   @SuppressWarnings({"unused"})
-  protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
+  protected java.lang.Object newInstance(
+      UnusedPrivateParameter unused) {
     return new EntityResult();
   }
 
   @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+  public final com.google.protobuf.UnknownFieldSet
+  getUnknownFields() {
     return this.unknownFields;
   }
-
   private EntityResult(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -70,68 +68,62 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
           case 0:
             done = true;
             break;
-          case 10:
-            {
-              com.google.datastore.v1.Entity.Builder subBuilder = null;
-              if (entity_ != null) {
-                subBuilder = entity_.toBuilder();
-              }
-              entity_ =
-                  input.readMessage(com.google.datastore.v1.Entity.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(entity_);
-                entity_ = subBuilder.buildPartial();
-              }
+          case 10: {
+            com.google.datastore.v1.Entity.Builder subBuilder = null;
+            if (entity_ != null) {
+              subBuilder = entity_.toBuilder();
+            }
+            entity_ = input.readMessage(com.google.datastore.v1.Entity.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(entity_);
+              entity_ = subBuilder.buildPartial();
+            }
 
-              break;
+            break;
+          }
+          case 26: {
+
+            cursor_ = input.readBytes();
+            break;
+          }
+          case 32: {
+
+            version_ = input.readInt64();
+            break;
+          }
+          default: {
+            if (!parseUnknownField(
+                input, unknownFields, extensionRegistry, tag)) {
+              done = true;
             }
-          case 26:
-            {
-              cursor_ = input.readBytes();
-              break;
-            }
-          case 32:
-            {
-              version_ = input.readInt64();
-              break;
-            }
-          default:
-            {
-              if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
       throw e.setUnfinishedMessage(this);
     } catch (java.io.IOException e) {
-      throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+      throw new com.google.protobuf.InvalidProtocolBufferException(
+          e).setUnfinishedMessage(this);
     } finally {
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
   }
-
-  public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
-    return com.google.datastore.v1.QueryProto
-        .internal_static_google_datastore_v1_EntityResult_descriptor;
+  public static final com.google.protobuf.Descriptors.Descriptor
+      getDescriptor() {
+    return com.google.datastore.v1.QueryProto.internal_static_google_datastore_v1_EntityResult_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.google.datastore.v1.QueryProto
-        .internal_static_google_datastore_v1_EntityResult_fieldAccessorTable
+    return com.google.datastore.v1.QueryProto.internal_static_google_datastore_v1_EntityResult_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.google.datastore.v1.EntityResult.class,
-            com.google.datastore.v1.EntityResult.Builder.class);
+            com.google.datastore.v1.EntityResult.class, com.google.datastore.v1.EntityResult.Builder.class);
   }
 
   /**
-   *
-   *
    * <pre>
    * Specifies what data the 'entity' field contains.
    * A `ResultType` is either implied (for example, in `LookupResponse.missing`
@@ -142,10 +134,9 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
    *
    * Protobuf enum {@code google.datastore.v1.EntityResult.ResultType}
    */
-  public enum ResultType implements com.google.protobuf.ProtocolMessageEnum {
+  public enum ResultType
+      implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     *
-     *
      * <pre>
      * Unspecified. This value is never used.
      * </pre>
@@ -154,8 +145,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      */
     RESULT_TYPE_UNSPECIFIED(0),
     /**
-     *
-     *
      * <pre>
      * The key and properties.
      * </pre>
@@ -164,8 +153,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      */
     FULL(1),
     /**
-     *
-     *
      * <pre>
      * A projected subset of properties. The entity may have no key.
      * </pre>
@@ -174,8 +161,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      */
     PROJECTION(2),
     /**
-     *
-     *
      * <pre>
      * Only the key.
      * </pre>
@@ -187,8 +172,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     ;
 
     /**
-     *
-     *
      * <pre>
      * Unspecified. This value is never used.
      * </pre>
@@ -197,8 +180,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      */
     public static final int RESULT_TYPE_UNSPECIFIED_VALUE = 0;
     /**
-     *
-     *
      * <pre>
      * The key and properties.
      * </pre>
@@ -207,8 +188,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      */
     public static final int FULL_VALUE = 1;
     /**
-     *
-     *
      * <pre>
      * A projected subset of properties. The entity may have no key.
      * </pre>
@@ -217,8 +196,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      */
     public static final int PROJECTION_VALUE = 2;
     /**
-     *
-     *
      * <pre>
      * Only the key.
      * </pre>
@@ -226,6 +203,7 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      * <code>KEY_ONLY = 3;</code>
      */
     public static final int KEY_ONLY_VALUE = 3;
+
 
     public final int getNumber() {
       if (this == UNRECOGNIZED) {
@@ -251,47 +229,46 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      */
     public static ResultType forNumber(int value) {
       switch (value) {
-        case 0:
-          return RESULT_TYPE_UNSPECIFIED;
-        case 1:
-          return FULL;
-        case 2:
-          return PROJECTION;
-        case 3:
-          return KEY_ONLY;
-        default:
-          return null;
+        case 0: return RESULT_TYPE_UNSPECIFIED;
+        case 1: return FULL;
+        case 2: return PROJECTION;
+        case 3: return KEY_ONLY;
+        default: return null;
       }
     }
 
-    public static com.google.protobuf.Internal.EnumLiteMap<ResultType> internalGetValueMap() {
+    public static com.google.protobuf.Internal.EnumLiteMap<ResultType>
+        internalGetValueMap() {
       return internalValueMap;
     }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        ResultType> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<ResultType>() {
+            public ResultType findValueByNumber(int number) {
+              return ResultType.forNumber(number);
+            }
+          };
 
-    private static final com.google.protobuf.Internal.EnumLiteMap<ResultType> internalValueMap =
-        new com.google.protobuf.Internal.EnumLiteMap<ResultType>() {
-          public ResultType findValueByNumber(int number) {
-            return ResultType.forNumber(number);
-          }
-        };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor getValueDescriptor() {
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
       return getDescriptor().getValues().get(ordinal());
     }
-
-    public final com.google.protobuf.Descriptors.EnumDescriptor getDescriptorForType() {
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
       return getDescriptor();
     }
-
-    public static final com.google.protobuf.Descriptors.EnumDescriptor getDescriptor() {
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
       return com.google.datastore.v1.EntityResult.getDescriptor().getEnumTypes().get(0);
     }
 
     private static final ResultType[] VALUES = values();
 
-    public static ResultType valueOf(com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+    public static ResultType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
       }
       if (desc.getIndex() == -1) {
         return UNRECOGNIZED;
@@ -311,36 +288,28 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   public static final int ENTITY_FIELD_NUMBER = 1;
   private com.google.datastore.v1.Entity entity_;
   /**
-   *
-   *
    * <pre>
    * The resulting entity.
    * </pre>
    *
    * <code>.google.datastore.v1.Entity entity = 1;</code>
-   *
    * @return Whether the entity field is set.
    */
   public boolean hasEntity() {
     return entity_ != null;
   }
   /**
-   *
-   *
    * <pre>
    * The resulting entity.
    * </pre>
    *
    * <code>.google.datastore.v1.Entity entity = 1;</code>
-   *
    * @return The entity.
    */
   public com.google.datastore.v1.Entity getEntity() {
     return entity_ == null ? com.google.datastore.v1.Entity.getDefaultInstance() : entity_;
   }
   /**
-   *
-   *
    * <pre>
    * The resulting entity.
    * </pre>
@@ -354,8 +323,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   public static final int VERSION_FIELD_NUMBER = 4;
   private long version_;
   /**
-   *
-   *
    * <pre>
    * The version of the entity, a strictly positive number that monotonically
    * increases with changes to the entity.
@@ -367,7 +334,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
    * </pre>
    *
    * <code>int64 version = 4;</code>
-   *
    * @return The version.
    */
   public long getVersion() {
@@ -377,15 +343,12 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   public static final int CURSOR_FIELD_NUMBER = 3;
   private com.google.protobuf.ByteString cursor_;
   /**
-   *
-   *
    * <pre>
    * A cursor that points to the position after the result entity.
    * Set only when the `EntityResult` is part of a `QueryResultBatch` message.
    * </pre>
    *
    * <code>bytes cursor = 3;</code>
-   *
    * @return The cursor.
    */
   public com.google.protobuf.ByteString getCursor() {
@@ -393,7 +356,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   }
 
   private byte memoizedIsInitialized = -1;
-
   @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -405,7 +367,8 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   }
 
   @java.lang.Override
-  public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+  public void writeTo(com.google.protobuf.CodedOutputStream output)
+                      throws java.io.IOException {
     if (entity_ != null) {
       output.writeMessage(1, getEntity());
     }
@@ -425,13 +388,16 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
 
     size = 0;
     if (entity_ != null) {
-      size += com.google.protobuf.CodedOutputStream.computeMessageSize(1, getEntity());
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(1, getEntity());
     }
     if (!cursor_.isEmpty()) {
-      size += com.google.protobuf.CodedOutputStream.computeBytesSize(3, cursor_);
+      size += com.google.protobuf.CodedOutputStream
+        .computeBytesSize(3, cursor_);
     }
     if (version_ != 0L) {
-      size += com.google.protobuf.CodedOutputStream.computeInt64Size(4, version_);
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt64Size(4, version_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -441,7 +407,7 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   @java.lang.Override
   public boolean equals(final java.lang.Object obj) {
     if (obj == this) {
-      return true;
+     return true;
     }
     if (!(obj instanceof com.google.datastore.v1.EntityResult)) {
       return super.equals(obj);
@@ -450,10 +416,13 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
 
     if (hasEntity() != other.hasEntity()) return false;
     if (hasEntity()) {
-      if (!getEntity().equals(other.getEntity())) return false;
+      if (!getEntity()
+          .equals(other.getEntity())) return false;
     }
-    if (getVersion() != other.getVersion()) return false;
-    if (!getCursor().equals(other.getCursor())) return false;
+    if (getVersion()
+        != other.getVersion()) return false;
+    if (!getCursor()
+        .equals(other.getCursor())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -470,7 +439,8 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       hash = (53 * hash) + getEntity().hashCode();
     }
     hash = (37 * hash) + VERSION_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(getVersion());
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getVersion());
     hash = (37 * hash) + CURSOR_FIELD_NUMBER;
     hash = (53 * hash) + getCursor().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
@@ -478,126 +448,118 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     return hash;
   }
 
-  public static com.google.datastore.v1.EntityResult parseFrom(java.nio.ByteBuffer data)
+  public static com.google.datastore.v1.EntityResult parseFrom(
+      java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-
   public static com.google.datastore.v1.EntityResult parseFrom(
-      java.nio.ByteBuffer data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.nio.ByteBuffer data,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-
-  public static com.google.datastore.v1.EntityResult parseFrom(com.google.protobuf.ByteString data)
+  public static com.google.datastore.v1.EntityResult parseFrom(
+      com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-
   public static com.google.datastore.v1.EntityResult parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-
   public static com.google.datastore.v1.EntityResult parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-
   public static com.google.datastore.v1.EntityResult parseFrom(
-      byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      byte[] data,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-
   public static com.google.datastore.v1.EntityResult parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input);
   }
-
   public static com.google.datastore.v1.EntityResult parseFrom(
-      java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.io.InputStream input,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(
-        PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input, extensionRegistry);
   }
-
   public static com.google.datastore.v1.EntityResult parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseDelimitedWithIOException(PARSER, input);
   }
-
   public static com.google.datastore.v1.EntityResult parseDelimitedFrom(
-      java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.io.InputStream input,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(
-        PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-
   public static com.google.datastore.v1.EntityResult parseFrom(
-      com.google.protobuf.CodedInputStream input) throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
+      com.google.protobuf.CodedInputStream input)
+      throws java.io.IOException {
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input);
   }
-
   public static com.google.datastore.v1.EntityResult parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(
-        PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
   @java.lang.Override
-  public Builder newBuilderForType() {
-    return newBuilder();
-  }
-
+  public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-
   public static Builder newBuilder(com.google.datastore.v1.EntityResult prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
-
   @java.lang.Override
   public Builder toBuilder() {
-    return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    return this == DEFAULT_INSTANCE
+        ? new Builder() : new Builder().mergeFrom(this);
   }
 
   @java.lang.Override
-  protected Builder newBuilderForType(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+  protected Builder newBuilderForType(
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
   /**
-   *
-   *
    * <pre>
    * The result of fetching an entity from Datastore.
    * </pre>
    *
    * Protobuf type {@code google.datastore.v1.EntityResult}
    */
-  public static final class Builder extends com.google.protobuf.GeneratedMessageV3.Builder<Builder>
-      implements
+  public static final class Builder extends
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:google.datastore.v1.EntityResult)
       com.google.datastore.v1.EntityResultOrBuilder {
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
-      return com.google.datastore.v1.QueryProto
-          .internal_static_google_datastore_v1_EntityResult_descriptor;
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.google.datastore.v1.QueryProto.internal_static_google_datastore_v1_EntityResult_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.google.datastore.v1.QueryProto
-          .internal_static_google_datastore_v1_EntityResult_fieldAccessorTable
+      return com.google.datastore.v1.QueryProto.internal_static_google_datastore_v1_EntityResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.google.datastore.v1.EntityResult.class,
-              com.google.datastore.v1.EntityResult.Builder.class);
+              com.google.datastore.v1.EntityResult.class, com.google.datastore.v1.EntityResult.Builder.class);
     }
 
     // Construct using com.google.datastore.v1.EntityResult.newBuilder()
@@ -605,15 +567,16 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       maybeForceBuilderInitialization();
     }
 
-    private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+    private Builder(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
-
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {}
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
+      }
     }
-
     @java.lang.Override
     public Builder clear() {
       super.clear();
@@ -631,9 +594,9 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     }
 
     @java.lang.Override
-    public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
-      return com.google.datastore.v1.QueryProto
-          .internal_static_google_datastore_v1_EntityResult_descriptor;
+    public com.google.protobuf.Descriptors.Descriptor
+        getDescriptorForType() {
+      return com.google.datastore.v1.QueryProto.internal_static_google_datastore_v1_EntityResult_descriptor;
     }
 
     @java.lang.Override
@@ -668,39 +631,38 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     public Builder clone() {
       return super.clone();
     }
-
     @java.lang.Override
     public Builder setField(
-        com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        java.lang.Object value) {
       return super.setField(field, value);
     }
-
     @java.lang.Override
-    public Builder clearField(com.google.protobuf.Descriptors.FieldDescriptor field) {
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
       return super.clearField(field);
     }
-
     @java.lang.Override
-    public Builder clearOneof(com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
       return super.clearOneof(oneof);
     }
-
     @java.lang.Override
     public Builder setRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field, int index, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, java.lang.Object value) {
       return super.setRepeatedField(field, index, value);
     }
-
     @java.lang.Override
     public Builder addRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        java.lang.Object value) {
       return super.addRepeatedField(field, value);
     }
-
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof com.google.datastore.v1.EntityResult) {
-        return mergeFrom((com.google.datastore.v1.EntityResult) other);
+        return mergeFrom((com.google.datastore.v1.EntityResult)other);
       } else {
         super.mergeFrom(other);
         return this;
@@ -749,33 +711,24 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
 
     private com.google.datastore.v1.Entity entity_;
     private com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.Entity,
-            com.google.datastore.v1.Entity.Builder,
-            com.google.datastore.v1.EntityOrBuilder>
-        entityBuilder_;
+        com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder> entityBuilder_;
     /**
-     *
-     *
      * <pre>
      * The resulting entity.
      * </pre>
      *
      * <code>.google.datastore.v1.Entity entity = 1;</code>
-     *
      * @return Whether the entity field is set.
      */
     public boolean hasEntity() {
       return entityBuilder_ != null || entity_ != null;
     }
     /**
-     *
-     *
      * <pre>
      * The resulting entity.
      * </pre>
      *
      * <code>.google.datastore.v1.Entity entity = 1;</code>
-     *
      * @return The entity.
      */
     public com.google.datastore.v1.Entity getEntity() {
@@ -786,8 +739,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       }
     }
     /**
-     *
-     *
      * <pre>
      * The resulting entity.
      * </pre>
@@ -808,15 +759,14 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The resulting entity.
      * </pre>
      *
      * <code>.google.datastore.v1.Entity entity = 1;</code>
      */
-    public Builder setEntity(com.google.datastore.v1.Entity.Builder builderForValue) {
+    public Builder setEntity(
+        com.google.datastore.v1.Entity.Builder builderForValue) {
       if (entityBuilder_ == null) {
         entity_ = builderForValue.build();
         onChanged();
@@ -827,8 +777,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The resulting entity.
      * </pre>
@@ -839,7 +787,7 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       if (entityBuilder_ == null) {
         if (entity_ != null) {
           entity_ =
-              com.google.datastore.v1.Entity.newBuilder(entity_).mergeFrom(value).buildPartial();
+            com.google.datastore.v1.Entity.newBuilder(entity_).mergeFrom(value).buildPartial();
         } else {
           entity_ = value;
         }
@@ -851,8 +799,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The resulting entity.
      * </pre>
@@ -871,8 +817,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The resulting entity.
      * </pre>
@@ -880,13 +824,11 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      * <code>.google.datastore.v1.Entity entity = 1;</code>
      */
     public com.google.datastore.v1.Entity.Builder getEntityBuilder() {
-
+      
       onChanged();
       return getEntityFieldBuilder().getBuilder();
     }
     /**
-     *
-     *
      * <pre>
      * The resulting entity.
      * </pre>
@@ -897,12 +839,11 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       if (entityBuilder_ != null) {
         return entityBuilder_.getMessageOrBuilder();
       } else {
-        return entity_ == null ? com.google.datastore.v1.Entity.getDefaultInstance() : entity_;
+        return entity_ == null ?
+            com.google.datastore.v1.Entity.getDefaultInstance() : entity_;
       }
     }
     /**
-     *
-     *
      * <pre>
      * The resulting entity.
      * </pre>
@@ -910,26 +851,21 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      * <code>.google.datastore.v1.Entity entity = 1;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.Entity,
-            com.google.datastore.v1.Entity.Builder,
-            com.google.datastore.v1.EntityOrBuilder>
+        com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder> 
         getEntityFieldBuilder() {
       if (entityBuilder_ == null) {
-        entityBuilder_ =
-            new com.google.protobuf.SingleFieldBuilderV3<
-                com.google.datastore.v1.Entity,
-                com.google.datastore.v1.Entity.Builder,
-                com.google.datastore.v1.EntityOrBuilder>(
-                getEntity(), getParentForChildren(), isClean());
+        entityBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder>(
+                getEntity(),
+                getParentForChildren(),
+                isClean());
         entity_ = null;
       }
       return entityBuilder_;
     }
 
-    private long version_;
+    private long version_ ;
     /**
-     *
-     *
      * <pre>
      * The version of the entity, a strictly positive number that monotonically
      * increases with changes to the entity.
@@ -941,15 +877,12 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      * </pre>
      *
      * <code>int64 version = 4;</code>
-     *
      * @return The version.
      */
     public long getVersion() {
       return version_;
     }
     /**
-     *
-     *
      * <pre>
      * The version of the entity, a strictly positive number that monotonically
      * increases with changes to the entity.
@@ -961,19 +894,16 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      * </pre>
      *
      * <code>int64 version = 4;</code>
-     *
      * @param value The version to set.
      * @return This builder for chaining.
      */
     public Builder setVersion(long value) {
-
+      
       version_ = value;
       onChanged();
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The version of the entity, a strictly positive number that monotonically
      * increases with changes to the entity.
@@ -985,11 +915,10 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      * </pre>
      *
      * <code>int64 version = 4;</code>
-     *
      * @return This builder for chaining.
      */
     public Builder clearVersion() {
-
+      
       version_ = 0L;
       onChanged();
       return this;
@@ -997,63 +926,54 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
 
     private com.google.protobuf.ByteString cursor_ = com.google.protobuf.ByteString.EMPTY;
     /**
-     *
-     *
      * <pre>
      * A cursor that points to the position after the result entity.
      * Set only when the `EntityResult` is part of a `QueryResultBatch` message.
      * </pre>
      *
      * <code>bytes cursor = 3;</code>
-     *
      * @return The cursor.
      */
     public com.google.protobuf.ByteString getCursor() {
       return cursor_;
     }
     /**
-     *
-     *
      * <pre>
      * A cursor that points to the position after the result entity.
      * Set only when the `EntityResult` is part of a `QueryResultBatch` message.
      * </pre>
      *
      * <code>bytes cursor = 3;</code>
-     *
      * @param value The cursor to set.
      * @return This builder for chaining.
      */
     public Builder setCursor(com.google.protobuf.ByteString value) {
       if (value == null) {
-        throw new NullPointerException();
-      }
-
+    throw new NullPointerException();
+  }
+  
       cursor_ = value;
       onChanged();
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * A cursor that points to the position after the result entity.
      * Set only when the `EntityResult` is part of a `QueryResultBatch` message.
      * </pre>
      *
      * <code>bytes cursor = 3;</code>
-     *
      * @return This builder for chaining.
      */
     public Builder clearCursor() {
-
+      
       cursor_ = getDefaultInstance().getCursor();
       onChanged();
       return this;
     }
-
     @java.lang.Override
-    public final Builder setUnknownFields(final com.google.protobuf.UnknownFieldSet unknownFields) {
+    public final Builder setUnknownFields(
+        final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.setUnknownFields(unknownFields);
     }
 
@@ -1063,12 +983,12 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       return super.mergeUnknownFields(unknownFields);
     }
 
+
     // @@protoc_insertion_point(builder_scope:google.datastore.v1.EntityResult)
   }
 
   // @@protoc_insertion_point(class_scope:google.datastore.v1.EntityResult)
   private static final com.google.datastore.v1.EntityResult DEFAULT_INSTANCE;
-
   static {
     DEFAULT_INSTANCE = new com.google.datastore.v1.EntityResult();
   }
@@ -1077,16 +997,16 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<EntityResult> PARSER =
-      new com.google.protobuf.AbstractParser<EntityResult>() {
-        @java.lang.Override
-        public EntityResult parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return new EntityResult(input, extensionRegistry);
-        }
-      };
+  private static final com.google.protobuf.Parser<EntityResult>
+      PARSER = new com.google.protobuf.AbstractParser<EntityResult>() {
+    @java.lang.Override
+    public EntityResult parsePartialFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return new EntityResult(input, extensionRegistry);
+    }
+  };
 
   public static com.google.protobuf.Parser<EntityResult> parser() {
     return PARSER;
@@ -1101,4 +1021,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.EntityResult getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
+
 }
+

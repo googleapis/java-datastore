@@ -18,38 +18,29 @@
 
 package com.google.datastore.v1;
 
-public interface GqlQueryParameterOrBuilder
-    extends
+public interface GqlQueryParameterOrBuilder extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.GqlQueryParameter)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   *
-   *
    * <pre>
    * A value parameter.
    * </pre>
    *
    * <code>.google.datastore.v1.Value value = 2;</code>
-   *
    * @return Whether the value field is set.
    */
   boolean hasValue();
   /**
-   *
-   *
    * <pre>
    * A value parameter.
    * </pre>
    *
    * <code>.google.datastore.v1.Value value = 2;</code>
-   *
    * @return The value.
    */
   com.google.datastore.v1.Value getValue();
   /**
-   *
-   *
    * <pre>
    * A value parameter.
    * </pre>
@@ -59,15 +50,12 @@ public interface GqlQueryParameterOrBuilder
   com.google.datastore.v1.ValueOrBuilder getValueOrBuilder();
 
   /**
-   *
-   *
    * <pre>
    * A query cursor. Query cursors are returned in query
    * result batches.
    * </pre>
    *
    * <code>bytes cursor = 3;</code>
-   *
    * @return The cursor.
    */
   com.google.protobuf.ByteString getCursor();

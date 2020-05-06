@@ -19,37 +19,36 @@
 package com.google.datastore.v1;
 
 /**
- *
- *
  * <pre>
  * A mutation to apply to an entity.
  * </pre>
  *
  * Protobuf type {@code google.datastore.v1.Mutation}
  */
-public final class Mutation extends com.google.protobuf.GeneratedMessageV3
-    implements
+public  final class Mutation extends
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:google.datastore.v1.Mutation)
     MutationOrBuilder {
-  private static final long serialVersionUID = 0L;
+private static final long serialVersionUID = 0L;
   // Use Mutation.newBuilder() to construct.
   private Mutation(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-
-  private Mutation() {}
+  private Mutation() {
+  }
 
   @java.lang.Override
   @SuppressWarnings({"unused"})
-  protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
+  protected java.lang.Object newInstance(
+      UnusedPrivateParameter unused) {
     return new Mutation();
   }
 
   @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+  public final com.google.protobuf.UnknownFieldSet
+  getUnknownFields() {
     return this.unknownFields;
   }
-
   private Mutation(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -68,111 +67,103 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
           case 0:
             done = true;
             break;
-          case 34:
-            {
-              com.google.datastore.v1.Entity.Builder subBuilder = null;
-              if (operationCase_ == 4) {
-                subBuilder = ((com.google.datastore.v1.Entity) operation_).toBuilder();
-              }
-              operation_ =
-                  input.readMessage(com.google.datastore.v1.Entity.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((com.google.datastore.v1.Entity) operation_);
-                operation_ = subBuilder.buildPartial();
-              }
-              operationCase_ = 4;
-              break;
+          case 34: {
+            com.google.datastore.v1.Entity.Builder subBuilder = null;
+            if (operationCase_ == 4) {
+              subBuilder = ((com.google.datastore.v1.Entity) operation_).toBuilder();
             }
-          case 42:
-            {
-              com.google.datastore.v1.Entity.Builder subBuilder = null;
-              if (operationCase_ == 5) {
-                subBuilder = ((com.google.datastore.v1.Entity) operation_).toBuilder();
-              }
-              operation_ =
-                  input.readMessage(com.google.datastore.v1.Entity.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((com.google.datastore.v1.Entity) operation_);
-                operation_ = subBuilder.buildPartial();
-              }
-              operationCase_ = 5;
-              break;
+            operation_ =
+                input.readMessage(com.google.datastore.v1.Entity.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((com.google.datastore.v1.Entity) operation_);
+              operation_ = subBuilder.buildPartial();
             }
-          case 50:
-            {
-              com.google.datastore.v1.Entity.Builder subBuilder = null;
-              if (operationCase_ == 6) {
-                subBuilder = ((com.google.datastore.v1.Entity) operation_).toBuilder();
-              }
-              operation_ =
-                  input.readMessage(com.google.datastore.v1.Entity.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((com.google.datastore.v1.Entity) operation_);
-                operation_ = subBuilder.buildPartial();
-              }
-              operationCase_ = 6;
-              break;
+            operationCase_ = 4;
+            break;
+          }
+          case 42: {
+            com.google.datastore.v1.Entity.Builder subBuilder = null;
+            if (operationCase_ == 5) {
+              subBuilder = ((com.google.datastore.v1.Entity) operation_).toBuilder();
             }
-          case 58:
-            {
-              com.google.datastore.v1.Key.Builder subBuilder = null;
-              if (operationCase_ == 7) {
-                subBuilder = ((com.google.datastore.v1.Key) operation_).toBuilder();
-              }
-              operation_ =
-                  input.readMessage(com.google.datastore.v1.Key.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((com.google.datastore.v1.Key) operation_);
-                operation_ = subBuilder.buildPartial();
-              }
-              operationCase_ = 7;
-              break;
+            operation_ =
+                input.readMessage(com.google.datastore.v1.Entity.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((com.google.datastore.v1.Entity) operation_);
+              operation_ = subBuilder.buildPartial();
             }
-          case 64:
-            {
-              conflictDetectionStrategyCase_ = 8;
-              conflictDetectionStrategy_ = input.readInt64();
-              break;
+            operationCase_ = 5;
+            break;
+          }
+          case 50: {
+            com.google.datastore.v1.Entity.Builder subBuilder = null;
+            if (operationCase_ == 6) {
+              subBuilder = ((com.google.datastore.v1.Entity) operation_).toBuilder();
             }
-          default:
-            {
-              if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
+            operation_ =
+                input.readMessage(com.google.datastore.v1.Entity.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((com.google.datastore.v1.Entity) operation_);
+              operation_ = subBuilder.buildPartial();
             }
+            operationCase_ = 6;
+            break;
+          }
+          case 58: {
+            com.google.datastore.v1.Key.Builder subBuilder = null;
+            if (operationCase_ == 7) {
+              subBuilder = ((com.google.datastore.v1.Key) operation_).toBuilder();
+            }
+            operation_ =
+                input.readMessage(com.google.datastore.v1.Key.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((com.google.datastore.v1.Key) operation_);
+              operation_ = subBuilder.buildPartial();
+            }
+            operationCase_ = 7;
+            break;
+          }
+          case 64: {
+            conflictDetectionStrategyCase_ = 8;
+            conflictDetectionStrategy_ = input.readInt64();
+            break;
+          }
+          default: {
+            if (!parseUnknownField(
+                input, unknownFields, extensionRegistry, tag)) {
+              done = true;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
       throw e.setUnfinishedMessage(this);
     } catch (java.io.IOException e) {
-      throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+      throw new com.google.protobuf.InvalidProtocolBufferException(
+          e).setUnfinishedMessage(this);
     } finally {
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
   }
-
-  public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
-    return com.google.datastore.v1.DatastoreProto
-        .internal_static_google_datastore_v1_Mutation_descriptor;
+  public static final com.google.protobuf.Descriptors.Descriptor
+      getDescriptor() {
+    return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_Mutation_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.google.datastore.v1.DatastoreProto
-        .internal_static_google_datastore_v1_Mutation_fieldAccessorTable
+    return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_Mutation_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.google.datastore.v1.Mutation.class, com.google.datastore.v1.Mutation.Builder.class);
   }
 
   private int operationCase_ = 0;
   private java.lang.Object operation_;
-
   public enum OperationCase
-      implements
-          com.google.protobuf.Internal.EnumLite,
+      implements com.google.protobuf.Internal.EnumLite,
           com.google.protobuf.AbstractMessage.InternalOneOfEnum {
     INSERT(4),
     UPDATE(5),
@@ -180,7 +171,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
     DELETE(7),
     OPERATION_NOT_SET(0);
     private final int value;
-
     private OperationCase(int value) {
       this.value = value;
     }
@@ -196,41 +186,33 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
 
     public static OperationCase forNumber(int value) {
       switch (value) {
-        case 4:
-          return INSERT;
-        case 5:
-          return UPDATE;
-        case 6:
-          return UPSERT;
-        case 7:
-          return DELETE;
-        case 0:
-          return OPERATION_NOT_SET;
-        default:
-          return null;
+        case 4: return INSERT;
+        case 5: return UPDATE;
+        case 6: return UPSERT;
+        case 7: return DELETE;
+        case 0: return OPERATION_NOT_SET;
+        default: return null;
       }
     }
-
     public int getNumber() {
       return this.value;
     }
   };
 
-  public OperationCase getOperationCase() {
-    return OperationCase.forNumber(operationCase_);
+  public OperationCase
+  getOperationCase() {
+    return OperationCase.forNumber(
+        operationCase_);
   }
 
   private int conflictDetectionStrategyCase_ = 0;
   private java.lang.Object conflictDetectionStrategy_;
-
   public enum ConflictDetectionStrategyCase
-      implements
-          com.google.protobuf.Internal.EnumLite,
+      implements com.google.protobuf.Internal.EnumLite,
           com.google.protobuf.AbstractMessage.InternalOneOfEnum {
     BASE_VERSION(8),
     CONFLICTDETECTIONSTRATEGY_NOT_SET(0);
     private final int value;
-
     private ConflictDetectionStrategyCase(int value) {
       this.value = value;
     }
@@ -246,61 +228,51 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
 
     public static ConflictDetectionStrategyCase forNumber(int value) {
       switch (value) {
-        case 8:
-          return BASE_VERSION;
-        case 0:
-          return CONFLICTDETECTIONSTRATEGY_NOT_SET;
-        default:
-          return null;
+        case 8: return BASE_VERSION;
+        case 0: return CONFLICTDETECTIONSTRATEGY_NOT_SET;
+        default: return null;
       }
     }
-
     public int getNumber() {
       return this.value;
     }
   };
 
-  public ConflictDetectionStrategyCase getConflictDetectionStrategyCase() {
-    return ConflictDetectionStrategyCase.forNumber(conflictDetectionStrategyCase_);
+  public ConflictDetectionStrategyCase
+  getConflictDetectionStrategyCase() {
+    return ConflictDetectionStrategyCase.forNumber(
+        conflictDetectionStrategyCase_);
   }
 
   public static final int INSERT_FIELD_NUMBER = 4;
   /**
-   *
-   *
    * <pre>
    * The entity to insert. The entity must not already exist.
    * The entity key's final path element may be incomplete.
    * </pre>
    *
    * <code>.google.datastore.v1.Entity insert = 4;</code>
-   *
    * @return Whether the insert field is set.
    */
   public boolean hasInsert() {
     return operationCase_ == 4;
   }
   /**
-   *
-   *
    * <pre>
    * The entity to insert. The entity must not already exist.
    * The entity key's final path element may be incomplete.
    * </pre>
    *
    * <code>.google.datastore.v1.Entity insert = 4;</code>
-   *
    * @return The insert.
    */
   public com.google.datastore.v1.Entity getInsert() {
     if (operationCase_ == 4) {
-      return (com.google.datastore.v1.Entity) operation_;
+       return (com.google.datastore.v1.Entity) operation_;
     }
     return com.google.datastore.v1.Entity.getDefaultInstance();
   }
   /**
-   *
-   *
    * <pre>
    * The entity to insert. The entity must not already exist.
    * The entity key's final path element may be incomplete.
@@ -310,48 +282,40 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
    */
   public com.google.datastore.v1.EntityOrBuilder getInsertOrBuilder() {
     if (operationCase_ == 4) {
-      return (com.google.datastore.v1.Entity) operation_;
+       return (com.google.datastore.v1.Entity) operation_;
     }
     return com.google.datastore.v1.Entity.getDefaultInstance();
   }
 
   public static final int UPDATE_FIELD_NUMBER = 5;
   /**
-   *
-   *
    * <pre>
    * The entity to update. The entity must already exist.
    * Must have a complete key path.
    * </pre>
    *
    * <code>.google.datastore.v1.Entity update = 5;</code>
-   *
    * @return Whether the update field is set.
    */
   public boolean hasUpdate() {
     return operationCase_ == 5;
   }
   /**
-   *
-   *
    * <pre>
    * The entity to update. The entity must already exist.
    * Must have a complete key path.
    * </pre>
    *
    * <code>.google.datastore.v1.Entity update = 5;</code>
-   *
    * @return The update.
    */
   public com.google.datastore.v1.Entity getUpdate() {
     if (operationCase_ == 5) {
-      return (com.google.datastore.v1.Entity) operation_;
+       return (com.google.datastore.v1.Entity) operation_;
     }
     return com.google.datastore.v1.Entity.getDefaultInstance();
   }
   /**
-   *
-   *
    * <pre>
    * The entity to update. The entity must already exist.
    * Must have a complete key path.
@@ -361,48 +325,40 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
    */
   public com.google.datastore.v1.EntityOrBuilder getUpdateOrBuilder() {
     if (operationCase_ == 5) {
-      return (com.google.datastore.v1.Entity) operation_;
+       return (com.google.datastore.v1.Entity) operation_;
     }
     return com.google.datastore.v1.Entity.getDefaultInstance();
   }
 
   public static final int UPSERT_FIELD_NUMBER = 6;
   /**
-   *
-   *
    * <pre>
    * The entity to upsert. The entity may or may not already exist.
    * The entity key's final path element may be incomplete.
    * </pre>
    *
    * <code>.google.datastore.v1.Entity upsert = 6;</code>
-   *
    * @return Whether the upsert field is set.
    */
   public boolean hasUpsert() {
     return operationCase_ == 6;
   }
   /**
-   *
-   *
    * <pre>
    * The entity to upsert. The entity may or may not already exist.
    * The entity key's final path element may be incomplete.
    * </pre>
    *
    * <code>.google.datastore.v1.Entity upsert = 6;</code>
-   *
    * @return The upsert.
    */
   public com.google.datastore.v1.Entity getUpsert() {
     if (operationCase_ == 6) {
-      return (com.google.datastore.v1.Entity) operation_;
+       return (com.google.datastore.v1.Entity) operation_;
     }
     return com.google.datastore.v1.Entity.getDefaultInstance();
   }
   /**
-   *
-   *
    * <pre>
    * The entity to upsert. The entity may or may not already exist.
    * The entity key's final path element may be incomplete.
@@ -412,48 +368,40 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
    */
   public com.google.datastore.v1.EntityOrBuilder getUpsertOrBuilder() {
     if (operationCase_ == 6) {
-      return (com.google.datastore.v1.Entity) operation_;
+       return (com.google.datastore.v1.Entity) operation_;
     }
     return com.google.datastore.v1.Entity.getDefaultInstance();
   }
 
   public static final int DELETE_FIELD_NUMBER = 7;
   /**
-   *
-   *
    * <pre>
    * The key of the entity to delete. The entity may or may not already exist.
    * Must have a complete key path and must not be reserved/read-only.
    * </pre>
    *
    * <code>.google.datastore.v1.Key delete = 7;</code>
-   *
    * @return Whether the delete field is set.
    */
   public boolean hasDelete() {
     return operationCase_ == 7;
   }
   /**
-   *
-   *
    * <pre>
    * The key of the entity to delete. The entity may or may not already exist.
    * Must have a complete key path and must not be reserved/read-only.
    * </pre>
    *
    * <code>.google.datastore.v1.Key delete = 7;</code>
-   *
    * @return The delete.
    */
   public com.google.datastore.v1.Key getDelete() {
     if (operationCase_ == 7) {
-      return (com.google.datastore.v1.Key) operation_;
+       return (com.google.datastore.v1.Key) operation_;
     }
     return com.google.datastore.v1.Key.getDefaultInstance();
   }
   /**
-   *
-   *
    * <pre>
    * The key of the entity to delete. The entity may or may not already exist.
    * Must have a complete key path and must not be reserved/read-only.
@@ -463,22 +411,19 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
    */
   public com.google.datastore.v1.KeyOrBuilder getDeleteOrBuilder() {
     if (operationCase_ == 7) {
-      return (com.google.datastore.v1.Key) operation_;
+       return (com.google.datastore.v1.Key) operation_;
     }
     return com.google.datastore.v1.Key.getDefaultInstance();
   }
 
   public static final int BASE_VERSION_FIELD_NUMBER = 8;
   /**
-   *
-   *
    * <pre>
    * The version of the entity that this mutation is being applied to. If this
    * does not match the current version on the server, the mutation conflicts.
    * </pre>
    *
    * <code>int64 base_version = 8;</code>
-   *
    * @return The baseVersion.
    */
   public long getBaseVersion() {
@@ -489,7 +434,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
   }
 
   private byte memoizedIsInitialized = -1;
-
   @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -501,7 +445,8 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
   }
 
   @java.lang.Override
-  public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+  public void writeTo(com.google.protobuf.CodedOutputStream output)
+                      throws java.io.IOException {
     if (operationCase_ == 4) {
       output.writeMessage(4, (com.google.datastore.v1.Entity) operation_);
     }
@@ -515,7 +460,8 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       output.writeMessage(7, (com.google.datastore.v1.Key) operation_);
     }
     if (conflictDetectionStrategyCase_ == 8) {
-      output.writeInt64(8, (long) ((java.lang.Long) conflictDetectionStrategy_));
+      output.writeInt64(
+          8, (long)((java.lang.Long) conflictDetectionStrategy_));
     }
     unknownFields.writeTo(output);
   }
@@ -527,29 +473,25 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
 
     size = 0;
     if (operationCase_ == 4) {
-      size +=
-          com.google.protobuf.CodedOutputStream.computeMessageSize(
-              4, (com.google.datastore.v1.Entity) operation_);
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(4, (com.google.datastore.v1.Entity) operation_);
     }
     if (operationCase_ == 5) {
-      size +=
-          com.google.protobuf.CodedOutputStream.computeMessageSize(
-              5, (com.google.datastore.v1.Entity) operation_);
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(5, (com.google.datastore.v1.Entity) operation_);
     }
     if (operationCase_ == 6) {
-      size +=
-          com.google.protobuf.CodedOutputStream.computeMessageSize(
-              6, (com.google.datastore.v1.Entity) operation_);
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(6, (com.google.datastore.v1.Entity) operation_);
     }
     if (operationCase_ == 7) {
-      size +=
-          com.google.protobuf.CodedOutputStream.computeMessageSize(
-              7, (com.google.datastore.v1.Key) operation_);
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(7, (com.google.datastore.v1.Key) operation_);
     }
     if (conflictDetectionStrategyCase_ == 8) {
-      size +=
-          com.google.protobuf.CodedOutputStream.computeInt64Size(
-              8, (long) ((java.lang.Long) conflictDetectionStrategy_));
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt64Size(
+            8, (long)((java.lang.Long) conflictDetectionStrategy_));
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -559,7 +501,7 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
   @java.lang.Override
   public boolean equals(final java.lang.Object obj) {
     if (obj == this) {
-      return true;
+     return true;
     }
     if (!(obj instanceof com.google.datastore.v1.Mutation)) {
       return super.equals(obj);
@@ -569,25 +511,29 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
     if (!getOperationCase().equals(other.getOperationCase())) return false;
     switch (operationCase_) {
       case 4:
-        if (!getInsert().equals(other.getInsert())) return false;
+        if (!getInsert()
+            .equals(other.getInsert())) return false;
         break;
       case 5:
-        if (!getUpdate().equals(other.getUpdate())) return false;
+        if (!getUpdate()
+            .equals(other.getUpdate())) return false;
         break;
       case 6:
-        if (!getUpsert().equals(other.getUpsert())) return false;
+        if (!getUpsert()
+            .equals(other.getUpsert())) return false;
         break;
       case 7:
-        if (!getDelete().equals(other.getDelete())) return false;
+        if (!getDelete()
+            .equals(other.getDelete())) return false;
         break;
       case 0:
       default:
     }
-    if (!getConflictDetectionStrategyCase().equals(other.getConflictDetectionStrategyCase()))
-      return false;
+    if (!getConflictDetectionStrategyCase().equals(other.getConflictDetectionStrategyCase())) return false;
     switch (conflictDetectionStrategyCase_) {
       case 8:
-        if (getBaseVersion() != other.getBaseVersion()) return false;
+        if (getBaseVersion()
+            != other.getBaseVersion()) return false;
         break;
       case 0:
       default:
@@ -626,7 +572,8 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
     switch (conflictDetectionStrategyCase_) {
       case 8:
         hash = (37 * hash) + BASE_VERSION_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(getBaseVersion());
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getBaseVersion());
         break;
       case 0:
       default:
@@ -636,126 +583,118 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
     return hash;
   }
 
-  public static com.google.datastore.v1.Mutation parseFrom(java.nio.ByteBuffer data)
+  public static com.google.datastore.v1.Mutation parseFrom(
+      java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-
   public static com.google.datastore.v1.Mutation parseFrom(
-      java.nio.ByteBuffer data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.nio.ByteBuffer data,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-
-  public static com.google.datastore.v1.Mutation parseFrom(com.google.protobuf.ByteString data)
+  public static com.google.datastore.v1.Mutation parseFrom(
+      com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-
   public static com.google.datastore.v1.Mutation parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-
   public static com.google.datastore.v1.Mutation parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-
   public static com.google.datastore.v1.Mutation parseFrom(
-      byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      byte[] data,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-
   public static com.google.datastore.v1.Mutation parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input);
   }
-
   public static com.google.datastore.v1.Mutation parseFrom(
-      java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.io.InputStream input,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(
-        PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input, extensionRegistry);
   }
-
   public static com.google.datastore.v1.Mutation parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseDelimitedWithIOException(PARSER, input);
   }
-
   public static com.google.datastore.v1.Mutation parseDelimitedFrom(
-      java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.io.InputStream input,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(
-        PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-
   public static com.google.datastore.v1.Mutation parseFrom(
-      com.google.protobuf.CodedInputStream input) throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
+      com.google.protobuf.CodedInputStream input)
+      throws java.io.IOException {
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input);
   }
-
   public static com.google.datastore.v1.Mutation parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(
-        PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
   @java.lang.Override
-  public Builder newBuilderForType() {
-    return newBuilder();
-  }
-
+  public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-
   public static Builder newBuilder(com.google.datastore.v1.Mutation prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
-
   @java.lang.Override
   public Builder toBuilder() {
-    return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    return this == DEFAULT_INSTANCE
+        ? new Builder() : new Builder().mergeFrom(this);
   }
 
   @java.lang.Override
-  protected Builder newBuilderForType(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+  protected Builder newBuilderForType(
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
   /**
-   *
-   *
    * <pre>
    * A mutation to apply to an entity.
    * </pre>
    *
    * Protobuf type {@code google.datastore.v1.Mutation}
    */
-  public static final class Builder extends com.google.protobuf.GeneratedMessageV3.Builder<Builder>
-      implements
+  public static final class Builder extends
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:google.datastore.v1.Mutation)
       com.google.datastore.v1.MutationOrBuilder {
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
-      return com.google.datastore.v1.DatastoreProto
-          .internal_static_google_datastore_v1_Mutation_descriptor;
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_Mutation_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.google.datastore.v1.DatastoreProto
-          .internal_static_google_datastore_v1_Mutation_fieldAccessorTable
+      return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_Mutation_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.google.datastore.v1.Mutation.class,
-              com.google.datastore.v1.Mutation.Builder.class);
+              com.google.datastore.v1.Mutation.class, com.google.datastore.v1.Mutation.Builder.class);
     }
 
     // Construct using com.google.datastore.v1.Mutation.newBuilder()
@@ -763,15 +702,16 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       maybeForceBuilderInitialization();
     }
 
-    private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+    private Builder(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
-
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {}
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
+      }
     }
-
     @java.lang.Override
     public Builder clear() {
       super.clear();
@@ -783,9 +723,9 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
     }
 
     @java.lang.Override
-    public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
-      return com.google.datastore.v1.DatastoreProto
-          .internal_static_google_datastore_v1_Mutation_descriptor;
+    public com.google.protobuf.Descriptors.Descriptor
+        getDescriptorForType() {
+      return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_Mutation_descriptor;
     }
 
     @java.lang.Override
@@ -846,39 +786,38 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
     public Builder clone() {
       return super.clone();
     }
-
     @java.lang.Override
     public Builder setField(
-        com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        java.lang.Object value) {
       return super.setField(field, value);
     }
-
     @java.lang.Override
-    public Builder clearField(com.google.protobuf.Descriptors.FieldDescriptor field) {
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
       return super.clearField(field);
     }
-
     @java.lang.Override
-    public Builder clearOneof(com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
       return super.clearOneof(oneof);
     }
-
     @java.lang.Override
     public Builder setRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field, int index, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, java.lang.Object value) {
       return super.setRepeatedField(field, index, value);
     }
-
     @java.lang.Override
     public Builder addRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        java.lang.Object value) {
       return super.addRepeatedField(field, value);
     }
-
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof com.google.datastore.v1.Mutation) {
-        return mergeFrom((com.google.datastore.v1.Mutation) other);
+        return mergeFrom((com.google.datastore.v1.Mutation)other);
       } else {
         super.mergeFrom(other);
         return this;
@@ -888,41 +827,34 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
     public Builder mergeFrom(com.google.datastore.v1.Mutation other) {
       if (other == com.google.datastore.v1.Mutation.getDefaultInstance()) return this;
       switch (other.getOperationCase()) {
-        case INSERT:
-          {
-            mergeInsert(other.getInsert());
-            break;
-          }
-        case UPDATE:
-          {
-            mergeUpdate(other.getUpdate());
-            break;
-          }
-        case UPSERT:
-          {
-            mergeUpsert(other.getUpsert());
-            break;
-          }
-        case DELETE:
-          {
-            mergeDelete(other.getDelete());
-            break;
-          }
-        case OPERATION_NOT_SET:
-          {
-            break;
-          }
+        case INSERT: {
+          mergeInsert(other.getInsert());
+          break;
+        }
+        case UPDATE: {
+          mergeUpdate(other.getUpdate());
+          break;
+        }
+        case UPSERT: {
+          mergeUpsert(other.getUpsert());
+          break;
+        }
+        case DELETE: {
+          mergeDelete(other.getDelete());
+          break;
+        }
+        case OPERATION_NOT_SET: {
+          break;
+        }
       }
       switch (other.getConflictDetectionStrategyCase()) {
-        case BASE_VERSION:
-          {
-            setBaseVersion(other.getBaseVersion());
-            break;
-          }
-        case CONFLICTDETECTIONSTRATEGY_NOT_SET:
-          {
-            break;
-          }
+        case BASE_VERSION: {
+          setBaseVersion(other.getBaseVersion());
+          break;
+        }
+        case CONFLICTDETECTIONSTRATEGY_NOT_SET: {
+          break;
+        }
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -952,12 +884,12 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     private int operationCase_ = 0;
     private java.lang.Object operation_;
-
-    public OperationCase getOperationCase() {
-      return OperationCase.forNumber(operationCase_);
+    public OperationCase
+        getOperationCase() {
+      return OperationCase.forNumber(
+          operationCase_);
     }
 
     public Builder clearOperation() {
@@ -969,9 +901,10 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
 
     private int conflictDetectionStrategyCase_ = 0;
     private java.lang.Object conflictDetectionStrategy_;
-
-    public ConflictDetectionStrategyCase getConflictDetectionStrategyCase() {
-      return ConflictDetectionStrategyCase.forNumber(conflictDetectionStrategyCase_);
+    public ConflictDetectionStrategyCase
+        getConflictDetectionStrategyCase() {
+      return ConflictDetectionStrategyCase.forNumber(
+          conflictDetectionStrategyCase_);
     }
 
     public Builder clearConflictDetectionStrategy() {
@@ -981,36 +914,28 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
 
+
     private com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.Entity,
-            com.google.datastore.v1.Entity.Builder,
-            com.google.datastore.v1.EntityOrBuilder>
-        insertBuilder_;
+        com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder> insertBuilder_;
     /**
-     *
-     *
      * <pre>
      * The entity to insert. The entity must not already exist.
      * The entity key's final path element may be incomplete.
      * </pre>
      *
      * <code>.google.datastore.v1.Entity insert = 4;</code>
-     *
      * @return Whether the insert field is set.
      */
     public boolean hasInsert() {
       return operationCase_ == 4;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to insert. The entity must not already exist.
      * The entity key's final path element may be incomplete.
      * </pre>
      *
      * <code>.google.datastore.v1.Entity insert = 4;</code>
-     *
      * @return The insert.
      */
     public com.google.datastore.v1.Entity getInsert() {
@@ -1027,8 +952,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       }
     }
     /**
-     *
-     *
      * <pre>
      * The entity to insert. The entity must not already exist.
      * The entity key's final path element may be incomplete.
@@ -1050,8 +973,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to insert. The entity must not already exist.
      * The entity key's final path element may be incomplete.
@@ -1059,7 +980,8 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
      *
      * <code>.google.datastore.v1.Entity insert = 4;</code>
      */
-    public Builder setInsert(com.google.datastore.v1.Entity.Builder builderForValue) {
+    public Builder setInsert(
+        com.google.datastore.v1.Entity.Builder builderForValue) {
       if (insertBuilder_ == null) {
         operation_ = builderForValue.build();
         onChanged();
@@ -1070,8 +992,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to insert. The entity must not already exist.
      * The entity key's final path element may be incomplete.
@@ -1081,12 +1001,10 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
      */
     public Builder mergeInsert(com.google.datastore.v1.Entity value) {
       if (insertBuilder_ == null) {
-        if (operationCase_ == 4
-            && operation_ != com.google.datastore.v1.Entity.getDefaultInstance()) {
-          operation_ =
-              com.google.datastore.v1.Entity.newBuilder((com.google.datastore.v1.Entity) operation_)
-                  .mergeFrom(value)
-                  .buildPartial();
+        if (operationCase_ == 4 &&
+            operation_ != com.google.datastore.v1.Entity.getDefaultInstance()) {
+          operation_ = com.google.datastore.v1.Entity.newBuilder((com.google.datastore.v1.Entity) operation_)
+              .mergeFrom(value).buildPartial();
         } else {
           operation_ = value;
         }
@@ -1101,8 +1019,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to insert. The entity must not already exist.
      * The entity key's final path element may be incomplete.
@@ -1127,8 +1043,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to insert. The entity must not already exist.
      * The entity key's final path element may be incomplete.
@@ -1140,8 +1054,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return getInsertFieldBuilder().getBuilder();
     }
     /**
-     *
-     *
      * <pre>
      * The entity to insert. The entity must not already exist.
      * The entity key's final path element may be incomplete.
@@ -1160,8 +1072,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       }
     }
     /**
-     *
-     *
      * <pre>
      * The entity to insert. The entity must not already exist.
      * The entity key's final path element may be incomplete.
@@ -1170,58 +1080,45 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
      * <code>.google.datastore.v1.Entity insert = 4;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.Entity,
-            com.google.datastore.v1.Entity.Builder,
-            com.google.datastore.v1.EntityOrBuilder>
+        com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder> 
         getInsertFieldBuilder() {
       if (insertBuilder_ == null) {
         if (!(operationCase_ == 4)) {
           operation_ = com.google.datastore.v1.Entity.getDefaultInstance();
         }
-        insertBuilder_ =
-            new com.google.protobuf.SingleFieldBuilderV3<
-                com.google.datastore.v1.Entity,
-                com.google.datastore.v1.Entity.Builder,
-                com.google.datastore.v1.EntityOrBuilder>(
-                (com.google.datastore.v1.Entity) operation_, getParentForChildren(), isClean());
+        insertBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder>(
+                (com.google.datastore.v1.Entity) operation_,
+                getParentForChildren(),
+                isClean());
         operation_ = null;
       }
       operationCase_ = 4;
-      onChanged();
-      ;
+      onChanged();;
       return insertBuilder_;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.Entity,
-            com.google.datastore.v1.Entity.Builder,
-            com.google.datastore.v1.EntityOrBuilder>
-        updateBuilder_;
+        com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder> updateBuilder_;
     /**
-     *
-     *
      * <pre>
      * The entity to update. The entity must already exist.
      * Must have a complete key path.
      * </pre>
      *
      * <code>.google.datastore.v1.Entity update = 5;</code>
-     *
      * @return Whether the update field is set.
      */
     public boolean hasUpdate() {
       return operationCase_ == 5;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to update. The entity must already exist.
      * Must have a complete key path.
      * </pre>
      *
      * <code>.google.datastore.v1.Entity update = 5;</code>
-     *
      * @return The update.
      */
     public com.google.datastore.v1.Entity getUpdate() {
@@ -1238,8 +1135,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       }
     }
     /**
-     *
-     *
      * <pre>
      * The entity to update. The entity must already exist.
      * Must have a complete key path.
@@ -1261,8 +1156,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to update. The entity must already exist.
      * Must have a complete key path.
@@ -1270,7 +1163,8 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
      *
      * <code>.google.datastore.v1.Entity update = 5;</code>
      */
-    public Builder setUpdate(com.google.datastore.v1.Entity.Builder builderForValue) {
+    public Builder setUpdate(
+        com.google.datastore.v1.Entity.Builder builderForValue) {
       if (updateBuilder_ == null) {
         operation_ = builderForValue.build();
         onChanged();
@@ -1281,8 +1175,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to update. The entity must already exist.
      * Must have a complete key path.
@@ -1292,12 +1184,10 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
      */
     public Builder mergeUpdate(com.google.datastore.v1.Entity value) {
       if (updateBuilder_ == null) {
-        if (operationCase_ == 5
-            && operation_ != com.google.datastore.v1.Entity.getDefaultInstance()) {
-          operation_ =
-              com.google.datastore.v1.Entity.newBuilder((com.google.datastore.v1.Entity) operation_)
-                  .mergeFrom(value)
-                  .buildPartial();
+        if (operationCase_ == 5 &&
+            operation_ != com.google.datastore.v1.Entity.getDefaultInstance()) {
+          operation_ = com.google.datastore.v1.Entity.newBuilder((com.google.datastore.v1.Entity) operation_)
+              .mergeFrom(value).buildPartial();
         } else {
           operation_ = value;
         }
@@ -1312,8 +1202,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to update. The entity must already exist.
      * Must have a complete key path.
@@ -1338,8 +1226,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to update. The entity must already exist.
      * Must have a complete key path.
@@ -1351,8 +1237,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return getUpdateFieldBuilder().getBuilder();
     }
     /**
-     *
-     *
      * <pre>
      * The entity to update. The entity must already exist.
      * Must have a complete key path.
@@ -1371,8 +1255,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       }
     }
     /**
-     *
-     *
      * <pre>
      * The entity to update. The entity must already exist.
      * Must have a complete key path.
@@ -1381,58 +1263,45 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
      * <code>.google.datastore.v1.Entity update = 5;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.Entity,
-            com.google.datastore.v1.Entity.Builder,
-            com.google.datastore.v1.EntityOrBuilder>
+        com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder> 
         getUpdateFieldBuilder() {
       if (updateBuilder_ == null) {
         if (!(operationCase_ == 5)) {
           operation_ = com.google.datastore.v1.Entity.getDefaultInstance();
         }
-        updateBuilder_ =
-            new com.google.protobuf.SingleFieldBuilderV3<
-                com.google.datastore.v1.Entity,
-                com.google.datastore.v1.Entity.Builder,
-                com.google.datastore.v1.EntityOrBuilder>(
-                (com.google.datastore.v1.Entity) operation_, getParentForChildren(), isClean());
+        updateBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder>(
+                (com.google.datastore.v1.Entity) operation_,
+                getParentForChildren(),
+                isClean());
         operation_ = null;
       }
       operationCase_ = 5;
-      onChanged();
-      ;
+      onChanged();;
       return updateBuilder_;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.Entity,
-            com.google.datastore.v1.Entity.Builder,
-            com.google.datastore.v1.EntityOrBuilder>
-        upsertBuilder_;
+        com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder> upsertBuilder_;
     /**
-     *
-     *
      * <pre>
      * The entity to upsert. The entity may or may not already exist.
      * The entity key's final path element may be incomplete.
      * </pre>
      *
      * <code>.google.datastore.v1.Entity upsert = 6;</code>
-     *
      * @return Whether the upsert field is set.
      */
     public boolean hasUpsert() {
       return operationCase_ == 6;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to upsert. The entity may or may not already exist.
      * The entity key's final path element may be incomplete.
      * </pre>
      *
      * <code>.google.datastore.v1.Entity upsert = 6;</code>
-     *
      * @return The upsert.
      */
     public com.google.datastore.v1.Entity getUpsert() {
@@ -1449,8 +1318,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       }
     }
     /**
-     *
-     *
      * <pre>
      * The entity to upsert. The entity may or may not already exist.
      * The entity key's final path element may be incomplete.
@@ -1472,8 +1339,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to upsert. The entity may or may not already exist.
      * The entity key's final path element may be incomplete.
@@ -1481,7 +1346,8 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
      *
      * <code>.google.datastore.v1.Entity upsert = 6;</code>
      */
-    public Builder setUpsert(com.google.datastore.v1.Entity.Builder builderForValue) {
+    public Builder setUpsert(
+        com.google.datastore.v1.Entity.Builder builderForValue) {
       if (upsertBuilder_ == null) {
         operation_ = builderForValue.build();
         onChanged();
@@ -1492,8 +1358,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to upsert. The entity may or may not already exist.
      * The entity key's final path element may be incomplete.
@@ -1503,12 +1367,10 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
      */
     public Builder mergeUpsert(com.google.datastore.v1.Entity value) {
       if (upsertBuilder_ == null) {
-        if (operationCase_ == 6
-            && operation_ != com.google.datastore.v1.Entity.getDefaultInstance()) {
-          operation_ =
-              com.google.datastore.v1.Entity.newBuilder((com.google.datastore.v1.Entity) operation_)
-                  .mergeFrom(value)
-                  .buildPartial();
+        if (operationCase_ == 6 &&
+            operation_ != com.google.datastore.v1.Entity.getDefaultInstance()) {
+          operation_ = com.google.datastore.v1.Entity.newBuilder((com.google.datastore.v1.Entity) operation_)
+              .mergeFrom(value).buildPartial();
         } else {
           operation_ = value;
         }
@@ -1523,8 +1385,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to upsert. The entity may or may not already exist.
      * The entity key's final path element may be incomplete.
@@ -1549,8 +1409,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The entity to upsert. The entity may or may not already exist.
      * The entity key's final path element may be incomplete.
@@ -1562,8 +1420,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return getUpsertFieldBuilder().getBuilder();
     }
     /**
-     *
-     *
      * <pre>
      * The entity to upsert. The entity may or may not already exist.
      * The entity key's final path element may be incomplete.
@@ -1582,8 +1438,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       }
     }
     /**
-     *
-     *
      * <pre>
      * The entity to upsert. The entity may or may not already exist.
      * The entity key's final path element may be incomplete.
@@ -1592,58 +1446,45 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
      * <code>.google.datastore.v1.Entity upsert = 6;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.Entity,
-            com.google.datastore.v1.Entity.Builder,
-            com.google.datastore.v1.EntityOrBuilder>
+        com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder> 
         getUpsertFieldBuilder() {
       if (upsertBuilder_ == null) {
         if (!(operationCase_ == 6)) {
           operation_ = com.google.datastore.v1.Entity.getDefaultInstance();
         }
-        upsertBuilder_ =
-            new com.google.protobuf.SingleFieldBuilderV3<
-                com.google.datastore.v1.Entity,
-                com.google.datastore.v1.Entity.Builder,
-                com.google.datastore.v1.EntityOrBuilder>(
-                (com.google.datastore.v1.Entity) operation_, getParentForChildren(), isClean());
+        upsertBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder>(
+                (com.google.datastore.v1.Entity) operation_,
+                getParentForChildren(),
+                isClean());
         operation_ = null;
       }
       operationCase_ = 6;
-      onChanged();
-      ;
+      onChanged();;
       return upsertBuilder_;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.Key,
-            com.google.datastore.v1.Key.Builder,
-            com.google.datastore.v1.KeyOrBuilder>
-        deleteBuilder_;
+        com.google.datastore.v1.Key, com.google.datastore.v1.Key.Builder, com.google.datastore.v1.KeyOrBuilder> deleteBuilder_;
     /**
-     *
-     *
      * <pre>
      * The key of the entity to delete. The entity may or may not already exist.
      * Must have a complete key path and must not be reserved/read-only.
      * </pre>
      *
      * <code>.google.datastore.v1.Key delete = 7;</code>
-     *
      * @return Whether the delete field is set.
      */
     public boolean hasDelete() {
       return operationCase_ == 7;
     }
     /**
-     *
-     *
      * <pre>
      * The key of the entity to delete. The entity may or may not already exist.
      * Must have a complete key path and must not be reserved/read-only.
      * </pre>
      *
      * <code>.google.datastore.v1.Key delete = 7;</code>
-     *
      * @return The delete.
      */
     public com.google.datastore.v1.Key getDelete() {
@@ -1660,8 +1501,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       }
     }
     /**
-     *
-     *
      * <pre>
      * The key of the entity to delete. The entity may or may not already exist.
      * Must have a complete key path and must not be reserved/read-only.
@@ -1683,8 +1522,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The key of the entity to delete. The entity may or may not already exist.
      * Must have a complete key path and must not be reserved/read-only.
@@ -1692,7 +1529,8 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
      *
      * <code>.google.datastore.v1.Key delete = 7;</code>
      */
-    public Builder setDelete(com.google.datastore.v1.Key.Builder builderForValue) {
+    public Builder setDelete(
+        com.google.datastore.v1.Key.Builder builderForValue) {
       if (deleteBuilder_ == null) {
         operation_ = builderForValue.build();
         onChanged();
@@ -1703,8 +1541,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The key of the entity to delete. The entity may or may not already exist.
      * Must have a complete key path and must not be reserved/read-only.
@@ -1714,11 +1550,10 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
      */
     public Builder mergeDelete(com.google.datastore.v1.Key value) {
       if (deleteBuilder_ == null) {
-        if (operationCase_ == 7 && operation_ != com.google.datastore.v1.Key.getDefaultInstance()) {
-          operation_ =
-              com.google.datastore.v1.Key.newBuilder((com.google.datastore.v1.Key) operation_)
-                  .mergeFrom(value)
-                  .buildPartial();
+        if (operationCase_ == 7 &&
+            operation_ != com.google.datastore.v1.Key.getDefaultInstance()) {
+          operation_ = com.google.datastore.v1.Key.newBuilder((com.google.datastore.v1.Key) operation_)
+              .mergeFrom(value).buildPartial();
         } else {
           operation_ = value;
         }
@@ -1733,8 +1568,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The key of the entity to delete. The entity may or may not already exist.
      * Must have a complete key path and must not be reserved/read-only.
@@ -1759,8 +1592,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The key of the entity to delete. The entity may or may not already exist.
      * Must have a complete key path and must not be reserved/read-only.
@@ -1772,8 +1603,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return getDeleteFieldBuilder().getBuilder();
     }
     /**
-     *
-     *
      * <pre>
      * The key of the entity to delete. The entity may or may not already exist.
      * Must have a complete key path and must not be reserved/read-only.
@@ -1792,8 +1621,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       }
     }
     /**
-     *
-     *
      * <pre>
      * The key of the entity to delete. The entity may or may not already exist.
      * Must have a complete key path and must not be reserved/read-only.
@@ -1802,38 +1629,31 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
      * <code>.google.datastore.v1.Key delete = 7;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.Key,
-            com.google.datastore.v1.Key.Builder,
-            com.google.datastore.v1.KeyOrBuilder>
+        com.google.datastore.v1.Key, com.google.datastore.v1.Key.Builder, com.google.datastore.v1.KeyOrBuilder> 
         getDeleteFieldBuilder() {
       if (deleteBuilder_ == null) {
         if (!(operationCase_ == 7)) {
           operation_ = com.google.datastore.v1.Key.getDefaultInstance();
         }
-        deleteBuilder_ =
-            new com.google.protobuf.SingleFieldBuilderV3<
-                com.google.datastore.v1.Key,
-                com.google.datastore.v1.Key.Builder,
-                com.google.datastore.v1.KeyOrBuilder>(
-                (com.google.datastore.v1.Key) operation_, getParentForChildren(), isClean());
+        deleteBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.google.datastore.v1.Key, com.google.datastore.v1.Key.Builder, com.google.datastore.v1.KeyOrBuilder>(
+                (com.google.datastore.v1.Key) operation_,
+                getParentForChildren(),
+                isClean());
         operation_ = null;
       }
       operationCase_ = 7;
-      onChanged();
-      ;
+      onChanged();;
       return deleteBuilder_;
     }
 
     /**
-     *
-     *
      * <pre>
      * The version of the entity that this mutation is being applied to. If this
      * does not match the current version on the server, the mutation conflicts.
      * </pre>
      *
      * <code>int64 base_version = 8;</code>
-     *
      * @return The baseVersion.
      */
     public long getBaseVersion() {
@@ -1843,15 +1663,12 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return 0L;
     }
     /**
-     *
-     *
      * <pre>
      * The version of the entity that this mutation is being applied to. If this
      * does not match the current version on the server, the mutation conflicts.
      * </pre>
      *
      * <code>int64 base_version = 8;</code>
-     *
      * @param value The baseVersion to set.
      * @return This builder for chaining.
      */
@@ -1862,15 +1679,12 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The version of the entity that this mutation is being applied to. If this
      * does not match the current version on the server, the mutation conflicts.
      * </pre>
      *
      * <code>int64 base_version = 8;</code>
-     *
      * @return This builder for chaining.
      */
     public Builder clearBaseVersion() {
@@ -1881,9 +1695,9 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     @java.lang.Override
-    public final Builder setUnknownFields(final com.google.protobuf.UnknownFieldSet unknownFields) {
+    public final Builder setUnknownFields(
+        final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.setUnknownFields(unknownFields);
     }
 
@@ -1893,12 +1707,12 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
       return super.mergeUnknownFields(unknownFields);
     }
 
+
     // @@protoc_insertion_point(builder_scope:google.datastore.v1.Mutation)
   }
 
   // @@protoc_insertion_point(class_scope:google.datastore.v1.Mutation)
   private static final com.google.datastore.v1.Mutation DEFAULT_INSTANCE;
-
   static {
     DEFAULT_INSTANCE = new com.google.datastore.v1.Mutation();
   }
@@ -1907,16 +1721,16 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<Mutation> PARSER =
-      new com.google.protobuf.AbstractParser<Mutation>() {
-        @java.lang.Override
-        public Mutation parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Mutation(input, extensionRegistry);
-        }
-      };
+  private static final com.google.protobuf.Parser<Mutation>
+      PARSER = new com.google.protobuf.AbstractParser<Mutation>() {
+    @java.lang.Override
+    public Mutation parsePartialFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return new Mutation(input, extensionRegistry);
+    }
+  };
 
   public static com.google.protobuf.Parser<Mutation> parser() {
     return PARSER;
@@ -1931,4 +1745,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.Mutation getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
+
 }
+

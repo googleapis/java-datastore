@@ -18,38 +18,29 @@
 
 package com.google.datastore.v1;
 
-public interface RunQueryResponseOrBuilder
-    extends
+public interface RunQueryResponseOrBuilder extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.RunQueryResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   *
-   *
    * <pre>
    * A batch of query results (always present).
    * </pre>
    *
    * <code>.google.datastore.v1.QueryResultBatch batch = 1;</code>
-   *
    * @return Whether the batch field is set.
    */
   boolean hasBatch();
   /**
-   *
-   *
    * <pre>
    * A batch of query results (always present).
    * </pre>
    *
    * <code>.google.datastore.v1.QueryResultBatch batch = 1;</code>
-   *
    * @return The batch.
    */
   com.google.datastore.v1.QueryResultBatch getBatch();
   /**
-   *
-   *
    * <pre>
    * A batch of query results (always present).
    * </pre>
@@ -59,32 +50,24 @@ public interface RunQueryResponseOrBuilder
   com.google.datastore.v1.QueryResultBatchOrBuilder getBatchOrBuilder();
 
   /**
-   *
-   *
    * <pre>
    * The parsed form of the `GqlQuery` from the request, if it was set.
    * </pre>
    *
    * <code>.google.datastore.v1.Query query = 2;</code>
-   *
    * @return Whether the query field is set.
    */
   boolean hasQuery();
   /**
-   *
-   *
    * <pre>
    * The parsed form of the `GqlQuery` from the request, if it was set.
    * </pre>
    *
    * <code>.google.datastore.v1.Query query = 2;</code>
-   *
    * @return The query.
    */
   com.google.datastore.v1.Query getQuery();
   /**
-   *
-   *
    * <pre>
    * The parsed form of the `GqlQuery` from the request, if it was set.
    * </pre>

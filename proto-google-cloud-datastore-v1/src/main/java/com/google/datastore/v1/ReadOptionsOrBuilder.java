@@ -18,41 +18,32 @@
 
 package com.google.datastore.v1;
 
-public interface ReadOptionsOrBuilder
-    extends
+public interface ReadOptionsOrBuilder extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.ReadOptions)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   *
-   *
    * <pre>
    * The non-transactional read consistency to use.
    * Cannot be set to `STRONG` for global queries.
    * </pre>
    *
    * <code>.google.datastore.v1.ReadOptions.ReadConsistency read_consistency = 1;</code>
-   *
    * @return The enum numeric value on the wire for readConsistency.
    */
   int getReadConsistencyValue();
   /**
-   *
-   *
    * <pre>
    * The non-transactional read consistency to use.
    * Cannot be set to `STRONG` for global queries.
    * </pre>
    *
    * <code>.google.datastore.v1.ReadOptions.ReadConsistency read_consistency = 1;</code>
-   *
    * @return The readConsistency.
    */
   com.google.datastore.v1.ReadOptions.ReadConsistency getReadConsistency();
 
   /**
-   *
-   *
    * <pre>
    * The identifier of the transaction in which to read. A
    * transaction identifier is returned by a call to
@@ -60,7 +51,6 @@ public interface ReadOptionsOrBuilder
    * </pre>
    *
    * <code>bytes transaction = 2;</code>
-   *
    * @return The transaction.
    */
   com.google.protobuf.ByteString getTransaction();
