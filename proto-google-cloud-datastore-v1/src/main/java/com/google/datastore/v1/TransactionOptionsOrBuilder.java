@@ -18,29 +18,38 @@
 
 package com.google.datastore.v1;
 
-public interface TransactionOptionsOrBuilder extends
+public interface TransactionOptionsOrBuilder
+    extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.TransactionOptions)
     com.google.protobuf.MessageOrBuilder {
 
   /**
+   *
+   *
    * <pre>
    * The transaction should allow both reads and writes.
    * </pre>
    *
    * <code>.google.datastore.v1.TransactionOptions.ReadWrite read_write = 1;</code>
+   *
    * @return Whether the readWrite field is set.
    */
   boolean hasReadWrite();
   /**
+   *
+   *
    * <pre>
    * The transaction should allow both reads and writes.
    * </pre>
    *
    * <code>.google.datastore.v1.TransactionOptions.ReadWrite read_write = 1;</code>
+   *
    * @return The readWrite.
    */
   com.google.datastore.v1.TransactionOptions.ReadWrite getReadWrite();
   /**
+   *
+   *
    * <pre>
    * The transaction should allow both reads and writes.
    * </pre>
@@ -50,24 +59,32 @@ public interface TransactionOptionsOrBuilder extends
   com.google.datastore.v1.TransactionOptions.ReadWriteOrBuilder getReadWriteOrBuilder();
 
   /**
+   *
+   *
    * <pre>
    * The transaction should only allow reads.
    * </pre>
    *
    * <code>.google.datastore.v1.TransactionOptions.ReadOnly read_only = 2;</code>
+   *
    * @return Whether the readOnly field is set.
    */
   boolean hasReadOnly();
   /**
+   *
+   *
    * <pre>
    * The transaction should only allow reads.
    * </pre>
    *
    * <code>.google.datastore.v1.TransactionOptions.ReadOnly read_only = 2;</code>
+   *
    * @return The readOnly.
    */
   com.google.datastore.v1.TransactionOptions.ReadOnly getReadOnly();
   /**
+   *
+   *
    * <pre>
    * The transaction should only allow reads.
    * </pre>

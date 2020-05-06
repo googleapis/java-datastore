@@ -19,6 +19,8 @@
 package com.google.datastore.v1;
 
 /**
+ *
+ *
  * <pre>
  * A message that can hold any of the supported value types and associated
  * metadata.
@@ -26,30 +28,29 @@ package com.google.datastore.v1;
  *
  * Protobuf type {@code google.datastore.v1.Value}
  */
-public  final class Value extends
-    com.google.protobuf.GeneratedMessageV3 implements
+public final class Value extends com.google.protobuf.GeneratedMessageV3
+    implements
     // @@protoc_insertion_point(message_implements:google.datastore.v1.Value)
     ValueOrBuilder {
-private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 0L;
   // Use Value.newBuilder() to construct.
   private Value(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private Value() {
-  }
+
+  private Value() {}
 
   @java.lang.Override
   @SuppressWarnings({"unused"})
-  protected java.lang.Object newInstance(
-      UnusedPrivateParameter unused) {
+  protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
     return new Value();
   }
 
   @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet
-  getUnknownFields() {
+  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
     return this.unknownFields;
   }
+
   private Value(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -68,154 +69,166 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 8: {
-            valueTypeCase_ = 1;
-            valueType_ = input.readBool();
-            break;
-          }
-          case 16: {
-            valueTypeCase_ = 2;
-            valueType_ = input.readInt64();
-            break;
-          }
-          case 25: {
-            valueTypeCase_ = 3;
-            valueType_ = input.readDouble();
-            break;
-          }
-          case 42: {
-            com.google.datastore.v1.Key.Builder subBuilder = null;
-            if (valueTypeCase_ == 5) {
-              subBuilder = ((com.google.datastore.v1.Key) valueType_).toBuilder();
+          case 8:
+            {
+              valueTypeCase_ = 1;
+              valueType_ = input.readBool();
+              break;
             }
-            valueType_ =
-                input.readMessage(com.google.datastore.v1.Key.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom((com.google.datastore.v1.Key) valueType_);
-              valueType_ = subBuilder.buildPartial();
+          case 16:
+            {
+              valueTypeCase_ = 2;
+              valueType_ = input.readInt64();
+              break;
             }
-            valueTypeCase_ = 5;
-            break;
-          }
-          case 50: {
-            com.google.datastore.v1.Entity.Builder subBuilder = null;
-            if (valueTypeCase_ == 6) {
-              subBuilder = ((com.google.datastore.v1.Entity) valueType_).toBuilder();
+          case 25:
+            {
+              valueTypeCase_ = 3;
+              valueType_ = input.readDouble();
+              break;
             }
-            valueType_ =
-                input.readMessage(com.google.datastore.v1.Entity.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom((com.google.datastore.v1.Entity) valueType_);
-              valueType_ = subBuilder.buildPartial();
+          case 42:
+            {
+              com.google.datastore.v1.Key.Builder subBuilder = null;
+              if (valueTypeCase_ == 5) {
+                subBuilder = ((com.google.datastore.v1.Key) valueType_).toBuilder();
+              }
+              valueType_ =
+                  input.readMessage(com.google.datastore.v1.Key.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((com.google.datastore.v1.Key) valueType_);
+                valueType_ = subBuilder.buildPartial();
+              }
+              valueTypeCase_ = 5;
+              break;
             }
-            valueTypeCase_ = 6;
-            break;
-          }
-          case 66: {
-            com.google.type.LatLng.Builder subBuilder = null;
-            if (valueTypeCase_ == 8) {
-              subBuilder = ((com.google.type.LatLng) valueType_).toBuilder();
+          case 50:
+            {
+              com.google.datastore.v1.Entity.Builder subBuilder = null;
+              if (valueTypeCase_ == 6) {
+                subBuilder = ((com.google.datastore.v1.Entity) valueType_).toBuilder();
+              }
+              valueType_ =
+                  input.readMessage(com.google.datastore.v1.Entity.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((com.google.datastore.v1.Entity) valueType_);
+                valueType_ = subBuilder.buildPartial();
+              }
+              valueTypeCase_ = 6;
+              break;
             }
-            valueType_ =
-                input.readMessage(com.google.type.LatLng.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom((com.google.type.LatLng) valueType_);
-              valueType_ = subBuilder.buildPartial();
+          case 66:
+            {
+              com.google.type.LatLng.Builder subBuilder = null;
+              if (valueTypeCase_ == 8) {
+                subBuilder = ((com.google.type.LatLng) valueType_).toBuilder();
+              }
+              valueType_ = input.readMessage(com.google.type.LatLng.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((com.google.type.LatLng) valueType_);
+                valueType_ = subBuilder.buildPartial();
+              }
+              valueTypeCase_ = 8;
+              break;
             }
-            valueTypeCase_ = 8;
-            break;
-          }
-          case 74: {
-            com.google.datastore.v1.ArrayValue.Builder subBuilder = null;
-            if (valueTypeCase_ == 9) {
-              subBuilder = ((com.google.datastore.v1.ArrayValue) valueType_).toBuilder();
+          case 74:
+            {
+              com.google.datastore.v1.ArrayValue.Builder subBuilder = null;
+              if (valueTypeCase_ == 9) {
+                subBuilder = ((com.google.datastore.v1.ArrayValue) valueType_).toBuilder();
+              }
+              valueType_ =
+                  input.readMessage(com.google.datastore.v1.ArrayValue.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((com.google.datastore.v1.ArrayValue) valueType_);
+                valueType_ = subBuilder.buildPartial();
+              }
+              valueTypeCase_ = 9;
+              break;
             }
-            valueType_ =
-                input.readMessage(com.google.datastore.v1.ArrayValue.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom((com.google.datastore.v1.ArrayValue) valueType_);
-              valueType_ = subBuilder.buildPartial();
+          case 82:
+            {
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (valueTypeCase_ == 10) {
+                subBuilder = ((com.google.protobuf.Timestamp) valueType_).toBuilder();
+              }
+              valueType_ =
+                  input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((com.google.protobuf.Timestamp) valueType_);
+                valueType_ = subBuilder.buildPartial();
+              }
+              valueTypeCase_ = 10;
+              break;
             }
-            valueTypeCase_ = 9;
-            break;
-          }
-          case 82: {
-            com.google.protobuf.Timestamp.Builder subBuilder = null;
-            if (valueTypeCase_ == 10) {
-              subBuilder = ((com.google.protobuf.Timestamp) valueType_).toBuilder();
+          case 88:
+            {
+              int rawValue = input.readEnum();
+              valueTypeCase_ = 11;
+              valueType_ = rawValue;
+              break;
             }
-            valueType_ =
-                input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom((com.google.protobuf.Timestamp) valueType_);
-              valueType_ = subBuilder.buildPartial();
+          case 112:
+            {
+              meaning_ = input.readInt32();
+              break;
             }
-            valueTypeCase_ = 10;
-            break;
-          }
-          case 88: {
-            int rawValue = input.readEnum();
-            valueTypeCase_ = 11;
-            valueType_ = rawValue;
-            break;
-          }
-          case 112: {
-
-            meaning_ = input.readInt32();
-            break;
-          }
-          case 138: {
-            java.lang.String s = input.readStringRequireUtf8();
-            valueTypeCase_ = 17;
-            valueType_ = s;
-            break;
-          }
-          case 146: {
-            valueTypeCase_ = 18;
-            valueType_ = input.readBytes();
-            break;
-          }
-          case 152: {
-
-            excludeFromIndexes_ = input.readBool();
-            break;
-          }
-          default: {
-            if (!parseUnknownField(
-                input, unknownFields, extensionRegistry, tag)) {
-              done = true;
+          case 138:
+            {
+              java.lang.String s = input.readStringRequireUtf8();
+              valueTypeCase_ = 17;
+              valueType_ = s;
+              break;
             }
-            break;
-          }
+          case 146:
+            {
+              valueTypeCase_ = 18;
+              valueType_ = input.readBytes();
+              break;
+            }
+          case 152:
+            {
+              excludeFromIndexes_ = input.readBool();
+              break;
+            }
+          default:
+            {
+              if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
       throw e.setUnfinishedMessage(this);
     } catch (java.io.IOException e) {
-      throw new com.google.protobuf.InvalidProtocolBufferException(
-          e).setUnfinishedMessage(this);
+      throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
     } finally {
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
   }
-  public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
+
+  public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
     return com.google.datastore.v1.EntityProto.internal_static_google_datastore_v1_Value_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.google.datastore.v1.EntityProto.internal_static_google_datastore_v1_Value_fieldAccessorTable
+    return com.google.datastore.v1.EntityProto
+        .internal_static_google_datastore_v1_Value_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.google.datastore.v1.Value.class, com.google.datastore.v1.Value.Builder.class);
   }
 
   private int valueTypeCase_ = 0;
   private java.lang.Object valueType_;
+
   public enum ValueTypeCase
-      implements com.google.protobuf.Internal.EnumLite,
+      implements
+          com.google.protobuf.Internal.EnumLite,
           com.google.protobuf.AbstractMessage.InternalOneOfEnum {
     NULL_VALUE(11),
     BOOLEAN_VALUE(1),
@@ -230,6 +243,7 @@ private static final long serialVersionUID = 0L;
     ARRAY_VALUE(9),
     VALUETYPE_NOT_SET(0);
     private final int value;
+
     private ValueTypeCase(int value) {
       this.value = value;
     }
@@ -245,39 +259,54 @@ private static final long serialVersionUID = 0L;
 
     public static ValueTypeCase forNumber(int value) {
       switch (value) {
-        case 11: return NULL_VALUE;
-        case 1: return BOOLEAN_VALUE;
-        case 2: return INTEGER_VALUE;
-        case 3: return DOUBLE_VALUE;
-        case 10: return TIMESTAMP_VALUE;
-        case 5: return KEY_VALUE;
-        case 17: return STRING_VALUE;
-        case 18: return BLOB_VALUE;
-        case 8: return GEO_POINT_VALUE;
-        case 6: return ENTITY_VALUE;
-        case 9: return ARRAY_VALUE;
-        case 0: return VALUETYPE_NOT_SET;
-        default: return null;
+        case 11:
+          return NULL_VALUE;
+        case 1:
+          return BOOLEAN_VALUE;
+        case 2:
+          return INTEGER_VALUE;
+        case 3:
+          return DOUBLE_VALUE;
+        case 10:
+          return TIMESTAMP_VALUE;
+        case 5:
+          return KEY_VALUE;
+        case 17:
+          return STRING_VALUE;
+        case 18:
+          return BLOB_VALUE;
+        case 8:
+          return GEO_POINT_VALUE;
+        case 6:
+          return ENTITY_VALUE;
+        case 9:
+          return ARRAY_VALUE;
+        case 0:
+          return VALUETYPE_NOT_SET;
+        default:
+          return null;
       }
     }
+
     public int getNumber() {
       return this.value;
     }
   };
 
-  public ValueTypeCase
-  getValueTypeCase() {
-    return ValueTypeCase.forNumber(
-        valueTypeCase_);
+  public ValueTypeCase getValueTypeCase() {
+    return ValueTypeCase.forNumber(valueTypeCase_);
   }
 
   public static final int NULL_VALUE_FIELD_NUMBER = 11;
   /**
+   *
+   *
    * <pre>
    * A null value.
    * </pre>
    *
    * <code>.google.protobuf.NullValue null_value = 11;</code>
+   *
    * @return The enum numeric value on the wire for nullValue.
    */
   public int getNullValueValue() {
@@ -287,18 +316,21 @@ private static final long serialVersionUID = 0L;
     return 0;
   }
   /**
+   *
+   *
    * <pre>
    * A null value.
    * </pre>
    *
    * <code>.google.protobuf.NullValue null_value = 11;</code>
+   *
    * @return The nullValue.
    */
   public com.google.protobuf.NullValue getNullValue() {
     if (valueTypeCase_ == 11) {
       @SuppressWarnings("deprecation")
-      com.google.protobuf.NullValue result = com.google.protobuf.NullValue.valueOf(
-          (java.lang.Integer) valueType_);
+      com.google.protobuf.NullValue result =
+          com.google.protobuf.NullValue.valueOf((java.lang.Integer) valueType_);
       return result == null ? com.google.protobuf.NullValue.UNRECOGNIZED : result;
     }
     return com.google.protobuf.NullValue.NULL_VALUE;
@@ -306,11 +338,14 @@ private static final long serialVersionUID = 0L;
 
   public static final int BOOLEAN_VALUE_FIELD_NUMBER = 1;
   /**
+   *
+   *
    * <pre>
    * A boolean value.
    * </pre>
    *
    * <code>bool boolean_value = 1;</code>
+   *
    * @return The booleanValue.
    */
   public boolean getBooleanValue() {
@@ -322,11 +357,14 @@ private static final long serialVersionUID = 0L;
 
   public static final int INTEGER_VALUE_FIELD_NUMBER = 2;
   /**
+   *
+   *
    * <pre>
    * An integer value.
    * </pre>
    *
    * <code>int64 integer_value = 2;</code>
+   *
    * @return The integerValue.
    */
   public long getIntegerValue() {
@@ -338,11 +376,14 @@ private static final long serialVersionUID = 0L;
 
   public static final int DOUBLE_VALUE_FIELD_NUMBER = 3;
   /**
+   *
+   *
    * <pre>
    * A double value.
    * </pre>
    *
    * <code>double double_value = 3;</code>
+   *
    * @return The doubleValue.
    */
   public double getDoubleValue() {
@@ -354,6 +395,8 @@ private static final long serialVersionUID = 0L;
 
   public static final int TIMESTAMP_VALUE_FIELD_NUMBER = 10;
   /**
+   *
+   *
    * <pre>
    * A timestamp value.
    * When stored in the Datastore, precise only to microseconds;
@@ -361,12 +404,15 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>.google.protobuf.Timestamp timestamp_value = 10;</code>
+   *
    * @return Whether the timestampValue field is set.
    */
   public boolean hasTimestampValue() {
     return valueTypeCase_ == 10;
   }
   /**
+   *
+   *
    * <pre>
    * A timestamp value.
    * When stored in the Datastore, precise only to microseconds;
@@ -374,15 +420,18 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>.google.protobuf.Timestamp timestamp_value = 10;</code>
+   *
    * @return The timestampValue.
    */
   public com.google.protobuf.Timestamp getTimestampValue() {
     if (valueTypeCase_ == 10) {
-       return (com.google.protobuf.Timestamp) valueType_;
+      return (com.google.protobuf.Timestamp) valueType_;
     }
     return com.google.protobuf.Timestamp.getDefaultInstance();
   }
   /**
+   *
+   *
    * <pre>
    * A timestamp value.
    * When stored in the Datastore, precise only to microseconds;
@@ -393,38 +442,46 @@ private static final long serialVersionUID = 0L;
    */
   public com.google.protobuf.TimestampOrBuilder getTimestampValueOrBuilder() {
     if (valueTypeCase_ == 10) {
-       return (com.google.protobuf.Timestamp) valueType_;
+      return (com.google.protobuf.Timestamp) valueType_;
     }
     return com.google.protobuf.Timestamp.getDefaultInstance();
   }
 
   public static final int KEY_VALUE_FIELD_NUMBER = 5;
   /**
+   *
+   *
    * <pre>
    * A key value.
    * </pre>
    *
    * <code>.google.datastore.v1.Key key_value = 5;</code>
+   *
    * @return Whether the keyValue field is set.
    */
   public boolean hasKeyValue() {
     return valueTypeCase_ == 5;
   }
   /**
+   *
+   *
    * <pre>
    * A key value.
    * </pre>
    *
    * <code>.google.datastore.v1.Key key_value = 5;</code>
+   *
    * @return The keyValue.
    */
   public com.google.datastore.v1.Key getKeyValue() {
     if (valueTypeCase_ == 5) {
-       return (com.google.datastore.v1.Key) valueType_;
+      return (com.google.datastore.v1.Key) valueType_;
     }
     return com.google.datastore.v1.Key.getDefaultInstance();
   }
   /**
+   *
+   *
    * <pre>
    * A key value.
    * </pre>
@@ -433,13 +490,15 @@ private static final long serialVersionUID = 0L;
    */
   public com.google.datastore.v1.KeyOrBuilder getKeyValueOrBuilder() {
     if (valueTypeCase_ == 5) {
-       return (com.google.datastore.v1.Key) valueType_;
+      return (com.google.datastore.v1.Key) valueType_;
     }
     return com.google.datastore.v1.Key.getDefaultInstance();
   }
 
   public static final int STRING_VALUE_FIELD_NUMBER = 17;
   /**
+   *
+   *
    * <pre>
    * A UTF-8 encoded string value.
    * When `exclude_from_indexes` is false (it is indexed), may have at most
@@ -447,6 +506,7 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>string string_value = 17;</code>
+   *
    * @return The stringValue.
    */
   public java.lang.String getStringValue() {
@@ -457,8 +517,7 @@ private static final long serialVersionUID = 0L;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
+      com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
       if (valueTypeCase_ == 17) {
         valueType_ = s;
@@ -467,6 +526,8 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
+   *
+   *
    * <pre>
    * A UTF-8 encoded string value.
    * When `exclude_from_indexes` is false (it is indexed), may have at most
@@ -474,18 +535,17 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>string string_value = 17;</code>
+   *
    * @return The bytes for stringValue.
    */
-  public com.google.protobuf.ByteString
-      getStringValueBytes() {
+  public com.google.protobuf.ByteString getStringValueBytes() {
     java.lang.Object ref = "";
     if (valueTypeCase_ == 17) {
       ref = valueType_;
     }
     if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+      com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
       if (valueTypeCase_ == 17) {
         valueType_ = b;
       }
@@ -497,6 +557,8 @@ private static final long serialVersionUID = 0L;
 
   public static final int BLOB_VALUE_FIELD_NUMBER = 18;
   /**
+   *
+   *
    * <pre>
    * A blob value.
    * May have at most 1,000,000 bytes.
@@ -505,6 +567,7 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>bytes blob_value = 18;</code>
+   *
    * @return The blobValue.
    */
   public com.google.protobuf.ByteString getBlobValue() {
@@ -516,31 +579,39 @@ private static final long serialVersionUID = 0L;
 
   public static final int GEO_POINT_VALUE_FIELD_NUMBER = 8;
   /**
+   *
+   *
    * <pre>
    * A geo point value representing a point on the surface of Earth.
    * </pre>
    *
    * <code>.google.type.LatLng geo_point_value = 8;</code>
+   *
    * @return Whether the geoPointValue field is set.
    */
   public boolean hasGeoPointValue() {
     return valueTypeCase_ == 8;
   }
   /**
+   *
+   *
    * <pre>
    * A geo point value representing a point on the surface of Earth.
    * </pre>
    *
    * <code>.google.type.LatLng geo_point_value = 8;</code>
+   *
    * @return The geoPointValue.
    */
   public com.google.type.LatLng getGeoPointValue() {
     if (valueTypeCase_ == 8) {
-       return (com.google.type.LatLng) valueType_;
+      return (com.google.type.LatLng) valueType_;
     }
     return com.google.type.LatLng.getDefaultInstance();
   }
   /**
+   *
+   *
    * <pre>
    * A geo point value representing a point on the surface of Earth.
    * </pre>
@@ -549,13 +620,15 @@ private static final long serialVersionUID = 0L;
    */
   public com.google.type.LatLngOrBuilder getGeoPointValueOrBuilder() {
     if (valueTypeCase_ == 8) {
-       return (com.google.type.LatLng) valueType_;
+      return (com.google.type.LatLng) valueType_;
     }
     return com.google.type.LatLng.getDefaultInstance();
   }
 
   public static final int ENTITY_VALUE_FIELD_NUMBER = 6;
   /**
+   *
+   *
    * <pre>
    * An entity value.
    * - May have no key.
@@ -564,12 +637,15 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>.google.datastore.v1.Entity entity_value = 6;</code>
+   *
    * @return Whether the entityValue field is set.
    */
   public boolean hasEntityValue() {
     return valueTypeCase_ == 6;
   }
   /**
+   *
+   *
    * <pre>
    * An entity value.
    * - May have no key.
@@ -578,15 +654,18 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>.google.datastore.v1.Entity entity_value = 6;</code>
+   *
    * @return The entityValue.
    */
   public com.google.datastore.v1.Entity getEntityValue() {
     if (valueTypeCase_ == 6) {
-       return (com.google.datastore.v1.Entity) valueType_;
+      return (com.google.datastore.v1.Entity) valueType_;
     }
     return com.google.datastore.v1.Entity.getDefaultInstance();
   }
   /**
+   *
+   *
    * <pre>
    * An entity value.
    * - May have no key.
@@ -598,13 +677,15 @@ private static final long serialVersionUID = 0L;
    */
   public com.google.datastore.v1.EntityOrBuilder getEntityValueOrBuilder() {
     if (valueTypeCase_ == 6) {
-       return (com.google.datastore.v1.Entity) valueType_;
+      return (com.google.datastore.v1.Entity) valueType_;
     }
     return com.google.datastore.v1.Entity.getDefaultInstance();
   }
 
   public static final int ARRAY_VALUE_FIELD_NUMBER = 9;
   /**
+   *
+   *
    * <pre>
    * An array value.
    * Cannot contain another array value.
@@ -613,12 +694,15 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>.google.datastore.v1.ArrayValue array_value = 9;</code>
+   *
    * @return Whether the arrayValue field is set.
    */
   public boolean hasArrayValue() {
     return valueTypeCase_ == 9;
   }
   /**
+   *
+   *
    * <pre>
    * An array value.
    * Cannot contain another array value.
@@ -627,15 +711,18 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>.google.datastore.v1.ArrayValue array_value = 9;</code>
+   *
    * @return The arrayValue.
    */
   public com.google.datastore.v1.ArrayValue getArrayValue() {
     if (valueTypeCase_ == 9) {
-       return (com.google.datastore.v1.ArrayValue) valueType_;
+      return (com.google.datastore.v1.ArrayValue) valueType_;
     }
     return com.google.datastore.v1.ArrayValue.getDefaultInstance();
   }
   /**
+   *
+   *
    * <pre>
    * An array value.
    * Cannot contain another array value.
@@ -647,7 +734,7 @@ private static final long serialVersionUID = 0L;
    */
   public com.google.datastore.v1.ArrayValueOrBuilder getArrayValueOrBuilder() {
     if (valueTypeCase_ == 9) {
-       return (com.google.datastore.v1.ArrayValue) valueType_;
+      return (com.google.datastore.v1.ArrayValue) valueType_;
     }
     return com.google.datastore.v1.ArrayValue.getDefaultInstance();
   }
@@ -655,11 +742,14 @@ private static final long serialVersionUID = 0L;
   public static final int MEANING_FIELD_NUMBER = 14;
   private int meaning_;
   /**
+   *
+   *
    * <pre>
    * The `meaning` field should only be populated for backwards compatibility.
    * </pre>
    *
    * <code>int32 meaning = 14;</code>
+   *
    * @return The meaning.
    */
   public int getMeaning() {
@@ -669,12 +759,15 @@ private static final long serialVersionUID = 0L;
   public static final int EXCLUDE_FROM_INDEXES_FIELD_NUMBER = 19;
   private boolean excludeFromIndexes_;
   /**
+   *
+   *
    * <pre>
    * If the value should be excluded from all indexes including those defined
    * explicitly.
    * </pre>
    *
    * <code>bool exclude_from_indexes = 19;</code>
+   *
    * @return The excludeFromIndexes.
    */
   public boolean getExcludeFromIndexes() {
@@ -682,6 +775,7 @@ private static final long serialVersionUID = 0L;
   }
 
   private byte memoizedIsInitialized = -1;
+
   @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -693,19 +787,15 @@ private static final long serialVersionUID = 0L;
   }
 
   @java.lang.Override
-  public void writeTo(com.google.protobuf.CodedOutputStream output)
-                      throws java.io.IOException {
+  public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
     if (valueTypeCase_ == 1) {
-      output.writeBool(
-          1, (boolean)((java.lang.Boolean) valueType_));
+      output.writeBool(1, (boolean) ((java.lang.Boolean) valueType_));
     }
     if (valueTypeCase_ == 2) {
-      output.writeInt64(
-          2, (long)((java.lang.Long) valueType_));
+      output.writeInt64(2, (long) ((java.lang.Long) valueType_));
     }
     if (valueTypeCase_ == 3) {
-      output.writeDouble(
-          3, (double)((java.lang.Double) valueType_));
+      output.writeDouble(3, (double) ((java.lang.Double) valueType_));
     }
     if (valueTypeCase_ == 5) {
       output.writeMessage(5, (com.google.datastore.v1.Key) valueType_);
@@ -732,8 +822,7 @@ private static final long serialVersionUID = 0L;
       com.google.protobuf.GeneratedMessageV3.writeString(output, 17, valueType_);
     }
     if (valueTypeCase_ == 18) {
-      output.writeBytes(
-          18, (com.google.protobuf.ByteString) valueType_);
+      output.writeBytes(18, (com.google.protobuf.ByteString) valueType_);
     }
     if (excludeFromIndexes_ != false) {
       output.writeBool(19, excludeFromIndexes_);
@@ -748,59 +837,63 @@ private static final long serialVersionUID = 0L;
 
     size = 0;
     if (valueTypeCase_ == 1) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeBoolSize(
-            1, (boolean)((java.lang.Boolean) valueType_));
+      size +=
+          com.google.protobuf.CodedOutputStream.computeBoolSize(
+              1, (boolean) ((java.lang.Boolean) valueType_));
     }
     if (valueTypeCase_ == 2) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt64Size(
-            2, (long)((java.lang.Long) valueType_));
+      size +=
+          com.google.protobuf.CodedOutputStream.computeInt64Size(
+              2, (long) ((java.lang.Long) valueType_));
     }
     if (valueTypeCase_ == 3) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeDoubleSize(
-            3, (double)((java.lang.Double) valueType_));
+      size +=
+          com.google.protobuf.CodedOutputStream.computeDoubleSize(
+              3, (double) ((java.lang.Double) valueType_));
     }
     if (valueTypeCase_ == 5) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(5, (com.google.datastore.v1.Key) valueType_);
+      size +=
+          com.google.protobuf.CodedOutputStream.computeMessageSize(
+              5, (com.google.datastore.v1.Key) valueType_);
     }
     if (valueTypeCase_ == 6) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(6, (com.google.datastore.v1.Entity) valueType_);
+      size +=
+          com.google.protobuf.CodedOutputStream.computeMessageSize(
+              6, (com.google.datastore.v1.Entity) valueType_);
     }
     if (valueTypeCase_ == 8) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(8, (com.google.type.LatLng) valueType_);
+      size +=
+          com.google.protobuf.CodedOutputStream.computeMessageSize(
+              8, (com.google.type.LatLng) valueType_);
     }
     if (valueTypeCase_ == 9) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(9, (com.google.datastore.v1.ArrayValue) valueType_);
+      size +=
+          com.google.protobuf.CodedOutputStream.computeMessageSize(
+              9, (com.google.datastore.v1.ArrayValue) valueType_);
     }
     if (valueTypeCase_ == 10) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(10, (com.google.protobuf.Timestamp) valueType_);
+      size +=
+          com.google.protobuf.CodedOutputStream.computeMessageSize(
+              10, (com.google.protobuf.Timestamp) valueType_);
     }
     if (valueTypeCase_ == 11) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeEnumSize(11, ((java.lang.Integer) valueType_));
+      size +=
+          com.google.protobuf.CodedOutputStream.computeEnumSize(
+              11, ((java.lang.Integer) valueType_));
     }
     if (meaning_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(14, meaning_);
+      size += com.google.protobuf.CodedOutputStream.computeInt32Size(14, meaning_);
     }
     if (valueTypeCase_ == 17) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(17, valueType_);
     }
     if (valueTypeCase_ == 18) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeBytesSize(
-            18, (com.google.protobuf.ByteString) valueType_);
+      size +=
+          com.google.protobuf.CodedOutputStream.computeBytesSize(
+              18, (com.google.protobuf.ByteString) valueType_);
     }
     if (excludeFromIndexes_ != false) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeBoolSize(19, excludeFromIndexes_);
+      size += com.google.protobuf.CodedOutputStream.computeBoolSize(19, excludeFromIndexes_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -810,63 +903,50 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public boolean equals(final java.lang.Object obj) {
     if (obj == this) {
-     return true;
+      return true;
     }
     if (!(obj instanceof com.google.datastore.v1.Value)) {
       return super.equals(obj);
     }
     com.google.datastore.v1.Value other = (com.google.datastore.v1.Value) obj;
 
-    if (getMeaning()
-        != other.getMeaning()) return false;
-    if (getExcludeFromIndexes()
-        != other.getExcludeFromIndexes()) return false;
+    if (getMeaning() != other.getMeaning()) return false;
+    if (getExcludeFromIndexes() != other.getExcludeFromIndexes()) return false;
     if (!getValueTypeCase().equals(other.getValueTypeCase())) return false;
     switch (valueTypeCase_) {
       case 11:
-        if (getNullValueValue()
-            != other.getNullValueValue()) return false;
+        if (getNullValueValue() != other.getNullValueValue()) return false;
         break;
       case 1:
-        if (getBooleanValue()
-            != other.getBooleanValue()) return false;
+        if (getBooleanValue() != other.getBooleanValue()) return false;
         break;
       case 2:
-        if (getIntegerValue()
-            != other.getIntegerValue()) return false;
+        if (getIntegerValue() != other.getIntegerValue()) return false;
         break;
       case 3:
         if (java.lang.Double.doubleToLongBits(getDoubleValue())
-            != java.lang.Double.doubleToLongBits(
-                other.getDoubleValue())) return false;
+            != java.lang.Double.doubleToLongBits(other.getDoubleValue())) return false;
         break;
       case 10:
-        if (!getTimestampValue()
-            .equals(other.getTimestampValue())) return false;
+        if (!getTimestampValue().equals(other.getTimestampValue())) return false;
         break;
       case 5:
-        if (!getKeyValue()
-            .equals(other.getKeyValue())) return false;
+        if (!getKeyValue().equals(other.getKeyValue())) return false;
         break;
       case 17:
-        if (!getStringValue()
-            .equals(other.getStringValue())) return false;
+        if (!getStringValue().equals(other.getStringValue())) return false;
         break;
       case 18:
-        if (!getBlobValue()
-            .equals(other.getBlobValue())) return false;
+        if (!getBlobValue().equals(other.getBlobValue())) return false;
         break;
       case 8:
-        if (!getGeoPointValue()
-            .equals(other.getGeoPointValue())) return false;
+        if (!getGeoPointValue().equals(other.getGeoPointValue())) return false;
         break;
       case 6:
-        if (!getEntityValue()
-            .equals(other.getEntityValue())) return false;
+        if (!getEntityValue().equals(other.getEntityValue())) return false;
         break;
       case 9:
-        if (!getArrayValue()
-            .equals(other.getArrayValue())) return false;
+        if (!getArrayValue().equals(other.getArrayValue())) return false;
         break;
       case 0:
       default:
@@ -885,8 +965,7 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + MEANING_FIELD_NUMBER;
     hash = (53 * hash) + getMeaning();
     hash = (37 * hash) + EXCLUDE_FROM_INDEXES_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-        getExcludeFromIndexes());
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(getExcludeFromIndexes());
     switch (valueTypeCase_) {
       case 11:
         hash = (37 * hash) + NULL_VALUE_FIELD_NUMBER;
@@ -894,18 +973,18 @@ private static final long serialVersionUID = 0L;
         break;
       case 1:
         hash = (37 * hash) + BOOLEAN_VALUE_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getBooleanValue());
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(getBooleanValue());
         break;
       case 2:
         hash = (37 * hash) + INTEGER_VALUE_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getIntegerValue());
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(getIntegerValue());
         break;
       case 3:
         hash = (37 * hash) + DOUBLE_VALUE_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            java.lang.Double.doubleToLongBits(getDoubleValue()));
+        hash =
+            (53 * hash)
+                + com.google.protobuf.Internal.hashLong(
+                    java.lang.Double.doubleToLongBits(getDoubleValue()));
         break;
       case 10:
         hash = (37 * hash) + TIMESTAMP_VALUE_FIELD_NUMBER;
@@ -943,97 +1022,103 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static com.google.datastore.v1.Value parseFrom(
-      java.nio.ByteBuffer data)
+  public static com.google.datastore.v1.Value parseFrom(java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
+
   public static com.google.datastore.v1.Value parseFrom(
-      java.nio.ByteBuffer data,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.nio.ByteBuffer data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.google.datastore.v1.Value parseFrom(
-      com.google.protobuf.ByteString data)
+
+  public static com.google.datastore.v1.Value parseFrom(com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
+
   public static com.google.datastore.v1.Value parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
+
   public static com.google.datastore.v1.Value parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
+
   public static com.google.datastore.v1.Value parseFrom(
-      byte[] data,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
+
   public static com.google.datastore.v1.Value parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input);
+    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
   }
+
   public static com.google.datastore.v1.Value parseFrom(
-      java.io.InputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(
+        PARSER, input, extensionRegistry);
   }
+
   public static com.google.datastore.v1.Value parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseDelimitedWithIOException(PARSER, input);
+    return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input);
   }
+
   public static com.google.datastore.v1.Value parseDelimitedFrom(
-      java.io.InputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(
+        PARSER, input, extensionRegistry);
   }
-  public static com.google.datastore.v1.Value parseFrom(
-      com.google.protobuf.CodedInputStream input)
+
+  public static com.google.datastore.v1.Value parseFrom(com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input);
+    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
   }
+
   public static com.google.datastore.v1.Value parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(
+        PARSER, input, extensionRegistry);
   }
 
   @java.lang.Override
-  public Builder newBuilderForType() { return newBuilder(); }
+  public Builder newBuilderForType() {
+    return newBuilder();
+  }
+
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
+
   public static Builder newBuilder(com.google.datastore.v1.Value prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
+
   @java.lang.Override
   public Builder toBuilder() {
-    return this == DEFAULT_INSTANCE
-        ? new Builder() : new Builder().mergeFrom(this);
+    return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
   }
 
   @java.lang.Override
-  protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+  protected Builder newBuilderForType(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
   /**
+   *
+   *
    * <pre>
    * A message that can hold any of the supported value types and associated
    * metadata.
@@ -1041,19 +1126,20 @@ private static final long serialVersionUID = 0L;
    *
    * Protobuf type {@code google.datastore.v1.Value}
    */
-  public static final class Builder extends
-      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+  public static final class Builder extends com.google.protobuf.GeneratedMessageV3.Builder<Builder>
+      implements
       // @@protoc_insertion_point(builder_implements:google.datastore.v1.Value)
       com.google.datastore.v1.ValueOrBuilder {
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.google.datastore.v1.EntityProto.internal_static_google_datastore_v1_Value_descriptor;
+    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      return com.google.datastore.v1.EntityProto
+          .internal_static_google_datastore_v1_Value_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.google.datastore.v1.EntityProto.internal_static_google_datastore_v1_Value_fieldAccessorTable
+      return com.google.datastore.v1.EntityProto
+          .internal_static_google_datastore_v1_Value_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.google.datastore.v1.Value.class, com.google.datastore.v1.Value.Builder.class);
     }
@@ -1063,16 +1149,15 @@ private static final long serialVersionUID = 0L;
       maybeForceBuilderInitialization();
     }
 
-    private Builder(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+    private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
+
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessageV3
-              .alwaysUseFieldBuilders) {
-      }
+      if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {}
     }
+
     @java.lang.Override
     public Builder clear() {
       super.clear();
@@ -1086,9 +1171,9 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Descriptors.Descriptor
-        getDescriptorForType() {
-      return com.google.datastore.v1.EntityProto.internal_static_google_datastore_v1_Value_descriptor;
+    public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      return com.google.datastore.v1.EntityProto
+          .internal_static_google_datastore_v1_Value_descriptor;
     }
 
     @java.lang.Override
@@ -1172,38 +1257,39 @@ private static final long serialVersionUID = 0L;
     public Builder clone() {
       return super.clone();
     }
+
     @java.lang.Override
     public Builder setField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
       return super.setField(field, value);
     }
+
     @java.lang.Override
-    public Builder clearField(
-        com.google.protobuf.Descriptors.FieldDescriptor field) {
+    public Builder clearField(com.google.protobuf.Descriptors.FieldDescriptor field) {
       return super.clearField(field);
     }
+
     @java.lang.Override
-    public Builder clearOneof(
-        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+    public Builder clearOneof(com.google.protobuf.Descriptors.OneofDescriptor oneof) {
       return super.clearOneof(oneof);
     }
+
     @java.lang.Override
     public Builder setRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        int index, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field, int index, java.lang.Object value) {
       return super.setRepeatedField(field, index, value);
     }
+
     @java.lang.Override
     public Builder addRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
       return super.addRepeatedField(field, value);
     }
+
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof com.google.datastore.v1.Value) {
-        return mergeFrom((com.google.datastore.v1.Value)other);
+        return mergeFrom((com.google.datastore.v1.Value) other);
       } else {
         super.mergeFrom(other);
         return this;
@@ -1219,55 +1305,67 @@ private static final long serialVersionUID = 0L;
         setExcludeFromIndexes(other.getExcludeFromIndexes());
       }
       switch (other.getValueTypeCase()) {
-        case NULL_VALUE: {
-          setNullValueValue(other.getNullValueValue());
-          break;
-        }
-        case BOOLEAN_VALUE: {
-          setBooleanValue(other.getBooleanValue());
-          break;
-        }
-        case INTEGER_VALUE: {
-          setIntegerValue(other.getIntegerValue());
-          break;
-        }
-        case DOUBLE_VALUE: {
-          setDoubleValue(other.getDoubleValue());
-          break;
-        }
-        case TIMESTAMP_VALUE: {
-          mergeTimestampValue(other.getTimestampValue());
-          break;
-        }
-        case KEY_VALUE: {
-          mergeKeyValue(other.getKeyValue());
-          break;
-        }
-        case STRING_VALUE: {
-          valueTypeCase_ = 17;
-          valueType_ = other.valueType_;
-          onChanged();
-          break;
-        }
-        case BLOB_VALUE: {
-          setBlobValue(other.getBlobValue());
-          break;
-        }
-        case GEO_POINT_VALUE: {
-          mergeGeoPointValue(other.getGeoPointValue());
-          break;
-        }
-        case ENTITY_VALUE: {
-          mergeEntityValue(other.getEntityValue());
-          break;
-        }
-        case ARRAY_VALUE: {
-          mergeArrayValue(other.getArrayValue());
-          break;
-        }
-        case VALUETYPE_NOT_SET: {
-          break;
-        }
+        case NULL_VALUE:
+          {
+            setNullValueValue(other.getNullValueValue());
+            break;
+          }
+        case BOOLEAN_VALUE:
+          {
+            setBooleanValue(other.getBooleanValue());
+            break;
+          }
+        case INTEGER_VALUE:
+          {
+            setIntegerValue(other.getIntegerValue());
+            break;
+          }
+        case DOUBLE_VALUE:
+          {
+            setDoubleValue(other.getDoubleValue());
+            break;
+          }
+        case TIMESTAMP_VALUE:
+          {
+            mergeTimestampValue(other.getTimestampValue());
+            break;
+          }
+        case KEY_VALUE:
+          {
+            mergeKeyValue(other.getKeyValue());
+            break;
+          }
+        case STRING_VALUE:
+          {
+            valueTypeCase_ = 17;
+            valueType_ = other.valueType_;
+            onChanged();
+            break;
+          }
+        case BLOB_VALUE:
+          {
+            setBlobValue(other.getBlobValue());
+            break;
+          }
+        case GEO_POINT_VALUE:
+          {
+            mergeGeoPointValue(other.getGeoPointValue());
+            break;
+          }
+        case ENTITY_VALUE:
+          {
+            mergeEntityValue(other.getEntityValue());
+            break;
+          }
+        case ARRAY_VALUE:
+          {
+            mergeArrayValue(other.getArrayValue());
+            break;
+          }
+        case VALUETYPE_NOT_SET:
+          {
+            break;
+          }
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -1297,12 +1395,12 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
+
     private int valueTypeCase_ = 0;
     private java.lang.Object valueType_;
-    public ValueTypeCase
-        getValueTypeCase() {
-      return ValueTypeCase.forNumber(
-          valueTypeCase_);
+
+    public ValueTypeCase getValueTypeCase() {
+      return ValueTypeCase.forNumber(valueTypeCase_);
     }
 
     public Builder clearValueType() {
@@ -1312,13 +1410,15 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-
     /**
+     *
+     *
      * <pre>
      * A null value.
      * </pre>
      *
      * <code>.google.protobuf.NullValue null_value = 11;</code>
+     *
      * @return The enum numeric value on the wire for nullValue.
      */
     public int getNullValueValue() {
@@ -1328,11 +1428,14 @@ private static final long serialVersionUID = 0L;
       return 0;
     }
     /**
+     *
+     *
      * <pre>
      * A null value.
      * </pre>
      *
      * <code>.google.protobuf.NullValue null_value = 11;</code>
+     *
      * @param value The enum numeric value on the wire for nullValue to set.
      * @return This builder for chaining.
      */
@@ -1343,28 +1446,34 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A null value.
      * </pre>
      *
      * <code>.google.protobuf.NullValue null_value = 11;</code>
+     *
      * @return The nullValue.
      */
     public com.google.protobuf.NullValue getNullValue() {
       if (valueTypeCase_ == 11) {
         @SuppressWarnings("deprecation")
-        com.google.protobuf.NullValue result = com.google.protobuf.NullValue.valueOf(
-            (java.lang.Integer) valueType_);
+        com.google.protobuf.NullValue result =
+            com.google.protobuf.NullValue.valueOf((java.lang.Integer) valueType_);
         return result == null ? com.google.protobuf.NullValue.UNRECOGNIZED : result;
       }
       return com.google.protobuf.NullValue.NULL_VALUE;
     }
     /**
+     *
+     *
      * <pre>
      * A null value.
      * </pre>
      *
      * <code>.google.protobuf.NullValue null_value = 11;</code>
+     *
      * @param value The nullValue to set.
      * @return This builder for chaining.
      */
@@ -1378,11 +1487,14 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A null value.
      * </pre>
      *
      * <code>.google.protobuf.NullValue null_value = 11;</code>
+     *
      * @return This builder for chaining.
      */
     public Builder clearNullValue() {
@@ -1395,11 +1507,14 @@ private static final long serialVersionUID = 0L;
     }
 
     /**
+     *
+     *
      * <pre>
      * A boolean value.
      * </pre>
      *
      * <code>bool boolean_value = 1;</code>
+     *
      * @return The booleanValue.
      */
     public boolean getBooleanValue() {
@@ -1409,11 +1524,14 @@ private static final long serialVersionUID = 0L;
       return false;
     }
     /**
+     *
+     *
      * <pre>
      * A boolean value.
      * </pre>
      *
      * <code>bool boolean_value = 1;</code>
+     *
      * @param value The booleanValue to set.
      * @return This builder for chaining.
      */
@@ -1424,11 +1542,14 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A boolean value.
      * </pre>
      *
      * <code>bool boolean_value = 1;</code>
+     *
      * @return This builder for chaining.
      */
     public Builder clearBooleanValue() {
@@ -1441,11 +1562,14 @@ private static final long serialVersionUID = 0L;
     }
 
     /**
+     *
+     *
      * <pre>
      * An integer value.
      * </pre>
      *
      * <code>int64 integer_value = 2;</code>
+     *
      * @return The integerValue.
      */
     public long getIntegerValue() {
@@ -1455,11 +1579,14 @@ private static final long serialVersionUID = 0L;
       return 0L;
     }
     /**
+     *
+     *
      * <pre>
      * An integer value.
      * </pre>
      *
      * <code>int64 integer_value = 2;</code>
+     *
      * @param value The integerValue to set.
      * @return This builder for chaining.
      */
@@ -1470,11 +1597,14 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * An integer value.
      * </pre>
      *
      * <code>int64 integer_value = 2;</code>
+     *
      * @return This builder for chaining.
      */
     public Builder clearIntegerValue() {
@@ -1487,11 +1617,14 @@ private static final long serialVersionUID = 0L;
     }
 
     /**
+     *
+     *
      * <pre>
      * A double value.
      * </pre>
      *
      * <code>double double_value = 3;</code>
+     *
      * @return The doubleValue.
      */
     public double getDoubleValue() {
@@ -1501,11 +1634,14 @@ private static final long serialVersionUID = 0L;
       return 0D;
     }
     /**
+     *
+     *
      * <pre>
      * A double value.
      * </pre>
      *
      * <code>double double_value = 3;</code>
+     *
      * @param value The doubleValue to set.
      * @return This builder for chaining.
      */
@@ -1516,11 +1652,14 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A double value.
      * </pre>
      *
      * <code>double double_value = 3;</code>
+     *
      * @return This builder for chaining.
      */
     public Builder clearDoubleValue() {
@@ -1533,8 +1672,13 @@ private static final long serialVersionUID = 0L;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> timestampValueBuilder_;
+            com.google.protobuf.Timestamp,
+            com.google.protobuf.Timestamp.Builder,
+            com.google.protobuf.TimestampOrBuilder>
+        timestampValueBuilder_;
     /**
+     *
+     *
      * <pre>
      * A timestamp value.
      * When stored in the Datastore, precise only to microseconds;
@@ -1542,12 +1686,15 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.google.protobuf.Timestamp timestamp_value = 10;</code>
+     *
      * @return Whether the timestampValue field is set.
      */
     public boolean hasTimestampValue() {
       return valueTypeCase_ == 10;
     }
     /**
+     *
+     *
      * <pre>
      * A timestamp value.
      * When stored in the Datastore, precise only to microseconds;
@@ -1555,6 +1702,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.google.protobuf.Timestamp timestamp_value = 10;</code>
+     *
      * @return The timestampValue.
      */
     public com.google.protobuf.Timestamp getTimestampValue() {
@@ -1571,6 +1719,8 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * A timestamp value.
      * When stored in the Datastore, precise only to microseconds;
@@ -1593,6 +1743,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A timestamp value.
      * When stored in the Datastore, precise only to microseconds;
@@ -1601,8 +1753,7 @@ private static final long serialVersionUID = 0L;
      *
      * <code>.google.protobuf.Timestamp timestamp_value = 10;</code>
      */
-    public Builder setTimestampValue(
-        com.google.protobuf.Timestamp.Builder builderForValue) {
+    public Builder setTimestampValue(com.google.protobuf.Timestamp.Builder builderForValue) {
       if (timestampValueBuilder_ == null) {
         valueType_ = builderForValue.build();
         onChanged();
@@ -1613,6 +1764,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A timestamp value.
      * When stored in the Datastore, precise only to microseconds;
@@ -1623,10 +1776,12 @@ private static final long serialVersionUID = 0L;
      */
     public Builder mergeTimestampValue(com.google.protobuf.Timestamp value) {
       if (timestampValueBuilder_ == null) {
-        if (valueTypeCase_ == 10 &&
-            valueType_ != com.google.protobuf.Timestamp.getDefaultInstance()) {
-          valueType_ = com.google.protobuf.Timestamp.newBuilder((com.google.protobuf.Timestamp) valueType_)
-              .mergeFrom(value).buildPartial();
+        if (valueTypeCase_ == 10
+            && valueType_ != com.google.protobuf.Timestamp.getDefaultInstance()) {
+          valueType_ =
+              com.google.protobuf.Timestamp.newBuilder((com.google.protobuf.Timestamp) valueType_)
+                  .mergeFrom(value)
+                  .buildPartial();
         } else {
           valueType_ = value;
         }
@@ -1641,6 +1796,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A timestamp value.
      * When stored in the Datastore, precise only to microseconds;
@@ -1666,6 +1823,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A timestamp value.
      * When stored in the Datastore, precise only to microseconds;
@@ -1678,6 +1837,8 @@ private static final long serialVersionUID = 0L;
       return getTimestampValueFieldBuilder().getBuilder();
     }
     /**
+     *
+     *
      * <pre>
      * A timestamp value.
      * When stored in the Datastore, precise only to microseconds;
@@ -1697,6 +1858,8 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * A timestamp value.
      * When stored in the Datastore, precise only to microseconds;
@@ -1706,43 +1869,56 @@ private static final long serialVersionUID = 0L;
      * <code>.google.protobuf.Timestamp timestamp_value = 10;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+            com.google.protobuf.Timestamp,
+            com.google.protobuf.Timestamp.Builder,
+            com.google.protobuf.TimestampOrBuilder>
         getTimestampValueFieldBuilder() {
       if (timestampValueBuilder_ == null) {
         if (!(valueTypeCase_ == 10)) {
           valueType_ = com.google.protobuf.Timestamp.getDefaultInstance();
         }
-        timestampValueBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
-                (com.google.protobuf.Timestamp) valueType_,
-                getParentForChildren(),
-                isClean());
+        timestampValueBuilder_ =
+            new com.google.protobuf.SingleFieldBuilderV3<
+                com.google.protobuf.Timestamp,
+                com.google.protobuf.Timestamp.Builder,
+                com.google.protobuf.TimestampOrBuilder>(
+                (com.google.protobuf.Timestamp) valueType_, getParentForChildren(), isClean());
         valueType_ = null;
       }
       valueTypeCase_ = 10;
-      onChanged();;
+      onChanged();
+      ;
       return timestampValueBuilder_;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.datastore.v1.Key, com.google.datastore.v1.Key.Builder, com.google.datastore.v1.KeyOrBuilder> keyValueBuilder_;
+            com.google.datastore.v1.Key,
+            com.google.datastore.v1.Key.Builder,
+            com.google.datastore.v1.KeyOrBuilder>
+        keyValueBuilder_;
     /**
+     *
+     *
      * <pre>
      * A key value.
      * </pre>
      *
      * <code>.google.datastore.v1.Key key_value = 5;</code>
+     *
      * @return Whether the keyValue field is set.
      */
     public boolean hasKeyValue() {
       return valueTypeCase_ == 5;
     }
     /**
+     *
+     *
      * <pre>
      * A key value.
      * </pre>
      *
      * <code>.google.datastore.v1.Key key_value = 5;</code>
+     *
      * @return The keyValue.
      */
     public com.google.datastore.v1.Key getKeyValue() {
@@ -1759,6 +1935,8 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * A key value.
      * </pre>
@@ -1779,14 +1957,15 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A key value.
      * </pre>
      *
      * <code>.google.datastore.v1.Key key_value = 5;</code>
      */
-    public Builder setKeyValue(
-        com.google.datastore.v1.Key.Builder builderForValue) {
+    public Builder setKeyValue(com.google.datastore.v1.Key.Builder builderForValue) {
       if (keyValueBuilder_ == null) {
         valueType_ = builderForValue.build();
         onChanged();
@@ -1797,6 +1976,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A key value.
      * </pre>
@@ -1805,10 +1986,11 @@ private static final long serialVersionUID = 0L;
      */
     public Builder mergeKeyValue(com.google.datastore.v1.Key value) {
       if (keyValueBuilder_ == null) {
-        if (valueTypeCase_ == 5 &&
-            valueType_ != com.google.datastore.v1.Key.getDefaultInstance()) {
-          valueType_ = com.google.datastore.v1.Key.newBuilder((com.google.datastore.v1.Key) valueType_)
-              .mergeFrom(value).buildPartial();
+        if (valueTypeCase_ == 5 && valueType_ != com.google.datastore.v1.Key.getDefaultInstance()) {
+          valueType_ =
+              com.google.datastore.v1.Key.newBuilder((com.google.datastore.v1.Key) valueType_)
+                  .mergeFrom(value)
+                  .buildPartial();
         } else {
           valueType_ = value;
         }
@@ -1823,6 +2005,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A key value.
      * </pre>
@@ -1846,6 +2030,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A key value.
      * </pre>
@@ -1856,6 +2042,8 @@ private static final long serialVersionUID = 0L;
       return getKeyValueFieldBuilder().getBuilder();
     }
     /**
+     *
+     *
      * <pre>
      * A key value.
      * </pre>
@@ -1873,6 +2061,8 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * A key value.
      * </pre>
@@ -1880,25 +2070,31 @@ private static final long serialVersionUID = 0L;
      * <code>.google.datastore.v1.Key key_value = 5;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.datastore.v1.Key, com.google.datastore.v1.Key.Builder, com.google.datastore.v1.KeyOrBuilder> 
+            com.google.datastore.v1.Key,
+            com.google.datastore.v1.Key.Builder,
+            com.google.datastore.v1.KeyOrBuilder>
         getKeyValueFieldBuilder() {
       if (keyValueBuilder_ == null) {
         if (!(valueTypeCase_ == 5)) {
           valueType_ = com.google.datastore.v1.Key.getDefaultInstance();
         }
-        keyValueBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.Key, com.google.datastore.v1.Key.Builder, com.google.datastore.v1.KeyOrBuilder>(
-                (com.google.datastore.v1.Key) valueType_,
-                getParentForChildren(),
-                isClean());
+        keyValueBuilder_ =
+            new com.google.protobuf.SingleFieldBuilderV3<
+                com.google.datastore.v1.Key,
+                com.google.datastore.v1.Key.Builder,
+                com.google.datastore.v1.KeyOrBuilder>(
+                (com.google.datastore.v1.Key) valueType_, getParentForChildren(), isClean());
         valueType_ = null;
       }
       valueTypeCase_ = 5;
-      onChanged();;
+      onChanged();
+      ;
       return keyValueBuilder_;
     }
 
     /**
+     *
+     *
      * <pre>
      * A UTF-8 encoded string value.
      * When `exclude_from_indexes` is false (it is indexed), may have at most
@@ -1906,6 +2102,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string string_value = 17;</code>
+     *
      * @return The stringValue.
      */
     public java.lang.String getStringValue() {
@@ -1914,8 +2111,7 @@ private static final long serialVersionUID = 0L;
         ref = valueType_;
       }
       if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (valueTypeCase_ == 17) {
           valueType_ = s;
@@ -1926,6 +2122,8 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * A UTF-8 encoded string value.
      * When `exclude_from_indexes` is false (it is indexed), may have at most
@@ -1933,18 +2131,17 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string string_value = 17;</code>
+     *
      * @return The bytes for stringValue.
      */
-    public com.google.protobuf.ByteString
-        getStringValueBytes() {
+    public com.google.protobuf.ByteString getStringValueBytes() {
       java.lang.Object ref = "";
       if (valueTypeCase_ == 17) {
         ref = valueType_;
       }
       if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
+        com.google.protobuf.ByteString b =
+            com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
         if (valueTypeCase_ == 17) {
           valueType_ = b;
         }
@@ -1954,6 +2151,8 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * A UTF-8 encoded string value.
      * When `exclude_from_indexes` is false (it is indexed), may have at most
@@ -1961,20 +2160,22 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string string_value = 17;</code>
+     *
      * @param value The stringValue to set.
      * @return This builder for chaining.
      */
-    public Builder setStringValue(
-        java.lang.String value) {
+    public Builder setStringValue(java.lang.String value) {
       if (value == null) {
-    throw new NullPointerException();
-  }
-  valueTypeCase_ = 17;
+        throw new NullPointerException();
+      }
+      valueTypeCase_ = 17;
       valueType_ = value;
       onChanged();
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A UTF-8 encoded string value.
      * When `exclude_from_indexes` is false (it is indexed), may have at most
@@ -1982,6 +2183,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string string_value = 17;</code>
+     *
      * @return This builder for chaining.
      */
     public Builder clearStringValue() {
@@ -1993,6 +2195,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A UTF-8 encoded string value.
      * When `exclude_from_indexes` is false (it is indexed), may have at most
@@ -2000,15 +2204,15 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string string_value = 17;</code>
+     *
      * @param value The bytes for stringValue to set.
      * @return This builder for chaining.
      */
-    public Builder setStringValueBytes(
-        com.google.protobuf.ByteString value) {
+    public Builder setStringValueBytes(com.google.protobuf.ByteString value) {
       if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+        throw new NullPointerException();
+      }
+      checkByteStringIsUtf8(value);
       valueTypeCase_ = 17;
       valueType_ = value;
       onChanged();
@@ -2016,6 +2220,8 @@ private static final long serialVersionUID = 0L;
     }
 
     /**
+     *
+     *
      * <pre>
      * A blob value.
      * May have at most 1,000,000 bytes.
@@ -2024,6 +2230,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes blob_value = 18;</code>
+     *
      * @return The blobValue.
      */
     public com.google.protobuf.ByteString getBlobValue() {
@@ -2033,6 +2240,8 @@ private static final long serialVersionUID = 0L;
       return com.google.protobuf.ByteString.EMPTY;
     }
     /**
+     *
+     *
      * <pre>
      * A blob value.
      * May have at most 1,000,000 bytes.
@@ -2041,19 +2250,22 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes blob_value = 18;</code>
+     *
      * @param value The blobValue to set.
      * @return This builder for chaining.
      */
     public Builder setBlobValue(com.google.protobuf.ByteString value) {
       if (value == null) {
-    throw new NullPointerException();
-  }
-  valueTypeCase_ = 18;
+        throw new NullPointerException();
+      }
+      valueTypeCase_ = 18;
       valueType_ = value;
       onChanged();
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A blob value.
      * May have at most 1,000,000 bytes.
@@ -2062,6 +2274,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes blob_value = 18;</code>
+     *
      * @return This builder for chaining.
      */
     public Builder clearBlobValue() {
@@ -2074,24 +2287,31 @@ private static final long serialVersionUID = 0L;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.type.LatLng, com.google.type.LatLng.Builder, com.google.type.LatLngOrBuilder> geoPointValueBuilder_;
+            com.google.type.LatLng, com.google.type.LatLng.Builder, com.google.type.LatLngOrBuilder>
+        geoPointValueBuilder_;
     /**
+     *
+     *
      * <pre>
      * A geo point value representing a point on the surface of Earth.
      * </pre>
      *
      * <code>.google.type.LatLng geo_point_value = 8;</code>
+     *
      * @return Whether the geoPointValue field is set.
      */
     public boolean hasGeoPointValue() {
       return valueTypeCase_ == 8;
     }
     /**
+     *
+     *
      * <pre>
      * A geo point value representing a point on the surface of Earth.
      * </pre>
      *
      * <code>.google.type.LatLng geo_point_value = 8;</code>
+     *
      * @return The geoPointValue.
      */
     public com.google.type.LatLng getGeoPointValue() {
@@ -2108,6 +2328,8 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * A geo point value representing a point on the surface of Earth.
      * </pre>
@@ -2128,14 +2350,15 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A geo point value representing a point on the surface of Earth.
      * </pre>
      *
      * <code>.google.type.LatLng geo_point_value = 8;</code>
      */
-    public Builder setGeoPointValue(
-        com.google.type.LatLng.Builder builderForValue) {
+    public Builder setGeoPointValue(com.google.type.LatLng.Builder builderForValue) {
       if (geoPointValueBuilder_ == null) {
         valueType_ = builderForValue.build();
         onChanged();
@@ -2146,6 +2369,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A geo point value representing a point on the surface of Earth.
      * </pre>
@@ -2154,10 +2379,11 @@ private static final long serialVersionUID = 0L;
      */
     public Builder mergeGeoPointValue(com.google.type.LatLng value) {
       if (geoPointValueBuilder_ == null) {
-        if (valueTypeCase_ == 8 &&
-            valueType_ != com.google.type.LatLng.getDefaultInstance()) {
-          valueType_ = com.google.type.LatLng.newBuilder((com.google.type.LatLng) valueType_)
-              .mergeFrom(value).buildPartial();
+        if (valueTypeCase_ == 8 && valueType_ != com.google.type.LatLng.getDefaultInstance()) {
+          valueType_ =
+              com.google.type.LatLng.newBuilder((com.google.type.LatLng) valueType_)
+                  .mergeFrom(value)
+                  .buildPartial();
         } else {
           valueType_ = value;
         }
@@ -2172,6 +2398,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A geo point value representing a point on the surface of Earth.
      * </pre>
@@ -2195,6 +2423,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * A geo point value representing a point on the surface of Earth.
      * </pre>
@@ -2205,6 +2435,8 @@ private static final long serialVersionUID = 0L;
       return getGeoPointValueFieldBuilder().getBuilder();
     }
     /**
+     *
+     *
      * <pre>
      * A geo point value representing a point on the surface of Earth.
      * </pre>
@@ -2222,6 +2454,8 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * A geo point value representing a point on the surface of Earth.
      * </pre>
@@ -2229,27 +2463,34 @@ private static final long serialVersionUID = 0L;
      * <code>.google.type.LatLng geo_point_value = 8;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.type.LatLng, com.google.type.LatLng.Builder, com.google.type.LatLngOrBuilder> 
+            com.google.type.LatLng, com.google.type.LatLng.Builder, com.google.type.LatLngOrBuilder>
         getGeoPointValueFieldBuilder() {
       if (geoPointValueBuilder_ == null) {
         if (!(valueTypeCase_ == 8)) {
           valueType_ = com.google.type.LatLng.getDefaultInstance();
         }
-        geoPointValueBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.google.type.LatLng, com.google.type.LatLng.Builder, com.google.type.LatLngOrBuilder>(
-                (com.google.type.LatLng) valueType_,
-                getParentForChildren(),
-                isClean());
+        geoPointValueBuilder_ =
+            new com.google.protobuf.SingleFieldBuilderV3<
+                com.google.type.LatLng,
+                com.google.type.LatLng.Builder,
+                com.google.type.LatLngOrBuilder>(
+                (com.google.type.LatLng) valueType_, getParentForChildren(), isClean());
         valueType_ = null;
       }
       valueTypeCase_ = 8;
-      onChanged();;
+      onChanged();
+      ;
       return geoPointValueBuilder_;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder> entityValueBuilder_;
+            com.google.datastore.v1.Entity,
+            com.google.datastore.v1.Entity.Builder,
+            com.google.datastore.v1.EntityOrBuilder>
+        entityValueBuilder_;
     /**
+     *
+     *
      * <pre>
      * An entity value.
      * - May have no key.
@@ -2258,12 +2499,15 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.google.datastore.v1.Entity entity_value = 6;</code>
+     *
      * @return Whether the entityValue field is set.
      */
     public boolean hasEntityValue() {
       return valueTypeCase_ == 6;
     }
     /**
+     *
+     *
      * <pre>
      * An entity value.
      * - May have no key.
@@ -2272,6 +2516,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.google.datastore.v1.Entity entity_value = 6;</code>
+     *
      * @return The entityValue.
      */
     public com.google.datastore.v1.Entity getEntityValue() {
@@ -2288,6 +2533,8 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * An entity value.
      * - May have no key.
@@ -2311,6 +2558,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * An entity value.
      * - May have no key.
@@ -2320,8 +2569,7 @@ private static final long serialVersionUID = 0L;
      *
      * <code>.google.datastore.v1.Entity entity_value = 6;</code>
      */
-    public Builder setEntityValue(
-        com.google.datastore.v1.Entity.Builder builderForValue) {
+    public Builder setEntityValue(com.google.datastore.v1.Entity.Builder builderForValue) {
       if (entityValueBuilder_ == null) {
         valueType_ = builderForValue.build();
         onChanged();
@@ -2332,6 +2580,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * An entity value.
      * - May have no key.
@@ -2343,10 +2593,12 @@ private static final long serialVersionUID = 0L;
      */
     public Builder mergeEntityValue(com.google.datastore.v1.Entity value) {
       if (entityValueBuilder_ == null) {
-        if (valueTypeCase_ == 6 &&
-            valueType_ != com.google.datastore.v1.Entity.getDefaultInstance()) {
-          valueType_ = com.google.datastore.v1.Entity.newBuilder((com.google.datastore.v1.Entity) valueType_)
-              .mergeFrom(value).buildPartial();
+        if (valueTypeCase_ == 6
+            && valueType_ != com.google.datastore.v1.Entity.getDefaultInstance()) {
+          valueType_ =
+              com.google.datastore.v1.Entity.newBuilder((com.google.datastore.v1.Entity) valueType_)
+                  .mergeFrom(value)
+                  .buildPartial();
         } else {
           valueType_ = value;
         }
@@ -2361,6 +2613,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * An entity value.
      * - May have no key.
@@ -2387,6 +2641,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * An entity value.
      * - May have no key.
@@ -2400,6 +2656,8 @@ private static final long serialVersionUID = 0L;
       return getEntityValueFieldBuilder().getBuilder();
     }
     /**
+     *
+     *
      * <pre>
      * An entity value.
      * - May have no key.
@@ -2420,6 +2678,8 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * An entity value.
      * - May have no key.
@@ -2430,27 +2690,36 @@ private static final long serialVersionUID = 0L;
      * <code>.google.datastore.v1.Entity entity_value = 6;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder> 
+            com.google.datastore.v1.Entity,
+            com.google.datastore.v1.Entity.Builder,
+            com.google.datastore.v1.EntityOrBuilder>
         getEntityValueFieldBuilder() {
       if (entityValueBuilder_ == null) {
         if (!(valueTypeCase_ == 6)) {
           valueType_ = com.google.datastore.v1.Entity.getDefaultInstance();
         }
-        entityValueBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.Entity, com.google.datastore.v1.Entity.Builder, com.google.datastore.v1.EntityOrBuilder>(
-                (com.google.datastore.v1.Entity) valueType_,
-                getParentForChildren(),
-                isClean());
+        entityValueBuilder_ =
+            new com.google.protobuf.SingleFieldBuilderV3<
+                com.google.datastore.v1.Entity,
+                com.google.datastore.v1.Entity.Builder,
+                com.google.datastore.v1.EntityOrBuilder>(
+                (com.google.datastore.v1.Entity) valueType_, getParentForChildren(), isClean());
         valueType_ = null;
       }
       valueTypeCase_ = 6;
-      onChanged();;
+      onChanged();
+      ;
       return entityValueBuilder_;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.datastore.v1.ArrayValue, com.google.datastore.v1.ArrayValue.Builder, com.google.datastore.v1.ArrayValueOrBuilder> arrayValueBuilder_;
+            com.google.datastore.v1.ArrayValue,
+            com.google.datastore.v1.ArrayValue.Builder,
+            com.google.datastore.v1.ArrayValueOrBuilder>
+        arrayValueBuilder_;
     /**
+     *
+     *
      * <pre>
      * An array value.
      * Cannot contain another array value.
@@ -2459,12 +2728,15 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.google.datastore.v1.ArrayValue array_value = 9;</code>
+     *
      * @return Whether the arrayValue field is set.
      */
     public boolean hasArrayValue() {
       return valueTypeCase_ == 9;
     }
     /**
+     *
+     *
      * <pre>
      * An array value.
      * Cannot contain another array value.
@@ -2473,6 +2745,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.google.datastore.v1.ArrayValue array_value = 9;</code>
+     *
      * @return The arrayValue.
      */
     public com.google.datastore.v1.ArrayValue getArrayValue() {
@@ -2489,6 +2762,8 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * An array value.
      * Cannot contain another array value.
@@ -2512,6 +2787,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * An array value.
      * Cannot contain another array value.
@@ -2521,8 +2798,7 @@ private static final long serialVersionUID = 0L;
      *
      * <code>.google.datastore.v1.ArrayValue array_value = 9;</code>
      */
-    public Builder setArrayValue(
-        com.google.datastore.v1.ArrayValue.Builder builderForValue) {
+    public Builder setArrayValue(com.google.datastore.v1.ArrayValue.Builder builderForValue) {
       if (arrayValueBuilder_ == null) {
         valueType_ = builderForValue.build();
         onChanged();
@@ -2533,6 +2809,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * An array value.
      * Cannot contain another array value.
@@ -2544,10 +2822,13 @@ private static final long serialVersionUID = 0L;
      */
     public Builder mergeArrayValue(com.google.datastore.v1.ArrayValue value) {
       if (arrayValueBuilder_ == null) {
-        if (valueTypeCase_ == 9 &&
-            valueType_ != com.google.datastore.v1.ArrayValue.getDefaultInstance()) {
-          valueType_ = com.google.datastore.v1.ArrayValue.newBuilder((com.google.datastore.v1.ArrayValue) valueType_)
-              .mergeFrom(value).buildPartial();
+        if (valueTypeCase_ == 9
+            && valueType_ != com.google.datastore.v1.ArrayValue.getDefaultInstance()) {
+          valueType_ =
+              com.google.datastore.v1.ArrayValue.newBuilder(
+                      (com.google.datastore.v1.ArrayValue) valueType_)
+                  .mergeFrom(value)
+                  .buildPartial();
         } else {
           valueType_ = value;
         }
@@ -2562,6 +2843,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * An array value.
      * Cannot contain another array value.
@@ -2588,6 +2871,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * An array value.
      * Cannot contain another array value.
@@ -2601,6 +2886,8 @@ private static final long serialVersionUID = 0L;
       return getArrayValueFieldBuilder().getBuilder();
     }
     /**
+     *
+     *
      * <pre>
      * An array value.
      * Cannot contain another array value.
@@ -2621,6 +2908,8 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * An array value.
      * Cannot contain another array value.
@@ -2631,113 +2920,135 @@ private static final long serialVersionUID = 0L;
      * <code>.google.datastore.v1.ArrayValue array_value = 9;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.datastore.v1.ArrayValue, com.google.datastore.v1.ArrayValue.Builder, com.google.datastore.v1.ArrayValueOrBuilder> 
+            com.google.datastore.v1.ArrayValue,
+            com.google.datastore.v1.ArrayValue.Builder,
+            com.google.datastore.v1.ArrayValueOrBuilder>
         getArrayValueFieldBuilder() {
       if (arrayValueBuilder_ == null) {
         if (!(valueTypeCase_ == 9)) {
           valueType_ = com.google.datastore.v1.ArrayValue.getDefaultInstance();
         }
-        arrayValueBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.ArrayValue, com.google.datastore.v1.ArrayValue.Builder, com.google.datastore.v1.ArrayValueOrBuilder>(
-                (com.google.datastore.v1.ArrayValue) valueType_,
-                getParentForChildren(),
-                isClean());
+        arrayValueBuilder_ =
+            new com.google.protobuf.SingleFieldBuilderV3<
+                com.google.datastore.v1.ArrayValue,
+                com.google.datastore.v1.ArrayValue.Builder,
+                com.google.datastore.v1.ArrayValueOrBuilder>(
+                (com.google.datastore.v1.ArrayValue) valueType_, getParentForChildren(), isClean());
         valueType_ = null;
       }
       valueTypeCase_ = 9;
-      onChanged();;
+      onChanged();
+      ;
       return arrayValueBuilder_;
     }
 
-    private int meaning_ ;
+    private int meaning_;
     /**
+     *
+     *
      * <pre>
      * The `meaning` field should only be populated for backwards compatibility.
      * </pre>
      *
      * <code>int32 meaning = 14;</code>
+     *
      * @return The meaning.
      */
     public int getMeaning() {
       return meaning_;
     }
     /**
+     *
+     *
      * <pre>
      * The `meaning` field should only be populated for backwards compatibility.
      * </pre>
      *
      * <code>int32 meaning = 14;</code>
+     *
      * @param value The meaning to set.
      * @return This builder for chaining.
      */
     public Builder setMeaning(int value) {
-      
+
       meaning_ = value;
       onChanged();
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * The `meaning` field should only be populated for backwards compatibility.
      * </pre>
      *
      * <code>int32 meaning = 14;</code>
+     *
      * @return This builder for chaining.
      */
     public Builder clearMeaning() {
-      
+
       meaning_ = 0;
       onChanged();
       return this;
     }
 
-    private boolean excludeFromIndexes_ ;
+    private boolean excludeFromIndexes_;
     /**
+     *
+     *
      * <pre>
      * If the value should be excluded from all indexes including those defined
      * explicitly.
      * </pre>
      *
      * <code>bool exclude_from_indexes = 19;</code>
+     *
      * @return The excludeFromIndexes.
      */
     public boolean getExcludeFromIndexes() {
       return excludeFromIndexes_;
     }
     /**
+     *
+     *
      * <pre>
      * If the value should be excluded from all indexes including those defined
      * explicitly.
      * </pre>
      *
      * <code>bool exclude_from_indexes = 19;</code>
+     *
      * @param value The excludeFromIndexes to set.
      * @return This builder for chaining.
      */
     public Builder setExcludeFromIndexes(boolean value) {
-      
+
       excludeFromIndexes_ = value;
       onChanged();
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * If the value should be excluded from all indexes including those defined
      * explicitly.
      * </pre>
      *
      * <code>bool exclude_from_indexes = 19;</code>
+     *
      * @return This builder for chaining.
      */
     public Builder clearExcludeFromIndexes() {
-      
+
       excludeFromIndexes_ = false;
       onChanged();
       return this;
     }
+
     @java.lang.Override
-    public final Builder setUnknownFields(
-        final com.google.protobuf.UnknownFieldSet unknownFields) {
+    public final Builder setUnknownFields(final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.setUnknownFields(unknownFields);
     }
 
@@ -2747,12 +3058,12 @@ private static final long serialVersionUID = 0L;
       return super.mergeUnknownFields(unknownFields);
     }
 
-
     // @@protoc_insertion_point(builder_scope:google.datastore.v1.Value)
   }
 
   // @@protoc_insertion_point(class_scope:google.datastore.v1.Value)
   private static final com.google.datastore.v1.Value DEFAULT_INSTANCE;
+
   static {
     DEFAULT_INSTANCE = new com.google.datastore.v1.Value();
   }
@@ -2761,16 +3072,16 @@ private static final long serialVersionUID = 0L;
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<Value>
-      PARSER = new com.google.protobuf.AbstractParser<Value>() {
-    @java.lang.Override
-    public Value parsePartialFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return new Value(input, extensionRegistry);
-    }
-  };
+  private static final com.google.protobuf.Parser<Value> PARSER =
+      new com.google.protobuf.AbstractParser<Value>() {
+        @java.lang.Override
+        public Value parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Value(input, extensionRegistry);
+        }
+      };
 
   public static com.google.protobuf.Parser<Value> parser() {
     return PARSER;
@@ -2785,6 +3096,4 @@ private static final long serialVersionUID = 0L;
   public com.google.datastore.v1.Value getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
-
 }
-

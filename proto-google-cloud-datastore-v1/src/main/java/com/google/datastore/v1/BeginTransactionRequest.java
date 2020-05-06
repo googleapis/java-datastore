@@ -19,37 +19,39 @@
 package com.google.datastore.v1;
 
 /**
+ *
+ *
  * <pre>
  * The request for [Datastore.BeginTransaction][google.datastore.v1.Datastore.BeginTransaction].
  * </pre>
  *
  * Protobuf type {@code google.datastore.v1.BeginTransactionRequest}
  */
-public  final class BeginTransactionRequest extends
-    com.google.protobuf.GeneratedMessageV3 implements
+public final class BeginTransactionRequest extends com.google.protobuf.GeneratedMessageV3
+    implements
     // @@protoc_insertion_point(message_implements:google.datastore.v1.BeginTransactionRequest)
     BeginTransactionRequestOrBuilder {
-private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 0L;
   // Use BeginTransactionRequest.newBuilder() to construct.
   private BeginTransactionRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
+
   private BeginTransactionRequest() {
     projectId_ = "";
   }
 
   @java.lang.Override
   @SuppressWarnings({"unused"})
-  protected java.lang.Object newInstance(
-      UnusedPrivateParameter unused) {
+  protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
     return new BeginTransactionRequest();
   }
 
   @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet
-  getUnknownFields() {
+  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
     return this.unknownFields;
   }
+
   private BeginTransactionRequest(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -68,65 +70,74 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 66: {
-            java.lang.String s = input.readStringRequireUtf8();
+          case 66:
+            {
+              java.lang.String s = input.readStringRequireUtf8();
 
-            projectId_ = s;
-            break;
-          }
-          case 82: {
-            com.google.datastore.v1.TransactionOptions.Builder subBuilder = null;
-            if (transactionOptions_ != null) {
-              subBuilder = transactionOptions_.toBuilder();
+              projectId_ = s;
+              break;
             }
-            transactionOptions_ = input.readMessage(com.google.datastore.v1.TransactionOptions.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom(transactionOptions_);
-              transactionOptions_ = subBuilder.buildPartial();
-            }
+          case 82:
+            {
+              com.google.datastore.v1.TransactionOptions.Builder subBuilder = null;
+              if (transactionOptions_ != null) {
+                subBuilder = transactionOptions_.toBuilder();
+              }
+              transactionOptions_ =
+                  input.readMessage(
+                      com.google.datastore.v1.TransactionOptions.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(transactionOptions_);
+                transactionOptions_ = subBuilder.buildPartial();
+              }
 
-            break;
-          }
-          default: {
-            if (!parseUnknownField(
-                input, unknownFields, extensionRegistry, tag)) {
-              done = true;
+              break;
             }
-            break;
-          }
+          default:
+            {
+              if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
       throw e.setUnfinishedMessage(this);
     } catch (java.io.IOException e) {
-      throw new com.google.protobuf.InvalidProtocolBufferException(
-          e).setUnfinishedMessage(this);
+      throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
     } finally {
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
   }
-  public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-    return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_BeginTransactionRequest_descriptor;
+
+  public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+    return com.google.datastore.v1.DatastoreProto
+        .internal_static_google_datastore_v1_BeginTransactionRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_BeginTransactionRequest_fieldAccessorTable
+    return com.google.datastore.v1.DatastoreProto
+        .internal_static_google_datastore_v1_BeginTransactionRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.google.datastore.v1.BeginTransactionRequest.class, com.google.datastore.v1.BeginTransactionRequest.Builder.class);
+            com.google.datastore.v1.BeginTransactionRequest.class,
+            com.google.datastore.v1.BeginTransactionRequest.Builder.class);
   }
 
   public static final int PROJECT_ID_FIELD_NUMBER = 8;
   private volatile java.lang.Object projectId_;
   /**
+   *
+   *
    * <pre>
    * Required. The ID of the project against which to make the request.
    * </pre>
    *
    * <code>string project_id = 8 [(.google.api.field_behavior) = REQUIRED];</code>
+   *
    * @return The projectId.
    */
   public java.lang.String getProjectId() {
@@ -134,28 +145,28 @@ private static final long serialVersionUID = 0L;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
+      com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
       projectId_ = s;
       return s;
     }
   }
   /**
+   *
+   *
    * <pre>
    * Required. The ID of the project against which to make the request.
    * </pre>
    *
    * <code>string project_id = 8 [(.google.api.field_behavior) = REQUIRED];</code>
+   *
    * @return The bytes for projectId.
    */
-  public com.google.protobuf.ByteString
-      getProjectIdBytes() {
+  public com.google.protobuf.ByteString getProjectIdBytes() {
     java.lang.Object ref = projectId_;
     if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
+      com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
       projectId_ = b;
       return b;
     } else {
@@ -166,28 +177,38 @@ private static final long serialVersionUID = 0L;
   public static final int TRANSACTION_OPTIONS_FIELD_NUMBER = 10;
   private com.google.datastore.v1.TransactionOptions transactionOptions_;
   /**
+   *
+   *
    * <pre>
    * Options for a new transaction.
    * </pre>
    *
    * <code>.google.datastore.v1.TransactionOptions transaction_options = 10;</code>
+   *
    * @return Whether the transactionOptions field is set.
    */
   public boolean hasTransactionOptions() {
     return transactionOptions_ != null;
   }
   /**
+   *
+   *
    * <pre>
    * Options for a new transaction.
    * </pre>
    *
    * <code>.google.datastore.v1.TransactionOptions transaction_options = 10;</code>
+   *
    * @return The transactionOptions.
    */
   public com.google.datastore.v1.TransactionOptions getTransactionOptions() {
-    return transactionOptions_ == null ? com.google.datastore.v1.TransactionOptions.getDefaultInstance() : transactionOptions_;
+    return transactionOptions_ == null
+        ? com.google.datastore.v1.TransactionOptions.getDefaultInstance()
+        : transactionOptions_;
   }
   /**
+   *
+   *
    * <pre>
    * Options for a new transaction.
    * </pre>
@@ -199,6 +220,7 @@ private static final long serialVersionUID = 0L;
   }
 
   private byte memoizedIsInitialized = -1;
+
   @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -210,8 +232,7 @@ private static final long serialVersionUID = 0L;
   }
 
   @java.lang.Override
-  public void writeTo(com.google.protobuf.CodedOutputStream output)
-                      throws java.io.IOException {
+  public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
     if (!getProjectIdBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 8, projectId_);
     }
@@ -231,8 +252,7 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, projectId_);
     }
     if (transactionOptions_ != null) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(10, getTransactionOptions());
+      size += com.google.protobuf.CodedOutputStream.computeMessageSize(10, getTransactionOptions());
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -242,19 +262,18 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public boolean equals(final java.lang.Object obj) {
     if (obj == this) {
-     return true;
+      return true;
     }
     if (!(obj instanceof com.google.datastore.v1.BeginTransactionRequest)) {
       return super.equals(obj);
     }
-    com.google.datastore.v1.BeginTransactionRequest other = (com.google.datastore.v1.BeginTransactionRequest) obj;
+    com.google.datastore.v1.BeginTransactionRequest other =
+        (com.google.datastore.v1.BeginTransactionRequest) obj;
 
-    if (!getProjectId()
-        .equals(other.getProjectId())) return false;
+    if (!getProjectId().equals(other.getProjectId())) return false;
     if (hasTransactionOptions() != other.hasTransactionOptions()) return false;
     if (hasTransactionOptions()) {
-      if (!getTransactionOptions()
-          .equals(other.getTransactionOptions())) return false;
+      if (!getTransactionOptions().equals(other.getTransactionOptions())) return false;
     }
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
@@ -278,118 +297,127 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static com.google.datastore.v1.BeginTransactionRequest parseFrom(
-      java.nio.ByteBuffer data)
+  public static com.google.datastore.v1.BeginTransactionRequest parseFrom(java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
+
   public static com.google.datastore.v1.BeginTransactionRequest parseFrom(
-      java.nio.ByteBuffer data,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.nio.ByteBuffer data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
+
   public static com.google.datastore.v1.BeginTransactionRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
+
   public static com.google.datastore.v1.BeginTransactionRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
+
   public static com.google.datastore.v1.BeginTransactionRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
+
   public static com.google.datastore.v1.BeginTransactionRequest parseFrom(
-      byte[] data,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
+
   public static com.google.datastore.v1.BeginTransactionRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input);
+    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
   }
+
   public static com.google.datastore.v1.BeginTransactionRequest parseFrom(
-      java.io.InputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(
+        PARSER, input, extensionRegistry);
   }
-  public static com.google.datastore.v1.BeginTransactionRequest parseDelimitedFrom(java.io.InputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseDelimitedWithIOException(PARSER, input);
-  }
+
   public static com.google.datastore.v1.BeginTransactionRequest parseDelimitedFrom(
-      java.io.InputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      java.io.InputStream input) throws java.io.IOException {
+    return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input);
   }
+
+  public static com.google.datastore.v1.BeginTransactionRequest parseDelimitedFrom(
+      java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      throws java.io.IOException {
+    return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(
+        PARSER, input, extensionRegistry);
+  }
+
   public static com.google.datastore.v1.BeginTransactionRequest parseFrom(
-      com.google.protobuf.CodedInputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input);
+      com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
   }
+
   public static com.google.datastore.v1.BeginTransactionRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(
+        PARSER, input, extensionRegistry);
   }
 
   @java.lang.Override
-  public Builder newBuilderForType() { return newBuilder(); }
+  public Builder newBuilderForType() {
+    return newBuilder();
+  }
+
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
+
   public static Builder newBuilder(com.google.datastore.v1.BeginTransactionRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
+
   @java.lang.Override
   public Builder toBuilder() {
-    return this == DEFAULT_INSTANCE
-        ? new Builder() : new Builder().mergeFrom(this);
+    return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
   }
 
   @java.lang.Override
-  protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+  protected Builder newBuilderForType(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
   /**
+   *
+   *
    * <pre>
    * The request for [Datastore.BeginTransaction][google.datastore.v1.Datastore.BeginTransaction].
    * </pre>
    *
    * Protobuf type {@code google.datastore.v1.BeginTransactionRequest}
    */
-  public static final class Builder extends
-      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+  public static final class Builder extends com.google.protobuf.GeneratedMessageV3.Builder<Builder>
+      implements
       // @@protoc_insertion_point(builder_implements:google.datastore.v1.BeginTransactionRequest)
       com.google.datastore.v1.BeginTransactionRequestOrBuilder {
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_BeginTransactionRequest_descriptor;
+    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+      return com.google.datastore.v1.DatastoreProto
+          .internal_static_google_datastore_v1_BeginTransactionRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_BeginTransactionRequest_fieldAccessorTable
+      return com.google.datastore.v1.DatastoreProto
+          .internal_static_google_datastore_v1_BeginTransactionRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.google.datastore.v1.BeginTransactionRequest.class, com.google.datastore.v1.BeginTransactionRequest.Builder.class);
+              com.google.datastore.v1.BeginTransactionRequest.class,
+              com.google.datastore.v1.BeginTransactionRequest.Builder.class);
     }
 
     // Construct using com.google.datastore.v1.BeginTransactionRequest.newBuilder()
@@ -397,16 +425,15 @@ private static final long serialVersionUID = 0L;
       maybeForceBuilderInitialization();
     }
 
-    private Builder(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+    private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
+
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessageV3
-              .alwaysUseFieldBuilders) {
-      }
+      if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {}
     }
+
     @java.lang.Override
     public Builder clear() {
       super.clear();
@@ -422,9 +449,9 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Descriptors.Descriptor
-        getDescriptorForType() {
-      return com.google.datastore.v1.DatastoreProto.internal_static_google_datastore_v1_BeginTransactionRequest_descriptor;
+    public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      return com.google.datastore.v1.DatastoreProto
+          .internal_static_google_datastore_v1_BeginTransactionRequest_descriptor;
     }
 
     @java.lang.Override
@@ -443,7 +470,8 @@ private static final long serialVersionUID = 0L;
 
     @java.lang.Override
     public com.google.datastore.v1.BeginTransactionRequest buildPartial() {
-      com.google.datastore.v1.BeginTransactionRequest result = new com.google.datastore.v1.BeginTransactionRequest(this);
+      com.google.datastore.v1.BeginTransactionRequest result =
+          new com.google.datastore.v1.BeginTransactionRequest(this);
       result.projectId_ = projectId_;
       if (transactionOptionsBuilder_ == null) {
         result.transactionOptions_ = transactionOptions_;
@@ -458,38 +486,39 @@ private static final long serialVersionUID = 0L;
     public Builder clone() {
       return super.clone();
     }
+
     @java.lang.Override
     public Builder setField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
       return super.setField(field, value);
     }
+
     @java.lang.Override
-    public Builder clearField(
-        com.google.protobuf.Descriptors.FieldDescriptor field) {
+    public Builder clearField(com.google.protobuf.Descriptors.FieldDescriptor field) {
       return super.clearField(field);
     }
+
     @java.lang.Override
-    public Builder clearOneof(
-        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+    public Builder clearOneof(com.google.protobuf.Descriptors.OneofDescriptor oneof) {
       return super.clearOneof(oneof);
     }
+
     @java.lang.Override
     public Builder setRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        int index, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field, int index, java.lang.Object value) {
       return super.setRepeatedField(field, index, value);
     }
+
     @java.lang.Override
     public Builder addRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
       return super.addRepeatedField(field, value);
     }
+
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof com.google.datastore.v1.BeginTransactionRequest) {
-        return mergeFrom((com.google.datastore.v1.BeginTransactionRequest)other);
+        return mergeFrom((com.google.datastore.v1.BeginTransactionRequest) other);
       } else {
         super.mergeFrom(other);
         return this;
@@ -497,7 +526,8 @@ private static final long serialVersionUID = 0L;
     }
 
     public Builder mergeFrom(com.google.datastore.v1.BeginTransactionRequest other) {
-      if (other == com.google.datastore.v1.BeginTransactionRequest.getDefaultInstance()) return this;
+      if (other == com.google.datastore.v1.BeginTransactionRequest.getDefaultInstance())
+        return this;
       if (!other.getProjectId().isEmpty()) {
         projectId_ = other.projectId_;
         onChanged();
@@ -536,18 +566,20 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object projectId_ = "";
     /**
+     *
+     *
      * <pre>
      * Required. The ID of the project against which to make the request.
      * </pre>
      *
      * <code>string project_id = 8 [(.google.api.field_behavior) = REQUIRED];</code>
+     *
      * @return The projectId.
      */
     public java.lang.String getProjectId() {
       java.lang.Object ref = projectId_;
       if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
+        com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         projectId_ = s;
         return s;
@@ -556,20 +588,21 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * Required. The ID of the project against which to make the request.
      * </pre>
      *
      * <code>string project_id = 8 [(.google.api.field_behavior) = REQUIRED];</code>
+     *
      * @return The bytes for projectId.
      */
-    public com.google.protobuf.ByteString
-        getProjectIdBytes() {
+    public com.google.protobuf.ByteString getProjectIdBytes() {
       java.lang.Object ref = projectId_;
       if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
+        com.google.protobuf.ByteString b =
+            com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
         projectId_ = b;
         return b;
       } else {
@@ -577,54 +610,61 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     *
+     *
      * <pre>
      * Required. The ID of the project against which to make the request.
      * </pre>
      *
      * <code>string project_id = 8 [(.google.api.field_behavior) = REQUIRED];</code>
+     *
      * @param value The projectId to set.
      * @return This builder for chaining.
      */
-    public Builder setProjectId(
-        java.lang.String value) {
+    public Builder setProjectId(java.lang.String value) {
       if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        throw new NullPointerException();
+      }
+
       projectId_ = value;
       onChanged();
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * Required. The ID of the project against which to make the request.
      * </pre>
      *
      * <code>string project_id = 8 [(.google.api.field_behavior) = REQUIRED];</code>
+     *
      * @return This builder for chaining.
      */
     public Builder clearProjectId() {
-      
+
       projectId_ = getDefaultInstance().getProjectId();
       onChanged();
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * Required. The ID of the project against which to make the request.
      * </pre>
      *
      * <code>string project_id = 8 [(.google.api.field_behavior) = REQUIRED];</code>
+     *
      * @param value The bytes for projectId to set.
      * @return This builder for chaining.
      */
-    public Builder setProjectIdBytes(
-        com.google.protobuf.ByteString value) {
+    public Builder setProjectIdBytes(com.google.protobuf.ByteString value) {
       if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
+        throw new NullPointerException();
+      }
+      checkByteStringIsUtf8(value);
+
       projectId_ = value;
       onChanged();
       return this;
@@ -632,34 +672,47 @@ private static final long serialVersionUID = 0L;
 
     private com.google.datastore.v1.TransactionOptions transactionOptions_;
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.datastore.v1.TransactionOptions, com.google.datastore.v1.TransactionOptions.Builder, com.google.datastore.v1.TransactionOptionsOrBuilder> transactionOptionsBuilder_;
+            com.google.datastore.v1.TransactionOptions,
+            com.google.datastore.v1.TransactionOptions.Builder,
+            com.google.datastore.v1.TransactionOptionsOrBuilder>
+        transactionOptionsBuilder_;
     /**
+     *
+     *
      * <pre>
      * Options for a new transaction.
      * </pre>
      *
      * <code>.google.datastore.v1.TransactionOptions transaction_options = 10;</code>
+     *
      * @return Whether the transactionOptions field is set.
      */
     public boolean hasTransactionOptions() {
       return transactionOptionsBuilder_ != null || transactionOptions_ != null;
     }
     /**
+     *
+     *
      * <pre>
      * Options for a new transaction.
      * </pre>
      *
      * <code>.google.datastore.v1.TransactionOptions transaction_options = 10;</code>
+     *
      * @return The transactionOptions.
      */
     public com.google.datastore.v1.TransactionOptions getTransactionOptions() {
       if (transactionOptionsBuilder_ == null) {
-        return transactionOptions_ == null ? com.google.datastore.v1.TransactionOptions.getDefaultInstance() : transactionOptions_;
+        return transactionOptions_ == null
+            ? com.google.datastore.v1.TransactionOptions.getDefaultInstance()
+            : transactionOptions_;
       } else {
         return transactionOptionsBuilder_.getMessage();
       }
     }
     /**
+     *
+     *
      * <pre>
      * Options for a new transaction.
      * </pre>
@@ -680,6 +733,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * Options for a new transaction.
      * </pre>
@@ -698,6 +753,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * Options for a new transaction.
      * </pre>
@@ -708,7 +765,9 @@ private static final long serialVersionUID = 0L;
       if (transactionOptionsBuilder_ == null) {
         if (transactionOptions_ != null) {
           transactionOptions_ =
-            com.google.datastore.v1.TransactionOptions.newBuilder(transactionOptions_).mergeFrom(value).buildPartial();
+              com.google.datastore.v1.TransactionOptions.newBuilder(transactionOptions_)
+                  .mergeFrom(value)
+                  .buildPartial();
         } else {
           transactionOptions_ = value;
         }
@@ -720,6 +779,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * Options for a new transaction.
      * </pre>
@@ -738,6 +799,8 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     *
+     *
      * <pre>
      * Options for a new transaction.
      * </pre>
@@ -745,11 +808,13 @@ private static final long serialVersionUID = 0L;
      * <code>.google.datastore.v1.TransactionOptions transaction_options = 10;</code>
      */
     public com.google.datastore.v1.TransactionOptions.Builder getTransactionOptionsBuilder() {
-      
+
       onChanged();
       return getTransactionOptionsFieldBuilder().getBuilder();
     }
     /**
+     *
+     *
      * <pre>
      * Options for a new transaction.
      * </pre>
@@ -760,11 +825,14 @@ private static final long serialVersionUID = 0L;
       if (transactionOptionsBuilder_ != null) {
         return transactionOptionsBuilder_.getMessageOrBuilder();
       } else {
-        return transactionOptions_ == null ?
-            com.google.datastore.v1.TransactionOptions.getDefaultInstance() : transactionOptions_;
+        return transactionOptions_ == null
+            ? com.google.datastore.v1.TransactionOptions.getDefaultInstance()
+            : transactionOptions_;
       }
     }
     /**
+     *
+     *
      * <pre>
      * Options for a new transaction.
      * </pre>
@@ -772,21 +840,24 @@ private static final long serialVersionUID = 0L;
      * <code>.google.datastore.v1.TransactionOptions transaction_options = 10;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.datastore.v1.TransactionOptions, com.google.datastore.v1.TransactionOptions.Builder, com.google.datastore.v1.TransactionOptionsOrBuilder> 
+            com.google.datastore.v1.TransactionOptions,
+            com.google.datastore.v1.TransactionOptions.Builder,
+            com.google.datastore.v1.TransactionOptionsOrBuilder>
         getTransactionOptionsFieldBuilder() {
       if (transactionOptionsBuilder_ == null) {
-        transactionOptionsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.TransactionOptions, com.google.datastore.v1.TransactionOptions.Builder, com.google.datastore.v1.TransactionOptionsOrBuilder>(
-                getTransactionOptions(),
-                getParentForChildren(),
-                isClean());
+        transactionOptionsBuilder_ =
+            new com.google.protobuf.SingleFieldBuilderV3<
+                com.google.datastore.v1.TransactionOptions,
+                com.google.datastore.v1.TransactionOptions.Builder,
+                com.google.datastore.v1.TransactionOptionsOrBuilder>(
+                getTransactionOptions(), getParentForChildren(), isClean());
         transactionOptions_ = null;
       }
       return transactionOptionsBuilder_;
     }
+
     @java.lang.Override
-    public final Builder setUnknownFields(
-        final com.google.protobuf.UnknownFieldSet unknownFields) {
+    public final Builder setUnknownFields(final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.setUnknownFields(unknownFields);
     }
 
@@ -796,12 +867,12 @@ private static final long serialVersionUID = 0L;
       return super.mergeUnknownFields(unknownFields);
     }
 
-
     // @@protoc_insertion_point(builder_scope:google.datastore.v1.BeginTransactionRequest)
   }
 
   // @@protoc_insertion_point(class_scope:google.datastore.v1.BeginTransactionRequest)
   private static final com.google.datastore.v1.BeginTransactionRequest DEFAULT_INSTANCE;
+
   static {
     DEFAULT_INSTANCE = new com.google.datastore.v1.BeginTransactionRequest();
   }
@@ -810,16 +881,16 @@ private static final long serialVersionUID = 0L;
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<BeginTransactionRequest>
-      PARSER = new com.google.protobuf.AbstractParser<BeginTransactionRequest>() {
-    @java.lang.Override
-    public BeginTransactionRequest parsePartialFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return new BeginTransactionRequest(input, extensionRegistry);
-    }
-  };
+  private static final com.google.protobuf.Parser<BeginTransactionRequest> PARSER =
+      new com.google.protobuf.AbstractParser<BeginTransactionRequest>() {
+        @java.lang.Override
+        public BeginTransactionRequest parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new BeginTransactionRequest(input, extensionRegistry);
+        }
+      };
 
   public static com.google.protobuf.Parser<BeginTransactionRequest> parser() {
     return PARSER;
@@ -834,6 +905,4 @@ private static final long serialVersionUID = 0L;
   public com.google.datastore.v1.BeginTransactionRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
-
 }
-

@@ -18,50 +18,64 @@
 
 package com.google.datastore.v1;
 
-public interface CommitRequestOrBuilder extends
+public interface CommitRequestOrBuilder
+    extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.CommitRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**
+   *
+   *
    * <pre>
    * Required. The ID of the project against which to make the request.
    * </pre>
    *
    * <code>string project_id = 8 [(.google.api.field_behavior) = REQUIRED];</code>
+   *
    * @return The projectId.
    */
   java.lang.String getProjectId();
   /**
+   *
+   *
    * <pre>
    * Required. The ID of the project against which to make the request.
    * </pre>
    *
    * <code>string project_id = 8 [(.google.api.field_behavior) = REQUIRED];</code>
+   *
    * @return The bytes for projectId.
    */
-  com.google.protobuf.ByteString
-      getProjectIdBytes();
+  com.google.protobuf.ByteString getProjectIdBytes();
 
   /**
+   *
+   *
    * <pre>
    * The type of commit to perform. Defaults to `TRANSACTIONAL`.
    * </pre>
    *
    * <code>.google.datastore.v1.CommitRequest.Mode mode = 5;</code>
+   *
    * @return The enum numeric value on the wire for mode.
    */
   int getModeValue();
   /**
+   *
+   *
    * <pre>
    * The type of commit to perform. Defaults to `TRANSACTIONAL`.
    * </pre>
    *
    * <code>.google.datastore.v1.CommitRequest.Mode mode = 5;</code>
+   *
    * @return The mode.
    */
   com.google.datastore.v1.CommitRequest.Mode getMode();
 
   /**
+   *
+   *
    * <pre>
    * The identifier of the transaction associated with the commit. A
    * transaction identifier is returned by a call to
@@ -69,11 +83,14 @@ public interface CommitRequestOrBuilder extends
    * </pre>
    *
    * <code>bytes transaction = 1;</code>
+   *
    * @return The transaction.
    */
   com.google.protobuf.ByteString getTransaction();
 
   /**
+   *
+   *
    * <pre>
    * The mutations to perform.
    * When mode is `TRANSACTIONAL`, mutations affecting a single entity are
@@ -89,9 +106,10 @@ public interface CommitRequestOrBuilder extends
    *
    * <code>repeated .google.datastore.v1.Mutation mutations = 6;</code>
    */
-  java.util.List<com.google.datastore.v1.Mutation> 
-      getMutationsList();
+  java.util.List<com.google.datastore.v1.Mutation> getMutationsList();
   /**
+   *
+   *
    * <pre>
    * The mutations to perform.
    * When mode is `TRANSACTIONAL`, mutations affecting a single entity are
@@ -109,6 +127,8 @@ public interface CommitRequestOrBuilder extends
    */
   com.google.datastore.v1.Mutation getMutations(int index);
   /**
+   *
+   *
    * <pre>
    * The mutations to perform.
    * When mode is `TRANSACTIONAL`, mutations affecting a single entity are
@@ -126,6 +146,8 @@ public interface CommitRequestOrBuilder extends
    */
   int getMutationsCount();
   /**
+   *
+   *
    * <pre>
    * The mutations to perform.
    * When mode is `TRANSACTIONAL`, mutations affecting a single entity are
@@ -141,9 +163,10 @@ public interface CommitRequestOrBuilder extends
    *
    * <code>repeated .google.datastore.v1.Mutation mutations = 6;</code>
    */
-  java.util.List<? extends com.google.datastore.v1.MutationOrBuilder> 
-      getMutationsOrBuilderList();
+  java.util.List<? extends com.google.datastore.v1.MutationOrBuilder> getMutationsOrBuilderList();
   /**
+   *
+   *
    * <pre>
    * The mutations to perform.
    * When mode is `TRANSACTIONAL`, mutations affecting a single entity are
@@ -159,8 +182,7 @@ public interface CommitRequestOrBuilder extends
    *
    * <code>repeated .google.datastore.v1.Mutation mutations = 6;</code>
    */
-  com.google.datastore.v1.MutationOrBuilder getMutationsOrBuilder(
-      int index);
+  com.google.datastore.v1.MutationOrBuilder getMutationsOrBuilder(int index);
 
   public com.google.datastore.v1.CommitRequest.TransactionSelectorCase getTransactionSelectorCase();
 }
