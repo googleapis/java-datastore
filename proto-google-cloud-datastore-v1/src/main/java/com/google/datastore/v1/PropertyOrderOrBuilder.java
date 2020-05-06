@@ -18,29 +18,38 @@
 
 package com.google.datastore.v1;
 
-public interface PropertyOrderOrBuilder extends
+public interface PropertyOrderOrBuilder
+    extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.PropertyOrder)
     com.google.protobuf.MessageOrBuilder {
 
   /**
+   *
+   *
    * <pre>
    * The property to order by.
    * </pre>
    *
    * <code>.google.datastore.v1.PropertyReference property = 1;</code>
+   *
    * @return Whether the property field is set.
    */
   boolean hasProperty();
   /**
+   *
+   *
    * <pre>
    * The property to order by.
    * </pre>
    *
    * <code>.google.datastore.v1.PropertyReference property = 1;</code>
+   *
    * @return The property.
    */
   com.google.datastore.v1.PropertyReference getProperty();
   /**
+   *
+   *
    * <pre>
    * The property to order by.
    * </pre>
@@ -50,20 +59,26 @@ public interface PropertyOrderOrBuilder extends
   com.google.datastore.v1.PropertyReferenceOrBuilder getPropertyOrBuilder();
 
   /**
+   *
+   *
    * <pre>
    * The direction to order by. Defaults to `ASCENDING`.
    * </pre>
    *
    * <code>.google.datastore.v1.PropertyOrder.Direction direction = 2;</code>
+   *
    * @return The enum numeric value on the wire for direction.
    */
   int getDirectionValue();
   /**
+   *
+   *
    * <pre>
    * The direction to order by. Defaults to `ASCENDING`.
    * </pre>
    *
    * <code>.google.datastore.v1.PropertyOrder.Direction direction = 2;</code>
+   *
    * @return The direction.
    */
   com.google.datastore.v1.PropertyOrder.Direction getDirection();
