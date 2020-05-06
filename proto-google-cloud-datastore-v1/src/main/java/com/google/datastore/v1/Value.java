@@ -442,8 +442,8 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    * A UTF-8 encoded string value.
-   * When `exclude_from_indexes` is false (it is indexed) , may have at most 1500 bytes.
-   * Otherwise, may be set to at least 1,000,000 bytes.
+   * When `exclude_from_indexes` is false (it is indexed), may have at most
+   * 1500 bytes. Otherwise, may be set to at most 1,000,000 bytes.
    * </pre>
    *
    * <code>string string_value = 17;</code>
@@ -469,8 +469,8 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    * A UTF-8 encoded string value.
-   * When `exclude_from_indexes` is false (it is indexed) , may have at most 1500 bytes.
-   * Otherwise, may be set to at least 1,000,000 bytes.
+   * When `exclude_from_indexes` is false (it is indexed), may have at most
+   * 1500 bytes. Otherwise, may be set to at most 1,000,000 bytes.
    * </pre>
    *
    * <code>string string_value = 17;</code>
@@ -1901,8 +1901,8 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * A UTF-8 encoded string value.
-     * When `exclude_from_indexes` is false (it is indexed) , may have at most 1500 bytes.
-     * Otherwise, may be set to at least 1,000,000 bytes.
+     * When `exclude_from_indexes` is false (it is indexed), may have at most
+     * 1500 bytes. Otherwise, may be set to at most 1,000,000 bytes.
      * </pre>
      *
      * <code>string string_value = 17;</code>
@@ -1928,8 +1928,8 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * A UTF-8 encoded string value.
-     * When `exclude_from_indexes` is false (it is indexed) , may have at most 1500 bytes.
-     * Otherwise, may be set to at least 1,000,000 bytes.
+     * When `exclude_from_indexes` is false (it is indexed), may have at most
+     * 1500 bytes. Otherwise, may be set to at most 1,000,000 bytes.
      * </pre>
      *
      * <code>string string_value = 17;</code>
@@ -1956,8 +1956,8 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * A UTF-8 encoded string value.
-     * When `exclude_from_indexes` is false (it is indexed) , may have at most 1500 bytes.
-     * Otherwise, may be set to at least 1,000,000 bytes.
+     * When `exclude_from_indexes` is false (it is indexed), may have at most
+     * 1500 bytes. Otherwise, may be set to at most 1,000,000 bytes.
      * </pre>
      *
      * <code>string string_value = 17;</code>
@@ -1977,8 +1977,8 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * A UTF-8 encoded string value.
-     * When `exclude_from_indexes` is false (it is indexed) , may have at most 1500 bytes.
-     * Otherwise, may be set to at least 1,000,000 bytes.
+     * When `exclude_from_indexes` is false (it is indexed), may have at most
+     * 1500 bytes. Otherwise, may be set to at most 1,000,000 bytes.
      * </pre>
      *
      * <code>string string_value = 17;</code>
@@ -1995,8 +1995,8 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * A UTF-8 encoded string value.
-     * When `exclude_from_indexes` is false (it is indexed) , may have at most 1500 bytes.
-     * Otherwise, may be set to at least 1,000,000 bytes.
+     * When `exclude_from_indexes` is false (it is indexed), may have at most
+     * 1500 bytes. Otherwise, may be set to at most 1,000,000 bytes.
      * </pre>
      *
      * <code>string string_value = 17;</code>
