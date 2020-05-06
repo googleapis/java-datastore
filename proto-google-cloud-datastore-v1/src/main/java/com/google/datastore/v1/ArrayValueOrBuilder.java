@@ -18,14 +18,11 @@
 
 package com.google.datastore.v1;
 
-public interface ArrayValueOrBuilder
-    extends
+public interface ArrayValueOrBuilder extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.ArrayValue)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   *
-   *
    * <pre>
    * Values in the array.
    * The order of values in an array is preserved as long as all values have
@@ -34,10 +31,9 @@ public interface ArrayValueOrBuilder
    *
    * <code>repeated .google.datastore.v1.Value values = 1;</code>
    */
-  java.util.List<com.google.datastore.v1.Value> getValuesList();
+  java.util.List<com.google.datastore.v1.Value> 
+      getValuesList();
   /**
-   *
-   *
    * <pre>
    * Values in the array.
    * The order of values in an array is preserved as long as all values have
@@ -48,8 +44,6 @@ public interface ArrayValueOrBuilder
    */
   com.google.datastore.v1.Value getValues(int index);
   /**
-   *
-   *
    * <pre>
    * Values in the array.
    * The order of values in an array is preserved as long as all values have
@@ -60,8 +54,6 @@ public interface ArrayValueOrBuilder
    */
   int getValuesCount();
   /**
-   *
-   *
    * <pre>
    * Values in the array.
    * The order of values in an array is preserved as long as all values have
@@ -70,10 +62,9 @@ public interface ArrayValueOrBuilder
    *
    * <code>repeated .google.datastore.v1.Value values = 1;</code>
    */
-  java.util.List<? extends com.google.datastore.v1.ValueOrBuilder> getValuesOrBuilderList();
+  java.util.List<? extends com.google.datastore.v1.ValueOrBuilder> 
+      getValuesOrBuilderList();
   /**
-   *
-   *
    * <pre>
    * Values in the array.
    * The order of values in an array is preserved as long as all values have
@@ -82,5 +73,6 @@ public interface ArrayValueOrBuilder
    *
    * <code>repeated .google.datastore.v1.Value values = 1;</code>
    */
-  com.google.datastore.v1.ValueOrBuilder getValuesOrBuilder(int index);
+  com.google.datastore.v1.ValueOrBuilder getValuesOrBuilder(
+      int index);
 }

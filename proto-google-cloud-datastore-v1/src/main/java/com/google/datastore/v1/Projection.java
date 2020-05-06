@@ -19,37 +19,36 @@
 package com.google.datastore.v1;
 
 /**
- *
- *
  * <pre>
  * A representation of a property in a projection.
  * </pre>
  *
  * Protobuf type {@code google.datastore.v1.Projection}
  */
-public final class Projection extends com.google.protobuf.GeneratedMessageV3
-    implements
+public  final class Projection extends
+    com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:google.datastore.v1.Projection)
     ProjectionOrBuilder {
-  private static final long serialVersionUID = 0L;
+private static final long serialVersionUID = 0L;
   // Use Projection.newBuilder() to construct.
   private Projection(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-
-  private Projection() {}
+  private Projection() {
+  }
 
   @java.lang.Override
   @SuppressWarnings({"unused"})
-  protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
+  protected java.lang.Object newInstance(
+      UnusedPrivateParameter unused) {
     return new Projection();
   }
 
   @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+  public final com.google.protobuf.UnknownFieldSet
+  getUnknownFields() {
     return this.unknownFields;
   }
-
   private Projection(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -68,91 +67,76 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
           case 0:
             done = true;
             break;
-          case 10:
-            {
-              com.google.datastore.v1.PropertyReference.Builder subBuilder = null;
-              if (property_ != null) {
-                subBuilder = property_.toBuilder();
-              }
-              property_ =
-                  input.readMessage(
-                      com.google.datastore.v1.PropertyReference.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(property_);
-                property_ = subBuilder.buildPartial();
-              }
+          case 10: {
+            com.google.datastore.v1.PropertyReference.Builder subBuilder = null;
+            if (property_ != null) {
+              subBuilder = property_.toBuilder();
+            }
+            property_ = input.readMessage(com.google.datastore.v1.PropertyReference.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom(property_);
+              property_ = subBuilder.buildPartial();
+            }
 
-              break;
+            break;
+          }
+          default: {
+            if (!parseUnknownField(
+                input, unknownFields, extensionRegistry, tag)) {
+              done = true;
             }
-          default:
-            {
-              if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
       throw e.setUnfinishedMessage(this);
     } catch (java.io.IOException e) {
-      throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+      throw new com.google.protobuf.InvalidProtocolBufferException(
+          e).setUnfinishedMessage(this);
     } finally {
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
   }
-
-  public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
-    return com.google.datastore.v1.QueryProto
-        .internal_static_google_datastore_v1_Projection_descriptor;
+  public static final com.google.protobuf.Descriptors.Descriptor
+      getDescriptor() {
+    return com.google.datastore.v1.QueryProto.internal_static_google_datastore_v1_Projection_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.google.datastore.v1.QueryProto
-        .internal_static_google_datastore_v1_Projection_fieldAccessorTable
+    return com.google.datastore.v1.QueryProto.internal_static_google_datastore_v1_Projection_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.google.datastore.v1.Projection.class,
-            com.google.datastore.v1.Projection.Builder.class);
+            com.google.datastore.v1.Projection.class, com.google.datastore.v1.Projection.Builder.class);
   }
 
   public static final int PROPERTY_FIELD_NUMBER = 1;
   private com.google.datastore.v1.PropertyReference property_;
   /**
-   *
-   *
    * <pre>
    * The property to project.
    * </pre>
    *
    * <code>.google.datastore.v1.PropertyReference property = 1;</code>
-   *
    * @return Whether the property field is set.
    */
   public boolean hasProperty() {
     return property_ != null;
   }
   /**
-   *
-   *
    * <pre>
    * The property to project.
    * </pre>
    *
    * <code>.google.datastore.v1.PropertyReference property = 1;</code>
-   *
    * @return The property.
    */
   public com.google.datastore.v1.PropertyReference getProperty() {
-    return property_ == null
-        ? com.google.datastore.v1.PropertyReference.getDefaultInstance()
-        : property_;
+    return property_ == null ? com.google.datastore.v1.PropertyReference.getDefaultInstance() : property_;
   }
   /**
-   *
-   *
    * <pre>
    * The property to project.
    * </pre>
@@ -164,7 +148,6 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
   }
 
   private byte memoizedIsInitialized = -1;
-
   @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -176,7 +159,8 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
   }
 
   @java.lang.Override
-  public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+  public void writeTo(com.google.protobuf.CodedOutputStream output)
+                      throws java.io.IOException {
     if (property_ != null) {
       output.writeMessage(1, getProperty());
     }
@@ -190,7 +174,8 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
 
     size = 0;
     if (property_ != null) {
-      size += com.google.protobuf.CodedOutputStream.computeMessageSize(1, getProperty());
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(1, getProperty());
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -200,7 +185,7 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
   @java.lang.Override
   public boolean equals(final java.lang.Object obj) {
     if (obj == this) {
-      return true;
+     return true;
     }
     if (!(obj instanceof com.google.datastore.v1.Projection)) {
       return super.equals(obj);
@@ -209,7 +194,8 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
 
     if (hasProperty() != other.hasProperty()) return false;
     if (hasProperty()) {
-      if (!getProperty().equals(other.getProperty())) return false;
+      if (!getProperty()
+          .equals(other.getProperty())) return false;
     }
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
@@ -231,126 +217,118 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
     return hash;
   }
 
-  public static com.google.datastore.v1.Projection parseFrom(java.nio.ByteBuffer data)
+  public static com.google.datastore.v1.Projection parseFrom(
+      java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-
   public static com.google.datastore.v1.Projection parseFrom(
-      java.nio.ByteBuffer data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.nio.ByteBuffer data,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-
-  public static com.google.datastore.v1.Projection parseFrom(com.google.protobuf.ByteString data)
+  public static com.google.datastore.v1.Projection parseFrom(
+      com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-
   public static com.google.datastore.v1.Projection parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-
   public static com.google.datastore.v1.Projection parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-
   public static com.google.datastore.v1.Projection parseFrom(
-      byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      byte[] data,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-
   public static com.google.datastore.v1.Projection parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input);
   }
-
   public static com.google.datastore.v1.Projection parseFrom(
-      java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.io.InputStream input,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(
-        PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input, extensionRegistry);
   }
-
   public static com.google.datastore.v1.Projection parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(PARSER, input);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseDelimitedWithIOException(PARSER, input);
   }
-
   public static com.google.datastore.v1.Projection parseDelimitedFrom(
-      java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      java.io.InputStream input,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseDelimitedWithIOException(
-        PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-
   public static com.google.datastore.v1.Projection parseFrom(
-      com.google.protobuf.CodedInputStream input) throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(PARSER, input);
+      com.google.protobuf.CodedInputStream input)
+      throws java.io.IOException {
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input);
   }
-
   public static com.google.datastore.v1.Projection parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3.parseWithIOException(
-        PARSER, input, extensionRegistry);
+    return com.google.protobuf.GeneratedMessageV3
+        .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
   @java.lang.Override
-  public Builder newBuilderForType() {
-    return newBuilder();
-  }
-
+  public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-
   public static Builder newBuilder(com.google.datastore.v1.Projection prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
-
   @java.lang.Override
   public Builder toBuilder() {
-    return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    return this == DEFAULT_INSTANCE
+        ? new Builder() : new Builder().mergeFrom(this);
   }
 
   @java.lang.Override
-  protected Builder newBuilderForType(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+  protected Builder newBuilderForType(
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
   /**
-   *
-   *
    * <pre>
    * A representation of a property in a projection.
    * </pre>
    *
    * Protobuf type {@code google.datastore.v1.Projection}
    */
-  public static final class Builder extends com.google.protobuf.GeneratedMessageV3.Builder<Builder>
-      implements
+  public static final class Builder extends
+      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:google.datastore.v1.Projection)
       com.google.datastore.v1.ProjectionOrBuilder {
-    public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
-      return com.google.datastore.v1.QueryProto
-          .internal_static_google_datastore_v1_Projection_descriptor;
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.google.datastore.v1.QueryProto.internal_static_google_datastore_v1_Projection_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.google.datastore.v1.QueryProto
-          .internal_static_google_datastore_v1_Projection_fieldAccessorTable
+      return com.google.datastore.v1.QueryProto.internal_static_google_datastore_v1_Projection_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.google.datastore.v1.Projection.class,
-              com.google.datastore.v1.Projection.Builder.class);
+              com.google.datastore.v1.Projection.class, com.google.datastore.v1.Projection.Builder.class);
     }
 
     // Construct using com.google.datastore.v1.Projection.newBuilder()
@@ -358,15 +336,16 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
       maybeForceBuilderInitialization();
     }
 
-    private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+    private Builder(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
-
     private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {}
+      if (com.google.protobuf.GeneratedMessageV3
+              .alwaysUseFieldBuilders) {
+      }
     }
-
     @java.lang.Override
     public Builder clear() {
       super.clear();
@@ -380,9 +359,9 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
     }
 
     @java.lang.Override
-    public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
-      return com.google.datastore.v1.QueryProto
-          .internal_static_google_datastore_v1_Projection_descriptor;
+    public com.google.protobuf.Descriptors.Descriptor
+        getDescriptorForType() {
+      return com.google.datastore.v1.QueryProto.internal_static_google_datastore_v1_Projection_descriptor;
     }
 
     @java.lang.Override
@@ -415,39 +394,38 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
     public Builder clone() {
       return super.clone();
     }
-
     @java.lang.Override
     public Builder setField(
-        com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        java.lang.Object value) {
       return super.setField(field, value);
     }
-
     @java.lang.Override
-    public Builder clearField(com.google.protobuf.Descriptors.FieldDescriptor field) {
+    public Builder clearField(
+        com.google.protobuf.Descriptors.FieldDescriptor field) {
       return super.clearField(field);
     }
-
     @java.lang.Override
-    public Builder clearOneof(com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+    public Builder clearOneof(
+        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
       return super.clearOneof(oneof);
     }
-
     @java.lang.Override
     public Builder setRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field, int index, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        int index, java.lang.Object value) {
       return super.setRepeatedField(field, index, value);
     }
-
     @java.lang.Override
     public Builder addRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field, java.lang.Object value) {
+        com.google.protobuf.Descriptors.FieldDescriptor field,
+        java.lang.Object value) {
       return super.addRepeatedField(field, value);
     }
-
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof com.google.datastore.v1.Projection) {
-        return mergeFrom((com.google.datastore.v1.Projection) other);
+        return mergeFrom((com.google.datastore.v1.Projection)other);
       } else {
         super.mergeFrom(other);
         return this;
@@ -490,47 +468,34 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
 
     private com.google.datastore.v1.PropertyReference property_;
     private com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.PropertyReference,
-            com.google.datastore.v1.PropertyReference.Builder,
-            com.google.datastore.v1.PropertyReferenceOrBuilder>
-        propertyBuilder_;
+        com.google.datastore.v1.PropertyReference, com.google.datastore.v1.PropertyReference.Builder, com.google.datastore.v1.PropertyReferenceOrBuilder> propertyBuilder_;
     /**
-     *
-     *
      * <pre>
      * The property to project.
      * </pre>
      *
      * <code>.google.datastore.v1.PropertyReference property = 1;</code>
-     *
      * @return Whether the property field is set.
      */
     public boolean hasProperty() {
       return propertyBuilder_ != null || property_ != null;
     }
     /**
-     *
-     *
      * <pre>
      * The property to project.
      * </pre>
      *
      * <code>.google.datastore.v1.PropertyReference property = 1;</code>
-     *
      * @return The property.
      */
     public com.google.datastore.v1.PropertyReference getProperty() {
       if (propertyBuilder_ == null) {
-        return property_ == null
-            ? com.google.datastore.v1.PropertyReference.getDefaultInstance()
-            : property_;
+        return property_ == null ? com.google.datastore.v1.PropertyReference.getDefaultInstance() : property_;
       } else {
         return propertyBuilder_.getMessage();
       }
     }
     /**
-     *
-     *
      * <pre>
      * The property to project.
      * </pre>
@@ -551,15 +516,14 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The property to project.
      * </pre>
      *
      * <code>.google.datastore.v1.PropertyReference property = 1;</code>
      */
-    public Builder setProperty(com.google.datastore.v1.PropertyReference.Builder builderForValue) {
+    public Builder setProperty(
+        com.google.datastore.v1.PropertyReference.Builder builderForValue) {
       if (propertyBuilder_ == null) {
         property_ = builderForValue.build();
         onChanged();
@@ -570,8 +534,6 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The property to project.
      * </pre>
@@ -582,9 +544,7 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
       if (propertyBuilder_ == null) {
         if (property_ != null) {
           property_ =
-              com.google.datastore.v1.PropertyReference.newBuilder(property_)
-                  .mergeFrom(value)
-                  .buildPartial();
+            com.google.datastore.v1.PropertyReference.newBuilder(property_).mergeFrom(value).buildPartial();
         } else {
           property_ = value;
         }
@@ -596,8 +556,6 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The property to project.
      * </pre>
@@ -616,8 +574,6 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
       return this;
     }
     /**
-     *
-     *
      * <pre>
      * The property to project.
      * </pre>
@@ -625,13 +581,11 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
      * <code>.google.datastore.v1.PropertyReference property = 1;</code>
      */
     public com.google.datastore.v1.PropertyReference.Builder getPropertyBuilder() {
-
+      
       onChanged();
       return getPropertyFieldBuilder().getBuilder();
     }
     /**
-     *
-     *
      * <pre>
      * The property to project.
      * </pre>
@@ -642,14 +596,11 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
       if (propertyBuilder_ != null) {
         return propertyBuilder_.getMessageOrBuilder();
       } else {
-        return property_ == null
-            ? com.google.datastore.v1.PropertyReference.getDefaultInstance()
-            : property_;
+        return property_ == null ?
+            com.google.datastore.v1.PropertyReference.getDefaultInstance() : property_;
       }
     }
     /**
-     *
-     *
      * <pre>
      * The property to project.
      * </pre>
@@ -657,24 +608,21 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
      * <code>.google.datastore.v1.PropertyReference property = 1;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-            com.google.datastore.v1.PropertyReference,
-            com.google.datastore.v1.PropertyReference.Builder,
-            com.google.datastore.v1.PropertyReferenceOrBuilder>
+        com.google.datastore.v1.PropertyReference, com.google.datastore.v1.PropertyReference.Builder, com.google.datastore.v1.PropertyReferenceOrBuilder> 
         getPropertyFieldBuilder() {
       if (propertyBuilder_ == null) {
-        propertyBuilder_ =
-            new com.google.protobuf.SingleFieldBuilderV3<
-                com.google.datastore.v1.PropertyReference,
-                com.google.datastore.v1.PropertyReference.Builder,
-                com.google.datastore.v1.PropertyReferenceOrBuilder>(
-                getProperty(), getParentForChildren(), isClean());
+        propertyBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            com.google.datastore.v1.PropertyReference, com.google.datastore.v1.PropertyReference.Builder, com.google.datastore.v1.PropertyReferenceOrBuilder>(
+                getProperty(),
+                getParentForChildren(),
+                isClean());
         property_ = null;
       }
       return propertyBuilder_;
     }
-
     @java.lang.Override
-    public final Builder setUnknownFields(final com.google.protobuf.UnknownFieldSet unknownFields) {
+    public final Builder setUnknownFields(
+        final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.setUnknownFields(unknownFields);
     }
 
@@ -684,12 +632,12 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
       return super.mergeUnknownFields(unknownFields);
     }
 
+
     // @@protoc_insertion_point(builder_scope:google.datastore.v1.Projection)
   }
 
   // @@protoc_insertion_point(class_scope:google.datastore.v1.Projection)
   private static final com.google.datastore.v1.Projection DEFAULT_INSTANCE;
-
   static {
     DEFAULT_INSTANCE = new com.google.datastore.v1.Projection();
   }
@@ -698,16 +646,16 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<Projection> PARSER =
-      new com.google.protobuf.AbstractParser<Projection>() {
-        @java.lang.Override
-        public Projection parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Projection(input, extensionRegistry);
-        }
-      };
+  private static final com.google.protobuf.Parser<Projection>
+      PARSER = new com.google.protobuf.AbstractParser<Projection>() {
+    @java.lang.Override
+    public Projection parsePartialFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return new Projection(input, extensionRegistry);
+    }
+  };
 
   public static com.google.protobuf.Parser<Projection> parser() {
     return PARSER;
@@ -722,4 +670,6 @@ public final class Projection extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.Projection getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
+
 }
+

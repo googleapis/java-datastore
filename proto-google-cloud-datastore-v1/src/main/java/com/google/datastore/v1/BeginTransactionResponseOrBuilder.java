@@ -18,20 +18,16 @@
 
 package com.google.datastore.v1;
 
-public interface BeginTransactionResponseOrBuilder
-    extends
+public interface BeginTransactionResponseOrBuilder extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.BeginTransactionResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   *
-   *
    * <pre>
    * The transaction identifier (always present).
    * </pre>
    *
    * <code>bytes transaction = 1;</code>
-   *
    * @return The transaction.
    */
   com.google.protobuf.ByteString getTransaction();

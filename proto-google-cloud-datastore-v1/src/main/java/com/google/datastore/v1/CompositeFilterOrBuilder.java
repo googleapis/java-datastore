@@ -18,39 +18,30 @@
 
 package com.google.datastore.v1;
 
-public interface CompositeFilterOrBuilder
-    extends
+public interface CompositeFilterOrBuilder extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.CompositeFilter)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   *
-   *
    * <pre>
    * The operator for combining multiple filters.
    * </pre>
    *
    * <code>.google.datastore.v1.CompositeFilter.Operator op = 1;</code>
-   *
    * @return The enum numeric value on the wire for op.
    */
   int getOpValue();
   /**
-   *
-   *
    * <pre>
    * The operator for combining multiple filters.
    * </pre>
    *
    * <code>.google.datastore.v1.CompositeFilter.Operator op = 1;</code>
-   *
    * @return The op.
    */
   com.google.datastore.v1.CompositeFilter.Operator getOp();
 
   /**
-   *
-   *
    * <pre>
    * The list of filters to combine.
    * Must contain at least one filter.
@@ -58,10 +49,9 @@ public interface CompositeFilterOrBuilder
    *
    * <code>repeated .google.datastore.v1.Filter filters = 2;</code>
    */
-  java.util.List<com.google.datastore.v1.Filter> getFiltersList();
+  java.util.List<com.google.datastore.v1.Filter> 
+      getFiltersList();
   /**
-   *
-   *
    * <pre>
    * The list of filters to combine.
    * Must contain at least one filter.
@@ -71,8 +61,6 @@ public interface CompositeFilterOrBuilder
    */
   com.google.datastore.v1.Filter getFilters(int index);
   /**
-   *
-   *
    * <pre>
    * The list of filters to combine.
    * Must contain at least one filter.
@@ -82,8 +70,6 @@ public interface CompositeFilterOrBuilder
    */
   int getFiltersCount();
   /**
-   *
-   *
    * <pre>
    * The list of filters to combine.
    * Must contain at least one filter.
@@ -91,10 +77,9 @@ public interface CompositeFilterOrBuilder
    *
    * <code>repeated .google.datastore.v1.Filter filters = 2;</code>
    */
-  java.util.List<? extends com.google.datastore.v1.FilterOrBuilder> getFiltersOrBuilderList();
+  java.util.List<? extends com.google.datastore.v1.FilterOrBuilder> 
+      getFiltersOrBuilderList();
   /**
-   *
-   *
    * <pre>
    * The list of filters to combine.
    * Must contain at least one filter.
@@ -102,5 +87,6 @@ public interface CompositeFilterOrBuilder
    *
    * <code>repeated .google.datastore.v1.Filter filters = 2;</code>
    */
-  com.google.datastore.v1.FilterOrBuilder getFiltersOrBuilder(int index);
+  com.google.datastore.v1.FilterOrBuilder getFiltersOrBuilder(
+      int index);
 }

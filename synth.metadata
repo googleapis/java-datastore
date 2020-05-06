@@ -14,13 +14,6 @@
         "sha": "1b5a8d2bbb69c5a04db26bd546d2888e609c6bab",
         "internalRef": "309845930"
       }
-    },
-    {
-      "git": {
-        "name": "synthtool",
-        "remote": "https://github.com/googleapis/synthtool.git",
-        "sha": "ea3ae392fced25d7d6f5c7ef9c8a1f24768a0936"
-      }
     }
   ],
   "destinations": [

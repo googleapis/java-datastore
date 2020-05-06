@@ -18,14 +18,11 @@
 
 package com.google.datastore.v1;
 
-public interface CommitResponseOrBuilder
-    extends
+public interface CommitResponseOrBuilder extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.CommitResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   *
-   *
    * <pre>
    * The result of performing the mutations.
    * The i-th mutation result corresponds to the i-th mutation in the request.
@@ -33,10 +30,9 @@ public interface CommitResponseOrBuilder
    *
    * <code>repeated .google.datastore.v1.MutationResult mutation_results = 3;</code>
    */
-  java.util.List<com.google.datastore.v1.MutationResult> getMutationResultsList();
+  java.util.List<com.google.datastore.v1.MutationResult> 
+      getMutationResultsList();
   /**
-   *
-   *
    * <pre>
    * The result of performing the mutations.
    * The i-th mutation result corresponds to the i-th mutation in the request.
@@ -46,8 +42,6 @@ public interface CommitResponseOrBuilder
    */
   com.google.datastore.v1.MutationResult getMutationResults(int index);
   /**
-   *
-   *
    * <pre>
    * The result of performing the mutations.
    * The i-th mutation result corresponds to the i-th mutation in the request.
@@ -57,8 +51,6 @@ public interface CommitResponseOrBuilder
    */
   int getMutationResultsCount();
   /**
-   *
-   *
    * <pre>
    * The result of performing the mutations.
    * The i-th mutation result corresponds to the i-th mutation in the request.
@@ -66,11 +58,9 @@ public interface CommitResponseOrBuilder
    *
    * <code>repeated .google.datastore.v1.MutationResult mutation_results = 3;</code>
    */
-  java.util.List<? extends com.google.datastore.v1.MutationResultOrBuilder>
+  java.util.List<? extends com.google.datastore.v1.MutationResultOrBuilder> 
       getMutationResultsOrBuilderList();
   /**
-   *
-   *
    * <pre>
    * The result of performing the mutations.
    * The i-th mutation result corresponds to the i-th mutation in the request.
@@ -78,18 +68,16 @@ public interface CommitResponseOrBuilder
    *
    * <code>repeated .google.datastore.v1.MutationResult mutation_results = 3;</code>
    */
-  com.google.datastore.v1.MutationResultOrBuilder getMutationResultsOrBuilder(int index);
+  com.google.datastore.v1.MutationResultOrBuilder getMutationResultsOrBuilder(
+      int index);
 
   /**
-   *
-   *
    * <pre>
    * The number of index entries updated during the commit, or zero if none were
    * updated.
    * </pre>
    *
    * <code>int32 index_updates = 4;</code>
-   *
    * @return The indexUpdates.
    */
   int getIndexUpdates();

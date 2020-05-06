@@ -18,14 +18,11 @@
 
 package com.google.datastore.v1;
 
-public interface EntityOrBuilder
-    extends
+public interface EntityOrBuilder extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.Entity)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   *
-   *
    * <pre>
    * The entity's key.
    * An entity must have a key, unless otherwise documented (for example,
@@ -35,13 +32,10 @@ public interface EntityOrBuilder
    * </pre>
    *
    * <code>.google.datastore.v1.Key key = 1;</code>
-   *
    * @return Whether the key field is set.
    */
   boolean hasKey();
   /**
-   *
-   *
    * <pre>
    * The entity's key.
    * An entity must have a key, unless otherwise documented (for example,
@@ -51,13 +45,10 @@ public interface EntityOrBuilder
    * </pre>
    *
    * <code>.google.datastore.v1.Key key = 1;</code>
-   *
    * @return The key.
    */
   com.google.datastore.v1.Key getKey();
   /**
-   *
-   *
    * <pre>
    * The entity's key.
    * An entity must have a key, unless otherwise documented (for example,
@@ -71,8 +62,6 @@ public interface EntityOrBuilder
   com.google.datastore.v1.KeyOrBuilder getKeyOrBuilder();
 
   /**
-   *
-   *
    * <pre>
    * The entity's properties.
    * The map's keys are property names.
@@ -86,8 +75,6 @@ public interface EntityOrBuilder
    */
   int getPropertiesCount();
   /**
-   *
-   *
    * <pre>
    * The entity's properties.
    * The map's keys are property names.
@@ -99,13 +86,15 @@ public interface EntityOrBuilder
    *
    * <code>map&lt;string, .google.datastore.v1.Value&gt; properties = 3;</code>
    */
-  boolean containsProperties(java.lang.String key);
-  /** Use {@link #getPropertiesMap()} instead. */
+  boolean containsProperties(
+      java.lang.String key);
+  /**
+   * Use {@link #getPropertiesMap()} instead.
+   */
   @java.lang.Deprecated
-  java.util.Map<java.lang.String, com.google.datastore.v1.Value> getProperties();
+  java.util.Map<java.lang.String, com.google.datastore.v1.Value>
+  getProperties();
   /**
-   *
-   *
    * <pre>
    * The entity's properties.
    * The map's keys are property names.
@@ -117,10 +106,9 @@ public interface EntityOrBuilder
    *
    * <code>map&lt;string, .google.datastore.v1.Value&gt; properties = 3;</code>
    */
-  java.util.Map<java.lang.String, com.google.datastore.v1.Value> getPropertiesMap();
+  java.util.Map<java.lang.String, com.google.datastore.v1.Value>
+  getPropertiesMap();
   /**
-   *
-   *
    * <pre>
    * The entity's properties.
    * The map's keys are property names.
@@ -132,11 +120,11 @@ public interface EntityOrBuilder
    *
    * <code>map&lt;string, .google.datastore.v1.Value&gt; properties = 3;</code>
    */
+
   com.google.datastore.v1.Value getPropertiesOrDefault(
-      java.lang.String key, com.google.datastore.v1.Value defaultValue);
+      java.lang.String key,
+      com.google.datastore.v1.Value defaultValue);
   /**
-   *
-   *
    * <pre>
    * The entity's properties.
    * The map's keys are property names.
@@ -148,5 +136,7 @@ public interface EntityOrBuilder
    *
    * <code>map&lt;string, .google.datastore.v1.Value&gt; properties = 3;</code>
    */
-  com.google.datastore.v1.Value getPropertiesOrThrow(java.lang.String key);
+
+  com.google.datastore.v1.Value getPropertiesOrThrow(
+      java.lang.String key);
 }

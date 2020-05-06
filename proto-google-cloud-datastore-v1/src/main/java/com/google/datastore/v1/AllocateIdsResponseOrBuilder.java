@@ -18,14 +18,11 @@
 
 package com.google.datastore.v1;
 
-public interface AllocateIdsResponseOrBuilder
-    extends
+public interface AllocateIdsResponseOrBuilder extends
     // @@protoc_insertion_point(interface_extends:google.datastore.v1.AllocateIdsResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   *
-   *
    * <pre>
    * The keys specified in the request (in the same order), each with
    * its key path completed with a newly allocated ID.
@@ -33,10 +30,9 @@ public interface AllocateIdsResponseOrBuilder
    *
    * <code>repeated .google.datastore.v1.Key keys = 1;</code>
    */
-  java.util.List<com.google.datastore.v1.Key> getKeysList();
+  java.util.List<com.google.datastore.v1.Key> 
+      getKeysList();
   /**
-   *
-   *
    * <pre>
    * The keys specified in the request (in the same order), each with
    * its key path completed with a newly allocated ID.
@@ -46,8 +42,6 @@ public interface AllocateIdsResponseOrBuilder
    */
   com.google.datastore.v1.Key getKeys(int index);
   /**
-   *
-   *
    * <pre>
    * The keys specified in the request (in the same order), each with
    * its key path completed with a newly allocated ID.
@@ -57,8 +51,6 @@ public interface AllocateIdsResponseOrBuilder
    */
   int getKeysCount();
   /**
-   *
-   *
    * <pre>
    * The keys specified in the request (in the same order), each with
    * its key path completed with a newly allocated ID.
@@ -66,10 +58,9 @@ public interface AllocateIdsResponseOrBuilder
    *
    * <code>repeated .google.datastore.v1.Key keys = 1;</code>
    */
-  java.util.List<? extends com.google.datastore.v1.KeyOrBuilder> getKeysOrBuilderList();
+  java.util.List<? extends com.google.datastore.v1.KeyOrBuilder> 
+      getKeysOrBuilderList();
   /**
-   *
-   *
    * <pre>
    * The keys specified in the request (in the same order), each with
    * its key path completed with a newly allocated ID.
@@ -77,5 +68,6 @@ public interface AllocateIdsResponseOrBuilder
    *
    * <code>repeated .google.datastore.v1.Key keys = 1;</code>
    */
-  com.google.datastore.v1.KeyOrBuilder getKeysOrBuilder(int index);
+  com.google.datastore.v1.KeyOrBuilder getKeysOrBuilder(
+      int index);
 }
