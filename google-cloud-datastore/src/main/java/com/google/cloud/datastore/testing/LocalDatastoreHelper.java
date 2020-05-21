@@ -49,7 +49,9 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
 
   private final List<EmulatorRunner> emulatorRunners;
   private final double consistency;
+  private int port;
   private final Path gcdPath;
+  private boolean storeOnDisk = true;
 
   // Gcloud emulator settings
   private static final String GCLOUD_CMD_TEXT = "gcloud beta emulators datastore start";
@@ -113,9 +115,93 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     emulatorRunners = ImmutableList.of(gcloudRunner, downloadRunner);
   }
 
+  /** A builder for {@code LocalDatastoreHelper} objects. */
+  public static class Builder {
+    private List<EmulatorRunner> emulatorRunners;
+    private double consistency;
+    private int port;
+    private Path dataDir;
+    private boolean storeOnDisk = Boolean.TRUE.booleanValue();
+
+    private Builder() {}
+
+    public Builder setConsistency(double consistency) {
+      this.consistency = consistency;
+      return this;
+    }
+
+    public Builder setPort(int port) {
+      this.port = port;
+      return this;
+    }
+
+    public Builder setDataDir(Path dataDir) {
+      this.dataDir = dataDir;
+      return this;
+    }
+
+    public Builder setStoreOnDisk(boolean storeOnDisk) {
+      this.storeOnDisk = storeOnDisk;
+      return this;
+    }
+
+    /** Creates a {@code LocalDatastoreHelper} object. */
+    public LocalDatastoreHelper build() {
+      return new LocalDatastoreHelper(this);
+    }
+  }
+
+  LocalDatastoreHelper(Builder builder) {
+    super(
+        "datastore",
+        builder.port > 0 ? builder.port : BaseEmulatorHelper.findAvailablePort(DEFAULT_PORT),
+        PROJECT_ID_PREFIX + UUID.randomUUID().toString());
+    this.consistency = builder.consistency > 0 ? builder.consistency : DEFAULT_CONSISTENCY;
+    this.port = builder.port;
+    this.gcdPath = builder.dataDir;
+    this.storeOnDisk = builder.storeOnDisk;
+    String binName = BIN_NAME;
+    if (isWindows()) {
+      binName = BIN_NAME.replace("/", "\\");
+    }
+    List<String> gcloudCommand = new ArrayList<>(Arrays.asList(GCLOUD_CMD_TEXT.split(" ")));
+    gcloudCommand.add(GCLOUD_CMD_PORT_FLAG + "localhost:" + port);
+    gcloudCommand.add(CONSISTENCY_FLAG + builder.consistency);
+    if (!storeOnDisk) {
+      gcloudCommand.add("--no-store-on-disk");
+    }
+    GcloudEmulatorRunner gcloudRunner =
+        new GcloudEmulatorRunner(gcloudCommand, VERSION_PREFIX, MIN_VERSION);
+    List<String> binCommand = new ArrayList<>(Arrays.asList(binName, "start"));
+    binCommand.add("--testing");
+    binCommand.add(BIN_CMD_PORT_FLAG + port);
+    binCommand.add(CONSISTENCY_FLAG + consistency);
+    if (gcdPath != null) {
+      gcloudCommand.add("--data-dir=" + gcdPath.toString());
+    }
+    DownloadableEmulatorRunner downloadRunner =
+        new DownloadableEmulatorRunner(binCommand, EMULATOR_URL, MD5_CHECKSUM);
+    this.emulatorRunners = ImmutableList.of(gcloudRunner, downloadRunner);
+  }
+
+  /** Returns a builder for {@code LocalDatastoreHelper} object. */
+  public static LocalDatastoreHelper.Builder toBuilder() {
+    return new Builder();
+  }
+
+  /** Returns a builder for {@code LocalDatastoreHelper} object. */
+  public static LocalDatastoreHelper.Builder newBuilder() {
+    return new LocalDatastoreHelper.Builder();
+  }
+
   @Override
   protected List<EmulatorRunner> getEmulatorRunners() {
     return emulatorRunners;
+  }
+
+  @Override
+  public int getPort() {
+    return port;
   }
 
   @Override
@@ -151,6 +237,16 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   /** Returns the consistency setting for the local Datastore emulator. */
   public double getConsistency() {
     return consistency;
+  }
+
+  /** Returns the data directory path of the local Datastore emulator. */
+  public Path getGcdPath() {
+    return gcdPath;
+  }
+
+  /** Returns {@code true} data persist on disk, otherwise {@code false} data not store on disk. */
+  public boolean isStoreOnDisk() {
+    return storeOnDisk;
   }
 
   /**

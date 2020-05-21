@@ -30,6 +30,8 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.TimeoutException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,6 +45,7 @@ public class ITLocalDatastoreHelperTest {
   private static final double TOLERANCE = 0.00001;
   private static final String PROJECT_ID_PREFIX = "test-project-";
   private static final String NAMESPACE = "namespace";
+  private static final Path DATA_DIR = Paths.get("DATA-DIR");
 
   @Test
   public void testCreate() {
@@ -50,6 +53,44 @@ public class ITLocalDatastoreHelperTest {
     assertTrue(Math.abs(0.75 - helper.getConsistency()) < TOLERANCE);
     assertTrue(helper.getProjectId().startsWith(PROJECT_ID_PREFIX));
     helper = LocalDatastoreHelper.create();
+    assertTrue(Math.abs(0.9 - helper.getConsistency()) < TOLERANCE);
+    assertTrue(helper.getProjectId().startsWith(PROJECT_ID_PREFIX));
+  }
+
+  @Test
+  public void testCreateWithBuilder() {
+    LocalDatastoreHelper helper =
+        LocalDatastoreHelper.newBuilder()
+            .setConsistency(0.75)
+            .setPort(0)
+            .setStoreOnDisk(false)
+            .setDataDir(DATA_DIR)
+            .build();
+    assertTrue(Math.abs(0.75 - helper.getConsistency()) < TOLERANCE);
+    assertTrue(helper.getProjectId().startsWith(PROJECT_ID_PREFIX));
+    assertFalse(helper.isStoreOnDisk());
+    assertEquals(0, helper.getPort());
+    assertEquals(DATA_DIR, helper.getGcdPath());
+    helper = LocalDatastoreHelper.newBuilder().build();
+    assertTrue(Math.abs(0.9 - helper.getConsistency()) < TOLERANCE);
+    assertTrue(helper.getProjectId().startsWith(PROJECT_ID_PREFIX));
+  }
+
+  @Test
+  public void testCreateWithToBuilder() {
+    LocalDatastoreHelper helper =
+        LocalDatastoreHelper.toBuilder()
+            .setConsistency(0.75)
+            .setPort(0)
+            .setStoreOnDisk(false)
+            .setDataDir(DATA_DIR)
+            .build();
+    assertTrue(Math.abs(0.75 - helper.getConsistency()) < TOLERANCE);
+    assertTrue(helper.getProjectId().startsWith(PROJECT_ID_PREFIX));
+    assertFalse(helper.isStoreOnDisk());
+    assertEquals(0, helper.getPort());
+    assertEquals(DATA_DIR, helper.getGcdPath());
+    helper = LocalDatastoreHelper.toBuilder().build();
     assertTrue(Math.abs(0.9 - helper.getConsistency()) < TOLERANCE);
     assertTrue(helper.getProjectId().startsWith(PROJECT_ID_PREFIX));
   }
@@ -89,6 +130,26 @@ public class ITLocalDatastoreHelperTest {
   public void testStartStopReset() throws IOException, InterruptedException, TimeoutException {
     try {
       LocalDatastoreHelper helper = LocalDatastoreHelper.create();
+      helper.start();
+      Datastore datastore = helper.getOptions().getService();
+      Key key = datastore.newKeyFactory().setKind("kind").newKey("name");
+      datastore.put(Entity.newBuilder(key).build());
+      assertNotNull(datastore.get(key));
+      helper.reset();
+      assertNull(datastore.get(key));
+      helper.stop(Duration.ofMinutes(1));
+      datastore.get(key);
+      Assert.fail();
+    } catch (DatastoreException ex) {
+      assertNotNull(ex.getMessage());
+    }
+  }
+
+  @Test
+  public void testStartStopResetWithBuilder()
+      throws IOException, InterruptedException, TimeoutException {
+    try {
+      LocalDatastoreHelper helper = LocalDatastoreHelper.newBuilder().build();
       helper.start();
       Datastore datastore = helper.getOptions().getService();
       Key key = datastore.newKeyFactory().setKind("kind").newKey("name");
