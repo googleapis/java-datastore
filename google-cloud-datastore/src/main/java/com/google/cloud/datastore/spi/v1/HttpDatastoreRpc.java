@@ -77,18 +77,18 @@ public class HttpDatastoreRpc implements DatastoreRpc {
 
   private HttpRequestInitializer getHttpRequestInitializer(
       final DatastoreOptions options, HttpTransportOptions httpTransportOptions) {
-    HttpRequestInitializer delegate = httpTransportOptions.getHttpRequestInitializer(options);
     // Open Census initialization
     CensusHttpModule censusHttpModule =
         new CensusHttpModule(TraceUtil.getInstance().getTracer(), true);
-    delegate = censusHttpModule.getHttpRequestInitializer(delegate);
+    final HttpRequestInitializer censusHttpModuleHttpRequestInitializer =
+        censusHttpModule.getHttpRequestInitializer(
+            httpTransportOptions.getHttpRequestInitializer(options));
 
     final String applicationName = options.getApplicationName();
-    final HttpRequestInitializer localDelegate = delegate;
     return new HttpRequestInitializer() {
       @Override
       public void initialize(HttpRequest httpRequest) throws IOException {
-        localDelegate.initialize(httpRequest);
+        censusHttpModuleHttpRequestInitializer.initialize(httpRequest);
         httpRequest.getHeaders().setUserAgent(applicationName);
       }
     };

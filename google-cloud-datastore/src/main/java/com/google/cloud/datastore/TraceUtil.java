@@ -23,14 +23,14 @@ import io.opencensus.trace.Tracer;
 import io.opencensus.trace.Tracing;
 
 /**
- * Helper class for tracing utility. It is used for instrumenting {@link HttpDatastoreRpc} with Open
- * Census APIs.
+ * Helper class for tracing utility. It is used for instrumenting {@link HttpDatastoreRpc} with
+ * OpenCensus APIs.
  *
- * <p>TraceUtil Instance are created by the {@link TraceUtil#getInstance()} method.
+ * <p>TraceUtil instances are created by the {@link TraceUtil#getInstance()} method.
  */
 public class TraceUtil {
   private final Tracer tracer = Tracing.getTracer();
-  private static TraceUtil traceUtil;
+  private static final TraceUtil traceUtil = new TraceUtil();
   static final String SPAN_NAME_ALLOCATEIDS = "CloudDatastoreOperation.allocateIds";
   static final String SPAN_NAME_TRANSACTION = "CloudDatastoreOperation.readWriteTransaction";
   static final String SPAN_NAME_BEGINTRANSACTION = "CloudDatastoreOperation.beginTransaction";
@@ -67,9 +67,6 @@ public class TraceUtil {
    * @return An instance of {@link TraceUtil}
    */
   public static TraceUtil getInstance() {
-    if (traceUtil == null) {
-      traceUtil = new TraceUtil();
-    }
     return traceUtil;
   }
 

@@ -136,12 +136,10 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   @Override
   public <T> T runInTransaction(final TransactionCallable<T> callable) {
-    final DatastoreImpl self = this;
     Span span = traceUtil.startSpan(TraceUtil.SPAN_NAME_TRANSACTION);
-    Scope scope = traceUtil.getTracer().withSpan(span);
-    try {
+    try (Scope scope = traceUtil.getTracer().withSpan(span)) {
       return RetryHelper.runWithRetries(
-          new ReadWriteTransactionCallable<T>(self, callable, null),
+          new ReadWriteTransactionCallable<T>(this, callable, null),
           retrySettings,
           TRANSACTION_EXCEPTION_HANDLER,
           getOptions().getClock());
@@ -149,7 +147,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
       throw DatastoreException.translateAndThrow(e);
     } finally {
-      scope.close();
       span.end(TraceUtil.END_SPAN_OPTIONS);
     }
   }
@@ -157,12 +154,10 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   @Override
   public <T> T runInTransaction(
       final TransactionCallable<T> callable, TransactionOptions transactionOptions) {
-    final DatastoreImpl self = this;
     Span span = traceUtil.startSpan(TraceUtil.SPAN_NAME_TRANSACTION);
-    Scope scope = traceUtil.getTracer().withSpan(span);
-    try {
+    try (Scope scope = traceUtil.getTracer().withSpan(span)) {
       return RetryHelper.runWithRetries(
-          new ReadWriteTransactionCallable<T>(self, callable, transactionOptions),
+          new ReadWriteTransactionCallable<T>(this, callable, transactionOptions),
           retrySettings,
           TRANSACTION_EXCEPTION_HANDLER,
           getOptions().getClock());
@@ -170,7 +165,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
       throw DatastoreException.translateAndThrow(e);
     } finally {
-      scope.close();
       span.end(TraceUtil.END_SPAN_OPTIONS);
     }
   }
@@ -192,8 +186,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   com.google.datastore.v1.RunQueryResponse runQuery(
       final com.google.datastore.v1.RunQueryRequest requestPb) {
     Span span = traceUtil.startSpan(TraceUtil.SPAN_NAME_RUNQUERY);
-    Scope scope = traceUtil.getTracer().withSpan(span);
-    try {
+    try (Scope scope = traceUtil.getTracer().withSpan(span)) {
       return RetryHelper.runWithRetries(
           new Callable<com.google.datastore.v1.RunQueryResponse>() {
             @Override
@@ -210,7 +203,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
       throw DatastoreException.translateAndThrow(e);
     } finally {
-      scope.close();
       span.end(TraceUtil.END_SPAN_OPTIONS);
     }
   }
@@ -252,8 +244,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   private com.google.datastore.v1.AllocateIdsResponse allocateIds(
       final com.google.datastore.v1.AllocateIdsRequest requestPb) {
     Span span = traceUtil.startSpan(TraceUtil.SPAN_NAME_ALLOCATEIDS);
-    Scope scope = traceUtil.getTracer().withSpan(span);
-    try {
+    try (Scope scope = traceUtil.getTracer().withSpan(span)) {
       return RetryHelper.runWithRetries(
           new Callable<com.google.datastore.v1.AllocateIdsResponse>() {
             @Override
@@ -268,7 +259,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
       throw DatastoreException.translateAndThrow(e);
     } finally {
-      scope.close();
       span.end(TraceUtil.END_SPAN_OPTIONS);
     }
   }
@@ -418,8 +408,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   com.google.datastore.v1.LookupResponse lookup(
       final com.google.datastore.v1.LookupRequest requestPb) {
     Span span = traceUtil.startSpan(TraceUtil.SPAN_NAME_LOOKUP);
-    Scope scope = traceUtil.getTracer().withSpan(span);
-    try {
+    try (Scope scope = traceUtil.getTracer().withSpan(span)) {
       return RetryHelper.runWithRetries(
           new Callable<com.google.datastore.v1.LookupResponse>() {
             @Override
@@ -436,7 +425,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
       throw DatastoreException.translateAndThrow(e);
     } finally {
-      scope.close();
       span.end(TraceUtil.END_SPAN_OPTIONS);
     }
   }
@@ -460,8 +448,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   com.google.datastore.v1.ReserveIdsResponse reserveIds(
       final com.google.datastore.v1.ReserveIdsRequest requestPb) {
     Span span = traceUtil.startSpan(TraceUtil.SPAN_NAME_RESERVEIDS);
-    Scope scope = traceUtil.getTracer().withSpan(span);
-    try {
+    try (Scope scope = traceUtil.getTracer().withSpan(span)) {
       return RetryHelper.runWithRetries(
           new Callable<com.google.datastore.v1.ReserveIdsResponse>() {
             @Override
@@ -476,7 +463,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
       throw DatastoreException.translateAndThrow(e);
     } finally {
-      scope.close();
       span.end(TraceUtil.END_SPAN_OPTIONS);
     }
   }
@@ -570,8 +556,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   com.google.datastore.v1.CommitResponse commit(
       final com.google.datastore.v1.CommitRequest requestPb) {
     Span span = traceUtil.startSpan(TraceUtil.SPAN_NAME_COMMIT);
-    Scope scope = traceUtil.getTracer().withSpan(span);
-    try {
+    try (Scope scope = traceUtil.getTracer().withSpan(span)) {
       return RetryHelper.runWithRetries(
           new Callable<com.google.datastore.v1.CommitResponse>() {
             @Override
@@ -588,7 +573,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
       throw DatastoreException.translateAndThrow(e);
     } finally {
-      scope.close();
       span.end(TraceUtil.END_SPAN_OPTIONS);
     }
   }
@@ -601,8 +585,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   com.google.datastore.v1.BeginTransactionResponse beginTransaction(
       final com.google.datastore.v1.BeginTransactionRequest requestPb) {
     Span span = traceUtil.startSpan(TraceUtil.SPAN_NAME_BEGINTRANSACTION);
-    Scope scope = traceUtil.getTracer().withSpan(span);
-    try {
+    try (Scope scope = traceUtil.getTracer().withSpan(span)) {
       return RetryHelper.runWithRetries(
           new Callable<com.google.datastore.v1.BeginTransactionResponse>() {
             @Override
@@ -618,7 +601,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
       throw DatastoreException.translateAndThrow(e);
     } finally {
-      scope.close();
       span.end(TraceUtil.END_SPAN_OPTIONS);
     }
   }
@@ -632,8 +614,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   void rollback(final com.google.datastore.v1.RollbackRequest requestPb) {
     Span span = traceUtil.startSpan(TraceUtil.SPAN_NAME_ROLLBACK);
-    Scope scope = traceUtil.getTracer().withSpan(span);
-    try {
+    try (Scope scope = traceUtil.getTracer().withSpan(span)) {
       RetryHelper.runWithRetries(
           new Callable<Void>() {
             @Override
@@ -649,7 +630,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
       throw DatastoreException.translateAndThrow(e);
     } finally {
-      scope.close();
       span.end(TraceUtil.END_SPAN_OPTIONS);
     }
   }
