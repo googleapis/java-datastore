@@ -62,37 +62,49 @@ public class ITLocalDatastoreHelperTest {
     LocalDatastoreHelper helper =
         LocalDatastoreHelper.newBuilder()
             .setConsistency(0.75)
-            .setPort(0)
+            .setPort(8081)
             .setStoreOnDisk(false)
             .setDataDir(DATA_DIR)
             .build();
     assertTrue(Math.abs(0.75 - helper.getConsistency()) < TOLERANCE);
     assertTrue(helper.getProjectId().startsWith(PROJECT_ID_PREFIX));
     assertFalse(helper.isStoreOnDisk());
-    assertEquals(0, helper.getPort());
+    assertEquals(8081, helper.getPort());
     assertEquals(DATA_DIR, helper.getGcdPath());
-    helper = LocalDatastoreHelper.newBuilder().build();
-    assertTrue(Math.abs(0.9 - helper.getConsistency()) < TOLERANCE);
-    assertTrue(helper.getProjectId().startsWith(PROJECT_ID_PREFIX));
+    LocalDatastoreHelper incompleteHelper = LocalDatastoreHelper.newBuilder().build();
+    assertTrue(Math.abs(0.9 - incompleteHelper.getConsistency()) < TOLERANCE);
+    assertTrue(incompleteHelper.getProjectId().startsWith(PROJECT_ID_PREFIX));
   }
 
   @Test
   public void testCreateWithToBuilder() {
     LocalDatastoreHelper helper =
-        LocalDatastoreHelper.toBuilder()
+        LocalDatastoreHelper.newBuilder()
             .setConsistency(0.75)
-            .setPort(0)
+            .setPort(8081)
             .setStoreOnDisk(false)
             .setDataDir(DATA_DIR)
             .build();
     assertTrue(Math.abs(0.75 - helper.getConsistency()) < TOLERANCE);
     assertTrue(helper.getProjectId().startsWith(PROJECT_ID_PREFIX));
     assertFalse(helper.isStoreOnDisk());
-    assertEquals(0, helper.getPort());
+    assertEquals(8081, helper.getPort());
     assertEquals(DATA_DIR, helper.getGcdPath());
-    helper = LocalDatastoreHelper.toBuilder().build();
-    assertTrue(Math.abs(0.9 - helper.getConsistency()) < TOLERANCE);
-    assertTrue(helper.getProjectId().startsWith(PROJECT_ID_PREFIX));
+    LocalDatastoreHelper actualHelper = helper.toBuilder().build();
+    compareLocalDatastoreHelper(helper, actualHelper);
+    Path dataDir = Paths.get("data-dir");
+    actualHelper =
+        helper
+            .toBuilder()
+            .setConsistency(0.85)
+            .setPort(9091)
+            .setStoreOnDisk(true)
+            .setDataDir(dataDir)
+            .build();
+    assertTrue(Math.abs(0.85 - actualHelper.getConsistency()) < TOLERANCE);
+    assertTrue(actualHelper.isStoreOnDisk());
+    assertEquals(9091, actualHelper.getPort());
+    assertEquals(dataDir, actualHelper.getGcdPath());
   }
 
   @Test
@@ -163,5 +175,13 @@ public class ITLocalDatastoreHelperTest {
     } catch (DatastoreException ex) {
       assertNotNull(ex.getMessage());
     }
+  }
+
+  public void compareLocalDatastoreHelper(
+      LocalDatastoreHelper expected, LocalDatastoreHelper actual) {
+    assertEquals(expected.getConsistency(), actual.getConsistency(), 0);
+    assertEquals(expected.isStoreOnDisk(), actual.isStoreOnDisk());
+    assertEquals(expected.getPort(), actual.getPort());
+    assertEquals(expected.getGcdPath(), actual.getGcdPath());
   }
 }

@@ -51,7 +51,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   private final double consistency;
   private int port;
   private final Path gcdPath;
-  private boolean storeOnDisk = true;
+  private boolean storeOnDisk;
 
   // Gcloud emulator settings
   private static final String GCLOUD_CMD_TEXT = "gcloud beta emulators datastore start";
@@ -117,13 +117,19 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
 
   /** A builder for {@code LocalDatastoreHelper} objects. */
   public static class Builder {
-    private List<EmulatorRunner> emulatorRunners;
     private double consistency;
     private int port;
     private Path dataDir;
-    private boolean storeOnDisk = Boolean.TRUE.booleanValue();
+    private boolean storeOnDisk = true;
 
     private Builder() {}
+
+    private Builder(LocalDatastoreHelper builder) {
+      this.consistency = builder.consistency;
+      this.dataDir = builder.gcdPath;
+      this.storeOnDisk = builder.storeOnDisk;
+      this.port = builder.port;
+    }
 
     public Builder setConsistency(double consistency) {
       this.consistency = consistency;
@@ -151,21 +157,21 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     }
   }
 
-  LocalDatastoreHelper(Builder builder) {
+  private LocalDatastoreHelper(Builder builder) {
     super(
         "datastore",
         builder.port > 0 ? builder.port : BaseEmulatorHelper.findAvailablePort(DEFAULT_PORT),
         PROJECT_ID_PREFIX + UUID.randomUUID().toString());
     this.consistency = builder.consistency > 0 ? builder.consistency : DEFAULT_CONSISTENCY;
-    this.port = builder.port;
     this.gcdPath = builder.dataDir;
     this.storeOnDisk = builder.storeOnDisk;
+    this.port = getPort();
     String binName = BIN_NAME;
     if (isWindows()) {
       binName = BIN_NAME.replace("/", "\\");
     }
     List<String> gcloudCommand = new ArrayList<>(Arrays.asList(GCLOUD_CMD_TEXT.split(" ")));
-    gcloudCommand.add(GCLOUD_CMD_PORT_FLAG + "localhost:" + port);
+    gcloudCommand.add(GCLOUD_CMD_PORT_FLAG + "localhost:" + getPort());
     gcloudCommand.add(CONSISTENCY_FLAG + builder.consistency);
     if (!storeOnDisk) {
       gcloudCommand.add("--no-store-on-disk");
@@ -174,7 +180,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
         new GcloudEmulatorRunner(gcloudCommand, VERSION_PREFIX, MIN_VERSION);
     List<String> binCommand = new ArrayList<>(Arrays.asList(binName, "start"));
     binCommand.add("--testing");
-    binCommand.add(BIN_CMD_PORT_FLAG + port);
+    binCommand.add(BIN_CMD_PORT_FLAG + getPort());
     binCommand.add(CONSISTENCY_FLAG + consistency);
     if (gcdPath != null) {
       gcloudCommand.add("--data-dir=" + gcdPath.toString());
@@ -185,8 +191,8 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   }
 
   /** Returns a builder for {@code LocalDatastoreHelper} object. */
-  public static LocalDatastoreHelper.Builder toBuilder() {
-    return new Builder();
+  public LocalDatastoreHelper.Builder toBuilder() {
+    return new Builder(this);
   }
 
   /** Returns a builder for {@code LocalDatastoreHelper} object. */
@@ -197,11 +203,6 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   @Override
   protected List<EmulatorRunner> getEmulatorRunners() {
     return emulatorRunners;
-  }
-
-  @Override
-  public int getPort() {
-    return port;
   }
 
   @Override
