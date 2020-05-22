@@ -49,7 +49,6 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
 
   private final List<EmulatorRunner> emulatorRunners;
   private final double consistency;
-  private int port;
   private final Path gcdPath;
   private boolean storeOnDisk;
 
@@ -124,11 +123,10 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
 
     private Builder() {}
 
-    private Builder(LocalDatastoreHelper builder) {
-      this.consistency = builder.consistency;
-      this.dataDir = builder.gcdPath;
-      this.storeOnDisk = builder.storeOnDisk;
-      this.port = builder.port;
+    private Builder(LocalDatastoreHelper helper) {
+      this.consistency = helper.consistency;
+      this.dataDir = helper.gcdPath;
+      this.storeOnDisk = helper.storeOnDisk;
     }
 
     public Builder setConsistency(double consistency) {
@@ -165,7 +163,6 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     this.consistency = builder.consistency > 0 ? builder.consistency : DEFAULT_CONSISTENCY;
     this.gcdPath = builder.dataDir;
     this.storeOnDisk = builder.storeOnDisk;
-    this.port = getPort();
     String binName = BIN_NAME;
     if (isWindows()) {
       binName = BIN_NAME.replace("/", "\\");

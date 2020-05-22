@@ -181,7 +181,6 @@ public class ITLocalDatastoreHelperTest {
       LocalDatastoreHelper expected, LocalDatastoreHelper actual) {
     assertEquals(expected.getConsistency(), actual.getConsistency(), 0);
     assertEquals(expected.isStoreOnDisk(), actual.isStoreOnDisk());
-    assertEquals(expected.getPort(), actual.getPort());
     assertEquals(expected.getGcdPath(), actual.getGcdPath());
   }
 }
