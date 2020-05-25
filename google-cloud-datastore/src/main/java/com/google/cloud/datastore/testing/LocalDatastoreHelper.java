@@ -35,7 +35,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.threeten.bp.Duration;
 
@@ -77,41 +76,6 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     } catch (MalformedURLException ex) {
       throw new IllegalStateException(ex);
     }
-  }
-
-  private LocalDatastoreHelper(double consistency, int port) {
-    super(
-        "datastore",
-        port > 0 ? port : BaseEmulatorHelper.findAvailablePort(DEFAULT_PORT),
-        PROJECT_ID_PREFIX + UUID.randomUUID().toString());
-    Path tmpDirectory = null;
-    try {
-      tmpDirectory = Files.createTempDirectory("gcd");
-    } catch (IOException ex) {
-      getLogger().log(Level.WARNING, "Failed to create temporary directory");
-    }
-    this.gcdPath = tmpDirectory;
-    this.consistency = consistency;
-    String binName = BIN_NAME;
-    if (isWindows()) {
-      binName = BIN_NAME.replace("/", "\\");
-    }
-    List<String> gcloudCommand = new ArrayList<>(Arrays.asList(GCLOUD_CMD_TEXT.split(" ")));
-    gcloudCommand.add(GCLOUD_CMD_PORT_FLAG + "localhost:" + getPort());
-    gcloudCommand.add(CONSISTENCY_FLAG + consistency);
-    gcloudCommand.add("--no-store-on-disk");
-    GcloudEmulatorRunner gcloudRunner =
-        new GcloudEmulatorRunner(gcloudCommand, VERSION_PREFIX, MIN_VERSION);
-    List<String> binCommand = new ArrayList<>(Arrays.asList(binName, "start"));
-    binCommand.add("--testing");
-    binCommand.add(BIN_CMD_PORT_FLAG + getPort());
-    binCommand.add(CONSISTENCY_FLAG + consistency);
-    if (gcdPath != null) {
-      gcloudCommand.add("--data-dir=" + gcdPath.toString());
-    }
-    DownloadableEmulatorRunner downloadRunner =
-        new DownloadableEmulatorRunner(binCommand, EMULATOR_URL, MD5_CHECKSUM);
-    emulatorRunners = ImmutableList.of(gcloudRunner, downloadRunner);
   }
 
   /** A builder for {@code LocalDatastoreHelper} objects. */
@@ -256,7 +220,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
    *     consistency of non-ancestor queries; non-ancestor queries are eventually consistent.
    */
   public static LocalDatastoreHelper create(double consistency) {
-    return create(consistency, 0);
+    return LocalDatastoreHelper.newBuilder().setConsistency(consistency).build();
   }
 
   /**
@@ -270,7 +234,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
    *     emulator will search for a free random port.
    */
   public static LocalDatastoreHelper create(double consistency, int port) {
-    return new LocalDatastoreHelper(consistency, port);
+    return LocalDatastoreHelper.newBuilder().setConsistency(consistency).setPort(port).build();
   }
 
   /**
@@ -281,7 +245,10 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
    *     emulator will search for a free random port.
    */
   public static LocalDatastoreHelper create(int port) {
-    return new LocalDatastoreHelper(DEFAULT_CONSISTENCY, port);
+    return LocalDatastoreHelper.newBuilder()
+        .setConsistency(DEFAULT_CONSISTENCY)
+        .setPort(port)
+        .build();
   }
 
   /**
@@ -291,7 +258,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
    * all writes are immediately visible.
    */
   public static LocalDatastoreHelper create() {
-    return create(DEFAULT_CONSISTENCY);
+    return LocalDatastoreHelper.newBuilder().build();
   }
 
   /**
