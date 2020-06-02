@@ -30,10 +30,11 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.concurrent.TimeoutException;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -45,7 +46,12 @@ public class ITLocalDatastoreHelperTest {
   private static final double TOLERANCE = 0.00001;
   private static final String PROJECT_ID_PREFIX = "test-project-";
   private static final String NAMESPACE = "namespace";
-  private static final Path DATA_DIR = Paths.get("DATA-DIR");
+  private Path dataDir;
+
+  @Before
+  public void setUp() throws IOException {
+    dataDir = Files.createTempDirectory("gcd");
+  }
 
   @Test
   public void testCreate() {
@@ -64,35 +70,35 @@ public class ITLocalDatastoreHelperTest {
             .setConsistency(0.75)
             .setPort(8081)
             .setStoreOnDisk(false)
-            .setDataDir(DATA_DIR)
+            .setDataDir(dataDir)
             .build();
     assertTrue(Math.abs(0.75 - helper.getConsistency()) < TOLERANCE);
     assertTrue(helper.getProjectId().startsWith(PROJECT_ID_PREFIX));
     assertFalse(helper.isStoreOnDisk());
     assertEquals(8081, helper.getPort());
-    assertEquals(DATA_DIR, helper.getGcdPath());
+    assertEquals(dataDir, helper.getGcdPath());
     LocalDatastoreHelper incompleteHelper = LocalDatastoreHelper.newBuilder().build();
     assertTrue(Math.abs(0.9 - incompleteHelper.getConsistency()) < TOLERANCE);
     assertTrue(incompleteHelper.getProjectId().startsWith(PROJECT_ID_PREFIX));
   }
 
   @Test
-  public void testCreateWithToBuilder() {
+  public void testCreateWithToBuilder() throws IOException {
     LocalDatastoreHelper helper =
         LocalDatastoreHelper.newBuilder()
             .setConsistency(0.75)
             .setPort(8081)
             .setStoreOnDisk(false)
-            .setDataDir(DATA_DIR)
+            .setDataDir(dataDir)
             .build();
     assertTrue(Math.abs(0.75 - helper.getConsistency()) < TOLERANCE);
     assertTrue(helper.getProjectId().startsWith(PROJECT_ID_PREFIX));
     assertFalse(helper.isStoreOnDisk());
     assertEquals(8081, helper.getPort());
-    assertEquals(DATA_DIR, helper.getGcdPath());
+    assertEquals(dataDir, helper.getGcdPath());
     LocalDatastoreHelper actualHelper = helper.toBuilder().build();
-    compareLocalDatastoreHelper(helper, actualHelper);
-    Path dataDir = Paths.get("data-dir");
+    assertLocalDatastoreHelpersEquivelent(helper, actualHelper);
+    Path dataDir = Files.createTempDirectory("gcd_data_dir");
     actualHelper =
         helper
             .toBuilder()
@@ -177,7 +183,7 @@ public class ITLocalDatastoreHelperTest {
     }
   }
 
-  public void compareLocalDatastoreHelper(
+  public void assertLocalDatastoreHelpersEquivelent(
       LocalDatastoreHelper expected, LocalDatastoreHelper actual) {
     assertEquals(expected.getConsistency(), actual.getConsistency(), 0);
     assertEquals(expected.isStoreOnDisk(), actual.isStoreOnDisk());
