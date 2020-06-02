@@ -134,7 +134,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     List<String> gcloudCommand = new ArrayList<>(Arrays.asList(GCLOUD_CMD_TEXT.split(" ")));
     gcloudCommand.add(GCLOUD_CMD_PORT_FLAG + "localhost:" + getPort());
     gcloudCommand.add(CONSISTENCY_FLAG + builder.consistency);
-    if (!storeOnDisk) {
+    if (!builder.storeOnDisk) {
       gcloudCommand.add("--no-store-on-disk");
     }
     GcloudEmulatorRunner gcloudRunner =
@@ -142,9 +142,9 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     List<String> binCommand = new ArrayList<>(Arrays.asList(binName, "start"));
     binCommand.add("--testing");
     binCommand.add(BIN_CMD_PORT_FLAG + getPort());
-    binCommand.add(CONSISTENCY_FLAG + consistency);
-    if (gcdPath != null) {
-      gcloudCommand.add("--data-dir=" + gcdPath.toString());
+    binCommand.add(CONSISTENCY_FLAG + getConsistency());
+    if (builder.dataDir != null) {
+      gcloudCommand.add("--data-dir=" + getGcdPath());
     }
     DownloadableEmulatorRunner downloadRunner =
         new DownloadableEmulatorRunner(binCommand, EMULATOR_URL, MD5_CHECKSUM);
@@ -220,7 +220,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
    *     consistency of non-ancestor queries; non-ancestor queries are eventually consistent.
    */
   public static LocalDatastoreHelper create(double consistency) {
-    return LocalDatastoreHelper.newBuilder().setConsistency(consistency).build();
+    return LocalDatastoreHelper.newBuilder().setConsistency(consistency).setPort(0).build();
   }
 
   /**
@@ -258,7 +258,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
    * all writes are immediately visible.
    */
   public static LocalDatastoreHelper create() {
-    return LocalDatastoreHelper.newBuilder().build();
+    return LocalDatastoreHelper.newBuilder().setConsistency(DEFAULT_CONSISTENCY).build();
   }
 
   /**
