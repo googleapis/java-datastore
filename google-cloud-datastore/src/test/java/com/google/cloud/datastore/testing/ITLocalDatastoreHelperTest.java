@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.TimeoutException;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,6 +52,11 @@ public class ITLocalDatastoreHelperTest {
   @Before
   public void setUp() throws IOException {
     dataDir = Files.createTempDirectory("gcd");
+  }
+
+  @After
+  public void tearDown() throws IOException {
+    Files.delete(dataDir);
   }
 
   @Test
@@ -111,6 +117,7 @@ public class ITLocalDatastoreHelperTest {
     assertTrue(actualHelper.isStoreOnDisk());
     assertEquals(9091, actualHelper.getPort());
     assertEquals(dataDir, actualHelper.getGcdPath());
+    Files.delete(dataDir);
   }
 
   @Test
