@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.103.1](https://www.github.com/googleapis/java-datastore/compare/v1.103.0...v1.103.1) (2020-06-03)
+
+
+### Bug Fixes
+
+* fix version number in changelog to correctly reflect what was released to maven central ([#145](https://www.github.com/googleapis/java-datastore/issues/145)) ([c509a2a](https://www.github.com/googleapis/java-datastore/commit/c509a2a4229f864edef8681677d73f3c7be1101f))
+
 ## [1.103.0](https://www.github.com/googleapis/java-datastore/compare/v1.102.4...v1.103.0) (2020-06-02)
 
 
