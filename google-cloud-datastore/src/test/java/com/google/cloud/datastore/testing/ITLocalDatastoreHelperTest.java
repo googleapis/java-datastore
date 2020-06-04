@@ -56,7 +56,7 @@ public class ITLocalDatastoreHelperTest {
 
   @After
   public void tearDown() throws IOException {
-    Files.delete(dataDir);
+    LocalDatastoreHelper.deleteRecursively(dataDir);
   }
 
   @Test
@@ -117,7 +117,7 @@ public class ITLocalDatastoreHelperTest {
     assertTrue(actualHelper.isStoreOnDisk());
     assertEquals(9091, actualHelper.getPort());
     assertEquals(dataDir, actualHelper.getGcdPath());
-    Files.delete(dataDir);
+    LocalDatastoreHelper.deleteRecursively(dataDir);
   }
 
   @Test

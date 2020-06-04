@@ -315,7 +315,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     stop(Duration.ofSeconds(20));
   }
 
-  private static void deleteRecursively(Path path) throws IOException {
+  static void deleteRecursively(Path path) throws IOException {
     if (path == null || !Files.exists(path)) {
       return;
     }
