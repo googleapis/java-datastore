@@ -4,14 +4,14 @@
       "git": {
         "name": ".",
         "remote": "https://github.com/googleapis/java-datastore.git",
-        "sha": "83a0a61c19b0256b930a2b50a4be728f03922e48"
+        "sha": "517b0ec901145c2bd46b714079d193116b988fbe"
       }
     },
     {
       "git": {
         "name": "synthtool",
         "remote": "https://github.com/googleapis/synthtool.git",
-        "sha": "39b7149da4026765385403632db3c6f63db96b2c"
+        "sha": "c2de32114ec484aa708d32012d1fa8d75232daf5"
       }
     }
   ]
