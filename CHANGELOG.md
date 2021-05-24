@@ -1,5 +1,17 @@
 # Changelog
 
+### [1.106.5-sp.1](https://www.github.com/googleapis/java-datastore/compare/1.106.5...v1.106.5-sp.1) (2021-05-20)
+
+
+### Features
+
+* configure initial sp version ([#438](https://www.github.com/googleapis/java-datastore/issues/438)) ([a7ccf8b](https://www.github.com/googleapis/java-datastore/commit/a7ccf8b9bd8c8ad3702a01f727604d775bdd98e1))
+
+
+### Dependencies
+
+* align dependencies to 1.106.0 release ([#441](https://www.github.com/googleapis/java-datastore/issues/441)) ([ead4617](https://www.github.com/googleapis/java-datastore/commit/ead46179d551c563c20bd7b299936bd59ed0ca0e))
+
 ### [1.106.5](https://www.github.com/googleapis/java-datastore/compare/v1.106.4...v1.106.5) (2021-05-19)
 
 
