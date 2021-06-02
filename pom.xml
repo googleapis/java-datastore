@@ -152,6 +152,7 @@
     <github.global.server>github</github.global.server>
     <site.installationModule>google-cloud-datastore-parent</site.installationModule>
     <project.javadoc.protobufBaseURL>https://googleapis.dev/java/google-api-grpc/latest</project.javadoc.protobufBaseURL>
+    <enforcer.skip>true</enforcer.skip>
   </properties>
 
   <dependencyManagement>
@@ -183,7 +184,7 @@
       <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client</artifactId>
-        <version>1.31.4</version>
+        <version>1.31.4-sp.1</version>
       </dependency>
       <!-- Test dependencies -->
       <dependency>
