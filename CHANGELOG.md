@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.108.0](https://www.github.com/googleapis/java-datastore/compare/v1.107.1...v1.108.0) (2021-08-02)
+
+
+### Features
+
+* configure initial sp version ([#485](https://www.github.com/googleapis/java-datastore/issues/485)) ([1e74287](https://www.github.com/googleapis/java-datastore/commit/1e74287b0757d6d357569d95d1e757606de45dc8))
+
 ### [1.107.1](https://www.github.com/googleapis/java-datastore/compare/v1.107.0...v1.107.1) (2021-06-30)
 
 
