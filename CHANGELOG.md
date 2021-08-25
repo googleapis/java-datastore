@@ -1,5 +1,39 @@
 # Changelog
 
+### [2.0.3](https://www.github.com/googleapis/java-datastore/compare/v2.0.2...v2.0.3) (2021-08-24)
+
+
+### Dependencies
+
+* update dependency com.google.oauth-client:google-oauth-client to v1.32.1 ([#511](https://www.github.com/googleapis/java-datastore/issues/511)) ([51fb68f](https://www.github.com/googleapis/java-datastore/commit/51fb68f0f3a791c28f9b3d73fb6fc4fd7dfe2d3c))
+
+### [2.0.2](https://www.github.com/googleapis/java-datastore/compare/v2.0.1...v2.0.2) (2021-08-23)
+
+
+### Dependencies
+
+* update dependency com.google.cloud:google-cloud-shared-dependencies to v2.1.0 ([#507](https://www.github.com/googleapis/java-datastore/issues/507)) ([231a87f](https://www.github.com/googleapis/java-datastore/commit/231a87fabd2450bb3169a4098ab6196baeeb05c8))
+
+### [2.0.1](https://www.github.com/googleapis/java-datastore/compare/v2.0.0...v2.0.1) (2021-08-12)
+
+
+### Dependencies
+
+* update dependency com.google.cloud:google-cloud-shared-dependencies to v2.0.1 ([#496](https://www.github.com/googleapis/java-datastore/issues/496)) ([a8dde5d](https://www.github.com/googleapis/java-datastore/commit/a8dde5dcb5575f391db0d300ac7cf56c029a51f7))
+
+## [2.0.0](https://www.github.com/googleapis/java-datastore/compare/v1.107.1...v2.0.0) (2021-08-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* update compile level to Java 1.8 ([#486](https://github.com/googleapis/java-datastore/pull/486))
+* upgrade shared dependencies to 2.0.0 (#490)
+
+### Features
+
+* update compile level to Java 1.8 ([#486](https://github.com/googleapis/java-datastore/pull/486))
+* upgrade shared dependencies to 2.0.0 ([#490](https://www.github.com/googleapis/java-datastore/issues/490)) ([d3e1af5](https://www.github.com/googleapis/java-datastore/commit/d3e1af5091ca864f6495a1440d475ecbabe465d4))
+
 ### [1.107.1](https://www.github.com/googleapis/java-datastore/compare/v1.107.0...v1.107.1) (2021-06-30)
 
 
