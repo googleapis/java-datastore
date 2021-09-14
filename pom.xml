@@ -156,6 +156,11 @@
       </dependency>
 
       <dependency>
+        <groupId>com.google.cloud</groupId>
+        <artifactId>google-cloud-datastore</artifactId>
+        <version>2.1.1-SNAPSHOT</version><!-- {x-version-update:google-cloud-datastore:current} -->
+      </dependency>
+      <dependency>
         <groupId>com.google.api.grpc</groupId>
         <artifactId>proto-google-cloud-datastore-v1</artifactId>
         <version>0.92.1-SNAPSHOT</version><!-- {x-version-update:proto-google-cloud-datastore-v1:current} -->
@@ -211,9 +216,10 @@
   </build>
 
   <modules>
-    <module>datastore-v1-proto-client</module>
-    <module>proto-google-cloud-datastore-v1</module>
     <module>google-cloud-datastore</module>
+    <module>proto-google-cloud-datastore-v1</module>
+    <module>datastore-v1-proto-client</module>
     <module>google-cloud-datastore-bom</module>
   </modules>
-</project>
+
+  </project>
