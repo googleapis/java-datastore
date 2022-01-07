@@ -161,6 +161,16 @@
         <version>0.93.2-SNAPSHOT</version><!-- {x-version-update:proto-google-cloud-datastore-v1:current} -->
       </dependency>
       <dependency>
+        <groupId>com.google.api.grpc</groupId>
+        <artifactId>proto-google-cloud-datastore-admin-v1</artifactId>
+        <version>0.93.2-SNAPSHOT</version><!-- {x-version-update:proto-google-cloud-datastore-admin-v1:current} -->
+      </dependency>
+      <dependency>
+        <groupId>com.google.api.grpc</groupId>
+        <artifactId>grpc-google-cloud-datastore-admin-v1</artifactId>
+        <version>2.2.2-SNAPSHOT</version><!-- {x-version-update:grpc-google-cloud-datastore-admin-v1:current} -->
+      </dependency>
+      <dependency>
         <groupId>com.google.cloud.datastore</groupId>
         <artifactId>datastore-v1-proto-client</artifactId>
         <version>2.2.2-SNAPSHOT</version><!-- {x-version-update:datastore-v1-proto-client:current} -->
@@ -170,6 +180,11 @@
             <artifactId>proto-google-cloud-datastore-v1</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>com.google.cloud.datastore</groupId>
+        <artifactId>google-cloud-datastore-admin</artifactId>
+        <version>2.2.2-SNAPSHOT</version><!-- {x-version-update:datastore-v1-proto-client:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.oauth-client</groupId>
@@ -213,7 +228,11 @@
   <modules>
     <module>datastore-v1-proto-client</module>
     <module>proto-google-cloud-datastore-v1</module>
+    <module>proto-google-cloud-datastore-admin-v1</module>
+    <!-- <module>grpc-google-cloud-datastore-v1</module> -->
+    <module>grpc-google-cloud-datastore-admin-v1</module>
     <module>google-cloud-datastore</module>
+    <module>google-cloud-datastore-admin</module>
     <module>google-cloud-datastore-bom</module>
   </modules>
 </project>
