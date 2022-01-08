@@ -3,16 +3,16 @@
     {
       "git": {
         "name": ".",
-        "remote": "git@github.com:googleapis/java-datastore.git",
-        "sha": "a50b3dd92f54708ef55eeab3505b6d483c276817"
+        "remote": "https://github.com/googleapis/java-datastore.git",
+        "sha": "8985e685d8ce3d8c00d6d34ff13333bac6516b5f"
       }
     },
     {
       "git": {
         "name": "googleapis",
         "remote": "https://github.com/googleapis/googleapis.git",
-        "sha": "94ea1c429a6c6412fb2c06ffe9063c872162dfac",
-        "internalRef": "420314583"
+        "sha": "de228c847af9cfc7cb8201274dd878c22e1909f7",
+        "internalRef": "420390161"
       }
     },
     {

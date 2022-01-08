@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>google-cloud-datastore-admin</artifactId>
-  <version>2.2.2-SNAPSHOT</version><!-- {x-version-update:google-cloud-datastore-admin:current} -->
+  <version>2.2.3-SNAPSHOT</version><!-- {x-version-update:google-cloud-datastore-admin:current} -->
   <packaging>jar</packaging>
   <name>Google Cloud Firestore in Datastore mode Admin Client</name>
   <url>https://github.com/googleapis/java-datastore</url>
@@ -14,7 +14,7 @@
   <parent>
     <groupId>com.google.cloud</groupId>
     <artifactId>google-cloud-datastore-parent</artifactId>
-    <version>2.2.2-SNAPSHOT</version><!-- {x-version-update:google-cloud-datastore-parent:current} -->
+    <version>2.2.3-SNAPSHOT</version><!-- {x-version-update:google-cloud-datastore-parent:current} -->
   </parent>
   <dependencies>
     <dependency>
