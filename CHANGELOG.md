@@ -1,5 +1,24 @@
 # Changelog
 
+### [2.2.2](https://www.github.com/googleapis/java-datastore/compare/v2.2.1...v2.2.2) (2022-01-07)
+
+
+### Bug Fixes
+
+* **java:** add -ntp flag to native image testing command ([#593](https://www.github.com/googleapis/java-datastore/issues/593)) ([9b6496e](https://www.github.com/googleapis/java-datastore/commit/9b6496e92cb48ca1bfc0b1a733d564466f28deca))
+
+
+### Dependencies
+
+* update dependency com.google.cloud:google-cloud-shared-dependencies to v2.6.0 ([#607](https://www.github.com/googleapis/java-datastore/issues/607)) ([095fd5d](https://www.github.com/googleapis/java-datastore/commit/095fd5dbe470083d37b561b615952e39f46544c3))
+
+### [2.2.1](https://www.github.com/googleapis/java-datastore/compare/v2.2.0...v2.2.1) (2021-12-03)
+
+
+### Dependencies
+
+* update dependency com.google.cloud:google-cloud-shared-dependencies to v2.5.1 ([#586](https://www.github.com/googleapis/java-datastore/issues/586)) ([c1d1b91](https://www.github.com/googleapis/java-datastore/commit/c1d1b91e0a74e97177ab0874ede975da9bad4368))
+
 ## [2.2.0](https://www.github.com/googleapis/java-datastore/compare/v2.1.3...v2.2.0) (2021-11-15)
 
 
