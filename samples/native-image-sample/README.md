@@ -43,7 +43,7 @@ This sample runs through some basic operations of creating/deleting entities, ru
 
    1. The application will run through some basic Datastore operations and log some output statements.
 
-       ```
+   ```
       Successfully added entity.
       Reading entity: 1cf34cc1-2b8a-4945-9fc4-058f03dcd08e
       Successfully deleted entity: 1cf34cc1-2b8a-4945-9fc4-058f03dcd08e
@@ -55,3 +55,11 @@ This sample runs through some basic operations of creating/deleting entities, ru
           properties={description=StringValue{valueType=STRING, excludeFromIndexes=false, meaning=0, value=hello world}}
       Ran transaction callable.
     ```
+
+### Sample Integration test with Native Image Support
+
+In order to run the sample integration test, call the following command:
+
+   ```
+   mvn test -Pnative
+   ```
