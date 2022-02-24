@@ -24,6 +24,8 @@ import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery;
 import com.google.cloud.datastore.Transaction;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.UUID;
 
 /**
@@ -41,6 +43,7 @@ public class NativeImageDatastoreSample {
    * Entrypoint to the Datastore sample application.
    */
   public static void main(String[] args) {
+    Instant startTime = Instant.now();
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
     String testId = UUID.randomUUID().toString();
@@ -54,6 +57,9 @@ public class NativeImageDatastoreSample {
     String id = UUID.randomUUID().toString();
     Key key = createKey(datastore, id);
     runTransactionCallable(datastore, key);
+    Instant endTime = Instant.now();
+    Duration duration = Duration.between(startTime, endTime);
+    System.out.println("Duration: " + duration.toString());
   }
 
   static void addEntity(Datastore datastore, String id) {
