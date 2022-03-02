@@ -63,8 +63,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>com.example.datastore.NativeImageDatastoreSample
-              </mainClass>
+              <mainClass>com.example.datastore.NativeImageDatastoreSample</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -116,8 +115,7 @@
             <version>0.9.10</version>
             <extensions>true</extensions>
             <configuration>
-              <mainClass>com.example.datastore.NativeImageDatastoreSample
-              </mainClass>
+              <mainClass>com.example.datastore.NativeImageDatastoreSample</mainClass>
               <buildArgs>
                 <buildArg>--no-fallback</buildArg>
                 <buildArg>--no-server</buildArg>
