@@ -153,9 +153,11 @@ public class ITDatastoreTest {
           .set("partial2", ENTITY2)
           .build();
 
-  @Rule public Timeout globalTimeout = Timeout.seconds(100);
+  @Rule
+  public Timeout globalTimeout = Timeout.seconds(100);
 
-  @Rule public MultipleAttemptsRule multipleAttemptsRule = new MultipleAttemptsRule(3);
+  @Rule
+  public MultipleAttemptsRule multipleAttemptsRule = new MultipleAttemptsRule(3);
 
   @AfterClass
   public static void afterClass() {
@@ -580,6 +582,75 @@ public class ITDatastoreTest {
     assertEquals(20, entity.getLong("age"));
     assertEquals(1, entity.getNames().size());
     assertFalse(results4.hasNext());
+  }
+
+  @Test
+  public void testInNotInNeqFilters() throws InterruptedException {
+    Entity e1 = Entity.newBuilder(ENTITY1)
+        .setKey(Key.newBuilder(INCOMPLETE_KEY1, "e1").build())
+        .set("v_int", 10)
+        .build();
+    Entity e2 = Entity.newBuilder(ENTITY1)
+        .setKey(Key.newBuilder(INCOMPLETE_KEY1, "e2").build())
+        .set("v_int", 20)
+        .build();
+    DATASTORE.put(e1, e2);
+
+    Query<Entity> queryIn =
+        Query.newEntityQueryBuilder().setKind(KIND1)
+            .setFilter(PropertyFilter.in("v_int", ListValue.of(10, 20))).build();
+
+    Query<Entity> scQueryIn =
+        Query.newEntityQueryBuilder()
+            .setKind(KIND1)
+            .setFilter(PropertyFilter.hasAncestor(ROOT_KEY))
+            .setFilter(PropertyFilter.in("v_int", ListValue.of(10, 20)))
+            .build();
+
+    Iterator<Entity> resultIn = getStronglyConsistentResults(scQueryIn, queryIn);
+
+    assertTrue(resultIn.hasNext());
+    assertEquals(e1, resultIn.next());
+    assertTrue(resultIn.hasNext());
+    assertEquals(e2, resultIn.next());
+    assertFalse(resultIn.hasNext());
+
+    Query<Entity> queryNotIn =
+        Query.newEntityQueryBuilder().setKind(KIND1)
+            .setFilter(PropertyFilter.not_in("v_int", ListValue.of(20, 30))).build();
+
+    Query<Entity> scQueryNotIn =
+        Query.newEntityQueryBuilder()
+            .setKind(KIND1)
+            .setFilter(PropertyFilter.hasAncestor(ROOT_KEY))
+            .setFilter(PropertyFilter.not_in("v_int", ListValue.of(20, 30)))
+            .build();
+
+    Iterator<Entity> resultNotIn = getStronglyConsistentResults(scQueryNotIn, queryNotIn);
+
+    assertTrue(resultNotIn.hasNext());
+    assertEquals(e1, resultNotIn.next());
+    assertFalse(resultNotIn.hasNext());
+
+    Query<Entity> queryNeq =
+        Query.newEntityQueryBuilder().setKind(KIND1)
+            .setFilter(PropertyFilter.neq("v_int", 10)).build();
+
+    Query<Entity> scQueryNeq =
+        Query.newEntityQueryBuilder()
+            .setKind(KIND1)
+            .setFilter(PropertyFilter.hasAncestor(ROOT_KEY))
+            .setFilter(PropertyFilter.neq("v_int", 10))
+            .build();
+
+    Iterator<Entity> resultNeq = getStronglyConsistentResults(scQueryNeq, queryNeq);
+
+    assertTrue(resultNeq.hasNext());
+    assertEquals(e2, resultNeq.next());
+    assertFalse(resultNeq.hasNext());
+
+    DATASTORE.delete(e1.getKey());
+    DATASTORE.delete(e2.getKey());
   }
 
   @Test
