@@ -205,6 +205,9 @@ message PropertyFilter {
     // Equal.
     EQUAL = 5;
 
+    // Not equal.
+    NOT_EQUAL = 9;
+
     // Has ancestor.
     HAS_ANCESTOR = 11;
   }

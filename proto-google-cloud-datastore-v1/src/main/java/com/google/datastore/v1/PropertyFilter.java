@@ -215,6 +215,16 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
      *
      *
      * <pre>
+     * Not equal.
+     * </pre>
+     *
+     * <code>NOT_EQUAL = 9;</code>
+     */
+    NOT_EQUAL(9),
+    /**
+     *
+     *
+     * <pre>
      * Has ancestor.
      * </pre>
      *
