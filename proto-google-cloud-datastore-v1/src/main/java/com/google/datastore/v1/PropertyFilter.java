@@ -215,6 +215,16 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
      *
      *
      * <pre>
+     * In.
+     * </pre>
+     *
+     * <code>IN = 6;</code>
+     */
+    IN(6),
+    /**
+     *
+     *
+     * <pre>
      * Not equal.
      * </pre>
      *
@@ -231,6 +241,16 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
      * <code>HAS_ANCESTOR = 11;</code>
      */
     HAS_ANCESTOR(11),
+    /**
+     *
+     *
+     * <pre>
+     * Not in.
+     * </pre>
+     *
+     * <code>NOT_IN = 13;</code>
+     */
+    NOT_IN(13),
     UNRECOGNIZED(-1),
     ;
 

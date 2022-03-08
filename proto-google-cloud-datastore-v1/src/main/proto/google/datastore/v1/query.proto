@@ -205,11 +205,17 @@ message PropertyFilter {
     // Equal.
     EQUAL = 5;
 
+    // In.
+    IN = 6;
+
     // Not equal.
     NOT_EQUAL = 9;
 
     // Has ancestor.
     HAS_ANCESTOR = 11;
+
+    // Not in.
+    NOT_IN = 13;
   }
 
   // The property to filter by.
