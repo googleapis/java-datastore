@@ -8,6 +8,7 @@ Java idiomatic client for [Cloud Datastore][product-docs].
 - [Product Documentation][product-docs]
 - [Client Library Documentation][javadocs]
 
+test
 
 ## Quickstart
 
