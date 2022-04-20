@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.2.10](https://github.com/googleapis/java-datastore/compare/v2.2.9...v2.2.10) (2022-04-20)
+
+
+### Dependencies
+
+* update shared config, shared deps, and errorprone ([#717](https://github.com/googleapis/java-datastore/issues/717)) ([344d28a](https://github.com/googleapis/java-datastore/commit/344d28a59fab7e5567737efa0de1cff28ea05578))
+
 ### [2.2.9](https://github.com/googleapis/java-datastore/compare/v2.2.8...v2.2.9) (2022-03-14)
 
 
