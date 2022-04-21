@@ -70,7 +70,7 @@ import org.junit.runners.JUnit4;
 
 /** Tests for {@link DatastoreFactory} and {@link Datastore}. */
 @RunWith(JUnit4.class)
-public class DatastoreTest {
+public class DatastoreClientTest {
   private static final String PROJECT_ID = "project-id";
 
   @Rule public ExpectedException thrown = ExpectedException.none();
