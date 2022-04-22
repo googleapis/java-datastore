@@ -108,8 +108,8 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <version>3.0.0-M6</version>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
         <configuration>
           <excludes>
               <exclude>**/*SmokeTest.java</exclude>
@@ -121,7 +121,7 @@
           <dependency>
             <groupId>org.apache.maven.surefire</groupId>
             <artifactId>surefire-junit47</artifactId>
-            <version>3.0.0-M6</version>
+            <version>3.0.0-M5</version>
           </dependency>
         </dependencies>
       </plugin>
