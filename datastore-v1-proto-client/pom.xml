@@ -111,6 +111,9 @@
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>3.0.0-M6</version>
         <configuration>
+          <excludes>
+              <exclude>**/*SmokeTest.java</exclude>
+          </excludes>
           <reportNameSuffix>sponge_log</reportNameSuffix>
           <argLine>-Xmx2048m</argLine>
         </configuration>
