@@ -16,11 +16,11 @@
 package com.google.datastore.v1.client;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
 import com.google.api.client.auth.oauth2.Credential;
@@ -63,9 +63,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.SocketTimeoutException;
 import java.util.List;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -80,80 +78,124 @@ public class DatastoreClientTest {
 
   @Test
   public void options_NoProjectIdOrProjectEndpoint() {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
             () -> factory.create(new DatastoreOptions.Builder().build()));
-    assertThat(exception).hasMessageThat().contains("Either project ID or project endpoint must be provided");
+    assertThat(exception)
+        .hasMessageThat()
+        .contains("Either project ID or project endpoint must be provided");
     factory.create(options.build());
   }
 
   @Test
   public void options_ProjectIdAndProjectEndpoint() throws Exception {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> new DatastoreOptions.Builder()
-            .projectId(PROJECT_ID)
-            .projectEndpoint("http://localhost:1234/datastore/v1beta42/projects/project-id"));
-    assertThat(exception).hasMessageThat().contains("Cannot set both project endpoint and project ID");
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new DatastoreOptions.Builder()
+                    .projectId(PROJECT_ID)
+                    .projectEndpoint(
+                        "http://localhost:1234/datastore/v1beta42/projects/project-id"));
+    assertThat(exception)
+        .hasMessageThat()
+        .contains("Cannot set both project endpoint and project ID");
   }
 
   @Test
   public void options_LocalHostAndProjectEndpoint() throws Exception {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> new DatastoreOptions.Builder()
-            .localHost("localhost:8080")
-            .projectEndpoint("http://localhost:1234/datastore/v1beta42/projects/project-id"));
-    assertThat(exception).hasMessageThat().contains("Can set at most one of project endpoint, host, and local host");
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new DatastoreOptions.Builder()
+                    .localHost("localhost:8080")
+                    .projectEndpoint(
+                        "http://localhost:1234/datastore/v1beta42/projects/project-id"));
+    assertThat(exception)
+        .hasMessageThat()
+        .contains("Can set at most one of project endpoint, host, and local host");
   }
 
   @Test
   public void options_HostAndProjectEndpoint() throws Exception {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> new DatastoreOptions.Builder()
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new DatastoreOptions.Builder()
                     .host("foo-datastore.googleapis.com")
-                    .projectEndpoint("http://localhost:1234/datastore/v1beta42/projects/project-id"));
-    assertThat(exception).hasMessageThat().contains("Can set at most one of project endpoint, host, and local host");
+                    .projectEndpoint(
+                        "http://localhost:1234/datastore/v1beta42/projects/project-id"));
+    assertThat(exception)
+        .hasMessageThat()
+        .contains("Can set at most one of project endpoint, host, and local host");
   }
 
   @Test
   public void options_HostAndLocalHost() throws Exception {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> new DatastoreOptions.Builder()
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new DatastoreOptions.Builder()
                     .host("foo-datastore.googleapis.com")
                     .localHost("localhost:8080"));
-    assertThat(exception).hasMessageThat().contains("Can set at most one of project endpoint, host, and local host");
+    assertThat(exception)
+        .hasMessageThat()
+        .contains("Can set at most one of project endpoint, host, and local host");
   }
 
   @Test
   public void options_InvalidLocalHost() throws Exception {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> factory.create(
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                factory.create(
                     new DatastoreOptions.Builder()
-                            .projectId(PROJECT_ID)
-                            .localHost("!not a valid url!")
-                            .build()));
+                        .projectId(PROJECT_ID)
+                        .localHost("!not a valid url!")
+                        .build()));
     assertThat(exception).hasMessageThat().contains("Illegal character");
   }
 
   @Test
   public void options_SchemeInLocalHost() {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
             () -> new DatastoreOptions.Builder().localHost("http://localhost:8080"));
-    assertThat(exception).hasMessageThat().contains("Local host \"http://localhost:8080\" must not include scheme");
+    assertThat(exception)
+        .hasMessageThat()
+        .contains("Local host \"http://localhost:8080\" must not include scheme");
   }
 
   @Test
   public void options_InvalidHost() {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> factory.create(
-                    new DatastoreOptions.Builder().projectId(PROJECT_ID).host("!not a valid url!").build()));
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                factory.create(
+                    new DatastoreOptions.Builder()
+                        .projectId(PROJECT_ID)
+                        .host("!not a valid url!")
+                        .build()));
     assertThat(exception).hasMessageThat().contains("Illegal character");
   }
 
   @Test
   public void options_SchemeInHost() {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
             () -> new DatastoreOptions.Builder().host("http://foo-datastore.googleapis.com"));
 
-    assertThat(exception).hasMessageThat().contains("Host \"http://foo-datastore.googleapis.com\" must not include scheme.");
+    assertThat(exception)
+        .hasMessageThat()
+        .contains("Host \"http://foo-datastore.googleapis.com\" must not include scheme.");
   }
 
   @Test
@@ -218,14 +260,19 @@ public class DatastoreClientTest {
 
   @Test
   public void create_ProjectEndpointNoScheme() {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-            () -> factory.create(
+    IllegalArgumentException exception =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                factory.create(
                     new DatastoreOptions.Builder()
-                            .projectEndpoint("localhost:1234/datastore/v1beta42/projects/project-id")
-                            .build()));
-    assertThat(exception).hasMessageThat().contains(
-        "Project endpoint \"localhost:1234/datastore/v1beta42/projects/project-id\" must"
-            + " include scheme.");
+                        .projectEndpoint("localhost:1234/datastore/v1beta42/projects/project-id")
+                        .build()));
+    assertThat(exception)
+        .hasMessageThat()
+        .contains(
+            "Project endpoint \"localhost:1234/datastore/v1beta42/projects/project-id\" must"
+                + " include scheme.");
   }
 
   @Test
