@@ -10,5 +10,23 @@
       {"name":"rollback","parameterTypes":["com.google.datastore.v1.RollbackRequest"] },
       {"name":"runQuery","parameterTypes":["com.google.datastore.v1.RunQueryRequest"] }
     ]
+  },
+  {
+    "name":"com.google.api.client.http.HttpRequest",
+    "allDeclaredFields":true,
+    "allPublicFields":true,
+    "allDeclaredMethods":true,
+    "allPublicMethods":true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
+  },
+  {
+    "name":"com.google.api.client.http.HttpHeaders",
+    "allDeclaredFields":true,
+    "allPublicFields":true,
+    "allDeclaredMethods":true,
+    "allPublicMethods":true,
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true
   }
 ]
