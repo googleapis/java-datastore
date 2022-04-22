@@ -237,56 +237,56 @@ public class ITDatastoreTest {
 
   @Test
   public void testTransactionWithRead() {
-    // Transaction transaction = DATASTORE.newTransaction();
-    // assertNull(transaction.get(KEY3));
-    // transaction.add(ENTITY3);
-    // transaction.commit();
-    // assertEquals(ENTITY3, DATASTORE.get(KEY3));
-    //
-    // transaction = DATASTORE.newTransaction();
-    // assertEquals(ENTITY3, transaction.get(KEY3));
-    // // update entity3 during the transaction
-    // DATASTORE.put(Entity.newBuilder(ENTITY2).clear().set("from", "datastore").build());
-    // transaction.update(Entity.newBuilder(ENTITY2).clear().set("from", "transaction").build());
-    // try {
-    //   transaction.commit();
-    //   fail("Expecting a failure");
-    // } catch (DatastoreException expected) {
-    //   assertEquals("ABORTED", expected.getReason());
-    // }
+    Transaction transaction = DATASTORE.newTransaction();
+    assertNull(transaction.get(KEY3));
+    transaction.add(ENTITY3);
+    transaction.commit();
+    assertEquals(ENTITY3, DATASTORE.get(KEY3));
+
+    transaction = DATASTORE.newTransaction();
+    assertEquals(ENTITY3, transaction.get(KEY3));
+    // update entity3 during the transaction
+    DATASTORE.put(Entity.newBuilder(ENTITY2).clear().set("from", "datastore").build());
+    transaction.update(Entity.newBuilder(ENTITY2).clear().set("from", "transaction").build());
+    try {
+      transaction.commit();
+      fail("Expecting a failure");
+    } catch (DatastoreException expected) {
+      assertEquals("ABORTED", expected.getReason());
+    }
   }
 
   @Test
   public void testTransactionWithQuery() {
-    // Query<Entity> query =
-    //     Query.newEntityQueryBuilder()
-    //         .setKind(KIND2)
-    //         .setFilter(PropertyFilter.hasAncestor(KEY2))
-    //         .setNamespace(NAMESPACE)
-    //         .build();
-    // Transaction transaction = DATASTORE.newTransaction();
-    // QueryResults<Entity> results = transaction.run(query);
-    // assertTrue(results.hasNext());
-    // assertEquals(ENTITY2, results.next());
-    // assertFalse(results.hasNext());
-    // transaction.add(ENTITY3);
-    // transaction.commit();
-    // assertEquals(ENTITY3, DATASTORE.get(KEY3));
-    //
-    // transaction = DATASTORE.newTransaction();
-    // results = transaction.run(query);
-    // assertTrue(results.hasNext());
-    // assertEquals(ENTITY2, results.next());
-    // assertFalse(results.hasNext());
-    // transaction.delete(ENTITY3.getKey());
-    // // update entity2 during the transaction
-    // DATASTORE.put(Entity.newBuilder(ENTITY2).clear().build());
-    // try {
-    //   transaction.commit();
-    //   fail("Expecting a failure");
-    // } catch (DatastoreException expected) {
-    //   assertEquals("ABORTED", expected.getReason());
-    // }
+    Query<Entity> query =
+        Query.newEntityQueryBuilder()
+            .setKind(KIND2)
+            .setFilter(PropertyFilter.hasAncestor(KEY2))
+            .setNamespace(NAMESPACE)
+            .build();
+    Transaction transaction = DATASTORE.newTransaction();
+    QueryResults<Entity> results = transaction.run(query);
+    assertTrue(results.hasNext());
+    assertEquals(ENTITY2, results.next());
+    assertFalse(results.hasNext());
+    transaction.add(ENTITY3);
+    transaction.commit();
+    assertEquals(ENTITY3, DATASTORE.get(KEY3));
+
+    transaction = DATASTORE.newTransaction();
+    results = transaction.run(query);
+    assertTrue(results.hasNext());
+    assertEquals(ENTITY2, results.next());
+    assertFalse(results.hasNext());
+    transaction.delete(ENTITY3.getKey());
+    // update entity2 during the transaction
+    DATASTORE.put(Entity.newBuilder(ENTITY2).clear().build());
+    try {
+      transaction.commit();
+      fail("Expecting a failure");
+    } catch (DatastoreException expected) {
+      assertEquals("ABORTED", expected.getReason());
+    }
   }
 
   @Test
@@ -506,79 +506,79 @@ public class ITDatastoreTest {
 
   @Test
   public void testRunStructuredQuery() throws InterruptedException {
-    // Query<Entity> query =
-    //     Query.newEntityQueryBuilder().setKind(KIND1).setOrderBy(OrderBy.asc("__key__")).build();
-    //
-    // Query<Entity> scQuery =
-    //     Query.newEntityQueryBuilder()
-    //         .setKind(KIND1)
-    //         .setFilter(PropertyFilter.hasAncestor(ROOT_KEY))
-    //         .setOrderBy(OrderBy.asc("__key__"))
-    //         .build();
-    //
-    // Iterator<Entity> results1 = getStronglyConsistentResults(scQuery, query);
-    //
-    // assertTrue(results1.hasNext());
-    // assertEquals(ENTITY1, results1.next());
-    // assertFalse(results1.hasNext());
-    //
-    // Query<Key> keyOnlyQuery = Query.newKeyQueryBuilder().setKind(KIND1).build();
-    // Query<Key> scKeyOnlyQuery =
-    //     Query.newKeyQueryBuilder()
-    //         .setKind(KIND1)
-    //         .setFilter(PropertyFilter.hasAncestor(ROOT_KEY))
-    //         .build();
-    //
-    // Iterator<Key> results2 = getStronglyConsistentResults(scKeyOnlyQuery, keyOnlyQuery);
-    // assertTrue(results2.hasNext());
-    // assertEquals(ENTITY1.getKey(), results2.next());
-    // assertFalse(results2.hasNext());
-    //
-    // StructuredQuery<ProjectionEntity> keyOnlyProjectionQuery =
-    //     Query.newProjectionEntityQueryBuilder().setKind(KIND1).setProjection("__key__").build();
-    // StructuredQuery<ProjectionEntity> scKeyOnlyProjectionQuery =
-    //     Query.newProjectionEntityQueryBuilder()
-    //         .setKind(KIND1)
-    //         .setFilter(PropertyFilter.hasAncestor(ROOT_KEY))
-    //         .setProjection("__key__")
-    //         .build();
-    // Iterator<ProjectionEntity> results3 =
-    //     getStronglyConsistentResults(scKeyOnlyProjectionQuery, keyOnlyProjectionQuery);
-    // assertTrue(results3.hasNext());
-    // ProjectionEntity projectionEntity = results3.next();
-    // assertEquals(ENTITY1.getKey(), projectionEntity.getKey());
-    // assertTrue(projectionEntity.getNames().isEmpty());
-    // assertFalse(results3.hasNext());
-    //
-    // StructuredQuery<ProjectionEntity> projectionQuery =
-    //     Query.newProjectionEntityQueryBuilder()
-    //         .setKind(KIND2)
-    //         .setProjection("age")
-    //         .setFilter(PropertyFilter.gt("age", 18))
-    //         .setDistinctOn("age")
-    //         .setOrderBy(OrderBy.asc("age"))
-    //         .setLimit(10)
-    //         .build();
-    //
-    // StructuredQuery<ProjectionEntity> scProjectionQuery =
-    //     Query.newProjectionEntityQueryBuilder()
-    //         .setKind(KIND2)
-    //         .setFilter(PropertyFilter.hasAncestor(ROOT_KEY))
-    //         .setProjection("age")
-    //         .setFilter(PropertyFilter.gt("age", 18))
-    //         .setDistinctOn("age")
-    //         .setOrderBy(OrderBy.asc("age"))
-    //         .setLimit(10)
-    //         .build();
-    //
-    // Iterator<ProjectionEntity> results4 =
-    //     getStronglyConsistentResults(scProjectionQuery, projectionQuery);
-    // assertTrue(results4.hasNext());
-    // ProjectionEntity entity = results4.next();
-    // assertEquals(ENTITY2.getKey(), entity.getKey());
-    // assertEquals(20, entity.getLong("age"));
-    // assertEquals(1, entity.getNames().size());
-    // assertFalse(results4.hasNext());
+    Query<Entity> query =
+        Query.newEntityQueryBuilder().setKind(KIND1).setOrderBy(OrderBy.asc("__key__")).build();
+
+    Query<Entity> scQuery =
+        Query.newEntityQueryBuilder()
+            .setKind(KIND1)
+            .setFilter(PropertyFilter.hasAncestor(ROOT_KEY))
+            .setOrderBy(OrderBy.asc("__key__"))
+            .build();
+
+    Iterator<Entity> results1 = getStronglyConsistentResults(scQuery, query);
+
+    assertTrue(results1.hasNext());
+    assertEquals(ENTITY1, results1.next());
+    assertFalse(results1.hasNext());
+
+    Query<Key> keyOnlyQuery = Query.newKeyQueryBuilder().setKind(KIND1).build();
+    Query<Key> scKeyOnlyQuery =
+        Query.newKeyQueryBuilder()
+            .setKind(KIND1)
+            .setFilter(PropertyFilter.hasAncestor(ROOT_KEY))
+            .build();
+
+    Iterator<Key> results2 = getStronglyConsistentResults(scKeyOnlyQuery, keyOnlyQuery);
+    assertTrue(results2.hasNext());
+    assertEquals(ENTITY1.getKey(), results2.next());
+    assertFalse(results2.hasNext());
+
+    StructuredQuery<ProjectionEntity> keyOnlyProjectionQuery =
+        Query.newProjectionEntityQueryBuilder().setKind(KIND1).setProjection("__key__").build();
+    StructuredQuery<ProjectionEntity> scKeyOnlyProjectionQuery =
+        Query.newProjectionEntityQueryBuilder()
+            .setKind(KIND1)
+            .setFilter(PropertyFilter.hasAncestor(ROOT_KEY))
+            .setProjection("__key__")
+            .build();
+    Iterator<ProjectionEntity> results3 =
+        getStronglyConsistentResults(scKeyOnlyProjectionQuery, keyOnlyProjectionQuery);
+    assertTrue(results3.hasNext());
+    ProjectionEntity projectionEntity = results3.next();
+    assertEquals(ENTITY1.getKey(), projectionEntity.getKey());
+    assertTrue(projectionEntity.getNames().isEmpty());
+    assertFalse(results3.hasNext());
+
+    StructuredQuery<ProjectionEntity> projectionQuery =
+        Query.newProjectionEntityQueryBuilder()
+            .setKind(KIND2)
+            .setProjection("age")
+            .setFilter(PropertyFilter.gt("age", 18))
+            .setDistinctOn("age")
+            .setOrderBy(OrderBy.asc("age"))
+            .setLimit(10)
+            .build();
+
+    StructuredQuery<ProjectionEntity> scProjectionQuery =
+        Query.newProjectionEntityQueryBuilder()
+            .setKind(KIND2)
+            .setFilter(PropertyFilter.hasAncestor(ROOT_KEY))
+            .setProjection("age")
+            .setFilter(PropertyFilter.gt("age", 18))
+            .setDistinctOn("age")
+            .setOrderBy(OrderBy.asc("age"))
+            .setLimit(10)
+            .build();
+
+    Iterator<ProjectionEntity> results4 =
+        getStronglyConsistentResults(scProjectionQuery, projectionQuery);
+    assertTrue(results4.hasNext());
+    ProjectionEntity entity = results4.next();
+    assertEquals(ENTITY2.getKey(), entity.getKey());
+    assertEquals(20, entity.getLong("age"));
+    assertEquals(1, entity.getNames().size());
+    assertFalse(results4.hasNext());
   }
 
   @Test
