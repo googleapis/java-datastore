@@ -653,9 +653,7 @@ public class ITDatastoreTest {
     Timestamp now = Timestamp.now();
 
     try {
-      Entity newEntity1 = Entity.newBuilder(KEY1)
-          .set("str", "new_str_value")
-          .build();
+      Entity newEntity1 = Entity.newBuilder(KEY1).set("str", "new_str_value").build();
       DATASTORE.put(newEntity1);
 
       Entity entity = DATASTORE.get(KEY1);
@@ -945,18 +943,18 @@ public class ITDatastoreTest {
   }
 
   @Test
-  public  void testQueryWithReadTime() {
+  public void testQueryWithReadTime() {
     Entity entity1 =
         Entity.newBuilder(
-            Key.newBuilder(PROJECT_ID, "new_kind", "name-01").setNamespace(NAMESPACE).build())
+                Key.newBuilder(PROJECT_ID, "new_kind", "name-01").setNamespace(NAMESPACE).build())
             .build();
     Entity entity2 =
         Entity.newBuilder(
-            Key.newBuilder(PROJECT_ID, "new_kind", "name-02").setNamespace(NAMESPACE).build())
+                Key.newBuilder(PROJECT_ID, "new_kind", "name-02").setNamespace(NAMESPACE).build())
             .build();
     Entity entity3 =
         Entity.newBuilder(
-            Key.newBuilder(PROJECT_ID, "new_kind", "name-03").setNamespace(NAMESPACE).build())
+                Key.newBuilder(PROJECT_ID, "new_kind", "name-03").setNamespace(NAMESPACE).build())
             .build();
 
     DATASTORE.put(entity1, entity2);

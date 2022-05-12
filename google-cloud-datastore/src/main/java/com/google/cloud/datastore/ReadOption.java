@@ -49,8 +49,8 @@ public abstract class ReadOption implements Serializable {
   }
 
   /**
-   * Reads entities as they were at the given time. This may not be older than 270 seconds.
-   * This value is only supported for Cloud Firestore in Datastore mode.
+   * Reads entities as they were at the given time. This may not be older than 270 seconds. This
+   * value is only supported for Cloud Firestore in Datastore mode.
    */
   public static final class ReadTime extends ReadOption {
 

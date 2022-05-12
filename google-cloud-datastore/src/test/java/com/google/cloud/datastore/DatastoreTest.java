@@ -792,8 +792,7 @@ public class DatastoreTest {
   @Test
   public void testReadTimeQuery() {
     Timestamp timestamp = Timestamp.now();
-    ReadOptions readOption =
-        ReadOptions.newBuilder().setReadTime(timestamp.toProto()).build();
+    ReadOptions readOption = ReadOptions.newBuilder().setReadTime(timestamp.toProto()).build();
     com.google.datastore.v1.GqlQuery query =
         com.google.datastore.v1.GqlQuery.newBuilder().setQueryString("FROM * SELECT *").build();
     RunQueryRequest.Builder expectedRequest =
@@ -945,8 +944,7 @@ public class DatastoreTest {
   @Test
   public void testLookupReadTime() {
     Timestamp timestamp = Timestamp.now();
-    ReadOptions readOption =
-        ReadOptions.newBuilder().setReadTime(timestamp.toProto()).build();
+    ReadOptions readOption = ReadOptions.newBuilder().setReadTime(timestamp.toProto()).build();
     com.google.datastore.v1.Key key =
         com.google.datastore.v1.Key.newBuilder()
             .setPartitionId(PartitionId.newBuilder().setProjectId(PROJECT_ID).build())
@@ -964,8 +962,10 @@ public class DatastoreTest {
     EasyMock.replay(rpcFactoryMock, rpcMock);
     com.google.cloud.datastore.Datastore datastore = rpcMockOptions.getService();
     datastore.get(KEY1, com.google.cloud.datastore.ReadOption.readTime(timestamp));
-    datastore.get(ImmutableList.of(KEY1), com.google.cloud.datastore.ReadOption.readTime(timestamp));
-    datastore.fetch(ImmutableList.of(KEY1), com.google.cloud.datastore.ReadOption.readTime(timestamp));
+    datastore.get(
+        ImmutableList.of(KEY1), com.google.cloud.datastore.ReadOption.readTime(timestamp));
+    datastore.fetch(
+        ImmutableList.of(KEY1), com.google.cloud.datastore.ReadOption.readTime(timestamp));
     EasyMock.verify(rpcFactoryMock, rpcMock);
   }
 
