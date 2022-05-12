@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore;
 
+import com.google.api.core.BetaApi;
 import com.google.cloud.Timestamp;
 import com.google.common.collect.ImmutableMap;
 import java.io.Serializable;
@@ -79,8 +80,9 @@ public abstract class ReadOption implements Serializable {
 
   /**
    * Returns a {@code ReadOption} that specifies read time, allowing Datastore to return results
-   * from lookups and queries at a particular timestamp.
+   * from lookups and queries at a particular timestamp. This feature is currently in Beta.
    */
+  @BetaApi
   public static ReadTime readTime(Timestamp time) {
     return new ReadTime(time);
   }
