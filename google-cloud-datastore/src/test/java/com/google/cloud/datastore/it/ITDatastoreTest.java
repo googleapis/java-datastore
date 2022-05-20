@@ -649,22 +649,27 @@ public class ITDatastoreTest {
   }
 
   @Test
-  public void testGetWithReadTime() {
-    Timestamp now = Timestamp.now();
+  public void testGetWithReadTime() throws InterruptedException {
+    Key key = Key.newBuilder(PROJECT_ID, "new_kind", "name").setNamespace(NAMESPACE).build();
 
     try {
-      Entity newEntity1 = Entity.newBuilder(KEY1).set("str", "new_str_value").build();
-      DATASTORE.put(newEntity1);
+      DATASTORE.put(Entity.newBuilder(key).set("str", "old_str_value").build());
 
-      Entity entity = DATASTORE.get(KEY1);
+      Thread.sleep(1000);
+      Timestamp now = Timestamp.now();
+      Thread.sleep(1000);
+
+      DATASTORE.put(Entity.newBuilder(key).set("str", "new_str_value").build());
+
+      Entity entity = DATASTORE.get(key);
       StringValue value1 = entity.getValue("str");
       assertEquals(StringValue.of("new_str_value"), value1);
 
-      entity = DATASTORE.get(KEY1, ReadOption.readTime(now));
+      entity = DATASTORE.get(key, ReadOption.readTime(now));
       value1 = entity.getValue("str");
-      assertEquals(STR_VALUE, value1);
+      assertEquals(StringValue.of("old_str_value"), value1);
     } finally {
-      DATASTORE.put(ENTITY1);
+      DATASTORE.delete(key);
     }
   }
 
@@ -943,7 +948,7 @@ public class ITDatastoreTest {
   }
 
   @Test
-  public void testQueryWithReadTime() {
+  public void testQueryWithReadTime() throws InterruptedException {
     Entity entity1 =
         Entity.newBuilder(
                 Key.newBuilder(PROJECT_ID, "new_kind", "name-01").setNamespace(NAMESPACE).build())
@@ -958,7 +963,9 @@ public class ITDatastoreTest {
             .build();
 
     DATASTORE.put(entity1, entity2);
+    Thread.sleep(1000);
     Timestamp now = Timestamp.now();
+    Thread.sleep(1000);
     DATASTORE.put(entity3);
 
     try {
