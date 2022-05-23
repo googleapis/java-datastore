@@ -80,7 +80,8 @@ public abstract class ReadOption implements Serializable {
 
   /**
    * Returns a {@code ReadOption} that specifies read time, allowing Datastore to return results
-   * from lookups and queries at a particular timestamp. This feature is currently in Beta.
+   * from lookups and queries at a particular timestamp. This feature is currently in private
+   * preview.
    */
   @BetaApi
   public static ReadTime readTime(Timestamp time) {
