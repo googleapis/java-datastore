@@ -1044,4 +1044,81 @@ public class ConceptsTest {
         ImmutableMap.of("Task", ImmutableSet.of("priority", "tag"));
     assertEquals(expected, propertiesByKind);
   }
+
+  @Test
+  public void testInQuery() {
+    setUpQueryTests();
+    // [START datastore_in_query]
+    Query<Entity> query =
+        Query.newEntityQueryBuilder()
+            .setKind("Task")
+            .setFilter(
+                PropertyFilter.in("tag", ListValue.of("learn", "study"))
+            )
+            .build();
+    // [END datastore_in_query]
+    assertValidQuery(query);
+  }
+
+  @Test
+  public void testNotEqualsQuery() {
+    setUpQueryTests();
+    // [START datastore_not_equals_query]
+    Query<Entity> query =
+        Query.newEntityQueryBuilder()
+            .setKind("Task")
+            .setFilter(
+                PropertyFilter.neq("category", "Work")
+            )
+            .build();
+    // [END datastore_not_equals_query]
+    assertValidQuery(query);
+  }
+
+  @Test
+  public void testNotInQuery() {
+    setUpQueryTests();
+    // [START datastore_not_in_query]
+    Query<Entity> query =
+        Query.newEntityQueryBuilder()
+            .setKind("Task")
+            .setFilter(
+                PropertyFilter.not_in("category", ListValue.of("Work", "Chores", "School"))
+            )
+            .build();
+    // [END datastore_not_in_query]
+    assertValidQuery(query);
+  }
+
+  @Test
+  public void testEqQuerySorted() {
+    setUpQueryTests();
+    // [START datastore_eq_query_sorted]
+    Query<Entity> query =
+        Query.newEntityQueryBuilder()
+            .setKind("Task")
+            .setFilter(
+                PropertyFilter.eq("tag", "learn")
+            )
+            .setOrderBy(OrderBy.asc("tag"))
+            .build();
+    // [END datastore_eq_query_sorted]
+    assertValidQuery(query);
+  }
+
+  @Test
+  public void testInQuerySorted() {
+    setUpQueryTests();
+    // [START datastore_in_query_sorted]
+    Query<Entity> query =
+        Query.newEntityQueryBuilder()
+            .setKind("Task")
+            .setFilter(
+                PropertyFilter.in("tag", ListValue.of("learn", "study"))
+            )
+            .setOrderBy(OrderBy.asc("tag"))
+            .build();
+    // [END datastore_in_query_sorted]
+    assertValidQuery(query);
+  }
 }
