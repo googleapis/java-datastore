@@ -106,6 +106,7 @@
     "codecov.yaml",
     "java.header",
     "license-checks.xml",
+    "grpc-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/DatastoreGrpc.java",
     "proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AllocateIdsRequest.java",
     "proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AllocateIdsRequestOrBuilder.java",
     "proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AllocateIdsResponse.java",
