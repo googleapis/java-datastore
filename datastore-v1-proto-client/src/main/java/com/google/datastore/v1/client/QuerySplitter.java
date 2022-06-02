@@ -17,6 +17,7 @@ package com.google.datastore.v1.client;
 
 import com.google.datastore.v1.PartitionId;
 import com.google.datastore.v1.Query;
+import com.google.protobuf.Timestamp;
 import java.util.List;
 
 /** Provides the ability to split a query into multiple shards. */
@@ -38,5 +39,14 @@ public interface QuerySplitter {
    * @throws IllegalArgumentException if the given query or numSplits was invalid.
    */
   List<Query> getSplits(Query query, PartitionId partition, int numSplits, Datastore datastore)
+      throws DatastoreException;
+
+  /**
+   * Same as {@link #getSplits(Query, PartitionId, int, Datastore)} but the splits are based on
+   * {@code readTime}, and the returned sharded {@link Query}s should also be executed with {@code
+   * readTime}.
+   */
+  List<Query> getSplits(
+      Query query, PartitionId partition, int numSplits, Datastore datastore, Timestamp readTime)
       throws DatastoreException;
 }
