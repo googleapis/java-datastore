@@ -46,7 +46,9 @@ public interface QuerySplitter {
    * {@code readTime}, and the returned sharded {@link Query}s should also be executed with {@code
    * readTime}.
    */
-  List<Query> getSplits(
+  default List<Query> getSplits(
       Query query, PartitionId partition, int numSplits, Datastore datastore, Timestamp readTime)
-      throws DatastoreException;
+      throws DatastoreException {
+    throw new UnsupportedOperationException("Not implemented.");
+  }
 }
