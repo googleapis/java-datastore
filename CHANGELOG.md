@@ -1,5 +1,38 @@
 # Changelog
 
+## [2.8.0](https://github.com/googleapis/java-datastore/compare/v2.7.0...v2.8.0) (2022-06-09)
+
+
+### Features
+
+* support IN/NOT_IN/NOT_EQUAL operators ([#688](https://github.com/googleapis/java-datastore/issues/688)) ([f8a84ff](https://github.com/googleapis/java-datastore/commit/f8a84ffa6d743501f5cfb71ac271d8a9b764705c))
+
+## [2.7.0](https://github.com/googleapis/java-datastore/compare/v2.6.0...v2.7.0) (2022-06-02)
+
+
+### Features
+
+* new enum value `OPTIMISTIC_WITH_ENTITY_GROUPS` for `ConcurrencyMode` ([df6b793](https://github.com/googleapis/java-datastore/commit/df6b793cb66424ad470fe871f9a3868ae482e1a4))
+
+
+### Documentation
+
+* clarifications for `DatastoreFirestoreMigraitonMetadata` ([df6b793](https://github.com/googleapis/java-datastore/commit/df6b793cb66424ad470fe871f9a3868ae482e1a4))
+
+## [2.6.0](https://github.com/googleapis/java-datastore/compare/v2.5.1...v2.6.0) (2022-05-31)
+
+
+### Features
+
+* Expose Datastore Admin generated client ([#748](https://github.com/googleapis/java-datastore/issues/748)) ([3dd882a](https://github.com/googleapis/java-datastore/commit/3dd882a9ffe2a8828cdedcdc2e562c9354aebfbc))
+
+### [2.5.1](https://github.com/googleapis/java-datastore/compare/v2.5.0...v2.5.1) (2022-05-25)
+
+
+### Dependencies
+
+* update dependency com.google.errorprone:error_prone_core to v2.14.0 ([#744](https://github.com/googleapis/java-datastore/issues/744)) ([51d9244](https://github.com/googleapis/java-datastore/commit/51d9244b10f5bb754785e8267a51fddd9cdb6cb5))
+
 ## [2.5.0](https://github.com/googleapis/java-datastore/compare/v2.4.0...v2.5.0) (2022-05-23)
 
 
