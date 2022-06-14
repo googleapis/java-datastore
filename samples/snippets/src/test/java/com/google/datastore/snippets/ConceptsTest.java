@@ -1056,9 +1056,7 @@ public class ConceptsTest {
     Query<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind("Task")
-            .setFilter(
-                PropertyFilter.eq("tag", "learn")
-            )
+            .setFilter(PropertyFilter.eq("tag", "learn"))
             .setOrderBy(OrderBy.asc("tag"))
             .build();
     // [END datastore_eq_query_sorted]
@@ -1102,9 +1100,7 @@ public class ConceptsTest {
     Query<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind("Task")
-            .setFilter(
-                PropertyFilter.in("tag", ListValue.of("learn", "study"))
-            )
+            .setFilter(PropertyFilter.in("tag", ListValue.of("learn", "study")))
             .build();
     // [END datastore_in_query]
     assertValidQueryRealBackend(query);
@@ -1117,9 +1113,7 @@ public class ConceptsTest {
     Query<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind("Task")
-            .setFilter(
-                PropertyFilter.neq("category", "Work")
-            )
+            .setFilter(PropertyFilter.neq("category", "Work"))
             .build();
     // [END datastore_not_equals_query]
     assertValidQueryRealBackend(query);
@@ -1132,9 +1126,7 @@ public class ConceptsTest {
     Query<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind("Task")
-            .setFilter(
-                PropertyFilter.not_in("category", ListValue.of("Work", "Chores", "School"))
-            )
+            .setFilter(PropertyFilter.not_in("category", ListValue.of("Work", "Chores", "School")))
             .build();
     // [END datastore_not_in_query]
     assertValidQueryRealBackend(query);
@@ -1147,13 +1139,10 @@ public class ConceptsTest {
     Query<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind("Task")
-            .setFilter(
-                PropertyFilter.in("tag", ListValue.of("learn", "study"))
-            )
+            .setFilter(PropertyFilter.in("tag", ListValue.of("learn", "study")))
             .setOrderBy(OrderBy.asc("tag"))
             .build();
     // [END datastore_in_query_sorted]
     assertValidQueryRealBackend(query);
   }
-
 }
