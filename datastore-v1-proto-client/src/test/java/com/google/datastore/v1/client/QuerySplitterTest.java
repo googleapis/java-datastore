@@ -197,7 +197,7 @@ public class QuerySplitterTest {
                 splitQuery.toBuilder().setLimit(Int32Value.newBuilder().setValue(2 * 32).build()))
             .build();
 
-    assertArrayEquals(expectedSplitQueryRequest.toByteArray(), mockClient.lastBody());
+    assertArrayEquals(expectedSplitQueryRequest.toByteArray(), mockClient.getLastBody());
   }
 
   @Test
@@ -239,7 +239,7 @@ public class QuerySplitterTest {
                 splitQuery.toBuilder().setLimit(Int32Value.newBuilder().setValue(99 * 32).build()))
             .build();
 
-    assertArrayEquals(expectedSplitQueryRequest.toByteArray(), mockClient.lastBody());
+    assertArrayEquals(expectedSplitQueryRequest.toByteArray(), mockClient.getLastBody());
   }
 
   @Test
@@ -291,7 +291,7 @@ public class QuerySplitterTest {
             .setReadOptions(ReadOptions.newBuilder().setReadTime(readTime))
             .build();
 
-    assertArrayEquals(expectedSplitQueryRequest.toByteArray(), mockClient.lastBody());
+    assertArrayEquals(expectedSplitQueryRequest.toByteArray(), mockClient.getLastBody());
   }
 
   private static EntityResult makeKeyOnlyEntity(Key key) {

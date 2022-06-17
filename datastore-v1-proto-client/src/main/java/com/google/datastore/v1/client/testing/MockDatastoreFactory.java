@@ -40,16 +40,16 @@ import java.util.List;
 
 /** Fake Datastore factory used for testing purposes when a true Datastore service is not needed. */
 public class MockDatastoreFactory extends DatastoreFactory {
-  int nextStatus;
-  Message nextResponse;
-  Status nextError;
-  IOException nextException;
+  private int nextStatus;
+  private Message nextResponse;
+  private Status nextError;
+  private IOException nextException;
 
-  String lastPath;
-  String lastMimeType;
-  byte[] lastBody;
-  List<String> lastCookies;
-  String lastApiFormatHeaderValue;
+  private String lastPath;
+  private String lastMimeType;
+  private byte[] lastBody;
+  private List<String> lastCookies;
+  private String lastApiFormatHeaderValue;
 
   public void setNextResponse(Message response) {
     nextStatus = HttpStatusCodes.STATUS_CODE_OK;
@@ -111,23 +111,23 @@ public class MockDatastoreFactory extends DatastoreFactory {
     return transport.createRequestFactory(credential);
   }
 
-  public String lastPath() {
+  public String getLastPath() {
     return lastPath;
   }
 
-  public String lastMimeType() {
+  public String getLastMimeType() {
     return lastMimeType;
   }
 
-  public String lastApiFormatHeaderValue() {
+  public String getLastApiFormatHeaderValue() {
     return lastApiFormatHeaderValue;
   }
 
-  public byte[] lastBody() {
+  public byte[] getLastBody() {
     return lastBody;
   }
 
-  public List<String> lastCookies() {
+  public List<String> getLastCookies() {
     return lastCookies;
   }
 

@@ -17,6 +17,7 @@ package com.google.datastore.v1.client;
 
 import static com.google.datastore.v1.client.DatastoreHelper.makeAndFilter;
 
+import com.google.api.core.BetaApi;
 import com.google.datastore.v1.EntityResult;
 import com.google.datastore.v1.Filter;
 import com.google.datastore.v1.Key;
@@ -69,6 +70,7 @@ final class QuerySplitterImpl implements QuerySplitter {
     return getSplitsInternal(query, partition, numSplits, datastore, null);
   }
 
+  @BetaApi
   @Override
   public List<Query> getSplits(
       Query query, PartitionId partition, int numSplits, Datastore datastore, Timestamp readTime)

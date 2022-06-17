@@ -15,6 +15,7 @@
  */
 package com.google.datastore.v1.client;
 
+import com.google.api.core.BetaApi;
 import com.google.datastore.v1.PartitionId;
 import com.google.datastore.v1.Query;
 import com.google.protobuf.Timestamp;
@@ -44,8 +45,9 @@ public interface QuerySplitter {
   /**
    * Same as {@link #getSplits(Query, PartitionId, int, Datastore)} but the splits are based on
    * {@code readTime}, and the returned sharded {@link Query}s should also be executed with {@code
-   * readTime}.
+   * readTime}. Reading from a timestamp is currently a private preview feature in Datastore.
    */
+  @BetaApi
   default List<Query> getSplits(
       Query query, PartitionId partition, int numSplits, Datastore datastore, Timestamp readTime)
       throws DatastoreException {

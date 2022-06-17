@@ -276,7 +276,7 @@ public class DatastoreClientTest {
     AllocateIdsResponse response = AllocateIdsResponse.newBuilder().build();
     mockClient.setNextResponse(response);
     assertEquals(response, datastore.allocateIds(request));
-    assertEquals("magic", mockClient.lastCookies().get(0));
+    assertEquals("magic", mockClient.getLastCookies().get(0));
   }
 
   @Test
@@ -347,10 +347,10 @@ public class DatastoreClientTest {
     Object[] callArgs = {request};
     assertEquals(response, call.invoke(datastore, callArgs));
 
-    assertEquals("/v1/projects/project-id:" + methodName, mockClient.lastPath());
-    assertEquals("application/x-protobuf", mockClient.lastMimeType());
-    assertEquals("2", mockClient.lastApiFormatHeaderValue());
-    assertArrayEquals(request.toByteArray(), mockClient.lastBody());
+    assertEquals("/v1/projects/project-id:" + methodName, mockClient.getLastPath());
+    assertEquals("application/x-protobuf", mockClient.getLastMimeType());
+    assertEquals("2", mockClient.getLastApiFormatHeaderValue());
+    assertArrayEquals(request.toByteArray(), mockClient.getLastBody());
     assertEquals(1, datastore.getRpcCount());
 
     datastore.resetRpcCount();
