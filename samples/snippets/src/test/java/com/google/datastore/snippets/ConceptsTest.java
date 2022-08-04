@@ -1161,7 +1161,7 @@ public class ConceptsTest {
     // Create a timestamp for two minutes ago
     Timestamp now = Timestamp.now();
     Timestamp twoMinutesAgo =
-        Timestamp.ofTimeSecondsAndNanos(now.getSeconds() - 120l, now.getNanos());
+        Timestamp.ofTimeSecondsAndNanos(now.getSeconds() - 120L, now.getNanos());
     // Create a readOption to read at time twoMinutesAgo
     ReadOption readOption = ReadOption.readTime(twoMinutesAgo);
     // Use readOption to Fetch entity at time twoMinutesAgo
