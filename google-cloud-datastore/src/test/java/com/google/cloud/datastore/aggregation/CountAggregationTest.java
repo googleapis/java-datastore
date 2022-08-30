@@ -16,7 +16,7 @@
 
 package com.google.cloud.datastore.aggregation;
 
-import static com.google.cloud.datastore.Aggregation.count;
+import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 

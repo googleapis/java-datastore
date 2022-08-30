@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-package com.google.cloud.datastore;
+package com.google.cloud.datastore.aggregation;
 
-import com.google.cloud.datastore.aggregation.CountAggregation;
+public interface AggregationBuilder<A extends Aggregation> {
 
-public class Aggregation {
+  A build();
 
-  public static CountAggregation.Builder count() {
-    return new CountAggregation.Builder();
-  }
 }

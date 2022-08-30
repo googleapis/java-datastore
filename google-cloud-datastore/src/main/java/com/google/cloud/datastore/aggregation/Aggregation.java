@@ -16,19 +16,23 @@
 
 package com.google.cloud.datastore.aggregation;
 
-import com.google.datastore.v1.AggregationQuery.Aggregation;
+import com.google.datastore.v1.AggregationQuery;
 
-abstract class DatastoreAggregation {
+abstract class Aggregation {
 
   private final String alias;
 
-  public DatastoreAggregation(String alias) {
+  public Aggregation(String alias) {
     this.alias = alias;
   }
 
-  abstract Aggregation toPb();
-
   public String getAlias() {
     return alias;
+  }
+
+  abstract AggregationQuery.Aggregation toPb();
+
+  public static CountAggregation.Builder count() {
+    return new CountAggregation.Builder();
   }
 }

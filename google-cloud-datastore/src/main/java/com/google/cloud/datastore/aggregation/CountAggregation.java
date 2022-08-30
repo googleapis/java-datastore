@@ -16,11 +16,11 @@
 
 package com.google.cloud.datastore.aggregation;
 
-import com.google.datastore.v1.AggregationQuery.Aggregation;
+import com.google.datastore.v1.AggregationQuery;
 import com.google.datastore.v1.AggregationQuery.Aggregation.Count;
 import com.google.protobuf.Int64Value;
 
-public class CountAggregation extends DatastoreAggregation {
+public class CountAggregation extends Aggregation {
 
   private final long limit;
 
@@ -30,11 +30,11 @@ public class CountAggregation extends DatastoreAggregation {
   }
 
   @Override
-  Aggregation toPb() {
+  AggregationQuery.Aggregation toPb() {
     Count count = Count.newBuilder()
         .setUpTo(Int64Value.of(limit))
         .build();
-    Aggregation.Builder aggregationBuilder = Aggregation.newBuilder()
+    AggregationQuery.Aggregation.Builder aggregationBuilder = AggregationQuery.Aggregation.newBuilder()
         .setCount(count);
     if (this.getAlias() != null) {
       aggregationBuilder.setAlias(this.getAlias());
@@ -42,7 +42,7 @@ public class CountAggregation extends DatastoreAggregation {
     return aggregationBuilder.build();
   }
 
-  public static class Builder implements DatastoreAggregationBuilder<CountAggregation> {
+  public static class Builder implements AggregationBuilder<CountAggregation> {
 
     private String alias;
     private long limit;
