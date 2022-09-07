@@ -29,6 +29,7 @@ import com.google.api.core.ApiFunction;
 import com.google.cloud.StringEnumType;
 import com.google.cloud.StringEnumValue;
 import com.google.cloud.Timestamp;
+import com.google.cloud.datastore.Query.ResultType;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Preconditions;
@@ -85,7 +86,7 @@ import java.util.Objects;
  * @see <a href="https://cloud.google.com/appengine/docs/java/datastore/queries">Datastore
  *     queries</a>
  */
-public abstract class StructuredQuery<V> extends Query<V> {
+public abstract class StructuredQuery<V> implements RecordQuery<V> {
 
   private static final long serialVersionUID = 546838955624019594L;
   static final String KEY_PROPERTY_NAME = "__key__";
@@ -99,6 +100,10 @@ public abstract class StructuredQuery<V> extends Query<V> {
   private final Cursor endCursor;
   private final int offset;
   private final Integer limit;
+
+  private final ResultType<V> resultType;
+  private final String namespace;
+
 
   public abstract static class Filter implements Serializable {
 
@@ -899,7 +904,8 @@ public abstract class StructuredQuery<V> extends Query<V> {
   }
 
   StructuredQuery(BuilderImpl<V, ?> builder) {
-    super(builder.resultType, builder.namespace);
+    resultType = checkNotNull(builder.resultType);
+    namespace = builder.namespace;
     kind = builder.kind;
     projection = ImmutableList.copyOf(builder.projection);
     filter = builder.filter;
@@ -1014,12 +1020,22 @@ public abstract class StructuredQuery<V> extends Query<V> {
   public abstract Builder<V> toBuilder();
 
   @Override
-  void populatePb(com.google.datastore.v1.RunQueryRequest.Builder requestPb) {
+  public String getNamespace() {
+    return namespace;
+  }
+
+  @Override
+  public ResultType<V> getType() {
+    return resultType;
+  }
+
+  @Override
+  public void populatePb(com.google.datastore.v1.RunQueryRequest.Builder requestPb) {
     requestPb.setQuery(toPb());
   }
 
   @Override
-  StructuredQuery<V> nextQuery(com.google.datastore.v1.RunQueryResponse responsePb) {
+  public StructuredQuery<V> nextQuery(com.google.datastore.v1.RunQueryResponse responsePb) {
     Builder<V> builder = toBuilder();
     builder.setStartCursor(new Cursor(responsePb.getBatch().getEndCursor()));
     if (offset > 0 && responsePb.getBatch().getSkippedResults() < offset) {

@@ -93,7 +93,7 @@ final class TransactionImpl extends BaseDatastoreBatchWriter implements Transact
     com.google.datastore.v1.ReadOptions.Builder readOptionsPb =
         com.google.datastore.v1.ReadOptions.newBuilder();
     readOptionsPb.setTransaction(transactionId);
-    return datastore.run(readOptionsPb.build(), query);
+    return datastore.run(readOptionsPb.build(), (RecordQuery<T>) query);
   }
 
   @Override

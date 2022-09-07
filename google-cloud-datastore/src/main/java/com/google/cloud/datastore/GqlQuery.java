@@ -20,6 +20,7 @@ import static com.google.cloud.datastore.Validator.validateNamespace;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.cloud.Timestamp;
+import com.google.cloud.datastore.Query.ResultType;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -71,7 +72,7 @@ import java.util.TreeMap;
  * @param <V> the type of the result values this query will produce
  * @see <a href="https://cloud.google.com/datastore/docs/apis/gql/gql_reference">GQL Reference</a>
  */
-public final class GqlQuery<V> extends Query<V> {
+public final class GqlQuery<V> implements RecordQuery<V> {
 
   private static final long serialVersionUID = -5514894742849230793L;
 
@@ -79,6 +80,10 @@ public final class GqlQuery<V> extends Query<V> {
   private final boolean allowLiteral;
   private final ImmutableMap<String, Binding> namedBindings;
   private final ImmutableList<Binding> positionalBindings;
+
+  private final ResultType<V> resultType;
+  private final String namespace;
+
 
   static final class Binding implements Serializable {
 
@@ -423,7 +428,8 @@ public final class GqlQuery<V> extends Query<V> {
   }
 
   private GqlQuery(Builder<V> builder) {
-    super(builder.resultType, builder.namespace);
+    resultType = checkNotNull(builder.resultType);
+    namespace = builder.namespace;
     queryString = builder.queryString;
     allowLiteral = builder.allowLiteral;
     namedBindings = ImmutableMap.copyOf(builder.namedBindings);
@@ -462,8 +468,18 @@ public final class GqlQuery<V> extends Query<V> {
   }
 
   @Override
+  public String getNamespace() {
+    return namespace;
+  }
+
+  @Override
+  public ResultType<V> getType() {
+    return resultType;
+  }
+
+  @Override
   public String toString() {
-    return super.toStringHelper()
+    return toStringHelper()
         .add("queryString", queryString)
         .add("allowLiteral", allowLiteral)
         .add("namedBindings", namedBindings)
@@ -508,12 +524,12 @@ public final class GqlQuery<V> extends Query<V> {
   }
 
   @Override
-  void populatePb(com.google.datastore.v1.RunQueryRequest.Builder requestPb) {
+  public void populatePb(com.google.datastore.v1.RunQueryRequest.Builder requestPb) {
     requestPb.setGqlQuery(toPb());
   }
 
   @Override
-  Query<V> nextQuery(com.google.datastore.v1.RunQueryResponse responsePb) {
+  public RecordQuery<V> nextQuery(com.google.datastore.v1.RunQueryResponse responsePb) {
     return StructuredQuery.<V>fromPb(getType(), getNamespace(), responsePb.getQuery())
         .nextQuery(responsePb);
   }

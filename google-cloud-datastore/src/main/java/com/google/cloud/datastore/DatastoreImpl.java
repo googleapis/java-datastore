@@ -172,15 +172,15 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   @Override
   public <T> QueryResults<T> run(Query<T> query) {
-    return run(null, query);
+    return run(null, (RecordQuery<T>) query);
   }
 
   @Override
   public <T> QueryResults<T> run(Query<T> query, ReadOption... options) {
-    return run(toReadOptionsPb(options), query);
+    return run(toReadOptionsPb(options), (RecordQuery<T>) query);
   }
 
-  <T> QueryResults<T> run(com.google.datastore.v1.ReadOptions readOptionsPb, Query<T> query) {
+  <T> QueryResults<T> run(com.google.datastore.v1.ReadOptions readOptionsPb, RecordQuery<T> query) {
     return new QueryResultsImpl<>(this, readOptionsPb, query);
   }
 

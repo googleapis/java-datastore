@@ -35,12 +35,9 @@ import java.util.Map;
  * @param <V> the type of the values returned by this query.
  * @see <a href="https://cloud.google.com/datastore/docs/concepts/queries">Datastore Queries</a>
  */
-public abstract class Query<V> implements Serializable {
+public interface Query<V> extends Serializable {
 
-  private static final long serialVersionUID = 7967659059395653941L;
-
-  private final ResultType<V> resultType;
-  private final String namespace;
+  String getNamespace();
 
   /**
    * This class represents the expected type of the result. ENTITY: A full entity represented by
@@ -155,27 +152,6 @@ public abstract class Query<V> implements Serializable {
       return MoreObjects.firstNonNull(PB_TO_INSTANCE.get(typePb), UNKNOWN);
     }
   }
-
-  Query(ResultType<V> resultType, String namespace) {
-    this.resultType = checkNotNull(resultType);
-    this.namespace = namespace;
-  }
-
-  ResultType<V> getType() {
-    return resultType;
-  }
-
-  public String getNamespace() {
-    return namespace;
-  }
-
-  ToStringHelper toStringHelper() {
-    return MoreObjects.toStringHelper(this).add("type", resultType).add("namespace", namespace);
-  }
-
-  abstract void populatePb(com.google.datastore.v1.RunQueryRequest.Builder requestPb);
-
-  abstract Query<V> nextQuery(com.google.datastore.v1.RunQueryResponse responsePb);
 
   /**
    * Returns a new {@link GqlQuery} builder.

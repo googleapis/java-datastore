@@ -30,7 +30,7 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
   private final com.google.datastore.v1.ReadOptions readOptionsPb;
   private final com.google.datastore.v1.PartitionId partitionIdPb;
   private final ResultType<T> queryResultType;
-  private Query<T> query;
+  private RecordQuery<T> query;
   private ResultType<?> actualResultType;
   private com.google.datastore.v1.RunQueryResponse runQueryResponsePb;
   private com.google.datastore.v1.Query mostRecentQueryPb;
@@ -40,7 +40,7 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
   private MoreResultsType moreResults;
 
   QueryResultsImpl(
-      DatastoreImpl datastore, com.google.datastore.v1.ReadOptions readOptionsPb, Query<T> query) {
+      DatastoreImpl datastore, com.google.datastore.v1.ReadOptions readOptionsPb, RecordQuery<T> query) {
     this.datastore = datastore;
     this.readOptionsPb = readOptionsPb;
     this.query = query;
