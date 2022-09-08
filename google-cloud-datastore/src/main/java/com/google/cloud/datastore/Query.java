@@ -242,4 +242,8 @@ public interface Query<V> extends Serializable {
   public static ProjectionEntityQuery.Builder newProjectionEntityQueryBuilder() {
     return new ProjectionEntityQuery.Builder();
   }
+
+  public static AggregationQuery.Builder newAggregationQueryBuilder() {
+    return new AggregationQuery.Builder();
+  }
 }

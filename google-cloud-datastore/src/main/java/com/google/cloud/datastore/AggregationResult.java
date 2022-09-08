@@ -13,26 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.google.cloud.datastore;
 
-package com.google.cloud.datastore.aggregation;
+public class AggregationResult {
 
-import com.google.datastore.v1.AggregationQuery;
-
-public abstract class Aggregation {
-
-  private final String alias;
-
-  public Aggregation(String alias) {
-    this.alias = alias;
-  }
-
-  public String getAlias() {
-    return alias;
-  }
-
-  abstract AggregationQuery.Aggregation toPb();
-
-  public static CountAggregation.Builder count() {
-    return new CountAggregation.Builder();
-  }
 }

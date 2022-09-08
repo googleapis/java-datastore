@@ -19,6 +19,9 @@ package com.google.cloud.datastore.aggregation;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.google.datastore.v1.AggregationQuery;
 import org.junit.Test;
@@ -62,5 +65,22 @@ public class CountAggregationTest {
 
     assertThat(countAggregationPb.getCount().getUpTo().getValue(), equalTo(100L));
     assertThat(countAggregationPb.getAlias(), equalTo("column_1"));
+  }
+
+  @Test
+  public void testEquals() {
+    CountAggregation.Builder aggregation1 = count()
+        .as("total")
+        .limit(100);
+
+    CountAggregation.Builder aggregation2 = count()
+        .as("total")
+        .limit(100);
+
+    assertEquals(aggregation1.build(), aggregation2.build());
+    assertEquals(aggregation2.build(), aggregation1.build());
+
+    assertNotEquals(aggregation1.as("new-alias").build(), aggregation2.build());
+    assertNotEquals(aggregation1.limit(399).build(), aggregation2.build());
   }
 }

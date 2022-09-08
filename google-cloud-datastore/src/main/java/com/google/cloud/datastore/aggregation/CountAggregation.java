@@ -19,6 +19,7 @@ package com.google.cloud.datastore.aggregation;
 import com.google.datastore.v1.AggregationQuery;
 import com.google.datastore.v1.AggregationQuery.Aggregation.Count;
 import com.google.protobuf.Int64Value;
+import java.util.Objects;
 
 public class CountAggregation extends Aggregation {
 
@@ -40,6 +41,23 @@ public class CountAggregation extends Aggregation {
       aggregationBuilder.setAlias(this.getAlias());
     }
     return aggregationBuilder.build();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    CountAggregation that = (CountAggregation) o;
+    return limit == that.limit && getAlias().equals(that.getAlias());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(limit, getAlias());
   }
 
   public static class Builder implements AggregationBuilder<CountAggregation> {
