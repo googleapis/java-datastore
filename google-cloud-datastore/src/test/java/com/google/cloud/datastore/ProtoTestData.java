@@ -20,6 +20,7 @@ import static com.google.datastore.v1.PropertyOrder.Direction.ASCENDING;
 import com.google.datastore.v1.AggregationQuery.Aggregation;
 import com.google.datastore.v1.AggregationQuery.Aggregation.Count;
 import com.google.datastore.v1.Filter;
+import com.google.datastore.v1.GqlQueryParameter;
 import com.google.datastore.v1.KindExpression;
 import com.google.datastore.v1.Projection;
 import com.google.datastore.v1.PropertyFilter.Operator;
@@ -32,6 +33,18 @@ public class ProtoTestData {
 
   public static Value booleanValue(boolean value) {
     return Value.newBuilder().setBooleanValue(value).build();
+  }
+
+  public static Value stringValue(String value) {
+    return Value.newBuilder().setStringValue(value).build();
+  }
+
+  public static Value intValue(long value) {
+    return Value.newBuilder().setIntegerValue(value).build();
+  }
+
+  public static GqlQueryParameter gqlQueryParameter(Value value) {
+    return GqlQueryParameter.newBuilder().setValue(value).build();
   }
 
   public static KindExpression kind(String kind) {
