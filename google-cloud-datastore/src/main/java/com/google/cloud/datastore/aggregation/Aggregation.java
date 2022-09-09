@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore.aggregation;
 
+import com.google.api.core.InternalApi;
 import com.google.datastore.v1.AggregationQuery;
 
 public abstract class Aggregation {
@@ -30,7 +31,8 @@ public abstract class Aggregation {
     return alias;
   }
 
-  abstract AggregationQuery.Aggregation toPb();
+  @InternalApi
+  public abstract AggregationQuery.Aggregation toPb();
 
   public static CountAggregation.Builder count() {
     return new CountAggregation.Builder();

@@ -15,16 +15,25 @@
  */
 package com.google.cloud.datastore.execution.request;
 
+import static com.google.cloud.datastore.ProtoTestData.booleanValue;
+import static com.google.cloud.datastore.ProtoTestData.countAggregation;
+import static com.google.cloud.datastore.ProtoTestData.kind;
+import static com.google.cloud.datastore.ProtoTestData.propertyFilter;
 import static com.google.cloud.datastore.StructuredQuery.PropertyFilter.eq;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
+import static com.google.datastore.v1.PropertyFilter.Operator.EQUAL;
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.EntityQuery;
+import com.google.cloud.datastore.ProtoTestData;
 import com.google.cloud.datastore.Query;
 import com.google.datastore.v1.RunAggregationQueryRequest;
+import com.google.datastore.v1.Value;
+import java.util.Arrays;
 import org.junit.Test;
 
 public class AggregationQueryRequestProtoPreparerTest {
@@ -39,13 +48,15 @@ public class AggregationQueryRequestProtoPreparerTest {
   private static final EntityQuery COMPLETED_TASK_QUERY = Query.newEntityQueryBuilder()
       .setNamespace(NAMESPACE).setKind(KIND).setFilter(eq("done", true)).build();
 
-  private ProtoPreparer<AggregationQuery, RunAggregationQueryRequest> protoPreparer = new AggregationQueryRequestProtoPreparer(DATASTORE_OPTIONS);
+  private final AggregationQueryRequestProtoPreparer protoPreparer = new AggregationQueryRequestProtoPreparer(
+      DATASTORE_OPTIONS);
 
   @Test
   public void shouldPrepareAggregationQueryRequestWithGivenStructuredQuery() {
     AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
         .setNamespace(NAMESPACE)
         .addAggregation(count().as("total"))
+        .addAggregation(count().limit(100).as("total_upto_100"))
         .over(COMPLETED_TASK_QUERY)
         .build();
 
@@ -56,9 +67,15 @@ public class AggregationQueryRequestProtoPreparerTest {
     assertThat(runAggregationQueryRequest.getPartitionId().getProjectId(), equalTo(PROJECT_ID));
     assertThat(runAggregationQueryRequest.getPartitionId().getNamespaceId(), equalTo(NAMESPACE));
 
-
-    //TODO verify the complete aggregation query
-    assertThat(runAggregationQueryRequest.getAggregationQuery(), equalTo(com.google.datastore.v1.AggregationQuery.newBuilder().build()));
-
+    com.google.datastore.v1.AggregationQuery aggregationQueryProto = runAggregationQueryRequest.getAggregationQuery();
+    assertThat(aggregationQueryProto.getNestedQuery(),
+        equalTo(com.google.datastore.v1.Query.newBuilder()
+            .addKind(kind(KIND))
+            .setFilter(propertyFilter("done", EQUAL, booleanValue(true)))
+            .build()));
+    assertThat(aggregationQueryProto.getAggregationsList(), equalTo(asList(
+        countAggregation("total"),
+        countAggregation("total_upto_100", 100)
+    )));
   }
 }

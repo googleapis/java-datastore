@@ -15,22 +15,20 @@
  */
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.ProtoTestData.booleanValue;
+import static com.google.cloud.datastore.ProtoTestData.projection;
+import static com.google.cloud.datastore.ProtoTestData.propertyFilter;
+import static com.google.cloud.datastore.ProtoTestData.propertyOrder;
+import static com.google.cloud.datastore.ProtoTestData.propertyReference;
 import static com.google.cloud.datastore.Query.newEntityQueryBuilder;
 import static com.google.datastore.v1.PropertyFilter.Operator.EQUAL;
-import static com.google.datastore.v1.PropertyOrder.Direction.ASCENDING;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
-import com.google.datastore.v1.Filter;
 import com.google.datastore.v1.KindExpression;
-import com.google.datastore.v1.Projection;
-import com.google.datastore.v1.PropertyFilter.Operator;
-import com.google.datastore.v1.PropertyOrder;
-import com.google.datastore.v1.PropertyReference;
 import com.google.datastore.v1.Query;
-import com.google.datastore.v1.Value;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Int32Value;
 import org.junit.Test;
@@ -85,7 +83,7 @@ public class StructuredQueryProtoPreparerTest {
         .build());
 
     assertThat(queryProto.getFilter(), equalTo(
-        propertyFilter("done", EQUAL, Value.newBuilder().setBooleanValue(true).build())
+        propertyFilter("done", EQUAL, booleanValue(true))
     ));
   }
 
@@ -117,32 +115,5 @@ public class StructuredQueryProtoPreparerTest {
 
     assertThat(queryProto.getProjection(0), equalTo(projection("dept-id")));
     assertThat(queryProto.getProjection(1), equalTo(projection("rank")));
-  }
-
-  private Filter propertyFilter(String propertyName, Operator operator, Value value) {
-    return Filter.newBuilder().setPropertyFilter(
-        com.google.datastore.v1.PropertyFilter.newBuilder()
-            .setProperty(propertyReference(propertyName))
-            .setOp(operator)
-            .setValue(value)
-            .build()
-    ).build();
-  }
-
-  private PropertyOrder propertyOrder(String value) {
-    return PropertyOrder.newBuilder()
-        .setProperty(propertyReference(value))
-        .setDirection(ASCENDING)
-        .build();
-  }
-
-  private Projection projection(String value) {
-    return Projection.newBuilder()
-        .setProperty(propertyReference(value))
-        .build();
-  }
-
-  private PropertyReference propertyReference(String value) {
-    return PropertyReference.newBuilder().setName(value).build();
   }
 }

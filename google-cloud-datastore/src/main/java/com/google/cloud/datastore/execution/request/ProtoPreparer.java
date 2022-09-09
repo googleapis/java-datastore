@@ -15,6 +15,9 @@
  */
 package com.google.cloud.datastore.execution.request;
 
+import com.google.api.core.InternalApi;
+
+@InternalApi
 public interface ProtoPreparer<INPUT, OUTPUT> {
   OUTPUT prepare(INPUT input);
 }
