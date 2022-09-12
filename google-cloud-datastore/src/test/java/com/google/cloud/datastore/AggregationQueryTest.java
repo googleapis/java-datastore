@@ -15,6 +15,8 @@
  */
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.AggregationQuery.Mode.GQL;
+import static com.google.cloud.datastore.AggregationQuery.Mode.STRUCTURED;
 import static com.google.cloud.datastore.StructuredQuery.PropertyFilter.eq;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -50,7 +52,8 @@ public class AggregationQueryTest {
     assertThat(aggregationQuery.getAggregations().get(0), equalTo(count().as("total").build()));
     assertThat(aggregationQuery.getAggregations().get(1),
         equalTo(count().limit(100).as("total_upto_100").build()));
-    assertThat(aggregationQuery.getNestedQuery(), equalTo(COMPLETED_TASK_QUERY));
+    assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
+    assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
   }
 
   @Test
@@ -75,10 +78,35 @@ public class AggregationQueryTest {
   @Test
   public void testAggregationBuilderWithoutAggregation() {
     exceptionRule.expect(IllegalArgumentException.class);
-    exceptionRule.expectMessage("At least one aggregation is required for an aggregation query to run");
+    exceptionRule.expectMessage(
+        "At least one aggregation is required for an aggregation query to run");
     Query.newAggregationQueryBuilder()
         .setNamespace(NAMESPACE)
         .over(COMPLETED_TASK_QUERY)
         .build();
   }
+
+  @Test
+  public void testAggregationBuilderWithGqlQuery() {
+    GqlQuery<?> gqlQuery = Query.newGqlQueryBuilder("SELECT * FROM Task WHERE done = true").build();
+
+    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
+        .setNamespace(NAMESPACE)
+        .over(gqlQuery)
+        .build();
+
+    assertThat(aggregationQuery.getNestedGqlQuery(), equalTo(gqlQuery));
+    assertThat(aggregationQuery.getMode(), equalTo(GQL));
+  }
+
+  @Test
+  public void testAggregationBuilderWithoutProvidingAnyNestedQuery() {
+    exceptionRule.expect(IllegalArgumentException.class);
+    exceptionRule.expectMessage(
+        "Nested query is required for an aggregation query to run");
+    Query.newAggregationQueryBuilder()
+        .setNamespace(NAMESPACE)
+        .build();
+  }
+
 }

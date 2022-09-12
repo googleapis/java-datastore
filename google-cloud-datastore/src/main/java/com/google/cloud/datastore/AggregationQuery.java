@@ -15,6 +15,8 @@
  */
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.AggregationQuery.Mode.GQL;
+import static com.google.cloud.datastore.AggregationQuery.Mode.STRUCTURED;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -25,33 +27,50 @@ import java.util.List;
 
 public class AggregationQuery extends Query<AggregationResult> {
 
-  private final List<Aggregation> aggregations;
-  private final RecordQuery<?> nestedQuery;
+  private List<Aggregation> aggregations;
+  private StructuredQuery<?> nestedStructuredQuery;
+  private final Mode mode;
+  private GqlQuery<?> nestedGqlQuery;
 
-  AggregationQuery(String namespace, List<Aggregation> aggregations, RecordQuery<?> nestedQuery) {
+  AggregationQuery(String namespace, List<Aggregation> aggregations,
+      StructuredQuery<?> nestedQuery) {
     super(checkNotNull(namespace));
-    checkArgument(nestedQuery != null,
-        "Nested query is required for an aggregation query to run");
     checkArgument(!aggregations.isEmpty(),
         "At least one aggregation is required for an aggregation query to run");
     this.aggregations = aggregations;
-    this.nestedQuery = nestedQuery;
+    this.nestedStructuredQuery = nestedQuery;
+    this.mode = STRUCTURED;
   }
 
+  AggregationQuery(String namespace, GqlQuery<?> gqlQuery) {
+    super(checkNotNull(namespace));
+    this.nestedGqlQuery = gqlQuery;
+    this.mode = GQL;
+  }
 
   public List<Aggregation> getAggregations() {
     return aggregations;
   }
 
-  public RecordQuery<?> getNestedQuery() {
-    return nestedQuery;
+  public StructuredQuery<?> getNestedStructuredQuery() {
+    return nestedStructuredQuery;
+  }
+
+  public GqlQuery<?> getNestedGqlQuery() {
+    return nestedGqlQuery;
+  }
+
+  public Mode getMode() {
+    return mode;
   }
 
   public static class Builder {
 
     private String namespace;
-    private List<Aggregation> aggregations;
-    private RecordQuery<?> nestedQuery;
+    private Mode mode;
+    private final List<Aggregation> aggregations;
+    private StructuredQuery<?> nestedStructuredQuery;
+    private GqlQuery<?> nestedGqlQuery;
 
     public Builder() {
       this.aggregations = new ArrayList<>();
@@ -67,13 +86,32 @@ public class AggregationQuery extends Query<AggregationResult> {
       return this;
     }
 
-    public Builder over(RecordQuery<?> nestedQuery) {
-      this.nestedQuery = nestedQuery;
+    public Builder over(StructuredQuery<?> nestedQuery) {
+      this.nestedStructuredQuery = nestedQuery;
+      this.mode = STRUCTURED;
+      return this;
+    }
+
+    public Builder over(GqlQuery<?> nestedQuery) {
+      this.nestedGqlQuery = nestedQuery;
+      this.mode = GQL;
       return this;
     }
 
     public AggregationQuery build() {
-      return new AggregationQuery(namespace, aggregations, nestedQuery);
+      boolean nestedQueryProvided = nestedGqlQuery != null || nestedStructuredQuery != null;
+      checkArgument(nestedQueryProvided,
+          "Nested query is required for an aggregation query to run");
+
+      if (mode == GQL) {
+        return new AggregationQuery(namespace, nestedGqlQuery);
+      }
+      return new AggregationQuery(namespace, aggregations, nestedStructuredQuery);
     }
+  }
+
+  public enum Mode {
+    STRUCTURED,
+    GQL,
   }
 }

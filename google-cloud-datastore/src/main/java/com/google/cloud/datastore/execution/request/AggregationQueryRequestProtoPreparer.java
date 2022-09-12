@@ -15,11 +15,14 @@
  */
 package com.google.cloud.datastore.execution.request;
 
+import static com.google.cloud.datastore.AggregationQuery.Mode.GQL;
+
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.StructuredQuery;
+import com.google.cloud.datastore.GqlQueryProtoPreparer;
 import com.google.cloud.datastore.StructuredQueryProtoPreparer;
 import com.google.cloud.datastore.aggregation.Aggregation;
+import com.google.datastore.v1.GqlQuery;
 import com.google.datastore.v1.PartitionId;
 import com.google.datastore.v1.Query;
 import com.google.datastore.v1.RunAggregationQueryRequest;
@@ -29,27 +32,39 @@ public class AggregationQueryRequestProtoPreparer implements
 
   private final DatastoreOptions datastoreOptions;
   private final StructuredQueryProtoPreparer structuredQueryProtoPreparer;
+  private final GqlQueryProtoPreparer gqlQueryProtoPreparer;
 
   public AggregationQueryRequestProtoPreparer(DatastoreOptions datastoreOptions) {
     this.datastoreOptions = datastoreOptions;
     this.structuredQueryProtoPreparer = new StructuredQueryProtoPreparer();
+    this.gqlQueryProtoPreparer = new GqlQueryProtoPreparer();
   }
 
   @Override
   public RunAggregationQueryRequest prepare(AggregationQuery aggregationQuery) {
     PartitionId partitionId = getPartitionId(aggregationQuery);
-    com.google.datastore.v1.AggregationQuery aggregationQueryProtoBuilder = getAggregationQuery(aggregationQuery);
-
-    return RunAggregationQueryRequest.newBuilder()
+    RunAggregationQueryRequest.Builder aggregationQueryRequestBuilder = RunAggregationQueryRequest.newBuilder()
         .setPartitionId(partitionId)
-        .setProjectId(datastoreOptions.getProjectId())
-        .setAggregationQuery(aggregationQueryProtoBuilder)
+        .setProjectId(datastoreOptions.getProjectId());
+
+    if (aggregationQuery.getMode() == GQL) {
+      return aggregationQueryRequestBuilder
+          .setGqlQuery(buildGqlQuery(aggregationQuery))
+          .build();
+    }
+    return aggregationQueryRequestBuilder
+        .setAggregationQuery(getAggregationQuery(aggregationQuery))
         .build();
   }
 
-  private com.google.datastore.v1.AggregationQuery getAggregationQuery(AggregationQuery aggregationQuery) {
+  private GqlQuery buildGqlQuery(AggregationQuery aggregationQuery) {
+    return gqlQueryProtoPreparer.prepare(aggregationQuery.getNestedGqlQuery());
+  }
+
+  private com.google.datastore.v1.AggregationQuery getAggregationQuery(
+      AggregationQuery aggregationQuery) {
     Query nestedQueryProto = structuredQueryProtoPreparer.prepare(
-        (StructuredQuery<?>) aggregationQuery.getNestedQuery());
+        aggregationQuery.getNestedStructuredQuery());
 
     com.google.datastore.v1.AggregationQuery.Builder aggregationQueryProtoBuilder = com.google.datastore.v1.AggregationQuery.newBuilder()
         .setNestedQuery(nestedQueryProto);

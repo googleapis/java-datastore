@@ -17,8 +17,11 @@ package com.google.cloud.datastore.execution.request;
 
 import static com.google.cloud.datastore.ProtoTestData.booleanValue;
 import static com.google.cloud.datastore.ProtoTestData.countAggregation;
+import static com.google.cloud.datastore.ProtoTestData.gqlQueryParameter;
+import static com.google.cloud.datastore.ProtoTestData.intValue;
 import static com.google.cloud.datastore.ProtoTestData.kind;
 import static com.google.cloud.datastore.ProtoTestData.propertyFilter;
+import static com.google.cloud.datastore.ProtoTestData.stringValue;
 import static com.google.cloud.datastore.StructuredQuery.PropertyFilter.eq;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.datastore.v1.PropertyFilter.Operator.EQUAL;
@@ -29,11 +32,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.EntityQuery;
-import com.google.cloud.datastore.ProtoTestData;
+import com.google.cloud.datastore.GqlQuery;
 import com.google.cloud.datastore.Query;
+import com.google.datastore.v1.GqlQueryParameter;
 import com.google.datastore.v1.RunAggregationQueryRequest;
-import com.google.datastore.v1.Value;
-import java.util.Arrays;
+import java.util.HashMap;
 import org.junit.Test;
 
 public class AggregationQueryRequestProtoPreparerTest {
@@ -45,8 +48,16 @@ public class AggregationQueryRequestProtoPreparerTest {
       .setProjectId(PROJECT_ID)
       .setNamespace(NAMESPACE)
       .build();
-  private static final EntityQuery COMPLETED_TASK_QUERY = Query.newEntityQueryBuilder()
+  private static final EntityQuery COMPLETED_TASK_STRUCTURED_QUERY = Query.newEntityQueryBuilder()
       .setNamespace(NAMESPACE).setKind(KIND).setFilter(eq("done", true)).build();
+
+  private static final GqlQuery<?> COMPLETED_TASK_GQL_QUERY = Query.newGqlQueryBuilder(
+          "AGGREGATE COUNT AS total_characters OVER ("
+              + "SELECT * FROM Character WHERE name = @name and age > @1"
+              + ")")
+      .setBinding("name", "John Doe")
+      .addBinding(27)
+      .build();
 
   private final AggregationQueryRequestProtoPreparer protoPreparer = new AggregationQueryRequestProtoPreparer(
       DATASTORE_OPTIONS);
@@ -57,7 +68,7 @@ public class AggregationQueryRequestProtoPreparerTest {
         .setNamespace(NAMESPACE)
         .addAggregation(count().as("total"))
         .addAggregation(count().limit(100).as("total_upto_100"))
-        .over(COMPLETED_TASK_QUERY)
+        .over(COMPLETED_TASK_STRUCTURED_QUERY)
         .build();
 
     RunAggregationQueryRequest runAggregationQueryRequest = protoPreparer.prepare(aggregationQuery);
@@ -76,6 +87,32 @@ public class AggregationQueryRequestProtoPreparerTest {
     assertThat(aggregationQueryProto.getAggregationsList(), equalTo(asList(
         countAggregation("total"),
         countAggregation("total_upto_100", 100)
+    )));
+  }
+
+  @Test
+  public void shouldPrepareAggregationQueryRequestWithGivenGqlQuery() {
+    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
+        .setNamespace(NAMESPACE)
+        .over(COMPLETED_TASK_GQL_QUERY)
+        .build();
+
+    RunAggregationQueryRequest runAggregationQueryRequest = protoPreparer.prepare(aggregationQuery);
+
+    assertThat(runAggregationQueryRequest.getProjectId(), equalTo(PROJECT_ID));
+
+    assertThat(runAggregationQueryRequest.getPartitionId().getProjectId(), equalTo(PROJECT_ID));
+    assertThat(runAggregationQueryRequest.getPartitionId().getNamespaceId(), equalTo(NAMESPACE));
+
+    com.google.datastore.v1.GqlQuery gqlQueryProto = runAggregationQueryRequest.getGqlQuery();
+
+    assertThat(gqlQueryProto.getQueryString(), equalTo(COMPLETED_TASK_GQL_QUERY.getQueryString()));
+    assertThat(gqlQueryProto.getNamedBindingsMap(),
+        equalTo(new HashMap<String, GqlQueryParameter>() {{
+          put("name", gqlQueryParameter(stringValue("John Doe")));
+        }}));
+    assertThat(gqlQueryProto.getPositionalBindingsList(), equalTo(asList(
+        gqlQueryParameter(intValue(27))
     )));
   }
 }
