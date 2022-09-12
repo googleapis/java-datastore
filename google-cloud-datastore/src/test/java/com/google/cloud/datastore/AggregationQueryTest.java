@@ -21,9 +21,12 @@ import static com.google.cloud.datastore.StructuredQuery.PropertyFilter.eq;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertThrows;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 import org.junit.rules.ExpectedException;
 
 public class AggregationQueryTest {
@@ -58,32 +61,31 @@ public class AggregationQueryTest {
 
   @Test
   public void testAggregationBuilderWithoutNamespace() {
-    exceptionRule.expect(NullPointerException.class);
-    Query.newAggregationQueryBuilder()
-        .addAggregation(count().as("total"))
-        .over(COMPLETED_TASK_QUERY)
-        .build();
+    assertThrows(NullPointerException.class, () ->
+        Query.newAggregationQueryBuilder()
+            .addAggregation(count().as("total"))
+            .over(COMPLETED_TASK_QUERY)
+            .build());
   }
 
   @Test
   public void testAggregationBuilderWithoutNestedQuery() {
-    exceptionRule.expect(IllegalArgumentException.class);
-    exceptionRule.expectMessage("Nested query is required for an aggregation query to run");
-    Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .addAggregation(count().as("total"))
-        .build();
+    assertThrows("Nested query is required for an aggregation query to run",
+        IllegalArgumentException.class,
+        () -> Query.newAggregationQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .addAggregation(count().as("total"))
+            .build());
   }
 
   @Test
   public void testAggregationBuilderWithoutAggregation() {
-    exceptionRule.expect(IllegalArgumentException.class);
-    exceptionRule.expectMessage(
-        "At least one aggregation is required for an aggregation query to run");
-    Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .over(COMPLETED_TASK_QUERY)
-        .build();
+    assertThrows("At least one aggregation is required for an aggregation query to run",
+        IllegalArgumentException.class,
+        () -> Query.newAggregationQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .over(COMPLETED_TASK_QUERY)
+            .build());
   }
 
   @Test
@@ -101,12 +103,11 @@ public class AggregationQueryTest {
 
   @Test
   public void testAggregationBuilderWithoutProvidingAnyNestedQuery() {
-    exceptionRule.expect(IllegalArgumentException.class);
-    exceptionRule.expectMessage(
-        "Nested query is required for an aggregation query to run");
-    Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .build();
+    assertThrows("Nested query is required for an aggregation query to run",
+        IllegalArgumentException.class,
+        () -> Query.newAggregationQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .build());
   }
 
 }
