@@ -86,7 +86,7 @@ import java.util.Objects;
  * @see <a href="https://cloud.google.com/appengine/docs/java/datastore/queries">Datastore
  *     queries</a>
  */
-public abstract class StructuredQuery<V> implements RecordQuery<V> {
+public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery<V> {
 
   private static final long serialVersionUID = 546838955624019594L;
   static final String KEY_PROPERTY_NAME = "__key__";
@@ -102,7 +102,6 @@ public abstract class StructuredQuery<V> implements RecordQuery<V> {
   private final Integer limit;
 
   private final ResultType<V> resultType;
-  private final String namespace;
 
 
   public abstract static class Filter implements Serializable {
@@ -904,8 +903,8 @@ public abstract class StructuredQuery<V> implements RecordQuery<V> {
   }
 
   StructuredQuery(BuilderImpl<V, ?> builder) {
+    super(builder.namespace);
     resultType = checkNotNull(builder.resultType);
-    namespace = builder.namespace;
     kind = builder.kind;
     projection = ImmutableList.copyOf(builder.projection);
     filter = builder.filter;
@@ -920,6 +919,7 @@ public abstract class StructuredQuery<V> implements RecordQuery<V> {
   @Override
   public String toString() {
     return toStringHelper()
+        .add("type", getType())
         .add("kind", kind)
         .add("startCursor", startCursor)
         .add("endCursor", endCursor)
@@ -1018,11 +1018,6 @@ public abstract class StructuredQuery<V> implements RecordQuery<V> {
   }
 
   public abstract Builder<V> toBuilder();
-
-  @Override
-  public String getNamespace() {
-    return namespace;
-  }
 
   @Override
   public ResultType<V> getType() {

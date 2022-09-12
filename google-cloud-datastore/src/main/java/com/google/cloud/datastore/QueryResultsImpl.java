@@ -40,7 +40,7 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
   private MoreResultsType moreResults;
 
   QueryResultsImpl(
-      DatastoreImpl datastore, com.google.datastore.v1.ReadOptions readOptionsPb, RecordQuery<T> query) {
+      DatastoreImpl datastore, com.google.datastore.v1.ReadOptions readOptionsPb, RecordQuery<T> query, String namespace) {
     this.datastore = datastore;
     this.readOptionsPb = readOptionsPb;
     this.query = query;
@@ -48,8 +48,8 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
     com.google.datastore.v1.PartitionId.Builder pbBuilder =
         com.google.datastore.v1.PartitionId.newBuilder();
     pbBuilder.setProjectId(datastore.getOptions().getProjectId());
-    if (query.getNamespace() != null) {
-      pbBuilder.setNamespaceId(query.getNamespace());
+    if (namespace != null) {
+      pbBuilder.setNamespaceId(namespace);
     } else if (datastore.getOptions().getNamespace() != null) {
       pbBuilder.setNamespaceId(datastore.getOptions().getNamespace());
     }

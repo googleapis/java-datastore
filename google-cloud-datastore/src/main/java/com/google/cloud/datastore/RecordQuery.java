@@ -16,11 +16,10 @@
 package com.google.cloud.datastore;
 
 import com.google.api.core.InternalApi;
-import com.google.common.base.MoreObjects;
-import com.google.common.base.MoreObjects.ToStringHelper;
+import com.google.cloud.datastore.Query.ResultType;
 
 @InternalApi
-public interface RecordQuery<V> extends Query<V>{
+public interface RecordQuery<V>{
 
   ResultType<V> getType();
 
@@ -29,9 +28,5 @@ public interface RecordQuery<V> extends Query<V>{
 
   @InternalApi
   RecordQuery<V> nextQuery(com.google.datastore.v1.RunQueryResponse responsePb);
-
-  default ToStringHelper toStringHelper() {
-    return MoreObjects.toStringHelper(this).add("type", getType()).add("namespace", getNamespace());
-  }
 
 }

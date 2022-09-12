@@ -71,7 +71,7 @@ import java.util.TreeMap;
  * @param <V> the type of the result values this query will produce
  * @see <a href="https://cloud.google.com/datastore/docs/apis/gql/gql_reference">GQL Reference</a>
  */
-public final class GqlQuery<V> implements RecordQuery<V> {
+public final class GqlQuery<V> extends Query<V> implements RecordQuery<V> {
 
   private static final long serialVersionUID = -5514894742849230793L;
 
@@ -81,7 +81,6 @@ public final class GqlQuery<V> implements RecordQuery<V> {
   private final ImmutableList<Binding> positionalBindings;
 
   private final ResultType<V> resultType;
-  private final String namespace;
 
 
   static final class Binding implements Serializable {
@@ -427,8 +426,8 @@ public final class GqlQuery<V> implements RecordQuery<V> {
   }
 
   private GqlQuery(Builder<V> builder) {
+    super(builder.namespace);
     resultType = checkNotNull(builder.resultType);
-    namespace = builder.namespace;
     queryString = builder.queryString;
     allowLiteral = builder.allowLiteral;
     namedBindings = ImmutableMap.copyOf(builder.namedBindings);
@@ -472,11 +471,6 @@ public final class GqlQuery<V> implements RecordQuery<V> {
       builder.add(binding.getCursorOrValue());
     }
     return builder.build();
-  }
-
-  @Override
-  public String getNamespace() {
-    return namespace;
   }
 
   @Override

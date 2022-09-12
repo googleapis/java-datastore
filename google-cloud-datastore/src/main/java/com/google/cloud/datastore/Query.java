@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import java.io.Serializable;
 import java.util.Map;
@@ -35,9 +36,11 @@ import java.util.Map;
  * @param <V> the type of the values returned by this query.
  * @see <a href="https://cloud.google.com/datastore/docs/concepts/queries">Datastore Queries</a>
  */
-public interface Query<V> extends Serializable {
+public abstract class Query<V> implements Serializable {
 
-  String getNamespace();
+  private static final long serialVersionUID = 7967659059395653941L;
+
+  private final String namespace;
 
   /**
    * This class represents the expected type of the result. ENTITY: A full entity represented by
@@ -152,6 +155,19 @@ public interface Query<V> extends Serializable {
       return MoreObjects.firstNonNull(PB_TO_INSTANCE.get(typePb), UNKNOWN);
     }
   }
+
+  Query(String namespace) {
+    this.namespace = namespace;
+  }
+
+  public String getNamespace() {
+    return namespace;
+  }
+
+  ToStringHelper toStringHelper() {
+    return MoreObjects.toStringHelper(this).add("namespace", namespace);
+  }
+
 
   /**
    * Returns a new {@link GqlQuery} builder.

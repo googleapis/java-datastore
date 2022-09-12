@@ -23,26 +23,21 @@ import com.google.cloud.datastore.aggregation.AggregationBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AggregationQuery implements Query<AggregationResult> {
+public class AggregationQuery extends Query<AggregationResult> {
 
-  private final String namespace;
   private final List<Aggregation> aggregations;
   private final RecordQuery<?> nestedQuery;
 
   AggregationQuery(String namespace, List<Aggregation> aggregations, RecordQuery<?> nestedQuery) {
+    super(checkNotNull(namespace));
     checkArgument(nestedQuery != null,
         "Nested query is required for an aggregation query to run");
     checkArgument(!aggregations.isEmpty(),
         "At least one aggregation is required for an aggregation query to run");
-    this.namespace = checkNotNull(namespace);
     this.aggregations = aggregations;
     this.nestedQuery = nestedQuery;
   }
 
-  @Override
-  public String getNamespace() {
-    return namespace;
-  }
 
   public List<Aggregation> getAggregations() {
     return aggregations;

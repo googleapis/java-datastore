@@ -172,16 +172,18 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   @Override
   public <T> QueryResults<T> run(Query<T> query) {
-    return run(null, (RecordQuery<T>) query);
+    return run(null,  query);
   }
 
   @Override
   public <T> QueryResults<T> run(Query<T> query, ReadOption... options) {
-    return run(toReadOptionsPb(options), (RecordQuery<T>) query);
+    return run(toReadOptionsPb(options), query);
   }
 
-  <T> QueryResults<T> run(com.google.datastore.v1.ReadOptions readOptionsPb, RecordQuery<T> query) {
-    return new QueryResultsImpl<>(this, readOptionsPb, query);
+  //TODO- Need to check whether we can handle this typecasting in a better way
+  @SuppressWarnings("unchecked")
+  <T> QueryResults<T> run(com.google.datastore.v1.ReadOptions readOptionsPb, Query<T> query) {
+    return new QueryResultsImpl<T>(this, readOptionsPb, (RecordQuery<T>) query, query.getNamespace());
   }
 
   com.google.datastore.v1.RunQueryResponse runQuery(
