@@ -25,7 +25,7 @@ import com.google.cloud.datastore.aggregation.AggregationBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AggregationQuery extends Query<AggregationResult> {
+public class AggregationQuery extends Query<AggregationResults> {
 
   private List<Aggregation> aggregations;
   private StructuredQuery<?> nestedStructuredQuery;

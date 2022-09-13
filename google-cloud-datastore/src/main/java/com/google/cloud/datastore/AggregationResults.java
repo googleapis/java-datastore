@@ -15,31 +15,29 @@
  */
 package com.google.cloud.datastore;
 
-import java.util.Map;
-import java.util.Objects;
+import com.google.api.core.InternalApi;
+import java.util.Iterator;
+import java.util.List;
 
-public class AggregationResult {
+public class AggregationResults implements Iterable<AggregationResult> {
 
-  private final Map<String, LongValue> properties;
+  private final List<AggregationResult> aggregationResults;
 
-  public AggregationResult(Map<String, LongValue> properties) {
-    this.properties = properties;
+  public AggregationResults(List<AggregationResult> aggregationResults) {
+    this.aggregationResults = aggregationResults;
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    AggregationResult that = (AggregationResult) o;
-    return properties.equals(that.properties);
+  public Iterator<AggregationResult> iterator() {
+    return this.aggregationResults.iterator();
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(properties);
+  public int size() {
+    return this.aggregationResults.size();
+  }
+
+  @InternalApi
+  public AggregationResult get(int index) {
+    return this.aggregationResults.get(index);
   }
 }
