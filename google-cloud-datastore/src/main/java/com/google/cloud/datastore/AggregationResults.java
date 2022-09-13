@@ -18,6 +18,7 @@ package com.google.cloud.datastore;
 import com.google.api.core.InternalApi;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class AggregationResults implements Iterable<AggregationResult> {
 
@@ -39,5 +40,22 @@ public class AggregationResults implements Iterable<AggregationResult> {
   @InternalApi
   public AggregationResult get(int index) {
     return this.aggregationResults.get(index);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AggregationResults that = (AggregationResults) o;
+    return Objects.equals(aggregationResults, that.aggregationResults);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(aggregationResults);
   }
 }

@@ -18,21 +18,28 @@ package com.google.cloud.datastore.execution;
 import static com.google.cloud.datastore.ProtoTestData.intValue;
 import static com.google.cloud.datastore.StructuredQuery.PropertyFilter.eq;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
+import static java.util.Arrays.asList;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.google.cloud.datastore.AggregationQuery;
+import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.AggregationResults;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.EntityQuery;
+import com.google.cloud.datastore.LongValue;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
+import com.google.common.collect.ImmutableMap;
 import com.google.datastore.v1.AggregationResultBatch;
 import com.google.datastore.v1.RunAggregationQueryRequest;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.Value;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.easymock.EasyMock;
@@ -76,7 +83,10 @@ public class AggregationQueryExecutorTest {
     AggregationResults aggregationResults = queryExecutor.execute(aggregationQuery);
 
     verify(mockRpc);
-    System.out.println(aggregationResults);
+    assertThat(aggregationResults, equalTo(new AggregationResults(asList(
+        new AggregationResult(ImmutableMap.of("count", LongValue.of(209), "count_upto_100", LongValue.of(100))),
+        new AggregationResult(ImmutableMap.of("count", LongValue.of(509), "count_upto_100", LongValue.of(100)))
+    ))));
   }
 
   private RunAggregationQueryResponse dummyAggregationQueryResponse() {
