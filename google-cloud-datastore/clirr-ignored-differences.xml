@@ -11,4 +11,9 @@
         <method>com.google.datastore.v1.ReserveIdsResponse reserveIds(com.google.datastore.v1.ReserveIdsRequest)</method>
         <differenceType>7012</differenceType>
     </difference>
+    <difference>
+        <className>com/google/cloud/datastore/spi/v1/DatastoreRpc</className>
+        <method>com.google.datastore.v1.RunAggregationQueryResponse runAggregationQuery(com.google.datastore.v1.RunAggregationQueryRequest)</method>
+        <differenceType>7012</differenceType>
+    </difference>
 </differences>
