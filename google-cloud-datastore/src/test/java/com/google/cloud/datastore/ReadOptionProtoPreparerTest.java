@@ -21,6 +21,7 @@ import static com.google.datastore.v1.ReadOptions.ReadConsistency.EVENTUAL;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 
 import com.google.cloud.Timestamp;
@@ -55,5 +56,15 @@ public class ReadOptionProtoPreparerTest {
     ReadOptions readOptions = protoPreparer.prepare(singletonList(readTime(timestamp)));
 
     assertThat(Timestamp.fromProto(readOptions.getReadTime()), is(timestamp));
+  }
+
+  @Test
+  public void shouldReturnNullWhenReadOptionsIsNull() {
+    assertNull(protoPreparer.prepare(null));
+  }
+
+  @Test
+  public void shouldReturnNullWhenReadOptionsIsAnEmptyList() {
+    assertNull(protoPreparer.prepare(ImmutableList.of()));
   }
 }

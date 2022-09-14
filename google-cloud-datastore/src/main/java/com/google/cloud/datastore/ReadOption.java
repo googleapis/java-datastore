@@ -20,6 +20,7 @@ import com.google.api.core.BetaApi;
 import com.google.cloud.Timestamp;
 import com.google.common.collect.ImmutableMap;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -69,7 +70,8 @@ public abstract class ReadOption implements Serializable {
     }
   }
 
-  private ReadOption() {}
+  private ReadOption() {
+  }
 
   /**
    * Returns a {@code ReadOption} that specifies eventual consistency, allowing Datastore to return
@@ -104,4 +106,37 @@ public abstract class ReadOption implements Serializable {
     }
     return builder.buildOrThrow();
   }
+
+  public static class QueryAndReadOptions<Q extends Query<?>> {
+
+    Q query;
+    List<ReadOption> readOptions;
+
+    private QueryAndReadOptions(Q query, List<ReadOption> readOptions) {
+      this.query = query;
+      this.readOptions = readOptions;
+    }
+
+    private QueryAndReadOptions(Q query) {
+      this.query = query;
+      this.readOptions = Collections.emptyList();
+    }
+
+    public Q getQuery() {
+      return query;
+    }
+
+    public List<ReadOption> getReadOptions() {
+      return readOptions;
+    }
+
+    public static <Q extends Query<?>> QueryAndReadOptions<Q> create(Q query) {
+      return new QueryAndReadOptions<>(query);
+    }
+
+    public static <Q extends Query<?>> QueryAndReadOptions<Q> create(Q query, List<ReadOption> readOptions) {
+      return new QueryAndReadOptions<>(query, readOptions);
+    }
+  }
+
 }

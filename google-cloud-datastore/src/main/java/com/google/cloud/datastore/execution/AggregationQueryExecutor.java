@@ -17,15 +17,18 @@ package com.google.cloud.datastore.execution;
 
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResults;
-import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.ReadOption;
+import com.google.cloud.datastore.ReadOption.QueryAndReadOptions;
 import com.google.cloud.datastore.execution.request.AggregationQueryRequestProtoPreparer;
 import com.google.cloud.datastore.execution.response.AggregationQueryResponseTransformer;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.datastore.v1.RunAggregationQueryRequest;
 import com.google.datastore.v1.RunAggregationQueryResponse;
+import java.util.Arrays;
 
-public class AggregationQueryExecutor implements QueryExecutor<AggregationQuery, AggregationResults>{
+public class AggregationQueryExecutor implements
+    QueryExecutor<AggregationQuery, AggregationResults> {
 
   private final DatastoreRpc datastoreRpc;
   private final AggregationQueryRequestProtoPreparer protoPreparer;
@@ -38,10 +41,19 @@ public class AggregationQueryExecutor implements QueryExecutor<AggregationQuery,
   }
 
   @Override
-  public AggregationResults execute(AggregationQuery query) {
-    RunAggregationQueryRequest runAggregationQueryRequest = this.protoPreparer.prepare(query);
+  public AggregationResults execute(AggregationQuery query, ReadOption... readOptions) {
+    RunAggregationQueryRequest runAggregationQueryRequest = getRunAggregationQueryRequest(
+        query, readOptions);
     RunAggregationQueryResponse runAggregationQueryResponse = this.datastoreRpc.runAggregationQuery(
         runAggregationQueryRequest);
     return this.responseTransformer.transform(runAggregationQueryResponse);
+  }
+
+  private RunAggregationQueryRequest getRunAggregationQueryRequest(AggregationQuery query,
+      ReadOption... readOptions) {
+    QueryAndReadOptions<AggregationQuery> queryAndReadOptions = readOptions == null ?
+        QueryAndReadOptions.create(query) :
+        QueryAndReadOptions.create(query, Arrays.asList(readOptions));
+    return this.protoPreparer.prepare(queryAndReadOptions);
   }
 }

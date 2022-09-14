@@ -16,7 +16,8 @@
 package com.google.cloud.datastore.execution;
 
 import com.google.cloud.datastore.Query;
+import com.google.cloud.datastore.ReadOption;
 
 public interface QueryExecutor<INPUT extends Query<OUTPUT>, OUTPUT> {
-  OUTPUT execute(INPUT query);
+  OUTPUT execute(INPUT query, ReadOption... readOptions);
 }

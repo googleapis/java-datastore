@@ -20,41 +20,53 @@ import static com.google.cloud.datastore.AggregationQuery.Mode.GQL;
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.GqlQueryProtoPreparer;
+import com.google.cloud.datastore.ReadOption;
+import com.google.cloud.datastore.ReadOption.QueryAndReadOptions;
+import com.google.cloud.datastore.ReadOptionProtoPreparer;
 import com.google.cloud.datastore.StructuredQueryProtoPreparer;
 import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.datastore.v1.GqlQuery;
 import com.google.datastore.v1.PartitionId;
 import com.google.datastore.v1.Query;
+import com.google.datastore.v1.ReadOptions;
 import com.google.datastore.v1.RunAggregationQueryRequest;
+import java.util.List;
 
 public class AggregationQueryRequestProtoPreparer implements
-    ProtoPreparer<AggregationQuery, RunAggregationQueryRequest> {
+    ProtoPreparer<QueryAndReadOptions<AggregationQuery>, RunAggregationQueryRequest> {
 
   private final DatastoreOptions datastoreOptions;
   private final StructuredQueryProtoPreparer structuredQueryProtoPreparer;
   private final GqlQueryProtoPreparer gqlQueryProtoPreparer;
+  private final ReadOptionProtoPreparer readOptionProtoPreparer;
 
   public AggregationQueryRequestProtoPreparer(DatastoreOptions datastoreOptions) {
     this.datastoreOptions = datastoreOptions;
     this.structuredQueryProtoPreparer = new StructuredQueryProtoPreparer();
     this.gqlQueryProtoPreparer = new GqlQueryProtoPreparer();
+    this.readOptionProtoPreparer = new ReadOptionProtoPreparer();
   }
 
   @Override
-  public RunAggregationQueryRequest prepare(AggregationQuery aggregationQuery) {
+  public RunAggregationQueryRequest prepare(QueryAndReadOptions<AggregationQuery> aggregationQueryAndReadOptions) {
+    AggregationQuery aggregationQuery = aggregationQueryAndReadOptions.getQuery();
+    List<ReadOption> readOptions = aggregationQueryAndReadOptions.getReadOptions();
     PartitionId partitionId = getPartitionId(aggregationQuery);
     RunAggregationQueryRequest.Builder aggregationQueryRequestBuilder = RunAggregationQueryRequest.newBuilder()
         .setPartitionId(partitionId)
         .setProjectId(datastoreOptions.getProjectId());
 
     if (aggregationQuery.getMode() == GQL) {
-      return aggregationQueryRequestBuilder
-          .setGqlQuery(buildGqlQuery(aggregationQuery))
-          .build();
+      aggregationQueryRequestBuilder.setGqlQuery(buildGqlQuery(aggregationQuery));
+    } else {
+      aggregationQueryRequestBuilder.setAggregationQuery(getAggregationQuery(aggregationQuery));
     }
-    return aggregationQueryRequestBuilder
-        .setAggregationQuery(getAggregationQuery(aggregationQuery))
-        .build();
+
+    ReadOptions readOptionsPb = readOptionProtoPreparer.prepare(readOptions);
+    if (readOptionsPb != null) {
+      aggregationQueryRequestBuilder.setReadOptions(readOptionsPb);
+    }
+    return aggregationQueryRequestBuilder.build();
   }
 
   private GqlQuery buildGqlQuery(AggregationQuery aggregationQuery) {

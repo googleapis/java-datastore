@@ -22,18 +22,25 @@ import static com.google.cloud.datastore.ProtoTestData.intValue;
 import static com.google.cloud.datastore.ProtoTestData.kind;
 import static com.google.cloud.datastore.ProtoTestData.propertyFilter;
 import static com.google.cloud.datastore.ProtoTestData.stringValue;
+import static com.google.cloud.datastore.ReadOption.eventualConsistency;
 import static com.google.cloud.datastore.StructuredQuery.PropertyFilter.eq;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.datastore.v1.PropertyFilter.Operator.EQUAL;
+import static com.google.datastore.v1.ReadOptions.ReadConsistency.EVENTUAL;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.GqlQuery;
 import com.google.cloud.datastore.Query;
+import com.google.cloud.datastore.ReadOption;
+import com.google.cloud.datastore.ReadOption.EventualConsistency;
+import com.google.cloud.datastore.ReadOption.QueryAndReadOptions;
 import com.google.datastore.v1.GqlQueryParameter;
 import com.google.datastore.v1.RunAggregationQueryRequest;
 import java.util.HashMap;
@@ -59,19 +66,26 @@ public class AggregationQueryRequestProtoPreparerTest {
       .addBinding(27)
       .build();
 
+  private final AggregationQuery AGGREGATION_OVER_STRUCTURED_QUERY = Query.newAggregationQueryBuilder()
+      .setNamespace(NAMESPACE)
+      .addAggregation(count().as("total"))
+      .addAggregation(count().limit(100).as("total_upto_100"))
+      .over(COMPLETED_TASK_STRUCTURED_QUERY)
+      .build();
+
+  private final AggregationQuery AGGREGATION_OVER_GQL_QUERY = Query.newAggregationQueryBuilder()
+      .setNamespace(NAMESPACE)
+      .over(COMPLETED_TASK_GQL_QUERY)
+      .build();
+
+
   private final AggregationQueryRequestProtoPreparer protoPreparer = new AggregationQueryRequestProtoPreparer(
       DATASTORE_OPTIONS);
 
   @Test
   public void shouldPrepareAggregationQueryRequestWithGivenStructuredQuery() {
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .addAggregation(count().as("total"))
-        .addAggregation(count().limit(100).as("total_upto_100"))
-        .over(COMPLETED_TASK_STRUCTURED_QUERY)
-        .build();
-
-    RunAggregationQueryRequest runAggregationQueryRequest = protoPreparer.prepare(aggregationQuery);
+    RunAggregationQueryRequest runAggregationQueryRequest = protoPreparer.prepare(
+        QueryAndReadOptions.create(AGGREGATION_OVER_STRUCTURED_QUERY));
 
     assertThat(runAggregationQueryRequest.getProjectId(), equalTo(PROJECT_ID));
 
@@ -92,12 +106,9 @@ public class AggregationQueryRequestProtoPreparerTest {
 
   @Test
   public void shouldPrepareAggregationQueryRequestWithGivenGqlQuery() {
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .over(COMPLETED_TASK_GQL_QUERY)
-        .build();
-
-    RunAggregationQueryRequest runAggregationQueryRequest = protoPreparer.prepare(aggregationQuery);
+    RunAggregationQueryRequest runAggregationQueryRequest = protoPreparer.prepare(
+        QueryAndReadOptions.create(
+            AGGREGATION_OVER_GQL_QUERY));
 
     assertThat(runAggregationQueryRequest.getProjectId(), equalTo(PROJECT_ID));
 
@@ -115,4 +126,39 @@ public class AggregationQueryRequestProtoPreparerTest {
         gqlQueryParameter(intValue(27))
     )));
   }
+
+  @Test
+  public void shouldPrepareReadOptionsWithGivenStructuredQuery() {
+    RunAggregationQueryRequest eventualConsistencyAggregationRequest = prepareQuery(
+        AGGREGATION_OVER_STRUCTURED_QUERY, eventualConsistency());
+    assertThat(eventualConsistencyAggregationRequest.getReadOptions().getReadConsistency(),
+        equalTo(EVENTUAL));
+
+    Timestamp now = Timestamp.now();
+    RunAggregationQueryRequest readTimeAggregationRequest = prepareQuery(
+        AGGREGATION_OVER_STRUCTURED_QUERY, ReadOption.readTime(now));
+    assertThat(Timestamp.fromProto(readTimeAggregationRequest.getReadOptions().getReadTime()),
+        equalTo(now));
+  }
+
+  @Test
+  public void shouldPrepareReadOptionsWithGivenGqlQuery() {
+    RunAggregationQueryRequest eventualConsistencyAggregationRequest = prepareQuery(
+        AGGREGATION_OVER_GQL_QUERY, eventualConsistency());
+    assertThat(eventualConsistencyAggregationRequest.getReadOptions().getReadConsistency(),
+        equalTo(EVENTUAL));
+
+    Timestamp now = Timestamp.now();
+    RunAggregationQueryRequest readTimeAggregationRequest = prepareQuery(
+        AGGREGATION_OVER_GQL_QUERY, ReadOption.readTime(now));
+    assertThat(Timestamp.fromProto(readTimeAggregationRequest.getReadOptions().getReadTime()),
+        equalTo(now));
+  }
+
+  private RunAggregationQueryRequest prepareQuery(AggregationQuery query, ReadOption readOption) {
+    return protoPreparer.prepare(
+        QueryAndReadOptions.create(query,
+            singletonList(readOption)));
+  }
+
 }

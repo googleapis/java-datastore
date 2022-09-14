@@ -16,8 +16,11 @@
 package com.google.cloud.datastore.execution;
 
 import static com.google.cloud.datastore.ProtoTestData.intValue;
+import static com.google.cloud.datastore.ReadOption.eventualConsistency;
 import static com.google.cloud.datastore.StructuredQuery.PropertyFilter.eq;
+import static com.google.cloud.datastore.TestUtils.matches;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
+import static com.google.datastore.v1.ReadOptions.ReadConsistency.EVENTUAL;
 import static java.util.Arrays.asList;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
@@ -33,16 +36,22 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.LongValue;
 import com.google.cloud.datastore.Query;
+import com.google.cloud.datastore.ReadOption;
+import com.google.cloud.datastore.TestUtils;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.common.collect.ImmutableMap;
 import com.google.datastore.v1.AggregationResultBatch;
+import com.google.datastore.v1.ReadOptions;
+import com.google.datastore.v1.ReadOptions.ReadConsistency;
 import com.google.datastore.v1.RunAggregationQueryRequest;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.Value;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 import org.easymock.EasyMock;
+import org.easymock.IArgumentMatcher;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -76,7 +85,8 @@ public class AggregationQueryExecutorTest {
         .over(nestedQuery)
         .build();
 
-    expect(mockRpc.runAggregationQuery(anyObject(RunAggregationQueryRequest.class))).andReturn(dummyAggregationQueryResponse());
+    expect(mockRpc.runAggregationQuery(anyObject(RunAggregationQueryRequest.class))).andReturn(
+        dummyAggregationQueryResponse());
 
     replay(mockRpc);
 
@@ -84,8 +94,41 @@ public class AggregationQueryExecutorTest {
 
     verify(mockRpc);
     assertThat(aggregationResults, equalTo(new AggregationResults(asList(
-        new AggregationResult(ImmutableMap.of("count", LongValue.of(209), "count_upto_100", LongValue.of(100))),
-        new AggregationResult(ImmutableMap.of("count", LongValue.of(509), "count_upto_100", LongValue.of(100)))
+        new AggregationResult(
+            ImmutableMap.of("count", LongValue.of(209), "count_upto_100", LongValue.of(100))),
+        new AggregationResult(
+            ImmutableMap.of("count", LongValue.of(509), "count_upto_100", LongValue.of(100)))
+    ))));
+  }
+
+  @Test
+  public void shouldExecuteAggregationQueryWithReadOptions() {
+    EntityQuery nestedQuery = Query.newEntityQueryBuilder()
+        .setNamespace(NAMESPACE)
+        .setKind(KIND)
+        .setFilter(eq("done", true))
+        .build();
+
+    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
+        .setNamespace(NAMESPACE)
+        .addAggregation(count().as("total"))
+        .over(nestedQuery)
+        .build();
+
+    expect(mockRpc.runAggregationQuery(matches(runAggregationRequestWithEventualConsistency())))
+        .andReturn(dummyAggregationQueryResponse());
+
+    replay(mockRpc);
+
+    AggregationResults aggregationResults = queryExecutor.execute(aggregationQuery,
+        eventualConsistency());
+
+    verify(mockRpc);
+    assertThat(aggregationResults, equalTo(new AggregationResults(asList(
+        new AggregationResult(
+            ImmutableMap.of("count", LongValue.of(209), "count_upto_100", LongValue.of(100))),
+        new AggregationResult(
+            ImmutableMap.of("count", LongValue.of(509), "count_upto_100", LongValue.of(100)))
     ))));
   }
 
@@ -110,4 +153,10 @@ public class AggregationQueryExecutorTest {
         .setBatch(resultBatch)
         .build();
   }
+
+  private Predicate<RunAggregationQueryRequest> runAggregationRequestWithEventualConsistency() {
+    return runAggregationQueryRequest ->
+        runAggregationQueryRequest.getReadOptions().getReadConsistency() == EVENTUAL;
+  }
+
 }
