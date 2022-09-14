@@ -15,6 +15,7 @@
  */
 package com.google.cloud.datastore.execution.response;
 
+import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.AggregationResults;
 import com.google.cloud.datastore.LongValue;
@@ -33,13 +34,14 @@ public class AggregationQueryResponseTransformer implements
 
   @Override
   public AggregationResults transform(RunAggregationQueryResponse response) {
+    Timestamp readTime = Timestamp.fromProto(response.getBatch().getReadTime());
     List<AggregationResult> aggregationResults = response
         .getBatch()
         .getAggregationResultsList()
         .stream()
         .map(aggregationResult -> new AggregationResult(resultWithLongValues(aggregationResult)))
         .collect(Collectors.toCollection(LinkedList::new));
-    return new AggregationResults(aggregationResults);
+    return new AggregationResults(aggregationResults, readTime);
   }
 
   private Map<String, LongValue> resultWithLongValues(com.google.datastore.v1.AggregationResult aggregationResult) {

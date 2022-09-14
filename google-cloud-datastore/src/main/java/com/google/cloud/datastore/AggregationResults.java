@@ -16,6 +16,7 @@
 package com.google.cloud.datastore;
 
 import com.google.api.core.InternalApi;
+import com.google.cloud.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -23,9 +24,12 @@ import java.util.Objects;
 public class AggregationResults implements Iterable<AggregationResult> {
 
   private final List<AggregationResult> aggregationResults;
+  private Timestamp readTime;
 
-  public AggregationResults(List<AggregationResult> aggregationResults) {
+  public AggregationResults(List<AggregationResult> aggregationResults,
+      Timestamp readTime) {
     this.aggregationResults = aggregationResults;
+    this.readTime = readTime;
   }
 
   @Override
@@ -40,6 +44,10 @@ public class AggregationResults implements Iterable<AggregationResult> {
   @InternalApi
   public AggregationResult get(int index) {
     return this.aggregationResults.get(index);
+  }
+
+  public Timestamp getReadTime() {
+    return this.readTime;
   }
 
   @Override
