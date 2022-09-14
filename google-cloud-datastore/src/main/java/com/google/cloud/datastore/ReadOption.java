@@ -20,6 +20,7 @@ import com.google.api.core.BetaApi;
 import com.google.cloud.Timestamp;
 import com.google.common.collect.ImmutableMap;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -89,6 +90,14 @@ public abstract class ReadOption implements Serializable {
   }
 
   static Map<Class<? extends ReadOption>, ReadOption> asImmutableMap(ReadOption... options) {
+    ImmutableMap.Builder<Class<? extends ReadOption>, ReadOption> builder = ImmutableMap.builder();
+    for (ReadOption option : options) {
+      builder.put(option.getClass(), option);
+    }
+    return builder.buildOrThrow();
+  }
+
+  static Map<Class<? extends ReadOption>, ReadOption> asImmutableMap(List<ReadOption> options) {
     ImmutableMap.Builder<Class<? extends ReadOption>, ReadOption> builder = ImmutableMap.builder();
     for (ReadOption option : options) {
       builder.put(option.getClass(), option);

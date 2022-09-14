@@ -57,13 +57,17 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       TransactionExceptionHandler.build();
   private static final ExceptionHandler TRANSACTION_OPERATION_EXCEPTION_HANDLER =
       TransactionOperationExceptionHandler.build();
-  private final TraceUtil traceUtil = TraceUtil.getInstance();;
+  private final TraceUtil traceUtil = TraceUtil.getInstance();
+
+  private final ReadOptionProtoPreparer readOptionProtoPreparer;
 
   DatastoreImpl(DatastoreOptions options) {
     super(options);
     this.datastoreRpc = options.getDatastoreRpcV1();
     retrySettings =
         MoreObjects.firstNonNull(options.getRetrySettings(), ServiceOptions.getNoRetrySettings());
+
+    readOptionProtoPreparer = new ReadOptionProtoPreparer();
   }
 
   @Override
@@ -339,33 +343,11 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     return get(toReadOptionsPb(options), Iterables.toArray(keys, Key.class));
   }
 
-  private static com.google.datastore.v1.ReadOptions toReadOptionsPb(ReadOption... options) {
-    com.google.datastore.v1.ReadOptions readOptionsPb = null;
+  private com.google.datastore.v1.ReadOptions toReadOptionsPb(ReadOption... options) {
     if (options != null) {
-      Map<Class<? extends ReadOption>, ReadOption> optionsByType =
-          ReadOption.asImmutableMap(options);
-
-      if (optionsByType.containsKey(EventualConsistency.class)
-          && optionsByType.containsKey(ReadTime.class)) {
-        throw DatastoreException.throwInvalidRequest(
-            "Can not use eventual consistency read with read time.");
-      }
-
-      if (optionsByType.containsKey(EventualConsistency.class)) {
-        readOptionsPb =
-            com.google.datastore.v1.ReadOptions.newBuilder()
-                .setReadConsistency(ReadConsistency.EVENTUAL)
-                .build();
-      }
-
-      if (optionsByType.containsKey(ReadTime.class)) {
-        readOptionsPb =
-            com.google.datastore.v1.ReadOptions.newBuilder()
-                .setReadTime(((ReadTime) optionsByType.get(ReadTime.class)).time().toProto())
-                .build();
-      }
+      return this.readOptionProtoPreparer.prepare(Arrays.asList(options));
     }
-    return readOptionsPb;
+    return null;
   }
 
   @Override
