@@ -18,6 +18,7 @@ package com.google.cloud.datastore;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import com.google.api.core.NanoClock;
 import com.google.api.gax.retrying.BasicResultRetryAlgorithm;
 import com.google.api.gax.retrying.RetrySettings;
 import java.util.concurrent.Callable;
@@ -25,20 +26,17 @@ import org.junit.Test;
 
 public class RetryExecutorTest {
 
-  private static final int MAX_ATTEMPTS = 4;
-
-  private final RetrySettings retrySettings = RetrySettings.newBuilder()
-      .setMaxAttempts(MAX_ATTEMPTS)
-      .build();
-  private final DatastoreOptions datastoreOptions = DatastoreOptions.getDefaultInstance();
-  private final RetryExecutor retryExecutor = new RetryExecutor(retrySettings, datastoreOptions);
-
+  private RetryExecutor retryExecutor = new RetryExecutor();
 
   @Test
   public void shouldRetryWhenErrorOccurred() {
+    RetrySettings retrySettings = RetrySettings.newBuilder()
+        .setMaxAttempts(4)
+        .build();
     CustomErrorCallable callable = new CustomErrorCallable(3);
 
-    retryExecutor.execute(callable, new BasicResultRetryAlgorithm<>());
+    retryExecutor.execute(callable, retrySettings, new BasicResultRetryAlgorithm<>(),
+        NanoClock.getDefaultClock());
 
     assertThat(callable.invokedTimes(), equalTo(4));
   }

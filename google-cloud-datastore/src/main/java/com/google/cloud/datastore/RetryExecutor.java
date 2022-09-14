@@ -15,8 +15,7 @@
  */
 package com.google.cloud.datastore;
 
-import static com.google.cloud.RetryHelper.runWithRetries;
-
+import com.google.api.core.ApiClock;
 import com.google.api.gax.retrying.ResultRetryAlgorithm;
 import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.RetryHelper;
@@ -24,18 +23,9 @@ import java.util.concurrent.Callable;
 
 public class RetryExecutor {
 
-  private final RetrySettings retrySettings;
-  private final DatastoreOptions datastoreOptions;
-
-  public RetryExecutor(RetrySettings retrySettings,
-      DatastoreOptions datastoreOptions) {
-    this.retrySettings = retrySettings;
-    this.datastoreOptions = datastoreOptions;
-  }
-
-  public <T> T execute(Callable<T> block, ResultRetryAlgorithm<?> resultRetryAlgorithm) {
-    return runWithRetries(block, retrySettings, resultRetryAlgorithm,
-        this.datastoreOptions.getClock());
+  public <T> T execute(Callable<T> block, RetrySettings retrySettings,
+      ResultRetryAlgorithm<?> resultRetryAlgorithm, ApiClock clock) {
+    return RetryHelper.runWithRetries(block, retrySettings, resultRetryAlgorithm, clock);
   }
 
 }
