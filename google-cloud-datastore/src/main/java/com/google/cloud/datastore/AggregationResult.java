@@ -15,7 +15,10 @@
  */
 package com.google.cloud.datastore;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 
 public class AggregationResult {
@@ -24,6 +27,10 @@ public class AggregationResult {
 
   public AggregationResult(Map<String, LongValue> properties) {
     this.properties = properties;
+  }
+
+  public Long get(String alias) {
+    return properties.get(alias).get();
   }
 
   @Override
@@ -41,5 +48,14 @@ public class AggregationResult {
   @Override
   public int hashCode() {
     return Objects.hash(properties);
+  }
+
+  @Override
+  public String toString() {
+    ToStringHelper toStringHelper = MoreObjects.toStringHelper(this);
+    for (Entry<String, LongValue> entry : properties.entrySet()) {
+      toStringHelper.add(entry.getKey(), entry.getValue().get());
+    }
+    return toStringHelper.toString();
   }
 }
