@@ -16,6 +16,10 @@
 
 package com.google.cloud.datastore.it;
 
+import static com.google.cloud.datastore.aggregation.Aggregation.count;
+import static com.google.common.collect.Iterables.getOnlyElement;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -26,6 +30,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.cloud.Timestamp;
+import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.Batch;
 import com.google.cloud.datastore.BooleanValue;
 import com.google.cloud.datastore.Cursor;
@@ -34,6 +39,7 @@ import com.google.cloud.datastore.DatastoreException;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.DatastoreReaderWriter;
 import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.EntityValue;
 import com.google.cloud.datastore.FullEntity;
 import com.google.cloud.datastore.GqlQuery;
@@ -59,8 +65,11 @@ import com.google.cloud.datastore.TimestampValue;
 import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.Value;
 import com.google.cloud.datastore.ValueType;
+import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
 import com.google.datastore.v1.TransactionOptions;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,6 +77,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -154,9 +165,11 @@ public class ITDatastoreTest {
           .set("partial2", ENTITY2)
           .build();
 
-  @Rule public Timeout globalTimeout = Timeout.seconds(100);
+  @Rule
+  public Timeout globalTimeout = Timeout.seconds(100);
 
-  @Rule public MultipleAttemptsRule multipleAttemptsRule = new MultipleAttemptsRule(3);
+  @Rule
+  public MultipleAttemptsRule multipleAttemptsRule = new MultipleAttemptsRule(3);
 
   @AfterClass
   public static void afterClass() {
@@ -504,6 +517,91 @@ public class ITDatastoreTest {
     assertTrue(results3.hasNext());
     assertEquals(ENTITY1, results3.next());
     assertFalse(results3.hasNext());
+  }
+
+  @Test
+  public void testRunAggregationQuery() {
+    // verifying aggregation with an entity query
+    testCountAggregationWith(builder ->
+        builder
+            .addAggregation(count().as("total_count"))
+            .over(Query.newEntityQueryBuilder()
+                .setNamespace(NAMESPACE)
+                .setKind(KIND1)
+                .build()
+            ));
+
+    // verifying aggregation with a projection query
+    testCountAggregationWith(builder ->
+        builder
+            .addAggregation(count().as("total_count"))
+            .over(Query.newProjectionEntityQueryBuilder()
+                .setProjection("str")
+                .setNamespace(NAMESPACE)
+                .setKind(KIND1)
+                .build()
+            ));
+
+    // verifying aggregation with a key query
+    testCountAggregationWith(builder ->
+        builder
+            .addAggregation(count().as("total_count"))
+            .over(Query.newKeyQueryBuilder()
+                .setNamespace(NAMESPACE)
+                .setKind(KIND1)
+                .build()
+            ));
+
+    // verifying aggregation with a GQL query
+    testCountAggregationWith(builder ->
+        builder
+            .over(Query.newGqlQueryBuilder(
+                    "AGGREGATE COUNT(*) AS total_count OVER (SELECT * FROM kind1)")
+                .setNamespace(NAMESPACE)
+                .build()
+            ));
+  }
+
+  @Test
+  public void testRunAggregationQueryWithReadTime() throws InterruptedException {
+    String alias = "total_count";
+
+    // verifying aggregation readTime with an entity query
+    testCountAggregationReadTimeWith(builder ->
+        builder
+            .over(
+                Query.newEntityQueryBuilder().setKind("new_kind").build())
+            .addAggregation(count().as(alias))
+    );
+
+    // verifying aggregation readTime with a projection query
+    testCountAggregationReadTimeWith(builder ->
+        builder
+            .over(
+                Query.newProjectionEntityQueryBuilder()
+                    .setProjection("name")
+                    .setKind("new_kind").build())
+            .addAggregation(count().as(alias))
+    );
+
+    // verifying aggregation readTime with a key query
+    testCountAggregationReadTimeWith(builder ->
+        builder
+            .over(
+                Query.newKeyQueryBuilder()
+                    .setKind("new_kind").build())
+            .addAggregation(count().as(alias))
+    );
+
+    // verifying aggregation readTime with a GQL query
+    testCountAggregationReadTimeWith(builder ->
+        builder
+            .over(
+                Query.newGqlQueryBuilder(
+                        "AGGREGATE COUNT(*) AS total_count OVER (SELECT * FROM new_kind)")
+                    .build())
+            .addAggregation(count().as(alias))
+    );
   }
 
   @Test
@@ -1063,6 +1161,71 @@ public class ITDatastoreTest {
       assertTrue(withReadTime.hasNext());
       assertEquals(entity2, withReadTime.next());
       assertFalse(withReadTime.hasNext());
+    } finally {
+      DATASTORE.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
+    }
+  }
+
+  private void testCountAggregationWith(Consumer<AggregationQuery.Builder> configurer) {
+    AggregationQuery.Builder builder = Query.newAggregationQueryBuilder().setNamespace(NAMESPACE);
+    configurer.accept(builder);
+    AggregationQuery aggregationQuery = builder.build();
+    String alias = "total_count";
+
+    Long countBeforeAdd = getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get(alias);
+    long expectedCount = countBeforeAdd + 1;
+
+    Entity newEntity = Entity.newBuilder(ENTITY1)
+        .setKey(Key.newBuilder(KEY3, KIND1, 1).build())
+        .set("null", NULL_VALUE)
+        .set("partial1", PARTIAL_ENTITY2)
+        .set("partial2", ENTITY2)
+        .build();
+    DATASTORE.put(newEntity);
+
+    Long countAfterAdd = getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get(alias);
+    assertThat(countAfterAdd, equalTo(expectedCount));
+
+    DATASTORE.delete(newEntity.getKey());
+  }
+
+  private void testCountAggregationReadTimeWith(Consumer<AggregationQuery.Builder> configurer)
+      throws InterruptedException {
+    Entity entity1 =
+        Entity.newBuilder(
+                Key.newBuilder(PROJECT_ID, "new_kind", "name-01").setNamespace(NAMESPACE).build())
+            .set("name", "Tyrion Lannister")
+            .build();
+    Entity entity2 =
+        Entity.newBuilder(
+                Key.newBuilder(PROJECT_ID, "new_kind", "name-02").setNamespace(NAMESPACE).build())
+            .set("name", "Jaime Lannister")
+            .build();
+    Entity entity3 =
+        Entity.newBuilder(
+                Key.newBuilder(PROJECT_ID, "new_kind", "name-03").setNamespace(NAMESPACE).build())
+            .set("name", "Cersei Lannister")
+            .build();
+
+    DATASTORE.put(entity1, entity2);
+    Thread.sleep(1000);
+    Timestamp now = Timestamp.now();
+    Thread.sleep(1000);
+    DATASTORE.put(entity3);
+
+    try {
+      AggregationQuery.Builder builder = Query.newAggregationQueryBuilder().setNamespace(NAMESPACE);
+      configurer.accept(builder);
+      AggregationQuery countAggregationQuery = builder.build();
+
+      Long latestCount = getOnlyElement(DATASTORE.runAggregation(countAggregationQuery))
+          .get("total_count");
+      assertThat(latestCount, equalTo(3L));
+
+      Long oldCount = getOnlyElement(
+          DATASTORE.runAggregation(countAggregationQuery, ReadOption.readTime(now))
+      ).get("total_count");
+      assertThat(oldCount, equalTo(2L));
     } finally {
       DATASTORE.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
     }
