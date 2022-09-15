@@ -16,9 +16,12 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -37,6 +40,7 @@ import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.cloud.datastore.testing.LocalDatastoreHelper;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.datastore.v1.BeginTransactionRequest;
@@ -72,6 +76,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -524,6 +529,23 @@ public class DatastoreTest {
     }
     assertEquals(count, 5);
     EasyMock.verify(rpcFactoryMock, rpcMock);
+  }
+
+  @Test
+  @Ignore
+  public void testRunAggregationQuery() {
+    EntityQuery selectAllQuery = Query.newEntityQueryBuilder().build();
+    AggregationQuery getCountQuery = Query.newAggregationQueryBuilder()
+        .addAggregation(count().as("total_count").limit(100))
+        .over(selectAllQuery)
+        .build();
+    AggregationResult resultBeforeInsert = Iterables.getOnlyElement(datastore.runAggregation(getCountQuery));
+    assertThat(resultBeforeInsert.get("total_count"), equalTo(2L));
+
+    datastore.put(ENTITY3);
+
+    AggregationResult resultAfterInsert = Iterables.getOnlyElement(datastore.runAggregation(getCountQuery));
+    assertThat(resultAfterInsert.get("total_count"), equalTo(3L));
   }
 
   @Test
