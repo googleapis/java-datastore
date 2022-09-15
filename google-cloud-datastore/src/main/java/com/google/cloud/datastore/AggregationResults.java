@@ -24,7 +24,7 @@ import java.util.Objects;
 public class AggregationResults implements Iterable<AggregationResult> {
 
   private final List<AggregationResult> aggregationResults;
-  private Timestamp readTime;
+  private final Timestamp readTime;
 
   public AggregationResults(List<AggregationResult> aggregationResults,
       Timestamp readTime) {
