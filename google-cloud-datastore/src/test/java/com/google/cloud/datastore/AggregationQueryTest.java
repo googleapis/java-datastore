@@ -21,6 +21,7 @@ import static com.google.cloud.datastore.StructuredQuery.PropertyFilter.eq;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 
 import org.junit.Assert;
@@ -61,11 +62,15 @@ public class AggregationQueryTest {
 
   @Test
   public void testAggregationBuilderWithoutNamespace() {
-    assertThrows(NullPointerException.class, () ->
-        Query.newAggregationQueryBuilder()
-            .addAggregation(count().as("total"))
-            .over(COMPLETED_TASK_QUERY)
-            .build());
+    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
+        .addAggregation(count().as("total"))
+        .over(COMPLETED_TASK_QUERY)
+        .build();
+
+    assertNull(aggregationQuery.getNamespace());
+    assertThat(aggregationQuery.getAggregations().get(0), equalTo(count().as("total").build()));
+    assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
+    assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
   }
 
   @Test

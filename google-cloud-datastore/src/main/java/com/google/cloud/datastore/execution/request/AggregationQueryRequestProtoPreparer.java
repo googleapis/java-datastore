@@ -48,7 +48,8 @@ public class AggregationQueryRequestProtoPreparer implements
   }
 
   @Override
-  public RunAggregationQueryRequest prepare(QueryAndReadOptions<AggregationQuery> aggregationQueryAndReadOptions) {
+  public RunAggregationQueryRequest prepare(
+      QueryAndReadOptions<AggregationQuery> aggregationQueryAndReadOptions) {
     AggregationQuery aggregationQuery = aggregationQueryAndReadOptions.getQuery();
     List<ReadOption> readOptions = aggregationQueryAndReadOptions.getReadOptions();
     PartitionId partitionId = getPartitionId(aggregationQuery);
@@ -87,9 +88,11 @@ public class AggregationQueryRequestProtoPreparer implements
   }
 
   private PartitionId getPartitionId(AggregationQuery aggregationQuery) {
-    return PartitionId.newBuilder()
-        .setProjectId(datastoreOptions.getProjectId())
-        .setNamespaceId(aggregationQuery.getNamespace())
-        .build();
+    PartitionId.Builder builder = PartitionId.newBuilder()
+        .setProjectId(datastoreOptions.getProjectId());
+    if (aggregationQuery.getNamespace() != null) {
+      builder.setNamespaceId(aggregationQuery.getNamespace());
+    }
+    return builder.build();
   }
 }

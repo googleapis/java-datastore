@@ -30,7 +30,9 @@ import static com.google.datastore.v1.ReadOptions.ReadConsistency.EVENTUAL;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNull;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationQuery;
@@ -153,6 +155,26 @@ public class AggregationQueryRequestProtoPreparerTest {
         AGGREGATION_OVER_GQL_QUERY, ReadOption.readTime(now));
     assertThat(Timestamp.fromProto(readTimeAggregationRequest.getReadOptions().getReadTime()),
         equalTo(now));
+  }
+
+  @Test
+  public void shouldPrepareAggregationQueryWithoutNamespace() {
+    AggregationQuery structuredQueryWithoutNamespace = Query.newAggregationQueryBuilder()
+        .addAggregation(count().as("total"))
+        .over(COMPLETED_TASK_STRUCTURED_QUERY)
+        .build();
+    AggregationQuery gqlQueryWithoutNamespace = Query.newAggregationQueryBuilder()
+        .over(COMPLETED_TASK_GQL_QUERY)
+        .build();
+
+    RunAggregationQueryRequest runAggregationQueryFromStructuredQuery = protoPreparer.prepare(
+        QueryAndReadOptions.create(structuredQueryWithoutNamespace));
+    RunAggregationQueryRequest runAggregationQueryFromGqlQuery = protoPreparer.prepare(
+        QueryAndReadOptions.create(gqlQueryWithoutNamespace));
+
+    assertThat(runAggregationQueryFromStructuredQuery.getPartitionId().getNamespaceId(), is(""));
+    assertThat(runAggregationQueryFromGqlQuery.getPartitionId().getNamespaceId(), is(""));
+
   }
 
   private RunAggregationQueryRequest prepareQuery(AggregationQuery query, ReadOption readOption) {

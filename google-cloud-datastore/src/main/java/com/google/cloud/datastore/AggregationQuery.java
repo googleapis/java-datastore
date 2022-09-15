@@ -34,7 +34,7 @@ public class AggregationQuery extends Query<AggregationResults> {
 
   AggregationQuery(String namespace, List<Aggregation> aggregations,
       StructuredQuery<?> nestedQuery) {
-    super(checkNotNull(namespace));
+    super(namespace);
     checkArgument(!aggregations.isEmpty(),
         "At least one aggregation is required for an aggregation query to run");
     this.aggregations = aggregations;
@@ -43,7 +43,7 @@ public class AggregationQuery extends Query<AggregationResults> {
   }
 
   AggregationQuery(String namespace, GqlQuery<?> gqlQuery) {
-    super(checkNotNull(namespace));
+    super(namespace);
     this.nestedGqlQuery = gqlQuery;
     this.mode = GQL;
   }
