@@ -1147,10 +1147,10 @@ public class ConceptsTest {
   }
 
   @Test
-  public void testSnapshotReads() {
+  public void testStaleReads() {
     setUpQueryTestsRealBackend();
     Datastore datastoreClient = datastoreRealBackend;
-    // [START datastore_snapshot_read]
+    // [START datastore_stale_read]
     Key taskKey =
         datastoreClient
             .newKeyFactory()
@@ -1158,20 +1158,18 @@ public class ConceptsTest {
             .addAncestors(PathElement.of("TaskList", "default"))
             .newKey("someTask");
 
-    // Create a timestamp for two minutes ago
-    Timestamp now = Timestamp.now();
-    Timestamp twoMinutesAgo =
-        Timestamp.ofTimeSecondsAndNanos(now.getSeconds() - 120L, now.getNanos());
-    // Create a readOption to read at time twoMinutesAgo
-    ReadOption readOption = ReadOption.readTime(twoMinutesAgo);
-    // Use readOption to Fetch entity at time twoMinutesAgo
+    Timestamp fifteenSecondsAgo =
+        Timestamp.ofTimeSecondsAndNanos(Timestamp.now().getSeconds() - 15L, 0);
+    // Create a readOption with read time fifteenSecondsAgo
+    ReadOption readOption = ReadOption.readTime(fifteenSecondsAgo);
+    // Use the readOption to Fetch entity
     Entity entity = datastoreClient.get(taskKey, readOption);
 
-    // Use readOption to Query kind Task at time twoMinutesAgo
+    // Use the readOption to Query kind Task
     Query<Entity> query = Query.newEntityQueryBuilder().setKind("Task").setLimit(10).build();
     QueryResults<Entity> results = datastoreClient.run(query, readOption);
     Entity result = results.next();
-    // [END datastore_snapshot_read]
+    // [END datastore_stale_read]
     assertValidQueryRealBackend(query);
   }
 }
