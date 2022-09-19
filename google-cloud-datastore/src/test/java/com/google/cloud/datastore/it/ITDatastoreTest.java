@@ -65,11 +65,8 @@ import com.google.cloud.datastore.TimestampValue;
 import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.Value;
 import com.google.cloud.datastore.ValueType;
-import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
-import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Iterables;
 import com.google.datastore.v1.TransactionOptions;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,7 +74,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -560,6 +556,34 @@ public class ITDatastoreTest {
                 .setNamespace(NAMESPACE)
                 .build()
             ));
+  }
+
+  @Test
+  public void testRunAggregationQueryInTransaction() {
+    EntityQuery entityQuery = Query.newEntityQueryBuilder()
+        .setNamespace(NAMESPACE)
+        .setFilter(PropertyFilter.hasAncestor(KEY1))
+        .build();
+
+    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
+        .setNamespace(NAMESPACE)
+        .over(entityQuery)
+        .addAggregation(count().as("count"))
+        .build();
+
+    Transaction transaction = DATASTORE.newTransaction();
+    assertThat(getOnlyElement(transaction.runAggregation(aggregationQuery)).get("count"), equalTo(2L));
+
+    Entity aNewEntity = Entity.newBuilder(ENTITY2)
+        .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
+        .set("v_int", 10)
+        .build();
+    transaction.put(aNewEntity);
+
+    assertThat(getOnlyElement(transaction.runAggregation(aggregationQuery)).get("count"), equalTo(2L));
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"), equalTo(2L));
+    transaction.commit();
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"), equalTo(3L));
   }
 
   @Test

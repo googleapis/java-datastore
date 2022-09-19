@@ -16,6 +16,8 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.ReadOption.transactionId;
+
 import com.google.datastore.v1.TransactionOptions;
 import com.google.protobuf.ByteString;
 import java.util.ArrayList;
@@ -94,6 +96,11 @@ final class TransactionImpl extends BaseDatastoreBatchWriter implements Transact
         com.google.datastore.v1.ReadOptions.newBuilder();
     readOptionsPb.setTransaction(transactionId);
     return datastore.run(readOptionsPb.build(), query);
+  }
+
+  @Override
+  public AggregationResults runAggregation(AggregationQuery query) {
+    return datastore.runAggregation(query, transactionId(transactionId));
   }
 
   @Override

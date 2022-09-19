@@ -53,4 +53,7 @@ public interface DatastoreReader {
    * @throws DatastoreException upon failure
    */
   <T> QueryResults<T> run(Query<T> query);
+
+
+  AggregationResults runAggregation(AggregationQuery query);
 }

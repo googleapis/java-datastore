@@ -111,6 +111,11 @@ public abstract class ReadOption implements Serializable {
     return new TransactionId(ByteString.copyFrom(transactionId.getBytes()));
   }
 
+  @InternalApi
+  public static ReadOption transactionId(ByteString transactionId) {
+    return new TransactionId(transactionId);
+  }
+
   static Map<Class<? extends ReadOption>, ReadOption> asImmutableMap(ReadOption... options) {
     ImmutableMap.Builder<Class<? extends ReadOption>, ReadOption> builder = ImmutableMap.builder();
     for (ReadOption option : options) {
