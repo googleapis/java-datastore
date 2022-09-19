@@ -26,6 +26,7 @@ import static com.google.cloud.datastore.TimestampValue.of;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.api.core.ApiFunction;
+import com.google.api.core.InternalApi;
 import com.google.cloud.StringEnumType;
 import com.google.cloud.StringEnumValue;
 import com.google.cloud.Timestamp;
@@ -1024,11 +1025,13 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
     return resultType;
   }
 
+  @InternalApi
   @Override
   public void populatePb(com.google.datastore.v1.RunQueryRequest.Builder requestPb) {
     requestPb.setQuery(toPb());
   }
 
+  @InternalApi
   @Override
   public StructuredQuery<V> nextQuery(com.google.datastore.v1.RunQueryResponse responsePb) {
     Builder<V> builder = toBuilder();

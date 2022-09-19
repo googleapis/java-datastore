@@ -19,6 +19,7 @@ package com.google.cloud.datastore;
 import static com.google.cloud.datastore.Validator.validateNamespace;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.api.core.InternalApi;
 import com.google.cloud.Timestamp;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
@@ -515,11 +516,13 @@ public final class GqlQuery<V> extends Query<V> implements RecordQuery<V> {
     return protoPreparer.prepare(this);
   }
 
+  @InternalApi
   @Override
   public void populatePb(com.google.datastore.v1.RunQueryRequest.Builder requestPb) {
     requestPb.setGqlQuery(toPb());
   }
 
+  @InternalApi
   @Override
   public RecordQuery<V> nextQuery(com.google.datastore.v1.RunQueryResponse responsePb) {
     return StructuredQuery.<V>fromPb(getType(), getNamespace(), responsePb.getQuery())

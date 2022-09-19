@@ -28,5 +28,4 @@ public interface RecordQuery<V>{
 
   @InternalApi
   RecordQuery<V> nextQuery(com.google.datastore.v1.RunQueryResponse responsePb);
-
 }
