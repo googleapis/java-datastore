@@ -17,8 +17,10 @@
 package com.google.cloud.datastore;
 
 import com.google.api.core.BetaApi;
+import com.google.api.core.InternalApi;
 import com.google.cloud.Timestamp;
 import com.google.common.collect.ImmutableMap;
+import com.google.protobuf.ByteString;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -70,6 +72,19 @@ public abstract class ReadOption implements Serializable {
     }
   }
 
+  @InternalApi
+  static class TransactionId extends ReadOption {
+    private final ByteString transactionId;
+
+    TransactionId(ByteString transactionId) {
+      this.transactionId = transactionId;
+    }
+
+    public ByteString getTransactionId() {
+      return transactionId;
+    }
+  }
+
   private ReadOption() {
   }
 
@@ -89,6 +104,11 @@ public abstract class ReadOption implements Serializable {
   @BetaApi
   public static ReadTime readTime(Timestamp time) {
     return new ReadTime(time);
+  }
+
+  @InternalApi
+  public static ReadOption transactionId(String transactionId) {
+    return new TransactionId(ByteString.copyFrom(transactionId.getBytes()));
   }
 
   static Map<Class<? extends ReadOption>, ReadOption> asImmutableMap(ReadOption... options) {

@@ -17,11 +17,14 @@ package com.google.cloud.datastore;
 
 import com.google.cloud.datastore.ReadOption.EventualConsistency;
 import com.google.cloud.datastore.ReadOption.ReadTime;
+import com.google.cloud.datastore.ReadOption.TransactionId;
 import com.google.cloud.datastore.execution.request.ProtoPreparer;
 import com.google.datastore.v1.ReadOptions;
 import com.google.datastore.v1.ReadOptions.ReadConsistency;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class ReadOptionProtoPreparer implements ProtoPreparer<List<ReadOption>, ReadOptions> {
 
@@ -32,10 +35,10 @@ public class ReadOptionProtoPreparer implements ProtoPreparer<List<ReadOption>, 
       Map<Class<? extends ReadOption>, ReadOption> optionsByType =
           ReadOption.asImmutableMap(options);
 
-      if (optionsByType.containsKey(EventualConsistency.class)
-          && optionsByType.containsKey(ReadTime.class)) {
+      boolean moreThanOneReadOption = optionsByType.keySet().size() > 1;
+      if (moreThanOneReadOption) {
         throw DatastoreException.throwInvalidRequest(
-            "Can not use eventual consistency read with read time.");
+            String.format("Can not use %s together.", getInvalidOptions(optionsByType)));
       }
 
       if (optionsByType.containsKey(EventualConsistency.class)) {
@@ -49,7 +52,23 @@ public class ReadOptionProtoPreparer implements ProtoPreparer<List<ReadOption>, 
             .setReadTime(((ReadTime) optionsByType.get(ReadTime.class)).time().toProto())
             .build();
       }
+
+      if (optionsByType.containsKey(TransactionId.class)) {
+        readOptionsPb = ReadOptions.newBuilder()
+            .setTransaction(((TransactionId) optionsByType.get(TransactionId.class)).getTransactionId())
+            .build();
+      }
     }
     return readOptionsPb;
+  }
+
+  private String getInvalidOptions(Map<Class<? extends ReadOption>, ReadOption> optionsByType) {
+    String regex = "([a-z])([A-Z]+)";
+    String replacement = "$1 $2";
+    return optionsByType
+        .keySet()
+        .stream().map(Class::getSimpleName)
+        .map(s -> s.replaceAll(regex, replacement).toLowerCase())
+        .collect(Collectors.joining(", "));
   }
 }
