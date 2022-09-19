@@ -27,7 +27,7 @@ public class CountAggregation extends Aggregation {
 
   private final long limit;
 
-  private CountAggregation(String alias, long limit) {
+  public CountAggregation(String alias, long limit) {
     super(alias);
     this.limit = limit;
   }
