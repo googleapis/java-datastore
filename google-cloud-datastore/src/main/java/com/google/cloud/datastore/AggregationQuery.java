@@ -23,16 +23,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.cloud.datastore.aggregation.AggregationBuilder;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AggregationQuery extends Query<AggregationResults> {
 
-  private List<Aggregation> aggregations;
+  private Set<Aggregation> aggregations;
   private StructuredQuery<?> nestedStructuredQuery;
   private final Mode mode;
   private GqlQuery<?> nestedGqlQuery;
 
-  AggregationQuery(String namespace, List<Aggregation> aggregations,
+  AggregationQuery(String namespace, Set<Aggregation> aggregations,
       StructuredQuery<?> nestedQuery) {
     super(namespace);
     checkArgument(!aggregations.isEmpty(),
@@ -48,7 +50,7 @@ public class AggregationQuery extends Query<AggregationResults> {
     this.mode = GQL;
   }
 
-  public List<Aggregation> getAggregations() {
+  public Set<Aggregation> getAggregations() {
     return aggregations;
   }
 
@@ -68,12 +70,12 @@ public class AggregationQuery extends Query<AggregationResults> {
 
     private String namespace;
     private Mode mode;
-    private final List<Aggregation> aggregations;
+    private final Set<Aggregation> aggregations;
     private StructuredQuery<?> nestedStructuredQuery;
     private GqlQuery<?> nestedGqlQuery;
 
     public Builder() {
-      this.aggregations = new ArrayList<>();
+      this.aggregations = new HashSet<>();
     }
 
     public Builder setNamespace(String namespace) {

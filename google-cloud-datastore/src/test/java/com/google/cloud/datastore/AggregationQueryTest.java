@@ -25,6 +25,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 
 import com.google.cloud.datastore.aggregation.CountAggregation;
+import com.google.common.collect.ImmutableSet;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -53,8 +54,8 @@ public class AggregationQueryTest {
         .build();
 
     assertThat(aggregationQuery.getNamespace(), equalTo(NAMESPACE));
-    assertThat(aggregationQuery.getAggregations().get(0),
-        equalTo(count().limit(100).as("total_upto_100").build()));
+    assertThat(aggregationQuery.getAggregations(), equalTo(
+        ImmutableSet.of(count().limit(100).as("total_upto_100").build())));
     assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
     assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
   }
@@ -70,9 +71,27 @@ public class AggregationQueryTest {
         .build();
 
     assertThat(aggregationQuery.getNamespace(), equalTo(NAMESPACE));
-    assertThat(aggregationQuery.getAggregations().get(0), equalTo(count().as("total").build()));
-    assertThat(aggregationQuery.getAggregations().get(1),
-        equalTo(count().limit(100).as("total_upto_100").build()));
+    assertThat(aggregationQuery.getAggregations(), equalTo(ImmutableSet.of(
+        count().as("total").build(),
+        count().limit(100).as("total_upto_100").build()
+    )));
+    assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
+    assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
+  }
+
+  @Test
+  public void testAggregationBuilderWithDuplicateAggregations() {
+    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
+        .setNamespace(NAMESPACE)
+        .addAggregation(count().limit(100).as("total_upto_100"))
+        .addAggregation(count().limit(100).as("total_upto_100"))
+        .over(COMPLETED_TASK_QUERY)
+        .build();
+
+    assertThat(aggregationQuery.getNamespace(), equalTo(NAMESPACE));
+    assertThat(aggregationQuery.getAggregations(), equalTo(ImmutableSet.of(
+        count().limit(100).as("total_upto_100").build()
+    )));
     assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
     assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
   }
@@ -85,7 +104,9 @@ public class AggregationQueryTest {
         .build();
 
     assertNull(aggregationQuery.getNamespace());
-    assertThat(aggregationQuery.getAggregations().get(0), equalTo(count().as("total").build()));
+    assertThat(aggregationQuery.getAggregations(), equalTo(ImmutableSet.of(
+        count().as("total").build()
+    )));
     assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
     assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
   }

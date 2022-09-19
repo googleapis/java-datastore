@@ -15,6 +15,8 @@
  */
 package com.google.cloud.datastore;
 
+import static com.google.api.client.util.Preconditions.checkNotNull;
+
 import com.google.api.core.InternalApi;
 import com.google.cloud.Timestamp;
 import java.util.Iterator;
@@ -28,6 +30,8 @@ public class AggregationResults implements Iterable<AggregationResult> {
 
   public AggregationResults(List<AggregationResult> aggregationResults,
       Timestamp readTime) {
+    checkNotNull(aggregationResults, "Aggregation results cannot be null");
+    checkNotNull(readTime, "readTime cannot be null");
     this.aggregationResults = aggregationResults;
     this.readTime = readTime;
   }
