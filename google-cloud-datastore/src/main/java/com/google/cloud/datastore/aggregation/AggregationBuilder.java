@@ -16,8 +16,12 @@
 
 package com.google.cloud.datastore.aggregation;
 
+/**
+ * An interface to represent the builders which build and customize {@link Aggregation} for
+ * {@link com.google.cloud.datastore.AggregationQuery}.
+ *
+ * Used by {@link com.google.cloud.datastore.AggregationQuery.Builder#addAggregation(AggregationBuilder)}.
+ */
 public interface AggregationBuilder<A extends Aggregation> {
-
   A build();
-
 }

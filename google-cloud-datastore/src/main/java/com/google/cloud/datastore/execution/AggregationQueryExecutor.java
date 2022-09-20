@@ -15,6 +15,7 @@
  */
 package com.google.cloud.datastore.execution;
 
+import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResults;
 import com.google.cloud.datastore.DatastoreOptions;
@@ -27,6 +28,11 @@ import com.google.datastore.v1.RunAggregationQueryRequest;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import java.util.Arrays;
 
+/**
+ * An implementation of {@link QueryExecutor} which executes {@link AggregationQuery} and returns
+ * {@link AggregationResults}.
+ */
+@InternalApi
 public class AggregationQueryExecutor implements
     QueryExecutor<AggregationQuery, AggregationResults> {
 

@@ -72,8 +72,12 @@ public abstract class ReadOption implements Serializable {
     }
   }
 
+  /**
+   * Specifies transaction to be used when running a {@link Query}.
+   */
   @InternalApi
   static class TransactionId extends ReadOption {
+
     private final ByteString transactionId;
 
     TransactionId(ByteString transactionId) {
@@ -106,11 +110,19 @@ public abstract class ReadOption implements Serializable {
     return new ReadTime(time);
   }
 
+  /**
+   * Returns a {@code ReadOption} that specifies transaction id, allowing Datastore to execute a
+   * {@link Query} in this transaction.
+   */
   @InternalApi
   public static ReadOption transactionId(String transactionId) {
     return new TransactionId(ByteString.copyFrom(transactionId.getBytes()));
   }
 
+  /**
+   * Returns a {@code ReadOption} that specifies transaction id, allowing Datastore to execute a
+   * {@link Query} in this transaction.
+   */
   @InternalApi
   public static ReadOption transactionId(ByteString transactionId) {
     return new TransactionId(transactionId);
@@ -132,6 +144,7 @@ public abstract class ReadOption implements Serializable {
     return builder.buildOrThrow();
   }
 
+  @InternalApi
   public static class QueryAndReadOptions<Q extends Query<?>> {
 
     Q query;
@@ -159,7 +172,8 @@ public abstract class ReadOption implements Serializable {
       return new QueryAndReadOptions<>(query);
     }
 
-    public static <Q extends Query<?>> QueryAndReadOptions<Q> create(Q query, List<ReadOption> readOptions) {
+    public static <Q extends Query<?>> QueryAndReadOptions<Q> create(Q query,
+        List<ReadOption> readOptions) {
       return new QueryAndReadOptions<>(query, readOptions);
     }
   }

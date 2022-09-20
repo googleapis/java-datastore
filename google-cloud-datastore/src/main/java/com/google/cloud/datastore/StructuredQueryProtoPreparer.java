@@ -15,11 +15,13 @@
  */
 package com.google.cloud.datastore;
 
+import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.execution.request.ProtoPreparer;
 import com.google.datastore.v1.Query;
 import com.google.protobuf.Int32Value;
 
+@InternalApi
 public class StructuredQueryProtoPreparer implements ProtoPreparer<StructuredQuery<?>, Query> {
 
   @Override

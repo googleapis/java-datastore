@@ -19,6 +19,9 @@ package com.google.cloud.datastore.aggregation;
 import com.google.api.core.InternalApi;
 import com.google.datastore.v1.AggregationQuery;
 
+/**
+ * Represents a Google Cloud Datastore Aggregation which is used with an {@link AggregationQuery}.
+ */
 public abstract class Aggregation {
 
   private final String alias;
@@ -27,6 +30,9 @@ public abstract class Aggregation {
     this.alias = alias;
   }
 
+  /**
+   * Returns the alias for this aggregation.
+   */
   public String getAlias() {
     return alias;
   }
@@ -34,6 +40,9 @@ public abstract class Aggregation {
   @InternalApi
   public abstract AggregationQuery.Aggregation toPb();
 
+  /**
+   * Returns a {@link CountAggregation} builder.
+   */
   public static CountAggregation.Builder count() {
     return new CountAggregation.Builder();
   }

@@ -15,9 +15,26 @@
  */
 package com.google.cloud.datastore.execution;
 
+import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.ReadOption;
 
+/**
+ * An internal functional interface whose implementation has the responsibility to execute a
+ * {@link Query} and returns the result. This class will have the responsibility to orchestrate
+ * between {@link com.google.cloud.datastore.execution.request.ProtoPreparer},
+ * {@link com.google.cloud.datastore.spi.v1.DatastoreRpc} and
+ * {@link com.google.cloud.datastore.execution.response.ResponseTransformer} layers.
+ *
+ * @param <INPUT> A {@link Query} to execute.
+ * @param <OUTPUT> the type of result produced by Query.
+ */
+@InternalApi
 public interface QueryExecutor<INPUT extends Query<OUTPUT>, OUTPUT> {
+
+  /**
+   * @param query A {@link Query} to execute.
+   * @param readOptions Optional {@link ReadOption}s to be used when executing {@link Query}.
+   */
   OUTPUT execute(INPUT query, ReadOption... readOptions);
 }

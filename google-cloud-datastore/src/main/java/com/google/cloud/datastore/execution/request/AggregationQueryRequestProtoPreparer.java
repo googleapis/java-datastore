@@ -17,6 +17,7 @@ package com.google.cloud.datastore.execution.request;
 
 import static com.google.cloud.datastore.AggregationQuery.Mode.GQL;
 
+import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.GqlQueryProtoPreparer;
@@ -32,6 +33,7 @@ import com.google.datastore.v1.ReadOptions;
 import com.google.datastore.v1.RunAggregationQueryRequest;
 import java.util.List;
 
+@InternalApi
 public class AggregationQueryRequestProtoPreparer implements
     ProtoPreparer<QueryAndReadOptions<AggregationQuery>, RunAggregationQueryRequest> {
 

@@ -23,10 +23,17 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+/**
+ * Represents an {@link Aggregation} which returns count.
+ */
 public class CountAggregation extends Aggregation {
 
   private final long limit;
 
+  /**
+   * @param alias Alias to used when running this aggregation.
+   * @param limit Specify the number of item to scan to reduce latency and cost.
+   */
   public CountAggregation(String alias, long limit) {
     super(alias);
     this.limit = limit;
@@ -64,6 +71,9 @@ public class CountAggregation extends Aggregation {
     return Objects.hash(limit, getAlias());
   }
 
+  /**
+   * A builder class to create and customize a {@link CountAggregation}.
+   */
   public static class Builder implements AggregationBuilder<CountAggregation> {
 
     private String alias;

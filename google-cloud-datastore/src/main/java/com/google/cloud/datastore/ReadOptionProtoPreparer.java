@@ -15,6 +15,7 @@
  */
 package com.google.cloud.datastore;
 
+import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.ReadOption.EventualConsistency;
 import com.google.cloud.datastore.ReadOption.ReadTime;
 import com.google.cloud.datastore.ReadOption.TransactionId;
@@ -26,6 +27,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@InternalApi
 public class ReadOptionProtoPreparer implements ProtoPreparer<List<ReadOption>, ReadOptions> {
 
   @Override

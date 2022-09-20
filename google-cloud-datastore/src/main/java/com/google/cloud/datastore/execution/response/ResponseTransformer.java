@@ -15,6 +15,16 @@
  */
 package com.google.cloud.datastore.execution.response;
 
+import com.google.api.core.InternalApi;
+
+/**
+ * An internal functional interface whose implementation has the responsibility to populate a Domain
+ * object from a proto response.
+ *
+ * @param <INPUT> the type of proto response object.
+ * @param <OUTPUT> the type of domain object.
+ */
+@InternalApi
 public interface ResponseTransformer<INPUT, OUTPUT> {
   OUTPUT transform(INPUT response);
 }

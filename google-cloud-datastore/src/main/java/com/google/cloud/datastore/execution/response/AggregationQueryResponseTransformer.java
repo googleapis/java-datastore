@@ -15,6 +15,7 @@
  */
 package com.google.cloud.datastore.execution.response;
 
+import com.google.api.core.InternalApi;
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.AggregationResults;
@@ -29,6 +30,7 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@InternalApi
 public class AggregationQueryResponseTransformer implements
     ResponseTransformer<RunAggregationQueryResponse, AggregationResults> {
 

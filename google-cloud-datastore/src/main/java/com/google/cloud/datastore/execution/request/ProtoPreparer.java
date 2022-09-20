@@ -17,6 +17,13 @@ package com.google.cloud.datastore.execution.request;
 
 import com.google.api.core.InternalApi;
 
+/**
+ * An internal functional interface whose implementation has the responsibility to populate a Proto
+ * object from a domain object.
+ *
+ * @param <INPUT> the type of domain object.
+ * @param <OUTPUT> the type of proto object
+ */
 @InternalApi
 public interface ProtoPreparer<INPUT, OUTPUT> {
   OUTPUT prepare(INPUT input);

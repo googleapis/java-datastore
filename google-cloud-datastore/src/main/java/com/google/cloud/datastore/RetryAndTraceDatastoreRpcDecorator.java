@@ -43,6 +43,10 @@ import io.opencensus.trace.Span;
 import io.opencensus.trace.Status;
 import java.util.concurrent.Callable;
 
+/**
+ * An implementation of {@link DatastoreRpc} which acts as a Decorator and decorates the underlying
+ * {@link DatastoreRpc} with the logic of retry and Traceability.
+ */
 public class RetryAndTraceDatastoreRpcDecorator implements DatastoreRpc {
 
   private final DatastoreRpc datastoreRpc;

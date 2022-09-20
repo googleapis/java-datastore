@@ -27,6 +27,52 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * An implementation of a Google Cloud Datastore Query that returns {@link AggregationResults}, It
+ * can be constructed by providing a nested query ({@link StructuredQuery} or {@link GqlQuery})
+ * to run the aggregations on and a set of {@link Aggregation}.
+
+ * <p>{@link StructuredQuery} example:</p>
+ * <pre>{@code
+ * import static com.google.cloud.datastore.aggregation.Aggregation.count;
+ *
+ * EntityQuery selectAllQuery = Query.newEntityQueryBuilder()
+ *    .setKind("Task")
+ *    .build();
+ * AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
+ *    .addAggregation(count().as("total_count"))
+ *    .addAggregation(count().limit(100).as("count_upto_100"))
+ *    .over(selectAllQuery)
+ *    .build();
+ * AggregationResults aggregationResults = datastore.runAggregation(aggregationQuery);
+ * for (AggregationResult aggregationResult : aggregationResults) {
+ *     System.out.println(aggregationResult.get("total_count"));
+ *     System.out.println(aggregationResult.get("count_upto_100"));
+ * }
+ * }</pre>
+ *
+ * <h4>{@link GqlQuery} example:</h4>
+ * <pre>{@code
+ * import static com.google.cloud.datastore.aggregation.Aggregation.count;
+ *
+ * GqlQuery<?> selectAllGqlQuery = Query.newGqlQueryBuilder(
+*         "AGGREGATE COUNT(*) AS total_count, COUNT_UP_TO(100) AS count_upto_100 OVER(SELECT * FROM Task)"
+ *     )
+ *     .setAllowLiteral(true)
+ *     .build();
+ * AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
+ *     .over(selectAllGqlQuery)
+ *     .build();
+ * AggregationResults aggregationResults = datastore.runAggregation(aggregationQuery);
+ * for (AggregationResult aggregationResult : aggregationResults) {
+ *   System.out.println(aggregationResult.get("total_count"));
+ *   System.out.println(aggregationResult.get("count_upto_100"));
+ * }
+ * }</pre>
+ *
+ * @see <a href="https://cloud.google.com/appengine/docs/java/datastore/queries">Datastore
+ *     queries</a>
+ */
 public class AggregationQuery extends Query<AggregationResults> {
 
   private Set<Aggregation> aggregations;
@@ -50,18 +96,26 @@ public class AggregationQuery extends Query<AggregationResults> {
     this.mode = GQL;
   }
 
+  /** Returns the {@link Aggregation}(s) for this Query. */
   public Set<Aggregation> getAggregations() {
     return aggregations;
   }
 
+  /** Returns the underlying {@link StructuredQuery for this Query}.
+   * Returns null if created with {@link GqlQuery}
+   * */
   public StructuredQuery<?> getNestedStructuredQuery() {
     return nestedStructuredQuery;
   }
 
+  /** Returns the underlying {@link GqlQuery for this Query}.
+   * Returns null if created with {@link StructuredQuery}
+   * */
   public GqlQuery<?> getNestedGqlQuery() {
     return nestedGqlQuery;
   }
 
+  /** Returns the {@link Mode} for this query. */
   public Mode getMode() {
     return mode;
   }

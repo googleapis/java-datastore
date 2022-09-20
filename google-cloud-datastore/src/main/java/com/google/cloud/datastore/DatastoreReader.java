@@ -55,5 +55,10 @@ public interface DatastoreReader {
   <T> QueryResults<T> run(Query<T> query);
 
 
+  /**
+   * Submits a {@link AggregationQuery} and returns {@link AggregationResults}.
+   *
+   * @throws DatastoreException upon failure
+   */
   AggregationResults runAggregation(AggregationQuery query);
 }

@@ -15,10 +15,12 @@
  */
 package com.google.cloud.datastore;
 
+import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.GqlQuery.Binding;
 import com.google.cloud.datastore.execution.request.ProtoPreparer;
 import java.util.Map;
 
+@InternalApi
 public class GqlQueryProtoPreparer implements
     ProtoPreparer<GqlQuery<?>, com.google.datastore.v1.GqlQuery> {
 
