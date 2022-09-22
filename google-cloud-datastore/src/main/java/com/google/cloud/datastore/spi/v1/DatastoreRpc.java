@@ -93,5 +93,7 @@ public interface DatastoreRpc extends ServiceRpc {
    *
    * @throws DatastoreException upon failure
    */
-  RunAggregationQueryResponse runAggregationQuery(RunAggregationQueryRequest request);
+  default RunAggregationQueryResponse runAggregationQuery(RunAggregationQueryRequest request){
+    throw new UnsupportedOperationException("Not implemented.");
+  }
 }

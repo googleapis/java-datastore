@@ -508,5 +508,7 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
    * @throws DatastoreException upon failure
    * @return {@link AggregationResults}
    */
-  AggregationResults runAggregation(AggregationQuery query, ReadOption... options);
+  default AggregationResults runAggregation(AggregationQuery query, ReadOption... options){
+    throw new UnsupportedOperationException("Not implemented.");
+  }
 }
