@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.11.3](https://github.com/googleapis/java-datastore/compare/v2.11.2...v2.11.3) (2022-09-21)
+
+
+### Dependencies
+
+* Update dependency org.junit.vintage:junit-vintage-engine to v5.9.1 ([#829](https://github.com/googleapis/java-datastore/issues/829)) ([2ab161e](https://github.com/googleapis/java-datastore/commit/2ab161e1b44475f46adc2fe0e7d9bfcfb813f50f))
+
+## [2.11.2](https://github.com/googleapis/java-datastore/compare/v2.11.1...v2.11.2) (2022-09-15)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.0.3 ([#824](https://github.com/googleapis/java-datastore/issues/824)) ([819f79f](https://github.com/googleapis/java-datastore/commit/819f79ff16389f75dc4fb8b439ab32aa0c61a4cd))
+
+## [2.11.1](https://github.com/googleapis/java-datastore/compare/v2.11.0...v2.11.1) (2022-09-10)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.0.2 ([#818](https://github.com/googleapis/java-datastore/issues/818)) ([47780d6](https://github.com/googleapis/java-datastore/commit/47780d652e5ac0977278059374aa3865548ec798))
+
 ## [2.11.0](https://github.com/googleapis/java-datastore/compare/v2.10.1...v2.11.0) (2022-08-04)
 
 
