@@ -18,6 +18,7 @@ package com.google.cloud.datastore.it;
 
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.common.collect.Iterables.getOnlyElement;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -26,6 +27,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -35,6 +37,7 @@ import com.google.cloud.datastore.Batch;
 import com.google.cloud.datastore.BooleanValue;
 import com.google.cloud.datastore.Cursor;
 import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.Datastore.TransactionCallable;
 import com.google.cloud.datastore.DatastoreException;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.DatastoreReaderWriter;
@@ -74,6 +77,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -558,8 +565,15 @@ public class ITDatastoreTest {
             ));
   }
 
+  /**
+   * if an entity is modified or deleted within a transaction, a query or lookup returns the
+   * original version of the entity as of the beginning of the transaction,
+   * or nothing if the entity did not exist then.
+   * @see <a href="https://cloud.google.com/datastore/docs/concepts/transactions#isolation_and_consistency">
+   *   Source</a>
+   */
   @Test
-  public void testRunAggregationQueryInTransaction() {
+  public void testRunAggregationQueryInTransactionShouldReturnAConsistentSnapshot() {
     EntityQuery entityQuery = Query.newEntityQueryBuilder()
         .setNamespace(NAMESPACE)
         .setFilter(PropertyFilter.hasAncestor(KEY1))
@@ -571,19 +585,81 @@ public class ITDatastoreTest {
         .addAggregation(count().as("count"))
         .build();
 
-    Transaction transaction = DATASTORE.newTransaction();
-    assertThat(getOnlyElement(transaction.runAggregation(aggregationQuery)).get("count"), equalTo(2L));
-
-    Entity aNewEntity = Entity.newBuilder(ENTITY2)
-        .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
-        .set("v_int", 10)
-        .build();
-    transaction.put(aNewEntity);
-
-    assertThat(getOnlyElement(transaction.runAggregation(aggregationQuery)).get("count"), equalTo(2L));
+    // original entity count is 2
     assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"), equalTo(2L));
-    transaction.commit();
+
+    // FIRST TRANSACTION
+    DATASTORE.runInTransaction((TransactionCallable<Void>) inFirstTransaction -> {
+        // creating a new entity
+      Entity aNewEntity = Entity.newBuilder(ENTITY2)
+          .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
+          .set("v_int", 10)
+          .build();
+      inFirstTransaction.put(aNewEntity);
+
+        // count remains 2
+      assertThat(getOnlyElement(inFirstTransaction.runAggregation(aggregationQuery)).get("count"), equalTo(2L));
+      assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"), equalTo(2L));
+      return null;
+    });
+    // after first transaction is committed, count is updated to 3 now.
     assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"), equalTo(3L));
+
+    // SECOND TRANSACTION
+    DATASTORE.runInTransaction((TransactionCallable<Void>) inSecondTransaction -> {
+        // deleting ENTITY2
+      inSecondTransaction.delete(ENTITY2.getKey());
+
+        // count remains 3
+      assertThat(getOnlyElement(inSecondTransaction.runAggregation(aggregationQuery)).get("count"), equalTo(3L));
+      assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"), equalTo(3L));
+      return null;
+    });
+    // after second transaction is committed, count is updated to 2 now.
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"), equalTo(2L));
+  }
+
+  /**
+   * Data read or modified by a transaction cannot be concurrently modified.
+   * @see <a href="https://cloud.google.com/datastore/docs/concepts/transactions#isolation_and_consistency">
+   *   Source</a>
+   */
+  @Test
+  public void testRunAggregationQueryInATransactionShouldLockTheCountedDocuments() throws Exception {
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    EntityQuery entityQuery = Query.newEntityQueryBuilder()
+        .setNamespace(NAMESPACE)
+        .setFilter(PropertyFilter.hasAncestor(KEY1))
+        .build();
+    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
+        .setNamespace(NAMESPACE)
+        .over(entityQuery)
+        .addAggregation(count().as("count"))
+        .build();
+
+    Transaction insideTransaction = DATASTORE.newTransaction();
+
+    // acquiring lock by executing query in transaction
+    assertThat(getOnlyElement(insideTransaction.runAggregation(aggregationQuery)).get("count"),
+        equalTo(2L));
+
+    // Waiting task will be blocked by ongoing transaction.
+    Future<Void> addNewEntityTaskOutsideTransaction = executor.submit(() -> {
+      Entity aNewEntity = Entity.newBuilder(ENTITY2)
+          .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
+          .set("v_int", 10)
+          .build();
+      DATASTORE.put(aNewEntity);
+      return null;
+    });
+
+    // should throw Timeout exception as we haven't yet committed the transaction
+    assertThrows(TimeoutException.class, () -> addNewEntityTaskOutsideTransaction.get(3, SECONDS));
+
+    //cleanup
+    insideTransaction.commit();
+    addNewEntityTaskOutsideTransaction.cancel(true);
+    executor.shutdownNow();
   }
 
   @Test
