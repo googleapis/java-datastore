@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,20 +71,20 @@ public final class Value extends com.google.protobuf.GeneratedMessageV3
             break;
           case 8:
             {
-              valueTypeCase_ = 1;
               valueType_ = input.readBool();
+              valueTypeCase_ = 1;
               break;
             }
           case 16:
             {
-              valueTypeCase_ = 2;
               valueType_ = input.readInt64();
+              valueTypeCase_ = 2;
               break;
             }
           case 25:
             {
-              valueTypeCase_ = 3;
               valueType_ = input.readDouble();
+              valueTypeCase_ = 3;
               break;
             }
           case 42:
@@ -182,8 +182,8 @@ public final class Value extends com.google.protobuf.GeneratedMessageV3
             }
           case 146:
             {
-              valueTypeCase_ = 18;
               valueType_ = input.readBytes();
+              valueTypeCase_ = 18;
               break;
             }
           case 152:

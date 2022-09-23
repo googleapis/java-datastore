@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -312,8 +312,8 @@ public final class Key extends com.google.protobuf.GeneratedMessageV3
               }
             case 16:
               {
-                idTypeCase_ = 2;
                 idType_ = input.readInt64();
+                idTypeCase_ = 2;
                 break;
               }
             case 26:

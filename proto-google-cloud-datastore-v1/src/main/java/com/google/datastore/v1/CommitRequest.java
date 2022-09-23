@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,8 +75,8 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
             break;
           case 10:
             {
-              transactionSelectorCase_ = 1;
               transactionSelector_ = input.readBytes();
+              transactionSelectorCase_ = 1;
               break;
             }
           case 40:

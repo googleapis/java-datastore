@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -77,8 +77,8 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
             }
           case 18:
             {
-              consistencyTypeCase_ = 2;
               consistencyType_ = input.readBytes();
+              consistencyTypeCase_ = 2;
               break;
             }
           default:
