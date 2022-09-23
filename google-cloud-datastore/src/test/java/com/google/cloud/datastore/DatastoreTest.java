@@ -17,6 +17,7 @@
 package com.google.cloud.datastore;
 
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
@@ -36,6 +37,7 @@ import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.Query.ResultType;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
+import com.google.cloud.datastore.emulator.EmulatorProxy;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.cloud.datastore.testing.LocalDatastoreHelper;
@@ -76,7 +78,6 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -88,6 +89,8 @@ public class DatastoreTest {
   private static LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0);
   private static final DatastoreOptions options = helper.getOptions();
   private static final Datastore datastore = options.getService();
+  private static final EmulatorProxy emulatorProxy = new EmulatorProxy(options);
+  private static final Datastore datastoreEmulatorProxy = emulatorProxy.getOptions().getService();
   private static final String PROJECT_ID = options.getProjectId();
   private static final String KIND1 = "kind1";
   private static final String KIND2 = "kind2";
@@ -185,6 +188,7 @@ public class DatastoreTest {
   @AfterClass
   public static void afterClass() throws IOException, InterruptedException, TimeoutException {
     helper.stop(Duration.ofMinutes(1));
+    emulatorProxy.stop();
   }
 
   @Test
@@ -532,20 +536,35 @@ public class DatastoreTest {
   }
 
   @Test
-  @Ignore
   public void testRunAggregationQuery() {
     EntityQuery selectAllQuery = Query.newEntityQueryBuilder().build();
     AggregationQuery getCountQuery = Query.newAggregationQueryBuilder()
         .addAggregation(count().as("total_count").limit(100))
         .over(selectAllQuery)
         .build();
-    AggregationResult resultBeforeInsert = Iterables.getOnlyElement(datastore.runAggregation(getCountQuery));
+    AggregationResult resultBeforeInsert = getOnlyElement(
+        datastoreEmulatorProxy.runAggregation(getCountQuery));
     assertThat(resultBeforeInsert.get("total_count"), equalTo(2L));
 
     datastore.put(ENTITY3);
 
-    AggregationResult resultAfterInsert = Iterables.getOnlyElement(datastore.runAggregation(getCountQuery));
+    AggregationResult resultAfterInsert = getOnlyElement(
+        datastoreEmulatorProxy.runAggregation(getCountQuery));
     assertThat(resultAfterInsert.get("total_count"), equalTo(3L));
+  }
+
+  @Test
+  public void testRunAggregationQueryWithUptoOption() {
+    datastore.put(ENTITY3);
+
+    EntityQuery selectAllQuery = Query.newEntityQueryBuilder().build();
+    AggregationQuery getCountQuery = Query.newAggregationQueryBuilder()
+        .addAggregation(count().as("count_upto_2").limit(2))
+        .over(selectAllQuery)
+        .build();
+    AggregationResult resultBeforeInsert = getOnlyElement(
+        datastoreEmulatorProxy.runAggregation(getCountQuery));
+    assertThat(resultBeforeInsert.get("count_upto_2"), equalTo(2L));
   }
 
   @Test
