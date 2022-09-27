@@ -71,6 +71,7 @@ import com.google.cloud.datastore.ValueType;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.base.Preconditions;
 import com.google.datastore.v1.TransactionOptions;
+import com.google.datastore.v1.TransactionOptions.ReadOnly;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -625,7 +626,7 @@ public class ITDatastoreTest {
    *   Source</a>
    */
   @Test
-  public void testRunAggregationQueryInATransactionShouldLockTheCountedDocuments() throws Exception {
+  public void testRunAggregationQueryInAReadWriteTransactionShouldLockTheCountedDocuments() throws Exception {
     ExecutorService executor = Executors.newSingleThreadExecutor();
     EntityQuery entityQuery = Query.newEntityQueryBuilder()
         .setNamespace(NAMESPACE)
@@ -637,13 +638,14 @@ public class ITDatastoreTest {
         .addAggregation(count().as("count"))
         .build();
 
-    Transaction insideTransaction = DATASTORE.newTransaction();
+    // read-write transaction
+    Transaction readWriteTransaction = DATASTORE.newTransaction();
 
     // acquiring lock by executing query in transaction
-    assertThat(getOnlyElement(insideTransaction.runAggregation(aggregationQuery)).get("count"),
+    assertThat(getOnlyElement(readWriteTransaction.runAggregation(aggregationQuery)).get("count"),
         equalTo(2L));
 
-    // Waiting task will be blocked by ongoing transaction.
+    // Waiting task will be blocked by ongoing transactions.
     Future<Void> addNewEntityTaskOutsideTransaction = executor.submit(() -> {
       Entity aNewEntity = Entity.newBuilder(ENTITY2)
           .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
@@ -657,9 +659,51 @@ public class ITDatastoreTest {
     assertThrows(TimeoutException.class, () -> addNewEntityTaskOutsideTransaction.get(3, SECONDS));
 
     //cleanup
-    insideTransaction.commit();
+    readWriteTransaction.commit();
     addNewEntityTaskOutsideTransaction.cancel(true);
     executor.shutdownNow();
+  }
+
+  @Test
+  public void testRunAggregationQueryInAReadOnlyTransactionShouldNotLockTheCountedDocuments() throws Exception {
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    EntityQuery entityQuery = Query.newEntityQueryBuilder()
+        .setNamespace(NAMESPACE)
+        .setFilter(PropertyFilter.hasAncestor(KEY1))
+        .build();
+    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
+        .setNamespace(NAMESPACE)
+        .over(entityQuery)
+        .addAggregation(count().as("count"))
+        .build();
+
+    TransactionOptions transactionOptions = TransactionOptions.newBuilder().setReadOnly(
+        ReadOnly.newBuilder().build()).build();
+    Transaction readOnlyTransaction = DATASTORE.newTransaction(transactionOptions);
+
+    // Executing query in transaction
+    assertThat(getOnlyElement(readOnlyTransaction.runAggregation(aggregationQuery)).get("count"),
+        equalTo(2L));
+
+    // Concurrent write task.
+    Future<Void> addNewEntityTaskOutsideTransaction = executor.submit(() -> {
+      Entity aNewEntity = Entity.newBuilder(ENTITY2)
+          .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
+          .set("v_int", 10)
+          .build();
+      DATASTORE.put(aNewEntity);
+      return null;
+    });
+
+    // should not throw exception and complete successfully as the ongoing transaction is read-only.
+    addNewEntityTaskOutsideTransaction.get();
+
+    //cleanup
+    readOnlyTransaction.commit();
+    executor.shutdownNow();
+
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"),
+        equalTo(3L));
   }
 
   @Test
