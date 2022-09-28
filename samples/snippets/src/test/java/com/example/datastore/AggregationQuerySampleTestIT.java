@@ -44,4 +44,12 @@ public class AggregationQuerySampleTestIT {
     systemsOutRule.assertContains("Total candidates count is 3");
     systemsOutRule.assertContains("Total qualified candidates count is 2");
   }
+
+  @Test
+  public void testAggregationQueryAndCountWithStaleRead() throws InterruptedException {
+    sample.aggregationQueryAndCountAggregationWithStaleRead();
+
+    systemsOutRule.assertContains("Latest candidates count is 3");
+    systemsOutRule.assertContains("Stale candidates count is 2");
+  }
 }
