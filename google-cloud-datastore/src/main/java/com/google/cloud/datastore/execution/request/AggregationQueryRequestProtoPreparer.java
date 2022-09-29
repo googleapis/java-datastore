@@ -32,6 +32,7 @@ import com.google.datastore.v1.Query;
 import com.google.datastore.v1.ReadOptions;
 import com.google.datastore.v1.RunAggregationQueryRequest;
 import java.util.List;
+import java.util.Optional;
 
 @InternalApi
 public class AggregationQueryRequestProtoPreparer implements
@@ -65,10 +66,8 @@ public class AggregationQueryRequestProtoPreparer implements
       aggregationQueryRequestBuilder.setAggregationQuery(getAggregationQuery(aggregationQuery));
     }
 
-    ReadOptions readOptionsPb = readOptionProtoPreparer.prepare(readOptions);
-    if (readOptionsPb != null) {
-      aggregationQueryRequestBuilder.setReadOptions(readOptionsPb);
-    }
+    Optional<ReadOptions> readOptionsPb = readOptionProtoPreparer.prepare(readOptions);
+    readOptionsPb.ifPresent(aggregationQueryRequestBuilder::setReadOptions);
     return aggregationQueryRequestBuilder.build();
   }
 

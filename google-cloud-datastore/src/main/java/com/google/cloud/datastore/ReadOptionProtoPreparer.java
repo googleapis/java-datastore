@@ -24,44 +24,48 @@ import com.google.datastore.v1.ReadOptions;
 import com.google.datastore.v1.ReadOptions.ReadConsistency;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @InternalApi
-public class ReadOptionProtoPreparer implements ProtoPreparer<List<ReadOption>, ReadOptions> {
+public class ReadOptionProtoPreparer implements
+    ProtoPreparer<List<ReadOption>, Optional<ReadOptions>> {
 
   @Override
-  public ReadOptions prepare(List<ReadOption> options) {
-    com.google.datastore.v1.ReadOptions readOptionsPb = null;
-    if (options != null && !options.isEmpty()) {
-      Map<Class<? extends ReadOption>, ReadOption> optionsByType =
-          ReadOption.asImmutableMap(options);
-
-      boolean moreThanOneReadOption = optionsByType.keySet().size() > 1;
-      if (moreThanOneReadOption) {
-        throw DatastoreException.throwInvalidRequest(
-            String.format("Can not use %s together.", getInvalidOptions(optionsByType)));
-      }
-
-      if (optionsByType.containsKey(EventualConsistency.class)) {
-        readOptionsPb = ReadOptions.newBuilder()
-            .setReadConsistency(ReadConsistency.EVENTUAL)
-            .build();
-      }
-
-      if (optionsByType.containsKey(ReadTime.class)) {
-        readOptionsPb = ReadOptions.newBuilder()
-            .setReadTime(((ReadTime) optionsByType.get(ReadTime.class)).time().toProto())
-            .build();
-      }
-
-      if (optionsByType.containsKey(TransactionId.class)) {
-        readOptionsPb = ReadOptions.newBuilder()
-            .setTransaction(((TransactionId) optionsByType.get(TransactionId.class)).getTransactionId())
-            .build();
-      }
+  public Optional<ReadOptions> prepare(List<ReadOption> options) {
+    if (options == null || options.isEmpty()) {
+      return Optional.empty();
     }
-    return readOptionsPb;
+    com.google.datastore.v1.ReadOptions readOptionsPb = null;
+    Map<Class<? extends ReadOption>, ReadOption> optionsByType =
+        ReadOption.asImmutableMap(options);
+
+    boolean moreThanOneReadOption = optionsByType.keySet().size() > 1;
+    if (moreThanOneReadOption) {
+      throw DatastoreException.throwInvalidRequest(
+          String.format("Can not use %s together.", getInvalidOptions(optionsByType)));
+    }
+
+    if (optionsByType.containsKey(EventualConsistency.class)) {
+      readOptionsPb = ReadOptions.newBuilder()
+          .setReadConsistency(ReadConsistency.EVENTUAL)
+          .build();
+    }
+
+    if (optionsByType.containsKey(ReadTime.class)) {
+      readOptionsPb = ReadOptions.newBuilder()
+          .setReadTime(((ReadTime) optionsByType.get(ReadTime.class)).time().toProto())
+          .build();
+    }
+
+    if (optionsByType.containsKey(TransactionId.class)) {
+      readOptionsPb = ReadOptions.newBuilder()
+          .setTransaction(
+              ((TransactionId) optionsByType.get(TransactionId.class)).getTransactionId())
+          .build();
+    }
+    return Optional.ofNullable(readOptionsPb);
   }
 
   private String getInvalidOptions(Map<Class<? extends ReadOption>, ReadOption> optionsByType) {

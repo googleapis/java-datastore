@@ -23,6 +23,7 @@ import com.google.protobuf.ByteString;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 final class TransactionImpl extends BaseDatastoreBatchWriter implements Transaction {
 
@@ -80,7 +81,7 @@ final class TransactionImpl extends BaseDatastoreBatchWriter implements Transact
     com.google.datastore.v1.ReadOptions.Builder readOptionsPb =
         com.google.datastore.v1.ReadOptions.newBuilder();
     readOptionsPb.setTransaction(transactionId);
-    return datastore.get(readOptionsPb.build(), keys);
+    return datastore.get(Optional.of(readOptionsPb.build()), keys);
   }
 
   @Override
@@ -95,7 +96,7 @@ final class TransactionImpl extends BaseDatastoreBatchWriter implements Transact
     com.google.datastore.v1.ReadOptions.Builder readOptionsPb =
         com.google.datastore.v1.ReadOptions.newBuilder();
     readOptionsPb.setTransaction(transactionId);
-    return datastore.run(readOptionsPb.build(), query);
+    return datastore.run(Optional.of(readOptionsPb.build()), query);
   }
 
   @Override
