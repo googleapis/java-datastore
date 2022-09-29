@@ -266,7 +266,6 @@ public abstract class Query<V> implements Serializable {
    *
    * <p>{@link StructuredQuery} example:</p>
    * <pre>{@code
-   * import static com.google.cloud.datastore.aggregation.Aggregation.count;
    *
    * EntityQuery selectAllQuery = Query.newEntityQueryBuilder()
    *    .setKind("Task")
@@ -281,7 +280,6 @@ public abstract class Query<V> implements Serializable {
    *
    * <h4>{@link GqlQuery} example:</h4>
    * <pre>{@code
-   * import static com.google.cloud.datastore.aggregation.Aggregation.count;
    *
    * GqlQuery<?> selectAllGqlQuery = Query.newGqlQueryBuilder(
    *         "AGGREGATE COUNT(*) AS total_count OVER(SELECT * FROM Task)"

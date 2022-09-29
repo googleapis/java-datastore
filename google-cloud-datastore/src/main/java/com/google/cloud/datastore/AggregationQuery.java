@@ -34,7 +34,6 @@ import java.util.Set;
 
  * <p>{@link StructuredQuery} example:</p>
  * <pre>{@code
- * import static com.google.cloud.datastore.aggregation.Aggregation.count;
  *
  * EntityQuery selectAllQuery = Query.newEntityQueryBuilder()
  *    .setKind("Task")
@@ -51,7 +50,6 @@ import java.util.Set;
  *
  * <h4>{@link GqlQuery} example:</h4>
  * <pre>{@code
- * import static com.google.cloud.datastore.aggregation.Aggregation.count;
  *
  * GqlQuery<?> selectAllGqlQuery = Query.newGqlQueryBuilder(
 *         "AGGREGATE COUNT(*) AS total_count, COUNT_UP_TO(100) AS count_upto_100 OVER(SELECT * FROM Task)"
