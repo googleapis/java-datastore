@@ -539,7 +539,7 @@ public class DatastoreTest {
   public void testRunAggregationQuery() {
     EntityQuery selectAllQuery = Query.newEntityQueryBuilder().build();
     AggregationQuery getCountQuery = Query.newAggregationQueryBuilder()
-        .addAggregation(count().as("total_count").limit(100))
+        .addAggregation(count().as("total_count"))
         .over(selectAllQuery)
         .build();
     AggregationResult resultBeforeInsert = getOnlyElement(
@@ -551,20 +551,6 @@ public class DatastoreTest {
     AggregationResult resultAfterInsert = getOnlyElement(
         datastoreEmulatorProxy.runAggregation(getCountQuery));
     assertThat(resultAfterInsert.get("total_count"), equalTo(3L));
-  }
-
-  @Test
-  public void testRunAggregationQueryWithUptoOption() {
-    datastore.put(ENTITY3);
-
-    EntityQuery selectAllQuery = Query.newEntityQueryBuilder().build();
-    AggregationQuery getCountQuery = Query.newAggregationQueryBuilder()
-        .addAggregation(count().as("count_upto_2").limit(2))
-        .over(selectAllQuery)
-        .build();
-    AggregationResult resultBeforeInsert = getOnlyElement(
-        datastoreEmulatorProxy.runAggregation(getCountQuery));
-    assertThat(resultBeforeInsert.get("count_upto_2"), equalTo(2L));
   }
 
   @Test

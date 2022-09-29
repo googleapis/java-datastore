@@ -42,12 +42,12 @@ public class AggregationQueryResponseTransformerTest {
   public void shouldTransformAggregationQueryResponse() {
     Map<String, com.google.datastore.v1.Value> result1 = new HashMap<String, com.google.datastore.v1.Value>() {{
       put("count", intValue(209));
-      put("count_upto_100", intValue(100));
+      put("property_2", intValue(100));
     }};
 
     Map<String, com.google.datastore.v1.Value> result2 = new HashMap<String, com.google.datastore.v1.Value>() {{
       put("count", intValue(509));
-      put("count_upto_100", intValue(100));
+      put("property_2", intValue(100));
     }};
     Timestamp readTime = Timestamp.now();
 

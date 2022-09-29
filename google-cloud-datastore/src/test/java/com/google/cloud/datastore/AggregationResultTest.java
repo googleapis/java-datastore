@@ -27,10 +27,10 @@ public class AggregationResultTest {
   public void shouldGetAggregationResultValueByAlias() {
     AggregationResult aggregationResult = new AggregationResult(ImmutableMap.of(
         "count", LongValue.of(45),
-        "count_upto_30", LongValue.of(30)
+        "property_2", LongValue.of(30)
     ));
 
     assertThat(aggregationResult.get("count"), equalTo(45L));
-    assertThat(aggregationResult.get("count_upto_30"), equalTo(30L));
+    assertThat(aggregationResult.get("property_2"), equalTo(30L));
   }
 }

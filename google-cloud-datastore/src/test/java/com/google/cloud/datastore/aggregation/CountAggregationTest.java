@@ -37,16 +37,6 @@ public class CountAggregationTest {
   }
 
   @Test
-  public void testCountAggregationWithLimit() {
-    AggregationQuery.Aggregation countAggregationPb = count()
-        .limit(100)
-        .build().toPb();
-
-    assertThat(countAggregationPb.getCount().getUpTo().getValue(), equalTo(100L));
-    assertThat(countAggregationPb.getAlias(), equalTo(""));
-  }
-
-  @Test
   public void testCountAggregationWithAlias() {
     AggregationQuery.Aggregation countAggregationPb = count()
         .as("column_1")
@@ -57,30 +47,17 @@ public class CountAggregationTest {
   }
 
   @Test
-  public void testCountAggregationWithAliasAndLimit() {
-    AggregationQuery.Aggregation countAggregationPb = count()
-        .as("column_1")
-        .limit(100)
-        .build().toPb();
-
-    assertThat(countAggregationPb.getCount().getUpTo().getValue(), equalTo(100L));
-    assertThat(countAggregationPb.getAlias(), equalTo("column_1"));
-  }
-
-  @Test
   public void testEquals() {
     CountAggregation.Builder aggregation1 = count()
-        .as("total")
-        .limit(100);
+        .as("total");
 
     CountAggregation.Builder aggregation2 = count()
-        .as("total")
-        .limit(100);
+        .as("total");
 
     assertEquals(aggregation1.build(), aggregation2.build());
     assertEquals(aggregation2.build(), aggregation1.build());
 
     assertNotEquals(aggregation1.as("new-alias").build(), aggregation2.build());
-    assertNotEquals(aggregation1.limit(399).build(), aggregation2.build());
+    assertNotEquals(aggregation2.build(), aggregation1.as("new-alias").build());
   }
 }

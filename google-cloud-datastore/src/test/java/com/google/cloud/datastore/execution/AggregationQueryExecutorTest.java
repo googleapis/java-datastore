@@ -91,9 +91,9 @@ public class AggregationQueryExecutorTest {
     verify(mockRpc);
     assertThat(aggregationResults, equalTo(new AggregationResults(asList(
         new AggregationResult(
-            ImmutableMap.of("count", LongValue.of(209), "count_upto_100", LongValue.of(100))),
+            ImmutableMap.of("count", LongValue.of(209), "property_2", LongValue.of(100))),
         new AggregationResult(
-            ImmutableMap.of("count", LongValue.of(509), "count_upto_100", LongValue.of(100)))
+            ImmutableMap.of("count", LongValue.of(509), "property_2", LongValue.of(100)))
     ), Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime()))));
   }
 
@@ -123,21 +123,21 @@ public class AggregationQueryExecutorTest {
     verify(mockRpc);
     assertThat(aggregationResults, equalTo(new AggregationResults(asList(
         new AggregationResult(
-            ImmutableMap.of("count", LongValue.of(209), "count_upto_100", LongValue.of(100))),
+            ImmutableMap.of("count", LongValue.of(209), "property_2", LongValue.of(100))),
         new AggregationResult(
-            ImmutableMap.of("count", LongValue.of(509), "count_upto_100", LongValue.of(100)))
+            ImmutableMap.of("count", LongValue.of(509), "property_2", LongValue.of(100)))
     ), Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime()))));
   }
 
   private RunAggregationQueryResponse dummyAggregationQueryResponse() {
     Map<String, Value> result1 = new HashMap<String, Value>() {{
       put("count", intValue(209));
-      put("count_upto_100", intValue(100));
+      put("property_2", intValue(100));
     }};
 
     Map<String, Value> result2 = new HashMap<String, Value>() {{
       put("count", intValue(509));
-      put("count_upto_100", intValue(100));
+      put("property_2", intValue(100));
     }};
 
     AggregationResultBatch resultBatch = AggregationResultBatch.newBuilder()

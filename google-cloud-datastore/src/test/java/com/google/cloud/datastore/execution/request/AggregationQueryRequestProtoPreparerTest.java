@@ -71,7 +71,6 @@ public class AggregationQueryRequestProtoPreparerTest {
   private final AggregationQuery AGGREGATION_OVER_STRUCTURED_QUERY = Query.newAggregationQueryBuilder()
       .setNamespace(NAMESPACE)
       .addAggregation(count().as("total"))
-      .addAggregation(count().limit(100).as("total_upto_100"))
       .over(COMPLETED_TASK_STRUCTURED_QUERY)
       .build();
 
@@ -100,10 +99,8 @@ public class AggregationQueryRequestProtoPreparerTest {
             .addKind(kind(KIND))
             .setFilter(propertyFilter("done", EQUAL, booleanValue(true)))
             .build()));
-    assertThat(aggregationQueryProto.getAggregationsList(), equalTo(asList(
-        countAggregation("total"),
-        countAggregation("total_upto_100", 100)
-    )));
+    assertThat(aggregationQueryProto.getAggregationsList(),
+        equalTo(singletonList(countAggregation("total"))));
   }
 
   @Test

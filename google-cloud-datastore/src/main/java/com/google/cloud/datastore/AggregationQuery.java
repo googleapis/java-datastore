@@ -41,13 +41,11 @@ import java.util.Set;
  *    .build();
  * AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
  *    .addAggregation(count().as("total_count"))
- *    .addAggregation(count().limit(100).as("count_upto_100"))
  *    .over(selectAllQuery)
  *    .build();
  * AggregationResults aggregationResults = datastore.runAggregation(aggregationQuery);
  * for (AggregationResult aggregationResult : aggregationResults) {
  *     System.out.println(aggregationResult.get("total_count"));
- *     System.out.println(aggregationResult.get("count_upto_100"));
  * }
  * }</pre>
  *
