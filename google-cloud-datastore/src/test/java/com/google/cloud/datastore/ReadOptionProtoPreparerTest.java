@@ -18,10 +18,10 @@ package com.google.cloud.datastore;
 import static com.google.cloud.datastore.ReadOption.eventualConsistency;
 import static com.google.cloud.datastore.ReadOption.readTime;
 import static com.google.cloud.datastore.ReadOption.transactionId;
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.datastore.v1.ReadOptions.ReadConsistency.EVENTUAL;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.cloud.Timestamp;
 import com.google.common.collect.ImmutableList;
+import com.google.common.truth.Truth;
 import com.google.datastore.v1.ReadOptions;
 import com.google.protobuf.ByteString;
 import java.util.Arrays;
@@ -53,14 +54,15 @@ public class ReadOptionProtoPreparerTest {
             Arrays.asList(transactionId("transaction-id"), readTime(Timestamp.now()))));
     assertThrows(DatastoreException.class,
         () -> protoPreparer.prepare(
-            Arrays.asList(eventualConsistency(), readTime(Timestamp.now()), transactionId("transaction-id"))));
+            Arrays.asList(eventualConsistency(), readTime(Timestamp.now()),
+                transactionId("transaction-id"))));
   }
 
   @Test
   public void shouldPrepareReadOptionsWithEventualConsistency() {
     Optional<ReadOptions> readOptions = protoPreparer.prepare(singletonList(eventualConsistency()));
 
-    assertThat(readOptions.get().getReadConsistency(), is(EVENTUAL));
+    assertThat(readOptions.get().getReadConsistency()).isEqualTo(EVENTUAL);
   }
 
   @Test
@@ -68,7 +70,7 @@ public class ReadOptionProtoPreparerTest {
     Timestamp timestamp = Timestamp.now();
     Optional<ReadOptions> readOptions = protoPreparer.prepare(singletonList(readTime(timestamp)));
 
-    assertThat(Timestamp.fromProto(readOptions.get().getReadTime()), is(timestamp));
+    assertThat(Timestamp.fromProto(readOptions.get().getReadTime())).isEqualTo(timestamp);
   }
 
   @Test
@@ -77,7 +79,7 @@ public class ReadOptionProtoPreparerTest {
     Optional<ReadOptions> readOptions = protoPreparer.prepare(singletonList(transactionId(
         dummyTransactionId)));
 
-    assertThat(readOptions.get().getTransaction().toStringUtf8(), is(dummyTransactionId));
+    assertThat(readOptions.get().getTransaction().toStringUtf8()).isEqualTo(dummyTransactionId);
   }
 
   @Test

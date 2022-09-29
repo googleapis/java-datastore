@@ -20,14 +20,13 @@ import static com.google.cloud.datastore.ReadOption.eventualConsistency;
 import static com.google.cloud.datastore.StructuredQuery.PropertyFilter.eq;
 import static com.google.cloud.datastore.TestUtils.matches;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.datastore.v1.ReadOptions.ReadConsistency.EVENTUAL;
 import static java.util.Arrays.asList;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationQuery;
@@ -39,6 +38,7 @@ import com.google.cloud.datastore.LongValue;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.truth.Truth;
 import com.google.datastore.v1.AggregationResultBatch;
 import com.google.datastore.v1.RunAggregationQueryRequest;
 import com.google.datastore.v1.RunAggregationQueryResponse;
@@ -89,12 +89,12 @@ public class AggregationQueryExecutorTest {
     AggregationResults aggregationResults = queryExecutor.execute(aggregationQuery);
 
     verify(mockRpc);
-    assertThat(aggregationResults, equalTo(new AggregationResults(asList(
+    assertThat(aggregationResults).isEqualTo(new AggregationResults(asList(
         new AggregationResult(
             ImmutableMap.of("count", LongValue.of(209), "property_2", LongValue.of(100))),
         new AggregationResult(
             ImmutableMap.of("count", LongValue.of(509), "property_2", LongValue.of(100)))
-    ), Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime()))));
+    ), Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime())));
   }
 
   @Test
@@ -121,12 +121,12 @@ public class AggregationQueryExecutorTest {
         eventualConsistency());
 
     verify(mockRpc);
-    assertThat(aggregationResults, equalTo(new AggregationResults(asList(
+    assertThat(aggregationResults).isEqualTo(new AggregationResults(asList(
         new AggregationResult(
             ImmutableMap.of("count", LongValue.of(209), "property_2", LongValue.of(100))),
         new AggregationResult(
             ImmutableMap.of("count", LongValue.of(509), "property_2", LongValue.of(100)))
-    ), Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime()))));
+    ), Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime())));
   }
 
   private RunAggregationQueryResponse dummyAggregationQueryResponse() {

@@ -18,11 +18,10 @@ package com.google.cloud.datastore;
 
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.common.truth.Truth.assertThat;
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -42,9 +41,9 @@ import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.cloud.datastore.testing.LocalDatastoreHelper;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+import com.google.common.truth.Truth;
 import com.google.datastore.v1.BeginTransactionRequest;
 import com.google.datastore.v1.BeginTransactionResponse;
 import com.google.datastore.v1.CommitRequest;
@@ -544,13 +543,13 @@ public class DatastoreTest {
         .build();
     AggregationResult resultBeforeInsert = getOnlyElement(
         datastoreEmulatorProxy.runAggregation(getCountQuery));
-    assertThat(resultBeforeInsert.get("total_count"), equalTo(2L));
+    assertThat(resultBeforeInsert.get("total_count")).isEqualTo(2L);
 
     datastore.put(ENTITY3);
 
     AggregationResult resultAfterInsert = getOnlyElement(
         datastoreEmulatorProxy.runAggregation(getCountQuery));
-    assertThat(resultAfterInsert.get("total_count"), equalTo(3L));
+    assertThat(resultAfterInsert.get("total_count")).isEqualTo(3L);
   }
 
   @Test

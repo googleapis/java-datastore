@@ -18,9 +18,8 @@ package com.google.cloud.datastore.it;
 
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -568,10 +567,11 @@ public class ITDatastoreTest {
 
   /**
    * if an entity is modified or deleted within a transaction, a query or lookup returns the
-   * original version of the entity as of the beginning of the transaction,
-   * or nothing if the entity did not exist then.
+   * original version of the entity as of the beginning of the transaction, or nothing if the entity
+   * did not exist then.
+   *
    * @see <a href="https://cloud.google.com/datastore/docs/concepts/transactions#isolation_and_consistency">
-   *   Source</a>
+   * Source</a>
    */
   @Test
   public void testRunAggregationQueryInTransactionShouldReturnAConsistentSnapshot() {
@@ -587,46 +587,57 @@ public class ITDatastoreTest {
         .build();
 
     // original entity count is 2
-    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"), equalTo(2L));
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+        .isEqualTo(2L);
 
     // FIRST TRANSACTION
     DATASTORE.runInTransaction((TransactionCallable<Void>) inFirstTransaction -> {
-        // creating a new entity
+      // creating a new entity
       Entity aNewEntity = Entity.newBuilder(ENTITY2)
           .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
           .set("v_int", 10)
           .build();
       inFirstTransaction.put(aNewEntity);
 
-        // count remains 2
-      assertThat(getOnlyElement(inFirstTransaction.runAggregation(aggregationQuery)).get("count"), equalTo(2L));
-      assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"), equalTo(2L));
+      // count remains 2
+      assertThat(
+          getOnlyElement(inFirstTransaction.runAggregation(aggregationQuery)).get("count"))
+          .isEqualTo(2L);
+      assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+          .isEqualTo(2L);
       return null;
     });
     // after first transaction is committed, count is updated to 3 now.
-    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"), equalTo(3L));
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+        .isEqualTo(3L);
 
     // SECOND TRANSACTION
     DATASTORE.runInTransaction((TransactionCallable<Void>) inSecondTransaction -> {
-        // deleting ENTITY2
+      // deleting ENTITY2
       inSecondTransaction.delete(ENTITY2.getKey());
 
-        // count remains 3
-      assertThat(getOnlyElement(inSecondTransaction.runAggregation(aggregationQuery)).get("count"), equalTo(3L));
-      assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"), equalTo(3L));
+      // count remains 3
+      assertThat(
+          getOnlyElement(inSecondTransaction.runAggregation(aggregationQuery)).get("count"))
+          .isEqualTo(3L);
+      assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+          .isEqualTo(3L);
       return null;
     });
     // after second transaction is committed, count is updated to 2 now.
-    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"), equalTo(2L));
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+        .isEqualTo(2L);
   }
 
   /**
    * Data read or modified by a transaction cannot be concurrently modified.
+   *
    * @see <a href="https://cloud.google.com/datastore/docs/concepts/transactions#isolation_and_consistency">
-   *   Source</a>
+   * Source</a>
    */
   @Test
-  public void testRunAggregationQueryInAReadWriteTransactionShouldLockTheCountedDocuments() throws Exception {
+  public void testRunAggregationQueryInAReadWriteTransactionShouldLockTheCountedDocuments()
+      throws Exception {
     ExecutorService executor = Executors.newSingleThreadExecutor();
     EntityQuery entityQuery = Query.newEntityQueryBuilder()
         .setNamespace(NAMESPACE)
@@ -642,8 +653,9 @@ public class ITDatastoreTest {
     Transaction readWriteTransaction = DATASTORE.newTransaction();
 
     // acquiring lock by executing query in transaction
-    assertThat(getOnlyElement(readWriteTransaction.runAggregation(aggregationQuery)).get("count"),
-        equalTo(2L));
+    assertThat(
+        getOnlyElement(readWriteTransaction.runAggregation(aggregationQuery)).get("count")
+    ).isEqualTo(2L);
 
     // Waiting task will be blocked by ongoing transactions.
     Future<Void> addNewEntityTaskOutsideTransaction = executor.submit(() -> {
@@ -665,7 +677,8 @@ public class ITDatastoreTest {
   }
 
   @Test
-  public void testRunAggregationQueryInAReadOnlyTransactionShouldNotLockTheCountedDocuments() throws Exception {
+  public void testRunAggregationQueryInAReadOnlyTransactionShouldNotLockTheCountedDocuments()
+      throws Exception {
     ExecutorService executor = Executors.newSingleThreadExecutor();
     EntityQuery entityQuery = Query.newEntityQueryBuilder()
         .setNamespace(NAMESPACE)
@@ -682,8 +695,9 @@ public class ITDatastoreTest {
     Transaction readOnlyTransaction = DATASTORE.newTransaction(transactionOptions);
 
     // Executing query in transaction
-    assertThat(getOnlyElement(readOnlyTransaction.runAggregation(aggregationQuery)).get("count"),
-        equalTo(2L));
+    assertThat(
+        getOnlyElement(readOnlyTransaction.runAggregation(aggregationQuery)).get("count"))
+        .isEqualTo(2L);
 
     // Concurrent write task.
     Future<Void> addNewEntityTaskOutsideTransaction = executor.submit(() -> {
@@ -702,8 +716,8 @@ public class ITDatastoreTest {
     readOnlyTransaction.commit();
     executor.shutdownNow();
 
-    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"),
-        equalTo(3L));
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+        .isEqualTo(3L);
   }
 
   @Test
@@ -1328,7 +1342,7 @@ public class ITDatastoreTest {
     DATASTORE.put(newEntity);
 
     Long countAfterAdd = getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get(alias);
-    assertThat(countAfterAdd, equalTo(expectedCount));
+    assertThat(countAfterAdd).isEqualTo(expectedCount);
 
     DATASTORE.delete(newEntity.getKey());
   }
@@ -1364,12 +1378,12 @@ public class ITDatastoreTest {
 
       Long latestCount = getOnlyElement(DATASTORE.runAggregation(countAggregationQuery))
           .get("total_count");
-      assertThat(latestCount, equalTo(3L));
+      assertThat(latestCount).isEqualTo(3L);
 
       Long oldCount = getOnlyElement(
           DATASTORE.runAggregation(countAggregationQuery, ReadOption.readTime(now))
       ).get("total_count");
-      assertThat(oldCount, equalTo(2L));
+      assertThat(oldCount).isEqualTo(2L);
     } finally {
       DATASTORE.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
     }

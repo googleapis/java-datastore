@@ -15,8 +15,7 @@
  */
 package com.google.cloud.datastore;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
@@ -30,7 +29,7 @@ public class AggregationResultTest {
         "property_2", LongValue.of(30)
     ));
 
-    assertThat(aggregationResult.get("count"), equalTo(45L));
-    assertThat(aggregationResult.get("property_2"), equalTo(30L));
+    assertThat(aggregationResult.get("count")).isEqualTo(45L);
+    assertThat(aggregationResult.get("property_2")).isEqualTo(30L);
   }
 }

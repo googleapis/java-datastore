@@ -21,12 +21,12 @@ import static com.google.cloud.datastore.ProtoTestData.propertyFilter;
 import static com.google.cloud.datastore.ProtoTestData.propertyOrder;
 import static com.google.cloud.datastore.ProtoTestData.propertyReference;
 import static com.google.cloud.datastore.Query.newEntityQueryBuilder;
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.datastore.v1.PropertyFilter.Operator.EQUAL;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
+import com.google.common.truth.Truth;
 import com.google.datastore.v1.KindExpression;
 import com.google.datastore.v1.Query;
 import com.google.protobuf.ByteString;
@@ -41,7 +41,8 @@ public class StructuredQueryProtoPreparerTest {
   public void testKind() {
     Query queryProto = protoPreparer.prepare(newEntityQueryBuilder().setKind("kind").build());
 
-    assertThat(queryProto.getKind(0), equalTo(KindExpression.newBuilder().setName("kind").build()));
+    assertThat(queryProto.getKind(0))
+        .isEqualTo(KindExpression.newBuilder().setName("kind").build());
   }
 
   @Test
@@ -50,7 +51,7 @@ public class StructuredQueryProtoPreparerTest {
     Query queryProto = protoPreparer.prepare(newEntityQueryBuilder().setStartCursor(
         Cursor.copyFrom(bytes)).build());
 
-    assertThat(queryProto.getStartCursor(), equalTo(ByteString.copyFrom(bytes)));
+    assertThat(queryProto.getStartCursor()).isEqualTo(ByteString.copyFrom(bytes));
   }
 
   @Test
@@ -59,21 +60,21 @@ public class StructuredQueryProtoPreparerTest {
     Query queryProto = protoPreparer.prepare(newEntityQueryBuilder().setEndCursor(
         Cursor.copyFrom(bytes)).build());
 
-    assertThat(queryProto.getEndCursor(), equalTo(ByteString.copyFrom(bytes)));
+    assertThat(queryProto.getEndCursor()).isEqualTo(ByteString.copyFrom(bytes));
   }
 
   @Test
   public void testOffset() {
     Query queryProto = protoPreparer.prepare(newEntityQueryBuilder().setOffset(5).build());
 
-    assertThat(queryProto.getOffset(), equalTo(5));
+    assertThat(queryProto.getOffset()).isEqualTo(5);
   }
 
   @Test
   public void testLimit() {
     Query queryProto = protoPreparer.prepare(newEntityQueryBuilder().setLimit(5).build());
 
-    assertThat(queryProto.getLimit(), equalTo(Int32Value.of(5)));
+    assertThat(queryProto.getLimit()).isEqualTo(Int32Value.of(5));
   }
 
   @Test
@@ -82,9 +83,9 @@ public class StructuredQueryProtoPreparerTest {
         .setFilter(PropertyFilter.eq("done", true))
         .build());
 
-    assertThat(queryProto.getFilter(), equalTo(
+    assertThat(queryProto.getFilter()).isEqualTo(
         propertyFilter("done", EQUAL, booleanValue(true))
-    ));
+    );
   }
 
   @Test
@@ -93,8 +94,8 @@ public class StructuredQueryProtoPreparerTest {
         .setOrderBy(OrderBy.asc("dept-id"), OrderBy.asc("rank"))
         .build());
 
-    assertThat(queryProto.getOrder(0), equalTo(propertyOrder("dept-id")));
-    assertThat(queryProto.getOrder(1), equalTo(propertyOrder("rank")));
+    assertThat(queryProto.getOrder(0)).isEqualTo(propertyOrder("dept-id"));
+    assertThat(queryProto.getOrder(1)).isEqualTo(propertyOrder("rank"));
   }
 
   @Test
@@ -103,8 +104,8 @@ public class StructuredQueryProtoPreparerTest {
         .setDistinctOn("dept-id", "rank")
         .build());
 
-    assertThat(queryProto.getDistinctOn(0), equalTo(propertyReference("dept-id")));
-    assertThat(queryProto.getDistinctOn(1), equalTo(propertyReference("rank")));
+    assertThat(queryProto.getDistinctOn(0)).isEqualTo(propertyReference("dept-id"));
+    assertThat(queryProto.getDistinctOn(1)).isEqualTo(propertyReference("rank"));
   }
 
   @Test
@@ -113,7 +114,7 @@ public class StructuredQueryProtoPreparerTest {
         .setProjection("dept-id", "rank")
         .build());
 
-    assertThat(queryProto.getProjection(0), equalTo(projection("dept-id")));
-    assertThat(queryProto.getProjection(1), equalTo(projection("rank")));
+    assertThat(queryProto.getProjection(0)).isEqualTo(projection("dept-id"));
+    assertThat(queryProto.getProjection(1)).isEqualTo(projection("rank"));
   }
 }

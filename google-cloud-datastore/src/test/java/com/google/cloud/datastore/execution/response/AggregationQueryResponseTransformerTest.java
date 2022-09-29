@@ -16,13 +16,13 @@
 package com.google.cloud.datastore.execution.response;
 
 import static com.google.cloud.datastore.ProtoTestData.intValue;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.AggregationResults;
 import com.google.cloud.datastore.LongValue;
+import com.google.common.truth.Truth;
 import com.google.datastore.v1.AggregationResultBatch;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.Value;
@@ -65,10 +65,12 @@ public class AggregationQueryResponseTransformerTest {
     AggregationResults aggregationResults = responseTransformer.transform(
         runAggregationQueryResponse);
 
-    assertThat(aggregationResults.size(), equalTo(2));
-    assertThat(aggregationResults.get(0), equalTo(new AggregationResult(toDomainValues(result1))));
-    assertThat(aggregationResults.get(1), equalTo(new AggregationResult(toDomainValues(result2))));
-    assertThat(aggregationResults.getReadTime(), equalTo(readTime));
+    assertThat(aggregationResults.size()).isEqualTo(2);
+    assertThat(aggregationResults.get(0))
+        .isEqualTo(new AggregationResult(toDomainValues(result1)));
+    assertThat(aggregationResults.get(1))
+        .isEqualTo(new AggregationResult(toDomainValues(result2)));
+    assertThat(aggregationResults.getReadTime()).isEqualTo(readTime);
 
   }
 

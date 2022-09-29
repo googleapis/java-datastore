@@ -17,14 +17,13 @@ package com.google.cloud.datastore;
 
 import static com.google.cloud.datastore.TraceUtil.END_SPAN_OPTIONS;
 import static com.google.cloud.datastore.TraceUtil.SPAN_NAME_RUN_AGGREGATION_QUERY;
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.rpc.Code.UNAVAILABLE;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
-import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
@@ -72,7 +71,7 @@ public class RetryAndTraceDatastoreRpcDecoratorTest {
     RunAggregationQueryResponse actualAggregationQueryResponse = datastoreRpcDecorator.runAggregationQuery(
         aggregationQueryRequest);
 
-    assertThat(actualAggregationQueryResponse, sameInstance(aggregationQueryResponse));
+    assertThat(actualAggregationQueryResponse).isSameInstanceAs(aggregationQueryResponse);
     verify(mockDatastoreRpc, mockTraceUtil, mockSpan);
   }
 }

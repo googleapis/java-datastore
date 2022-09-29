@@ -17,11 +17,9 @@
 package com.google.cloud.datastore.aggregation;
 
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 import com.google.datastore.v1.AggregationQuery;
 import org.junit.Test;
@@ -32,8 +30,8 @@ public class CountAggregationTest {
   public void testCountAggregationWithDefaultValues() {
     AggregationQuery.Aggregation countAggregationPb = count().build().toPb();
 
-    assertThat(countAggregationPb.getCount().getUpTo().getValue(), equalTo(0L));
-    assertThat(countAggregationPb.getAlias(), equalTo(""));
+    assertThat(countAggregationPb.getCount().getUpTo().getValue()).isEqualTo(0L);
+    assertThat(countAggregationPb.getAlias()).isEqualTo("");
   }
 
   @Test
@@ -42,8 +40,8 @@ public class CountAggregationTest {
         .as("column_1")
         .build().toPb();
 
-    assertThat(countAggregationPb.getCount().getUpTo().getValue(), equalTo(0L));
-    assertThat(countAggregationPb.getAlias(), equalTo("column_1"));
+    assertThat(countAggregationPb.getCount().getUpTo().getValue()).isEqualTo(0L);
+    assertThat(countAggregationPb.getAlias()).isEqualTo("column_1");
   }
 
   @Test

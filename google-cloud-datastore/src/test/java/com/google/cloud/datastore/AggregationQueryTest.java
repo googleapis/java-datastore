@@ -19,13 +19,13 @@ import static com.google.cloud.datastore.AggregationQuery.Mode.GQL;
 import static com.google.cloud.datastore.AggregationQuery.Mode.STRUCTURED;
 import static com.google.cloud.datastore.StructuredQuery.PropertyFilter.eq;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 
 import com.google.cloud.datastore.aggregation.CountAggregation;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.truth.Truth;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -52,11 +52,11 @@ public class AggregationQueryTest {
         .over(COMPLETED_TASK_QUERY)
         .build();
 
-    assertThat(aggregationQuery.getNamespace(), equalTo(NAMESPACE));
-    assertThat(aggregationQuery.getAggregations(), equalTo(
-        ImmutableSet.of(count().as("total").build())));
-    assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
-    assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
+    assertThat(aggregationQuery.getNamespace()).isEqualTo(NAMESPACE);
+    assertThat(aggregationQuery.getAggregations()).isEqualTo(
+        ImmutableSet.of(count().as("total").build()));
+    assertThat(aggregationQuery.getNestedStructuredQuery()).isEqualTo(COMPLETED_TASK_QUERY);
+    assertThat(aggregationQuery.getMode()).isEqualTo(STRUCTURED);
   }
 
 
@@ -69,13 +69,13 @@ public class AggregationQueryTest {
         .over(COMPLETED_TASK_QUERY)
         .build();
 
-    assertThat(aggregationQuery.getNamespace(), equalTo(NAMESPACE));
-    assertThat(aggregationQuery.getAggregations(), equalTo(ImmutableSet.of(
+    assertThat(aggregationQuery.getNamespace()).isEqualTo(NAMESPACE);
+    assertThat(aggregationQuery.getAggregations()).isEqualTo(ImmutableSet.of(
         count().as("total").build(),
         count().as("new_total").build()
-    )));
-    assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
-    assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
+    ));
+    assertThat(aggregationQuery.getNestedStructuredQuery()).isEqualTo(COMPLETED_TASK_QUERY);
+    assertThat(aggregationQuery.getMode()).isEqualTo(STRUCTURED);
   }
 
   @Test
@@ -87,12 +87,12 @@ public class AggregationQueryTest {
         .over(COMPLETED_TASK_QUERY)
         .build();
 
-    assertThat(aggregationQuery.getNamespace(), equalTo(NAMESPACE));
-    assertThat(aggregationQuery.getAggregations(), equalTo(ImmutableSet.of(
+    assertThat(aggregationQuery.getNamespace()).isEqualTo(NAMESPACE);
+    assertThat(aggregationQuery.getAggregations()).isEqualTo(ImmutableSet.of(
         count().as("total").build()
-    )));
-    assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
-    assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
+    ));
+    assertThat(aggregationQuery.getNestedStructuredQuery()).isEqualTo(COMPLETED_TASK_QUERY);
+    assertThat(aggregationQuery.getMode()).isEqualTo(STRUCTURED);
   }
 
   @Test
@@ -103,11 +103,11 @@ public class AggregationQueryTest {
         .build();
 
     assertNull(aggregationQuery.getNamespace());
-    assertThat(aggregationQuery.getAggregations(), equalTo(ImmutableSet.of(
+    assertThat(aggregationQuery.getAggregations()).isEqualTo(ImmutableSet.of(
         count().as("total").build()
-    )));
-    assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
-    assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
+    ));
+    assertThat(aggregationQuery.getNestedStructuredQuery()).isEqualTo(COMPLETED_TASK_QUERY);
+    assertThat(aggregationQuery.getMode()).isEqualTo(STRUCTURED);
   }
 
   @Test
@@ -139,8 +139,8 @@ public class AggregationQueryTest {
         .over(gqlQuery)
         .build();
 
-    assertThat(aggregationQuery.getNestedGqlQuery(), equalTo(gqlQuery));
-    assertThat(aggregationQuery.getMode(), equalTo(GQL));
+    assertThat(aggregationQuery.getNestedGqlQuery()).isEqualTo(gqlQuery);
+    assertThat(aggregationQuery.getMode()).isEqualTo(GQL);
   }
 
   @Test

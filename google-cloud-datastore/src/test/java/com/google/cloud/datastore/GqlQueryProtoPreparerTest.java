@@ -19,17 +19,14 @@ import static com.google.cloud.datastore.ProtoTestData.gqlQueryParameter;
 import static com.google.cloud.datastore.ProtoTestData.intValue;
 import static com.google.cloud.datastore.ProtoTestData.stringValue;
 import static com.google.cloud.datastore.Query.newGqlQueryBuilder;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.truth.Truth;
 import com.google.datastore.v1.GqlQueryParameter;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 import org.junit.Test;
 
 public class GqlQueryProtoPreparerTest {
@@ -41,7 +38,7 @@ public class GqlQueryProtoPreparerTest {
   public void testQueryString() {
     com.google.datastore.v1.GqlQuery gqlQuery = protoPreparer.prepare(gqlQueryBuilder.build());
 
-    assertThat(gqlQuery.getQueryString(), equalTo("SELECT * from Character"));
+    assertThat(gqlQuery.getQueryString()).isEqualTo("SELECT * from Character");
   }
 
   @Test
@@ -61,10 +58,11 @@ public class GqlQueryProtoPreparerTest {
             .build()
     );
 
-    assertThat(gqlQuery.getNamedBindingsMap(), equalTo(new HashMap<String, GqlQueryParameter>() {{
-      put("name", gqlQueryParameter(stringValue("John Doe")));
-      put("age", gqlQueryParameter(intValue(27)));
-    }}));
+    assertThat(gqlQuery.getNamedBindingsMap())
+        .isEqualTo(new HashMap<String, GqlQueryParameter>() {{
+          put("name", gqlQueryParameter(stringValue("John Doe")));
+          put("age", gqlQueryParameter(intValue(27)));
+        }});
   }
 
   @Test
@@ -76,10 +74,9 @@ public class GqlQueryProtoPreparerTest {
             .build()
     );
 
-    assertThat(gqlQuery.getPositionalBindingsList(), equalTo(asList(
+    assertThat(gqlQuery.getPositionalBindingsList()).isEqualTo(asList(
         gqlQueryParameter(stringValue("John Doe")),
         gqlQueryParameter(intValue(27))
-    )));
+    ));
   }
-
 }
