@@ -570,6 +570,7 @@ public class ITDatastoreTest {
    */
   @Test
   public void testRunAggregationQueryInTransactionShouldReturnAConsistentSnapshot() {
+    Key newEntityKey = Key.newBuilder(KEY1, "newKind", "name-01").build();
     EntityQuery entityQuery =
         Query.newEntityQueryBuilder()
             .setNamespace(NAMESPACE)
@@ -594,7 +595,7 @@ public class ITDatastoreTest {
               // creating a new entity
               Entity aNewEntity =
                   Entity.newBuilder(ENTITY2)
-                      .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
+                      .setKey(newEntityKey)
                       .set("v_int", 10)
                       .build();
               inFirstTransaction.put(aNewEntity);
@@ -631,6 +632,7 @@ public class ITDatastoreTest {
     // after second transaction is committed, count is updated to 2 now.
     assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
         .isEqualTo(2L);
+    DATASTORE.delete(newEntityKey);
   }
 
   /**
