@@ -69,6 +69,7 @@ import com.google.cloud.datastore.Value;
 import com.google.cloud.datastore.ValueType;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.datastore.v1.TransactionOptions.ReadOnly;
 import java.util.ArrayList;
@@ -184,7 +185,11 @@ public class ITDatastoreTest {
 
   @After
   public void tearDown() {
-    DATASTORE.delete(KEY1, KEY2, KEY3);
+    EntityQuery allEntitiesQuery = Query.newEntityQueryBuilder().build();
+    QueryResults<Entity> allEntities = DATASTORE.run(allEntitiesQuery);
+    Key[] keysToDelete =
+        ImmutableList.copyOf(allEntities).stream().map(Entity::getKey).toArray(Key[]::new);
+    DATASTORE.delete(keysToDelete);
   }
 
   private <T> Iterator<T> getStronglyConsistentResults(Query scQuery, Query query)
@@ -594,10 +599,7 @@ public class ITDatastoreTest {
             inFirstTransaction -> {
               // creating a new entity
               Entity aNewEntity =
-                  Entity.newBuilder(ENTITY2)
-                      .setKey(newEntityKey)
-                      .set("v_int", 10)
-                      .build();
+                  Entity.newBuilder(ENTITY2).setKey(newEntityKey).set("v_int", 10).build();
               inFirstTransaction.put(aNewEntity);
 
               // count remains 2
