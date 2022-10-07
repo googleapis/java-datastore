@@ -38,7 +38,6 @@ import com.google.cloud.datastore.LongValue;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.truth.Truth;
 import com.google.datastore.v1.AggregationResultBatch;
 import com.google.datastore.v1.RunAggregationQueryRequest;
 import com.google.datastore.v1.RunAggregationQueryResponse;
@@ -62,7 +61,8 @@ public class AggregationQueryExecutorTest {
   @Before
   public void setUp() throws Exception {
     mockRpc = EasyMock.createStrictMock(DatastoreRpc.class);
-    datastoreOptions = DatastoreOptions.newBuilder().setProjectId("project-id").setNamespace(NAMESPACE).build();
+    datastoreOptions = DatastoreOptions.newBuilder().setProjectId("project-id")
+        .setNamespace(NAMESPACE).build();
     queryExecutor = new AggregationQueryExecutor(mockRpc, datastoreOptions);
   }
 
@@ -130,15 +130,15 @@ public class AggregationQueryExecutorTest {
   }
 
   private RunAggregationQueryResponse dummyAggregationQueryResponse() {
-    Map<String, Value> result1 = new HashMap<String, Value>() {{
-      put("count", intValue(209));
-      put("property_2", intValue(100));
-    }};
+    Map<String, Value> result1 = new HashMap<>(ImmutableMap.of(
+        "count", intValue(209),
+        "property_2", intValue(100)
+    ));
 
-    Map<String, Value> result2 = new HashMap<String, Value>() {{
-      put("count", intValue(509));
-      put("property_2", intValue(100));
-    }};
+    Map<String, Value> result2 = new HashMap<>(ImmutableMap.of(
+        "count", intValue(509),
+        "property_2", intValue(100)
+    ));
 
     AggregationResultBatch resultBatch = AggregationResultBatch.newBuilder()
         .addAggregationResults(com.google.datastore.v1.AggregationResult.newBuilder()

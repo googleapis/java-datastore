@@ -24,8 +24,7 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.google.common.truth.Truth;
-import com.google.datastore.v1.GqlQueryParameter;
+import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import org.junit.Test;
 
@@ -59,10 +58,10 @@ public class GqlQueryProtoPreparerTest {
     );
 
     assertThat(gqlQuery.getNamedBindingsMap())
-        .isEqualTo(new HashMap<String, GqlQueryParameter>() {{
-          put("name", gqlQueryParameter(stringValue("John Doe")));
-          put("age", gqlQueryParameter(intValue(27)));
-        }});
+        .isEqualTo(new HashMap<>(ImmutableMap.of(
+            "name", gqlQueryParameter(stringValue("John Doe")),
+            "age", gqlQueryParameter(intValue(27))
+        )));
   }
 
   @Test

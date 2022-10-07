@@ -39,6 +39,7 @@ import com.google.cloud.datastore.GqlQuery;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.ReadOption;
 import com.google.cloud.datastore.ReadOption.QueryAndReadOptions;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.truth.Truth;
 import com.google.datastore.v1.GqlQueryParameter;
 import com.google.datastore.v1.RunAggregationQueryRequest;
@@ -120,9 +121,9 @@ public class AggregationQueryRequestProtoPreparerTest {
     assertThat(gqlQueryProto.getQueryString())
         .isEqualTo(COMPLETED_TASK_GQL_QUERY.getQueryString());
     assertThat(gqlQueryProto.getNamedBindingsMap())
-        .isEqualTo(new HashMap<String, GqlQueryParameter>() {{
-          put("name", gqlQueryParameter(stringValue("John Doe")));
-        }});
+        .isEqualTo(new HashMap<>(
+            ImmutableMap.of("name", gqlQueryParameter(stringValue("John Doe")))
+        ));
     assertThat(gqlQueryProto.getPositionalBindingsList()).isEqualTo(asList(
         gqlQueryParameter(intValue(27))
     ));

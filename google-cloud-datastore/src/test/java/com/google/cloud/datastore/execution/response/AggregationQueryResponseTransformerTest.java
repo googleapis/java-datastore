@@ -22,7 +22,7 @@ import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.AggregationResults;
 import com.google.cloud.datastore.LongValue;
-import com.google.common.truth.Truth;
+import com.google.common.collect.ImmutableMap;
 import com.google.datastore.v1.AggregationResultBatch;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.Value;
@@ -40,15 +40,15 @@ public class AggregationQueryResponseTransformerTest {
 
   @Test
   public void shouldTransformAggregationQueryResponse() {
-    Map<String, com.google.datastore.v1.Value> result1 = new HashMap<String, com.google.datastore.v1.Value>() {{
-      put("count", intValue(209));
-      put("property_2", intValue(100));
-    }};
+    Map<String, com.google.datastore.v1.Value> result1 = new HashMap<>(ImmutableMap.of(
+        "count", intValue(209),
+        "property_2", intValue(100)
+    ));
 
-    Map<String, com.google.datastore.v1.Value> result2 = new HashMap<String, com.google.datastore.v1.Value>() {{
-      put("count", intValue(509));
-      put("property_2", intValue(100));
-    }};
+    Map<String, com.google.datastore.v1.Value> result2 = new HashMap<>(ImmutableMap.of(
+        "count", intValue(509),
+        "property_2", intValue(100)
+    ));
     Timestamp readTime = Timestamp.now();
 
     AggregationResultBatch resultBatch = AggregationResultBatch.newBuilder()
