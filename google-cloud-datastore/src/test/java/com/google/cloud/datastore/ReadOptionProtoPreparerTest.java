@@ -21,19 +21,13 @@ import static com.google.cloud.datastore.ReadOption.transactionId;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.datastore.v1.ReadOptions.ReadConsistency.EVENTUAL;
 import static java.util.Collections.singletonList;
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 
 import com.google.cloud.Timestamp;
 import com.google.common.collect.ImmutableList;
-import com.google.common.truth.Truth;
 import com.google.datastore.v1.ReadOptions;
-import com.google.protobuf.ByteString;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Optional;
 import org.junit.Test;
 
@@ -43,19 +37,28 @@ public class ReadOptionProtoPreparerTest {
 
   @Test
   public void shouldThrowErrorWhenUsingMultipleReadOptions() {
-    assertThrows(DatastoreException.class,
-        () -> protoPreparer.prepare(
-            Arrays.asList(eventualConsistency(), readTime(Timestamp.now()))));
-    assertThrows(DatastoreException.class,
-        () -> protoPreparer.prepare(
-            Arrays.asList(eventualConsistency(), transactionId("transaction-id"))));
-    assertThrows(DatastoreException.class,
-        () -> protoPreparer.prepare(
-            Arrays.asList(transactionId("transaction-id"), readTime(Timestamp.now()))));
-    assertThrows(DatastoreException.class,
-        () -> protoPreparer.prepare(
-            Arrays.asList(eventualConsistency(), readTime(Timestamp.now()),
-                transactionId("transaction-id"))));
+    assertThrows(
+        DatastoreException.class,
+        () ->
+            protoPreparer.prepare(Arrays.asList(eventualConsistency(), readTime(Timestamp.now()))));
+    assertThrows(
+        DatastoreException.class,
+        () ->
+            protoPreparer.prepare(
+                Arrays.asList(eventualConsistency(), transactionId("transaction-id"))));
+    assertThrows(
+        DatastoreException.class,
+        () ->
+            protoPreparer.prepare(
+                Arrays.asList(transactionId("transaction-id"), readTime(Timestamp.now()))));
+    assertThrows(
+        DatastoreException.class,
+        () ->
+            protoPreparer.prepare(
+                Arrays.asList(
+                    eventualConsistency(),
+                    readTime(Timestamp.now()),
+                    transactionId("transaction-id"))));
   }
 
   @Test
@@ -76,8 +79,8 @@ public class ReadOptionProtoPreparerTest {
   @Test
   public void shouldPrepareReadOptionsWithTransactionId() {
     String dummyTransactionId = "transaction-id";
-    Optional<ReadOptions> readOptions = protoPreparer.prepare(singletonList(transactionId(
-        dummyTransactionId)));
+    Optional<ReadOptions> readOptions =
+        protoPreparer.prepare(singletonList(transactionId(dummyTransactionId)));
 
     assertThat(readOptions.get().getTransaction().toStringUtf8()).isEqualTo(dummyTransactionId);
   }

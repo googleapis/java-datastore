@@ -24,33 +24,30 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * The result of an {@link AggregationQuery} query submission. Contains a
- * {@link List<AggregationResult>} and readTime {@link Timestamp} in it.
+ * The result of an {@link AggregationQuery} query submission. Contains a {@link
+ * List<AggregationResult>} and readTime {@link Timestamp} in it.
  *
- *  This can be used to iterate over underlying {@link List<AggregationResult>} directly.
+ * <p>This can be used to iterate over underlying {@link List<AggregationResult>} directly.
  *
- *  Though {@link com.google.cloud.datastore.aggregation.CountAggregation} is guaranteed to return
- *  only one {@link AggregationResult} as part of its execution.
+ * <p>Though {@link com.google.cloud.datastore.aggregation.CountAggregation} is guaranteed to return
+ * only one {@link AggregationResult} as part of its execution.
  *
- *  In the future, we might support more complex {@link AggregationQuery} that might result in
- *  multiple {@link AggregationResult}
+ * <p>In the future, we might support more complex {@link AggregationQuery} that might result in
+ * multiple {@link AggregationResult}
  */
 public class AggregationResults implements Iterable<AggregationResult> {
 
   private final List<AggregationResult> aggregationResults;
   private final Timestamp readTime;
 
-  public AggregationResults(List<AggregationResult> aggregationResults,
-      Timestamp readTime) {
+  public AggregationResults(List<AggregationResult> aggregationResults, Timestamp readTime) {
     checkNotNull(aggregationResults, "Aggregation results cannot be null");
     checkNotNull(readTime, "readTime cannot be null");
     this.aggregationResults = aggregationResults;
     this.readTime = readTime;
   }
 
-  /**
-   * Returns {@link Iterator} for underlying {@link List<AggregationResult>}.
-   */
+  /** Returns {@link Iterator} for underlying {@link List<AggregationResult>}. */
   @Override
   public Iterator<AggregationResult> iterator() {
     return this.aggregationResults.iterator();
@@ -65,9 +62,7 @@ public class AggregationResults implements Iterable<AggregationResult> {
     return this.aggregationResults.get(index);
   }
 
-  /**
-   * Returns read timestamp this result batch was returned from.
-   */
+  /** Returns read timestamp this result batch was returned from. */
   public Timestamp getReadTime() {
     return this.readTime;
   }

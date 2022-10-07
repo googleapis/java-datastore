@@ -54,8 +54,11 @@ public class RetryAndTraceDatastoreRpcDecorator implements DatastoreRpc {
   private final RetrySettings retrySettings;
   private final DatastoreOptions datastoreOptions;
 
-  public RetryAndTraceDatastoreRpcDecorator(DatastoreRpc datastoreRpc, TraceUtil traceUtil,
-      RetrySettings retrySettings, DatastoreOptions datastoreOptions) {
+  public RetryAndTraceDatastoreRpcDecorator(
+      DatastoreRpc datastoreRpc,
+      TraceUtil traceUtil,
+      RetrySettings retrySettings,
+      DatastoreOptions datastoreOptions) {
     this.datastoreRpc = datastoreRpc;
     this.traceUtil = traceUtil;
     this.retrySettings = retrySettings;
@@ -100,13 +103,15 @@ public class RetryAndTraceDatastoreRpcDecorator implements DatastoreRpc {
 
   @Override
   public RunAggregationQueryResponse runAggregationQuery(RunAggregationQueryRequest request) {
-    return invokeRpc(() -> datastoreRpc.runAggregationQuery(request), SPAN_NAME_RUN_AGGREGATION_QUERY);
+    return invokeRpc(
+        () -> datastoreRpc.runAggregationQuery(request), SPAN_NAME_RUN_AGGREGATION_QUERY);
   }
 
   public <O> O invokeRpc(Callable<O> block, String startSpan) {
     Span span = traceUtil.startSpan(startSpan);
     try (Scope scope = traceUtil.getTracer().withSpan(span)) {
-      return RetryHelper.runWithRetries(block, this.retrySettings, EXCEPTION_HANDLER, this.datastoreOptions.getClock());
+      return RetryHelper.runWithRetries(
+          block, this.retrySettings, EXCEPTION_HANDLER, this.datastoreOptions.getClock());
     } catch (RetryHelperException e) {
       span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
       throw DatastoreException.translateAndThrow(e);

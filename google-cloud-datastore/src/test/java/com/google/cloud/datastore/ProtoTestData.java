@@ -52,13 +52,14 @@ public class ProtoTestData {
   }
 
   public static Filter propertyFilter(String propertyName, Operator operator, Value value) {
-    return Filter.newBuilder().setPropertyFilter(
-        com.google.datastore.v1.PropertyFilter.newBuilder()
-            .setProperty(propertyReference(propertyName))
-            .setOp(operator)
-            .setValue(value)
-            .build()
-    ).build();
+    return Filter.newBuilder()
+        .setPropertyFilter(
+            com.google.datastore.v1.PropertyFilter.newBuilder()
+                .setProperty(propertyReference(propertyName))
+                .setOp(operator)
+                .setValue(value)
+                .build())
+        .build();
   }
 
   public static PropertyReference propertyReference(String value) {
@@ -66,10 +67,7 @@ public class ProtoTestData {
   }
 
   public static Aggregation countAggregation(String alias) {
-    return Aggregation.newBuilder()
-        .setAlias(alias)
-        .setCount(Count.newBuilder().build())
-        .build();
+    return Aggregation.newBuilder().setAlias(alias).setCount(Count.newBuilder().build()).build();
   }
 
   public static Aggregation countAggregation(String alias, long limit) {
@@ -87,9 +85,6 @@ public class ProtoTestData {
   }
 
   public static Projection projection(String value) {
-    return Projection.newBuilder()
-        .setProperty(propertyReference(value))
-        .build();
+    return Projection.newBuilder().setProperty(propertyReference(value)).build();
   }
-
 }

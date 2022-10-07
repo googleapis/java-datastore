@@ -32,7 +32,8 @@ public class EmulatorProxy {
   }
 
   private void init() {
-    this.mockWebServer.setDispatcher(new ProxyDispatcher(new HttpDatastoreRpc(emulatorDataStoreOptions)));
+    this.mockWebServer.setDispatcher(
+        new ProxyDispatcher(new HttpDatastoreRpc(emulatorDataStoreOptions)));
   }
 
   public void start() throws IOException {

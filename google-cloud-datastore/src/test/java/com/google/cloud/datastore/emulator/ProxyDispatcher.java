@@ -52,19 +52,19 @@ public class ProxyDispatcher extends Dispatcher {
     String methodName = recordedRequest.getPath().split(":")[1];
     if (!"runAggregationQuery".equals(methodName)) {
       throw new IllegalStateException(
-          String.format("Proxy only supports RunAggregationQuery method, Found %s method.",
-              methodName));
+          String.format(
+              "Proxy only supports RunAggregationQuery method, Found %s method.", methodName));
     }
 
     try {
-      RunAggregationQueryRequest runAggregationQueryRequest = RunAggregationQueryRequest.parseFrom(
-          recordedRequest.getBody().inputStream());
+      RunAggregationQueryRequest runAggregationQueryRequest =
+          RunAggregationQueryRequest.parseFrom(recordedRequest.getBody().inputStream());
 
       RunQueryRequest runQueryRequest = getRunQueryRequest(runAggregationQueryRequest);
       RunQueryResponse runQueryResponse = this.datastoreRpc.runQuery(runQueryRequest);
 
-      RunAggregationQueryResponse runAggregationQueryResponse = getRunAggregationQueryResponse(
-          runAggregationQueryRequest, runQueryResponse);
+      RunAggregationQueryResponse runAggregationQueryResponse =
+          getRunAggregationQueryResponse(runAggregationQueryRequest, runQueryResponse);
       Buffer buffer = new Buffer();
       runAggregationQueryResponse.writeTo(buffer.outputStream());
       return new MockResponse().setBody(buffer);
@@ -77,11 +77,13 @@ public class ProxyDispatcher extends Dispatcher {
   @NotNull
   private RunAggregationQueryResponse getRunAggregationQueryResponse(
       RunAggregationQueryRequest runAggregationQueryRequest, RunQueryResponse runQueryResponse) {
-    AggregationResult aggregationResult = AggregationResult.newBuilder()
-        .putAllAggregateProperties(getProperties(
-            runAggregationQueryRequest.getAggregationQuery().getAggregationsList(),
-            runQueryResponse))
-        .build();
+    AggregationResult aggregationResult =
+        AggregationResult.newBuilder()
+            .putAllAggregateProperties(
+                getProperties(
+                    runAggregationQueryRequest.getAggregationQuery().getAggregationsList(),
+                    runQueryResponse))
+            .build();
     return RunAggregationQueryResponse.newBuilder()
         .setBatch(
             AggregationResultBatch.newBuilder().addAggregationResults(aggregationResult).build())
@@ -89,7 +91,8 @@ public class ProxyDispatcher extends Dispatcher {
   }
 
   @NotNull
-  private RunQueryRequest getRunQueryRequest(RunAggregationQueryRequest runAggregationQueryRequest) {
+  private RunQueryRequest getRunQueryRequest(
+      RunAggregationQueryRequest runAggregationQueryRequest) {
     Query nestedQuery = runAggregationQueryRequest.getAggregationQuery().getNestedQuery();
     RunQueryRequest.Builder builder = RunQueryRequest.newBuilder().setQuery(nestedQuery);
     if (runAggregationQueryRequest.hasReadOptions()) {
@@ -98,8 +101,8 @@ public class ProxyDispatcher extends Dispatcher {
     return builder.build();
   }
 
-  private Map<String, Value> getProperties(List<Aggregation> aggregationsList,
-      RunQueryResponse runQueryResponse) {
+  private Map<String, Value> getProperties(
+      List<Aggregation> aggregationsList, RunQueryResponse runQueryResponse) {
     HashMap<String, Value> map = new HashMap<>();
     for (Aggregation aggregation : aggregationsList) {
       map.put(aggregation.getAlias(), getValue(runQueryResponse, aggregation.getCount()));

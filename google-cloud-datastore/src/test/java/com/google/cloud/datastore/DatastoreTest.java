@@ -43,7 +43,6 @@ import com.google.cloud.datastore.testing.LocalDatastoreHelper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import com.google.common.truth.Truth;
 import com.google.datastore.v1.BeginTransactionRequest;
 import com.google.datastore.v1.BeginTransactionResponse;
 import com.google.datastore.v1.CommitRequest;
@@ -537,18 +536,19 @@ public class DatastoreTest {
   @Test
   public void testRunAggregationQuery() {
     EntityQuery selectAllQuery = Query.newEntityQueryBuilder().build();
-    AggregationQuery getCountQuery = Query.newAggregationQueryBuilder()
-        .addAggregation(count().as("total_count"))
-        .over(selectAllQuery)
-        .build();
-    AggregationResult resultBeforeInsert = getOnlyElement(
-        datastoreEmulatorProxy.runAggregation(getCountQuery));
+    AggregationQuery getCountQuery =
+        Query.newAggregationQueryBuilder()
+            .addAggregation(count().as("total_count"))
+            .over(selectAllQuery)
+            .build();
+    AggregationResult resultBeforeInsert =
+        getOnlyElement(datastoreEmulatorProxy.runAggregation(getCountQuery));
     assertThat(resultBeforeInsert.get("total_count")).isEqualTo(2L);
 
     datastore.put(ENTITY3);
 
-    AggregationResult resultAfterInsert = getOnlyElement(
-        datastoreEmulatorProxy.runAggregation(getCountQuery));
+    AggregationResult resultAfterInsert =
+        getOnlyElement(datastoreEmulatorProxy.runAggregation(getCountQuery));
     assertThat(resultAfterInsert.get("total_count")).isEqualTo(3L);
   }
 

@@ -61,55 +61,64 @@ public class AggregationQueryExecutorTest {
   @Before
   public void setUp() throws Exception {
     mockRpc = EasyMock.createStrictMock(DatastoreRpc.class);
-    datastoreOptions = DatastoreOptions.newBuilder().setProjectId("project-id")
-        .setNamespace(NAMESPACE).build();
+    datastoreOptions =
+        DatastoreOptions.newBuilder().setProjectId("project-id").setNamespace(NAMESPACE).build();
     queryExecutor = new AggregationQueryExecutor(mockRpc, datastoreOptions);
   }
 
   @Test
   public void shouldExecuteAggregationQuery() {
-    EntityQuery nestedQuery = Query.newEntityQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .setKind(KIND)
-        .setFilter(eq("done", true))
-        .build();
+    EntityQuery nestedQuery =
+        Query.newEntityQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .setKind(KIND)
+            .setFilter(eq("done", true))
+            .build();
 
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .addAggregation(count().as("total"))
-        .over(nestedQuery)
-        .build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .addAggregation(count().as("total"))
+            .over(nestedQuery)
+            .build();
 
     RunAggregationQueryResponse runAggregationQueryResponse = dummyAggregationQueryResponse();
-    expect(mockRpc.runAggregationQuery(anyObject(RunAggregationQueryRequest.class))).andReturn(
-        runAggregationQueryResponse);
+    expect(mockRpc.runAggregationQuery(anyObject(RunAggregationQueryRequest.class)))
+        .andReturn(runAggregationQueryResponse);
 
     replay(mockRpc);
 
     AggregationResults aggregationResults = queryExecutor.execute(aggregationQuery);
 
     verify(mockRpc);
-    assertThat(aggregationResults).isEqualTo(new AggregationResults(asList(
-        new AggregationResult(
-            ImmutableMap.of("count", LongValue.of(209), "property_2", LongValue.of(100))),
-        new AggregationResult(
-            ImmutableMap.of("count", LongValue.of(509), "property_2", LongValue.of(100)))
-    ), Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime())));
+    assertThat(aggregationResults)
+        .isEqualTo(
+            new AggregationResults(
+                asList(
+                    new AggregationResult(
+                        ImmutableMap.of(
+                            "count", LongValue.of(209), "property_2", LongValue.of(100))),
+                    new AggregationResult(
+                        ImmutableMap.of(
+                            "count", LongValue.of(509), "property_2", LongValue.of(100)))),
+                Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime())));
   }
 
   @Test
   public void shouldExecuteAggregationQueryWithReadOptions() {
-    EntityQuery nestedQuery = Query.newEntityQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .setKind(KIND)
-        .setFilter(eq("done", true))
-        .build();
+    EntityQuery nestedQuery =
+        Query.newEntityQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .setKind(KIND)
+            .setFilter(eq("done", true))
+            .build();
 
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .addAggregation(count().as("total"))
-        .over(nestedQuery)
-        .build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .addAggregation(count().as("total"))
+            .over(nestedQuery)
+            .build();
 
     RunAggregationQueryResponse runAggregationQueryResponse = dummyAggregationQueryResponse();
     expect(mockRpc.runAggregationQuery(matches(runAggregationRequestWithEventualConsistency())))
@@ -117,43 +126,52 @@ public class AggregationQueryExecutorTest {
 
     replay(mockRpc);
 
-    AggregationResults aggregationResults = queryExecutor.execute(aggregationQuery,
-        eventualConsistency());
+    AggregationResults aggregationResults =
+        queryExecutor.execute(aggregationQuery, eventualConsistency());
 
     verify(mockRpc);
-    assertThat(aggregationResults).isEqualTo(new AggregationResults(asList(
-        new AggregationResult(
-            ImmutableMap.of("count", LongValue.of(209), "property_2", LongValue.of(100))),
-        new AggregationResult(
-            ImmutableMap.of("count", LongValue.of(509), "property_2", LongValue.of(100)))
-    ), Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime())));
+    assertThat(aggregationResults)
+        .isEqualTo(
+            new AggregationResults(
+                asList(
+                    new AggregationResult(
+                        ImmutableMap.of(
+                            "count", LongValue.of(209), "property_2", LongValue.of(100))),
+                    new AggregationResult(
+                        ImmutableMap.of(
+                            "count", LongValue.of(509), "property_2", LongValue.of(100)))),
+                Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime())));
   }
 
   private RunAggregationQueryResponse dummyAggregationQueryResponse() {
-    Map<String, Value> result1 = new HashMap<>(ImmutableMap.of(
-        "count", intValue(209),
-        "property_2", intValue(100)
-    ));
+    Map<String, Value> result1 =
+        new HashMap<>(
+            ImmutableMap.of(
+                "count", intValue(209),
+                "property_2", intValue(100)));
 
-    Map<String, Value> result2 = new HashMap<>(ImmutableMap.of(
-        "count", intValue(509),
-        "property_2", intValue(100)
-    ));
+    Map<String, Value> result2 =
+        new HashMap<>(
+            ImmutableMap.of(
+                "count", intValue(509),
+                "property_2", intValue(100)));
 
-    AggregationResultBatch resultBatch = AggregationResultBatch.newBuilder()
-        .addAggregationResults(com.google.datastore.v1.AggregationResult.newBuilder()
-            .putAllAggregateProperties(result1).build())
-        .addAggregationResults(com.google.datastore.v1.AggregationResult.newBuilder()
-            .putAllAggregateProperties(result2).build())
-        .build();
-    return RunAggregationQueryResponse.newBuilder()
-        .setBatch(resultBatch)
-        .build();
+    AggregationResultBatch resultBatch =
+        AggregationResultBatch.newBuilder()
+            .addAggregationResults(
+                com.google.datastore.v1.AggregationResult.newBuilder()
+                    .putAllAggregateProperties(result1)
+                    .build())
+            .addAggregationResults(
+                com.google.datastore.v1.AggregationResult.newBuilder()
+                    .putAllAggregateProperties(result2)
+                    .build())
+            .build();
+    return RunAggregationQueryResponse.newBuilder().setBatch(resultBatch).build();
   }
 
   private Predicate<RunAggregationQueryRequest> runAggregationRequestWithEventualConsistency() {
     return runAggregationQueryRequest ->
         runAggregationQueryRequest.getReadOptions().getReadConsistency() == EVENTUAL;
   }
-
 }

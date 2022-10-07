@@ -168,11 +168,9 @@ public class ITDatastoreTest {
           .set("partial2", ENTITY2)
           .build();
 
-  @Rule
-  public Timeout globalTimeout = Timeout.seconds(100);
+  @Rule public Timeout globalTimeout = Timeout.seconds(100);
 
-  @Rule
-  public MultipleAttemptsRule multipleAttemptsRule = new MultipleAttemptsRule(3);
+  @Rule public MultipleAttemptsRule multipleAttemptsRule = new MultipleAttemptsRule(3);
 
   @AfterClass
   public static void afterClass() {
@@ -525,44 +523,40 @@ public class ITDatastoreTest {
   @Test
   public void testRunAggregationQuery() {
     // verifying aggregation with an entity query
-    testCountAggregationWith(builder ->
-        builder
-            .addAggregation(count().as("total_count"))
-            .over(Query.newEntityQueryBuilder()
-                .setNamespace(NAMESPACE)
-                .setKind(KIND1)
-                .build()
-            ));
+    testCountAggregationWith(
+        builder ->
+            builder
+                .addAggregation(count().as("total_count"))
+                .over(
+                    Query.newEntityQueryBuilder().setNamespace(NAMESPACE).setKind(KIND1).build()));
 
     // verifying aggregation with a projection query
-    testCountAggregationWith(builder ->
-        builder
-            .addAggregation(count().as("total_count"))
-            .over(Query.newProjectionEntityQueryBuilder()
-                .setProjection("str")
-                .setNamespace(NAMESPACE)
-                .setKind(KIND1)
-                .build()
-            ));
+    testCountAggregationWith(
+        builder ->
+            builder
+                .addAggregation(count().as("total_count"))
+                .over(
+                    Query.newProjectionEntityQueryBuilder()
+                        .setProjection("str")
+                        .setNamespace(NAMESPACE)
+                        .setKind(KIND1)
+                        .build()));
 
     // verifying aggregation with a key query
-    testCountAggregationWith(builder ->
-        builder
-            .addAggregation(count().as("total_count"))
-            .over(Query.newKeyQueryBuilder()
-                .setNamespace(NAMESPACE)
-                .setKind(KIND1)
-                .build()
-            ));
+    testCountAggregationWith(
+        builder ->
+            builder
+                .addAggregation(count().as("total_count"))
+                .over(Query.newKeyQueryBuilder().setNamespace(NAMESPACE).setKind(KIND1).build()));
 
     // verifying aggregation with a GQL query
-    testCountAggregationWith(builder ->
-        builder
-            .over(Query.newGqlQueryBuilder(
-                    "AGGREGATE COUNT(*) AS total_count OVER (SELECT * FROM kind1)")
-                .setNamespace(NAMESPACE)
-                .build()
-            ));
+    testCountAggregationWith(
+        builder ->
+            builder.over(
+                Query.newGqlQueryBuilder(
+                        "AGGREGATE COUNT(*) AS total_count OVER (SELECT * FROM kind1)")
+                    .setNamespace(NAMESPACE)
+                    .build()));
   }
 
   /**
@@ -570,60 +564,70 @@ public class ITDatastoreTest {
    * original version of the entity as of the beginning of the transaction, or nothing if the entity
    * did not exist then.
    *
-   * @see <a href="https://cloud.google.com/datastore/docs/concepts/transactions#isolation_and_consistency">
-   * Source</a>
+   * @see <a
+   *     href="https://cloud.google.com/datastore/docs/concepts/transactions#isolation_and_consistency">
+   *     Source</a>
    */
   @Test
   public void testRunAggregationQueryInTransactionShouldReturnAConsistentSnapshot() {
-    EntityQuery entityQuery = Query.newEntityQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .setFilter(PropertyFilter.hasAncestor(KEY1))
-        .build();
+    EntityQuery entityQuery =
+        Query.newEntityQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .setFilter(PropertyFilter.hasAncestor(KEY1))
+            .build();
 
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .over(entityQuery)
-        .addAggregation(count().as("count"))
-        .build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .over(entityQuery)
+            .addAggregation(count().as("count"))
+            .build();
 
     // original entity count is 2
     assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
         .isEqualTo(2L);
 
     // FIRST TRANSACTION
-    DATASTORE.runInTransaction((TransactionCallable<Void>) inFirstTransaction -> {
-      // creating a new entity
-      Entity aNewEntity = Entity.newBuilder(ENTITY2)
-          .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
-          .set("v_int", 10)
-          .build();
-      inFirstTransaction.put(aNewEntity);
+    DATASTORE.runInTransaction(
+        (TransactionCallable<Void>)
+            inFirstTransaction -> {
+              // creating a new entity
+              Entity aNewEntity =
+                  Entity.newBuilder(ENTITY2)
+                      .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
+                      .set("v_int", 10)
+                      .build();
+              inFirstTransaction.put(aNewEntity);
 
-      // count remains 2
-      assertThat(
-          getOnlyElement(inFirstTransaction.runAggregation(aggregationQuery)).get("count"))
-          .isEqualTo(2L);
-      assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
-          .isEqualTo(2L);
-      return null;
-    });
+              // count remains 2
+              assertThat(
+                      getOnlyElement(inFirstTransaction.runAggregation(aggregationQuery))
+                          .get("count"))
+                  .isEqualTo(2L);
+              assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+                  .isEqualTo(2L);
+              return null;
+            });
     // after first transaction is committed, count is updated to 3 now.
     assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
         .isEqualTo(3L);
 
     // SECOND TRANSACTION
-    DATASTORE.runInTransaction((TransactionCallable<Void>) inSecondTransaction -> {
-      // deleting ENTITY2
-      inSecondTransaction.delete(ENTITY2.getKey());
+    DATASTORE.runInTransaction(
+        (TransactionCallable<Void>)
+            inSecondTransaction -> {
+              // deleting ENTITY2
+              inSecondTransaction.delete(ENTITY2.getKey());
 
-      // count remains 3
-      assertThat(
-          getOnlyElement(inSecondTransaction.runAggregation(aggregationQuery)).get("count"))
-          .isEqualTo(3L);
-      assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
-          .isEqualTo(3L);
-      return null;
-    });
+              // count remains 3
+              assertThat(
+                      getOnlyElement(inSecondTransaction.runAggregation(aggregationQuery))
+                          .get("count"))
+                  .isEqualTo(3L);
+              assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+                  .isEqualTo(3L);
+              return null;
+            });
     // after second transaction is committed, count is updated to 2 now.
     assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
         .isEqualTo(2L);
@@ -632,45 +636,50 @@ public class ITDatastoreTest {
   /**
    * Data read or modified by a transaction cannot be concurrently modified.
    *
-   * @see <a href="https://cloud.google.com/datastore/docs/concepts/transactions#isolation_and_consistency">
-   * Source</a>
+   * @see <a
+   *     href="https://cloud.google.com/datastore/docs/concepts/transactions#isolation_and_consistency">
+   *     Source</a>
    */
   @Test
   public void testRunAggregationQueryInAReadWriteTransactionShouldLockTheCountedDocuments()
       throws Exception {
     ExecutorService executor = Executors.newSingleThreadExecutor();
-    EntityQuery entityQuery = Query.newEntityQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .setFilter(PropertyFilter.hasAncestor(KEY1))
-        .build();
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .over(entityQuery)
-        .addAggregation(count().as("count"))
-        .build();
+    EntityQuery entityQuery =
+        Query.newEntityQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .setFilter(PropertyFilter.hasAncestor(KEY1))
+            .build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .over(entityQuery)
+            .addAggregation(count().as("count"))
+            .build();
 
     // read-write transaction
     Transaction readWriteTransaction = DATASTORE.newTransaction();
 
     // acquiring lock by executing query in transaction
-    assertThat(
-        getOnlyElement(readWriteTransaction.runAggregation(aggregationQuery)).get("count")
-    ).isEqualTo(2L);
+    assertThat(getOnlyElement(readWriteTransaction.runAggregation(aggregationQuery)).get("count"))
+        .isEqualTo(2L);
 
     // Waiting task will be blocked by ongoing transactions.
-    Future<Void> addNewEntityTaskOutsideTransaction = executor.submit(() -> {
-      Entity aNewEntity = Entity.newBuilder(ENTITY2)
-          .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
-          .set("v_int", 10)
-          .build();
-      DATASTORE.put(aNewEntity);
-      return null;
-    });
+    Future<Void> addNewEntityTaskOutsideTransaction =
+        executor.submit(
+            () -> {
+              Entity aNewEntity =
+                  Entity.newBuilder(ENTITY2)
+                      .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
+                      .set("v_int", 10)
+                      .build();
+              DATASTORE.put(aNewEntity);
+              return null;
+            });
 
     // should throw Timeout exception as we haven't yet committed the transaction
     assertThrows(TimeoutException.class, () -> addNewEntityTaskOutsideTransaction.get(3, SECONDS));
 
-    //cleanup
+    // cleanup
     readWriteTransaction.commit();
     addNewEntityTaskOutsideTransaction.cancel(true);
     executor.shutdownNow();
@@ -680,39 +689,43 @@ public class ITDatastoreTest {
   public void testRunAggregationQueryInAReadOnlyTransactionShouldNotLockTheCountedDocuments()
       throws Exception {
     ExecutorService executor = Executors.newSingleThreadExecutor();
-    EntityQuery entityQuery = Query.newEntityQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .setFilter(PropertyFilter.hasAncestor(KEY1))
-        .build();
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .over(entityQuery)
-        .addAggregation(count().as("count"))
-        .build();
+    EntityQuery entityQuery =
+        Query.newEntityQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .setFilter(PropertyFilter.hasAncestor(KEY1))
+            .build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .over(entityQuery)
+            .addAggregation(count().as("count"))
+            .build();
 
-    TransactionOptions transactionOptions = TransactionOptions.newBuilder().setReadOnly(
-        ReadOnly.newBuilder().build()).build();
+    TransactionOptions transactionOptions =
+        TransactionOptions.newBuilder().setReadOnly(ReadOnly.newBuilder().build()).build();
     Transaction readOnlyTransaction = DATASTORE.newTransaction(transactionOptions);
 
     // Executing query in transaction
-    assertThat(
-        getOnlyElement(readOnlyTransaction.runAggregation(aggregationQuery)).get("count"))
+    assertThat(getOnlyElement(readOnlyTransaction.runAggregation(aggregationQuery)).get("count"))
         .isEqualTo(2L);
 
     // Concurrent write task.
-    Future<Void> addNewEntityTaskOutsideTransaction = executor.submit(() -> {
-      Entity aNewEntity = Entity.newBuilder(ENTITY2)
-          .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
-          .set("v_int", 10)
-          .build();
-      DATASTORE.put(aNewEntity);
-      return null;
-    });
+    Future<Void> addNewEntityTaskOutsideTransaction =
+        executor.submit(
+            () -> {
+              Entity aNewEntity =
+                  Entity.newBuilder(ENTITY2)
+                      .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
+                      .set("v_int", 10)
+                      .build();
+              DATASTORE.put(aNewEntity);
+              return null;
+            });
 
     // should not throw exception and complete successfully as the ongoing transaction is read-only.
     addNewEntityTaskOutsideTransaction.get();
 
-    //cleanup
+    // cleanup
     readOnlyTransaction.commit();
     executor.shutdownNow();
 
@@ -725,41 +738,39 @@ public class ITDatastoreTest {
     String alias = "total_count";
 
     // verifying aggregation readTime with an entity query
-    testCountAggregationReadTimeWith(builder ->
-        builder
-            .over(
-                Query.newEntityQueryBuilder().setKind("new_kind").build())
-            .addAggregation(count().as(alias))
-    );
+    testCountAggregationReadTimeWith(
+        builder ->
+            builder
+                .over(Query.newEntityQueryBuilder().setKind("new_kind").build())
+                .addAggregation(count().as(alias)));
 
     // verifying aggregation readTime with a projection query
-    testCountAggregationReadTimeWith(builder ->
-        builder
-            .over(
-                Query.newProjectionEntityQueryBuilder()
-                    .setProjection("name")
-                    .setKind("new_kind").build())
-            .addAggregation(count().as(alias))
-    );
+    testCountAggregationReadTimeWith(
+        builder ->
+            builder
+                .over(
+                    Query.newProjectionEntityQueryBuilder()
+                        .setProjection("name")
+                        .setKind("new_kind")
+                        .build())
+                .addAggregation(count().as(alias)));
 
     // verifying aggregation readTime with a key query
-    testCountAggregationReadTimeWith(builder ->
-        builder
-            .over(
-                Query.newKeyQueryBuilder()
-                    .setKind("new_kind").build())
-            .addAggregation(count().as(alias))
-    );
+    testCountAggregationReadTimeWith(
+        builder ->
+            builder
+                .over(Query.newKeyQueryBuilder().setKind("new_kind").build())
+                .addAggregation(count().as(alias)));
 
     // verifying aggregation readTime with a GQL query
-    testCountAggregationReadTimeWith(builder ->
-        builder
-            .over(
-                Query.newGqlQueryBuilder(
-                        "AGGREGATE COUNT(*) AS total_count OVER (SELECT * FROM new_kind)")
-                    .build())
-            .addAggregation(count().as(alias))
-    );
+    testCountAggregationReadTimeWith(
+        builder ->
+            builder
+                .over(
+                    Query.newGqlQueryBuilder(
+                            "AGGREGATE COUNT(*) AS total_count OVER (SELECT * FROM new_kind)")
+                        .build())
+                .addAggregation(count().as(alias)));
   }
 
   @Test
@@ -1333,12 +1344,13 @@ public class ITDatastoreTest {
     Long countBeforeAdd = getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get(alias);
     long expectedCount = countBeforeAdd + 1;
 
-    Entity newEntity = Entity.newBuilder(ENTITY1)
-        .setKey(Key.newBuilder(KEY3, KIND1, 1).build())
-        .set("null", NULL_VALUE)
-        .set("partial1", PARTIAL_ENTITY2)
-        .set("partial2", ENTITY2)
-        .build();
+    Entity newEntity =
+        Entity.newBuilder(ENTITY1)
+            .setKey(Key.newBuilder(KEY3, KIND1, 1).build())
+            .set("null", NULL_VALUE)
+            .set("partial1", PARTIAL_ENTITY2)
+            .set("partial2", ENTITY2)
+            .build();
     DATASTORE.put(newEntity);
 
     Long countAfterAdd = getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get(alias);
@@ -1376,13 +1388,13 @@ public class ITDatastoreTest {
       configurer.accept(builder);
       AggregationQuery countAggregationQuery = builder.build();
 
-      Long latestCount = getOnlyElement(DATASTORE.runAggregation(countAggregationQuery))
-          .get("total_count");
+      Long latestCount =
+          getOnlyElement(DATASTORE.runAggregation(countAggregationQuery)).get("total_count");
       assertThat(latestCount).isEqualTo(3L);
 
-      Long oldCount = getOnlyElement(
-          DATASTORE.runAggregation(countAggregationQuery, ReadOption.readTime(now))
-      ).get("total_count");
+      Long oldCount =
+          getOnlyElement(DATASTORE.runAggregation(countAggregationQuery, ReadOption.readTime(now)))
+              .get("total_count");
       assertThat(oldCount).isEqualTo(2L);
     } finally {
       DATASTORE.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());

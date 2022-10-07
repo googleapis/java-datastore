@@ -42,40 +42,33 @@ public class GqlQueryProtoPreparerTest {
 
   @Test
   public void testAllowLiteral() {
-    assertTrue(protoPreparer.prepare(
-        gqlQueryBuilder.setAllowLiteral(true).build()).getAllowLiterals());
-    assertFalse(protoPreparer.prepare(
-        gqlQueryBuilder.setAllowLiteral(false).build()).getAllowLiterals());
+    assertTrue(
+        protoPreparer.prepare(gqlQueryBuilder.setAllowLiteral(true).build()).getAllowLiterals());
+    assertFalse(
+        protoPreparer.prepare(gqlQueryBuilder.setAllowLiteral(false).build()).getAllowLiterals());
   }
 
   @Test
   public void testNamedBinding() {
-    com.google.datastore.v1.GqlQuery gqlQuery = protoPreparer.prepare(
-        gqlQueryBuilder
-            .setBinding("name", "John Doe")
-            .setBinding("age", 27)
-            .build()
-    );
+    com.google.datastore.v1.GqlQuery gqlQuery =
+        protoPreparer.prepare(
+            gqlQueryBuilder.setBinding("name", "John Doe").setBinding("age", 27).build());
 
     assertThat(gqlQuery.getNamedBindingsMap())
-        .isEqualTo(new HashMap<>(ImmutableMap.of(
-            "name", gqlQueryParameter(stringValue("John Doe")),
-            "age", gqlQueryParameter(intValue(27))
-        )));
+        .isEqualTo(
+            new HashMap<>(
+                ImmutableMap.of(
+                    "name", gqlQueryParameter(stringValue("John Doe")),
+                    "age", gqlQueryParameter(intValue(27)))));
   }
 
   @Test
   public void testPositionalBinding() {
-    com.google.datastore.v1.GqlQuery gqlQuery = protoPreparer.prepare(
-        gqlQueryBuilder
-            .addBinding("John Doe")
-            .addBinding(27)
-            .build()
-    );
+    com.google.datastore.v1.GqlQuery gqlQuery =
+        protoPreparer.prepare(gqlQueryBuilder.addBinding("John Doe").addBinding(27).build());
 
-    assertThat(gqlQuery.getPositionalBindingsList()).isEqualTo(asList(
-        gqlQueryParameter(stringValue("John Doe")),
-        gqlQueryParameter(intValue(27))
-    ));
+    assertThat(gqlQuery.getPositionalBindingsList())
+        .isEqualTo(
+            asList(gqlQueryParameter(stringValue("John Doe")), gqlQueryParameter(intValue(27))));
   }
 }

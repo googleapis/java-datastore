@@ -35,8 +35,8 @@ import java.util.List;
 import java.util.Optional;
 
 @InternalApi
-public class AggregationQueryRequestProtoPreparer implements
-    ProtoPreparer<QueryAndReadOptions<AggregationQuery>, RunAggregationQueryRequest> {
+public class AggregationQueryRequestProtoPreparer
+    implements ProtoPreparer<QueryAndReadOptions<AggregationQuery>, RunAggregationQueryRequest> {
 
   private final DatastoreOptions datastoreOptions;
   private final StructuredQueryProtoPreparer structuredQueryProtoPreparer;
@@ -56,9 +56,10 @@ public class AggregationQueryRequestProtoPreparer implements
     AggregationQuery aggregationQuery = aggregationQueryAndReadOptions.getQuery();
     List<ReadOption> readOptions = aggregationQueryAndReadOptions.getReadOptions();
     PartitionId partitionId = getPartitionId(aggregationQuery);
-    RunAggregationQueryRequest.Builder aggregationQueryRequestBuilder = RunAggregationQueryRequest.newBuilder()
-        .setPartitionId(partitionId)
-        .setProjectId(datastoreOptions.getProjectId());
+    RunAggregationQueryRequest.Builder aggregationQueryRequestBuilder =
+        RunAggregationQueryRequest.newBuilder()
+            .setPartitionId(partitionId)
+            .setProjectId(datastoreOptions.getProjectId());
 
     if (aggregationQuery.getMode() == GQL) {
       aggregationQueryRequestBuilder.setGqlQuery(buildGqlQuery(aggregationQuery));
@@ -77,11 +78,11 @@ public class AggregationQueryRequestProtoPreparer implements
 
   private com.google.datastore.v1.AggregationQuery getAggregationQuery(
       AggregationQuery aggregationQuery) {
-    Query nestedQueryProto = structuredQueryProtoPreparer.prepare(
-        aggregationQuery.getNestedStructuredQuery());
+    Query nestedQueryProto =
+        structuredQueryProtoPreparer.prepare(aggregationQuery.getNestedStructuredQuery());
 
-    com.google.datastore.v1.AggregationQuery.Builder aggregationQueryProtoBuilder = com.google.datastore.v1.AggregationQuery.newBuilder()
-        .setNestedQuery(nestedQueryProto);
+    com.google.datastore.v1.AggregationQuery.Builder aggregationQueryProtoBuilder =
+        com.google.datastore.v1.AggregationQuery.newBuilder().setNestedQuery(nestedQueryProto);
     for (Aggregation aggregation : aggregationQuery.getAggregations()) {
       aggregationQueryProtoBuilder.addAggregations(aggregation.toPb());
     }
@@ -89,8 +90,8 @@ public class AggregationQueryRequestProtoPreparer implements
   }
 
   private PartitionId getPartitionId(AggregationQuery aggregationQuery) {
-    PartitionId.Builder builder = PartitionId.newBuilder()
-        .setProjectId(datastoreOptions.getProjectId());
+    PartitionId.Builder builder =
+        PartitionId.newBuilder().setProjectId(datastoreOptions.getProjectId());
     if (aggregationQuery.getNamespace() != null) {
       builder.setNamespaceId(aggregationQuery.getNamespace());
     }

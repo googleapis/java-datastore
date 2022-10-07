@@ -42,7 +42,10 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
   private MoreResultsType moreResults;
 
   QueryResultsImpl(
-      DatastoreImpl datastore, Optional<ReadOptions> readOptionsPb, RecordQuery<T> query, String namespace) {
+      DatastoreImpl datastore,
+      Optional<ReadOptions> readOptionsPb,
+      RecordQuery<T> query,
+      String namespace) {
     this.datastore = datastore;
     this.readOptionsPb = readOptionsPb;
     this.query = query;

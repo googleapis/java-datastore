@@ -39,10 +39,10 @@ public class RetryAndTraceDatastoreRpcDecoratorTest {
   public static final int MAX_ATTEMPTS = 3;
   private DatastoreRpc mockDatastoreRpc;
   private TraceUtil mockTraceUtil;
-  private DatastoreOptions datastoreOptions = DatastoreOptions.newBuilder().setProjectId("project-id").build();
-  private RetrySettings retrySettings = RetrySettings.newBuilder()
-      .setMaxAttempts(MAX_ATTEMPTS)
-      .build();
+  private DatastoreOptions datastoreOptions =
+      DatastoreOptions.newBuilder().setProjectId("project-id").build();
+  private RetrySettings retrySettings =
+      RetrySettings.newBuilder().setMaxAttempts(MAX_ATTEMPTS).build();
 
   private RetryAndTraceDatastoreRpcDecorator datastoreRpcDecorator;
 
@@ -50,17 +50,24 @@ public class RetryAndTraceDatastoreRpcDecoratorTest {
   public void setUp() throws Exception {
     mockDatastoreRpc = createStrictMock(DatastoreRpc.class);
     mockTraceUtil = createStrictMock(TraceUtil.class);
-    datastoreRpcDecorator = new RetryAndTraceDatastoreRpcDecorator(mockDatastoreRpc, mockTraceUtil, retrySettings, datastoreOptions);
+    datastoreRpcDecorator =
+        new RetryAndTraceDatastoreRpcDecorator(
+            mockDatastoreRpc, mockTraceUtil, retrySettings, datastoreOptions);
   }
 
   @Test
   public void testRunAggregationQuery() {
     Span mockSpan = createStrictMock(Span.class);
-    RunAggregationQueryRequest aggregationQueryRequest = RunAggregationQueryRequest.getDefaultInstance();
-    RunAggregationQueryResponse aggregationQueryResponse = RunAggregationQueryResponse.getDefaultInstance();
+    RunAggregationQueryRequest aggregationQueryRequest =
+        RunAggregationQueryRequest.getDefaultInstance();
+    RunAggregationQueryResponse aggregationQueryResponse =
+        RunAggregationQueryResponse.getDefaultInstance();
 
     expect(mockDatastoreRpc.runAggregationQuery(aggregationQueryRequest))
-        .andThrow(new DatastoreException(UNAVAILABLE.getNumber(), "API not accessible currently", UNAVAILABLE.name())).times(2)
+        .andThrow(
+            new DatastoreException(
+                UNAVAILABLE.getNumber(), "API not accessible currently", UNAVAILABLE.name()))
+        .times(2)
         .andReturn(aggregationQueryResponse);
     expect(mockTraceUtil.startSpan(SPAN_NAME_RUN_AGGREGATION_QUERY)).andReturn(mockSpan);
     expect(mockTraceUtil.getTracer()).andReturn(createNiceMock(Tracer.class));
@@ -68,8 +75,8 @@ public class RetryAndTraceDatastoreRpcDecoratorTest {
 
     replay(mockDatastoreRpc, mockTraceUtil, mockSpan);
 
-    RunAggregationQueryResponse actualAggregationQueryResponse = datastoreRpcDecorator.runAggregationQuery(
-        aggregationQueryRequest);
+    RunAggregationQueryResponse actualAggregationQueryResponse =
+        datastoreRpcDecorator.runAggregationQuery(aggregationQueryRequest);
 
     assertThat(actualAggregationQueryResponse).isSameInstanceAs(aggregationQueryResponse);
     verify(mockDatastoreRpc, mockTraceUtil, mockSpan);

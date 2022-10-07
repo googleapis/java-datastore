@@ -15,7 +15,6 @@
  */
 package com.google.cloud.datastore;
 
-import com.google.datastore.v1.RunAggregationQueryRequest;
 import java.util.function.Predicate;
 import org.easymock.EasyMock;
 import org.easymock.IArgumentMatcher;
@@ -23,19 +22,18 @@ import org.easymock.IArgumentMatcher;
 public class TestUtils {
 
   public static <T> T matches(Predicate<T> predicate) {
-    EasyMock.reportMatcher(new IArgumentMatcher() {
-      @Override
-      public boolean matches(Object argument) {
-        return predicate.test(((T) argument));
-      }
+    EasyMock.reportMatcher(
+        new IArgumentMatcher() {
+          @Override
+          public boolean matches(Object argument) {
+            return predicate.test(((T) argument));
+          }
 
-      @Override
-      public void appendTo(StringBuffer buffer) {
-        buffer.append("matches(\"").append(predicate).append("\")");
-      }
-    });
+          @Override
+          public void appendTo(StringBuffer buffer) {
+            buffer.append("matches(\"").append(predicate).append("\")");
+          }
+        });
     return null;
   }
-
-
 }

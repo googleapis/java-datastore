@@ -18,11 +18,9 @@ package com.google.cloud.datastore;
 import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.Query.ResultType;
 
-/**
- * An internal marker interface to represent {@link Query} that returns the entity records.
- */
+/** An internal marker interface to represent {@link Query} that returns the entity records. */
 @InternalApi
-public interface RecordQuery<V>{
+public interface RecordQuery<V> {
 
   ResultType<V> getType();
 

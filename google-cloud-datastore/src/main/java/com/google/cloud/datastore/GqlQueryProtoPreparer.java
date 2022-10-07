@@ -21,8 +21,8 @@ import com.google.cloud.datastore.execution.request.ProtoPreparer;
 import java.util.Map;
 
 @InternalApi
-public class GqlQueryProtoPreparer implements
-    ProtoPreparer<GqlQuery<?>, com.google.datastore.v1.GqlQuery> {
+public class GqlQueryProtoPreparer
+    implements ProtoPreparer<GqlQuery<?>, com.google.datastore.v1.GqlQuery> {
 
   @Override
   public com.google.datastore.v1.GqlQuery prepare(GqlQuery<?> gqlQuery) {

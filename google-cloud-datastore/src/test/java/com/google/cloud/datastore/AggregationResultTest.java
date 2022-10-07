@@ -24,10 +24,11 @@ public class AggregationResultTest {
 
   @Test
   public void shouldGetAggregationResultValueByAlias() {
-    AggregationResult aggregationResult = new AggregationResult(ImmutableMap.of(
-        "count", LongValue.of(45),
-        "property_2", LongValue.of(30)
-    ));
+    AggregationResult aggregationResult =
+        new AggregationResult(
+            ImmutableMap.of(
+                "count", LongValue.of(45),
+                "property_2", LongValue.of(30)));
 
     assertThat(aggregationResult.get("count")).isEqualTo(45L);
     assertThat(aggregationResult.get("property_2")).isEqualTo(30L);

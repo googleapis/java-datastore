@@ -25,12 +25,11 @@ import com.google.datastore.v1.ReadOptions.ReadConsistency;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @InternalApi
-public class ReadOptionProtoPreparer implements
-    ProtoPreparer<List<ReadOption>, Optional<ReadOptions>> {
+public class ReadOptionProtoPreparer
+    implements ProtoPreparer<List<ReadOption>, Optional<ReadOptions>> {
 
   @Override
   public Optional<ReadOptions> prepare(List<ReadOption> options) {
@@ -38,8 +37,7 @@ public class ReadOptionProtoPreparer implements
       return Optional.empty();
     }
     com.google.datastore.v1.ReadOptions readOptionsPb = null;
-    Map<Class<? extends ReadOption>, ReadOption> optionsByType =
-        ReadOption.asImmutableMap(options);
+    Map<Class<? extends ReadOption>, ReadOption> optionsByType = ReadOption.asImmutableMap(options);
 
     boolean moreThanOneReadOption = optionsByType.keySet().size() > 1;
     if (moreThanOneReadOption) {
@@ -48,22 +46,22 @@ public class ReadOptionProtoPreparer implements
     }
 
     if (optionsByType.containsKey(EventualConsistency.class)) {
-      readOptionsPb = ReadOptions.newBuilder()
-          .setReadConsistency(ReadConsistency.EVENTUAL)
-          .build();
+      readOptionsPb = ReadOptions.newBuilder().setReadConsistency(ReadConsistency.EVENTUAL).build();
     }
 
     if (optionsByType.containsKey(ReadTime.class)) {
-      readOptionsPb = ReadOptions.newBuilder()
-          .setReadTime(((ReadTime) optionsByType.get(ReadTime.class)).time().toProto())
-          .build();
+      readOptionsPb =
+          ReadOptions.newBuilder()
+              .setReadTime(((ReadTime) optionsByType.get(ReadTime.class)).time().toProto())
+              .build();
     }
 
     if (optionsByType.containsKey(TransactionId.class)) {
-      readOptionsPb = ReadOptions.newBuilder()
-          .setTransaction(
-              ((TransactionId) optionsByType.get(TransactionId.class)).getTransactionId())
-          .build();
+      readOptionsPb =
+          ReadOptions.newBuilder()
+              .setTransaction(
+                  ((TransactionId) optionsByType.get(TransactionId.class)).getTransactionId())
+              .build();
     }
     return Optional.ofNullable(readOptionsPb);
   }
@@ -71,9 +69,8 @@ public class ReadOptionProtoPreparer implements
   private String getInvalidOptions(Map<Class<? extends ReadOption>, ReadOption> optionsByType) {
     String regex = "([a-z])([A-Z]+)";
     String replacement = "$1 $2";
-    return optionsByType
-        .keySet()
-        .stream().map(Class::getSimpleName)
+    return optionsByType.keySet().stream()
+        .map(Class::getSimpleName)
         .map(s -> s.replaceAll(regex, replacement).toLowerCase())
         .collect(Collectors.joining(", "));
   }

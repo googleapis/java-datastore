@@ -36,9 +36,7 @@ public class CountAggregationTest {
 
   @Test
   public void testCountAggregationWithAlias() {
-    AggregationQuery.Aggregation countAggregationPb = count()
-        .as("column_1")
-        .build().toPb();
+    AggregationQuery.Aggregation countAggregationPb = count().as("column_1").build().toPb();
 
     assertThat(countAggregationPb.getCount().getUpTo().getValue()).isEqualTo(0L);
     assertThat(countAggregationPb.getAlias()).isEqualTo("column_1");
@@ -46,11 +44,9 @@ public class CountAggregationTest {
 
   @Test
   public void testEquals() {
-    CountAggregation.Builder aggregation1 = count()
-        .as("total");
+    CountAggregation.Builder aggregation1 = count().as("total");
 
-    CountAggregation.Builder aggregation2 = count()
-        .as("total");
+    CountAggregation.Builder aggregation2 = count().as("total");
 
     assertEquals(aggregation1.build(), aggregation2.build());
     assertEquals(aggregation2.build(), aggregation1.build());
