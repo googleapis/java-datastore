@@ -31,9 +31,15 @@ public class AggregationQuerySampleTestIT {
   public void testAggregationQueryAndCountAggregationSample() {
     sample.aggregationQueryAndCountAggregation();
 
-    systemsOutRule.assertContains("We have at least 2 candidates");
     systemsOutRule.assertContains("Total candidates count is 3");
+  }
+
+  @Test
+  public void testAggregationQueryAndCountAggregationWithPropertyFilterSample() {
+    sample.aggregationQueryAndCountAggregationWithPropertyFilter();
+
     systemsOutRule.assertContains("Total qualified candidates count is 2");
+    systemsOutRule.assertContains("Total unqualified candidates count is 1");
   }
 
   @Test

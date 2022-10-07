@@ -59,33 +59,67 @@ public class AggregationQuerySample {
     AggregationQuery allCandidatesCountQuery = Query.newAggregationQueryBuilder()
         .over(selectAllCandidates)
         .addAggregation(Aggregation.count().as("total_count"))
-        .addAggregation(Aggregation.count().as("count_with_limit").limit(2))
         .build();
     // Executing aggregation query
     AggregationResult allCandidatesCountQueryResult = Iterables.getOnlyElement(
         datastore.runAggregation(allCandidatesCountQuery));
 
-    System.out.printf("We have at least %d candidates", allCandidatesCountQueryResult.get("count_with_limit")); // 2
     System.out.printf("Total candidates count is %d", allCandidatesCountQueryResult.get("total_count")); // 3
 
+    // [END datastore_count_aggregation_query]
+
+    datastore.delete(candidate1Key, candidate2Key, candidate3Key);
+  }
+
+  public void aggregationQueryAndCountAggregationWithPropertyFilter() {
+    // [START datastore_count_aggregation_query_with_filters]
+
+    // Instantiates a client
+    Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+
+    // The kind for the new entity
+    String kind = "Candidate";
+
+    Key candidate1Key = datastore.newKeyFactory().setKind(kind).newKey("candidate1");
+    Key candidate2Key = datastore.newKeyFactory().setKind(kind).newKey("candidate2");
+    Key candidate3Key = datastore.newKeyFactory().setKind(kind).newKey("candidate3");
+
+    // Save all the candidates
+    datastore.put(
+        Entity.newBuilder(candidate1Key).set("qualified", true).build(),
+        Entity.newBuilder(candidate2Key).set("qualified", false).build(),
+        Entity.newBuilder(candidate3Key).set("qualified", true).build()
+    );
 
     EntityQuery qualifiedCandidates = Query.newEntityQueryBuilder()
         .setKind(kind)
         .setFilter(PropertyFilter.eq("qualified", true))
+        .build();
+    EntityQuery unQualifiedCandidates = Query.newEntityQueryBuilder()
+        .setKind(kind)
+        .setFilter(PropertyFilter.eq("qualified", false))
         .build();
     // Creating an aggregation query to get the count of all qualified candidates
     AggregationQuery qualifiedCandidatesCountQuery = Query.newAggregationQueryBuilder()
         .over(qualifiedCandidates)
         .addAggregation(Aggregation.count().as("total_qualified_count"))
         .build();
+    // Creating an aggregation query to get the count of all unqualified candidates
+    AggregationQuery unqualifiedCandidatesCountQuery = Query.newAggregationQueryBuilder()
+        .over(unQualifiedCandidates)
+        .addAggregation(Aggregation.count().as("total_unqualified_count"))
+        .build();
 
     // Executing aggregation query
     AggregationResult qualifiedCandidatesCountQueryResult = Iterables.getOnlyElement(
         datastore.runAggregation(qualifiedCandidatesCountQuery));
+    AggregationResult unQualifiedCandidatesCountQueryResult = Iterables.getOnlyElement(
+        datastore.runAggregation(unqualifiedCandidatesCountQuery));
 
     System.out.printf("Total qualified candidates count is %d", qualifiedCandidatesCountQueryResult.get("total_qualified_count")); // 2
+    System.out.printf("Total unqualified candidates count is %d", unQualifiedCandidatesCountQueryResult.get("total_unqualified_count")); // 1
 
-    // [END datastore_count_aggregation_query]
+    // [END datastore_count_aggregation_query_with_filters]
 
     datastore.delete(candidate1Key, candidate2Key, candidate3Key);
   }
