@@ -637,62 +637,6 @@ public class ITDatastoreTest {
     DATASTORE.delete(newEntityKey);
   }
 
-  /**
-   * Data read or modified by a transaction cannot be concurrently modified.
-   *
-   * @see <a
-   *     href="https://cloud.google.com/datastore/docs/concepts/transactions#isolation_and_consistency">
-   *     Source</a>
-   */
-  @Test
-  public void testRunAggregationQueryInAReadWriteTransactionShouldLockTheCountedDocuments()
-      throws Exception {
-    ExecutorService executor = Executors.newSingleThreadExecutor();
-    EntityQuery entityQuery =
-        Query.newEntityQueryBuilder()
-            .setNamespace(NAMESPACE)
-            .setFilter(PropertyFilter.hasAncestor(KEY1))
-            .build();
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .setNamespace(NAMESPACE)
-            .over(entityQuery)
-            .addAggregation(count().as("count"))
-            .build();
-
-    // read-write transaction
-    Transaction readWriteTransaction1 = DATASTORE.newTransaction();
-    Transaction readWriteTransaction2 = DATASTORE.newTransaction();
-
-    // acquiring lock by executing query in transaction 1
-    assertThat(getOnlyElement(readWriteTransaction1.runAggregation(aggregationQuery)).get("count"))
-        .isEqualTo(2L);
-
-    // Transaction 2 will be blocked by ongoing Transaction 1.
-    Future<Void> addNewEntityTaskInTransaction2 =
-        executor.submit(
-            () -> {
-              Entity aNewEntity =
-                  Entity.newBuilder(ENTITY2)
-                      .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
-                      .set("v_int", 10)
-                      .build();
-              readWriteTransaction2.put(aNewEntity);
-              readWriteTransaction2.commit();
-              return null;
-            });
-
-    try {
-      // should throw Timeout exception as we haven't yet committed the Transaction 1
-      assertThrows(TimeoutException.class, () -> addNewEntityTaskInTransaction2.get(3, SECONDS));
-    } finally {
-      // cleanup
-      readWriteTransaction1.commit();
-      addNewEntityTaskInTransaction2.cancel(true);
-      executor.shutdownNow();
-    }
-  }
-
   @Test
   public void testRunAggregationQueryInAReadOnlyTransactionShouldNotLockTheCountedDocuments()
       throws Exception {
