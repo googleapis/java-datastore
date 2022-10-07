@@ -16,6 +16,8 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.ProtoTestData.intValue;
+import static com.google.cloud.datastore.TestUtils.matches;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
@@ -36,13 +38,14 @@ import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.Query.ResultType;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
-import com.google.cloud.datastore.emulator.EmulatorProxy;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.cloud.datastore.testing.LocalDatastoreHelper;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+import com.google.datastore.v1.AggregationResultBatch;
 import com.google.datastore.v1.BeginTransactionRequest;
 import com.google.datastore.v1.BeginTransactionResponse;
 import com.google.datastore.v1.CommitRequest;
@@ -58,6 +61,8 @@ import com.google.datastore.v1.ReserveIdsRequest;
 import com.google.datastore.v1.ReserveIdsResponse;
 import com.google.datastore.v1.RollbackRequest;
 import com.google.datastore.v1.RollbackResponse;
+import com.google.datastore.v1.RunAggregationQueryRequest;
+import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.RunQueryRequest;
 import com.google.datastore.v1.RunQueryResponse;
 import com.google.datastore.v1.TransactionOptions;
@@ -66,11 +71,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Predicate;
 import org.easymock.EasyMock;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -87,8 +95,6 @@ public class DatastoreTest {
   private static LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0);
   private static final DatastoreOptions options = helper.getOptions();
   private static final Datastore datastore = options.getService();
-  private static final EmulatorProxy emulatorProxy = new EmulatorProxy(options);
-  private static final Datastore datastoreEmulatorProxy = emulatorProxy.getOptions().getService();
   private static final String PROJECT_ID = options.getProjectId();
   private static final String KIND1 = "kind1";
   private static final String KIND2 = "kind2";
@@ -186,7 +192,6 @@ public class DatastoreTest {
   @AfterClass
   public static void afterClass() throws IOException, InterruptedException, TimeoutException {
     helper.stop(Duration.ofMinutes(1));
-    emulatorProxy.stop();
   }
 
   @Test
@@ -535,21 +540,23 @@ public class DatastoreTest {
 
   @Test
   public void testRunAggregationQuery() {
+    RunAggregationQueryResponse aggregationQueryResponse = dummyAggregationQueryResponse();
+    EasyMock.expect(rpcMock.runAggregationQuery(matches(aggregationQueryWithAlias("total_count"))))
+        .andReturn(aggregationQueryResponse);
+    EasyMock.replay(rpcFactoryMock, rpcMock);
+
+    Datastore mockDatastore = rpcMockOptions.getService();
+
     EntityQuery selectAllQuery = Query.newEntityQueryBuilder().build();
     AggregationQuery getCountQuery =
         Query.newAggregationQueryBuilder()
             .addAggregation(count().as("total_count"))
             .over(selectAllQuery)
             .build();
-    AggregationResult resultBeforeInsert =
-        getOnlyElement(datastoreEmulatorProxy.runAggregation(getCountQuery));
-    assertThat(resultBeforeInsert.get("total_count")).isEqualTo(2L);
+    AggregationResult result = getOnlyElement(mockDatastore.runAggregation(getCountQuery));
 
-    datastore.put(ENTITY3);
-
-    AggregationResult resultAfterInsert =
-        getOnlyElement(datastoreEmulatorProxy.runAggregation(getCountQuery));
-    assertThat(resultAfterInsert.get("total_count")).isEqualTo(3L);
+    assertThat(result.get("total_count")).isEqualTo(209L);
+    EasyMock.verify(rpcFactoryMock, rpcMock);
   }
 
   @Test
@@ -1336,5 +1343,29 @@ public class DatastoreTest {
     assertNotNull(cursor2);
     assertEquals(cursor2, cursor1);
     datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
+  }
+
+  private RunAggregationQueryResponse dummyAggregationQueryResponse() {
+    Map<String, com.google.datastore.v1.Value> result1 =
+        new HashMap<>(ImmutableMap.of("total_count", intValue(209)));
+
+    AggregationResultBatch resultBatch =
+        AggregationResultBatch.newBuilder()
+            .addAggregationResults(
+                com.google.datastore.v1.AggregationResult.newBuilder()
+                    .putAllAggregateProperties(result1)
+                    .build())
+            .build();
+    return RunAggregationQueryResponse.newBuilder().setBatch(resultBatch).build();
+  }
+
+  private Predicate<RunAggregationQueryRequest> aggregationQueryWithAlias(String alias) {
+    return runAggregationQueryRequest ->
+        alias.equals(
+            runAggregationQueryRequest
+                .getAggregationQuery()
+                .getAggregationsList()
+                .get(0)
+                .getAlias());
   }
 }
