@@ -39,7 +39,7 @@ public class RetryAndTraceDatastoreRpcDecoratorTest {
   public static final int MAX_ATTEMPTS = 3;
   private DatastoreRpc mockDatastoreRpc;
   private TraceUtil mockTraceUtil;
-  private DatastoreOptions datastoreOptions = DatastoreOptions.getDefaultInstance();
+  private DatastoreOptions datastoreOptions = DatastoreOptions.newBuilder().setProjectId("project-id").build();
   private RetrySettings retrySettings = RetrySettings.newBuilder()
       .setMaxAttempts(MAX_ATTEMPTS)
       .build();
