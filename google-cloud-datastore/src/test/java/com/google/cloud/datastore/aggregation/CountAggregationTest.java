@@ -60,7 +60,9 @@ public class CountAggregationTest {
     assertThat(aggregationWithoutAlias2.build()).isEqualTo(aggregationWithoutAlias1.build());
 
     // different aliases
-    assertThat(aggregationWithAlias1.as("new-alias").build()).isNotEqualTo(aggregationWithAlias2.build());
-    assertThat(aggregationWithAlias2.build()).isNotEqualTo(aggregationWithAlias1.as("new-alias").build());
+    assertThat(aggregationWithAlias1.as("new-alias").build())
+        .isNotEqualTo(aggregationWithAlias2.build());
+    assertThat(aggregationWithAlias2.build())
+        .isNotEqualTo(aggregationWithAlias1.as("new-alias").build());
   }
 }
