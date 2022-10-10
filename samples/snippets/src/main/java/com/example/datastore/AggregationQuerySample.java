@@ -26,14 +26,15 @@ import com.google.cloud.datastore.GqlQuery;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.ReadOption;
+import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.common.collect.Iterables;
 
 public class AggregationQuerySample {
 
-  public void aggregationQueryAndCountAggregation() {
-    // [START datastore_count_aggregation_query]
+  public void aggregationQueryAndCountAggregationOnKind() {
+    // [START datastore_count_aggregation_query_on_kind]
 
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
@@ -58,6 +59,7 @@ public class AggregationQuerySample {
     // Creating an aggregation query to get the count of all candidates
     AggregationQuery allCandidatesCountQuery = Query.newAggregationQueryBuilder()
         .over(selectAllCandidates)
+        .addAggregation(Aggregation.count())
         .addAggregation(Aggregation.count().as("total_count"))
         .build();
     // Executing aggregation query
@@ -65,8 +67,89 @@ public class AggregationQuerySample {
         datastore.runAggregation(allCandidatesCountQuery));
 
     System.out.printf("Total candidates count is %d", allCandidatesCountQueryResult.get("total_count")); // 3
+    System.out.printf("Total candidates from default alias is %d", allCandidatesCountQueryResult.get("property_1")); // 3
 
-    // [END datastore_count_aggregation_query]
+    // [END datastore_count_aggregation_query_on_kind]
+
+    datastore.delete(candidate1Key, candidate2Key, candidate3Key);
+  }
+
+  public void aggregationQueryAndCountAggregationWithLimit() {
+    // [START datastore_count_aggregation_query_with_limit]
+
+    // Instantiates a client
+    Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+
+    // The kind for the new entity
+    String kind = "Candidate";
+
+    Key candidate1Key = datastore.newKeyFactory().setKind(kind).newKey("candidate1");
+    Key candidate2Key = datastore.newKeyFactory().setKind(kind).newKey("candidate2");
+    Key candidate3Key = datastore.newKeyFactory().setKind(kind).newKey("candidate3");
+
+    // Save all the candidates
+    datastore.put(
+        Entity.newBuilder(candidate1Key).set("qualified", true).build(),
+        Entity.newBuilder(candidate2Key).set("qualified", false).build(),
+        Entity.newBuilder(candidate3Key).set("qualified", true).build()
+    );
+
+    EntityQuery selectAllCandidates = Query.newEntityQueryBuilder()
+        .setKind(kind)
+        .setLimit(2)
+        .build();
+    // Creating an aggregation query to get the count of all candidates
+    AggregationQuery allCandidatesCountQuery = Query.newAggregationQueryBuilder()
+        .over(selectAllCandidates)
+        .addAggregation(Aggregation.count().as("at_least"))
+        .build();
+    // Executing aggregation query
+    AggregationResult limitQueryResult = Iterables.getOnlyElement(
+        datastore.runAggregation(allCandidatesCountQuery));
+
+    System.out.printf("We have at least %d candidates", limitQueryResult.get("at_least")); // 2
+
+    // [END datastore_count_aggregation_query_with_limit]
+
+    datastore.delete(candidate1Key, candidate2Key, candidate3Key);
+  }
+
+  public void aggregationQueryAndCountAggregationWithOrderBy() {
+    // [START datastore_count_aggregation_query_with_limit]
+
+    // Instantiates a client
+    Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+
+    // The kind for the new entity
+    String kind = "Candidate";
+
+    Key candidate1Key = datastore.newKeyFactory().setKind(kind).newKey("candidate1");
+    Key candidate2Key = datastore.newKeyFactory().setKind(kind).newKey("candidate2");
+    Key candidate3Key = datastore.newKeyFactory().setKind(kind).newKey("candidate3");
+
+    // Save all the candidates
+    datastore.put(
+        Entity.newBuilder(candidate1Key).set("qualified", true).set("rank", 1).build(),
+        Entity.newBuilder(candidate2Key).set("qualified", false).build(),  // no rank specified
+        Entity.newBuilder(candidate3Key).set("qualified", true).set("rank", 2).build()
+    );
+
+    EntityQuery selectAllCandidates = Query.newEntityQueryBuilder()
+        .setKind(kind)
+        .addOrderBy(OrderBy.asc("rank"))    // OrderBy acts as an existence filter
+        .build();
+    // Creating an aggregation query to get the count of all candidates
+    AggregationQuery allCandidatesCountQuery = Query.newAggregationQueryBuilder()
+        .over(selectAllCandidates)
+        .addAggregation(Aggregation.count().as("count"))
+        .build();
+    // Executing aggregation query
+    AggregationResult limitQueryResult = Iterables.getOnlyElement(
+        datastore.runAggregation(allCandidatesCountQuery));
+
+    System.out.printf("Total %d candidates found with rank field", limitQueryResult.get("count")); // 2
+
+    // [END datastore_count_aggregation_query_with_limit]
 
     datastore.delete(candidate1Key, candidate2Key, candidate3Key);
   }

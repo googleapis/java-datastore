@@ -29,9 +29,24 @@ public class AggregationQuerySampleTestIT {
 
   @Test
   public void testAggregationQueryAndCountAggregationSample() {
-    sample.aggregationQueryAndCountAggregation();
+    sample.aggregationQueryAndCountAggregationOnKind();
 
     systemsOutRule.assertContains("Total candidates count is 3");
+    systemsOutRule.assertContains("Total candidates from default alias is 3");
+  }
+
+  @Test
+  public void testAggregationQueryAndCountAggregationWithLimitSample() {
+    sample.aggregationQueryAndCountAggregationWithLimit();
+
+    systemsOutRule.assertContains("We have at least 2 candidates");
+  }
+
+  @Test
+  public void testAggregationQueryAndCountAggregationWithOrderBySample() {
+    sample.aggregationQueryAndCountAggregationWithOrderBy();
+
+    systemsOutRule.assertContains("Total 2 candidates found with rank field");
   }
 
   @Test
