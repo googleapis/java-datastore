@@ -15,24 +15,45 @@
  */
 package com.example.datastore;
 
+import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.EntityQuery;
+import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.Query;
+import com.google.cloud.datastore.QueryResults;
+import com.google.common.collect.ImmutableList;
 import com.rule.SystemsOutRule;
+import org.junit.After;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 
 public class AggregationQuerySampleTestIT {
+
+  private Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
   @Rule
   public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   private final AggregationQuerySample sample = new AggregationQuerySample();
 
+  @After
+  public void tearDown() throws Exception {
+    EntityQuery allEntitiesQuery = Query.newEntityQueryBuilder().build();
+    QueryResults<Entity> allEntities = datastore.run(allEntitiesQuery);
+    Key[] keysToDelete =
+        ImmutableList.copyOf(allEntities).stream().map(Entity::getKey).toArray(Key[]::new);
+    datastore.delete(keysToDelete);
+  }
 
   @Test
   public void testAggregationQueryAndCountAggregationSample() {
     sample.aggregationQueryAndCountAggregationOnKind();
 
     systemsOutRule.assertContains("Total candidates count is 3");
-    systemsOutRule.assertContains("Total candidates from default alias is 3");
+    systemsOutRule.assertContains("Total candidates (accessible from default alias) is 3");
   }
 
   @Test
@@ -72,5 +93,12 @@ public class AggregationQuerySampleTestIT {
 
     systemsOutRule.assertContains("Latest candidates count is 3");
     systemsOutRule.assertContains("Stale candidates count is 2");
+  }
+
+  @Test
+  public void testAggregationQueryAndCountWithTransaction() throws InterruptedException {
+    Assert.assertThrows(Exception.class, sample::aggregationQueryInTransaction);
+
+    systemsOutRule.assertContains("Found existing 2 operations, rolling back");
   }
 }

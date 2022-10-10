@@ -19,7 +19,9 @@ import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.Datastore.TransactionCallable;
 import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.DatastoreReaderWriter;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.GqlQuery;
@@ -67,11 +69,9 @@ public class AggregationQuerySample {
         datastore.runAggregation(allCandidatesCountQuery));
 
     System.out.printf("Total candidates count is %d", allCandidatesCountQueryResult.get("total_count")); // 3
-    System.out.printf("Total candidates from default alias is %d", allCandidatesCountQueryResult.get("property_1")); // 3
+    System.out.printf("Total candidates (accessible from default alias) is %d", allCandidatesCountQueryResult.get("property_1")); // 3
 
     // [END datastore_count_aggregation_query_on_kind]
-
-    datastore.delete(candidate1Key, candidate2Key, candidate3Key);
   }
 
   public void aggregationQueryAndCountAggregationWithLimit() {
@@ -110,8 +110,6 @@ public class AggregationQuerySample {
     System.out.printf("We have at least %d candidates", limitQueryResult.get("at_least")); // 2
 
     // [END datastore_count_aggregation_query_with_limit]
-
-    datastore.delete(candidate1Key, candidate2Key, candidate3Key);
   }
 
   public void aggregationQueryAndCountAggregationWithOrderBy() {
@@ -150,8 +148,6 @@ public class AggregationQuerySample {
     System.out.printf("Total %d candidates found with rank field", limitQueryResult.get("count")); // 2
 
     // [END datastore_count_aggregation_query_with_limit]
-
-    datastore.delete(candidate1Key, candidate2Key, candidate3Key);
   }
 
   public void aggregationQueryAndCountAggregationWithPropertyFilter() {
@@ -203,8 +199,6 @@ public class AggregationQuerySample {
     System.out.printf("Total unqualified candidates count is %d", unQualifiedCandidatesCountQueryResult.get("total_unqualified_count")); // 1
 
     // [END datastore_count_aggregation_query_with_filters]
-
-    datastore.delete(candidate1Key, candidate2Key, candidate3Key);
   }
 
   public void aggregationQueryAndCountAggregationWithGqlQuery() {
@@ -261,8 +255,6 @@ public class AggregationQuerySample {
     System.out.printf("Total qualified candidates count is %d", qualifiedCandidatesCountQueryResult.get("total_qualified_count")); // 2
 
     // [END datastore_count_aggregation_query_gql]
-
-    datastore.delete(candidate1Key, candidate2Key, candidate3Key);
   }
 
   public void aggregationQueryAndCountAggregationWithStaleRead() throws InterruptedException {
@@ -311,8 +303,52 @@ public class AggregationQuerySample {
     System.out.printf("Stale candidates count is %d", candidatesCountInPast.get("total_count")); // 2
 
     // [END datastore_count_aggregation_query_stale_read]
+  }
 
-    datastore.delete(candidate1Key, candidate2Key, candidate3Key);
+  public void aggregationQueryInTransaction() {
+    // [START datastore_count_aggregation_query_in_transaction]
+
+    // Instantiates a client
+    Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+
+    // The kind for the new entity
+    String kind = "Operations";
+
+    Key operation1Key = datastore.newKeyFactory().setKind(kind).newKey("operation1");
+    Key operation2Key = datastore.newKeyFactory().setKind(kind).newKey("operation2");
+
+
+    // Save all the candidates
+    datastore.put(
+        Entity.newBuilder(operation1Key).set("owner", "john").build(),
+        Entity.newBuilder(operation2Key).set("owner", "john").build()
+    );
+
+    // Using transactions to maintain consistent application state.
+    datastore.runInTransaction((TransactionCallable<Void>) transaction -> {
+      EntityQuery operationsOfJohn = Query.newEntityQueryBuilder()
+          .setKind(kind)
+          .setFilter(PropertyFilter.eq("owner", "john"))
+          .build();
+      AggregationQuery totalOperationsQuery = Query.newAggregationQueryBuilder()
+          .over(operationsOfJohn)
+          .addAggregation(Aggregation.count().as("operations_count"))
+          .build();
+
+      Long operationsCount = Iterables.getOnlyElement(
+          datastore.runAggregation(totalOperationsQuery)).get("operations_count");
+
+      if (operationsCount < 2) {
+        Key newOperationKey = datastore.newKeyFactory().setKind(kind).newKey("operation3");
+        Entity newOperation = Entity.newBuilder(newOperationKey).set("owner", "john").build();
+        transaction.put(newOperation);
+      } else {
+        System.out.printf("Found existing %d operations, rolling back", operationsCount);
+        throw new Exception("User 'John' cannot have more than 2 operations");
+      }
+      return null;
+    });
+    // [END datastore_count_aggregation_query_in_transaction]
   }
 
 }
