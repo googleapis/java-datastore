@@ -49,7 +49,13 @@ public class CountAggregation extends Aggregation {
       return false;
     }
     CountAggregation that = (CountAggregation) o;
-    return getAlias().equals(that.getAlias());
+    boolean bothAliasAreNull = getAlias() == null && that.getAlias() == null;
+    if (bothAliasAreNull) {
+      return true;
+    } else {
+      boolean bothArePresent = getAlias() != null && that.getAlias() != null;
+      return bothArePresent && getAlias().equals(that.getAlias());
+    }
   }
 
   @Override
