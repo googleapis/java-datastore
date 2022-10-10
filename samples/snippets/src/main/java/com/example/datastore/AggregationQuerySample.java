@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.datastore;
 
 import com.google.cloud.Timestamp;
@@ -68,8 +69,10 @@ public class AggregationQuerySample {
     AggregationResult allCandidatesCountQueryResult = Iterables.getOnlyElement(
         datastore.runAggregation(allCandidatesCountQuery));
 
-    System.out.printf("Total candidates count is %d", allCandidatesCountQueryResult.get("total_count")); // 3
-    System.out.printf("Total candidates (accessible from default alias) is %d", allCandidatesCountQueryResult.get("property_1")); // 3
+    System.out.printf("Total candidates count is %d",
+        allCandidatesCountQueryResult.get("total_count")); // 3
+    System.out.printf("Total candidates (accessible from default alias) is %d",
+        allCandidatesCountQueryResult.get("property_1")); // 3
 
     // [END datastore_count_aggregation_query_on_kind]
   }
@@ -145,7 +148,8 @@ public class AggregationQuerySample {
     AggregationResult limitQueryResult = Iterables.getOnlyElement(
         datastore.runAggregation(allCandidatesCountQuery));
 
-    System.out.printf("Total %d candidates found with rank field", limitQueryResult.get("count")); // 2
+    System.out.printf("Total %d candidates found with rank field",
+        limitQueryResult.get("count")); // 2
 
     // [END datastore_count_aggregation_query_with_limit]
   }
@@ -195,8 +199,10 @@ public class AggregationQuerySample {
     AggregationResult unQualifiedCandidatesCountQueryResult = Iterables.getOnlyElement(
         datastore.runAggregation(unqualifiedCandidatesCountQuery));
 
-    System.out.printf("Total qualified candidates count is %d", qualifiedCandidatesCountQueryResult.get("total_qualified_count")); // 2
-    System.out.printf("Total unqualified candidates count is %d", unQualifiedCandidatesCountQueryResult.get("total_unqualified_count")); // 1
+    System.out.printf("Total qualified candidates count is %d",
+        qualifiedCandidatesCountQueryResult.get("total_qualified_count")); // 2
+    System.out.printf("Total unqualified candidates count is %d",
+        unQualifiedCandidatesCountQueryResult.get("total_unqualified_count")); // 1
 
     // [END datastore_count_aggregation_query_with_filters]
   }
@@ -222,8 +228,8 @@ public class AggregationQuerySample {
     );
 
     GqlQuery<?> selectAllCandidates = Query.newGqlQueryBuilder(
-        "AGGREGATE COUNT(*) AS total_count, COUNT_UP_TO(2) AS count_with_limit "
-            + "OVER (SELECT * FROM Candidate)")
+            "AGGREGATE COUNT(*) AS total_count, COUNT_UP_TO(2) AS count_with_limit "
+                + "OVER (SELECT * FROM Candidate)")
         .setAllowLiteral(true)
         .build();
     // Creating an aggregation query to get the count of all candidates
@@ -234,9 +240,10 @@ public class AggregationQuerySample {
     AggregationResult allCandidatesCountQueryResult = Iterables.getOnlyElement(
         datastore.runAggregation(allCandidatesCountQuery));
 
-    System.out.printf("We have at least %d candidates", allCandidatesCountQueryResult.get("count_with_limit")); // 2
-    System.out.printf("Total candidates count is %d", allCandidatesCountQueryResult.get("total_count")); // 3
-
+    System.out.printf("We have at least %d candidates",
+        allCandidatesCountQueryResult.get("count_with_limit")); // 2
+    System.out.printf("Total candidates count is %d",
+        allCandidatesCountQueryResult.get("total_count")); // 3
 
     GqlQuery<?> qualifiedCandidates = Query.newGqlQueryBuilder(
             "AGGREGATE COUNT(*) AS total_qualified_count "
@@ -252,7 +259,8 @@ public class AggregationQuerySample {
     AggregationResult qualifiedCandidatesCountQueryResult = Iterables.getOnlyElement(
         datastore.runAggregation(qualifiedCandidatesCountQuery));
 
-    System.out.printf("Total qualified candidates count is %d", qualifiedCandidatesCountQueryResult.get("total_qualified_count")); // 2
+    System.out.printf("Total qualified candidates count is %d",
+        qualifiedCandidatesCountQueryResult.get("total_qualified_count")); // 2
 
     // [END datastore_count_aggregation_query_gql]
   }
@@ -268,7 +276,6 @@ public class AggregationQuerySample {
 
     Key candidate1Key = datastore.newKeyFactory().setKind(kind).newKey("candidate1");
     Key candidate2Key = datastore.newKeyFactory().setKind(kind).newKey("candidate2");
-    Key candidate3Key = datastore.newKeyFactory().setKind(kind).newKey("candidate3");
 
     // Saving only two candidates
     datastore.put(
@@ -276,10 +283,12 @@ public class AggregationQuerySample {
         Entity.newBuilder(candidate2Key).set("qualified", false).build()
     );
     Thread.sleep(1000);
-    Timestamp pastTimestamp = Timestamp.now(); // we have two candidates in database at this time.
+    final Timestamp pastTimestamp =
+        Timestamp.now(); // we have two candidates in database at this time.
 
     Thread.sleep(1000);
     // Saving third candidates
+    Key candidate3Key = datastore.newKeyFactory().setKind(kind).newKey("candidate3");
     datastore.put(Entity.newBuilder(candidate3Key).set("qualified", false).build());
 
     EntityQuery selectAllCandidates = Query.newEntityQueryBuilder()
@@ -295,12 +304,14 @@ public class AggregationQuerySample {
     // Executing aggregation query
     AggregationResult candidatesCountLatest = Iterables.getOnlyElement(
         datastore.runAggregation(allCandidatesCountQuery));
-    System.out.printf("Latest candidates count is %d", candidatesCountLatest.get("total_count")); // 3
+    System.out.printf("Latest candidates count is %d",
+        candidatesCountLatest.get("total_count")); // 3
 
     // Executing aggregation query with past timestamp
     AggregationResult candidatesCountInPast = Iterables.getOnlyElement(
         datastore.runAggregation(allCandidatesCountQuery, ReadOption.readTime(pastTimestamp)));
-    System.out.printf("Stale candidates count is %d", candidatesCountInPast.get("total_count")); // 2
+    System.out.printf("Stale candidates count is %d",
+        candidatesCountInPast.get("total_count")); // 2
 
     // [END datastore_count_aggregation_query_stale_read]
   }
@@ -316,7 +327,6 @@ public class AggregationQuerySample {
 
     Key operation1Key = datastore.newKeyFactory().setKind(kind).newKey("operation1");
     Key operation2Key = datastore.newKeyFactory().setKind(kind).newKey("operation2");
-
 
     // Save all the candidates
     datastore.put(
