@@ -16,18 +16,15 @@
 
 package com.google.cloud.datastore;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import java.io.Serializable;
 import java.util.Map;
 
 /**
- * A Google Cloud Datastore query. For usage examples see {@link GqlQuery}, {@link
- * StructuredQuery} and {@link AggregationQuery}.
+ * A Google Cloud Datastore query. For usage examples see {@link GqlQuery}, {@link StructuredQuery}
+ * and {@link AggregationQuery}.
  *
  * <p>Note that queries require proper indexing. See <a
  * href="https://cloud.google.com/datastore/docs/tools/indexconfig">Cloud Datastore Index
@@ -168,7 +165,6 @@ public abstract class Query<V> implements Serializable {
     return MoreObjects.toStringHelper(this).add("namespace", namespace);
   }
 
-
   /**
    * Returns a new {@link GqlQuery} builder.
    *
@@ -264,10 +260,9 @@ public abstract class Query<V> implements Serializable {
    *
    * <p>Example of creating and running an {@link AggregationQuery}.
    *
-   * <p>{@link StructuredQuery} example:</p>
-   * <pre>{@code
-   * import static com.google.cloud.datastore.aggregation.Aggregation.count;
+   * <p>{@link StructuredQuery} example:
    *
+   * <pre>{@code
    * EntityQuery selectAllQuery = Query.newEntityQueryBuilder()
    *    .setKind("Task")
    *    .build();
@@ -280,9 +275,8 @@ public abstract class Query<V> implements Serializable {
    * }</pre>
    *
    * <h4>{@link GqlQuery} example:</h4>
-   * <pre>{@code
-   * import static com.google.cloud.datastore.aggregation.Aggregation.count;
    *
+   * <pre>{@code
    * GqlQuery<?> selectAllGqlQuery = Query.newGqlQueryBuilder(
    *         "AGGREGATE COUNT(*) AS total_count OVER(SELECT * FROM Task)"
    *     )

@@ -31,28 +31,28 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @InternalApi
-public class AggregationQueryResponseTransformer implements
-    ResponseTransformer<RunAggregationQueryResponse, AggregationResults> {
+public class AggregationQueryResponseTransformer
+    implements ResponseTransformer<RunAggregationQueryResponse, AggregationResults> {
 
   @Override
   public AggregationResults transform(RunAggregationQueryResponse response) {
     Timestamp readTime = Timestamp.fromProto(response.getBatch().getReadTime());
-    List<AggregationResult> aggregationResults = response
-        .getBatch()
-        .getAggregationResultsList()
-        .stream()
-        .map(aggregationResult -> new AggregationResult(resultWithLongValues(aggregationResult)))
-        .collect(Collectors.toCollection(LinkedList::new));
+    List<AggregationResult> aggregationResults =
+        response.getBatch().getAggregationResultsList().stream()
+            .map(
+                aggregationResult -> new AggregationResult(resultWithLongValues(aggregationResult)))
+            .collect(Collectors.toCollection(LinkedList::new));
     return new AggregationResults(aggregationResults, readTime);
   }
 
-  private Map<String, LongValue> resultWithLongValues(com.google.datastore.v1.AggregationResult aggregationResult) {
-    return aggregationResult.getAggregatePropertiesMap()
-        .entrySet()
-        .stream()
-        .map((Function<Entry<String, Value>, Entry<String, LongValue>>) entry ->
-            new SimpleEntry<>(entry.getKey(), (LongValue) LongValue.fromPb(entry.getValue())))
+  private Map<String, LongValue> resultWithLongValues(
+      com.google.datastore.v1.AggregationResult aggregationResult) {
+    return aggregationResult.getAggregatePropertiesMap().entrySet().stream()
+        .map(
+            (Function<Entry<String, Value>, Entry<String, LongValue>>)
+                entry ->
+                    new SimpleEntry<>(
+                        entry.getKey(), (LongValue) LongValue.fromPb(entry.getValue())))
         .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
   }
 }
-

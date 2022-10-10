@@ -19,137 +19,135 @@ import static com.google.cloud.datastore.AggregationQuery.Mode.GQL;
 import static com.google.cloud.datastore.AggregationQuery.Mode.STRUCTURED;
 import static com.google.cloud.datastore.StructuredQuery.PropertyFilter.eq;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 
 import com.google.cloud.datastore.aggregation.CountAggregation;
 import com.google.common.collect.ImmutableSet;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
 import org.junit.rules.ExpectedException;
 
 public class AggregationQueryTest {
 
   private static final String KIND = "Task";
   private static final String NAMESPACE = "ns";
-  private static final EntityQuery COMPLETED_TASK_QUERY = Query.newEntityQueryBuilder()
-      .setNamespace(NAMESPACE)
-      .setKind(KIND)
-      .setFilter(eq("done", true))
-      .build();
+  private static final EntityQuery COMPLETED_TASK_QUERY =
+      Query.newEntityQueryBuilder()
+          .setNamespace(NAMESPACE)
+          .setKind(KIND)
+          .setFilter(eq("done", true))
+          .setLimit(100)
+          .build();
 
-  @Rule
-  public ExpectedException exceptionRule = ExpectedException.none();
+  @Rule public ExpectedException exceptionRule = ExpectedException.none();
 
   @Test
   public void testAggregations() {
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .addAggregation(new CountAggregation("total_upto_100", 100))
-        .over(COMPLETED_TASK_QUERY)
-        .build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .addAggregation(new CountAggregation("total"))
+            .over(COMPLETED_TASK_QUERY)
+            .build();
 
-    assertThat(aggregationQuery.getNamespace(), equalTo(NAMESPACE));
-    assertThat(aggregationQuery.getAggregations(), equalTo(
-        ImmutableSet.of(count().limit(100).as("total_upto_100").build())));
-    assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
-    assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
+    assertThat(aggregationQuery.getNamespace()).isEqualTo(NAMESPACE);
+    assertThat(aggregationQuery.getAggregations())
+        .isEqualTo(ImmutableSet.of(count().as("total").build()));
+    assertThat(aggregationQuery.getNestedStructuredQuery()).isEqualTo(COMPLETED_TASK_QUERY);
+    assertThat(aggregationQuery.getMode()).isEqualTo(STRUCTURED);
   }
 
-
   @Test
-  public void testAggregationBuilder() {
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .addAggregation(count().as("total"))
-        .addAggregation(count().limit(100).as("total_upto_100"))
-        .over(COMPLETED_TASK_QUERY)
-        .build();
+  public void testAggregationBuilderWithMoreThanOneAggregations() {
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .addAggregation(count().as("total"))
+            .addAggregation(count().as("new_total"))
+            .over(COMPLETED_TASK_QUERY)
+            .build();
 
-    assertThat(aggregationQuery.getNamespace(), equalTo(NAMESPACE));
-    assertThat(aggregationQuery.getAggregations(), equalTo(ImmutableSet.of(
-        count().as("total").build(),
-        count().limit(100).as("total_upto_100").build()
-    )));
-    assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
-    assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
+    assertThat(aggregationQuery.getNamespace()).isEqualTo(NAMESPACE);
+    assertThat(aggregationQuery.getAggregations())
+        .isEqualTo(ImmutableSet.of(count().as("total").build(), count().as("new_total").build()));
+    assertThat(aggregationQuery.getNestedStructuredQuery()).isEqualTo(COMPLETED_TASK_QUERY);
+    assertThat(aggregationQuery.getMode()).isEqualTo(STRUCTURED);
   }
 
   @Test
   public void testAggregationBuilderWithDuplicateAggregations() {
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .addAggregation(count().limit(100).as("total_upto_100"))
-        .addAggregation(count().limit(100).as("total_upto_100"))
-        .over(COMPLETED_TASK_QUERY)
-        .build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .addAggregation(count().as("total"))
+            .addAggregation(count().as("total"))
+            .over(COMPLETED_TASK_QUERY)
+            .build();
 
-    assertThat(aggregationQuery.getNamespace(), equalTo(NAMESPACE));
-    assertThat(aggregationQuery.getAggregations(), equalTo(ImmutableSet.of(
-        count().limit(100).as("total_upto_100").build()
-    )));
-    assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
-    assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
+    assertThat(aggregationQuery.getNamespace()).isEqualTo(NAMESPACE);
+    assertThat(aggregationQuery.getAggregations())
+        .isEqualTo(ImmutableSet.of(count().as("total").build()));
+    assertThat(aggregationQuery.getNestedStructuredQuery()).isEqualTo(COMPLETED_TASK_QUERY);
+    assertThat(aggregationQuery.getMode()).isEqualTo(STRUCTURED);
   }
 
   @Test
   public void testAggregationQueryBuilderWithoutNamespace() {
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .addAggregation(count().as("total"))
-        .over(COMPLETED_TASK_QUERY)
-        .build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .addAggregation(count().as("total"))
+            .over(COMPLETED_TASK_QUERY)
+            .build();
 
     assertNull(aggregationQuery.getNamespace());
-    assertThat(aggregationQuery.getAggregations(), equalTo(ImmutableSet.of(
-        count().as("total").build()
-    )));
-    assertThat(aggregationQuery.getNestedStructuredQuery(), equalTo(COMPLETED_TASK_QUERY));
-    assertThat(aggregationQuery.getMode(), equalTo(STRUCTURED));
+    assertThat(aggregationQuery.getAggregations())
+        .isEqualTo(ImmutableSet.of(count().as("total").build()));
+    assertThat(aggregationQuery.getNestedStructuredQuery()).isEqualTo(COMPLETED_TASK_QUERY);
+    assertThat(aggregationQuery.getMode()).isEqualTo(STRUCTURED);
   }
 
   @Test
   public void testAggregationQueryBuilderWithoutNestedQuery() {
-    assertThrows("Nested query is required for an aggregation query to run",
+    assertThrows(
+        "Nested query is required for an aggregation query to run",
         IllegalArgumentException.class,
-        () -> Query.newAggregationQueryBuilder()
-            .setNamespace(NAMESPACE)
-            .addAggregation(count().as("total"))
-            .build());
+        () ->
+            Query.newAggregationQueryBuilder()
+                .setNamespace(NAMESPACE)
+                .addAggregation(count().as("total"))
+                .build());
   }
 
   @Test
   public void testAggregationQueryBuilderWithoutAggregation() {
-    assertThrows("At least one aggregation is required for an aggregation query to run",
+    assertThrows(
+        "At least one aggregation is required for an aggregation query to run",
         IllegalArgumentException.class,
-        () -> Query.newAggregationQueryBuilder()
-            .setNamespace(NAMESPACE)
-            .over(COMPLETED_TASK_QUERY)
-            .build());
+        () ->
+            Query.newAggregationQueryBuilder()
+                .setNamespace(NAMESPACE)
+                .over(COMPLETED_TASK_QUERY)
+                .build());
   }
 
   @Test
   public void testAggregationQueryBuilderWithGqlQuery() {
     GqlQuery<?> gqlQuery = Query.newGqlQueryBuilder("SELECT * FROM Task WHERE done = true").build();
 
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .setNamespace(NAMESPACE)
-        .over(gqlQuery)
-        .build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder().setNamespace(NAMESPACE).over(gqlQuery).build();
 
-    assertThat(aggregationQuery.getNestedGqlQuery(), equalTo(gqlQuery));
-    assertThat(aggregationQuery.getMode(), equalTo(GQL));
+    assertThat(aggregationQuery.getNestedGqlQuery()).isEqualTo(gqlQuery);
+    assertThat(aggregationQuery.getMode()).isEqualTo(GQL);
   }
 
   @Test
   public void testAggregationQueryBuilderWithoutProvidingAnyNestedQuery() {
-    assertThrows("Nested query is required for an aggregation query to run",
+    assertThrows(
+        "Nested query is required for an aggregation query to run",
         IllegalArgumentException.class,
-        () -> Query.newAggregationQueryBuilder()
-            .setNamespace(NAMESPACE)
-            .build());
+        () -> Query.newAggregationQueryBuilder().setNamespace(NAMESPACE).build());
   }
 }

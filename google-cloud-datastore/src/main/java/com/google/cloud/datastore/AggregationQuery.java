@@ -18,45 +18,38 @@ package com.google.cloud.datastore;
 import static com.google.cloud.datastore.AggregationQuery.Mode.GQL;
 import static com.google.cloud.datastore.AggregationQuery.Mode.STRUCTURED;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.cloud.datastore.aggregation.AggregationBuilder;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
  * An implementation of a Google Cloud Datastore Query that returns {@link AggregationResults}, It
- * can be constructed by providing a nested query ({@link StructuredQuery} or {@link GqlQuery})
- * to run the aggregations on and a set of {@link Aggregation}.
-
- * <p>{@link StructuredQuery} example:</p>
- * <pre>{@code
- * import static com.google.cloud.datastore.aggregation.Aggregation.count;
+ * can be constructed by providing a nested query ({@link StructuredQuery} or {@link GqlQuery}) to
+ * run the aggregations on and a set of {@link Aggregation}.
  *
+ * <p>{@link StructuredQuery} example:
+ *
+ * <pre>{@code
  * EntityQuery selectAllQuery = Query.newEntityQueryBuilder()
  *    .setKind("Task")
  *    .build();
  * AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
  *    .addAggregation(count().as("total_count"))
- *    .addAggregation(count().limit(100).as("count_upto_100"))
  *    .over(selectAllQuery)
  *    .build();
  * AggregationResults aggregationResults = datastore.runAggregation(aggregationQuery);
  * for (AggregationResult aggregationResult : aggregationResults) {
  *     System.out.println(aggregationResult.get("total_count"));
- *     System.out.println(aggregationResult.get("count_upto_100"));
  * }
  * }</pre>
  *
  * <h4>{@link GqlQuery} example:</h4>
- * <pre>{@code
- * import static com.google.cloud.datastore.aggregation.Aggregation.count;
  *
+ * <pre>{@code
  * GqlQuery<?> selectAllGqlQuery = Query.newGqlQueryBuilder(
-*         "AGGREGATE COUNT(*) AS total_count, COUNT_UP_TO(100) AS count_upto_100 OVER(SELECT * FROM Task)"
+ *         "AGGREGATE COUNT(*) AS total_count, COUNT_UP_TO(100) AS count_upto_100 OVER(SELECT * FROM Task)"
  *     )
  *     .setAllowLiteral(true)
  *     .build();
@@ -80,10 +73,11 @@ public class AggregationQuery extends Query<AggregationResults> {
   private final Mode mode;
   private GqlQuery<?> nestedGqlQuery;
 
-  AggregationQuery(String namespace, Set<Aggregation> aggregations,
-      StructuredQuery<?> nestedQuery) {
+  AggregationQuery(
+      String namespace, Set<Aggregation> aggregations, StructuredQuery<?> nestedQuery) {
     super(namespace);
-    checkArgument(!aggregations.isEmpty(),
+    checkArgument(
+        !aggregations.isEmpty(),
         "At least one aggregation is required for an aggregation query to run");
     this.aggregations = aggregations;
     this.nestedStructuredQuery = nestedQuery;
@@ -101,16 +95,18 @@ public class AggregationQuery extends Query<AggregationResults> {
     return aggregations;
   }
 
-  /** Returns the underlying {@link StructuredQuery for this Query}.
-   * Returns null if created with {@link GqlQuery}
-   * */
+  /**
+   * Returns the underlying {@link StructuredQuery for this Query}. Returns null if created with
+   * {@link GqlQuery}
+   */
   public StructuredQuery<?> getNestedStructuredQuery() {
     return nestedStructuredQuery;
   }
 
-  /** Returns the underlying {@link GqlQuery for this Query}.
-   * Returns null if created with {@link StructuredQuery}
-   * */
+  /**
+   * Returns the underlying {@link GqlQuery for this Query}. Returns null if created with {@link
+   * StructuredQuery}
+   */
   public GqlQuery<?> getNestedGqlQuery() {
     return nestedGqlQuery;
   }
@@ -161,8 +157,8 @@ public class AggregationQuery extends Query<AggregationResults> {
 
     public AggregationQuery build() {
       boolean nestedQueryProvided = nestedGqlQuery != null || nestedStructuredQuery != null;
-      checkArgument(nestedQueryProvided,
-          "Nested query is required for an aggregation query to run");
+      checkArgument(
+          nestedQueryProvided, "Nested query is required for an aggregation query to run");
 
       if (mode == GQL) {
         return new AggregationQuery(namespace, nestedGqlQuery);

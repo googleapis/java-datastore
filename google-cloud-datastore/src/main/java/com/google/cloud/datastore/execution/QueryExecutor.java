@@ -20,11 +20,11 @@ import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.ReadOption;
 
 /**
- * An internal functional interface whose implementation has the responsibility to execute a
- * {@link Query} and returns the result. This class will have the responsibility to orchestrate
- * between {@link com.google.cloud.datastore.execution.request.ProtoPreparer},
- * {@link com.google.cloud.datastore.spi.v1.DatastoreRpc} and
- * {@link com.google.cloud.datastore.execution.response.ResponseTransformer} layers.
+ * An internal functional interface whose implementation has the responsibility to execute a {@link
+ * Query} and returns the result. This class will have the responsibility to orchestrate between
+ * {@link com.google.cloud.datastore.execution.request.ProtoPreparer}, {@link
+ * com.google.cloud.datastore.spi.v1.DatastoreRpc} and {@link
+ * com.google.cloud.datastore.execution.response.ResponseTransformer} layers.
  *
  * @param <INPUT> A {@link Query} to execute.
  * @param <OUTPUT> the type of result produced by Query.

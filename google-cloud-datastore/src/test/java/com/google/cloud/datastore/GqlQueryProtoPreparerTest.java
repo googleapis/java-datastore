@@ -19,17 +19,13 @@ import static com.google.cloud.datastore.ProtoTestData.gqlQueryParameter;
 import static com.google.cloud.datastore.ProtoTestData.intValue;
 import static com.google.cloud.datastore.ProtoTestData.stringValue;
 import static com.google.cloud.datastore.Query.newGqlQueryBuilder;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.google.datastore.v1.GqlQueryParameter;
-import java.util.Arrays;
-import java.util.Collections;
+import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
-import java.util.Map;
 import org.junit.Test;
 
 public class GqlQueryProtoPreparerTest {
@@ -41,45 +37,38 @@ public class GqlQueryProtoPreparerTest {
   public void testQueryString() {
     com.google.datastore.v1.GqlQuery gqlQuery = protoPreparer.prepare(gqlQueryBuilder.build());
 
-    assertThat(gqlQuery.getQueryString(), equalTo("SELECT * from Character"));
+    assertThat(gqlQuery.getQueryString()).isEqualTo("SELECT * from Character");
   }
 
   @Test
   public void testAllowLiteral() {
-    assertTrue(protoPreparer.prepare(
-        gqlQueryBuilder.setAllowLiteral(true).build()).getAllowLiterals());
-    assertFalse(protoPreparer.prepare(
-        gqlQueryBuilder.setAllowLiteral(false).build()).getAllowLiterals());
+    assertTrue(
+        protoPreparer.prepare(gqlQueryBuilder.setAllowLiteral(true).build()).getAllowLiterals());
+    assertFalse(
+        protoPreparer.prepare(gqlQueryBuilder.setAllowLiteral(false).build()).getAllowLiterals());
   }
 
   @Test
   public void testNamedBinding() {
-    com.google.datastore.v1.GqlQuery gqlQuery = protoPreparer.prepare(
-        gqlQueryBuilder
-            .setBinding("name", "John Doe")
-            .setBinding("age", 27)
-            .build()
-    );
+    com.google.datastore.v1.GqlQuery gqlQuery =
+        protoPreparer.prepare(
+            gqlQueryBuilder.setBinding("name", "John Doe").setBinding("age", 27).build());
 
-    assertThat(gqlQuery.getNamedBindingsMap(), equalTo(new HashMap<String, GqlQueryParameter>() {{
-      put("name", gqlQueryParameter(stringValue("John Doe")));
-      put("age", gqlQueryParameter(intValue(27)));
-    }}));
+    assertThat(gqlQuery.getNamedBindingsMap())
+        .isEqualTo(
+            new HashMap<>(
+                ImmutableMap.of(
+                    "name", gqlQueryParameter(stringValue("John Doe")),
+                    "age", gqlQueryParameter(intValue(27)))));
   }
 
   @Test
   public void testPositionalBinding() {
-    com.google.datastore.v1.GqlQuery gqlQuery = protoPreparer.prepare(
-        gqlQueryBuilder
-            .addBinding("John Doe")
-            .addBinding(27)
-            .build()
-    );
+    com.google.datastore.v1.GqlQuery gqlQuery =
+        protoPreparer.prepare(gqlQueryBuilder.addBinding("John Doe").addBinding(27).build());
 
-    assertThat(gqlQuery.getPositionalBindingsList(), equalTo(asList(
-        gqlQueryParameter(stringValue("John Doe")),
-        gqlQueryParameter(intValue(27))
-    )));
+    assertThat(gqlQuery.getPositionalBindingsList())
+        .isEqualTo(
+            asList(gqlQueryParameter(stringValue("John Doe")), gqlQueryParameter(intValue(27))));
   }
-
 }

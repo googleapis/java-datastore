@@ -72,9 +72,7 @@ public abstract class ReadOption implements Serializable {
     }
   }
 
-  /**
-   * Specifies transaction to be used when running a {@link Query}.
-   */
+  /** Specifies transaction to be used when running a {@link Query}. */
   @InternalApi
   static class TransactionId extends ReadOption {
 
@@ -89,8 +87,7 @@ public abstract class ReadOption implements Serializable {
     }
   }
 
-  private ReadOption() {
-  }
+  private ReadOption() {}
 
   /**
    * Returns a {@code ReadOption} that specifies eventual consistency, allowing Datastore to return
@@ -172,10 +169,9 @@ public abstract class ReadOption implements Serializable {
       return new QueryAndReadOptions<>(query);
     }
 
-    public static <Q extends Query<?>> QueryAndReadOptions<Q> create(Q query,
-        List<ReadOption> readOptions) {
+    public static <Q extends Query<?>> QueryAndReadOptions<Q> create(
+        Q query, List<ReadOption> readOptions) {
       return new QueryAndReadOptions<>(query, readOptions);
     }
   }
-
 }

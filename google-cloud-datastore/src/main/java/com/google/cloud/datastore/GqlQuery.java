@@ -83,7 +83,6 @@ public final class GqlQuery<V> extends Query<V> implements RecordQuery<V> {
 
   private final ResultType<V> resultType;
 
-
   static final class Binding implements Serializable {
 
     private static final long serialVersionUID = 2344746877591371548L;

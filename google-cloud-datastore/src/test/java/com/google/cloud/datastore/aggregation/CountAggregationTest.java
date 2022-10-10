@@ -17,11 +17,9 @@
 package com.google.cloud.datastore.aggregation;
 
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 import com.google.datastore.v1.AggregationQuery;
 import org.junit.Test;
@@ -32,55 +30,28 @@ public class CountAggregationTest {
   public void testCountAggregationWithDefaultValues() {
     AggregationQuery.Aggregation countAggregationPb = count().build().toPb();
 
-    assertThat(countAggregationPb.getCount().getUpTo().getValue(), equalTo(0L));
-    assertThat(countAggregationPb.getAlias(), equalTo(""));
-  }
-
-  @Test
-  public void testCountAggregationWithLimit() {
-    AggregationQuery.Aggregation countAggregationPb = count()
-        .limit(100)
-        .build().toPb();
-
-    assertThat(countAggregationPb.getCount().getUpTo().getValue(), equalTo(100L));
-    assertThat(countAggregationPb.getAlias(), equalTo(""));
+    assertThat(countAggregationPb.getCount().getUpTo().getValue()).isEqualTo(0L);
+    assertThat(countAggregationPb.getAlias()).isEqualTo("");
   }
 
   @Test
   public void testCountAggregationWithAlias() {
-    AggregationQuery.Aggregation countAggregationPb = count()
-        .as("column_1")
-        .build().toPb();
+    AggregationQuery.Aggregation countAggregationPb = count().as("column_1").build().toPb();
 
-    assertThat(countAggregationPb.getCount().getUpTo().getValue(), equalTo(0L));
-    assertThat(countAggregationPb.getAlias(), equalTo("column_1"));
-  }
-
-  @Test
-  public void testCountAggregationWithAliasAndLimit() {
-    AggregationQuery.Aggregation countAggregationPb = count()
-        .as("column_1")
-        .limit(100)
-        .build().toPb();
-
-    assertThat(countAggregationPb.getCount().getUpTo().getValue(), equalTo(100L));
-    assertThat(countAggregationPb.getAlias(), equalTo("column_1"));
+    assertThat(countAggregationPb.getCount().getUpTo().getValue()).isEqualTo(0L);
+    assertThat(countAggregationPb.getAlias()).isEqualTo("column_1");
   }
 
   @Test
   public void testEquals() {
-    CountAggregation.Builder aggregation1 = count()
-        .as("total")
-        .limit(100);
+    CountAggregation.Builder aggregation1 = count().as("total");
 
-    CountAggregation.Builder aggregation2 = count()
-        .as("total")
-        .limit(100);
+    CountAggregation.Builder aggregation2 = count().as("total");
 
     assertEquals(aggregation1.build(), aggregation2.build());
     assertEquals(aggregation2.build(), aggregation1.build());
 
     assertNotEquals(aggregation1.as("new-alias").build(), aggregation2.build());
-    assertNotEquals(aggregation1.limit(399).build(), aggregation2.build());
+    assertNotEquals(aggregation2.build(), aggregation1.as("new-alias").build());
   }
 }

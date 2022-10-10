@@ -53,9 +53,11 @@ public class StructuredQueryProtoPreparer implements ProtoPreparer<StructuredQue
           com.google.datastore.v1.PropertyReference.newBuilder().setName(value).build());
     }
     for (String value : query.getProjection()) {
-      com.google.datastore.v1.Projection expressionPb = com.google.datastore.v1.Projection.newBuilder()
-          .setProperty(com.google.datastore.v1.PropertyReference.newBuilder().setName(value).build())
-          .build();
+      com.google.datastore.v1.Projection expressionPb =
+          com.google.datastore.v1.Projection.newBuilder()
+              .setProperty(
+                  com.google.datastore.v1.PropertyReference.newBuilder().setName(value).build())
+              .build();
       queryPb.addProjection(expressionPb);
     }
 

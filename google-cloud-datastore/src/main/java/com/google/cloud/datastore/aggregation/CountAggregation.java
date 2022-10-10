@@ -18,36 +18,22 @@ package com.google.cloud.datastore.aggregation;
 
 import com.google.datastore.v1.AggregationQuery;
 import com.google.datastore.v1.AggregationQuery.Aggregation.Count;
-import com.google.protobuf.Int64Value;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Consumer;
 
-/**
- * Represents an {@link Aggregation} which returns count.
- */
+/** Represents an {@link Aggregation} which returns count. */
 public class CountAggregation extends Aggregation {
 
-  private final long limit;
-
-  /**
-   * @param alias Alias to used when running this aggregation.
-   * @param limit Specify the number of item to scan to reduce latency and cost.
-   */
-  public CountAggregation(String alias, long limit) {
+  /** @param alias Alias to used when running this aggregation. */
+  public CountAggregation(String alias) {
     super(alias);
-    this.limit = limit;
   }
 
   @Override
   public AggregationQuery.Aggregation toPb() {
     Count.Builder countBuilder = Count.newBuilder();
-    if(limit > 0) {
-      countBuilder.setUpTo(Int64Value.of(limit));
-    }
 
-    AggregationQuery.Aggregation.Builder aggregationBuilder = AggregationQuery.Aggregation.newBuilder()
-        .setCount(countBuilder);
+    AggregationQuery.Aggregation.Builder aggregationBuilder =
+        AggregationQuery.Aggregation.newBuilder().setCount(countBuilder);
     if (this.getAlias() != null) {
       aggregationBuilder.setAlias(this.getAlias());
     }
@@ -63,36 +49,27 @@ public class CountAggregation extends Aggregation {
       return false;
     }
     CountAggregation that = (CountAggregation) o;
-    return limit == that.limit && getAlias().equals(that.getAlias());
+    return getAlias().equals(that.getAlias());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(limit, getAlias());
+    return Objects.hash(getAlias());
   }
 
-  /**
-   * A builder class to create and customize a {@link CountAggregation}.
-   */
+  /** A builder class to create and customize a {@link CountAggregation}. */
   public static class Builder implements AggregationBuilder<CountAggregation> {
 
     private String alias;
-    private long limit;
 
     public Builder as(String alias) {
       this.alias = alias;
       return this;
     }
 
-    public Builder limit(long limit) {
-      this.limit = limit;
-      return this;
-    }
-
     @Override
     public CountAggregation build() {
-      return new CountAggregation(alias, limit);
+      return new CountAggregation(alias);
     }
   }
-
 }

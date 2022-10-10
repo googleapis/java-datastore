@@ -123,7 +123,8 @@ public class Datastore {
     }
   }
 
-  public RunAggregationQueryResponse runAggregationQuery(RunAggregationQueryRequest request) throws DatastoreException {
+  public RunAggregationQueryResponse runAggregationQuery(RunAggregationQueryRequest request)
+      throws DatastoreException {
     try (InputStream is = remoteRpc.call("runAggregationQuery", request)) {
       return RunAggregationQueryResponse.parseFrom(is);
     } catch (IOException exception) {

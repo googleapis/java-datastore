@@ -30,9 +30,7 @@ public abstract class Aggregation {
     this.alias = alias;
   }
 
-  /**
-   * Returns the alias for this aggregation.
-   */
+  /** Returns the alias for this aggregation. */
   public String getAlias() {
     return alias;
   }
@@ -40,9 +38,7 @@ public abstract class Aggregation {
   @InternalApi
   public abstract AggregationQuery.Aggregation toPb();
 
-  /**
-   * Returns a {@link CountAggregation} builder.
-   */
+  /** Returns a {@link CountAggregation} builder. */
   public static CountAggregation.Builder count() {
     return new CountAggregation.Builder();
   }

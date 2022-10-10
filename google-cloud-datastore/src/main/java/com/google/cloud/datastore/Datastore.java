@@ -463,34 +463,30 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
   <T> QueryResults<T> run(Query<T> query, ReadOption... options);
 
   /**
-   * Submits a {@link AggregationQuery} and returns {@link AggregationResults}.
-   * {@link ReadOption}s can be specified if desired.
+   * Submits a {@link AggregationQuery} and returns {@link AggregationResults}. {@link ReadOption}s
+   * can be specified if desired.
    *
    * <p>Example of running an {@link AggregationQuery} to find the count of entities of one kind.
    *
-   * <p>{@link StructuredQuery} example:</p>
-   * <pre>{@code
-   * import static com.google.cloud.datastore.aggregation.Aggregation.count;
+   * <p>{@link StructuredQuery} example:
    *
+   * <pre>{@code
    * EntityQuery selectAllQuery = Query.newEntityQueryBuilder()
    *    .setKind("Task")
    *    .build();
    * AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
    *    .addAggregation(count().as("total_count"))
-   *    .addAggregation(count().limit(100).as("count_upto_100"))
    *    .over(selectAllQuery)
    *    .build();
    * AggregationResults aggregationResults = datastore.runAggregation(aggregationQuery);
    * for (AggregationResult aggregationResult : aggregationResults) {
    *     System.out.println(aggregationResult.get("total_count"));
-   *     System.out.println(aggregationResult.get("count_upto_100"));
    * }
    * }</pre>
    *
    * <h4>{@link GqlQuery} example:</h4>
-   * <pre>{@code
-   * import static com.google.cloud.datastore.aggregation.Aggregation.count;
    *
+   * <pre>{@code
    * GqlQuery<?> selectAllGqlQuery = Query.newGqlQueryBuilder(
    *         "AGGREGATE COUNT(*) AS total_count, COUNT_UP_TO(100) AS count_upto_100 OVER(SELECT * FROM Task)"
    *     )
@@ -505,10 +501,11 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
    *   System.out.println(aggregationResult.get("count_upto_100"));
    * }
    * }</pre>
+   *
    * @throws DatastoreException upon failure
    * @return {@link AggregationResults}
    */
-  default AggregationResults runAggregation(AggregationQuery query, ReadOption... options){
+  default AggregationResults runAggregation(AggregationQuery query, ReadOption... options) {
     throw new UnsupportedOperationException("Not implemented.");
   }
 }

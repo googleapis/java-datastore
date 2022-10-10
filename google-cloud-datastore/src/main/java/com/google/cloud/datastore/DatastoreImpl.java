@@ -22,8 +22,6 @@ import com.google.cloud.ExceptionHandler;
 import com.google.cloud.RetryHelper;
 import com.google.cloud.RetryHelper.RetryHelperException;
 import com.google.cloud.ServiceOptions;
-import com.google.cloud.datastore.ReadOption.EventualConsistency;
-import com.google.cloud.datastore.ReadOption.ReadTime;
 import com.google.cloud.datastore.execution.AggregationQueryExecutor;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.common.base.MoreObjects;
@@ -32,7 +30,7 @@ import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
-import com.google.datastore.v1.ReadOptions.ReadConsistency;
+import com.google.datastore.v1.ReadOptions;
 import com.google.datastore.v1.ReserveIdsRequest;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.protobuf.ByteString;
@@ -47,6 +45,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
@@ -70,10 +69,10 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
         MoreObjects.firstNonNull(options.getRetrySettings(), ServiceOptions.getNoRetrySettings());
 
     readOptionProtoPreparer = new ReadOptionProtoPreparer();
-    aggregationQueryExecutor = new AggregationQueryExecutor(
-        new RetryAndTraceDatastoreRpcDecorator(datastoreRpc, traceUtil, retrySettings, options),
-        options
-    );
+    aggregationQueryExecutor =
+        new AggregationQueryExecutor(
+            new RetryAndTraceDatastoreRpcDecorator(datastoreRpc, traceUtil, retrySettings, options),
+            options);
   }
 
   @Override
@@ -183,7 +182,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   @Override
   public <T> QueryResults<T> run(Query<T> query) {
-    return run(null, query);
+    return run(Optional.empty(), query);
   }
 
   @Override
@@ -191,19 +190,20 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     return run(toReadOptionsPb(options), query);
   }
 
-  //TODO- Need to check whether we can handle this typecasting in a better way
   @SuppressWarnings("unchecked")
-  <T> QueryResults<T> run(com.google.datastore.v1.ReadOptions readOptionsPb, Query<T> query) {
-    return new QueryResultsImpl<T>(this, readOptionsPb, (RecordQuery<T>) query, query.getNamespace());
+  <T> QueryResults<T> run(
+      Optional<com.google.datastore.v1.ReadOptions> readOptionsPb, Query<T> query) {
+    return new QueryResultsImpl<T>(
+        this, readOptionsPb, (RecordQuery<T>) query, query.getNamespace());
   }
 
   @Override
-  public AggregationResults runAggregation(AggregationQuery query){
+  public AggregationResults runAggregation(AggregationQuery query) {
     return aggregationQueryExecutor.execute(query);
   }
 
   @Override
-  public AggregationResults runAggregation(AggregationQuery query, ReadOption... options){
+  public AggregationResults runAggregation(AggregationQuery query, ReadOption... options) {
     return aggregationQueryExecutor.execute(query, options);
   }
 
@@ -352,7 +352,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   @Override
   public Iterator<Entity> get(Key... keys) {
-    return get(null, keys);
+    return get(Optional.empty(), keys);
   }
 
   @Override
@@ -360,11 +360,11 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     return get(toReadOptionsPb(options), Iterables.toArray(keys, Key.class));
   }
 
-  private com.google.datastore.v1.ReadOptions toReadOptionsPb(ReadOption... options) {
-    if (options != null) {
-      return this.readOptionProtoPreparer.prepare(Arrays.asList(options));
+  private Optional<ReadOptions> toReadOptionsPb(ReadOption... options) {
+    if (options == null) {
+      return Optional.empty();
     }
-    return null;
+    return this.readOptionProtoPreparer.prepare(Arrays.asList(options));
   }
 
   @Override
@@ -377,15 +377,14 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     return DatastoreHelper.fetch(this, Iterables.toArray(keys, Key.class), options);
   }
 
-  Iterator<Entity> get(com.google.datastore.v1.ReadOptions readOptionsPb, final Key... keys) {
+  Iterator<Entity> get(
+      Optional<com.google.datastore.v1.ReadOptions> readOptionsPb, final Key... keys) {
     if (keys.length == 0) {
       return Collections.emptyIterator();
     }
     com.google.datastore.v1.LookupRequest.Builder requestPb =
         com.google.datastore.v1.LookupRequest.newBuilder();
-    if (readOptionsPb != null) {
-      requestPb.setReadOptions(readOptionsPb);
-    }
+    readOptionsPb.ifPresent(requestPb::setReadOptions);
     for (Key k : Sets.newLinkedHashSet(Arrays.asList(keys))) {
       requestPb.addKeys(k.toPb());
     }

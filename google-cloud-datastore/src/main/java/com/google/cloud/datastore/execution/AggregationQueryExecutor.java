@@ -33,8 +33,8 @@ import java.util.Arrays;
  * {@link AggregationResults}.
  */
 @InternalApi
-public class AggregationQueryExecutor implements
-    QueryExecutor<AggregationQuery, AggregationResults> {
+public class AggregationQueryExecutor
+    implements QueryExecutor<AggregationQuery, AggregationResults> {
 
   private final DatastoreRpc datastoreRpc;
   private final AggregationQueryRequestProtoPreparer protoPreparer;
@@ -48,18 +48,19 @@ public class AggregationQueryExecutor implements
 
   @Override
   public AggregationResults execute(AggregationQuery query, ReadOption... readOptions) {
-    RunAggregationQueryRequest runAggregationQueryRequest = getRunAggregationQueryRequest(
-        query, readOptions);
-    RunAggregationQueryResponse runAggregationQueryResponse = this.datastoreRpc.runAggregationQuery(
-        runAggregationQueryRequest);
+    RunAggregationQueryRequest runAggregationQueryRequest =
+        getRunAggregationQueryRequest(query, readOptions);
+    RunAggregationQueryResponse runAggregationQueryResponse =
+        this.datastoreRpc.runAggregationQuery(runAggregationQueryRequest);
     return this.responseTransformer.transform(runAggregationQueryResponse);
   }
 
-  private RunAggregationQueryRequest getRunAggregationQueryRequest(AggregationQuery query,
-      ReadOption... readOptions) {
-    QueryAndReadOptions<AggregationQuery> queryAndReadOptions = readOptions == null ?
-        QueryAndReadOptions.create(query) :
-        QueryAndReadOptions.create(query, Arrays.asList(readOptions));
+  private RunAggregationQueryRequest getRunAggregationQueryRequest(
+      AggregationQuery query, ReadOption... readOptions) {
+    QueryAndReadOptions<AggregationQuery> queryAndReadOptions =
+        readOptions == null
+            ? QueryAndReadOptions.create(query)
+            : QueryAndReadOptions.create(query, Arrays.asList(readOptions));
     return this.protoPreparer.prepare(queryAndReadOptions);
   }
 }

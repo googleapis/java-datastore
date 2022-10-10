@@ -104,7 +104,6 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
 
   private final ResultType<V> resultType;
 
-
   public abstract static class Filter implements Serializable {
 
     private static final long serialVersionUID = -6443285436239990860L;
