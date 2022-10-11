@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,85 +52,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   @java.lang.Override
   public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
     return this.unknownFields;
-  }
-
-  private LookupResponse(
-      com.google.protobuf.CodedInputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    this();
-    if (extensionRegistry == null) {
-      throw new java.lang.NullPointerException();
-    }
-    int mutable_bitField0_ = 0;
-    com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-        com.google.protobuf.UnknownFieldSet.newBuilder();
-    try {
-      boolean done = false;
-      while (!done) {
-        int tag = input.readTag();
-        switch (tag) {
-          case 0:
-            done = true;
-            break;
-          case 10:
-            {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                found_ = new java.util.ArrayList<com.google.datastore.v1.EntityResult>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              found_.add(
-                  input.readMessage(
-                      com.google.datastore.v1.EntityResult.parser(), extensionRegistry));
-              break;
-            }
-          case 18:
-            {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
-                missing_ = new java.util.ArrayList<com.google.datastore.v1.EntityResult>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              missing_.add(
-                  input.readMessage(
-                      com.google.datastore.v1.EntityResult.parser(), extensionRegistry));
-              break;
-            }
-          case 26:
-            {
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
-                deferred_ = new java.util.ArrayList<com.google.datastore.v1.Key>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              deferred_.add(
-                  input.readMessage(com.google.datastore.v1.Key.parser(), extensionRegistry));
-              break;
-            }
-          default:
-            {
-              if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-        }
-      }
-    } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-      throw e.setUnfinishedMessage(this);
-    } catch (java.io.IOException e) {
-      throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
-    } finally {
-      if (((mutable_bitField0_ & 0x00000001) != 0)) {
-        found_ = java.util.Collections.unmodifiableList(found_);
-      }
-      if (((mutable_bitField0_ & 0x00000002) != 0)) {
-        missing_ = java.util.Collections.unmodifiableList(missing_);
-      }
-      if (((mutable_bitField0_ & 0x00000004) != 0)) {
-        deferred_ = java.util.Collections.unmodifiableList(deferred_);
-      }
-      this.unknownFields = unknownFields.build();
-      makeExtensionsImmutable();
-    }
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
@@ -407,7 +328,7 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
     for (int i = 0; i < deferred_.size(); i++) {
       output.writeMessage(3, deferred_.get(i));
     }
-    unknownFields.writeTo(output);
+    getUnknownFields().writeTo(output);
   }
 
   @java.lang.Override
@@ -425,7 +346,7 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
     for (int i = 0; i < deferred_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream.computeMessageSize(3, deferred_.get(i));
     }
-    size += unknownFields.getSerializedSize();
+    size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
     return size;
   }
@@ -443,7 +364,7 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
     if (!getFoundList().equals(other.getFoundList())) return false;
     if (!getMissingList().equals(other.getMissingList())) return false;
     if (!getDeferredList().equals(other.getDeferredList())) return false;
-    if (!unknownFields.equals(other.unknownFields)) return false;
+    if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
 
@@ -466,7 +387,7 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       hash = (37 * hash) + DEFERRED_FIELD_NUMBER;
       hash = (53 * hash) + getDeferredList().hashCode();
     }
-    hash = (29 * hash) + unknownFields.hashCode();
+    hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
   }
@@ -595,21 +516,10 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
     }
 
     // Construct using com.google.datastore.v1.LookupResponse.newBuilder()
-    private Builder() {
-      maybeForceBuilderInitialization();
-    }
+    private Builder() {}
 
     private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
-      maybeForceBuilderInitialization();
-    }
-
-    private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {
-        getFoundFieldBuilder();
-        getMissingFieldBuilder();
-        getDeferredFieldBuilder();
-      }
     }
 
     @java.lang.Override
@@ -617,22 +527,25 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       super.clear();
       if (foundBuilder_ == null) {
         found_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000001);
       } else {
+        found_ = null;
         foundBuilder_.clear();
       }
+      bitField0_ = (bitField0_ & ~0x00000001);
       if (missingBuilder_ == null) {
         missing_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
       } else {
+        missing_ = null;
         missingBuilder_.clear();
       }
+      bitField0_ = (bitField0_ & ~0x00000002);
       if (deferredBuilder_ == null) {
         deferred_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
       } else {
+        deferred_ = null;
         deferredBuilder_.clear();
       }
+      bitField0_ = (bitField0_ & ~0x00000004);
       return this;
     }
 
@@ -818,7 +731,7 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
           }
         }
       }
-      this.mergeUnknownFields(other.unknownFields);
+      this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
       return this;
     }
@@ -833,17 +746,69 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.google.datastore.v1.LookupResponse parsedMessage = null;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       try {
-        parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10:
+              {
+                com.google.datastore.v1.EntityResult m =
+                    input.readMessage(
+                        com.google.datastore.v1.EntityResult.parser(), extensionRegistry);
+                if (foundBuilder_ == null) {
+                  ensureFoundIsMutable();
+                  found_.add(m);
+                } else {
+                  foundBuilder_.addMessage(m);
+                }
+                break;
+              } // case 10
+            case 18:
+              {
+                com.google.datastore.v1.EntityResult m =
+                    input.readMessage(
+                        com.google.datastore.v1.EntityResult.parser(), extensionRegistry);
+                if (missingBuilder_ == null) {
+                  ensureMissingIsMutable();
+                  missing_.add(m);
+                } else {
+                  missingBuilder_.addMessage(m);
+                }
+                break;
+              } // case 18
+            case 26:
+              {
+                com.google.datastore.v1.Key m =
+                    input.readMessage(com.google.datastore.v1.Key.parser(), extensionRegistry);
+                if (deferredBuilder_ == null) {
+                  ensureDeferredIsMutable();
+                  deferred_.add(m);
+                } else {
+                  deferredBuilder_.addMessage(m);
+                }
+                break;
+              } // case 26
+            default:
+              {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+          } // switch (tag)
+        } // while (!done)
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.google.datastore.v1.LookupResponse) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
-        if (parsedMessage != null) {
-          mergeFrom(parsedMessage);
-        }
-      }
+        onChanged();
+      } // finally
       return this;
     }
 
@@ -2030,7 +1995,18 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LookupResponse(input, extensionRegistry);
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
         }
       };
 

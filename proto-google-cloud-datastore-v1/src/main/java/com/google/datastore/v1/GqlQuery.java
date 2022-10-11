@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,90 +52,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
   @java.lang.Override
   public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
     return this.unknownFields;
-  }
-
-  private GqlQuery(
-      com.google.protobuf.CodedInputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    this();
-    if (extensionRegistry == null) {
-      throw new java.lang.NullPointerException();
-    }
-    int mutable_bitField0_ = 0;
-    com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-        com.google.protobuf.UnknownFieldSet.newBuilder();
-    try {
-      boolean done = false;
-      while (!done) {
-        int tag = input.readTag();
-        switch (tag) {
-          case 0:
-            done = true;
-            break;
-          case 10:
-            {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              queryString_ = s;
-              break;
-            }
-          case 16:
-            {
-              allowLiterals_ = input.readBool();
-              break;
-            }
-          case 34:
-            {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
-                positionalBindings_ =
-                    new java.util.ArrayList<com.google.datastore.v1.GqlQueryParameter>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              positionalBindings_.add(
-                  input.readMessage(
-                      com.google.datastore.v1.GqlQueryParameter.parser(), extensionRegistry));
-              break;
-            }
-          case 42:
-            {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                namedBindings_ =
-                    com.google.protobuf.MapField.newMapField(
-                        NamedBindingsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000001;
-              }
-              com.google.protobuf.MapEntry<
-                      java.lang.String, com.google.datastore.v1.GqlQueryParameter>
-                  namedBindings__ =
-                      input.readMessage(
-                          NamedBindingsDefaultEntryHolder.defaultEntry.getParserForType(),
-                          extensionRegistry);
-              namedBindings_
-                  .getMutableMap()
-                  .put(namedBindings__.getKey(), namedBindings__.getValue());
-              break;
-            }
-          default:
-            {
-              if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-        }
-      }
-    } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-      throw e.setUnfinishedMessage(this);
-    } catch (java.io.IOException e) {
-      throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
-    } finally {
-      if (((mutable_bitField0_ & 0x00000002) != 0)) {
-        positionalBindings_ = java.util.Collections.unmodifiableList(positionalBindings_);
-      }
-      this.unknownFields = unknownFields.build();
-      makeExtensionsImmutable();
-    }
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
@@ -281,7 +197,7 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
   @java.lang.Override
   public boolean containsNamedBindings(java.lang.String key) {
     if (key == null) {
-      throw new java.lang.NullPointerException();
+      throw new NullPointerException("map key");
     }
     return internalGetNamedBindings().getMap().containsKey(key);
   }
@@ -325,7 +241,7 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.GqlQueryParameter getNamedBindingsOrDefault(
       java.lang.String key, com.google.datastore.v1.GqlQueryParameter defaultValue) {
     if (key == null) {
-      throw new java.lang.NullPointerException();
+      throw new NullPointerException("map key");
     }
     java.util.Map<java.lang.String, com.google.datastore.v1.GqlQueryParameter> map =
         internalGetNamedBindings().getMap();
@@ -346,7 +262,7 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
   @java.lang.Override
   public com.google.datastore.v1.GqlQueryParameter getNamedBindingsOrThrow(java.lang.String key) {
     if (key == null) {
-      throw new java.lang.NullPointerException();
+      throw new NullPointerException("map key");
     }
     java.util.Map<java.lang.String, com.google.datastore.v1.GqlQueryParameter> map =
         internalGetNamedBindings().getMap();
@@ -466,7 +382,7 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     }
     com.google.protobuf.GeneratedMessageV3.serializeStringMapTo(
         output, internalGetNamedBindings(), NamedBindingsDefaultEntryHolder.defaultEntry, 5);
-    unknownFields.writeTo(output);
+    getUnknownFields().writeTo(output);
   }
 
   @java.lang.Override
@@ -496,7 +412,7 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
                   .build();
       size += com.google.protobuf.CodedOutputStream.computeMessageSize(5, namedBindings__);
     }
-    size += unknownFields.getSerializedSize();
+    size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
     return size;
   }
@@ -515,7 +431,7 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     if (getAllowLiterals() != other.getAllowLiterals()) return false;
     if (!internalGetNamedBindings().equals(other.internalGetNamedBindings())) return false;
     if (!getPositionalBindingsList().equals(other.getPositionalBindingsList())) return false;
-    if (!unknownFields.equals(other.unknownFields)) return false;
+    if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
 
@@ -538,7 +454,7 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       hash = (37 * hash) + POSITIONAL_BINDINGS_FIELD_NUMBER;
       hash = (53 * hash) + getPositionalBindingsList().hashCode();
     }
-    hash = (29 * hash) + unknownFields.hashCode();
+    hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
   }
@@ -687,19 +603,10 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     }
 
     // Construct using com.google.datastore.v1.GqlQuery.newBuilder()
-    private Builder() {
-      maybeForceBuilderInitialization();
-    }
+    private Builder() {}
 
     private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
-      maybeForceBuilderInitialization();
-    }
-
-    private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {
-        getPositionalBindingsFieldBuilder();
-      }
     }
 
     @java.lang.Override
@@ -712,10 +619,11 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       internalGetMutableNamedBindings().clear();
       if (positionalBindingsBuilder_ == null) {
         positionalBindings_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
       } else {
+        positionalBindings_ = null;
         positionalBindingsBuilder_.clear();
       }
+      bitField0_ = (bitField0_ & ~0x00000002);
       return this;
     }
 
@@ -840,7 +748,7 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
           }
         }
       }
-      this.mergeUnknownFields(other.unknownFields);
+      this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
       return this;
     }
@@ -855,17 +763,69 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.google.datastore.v1.GqlQuery parsedMessage = null;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       try {
-        parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10:
+              {
+                queryString_ = input.readStringRequireUtf8();
+
+                break;
+              } // case 10
+            case 16:
+              {
+                allowLiterals_ = input.readBool();
+
+                break;
+              } // case 16
+            case 34:
+              {
+                com.google.datastore.v1.GqlQueryParameter m =
+                    input.readMessage(
+                        com.google.datastore.v1.GqlQueryParameter.parser(), extensionRegistry);
+                if (positionalBindingsBuilder_ == null) {
+                  ensurePositionalBindingsIsMutable();
+                  positionalBindings_.add(m);
+                } else {
+                  positionalBindingsBuilder_.addMessage(m);
+                }
+                break;
+              } // case 34
+            case 42:
+              {
+                com.google.protobuf.MapEntry<
+                        java.lang.String, com.google.datastore.v1.GqlQueryParameter>
+                    namedBindings__ =
+                        input.readMessage(
+                            NamedBindingsDefaultEntryHolder.defaultEntry.getParserForType(),
+                            extensionRegistry);
+                internalGetMutableNamedBindings()
+                    .getMutableMap()
+                    .put(namedBindings__.getKey(), namedBindings__.getValue());
+                break;
+              } // case 42
+            default:
+              {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+          } // switch (tag)
+        } // while (!done)
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.google.datastore.v1.GqlQuery) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
-        if (parsedMessage != null) {
-          mergeFrom(parsedMessage);
-        }
-      }
+        onChanged();
+      } // finally
       return this;
     }
 
@@ -1090,7 +1050,7 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     @java.lang.Override
     public boolean containsNamedBindings(java.lang.String key) {
       if (key == null) {
-        throw new java.lang.NullPointerException();
+        throw new NullPointerException("map key");
       }
       return internalGetNamedBindings().getMap().containsKey(key);
     }
@@ -1134,7 +1094,7 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     public com.google.datastore.v1.GqlQueryParameter getNamedBindingsOrDefault(
         java.lang.String key, com.google.datastore.v1.GqlQueryParameter defaultValue) {
       if (key == null) {
-        throw new java.lang.NullPointerException();
+        throw new NullPointerException("map key");
       }
       java.util.Map<java.lang.String, com.google.datastore.v1.GqlQueryParameter> map =
           internalGetNamedBindings().getMap();
@@ -1155,7 +1115,7 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     @java.lang.Override
     public com.google.datastore.v1.GqlQueryParameter getNamedBindingsOrThrow(java.lang.String key) {
       if (key == null) {
-        throw new java.lang.NullPointerException();
+        throw new NullPointerException("map key");
       }
       java.util.Map<java.lang.String, com.google.datastore.v1.GqlQueryParameter> map =
           internalGetNamedBindings().getMap();
@@ -1183,7 +1143,7 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
      */
     public Builder removeNamedBindings(java.lang.String key) {
       if (key == null) {
-        throw new java.lang.NullPointerException();
+        throw new NullPointerException("map key");
       }
       internalGetMutableNamedBindings().getMutableMap().remove(key);
       return this;
@@ -1209,11 +1169,12 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     public Builder putNamedBindings(
         java.lang.String key, com.google.datastore.v1.GqlQueryParameter value) {
       if (key == null) {
-        throw new java.lang.NullPointerException();
+        throw new NullPointerException("map key");
       }
       if (value == null) {
-        throw new java.lang.NullPointerException();
+        throw new NullPointerException("map value");
       }
+
       internalGetMutableNamedBindings().getMutableMap().put(key, value);
       return this;
     }
@@ -1680,7 +1641,18 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GqlQuery(input, extensionRegistry);
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
         }
       };
 
