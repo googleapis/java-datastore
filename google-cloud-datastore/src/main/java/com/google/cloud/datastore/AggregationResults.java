@@ -17,6 +17,7 @@ package com.google.cloud.datastore;
 
 import static com.google.api.client.util.Preconditions.checkNotNull;
 
+import com.google.api.core.BetaApi;
 import com.google.api.core.InternalApi;
 import com.google.cloud.Timestamp;
 import java.util.Iterator;
@@ -35,6 +36,7 @@ import java.util.Objects;
  * <p>In the future, we might support more complex {@link AggregationQuery} that might result in
  * multiple {@link AggregationResult}
  */
+@BetaApi
 public class AggregationResults implements Iterable<AggregationResult> {
 
   private final List<AggregationResult> aggregationResults;

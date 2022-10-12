@@ -18,6 +18,7 @@ package com.google.cloud.datastore;
 import static com.google.cloud.BaseService.EXCEPTION_HANDLER;
 import static com.google.cloud.datastore.TraceUtil.SPAN_NAME_RUN_AGGREGATION_QUERY;
 
+import com.google.api.core.InternalApi;
 import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.RetryHelper;
 import com.google.cloud.RetryHelper.RetryHelperException;
@@ -47,6 +48,7 @@ import java.util.concurrent.Callable;
  * An implementation of {@link DatastoreRpc} which acts as a Decorator and decorates the underlying
  * {@link DatastoreRpc} with the logic of retry and Traceability.
  */
+@InternalApi
 public class RetryAndTraceDatastoreRpcDecorator implements DatastoreRpc {
 
   private final DatastoreRpc datastoreRpc;

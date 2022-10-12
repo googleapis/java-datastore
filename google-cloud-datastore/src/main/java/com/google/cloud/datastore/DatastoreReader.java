@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore;
 
+import com.google.api.core.BetaApi;
 import java.util.Iterator;
 import java.util.List;
 
@@ -59,6 +60,7 @@ public interface DatastoreReader {
    *
    * @throws DatastoreException upon failure
    */
+  @BetaApi
   default AggregationResults runAggregation(AggregationQuery query) {
     throw new UnsupportedOperationException("Not implemented.");
   }
