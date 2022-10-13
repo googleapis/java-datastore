@@ -18,9 +18,8 @@ package com.example.datastore;
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.KeyQuery;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.common.collect.ImmutableList;
@@ -29,7 +28,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
 
 public class AggregationQuerySampleTestIT {
 
@@ -42,10 +40,9 @@ public class AggregationQuerySampleTestIT {
 
   @After
   public void tearDown() throws Exception {
-    EntityQuery allEntitiesQuery = Query.newEntityQueryBuilder().build();
-    QueryResults<Entity> allEntities = datastore.run(allEntitiesQuery);
-    Key[] keysToDelete =
-        ImmutableList.copyOf(allEntities).stream().map(Entity::getKey).toArray(Key[]::new);
+    KeyQuery allKeysQuery = Query.newKeyQueryBuilder().build();
+    QueryResults<Key> allKeys = datastore.run(allKeysQuery);
+    Key[] keysToDelete = ImmutableList.copyOf(allKeys).toArray(new Key[0]);
     datastore.delete(keysToDelete);
   }
 
