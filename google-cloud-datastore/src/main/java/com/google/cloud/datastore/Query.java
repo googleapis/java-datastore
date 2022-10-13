@@ -16,7 +16,6 @@
 
 package com.google.cloud.datastore;
 
-
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.collect.Maps;
