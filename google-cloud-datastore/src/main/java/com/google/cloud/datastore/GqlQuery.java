@@ -19,6 +19,7 @@ package com.google.cloud.datastore;
 import static com.google.cloud.datastore.Validator.validateNamespace;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.api.core.InternalApi;
 import com.google.cloud.Timestamp;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
@@ -452,10 +453,12 @@ public final class GqlQuery<V> extends Query<V> {
     return builder.buildOrThrow();
   }
 
+  @InternalApi
   public Map<String, Binding> getNamedBindingsMap() {
     return namedBindings;
   }
 
+  @InternalApi
   public List<Binding> getPositionalBindingsMap() {
     return positionalBindings;
   }
