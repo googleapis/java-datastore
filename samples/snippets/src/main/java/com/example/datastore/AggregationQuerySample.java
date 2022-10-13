@@ -116,7 +116,7 @@ public class AggregationQuerySample {
   }
 
   public void aggregationQueryAndCountAggregationWithOrderBy() {
-    // [START datastore_count_aggregation_query_with_limit]
+    // [START datastore_count_aggregation_query_with_order_by]
 
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
@@ -151,7 +151,7 @@ public class AggregationQuerySample {
     System.out.printf("Total %d candidates found with rank field",
         limitQueryResult.get("count")); // 2
 
-    // [END datastore_count_aggregation_query_with_limit]
+    // [END datastore_count_aggregation_query_with_order_by]
   }
 
   public void aggregationQueryAndCountAggregationWithPropertyFilter() {
