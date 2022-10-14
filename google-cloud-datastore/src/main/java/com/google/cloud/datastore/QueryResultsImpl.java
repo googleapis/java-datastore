@@ -32,7 +32,7 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
   private final Optional<ReadOptions> readOptionsPb;
   private final com.google.datastore.v1.PartitionId partitionIdPb;
   private final ResultType<T> queryResultType;
-  private Query<T> query;
+  private RecordQuery<T> query;
   private ResultType<?> actualResultType;
   private com.google.datastore.v1.RunQueryResponse runQueryResponsePb;
   private com.google.datastore.v1.Query mostRecentQueryPb;
@@ -41,7 +41,11 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
   private ByteString cursor;
   private MoreResultsType moreResults;
 
-  QueryResultsImpl(DatastoreImpl datastore, Optional<ReadOptions> readOptionsPb, Query<T> query) {
+  QueryResultsImpl(
+      DatastoreImpl datastore,
+      Optional<ReadOptions> readOptionsPb,
+      RecordQuery<T> query,
+      String namespace) {
     this.datastore = datastore;
     this.readOptionsPb = readOptionsPb;
     this.query = query;
@@ -49,8 +53,8 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
     com.google.datastore.v1.PartitionId.Builder pbBuilder =
         com.google.datastore.v1.PartitionId.newBuilder();
     pbBuilder.setProjectId(datastore.getOptions().getProjectId());
-    if (query.getNamespace() != null) {
-      pbBuilder.setNamespaceId(query.getNamespace());
+    if (namespace != null) {
+      pbBuilder.setNamespaceId(namespace);
     } else if (datastore.getOptions().getNamespace() != null) {
       pbBuilder.setNamespaceId(datastore.getOptions().getNamespace());
     }
