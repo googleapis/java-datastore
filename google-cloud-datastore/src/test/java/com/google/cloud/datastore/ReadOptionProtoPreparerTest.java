@@ -33,7 +33,7 @@ import org.junit.Test;
 
 public class ReadOptionProtoPreparerTest {
 
-  private ReadOptionProtoPreparer protoPreparer = new ReadOptionProtoPreparer();
+  private final ReadOptionProtoPreparer protoPreparer = new ReadOptionProtoPreparer();
 
   @Test
   public void shouldThrowErrorWhenUsingMultipleReadOptions() {

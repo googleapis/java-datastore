@@ -22,6 +22,7 @@ import com.google.cloud.datastore.Query.ResultType;
 @InternalApi
 public interface RecordQuery<V> {
 
+  @InternalApi
   ResultType<V> getType();
 
   @InternalApi
