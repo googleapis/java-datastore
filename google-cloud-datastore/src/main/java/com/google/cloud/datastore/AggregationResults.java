@@ -28,13 +28,7 @@ import java.util.Objects;
  * The result of an {@link AggregationQuery} query submission. Contains a {@link
  * List<AggregationResult>} and readTime {@link Timestamp} in it.
  *
- * <p>This can be used to iterate over underlying {@link List<AggregationResult>} directly.
- *
- * <p>Though {@link com.google.cloud.datastore.aggregation.CountAggregation} is guaranteed to return
- * only one {@link AggregationResult} as part of its execution.
- *
- * <p>In the future, we might support more complex {@link AggregationQuery} that might result in
- * multiple {@link AggregationResult}
+ * <p>This can be used to iterate over an underlying {@link List<AggregationResult>} directly.
  */
 @BetaApi
 public class AggregationResults implements Iterable<AggregationResult> {

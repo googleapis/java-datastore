@@ -82,7 +82,7 @@ public class AggregationQueryExecutorTest {
             .over(nestedQuery)
             .build();
 
-    RunAggregationQueryResponse runAggregationQueryResponse = dummyAggregationQueryResponse();
+    RunAggregationQueryResponse runAggregationQueryResponse = placeholderAggregationQueryResponse();
     expect(mockRpc.runAggregationQuery(anyObject(RunAggregationQueryRequest.class)))
         .andReturn(runAggregationQueryResponse);
 
@@ -120,7 +120,7 @@ public class AggregationQueryExecutorTest {
             .over(nestedQuery)
             .build();
 
-    RunAggregationQueryResponse runAggregationQueryResponse = dummyAggregationQueryResponse();
+    RunAggregationQueryResponse runAggregationQueryResponse = placeholderAggregationQueryResponse();
     expect(mockRpc.runAggregationQuery(matches(runAggregationRequestWithEventualConsistency())))
         .andReturn(runAggregationQueryResponse);
 
@@ -143,7 +143,7 @@ public class AggregationQueryExecutorTest {
                 Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime())));
   }
 
-  private RunAggregationQueryResponse dummyAggregationQueryResponse() {
+  private RunAggregationQueryResponse placeholderAggregationQueryResponse() {
     Map<String, Value> result1 =
         new HashMap<>(
             ImmutableMap.of(
