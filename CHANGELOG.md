@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.11](https://github.com/googleapis/java-datastore/compare/v2.2.10...v2.2.11) (2022-10-17)
+
+
+### Dependencies
+
+* Regenerating with new Protobuf (2.2.x) ([#873](https://github.com/googleapis/java-datastore/issues/873)) ([9b3d60b](https://github.com/googleapis/java-datastore/commit/9b3d60b55c5d79dcc96a47a680aee6828b84de80))
+
 ### [2.2.10](https://github.com/googleapis/java-datastore/compare/v2.2.9...v2.2.10) (2022-04-20)
 
 
