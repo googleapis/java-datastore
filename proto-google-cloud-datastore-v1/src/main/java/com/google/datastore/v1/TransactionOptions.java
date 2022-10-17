@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,79 +51,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
   @java.lang.Override
   public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
     return this.unknownFields;
-  }
-
-  private TransactionOptions(
-      com.google.protobuf.CodedInputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    this();
-    if (extensionRegistry == null) {
-      throw new java.lang.NullPointerException();
-    }
-    com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-        com.google.protobuf.UnknownFieldSet.newBuilder();
-    try {
-      boolean done = false;
-      while (!done) {
-        int tag = input.readTag();
-        switch (tag) {
-          case 0:
-            done = true;
-            break;
-          case 10:
-            {
-              com.google.datastore.v1.TransactionOptions.ReadWrite.Builder subBuilder = null;
-              if (modeCase_ == 1) {
-                subBuilder =
-                    ((com.google.datastore.v1.TransactionOptions.ReadWrite) mode_).toBuilder();
-              }
-              mode_ =
-                  input.readMessage(
-                      com.google.datastore.v1.TransactionOptions.ReadWrite.parser(),
-                      extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((com.google.datastore.v1.TransactionOptions.ReadWrite) mode_);
-                mode_ = subBuilder.buildPartial();
-              }
-              modeCase_ = 1;
-              break;
-            }
-          case 18:
-            {
-              com.google.datastore.v1.TransactionOptions.ReadOnly.Builder subBuilder = null;
-              if (modeCase_ == 2) {
-                subBuilder =
-                    ((com.google.datastore.v1.TransactionOptions.ReadOnly) mode_).toBuilder();
-              }
-              mode_ =
-                  input.readMessage(
-                      com.google.datastore.v1.TransactionOptions.ReadOnly.parser(),
-                      extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((com.google.datastore.v1.TransactionOptions.ReadOnly) mode_);
-                mode_ = subBuilder.buildPartial();
-              }
-              modeCase_ = 2;
-              break;
-            }
-          default:
-            {
-              if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-        }
-      }
-    } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-      throw e.setUnfinishedMessage(this);
-    } catch (java.io.IOException e) {
-      throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
-    } finally {
-      this.unknownFields = unknownFields.build();
-      makeExtensionsImmutable();
-    }
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
@@ -193,48 +120,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       return this.unknownFields;
     }
 
-    private ReadWrite(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10:
-              {
-                previousTransaction_ = input.readBytes();
-                break;
-              }
-            default:
-              {
-                if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-
     public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
       return com.google.datastore.v1.DatastoreProto
           .internal_static_google_datastore_v1_TransactionOptions_ReadWrite_descriptor;
@@ -285,7 +170,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       if (!previousTransaction_.isEmpty()) {
         output.writeBytes(1, previousTransaction_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -297,7 +182,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       if (!previousTransaction_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream.computeBytesSize(1, previousTransaction_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -314,7 +199,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
           (com.google.datastore.v1.TransactionOptions.ReadWrite) obj;
 
       if (!getPreviousTransaction().equals(other.getPreviousTransaction())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -327,7 +212,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + PREVIOUS_TRANSACTION_FIELD_NUMBER;
       hash = (53 * hash) + getPreviousTransaction().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -459,17 +344,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       }
 
       // Construct using com.google.datastore.v1.TransactionOptions.ReadWrite.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
+      private Builder() {}
 
       private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {}
       }
 
       @java.lang.Override
@@ -560,7 +438,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
         if (other.getPreviousTransaction() != com.google.protobuf.ByteString.EMPTY) {
           setPreviousTransaction(other.getPreviousTransaction());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -575,18 +453,37 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.google.datastore.v1.TransactionOptions.ReadWrite parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10:
+                {
+                  previousTransaction_ = input.readBytes();
+
+                  break;
+                } // case 10
+              default:
+                {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage =
-              (com.google.datastore.v1.TransactionOptions.ReadWrite) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
 
@@ -679,7 +576,19 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
-            return new ReadWrite(input, extensionRegistry);
+            Builder builder = newBuilder();
+            try {
+              builder.mergeFrom(input, extensionRegistry);
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.setUnfinishedMessage(builder.buildPartial());
+            } catch (com.google.protobuf.UninitializedMessageException e) {
+              throw e.asInvalidProtocolBufferException()
+                  .setUnfinishedMessage(builder.buildPartial());
+            } catch (java.io.IOException e) {
+              throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                  .setUnfinishedMessage(builder.buildPartial());
+            }
+            return builder.buildPartial();
           }
         };
 
@@ -734,43 +643,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       return this.unknownFields;
     }
 
-    private ReadOnly(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default:
-              {
-                if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-
     public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
       return com.google.datastore.v1.DatastoreProto
           .internal_static_google_datastore_v1_TransactionOptions_ReadOnly_descriptor;
@@ -800,7 +672,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
 
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -809,7 +681,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       if (size != -1) return size;
 
       size = 0;
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -825,7 +697,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       com.google.datastore.v1.TransactionOptions.ReadOnly other =
           (com.google.datastore.v1.TransactionOptions.ReadOnly) obj;
 
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -836,7 +708,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -968,17 +840,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       }
 
       // Construct using com.google.datastore.v1.TransactionOptions.ReadOnly.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
+      private Builder() {}
 
       private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {}
       }
 
       @java.lang.Override
@@ -1063,7 +928,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       public Builder mergeFrom(com.google.datastore.v1.TransactionOptions.ReadOnly other) {
         if (other == com.google.datastore.v1.TransactionOptions.ReadOnly.getDefaultInstance())
           return this;
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -1078,18 +943,31 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.google.datastore.v1.TransactionOptions.ReadOnly parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default:
+                {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage =
-              (com.google.datastore.v1.TransactionOptions.ReadOnly) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
 
@@ -1126,7 +1004,19 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
-            return new ReadOnly(input, extensionRegistry);
+            Builder builder = newBuilder();
+            try {
+              builder.mergeFrom(input, extensionRegistry);
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.setUnfinishedMessage(builder.buildPartial());
+            } catch (com.google.protobuf.UninitializedMessageException e) {
+              throw e.asInvalidProtocolBufferException()
+                  .setUnfinishedMessage(builder.buildPartial());
+            } catch (java.io.IOException e) {
+              throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                  .setUnfinishedMessage(builder.buildPartial());
+            }
+            return builder.buildPartial();
           }
         };
 
@@ -1314,7 +1204,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     if (modeCase_ == 2) {
       output.writeMessage(2, (com.google.datastore.v1.TransactionOptions.ReadOnly) mode_);
     }
-    unknownFields.writeTo(output);
+    getUnknownFields().writeTo(output);
   }
 
   @java.lang.Override
@@ -1333,7 +1223,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
           com.google.protobuf.CodedOutputStream.computeMessageSize(
               2, (com.google.datastore.v1.TransactionOptions.ReadOnly) mode_);
     }
-    size += unknownFields.getSerializedSize();
+    size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
     return size;
   }
@@ -1360,7 +1250,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       case 0:
       default:
     }
-    if (!unknownFields.equals(other.unknownFields)) return false;
+    if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
 
@@ -1383,7 +1273,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       case 0:
       default:
     }
-    hash = (29 * hash) + unknownFields.hashCode();
+    hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
   }
@@ -1515,22 +1405,21 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     }
 
     // Construct using com.google.datastore.v1.TransactionOptions.newBuilder()
-    private Builder() {
-      maybeForceBuilderInitialization();
-    }
+    private Builder() {}
 
     private Builder(com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
-      maybeForceBuilderInitialization();
-    }
-
-    private void maybeForceBuilderInitialization() {
-      if (com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders) {}
     }
 
     @java.lang.Override
     public Builder clear() {
       super.clear();
+      if (readWriteBuilder_ != null) {
+        readWriteBuilder_.clear();
+      }
+      if (readOnlyBuilder_ != null) {
+        readOnlyBuilder_.clear();
+      }
       modeCase_ = 0;
       mode_ = null;
       return this;
@@ -1640,7 +1529,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
             break;
           }
       }
-      this.mergeUnknownFields(other.unknownFields);
+      this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
       return this;
     }
@@ -1655,17 +1544,43 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.google.datastore.v1.TransactionOptions parsedMessage = null;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       try {
-        parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10:
+              {
+                input.readMessage(getReadWriteFieldBuilder().getBuilder(), extensionRegistry);
+                modeCase_ = 1;
+                break;
+              } // case 10
+            case 18:
+              {
+                input.readMessage(getReadOnlyFieldBuilder().getBuilder(), extensionRegistry);
+                modeCase_ = 2;
+                break;
+              } // case 18
+            default:
+              {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+          } // switch (tag)
+        } // while (!done)
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.google.datastore.v1.TransactionOptions) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
-        if (parsedMessage != null) {
-          mergeFrom(parsedMessage);
-        }
-      }
+        onChanged();
+      } // finally
       return this;
     }
 
@@ -2133,7 +2048,18 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TransactionOptions(input, extensionRegistry);
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
         }
       };
 
