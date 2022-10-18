@@ -540,7 +540,7 @@ public class DatastoreTest {
 
   @Test
   public void testRunAggregationQuery() {
-    RunAggregationQueryResponse aggregationQueryResponse = dummyAggregationQueryResponse();
+    RunAggregationQueryResponse aggregationQueryResponse = placeholderAggregationQueryResponse();
     EasyMock.expect(rpcMock.runAggregationQuery(matches(aggregationQueryWithAlias("total_count"))))
         .andReturn(aggregationQueryResponse);
     EasyMock.replay(rpcFactoryMock, rpcMock);
@@ -1345,7 +1345,7 @@ public class DatastoreTest {
     datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
   }
 
-  private RunAggregationQueryResponse dummyAggregationQueryResponse() {
+  private RunAggregationQueryResponse placeholderAggregationQueryResponse() {
     Map<String, com.google.datastore.v1.Value> result1 =
         new HashMap<>(ImmutableMap.of("total_count", intValue(209)));
 

@@ -18,6 +18,8 @@ package com.google.cloud.datastore;
 
 import static com.google.cloud.datastore.ReadOption.transactionId;
 
+import com.google.common.collect.ImmutableList;
+import com.google.datastore.v1.ReadOptions;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.protobuf.ByteString;
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ final class TransactionImpl extends BaseDatastoreBatchWriter implements Transact
   private final DatastoreImpl datastore;
   private final ByteString transactionId;
   private boolean rolledback;
+
+  private final ReadOptionProtoPreparer readOptionProtoPreparer;
 
   static class ResponseImpl implements Transaction.Response {
 
@@ -68,6 +72,7 @@ final class TransactionImpl extends BaseDatastoreBatchWriter implements Transact
     }
 
     transactionId = datastore.requestTransactionId(requestPb);
+    this.readOptionProtoPreparer = new ReadOptionProtoPreparer();
   }
 
   @Override
@@ -78,10 +83,9 @@ final class TransactionImpl extends BaseDatastoreBatchWriter implements Transact
   @Override
   public Iterator<Entity> get(Key... keys) {
     validateActive();
-    com.google.datastore.v1.ReadOptions.Builder readOptionsPb =
-        com.google.datastore.v1.ReadOptions.newBuilder();
-    readOptionsPb.setTransaction(transactionId);
-    return datastore.get(Optional.of(readOptionsPb.build()), keys);
+    Optional<ReadOptions> readOptions =
+        this.readOptionProtoPreparer.prepare(ImmutableList.of(transactionId(transactionId)));
+    return datastore.get(readOptions, keys);
   }
 
   @Override
@@ -93,10 +97,9 @@ final class TransactionImpl extends BaseDatastoreBatchWriter implements Transact
   @Override
   public <T> QueryResults<T> run(Query<T> query) {
     validateActive();
-    com.google.datastore.v1.ReadOptions.Builder readOptionsPb =
-        com.google.datastore.v1.ReadOptions.newBuilder();
-    readOptionsPb.setTransaction(transactionId);
-    return datastore.run(Optional.of(readOptionsPb.build()), query);
+    Optional<ReadOptions> readOptions =
+        this.readOptionProtoPreparer.prepare(ImmutableList.of(transactionId(transactionId)));
+    return datastore.run(readOptions, query);
   }
 
   @Override

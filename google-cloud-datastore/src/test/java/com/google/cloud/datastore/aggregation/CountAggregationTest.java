@@ -18,8 +18,6 @@ package com.google.cloud.datastore.aggregation;
 
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import com.google.datastore.v1.AggregationQuery;
 import org.junit.Test;
@@ -44,14 +42,27 @@ public class CountAggregationTest {
 
   @Test
   public void testEquals() {
-    CountAggregation.Builder aggregation1 = count().as("total");
+    CountAggregation.Builder aggregationWithAlias1 = count().as("total");
+    CountAggregation.Builder aggregationWithAlias2 = count().as("total");
+    CountAggregation.Builder aggregationWithoutAlias1 = count();
+    CountAggregation.Builder aggregationWithoutAlias2 = count();
 
-    CountAggregation.Builder aggregation2 = count().as("total");
+    // same aliases
+    assertThat(aggregationWithAlias1.build()).isEqualTo(aggregationWithAlias2.build());
+    assertThat(aggregationWithAlias2.build()).isEqualTo(aggregationWithAlias1.build());
 
-    assertEquals(aggregation1.build(), aggregation2.build());
-    assertEquals(aggregation2.build(), aggregation1.build());
+    // with and without aliases
+    assertThat(aggregationWithAlias1.build()).isNotEqualTo(aggregationWithoutAlias1.build());
+    assertThat(aggregationWithoutAlias1.build()).isNotEqualTo(aggregationWithAlias1.build());
 
-    assertNotEquals(aggregation1.as("new-alias").build(), aggregation2.build());
-    assertNotEquals(aggregation2.build(), aggregation1.as("new-alias").build());
+    // no aliases
+    assertThat(aggregationWithoutAlias1.build()).isEqualTo(aggregationWithoutAlias2.build());
+    assertThat(aggregationWithoutAlias2.build()).isEqualTo(aggregationWithoutAlias1.build());
+
+    // different aliases
+    assertThat(aggregationWithAlias1.as("new-alias").build())
+        .isNotEqualTo(aggregationWithAlias2.build());
+    assertThat(aggregationWithAlias2.build())
+        .isNotEqualTo(aggregationWithAlias1.as("new-alias").build());
   }
 }

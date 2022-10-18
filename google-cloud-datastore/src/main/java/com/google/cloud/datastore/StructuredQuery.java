@@ -1019,6 +1019,7 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
 
   public abstract Builder<V> toBuilder();
 
+  @InternalApi
   @Override
   public ResultType<V> getType() {
     return resultType;

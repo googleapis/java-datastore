@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore;
 
+import com.google.api.core.BetaApi;
 import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.BaseService;
 import com.google.cloud.ExceptionHandler;
@@ -191,18 +192,19 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   }
 
   @SuppressWarnings("unchecked")
-  <T> QueryResults<T> run(
-      Optional<com.google.datastore.v1.ReadOptions> readOptionsPb, Query<T> query) {
+  <T> QueryResults<T> run(Optional<ReadOptions> readOptionsPb, Query<T> query) {
     return new QueryResultsImpl<T>(
         this, readOptionsPb, (RecordQuery<T>) query, query.getNamespace());
   }
 
   @Override
+  @BetaApi
   public AggregationResults runAggregation(AggregationQuery query) {
     return aggregationQueryExecutor.execute(query);
   }
 
   @Override
+  @BetaApi
   public AggregationResults runAggregation(AggregationQuery query, ReadOption... options) {
     return aggregationQueryExecutor.execute(query, options);
   }
@@ -377,8 +379,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     return DatastoreHelper.fetch(this, Iterables.toArray(keys, Key.class), options);
   }
 
-  Iterator<Entity> get(
-      Optional<com.google.datastore.v1.ReadOptions> readOptionsPb, final Key... keys) {
+  Iterator<Entity> get(Optional<ReadOptions> readOptionsPb, final Key... keys) {
     if (keys.length == 0) {
       return Collections.emptyIterator();
     }

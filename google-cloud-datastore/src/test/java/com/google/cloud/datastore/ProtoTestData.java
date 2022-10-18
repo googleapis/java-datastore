@@ -27,7 +27,6 @@ import com.google.datastore.v1.PropertyFilter.Operator;
 import com.google.datastore.v1.PropertyOrder;
 import com.google.datastore.v1.PropertyReference;
 import com.google.datastore.v1.Value;
-import com.google.protobuf.Int64Value;
 
 public class ProtoTestData {
 
@@ -68,13 +67,6 @@ public class ProtoTestData {
 
   public static Aggregation countAggregation(String alias) {
     return Aggregation.newBuilder().setAlias(alias).setCount(Count.newBuilder().build()).build();
-  }
-
-  public static Aggregation countAggregation(String alias, long limit) {
-    return Aggregation.newBuilder()
-        .setAlias(alias)
-        .setCount(Count.newBuilder().setUpTo(Int64Value.of(limit)))
-        .build();
   }
 
   public static PropertyOrder propertyOrder(String value) {

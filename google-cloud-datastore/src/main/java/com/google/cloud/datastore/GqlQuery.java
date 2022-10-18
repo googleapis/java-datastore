@@ -456,10 +456,12 @@ public final class GqlQuery<V> extends Query<V> implements RecordQuery<V> {
     return builder.buildOrThrow();
   }
 
+  @InternalApi
   public Map<String, Binding> getNamedBindingsMap() {
     return namedBindings;
   }
 
+  @InternalApi
   public List<Binding> getPositionalBindingsMap() {
     return positionalBindings;
   }
@@ -481,6 +483,7 @@ public final class GqlQuery<V> extends Query<V> implements RecordQuery<V> {
   @Override
   public String toString() {
     return toStringHelper()
+        .add("type", getType())
         .add("queryString", queryString)
         .add("allowLiteral", allowLiteral)
         .add("namedBindings", namedBindings)

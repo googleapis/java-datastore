@@ -79,6 +79,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -558,6 +559,79 @@ public class ITDatastoreTest {
                 Query.newGqlQueryBuilder(
                         "AGGREGATE COUNT(*) AS total_count OVER (SELECT * FROM kind1)")
                     .setNamespace(NAMESPACE)
+                    .build()));
+  }
+
+  @Test
+  public void testRunAggregationQueryWithLimit() {
+    // verifying aggregation with an entity query
+    testCountAggregationWithLimit(
+        builder ->
+            builder
+                .addAggregation(count().as("total_count"))
+                .over(Query.newEntityQueryBuilder().setNamespace(NAMESPACE).setKind(KIND1).build()),
+        ((builder, limit) ->
+            builder
+                .addAggregation(count().as("total_count"))
+                .over(
+                    Query.newEntityQueryBuilder()
+                        .setNamespace(NAMESPACE)
+                        .setKind(KIND1)
+                        .setLimit(limit.intValue())
+                        .build())));
+
+    // verifying aggregation with a projection query
+    testCountAggregationWithLimit(
+        builder ->
+            builder
+                .addAggregation(count().as("total_count"))
+                .over(
+                    Query.newProjectionEntityQueryBuilder()
+                        .setProjection("str")
+                        .setNamespace(NAMESPACE)
+                        .setKind(KIND1)
+                        .build()),
+        ((builder, limit) ->
+            builder
+                .addAggregation(count().as("total_count"))
+                .over(
+                    Query.newProjectionEntityQueryBuilder()
+                        .setProjection("str")
+                        .setNamespace(NAMESPACE)
+                        .setKind(KIND1)
+                        .setLimit(limit.intValue())
+                        .build())));
+
+    // verifying aggregation with a key query
+    testCountAggregationWithLimit(
+        builder ->
+            builder
+                .addAggregation(count().as("total_count"))
+                .over(Query.newKeyQueryBuilder().setNamespace(NAMESPACE).setKind(KIND1).build()),
+        (builder, limit) ->
+            builder
+                .addAggregation(count().as("total_count"))
+                .over(
+                    Query.newKeyQueryBuilder()
+                        .setNamespace(NAMESPACE)
+                        .setKind(KIND1)
+                        .setLimit(limit.intValue())
+                        .build()));
+
+    // verifying aggregation with a GQL query
+    testCountAggregationWithLimit(
+        builder ->
+            builder.over(
+                Query.newGqlQueryBuilder(
+                        "AGGREGATE COUNT(*) AS total_count OVER (SELECT * FROM kind1)")
+                    .setNamespace(NAMESPACE)
+                    .build()),
+        (builder, limit) ->
+            builder.over(
+                Query.newGqlQueryBuilder(
+                        "AGGREGATE COUNT(*) AS total_count OVER (SELECT * FROM kind1 LIMIT @limit)")
+                    .setNamespace(NAMESPACE)
+                    .setBinding("limit", limit)
                     .build()));
   }
 
@@ -1306,6 +1380,28 @@ public class ITDatastoreTest {
     assertThat(countAfterAdd).isEqualTo(expectedCount);
 
     DATASTORE.delete(newEntity.getKey());
+  }
+
+  private void testCountAggregationWithLimit(
+      Consumer<AggregationQuery.Builder> withoutLimitConfigurer,
+      BiConsumer<AggregationQuery.Builder, Long> withLimitConfigurer) {
+    String alias = "total_count";
+
+    AggregationQuery.Builder withoutLimitBuilder =
+        Query.newAggregationQueryBuilder().setNamespace(NAMESPACE);
+    withoutLimitConfigurer.accept(withoutLimitBuilder);
+
+    Long currentCount =
+        getOnlyElement(DATASTORE.runAggregation(withoutLimitBuilder.build())).get(alias);
+    long limit = currentCount - 1;
+
+    AggregationQuery.Builder withLimitBuilder =
+        Query.newAggregationQueryBuilder().setNamespace(NAMESPACE);
+    withLimitConfigurer.accept(withLimitBuilder, limit);
+
+    Long countWithLimit =
+        getOnlyElement(DATASTORE.runAggregation(withLimitBuilder.build())).get(alias);
+    assertThat(countWithLimit).isEqualTo(limit);
   }
 
   private void testCountAggregationReadTimeWith(Consumer<AggregationQuery.Builder> configurer)
