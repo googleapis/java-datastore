@@ -50,53 +50,53 @@ public class AggregationQuerySampleTestIT {
   public void testAggregationQueryAndCountAggregationSample() {
     sample.aggregationQueryAndCountAggregationOnKind();
 
-    systemsOutRule.assertContains("Total candidates count is 3");
-    systemsOutRule.assertContains("Total candidates (accessible from default alias) is 3");
+    systemsOutRule.assertContains("Total tasks count is 3");
+    systemsOutRule.assertContains("Total tasks (accessible from default alias) is 3");
   }
 
   @Test
   public void testAggregationQueryAndCountAggregationWithLimitSample() {
     sample.aggregationQueryAndCountAggregationWithLimit();
 
-    systemsOutRule.assertContains("We have at least 2 candidates");
+    systemsOutRule.assertContains("We have at least 2 tasks");
   }
 
   @Test
   public void testAggregationQueryAndCountAggregationWithOrderBySample() {
     sample.aggregationQueryAndCountAggregationWithOrderBy();
 
-    systemsOutRule.assertContains("Total 2 candidates found with rank field");
+    systemsOutRule.assertContains("Total 2 tasks found with priority field");
   }
 
   @Test
   public void testAggregationQueryAndCountAggregationWithPropertyFilterSample() {
     sample.aggregationQueryAndCountAggregationWithPropertyFilter();
 
-    systemsOutRule.assertContains("Total qualified candidates count is 2");
-    systemsOutRule.assertContains("Total unqualified candidates count is 1");
+    systemsOutRule.assertContains("Total completed tasks count is 2");
+    systemsOutRule.assertContains("Total remaining tasks count is 1");
   }
 
   @Test
   public void testAggregationQueryAndCountAggregationSampleWithGqlQuery() {
     sample.aggregationQueryAndCountAggregationWithGqlQuery();
 
-    systemsOutRule.assertContains("We have at least 2 candidates");
-    systemsOutRule.assertContains("Total candidates count is 3");
-    systemsOutRule.assertContains("Total qualified candidates count is 2");
+    systemsOutRule.assertContains("We have at least 2 tasks");
+    systemsOutRule.assertContains("Total tasks count is 3");
+    systemsOutRule.assertContains("Total completed tasks count is 2");
   }
 
   @Test
   public void testAggregationQueryAndCountWithStaleRead() throws InterruptedException {
     sample.aggregationQueryAndCountAggregationWithStaleRead();
 
-    systemsOutRule.assertContains("Latest candidates count is 3");
-    systemsOutRule.assertContains("Stale candidates count is 2");
+    systemsOutRule.assertContains("Latest tasks count is 3");
+    systemsOutRule.assertContains("Stale tasks count is 2");
   }
 
   @Test
   public void testAggregationQueryAndCountWithTransaction() throws InterruptedException {
     Assert.assertThrows(Exception.class, sample::aggregationQueryInTransaction);
 
-    systemsOutRule.assertContains("Found existing 2 operations, rolling back");
+    systemsOutRule.assertContains("Found existing 2 tasks, rolling back");
   }
 }

@@ -22,7 +22,6 @@ import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Datastore.TransactionCallable;
 import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.DatastoreReaderWriter;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.GqlQuery;
@@ -43,36 +42,36 @@ public class AggregationQuerySample {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
     // The kind for the new entity
-    String kind = "Candidate";
+    String kind = "Task";
 
-    Key candidate1Key = datastore.newKeyFactory().setKind(kind).newKey("candidate1");
-    Key candidate2Key = datastore.newKeyFactory().setKind(kind).newKey("candidate2");
-    Key candidate3Key = datastore.newKeyFactory().setKind(kind).newKey("candidate3");
+    Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
+    Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
+    Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
 
-    // Save all the candidates
+    // Save all the tasks
     datastore.put(
-        Entity.newBuilder(candidate1Key).set("qualified", true).build(),
-        Entity.newBuilder(candidate2Key).set("qualified", false).build(),
-        Entity.newBuilder(candidate3Key).set("qualified", true).build()
+        Entity.newBuilder(task1Key).set("done", true).build(),
+        Entity.newBuilder(task2Key).set("done", false).build(),
+        Entity.newBuilder(task3Key).set("done", true).build()
     );
 
-    EntityQuery selectAllCandidates = Query.newEntityQueryBuilder()
+    EntityQuery selectAllTasks = Query.newEntityQueryBuilder()
         .setKind(kind)
         .build();
-    // Creating an aggregation query to get the count of all candidates
-    AggregationQuery allCandidatesCountQuery = Query.newAggregationQueryBuilder()
-        .over(selectAllCandidates)
+    // Creating an aggregation query to get the count of all tasks
+    AggregationQuery allTasksCountQuery = Query.newAggregationQueryBuilder()
+        .over(selectAllTasks)
         .addAggregation(Aggregation.count())
         .addAggregation(Aggregation.count().as("total_count"))
         .build();
     // Executing aggregation query
-    AggregationResult allCandidatesCountQueryResult = Iterables.getOnlyElement(
-        datastore.runAggregation(allCandidatesCountQuery));
+    AggregationResult allTasksCountQueryResult = Iterables.getOnlyElement(
+        datastore.runAggregation(allTasksCountQuery));
 
-    System.out.printf("Total candidates count is %d",
-        allCandidatesCountQueryResult.get("total_count")); // 3
-    System.out.printf("Total candidates (accessible from default alias) is %d",
-        allCandidatesCountQueryResult.get("property_1")); // 3
+    System.out.printf("Total tasks count is %d",
+        allTasksCountQueryResult.get("total_count")); // 3
+    System.out.printf("Total tasks (accessible from default alias) is %d",
+        allTasksCountQueryResult.get("property_1")); // 3
 
     // [END datastore_count_aggregation_query_on_kind]
   }
@@ -84,33 +83,33 @@ public class AggregationQuerySample {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
     // The kind for the new entity
-    String kind = "Candidate";
+    String kind = "Task";
 
-    Key candidate1Key = datastore.newKeyFactory().setKind(kind).newKey("candidate1");
-    Key candidate2Key = datastore.newKeyFactory().setKind(kind).newKey("candidate2");
-    Key candidate3Key = datastore.newKeyFactory().setKind(kind).newKey("candidate3");
+    Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
+    Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
+    Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
 
-    // Save all the candidates
+    // Save all the tasks
     datastore.put(
-        Entity.newBuilder(candidate1Key).set("qualified", true).build(),
-        Entity.newBuilder(candidate2Key).set("qualified", false).build(),
-        Entity.newBuilder(candidate3Key).set("qualified", true).build()
+        Entity.newBuilder(task1Key).set("done", true).build(),
+        Entity.newBuilder(task2Key).set("done", false).build(),
+        Entity.newBuilder(task3Key).set("done", true).build()
     );
 
-    EntityQuery selectAllCandidates = Query.newEntityQueryBuilder()
+    EntityQuery selectAllTasks = Query.newEntityQueryBuilder()
         .setKind(kind)
         .setLimit(2)
         .build();
-    // Creating an aggregation query to get the count of all candidates
-    AggregationQuery allCandidatesCountQuery = Query.newAggregationQueryBuilder()
-        .over(selectAllCandidates)
+    // Creating an aggregation query to get the count of all tasks
+    AggregationQuery allTasksCountQuery = Query.newAggregationQueryBuilder()
+        .over(selectAllTasks)
         .addAggregation(Aggregation.count().as("at_least"))
         .build();
     // Executing aggregation query
     AggregationResult limitQueryResult = Iterables.getOnlyElement(
-        datastore.runAggregation(allCandidatesCountQuery));
+        datastore.runAggregation(allTasksCountQuery));
 
-    System.out.printf("We have at least %d candidates", limitQueryResult.get("at_least")); // 2
+    System.out.printf("We have at least %d tasks", limitQueryResult.get("at_least")); // 2
 
     // [END datastore_count_aggregation_query_with_limit]
   }
@@ -122,33 +121,33 @@ public class AggregationQuerySample {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
     // The kind for the new entity
-    String kind = "Candidate";
+    String kind = "Task";
 
-    Key candidate1Key = datastore.newKeyFactory().setKind(kind).newKey("candidate1");
-    Key candidate2Key = datastore.newKeyFactory().setKind(kind).newKey("candidate2");
-    Key candidate3Key = datastore.newKeyFactory().setKind(kind).newKey("candidate3");
+    Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
+    Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
+    Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
 
-    // Save all the candidates
+    // Save all the tasks
     datastore.put(
-        Entity.newBuilder(candidate1Key).set("qualified", true).set("rank", 1).build(),
-        Entity.newBuilder(candidate2Key).set("qualified", false).build(),  // no rank specified
-        Entity.newBuilder(candidate3Key).set("qualified", true).set("rank", 2).build()
+        Entity.newBuilder(task1Key).set("done", true).set("priority", 1).build(),
+        Entity.newBuilder(task2Key).set("done", false).build(),  // no priority specified
+        Entity.newBuilder(task3Key).set("done", true).set("priority", 2).build()
     );
 
-    EntityQuery selectAllCandidates = Query.newEntityQueryBuilder()
+    EntityQuery selectAllTasks = Query.newEntityQueryBuilder()
         .setKind(kind)
-        .addOrderBy(OrderBy.asc("rank"))    // OrderBy acts as an existence filter
+        .addOrderBy(OrderBy.asc("priority"))    // OrderBy acts as an existence filter
         .build();
-    // Creating an aggregation query to get the count of all candidates
-    AggregationQuery allCandidatesCountQuery = Query.newAggregationQueryBuilder()
-        .over(selectAllCandidates)
+    // Creating an aggregation query to get the count of all tasks
+    AggregationQuery allTasksCountQuery = Query.newAggregationQueryBuilder()
+        .over(selectAllTasks)
         .addAggregation(Aggregation.count().as("count"))
         .build();
     // Executing aggregation query
     AggregationResult limitQueryResult = Iterables.getOnlyElement(
-        datastore.runAggregation(allCandidatesCountQuery));
+        datastore.runAggregation(allTasksCountQuery));
 
-    System.out.printf("Total %d candidates found with rank field",
+    System.out.printf("Total %d tasks found with priority field",
         limitQueryResult.get("count")); // 2
 
     // [END datastore_count_aggregation_query_with_order_by]
@@ -161,48 +160,48 @@ public class AggregationQuerySample {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
     // The kind for the new entity
-    String kind = "Candidate";
+    String kind = "Task";
 
-    Key candidate1Key = datastore.newKeyFactory().setKind(kind).newKey("candidate1");
-    Key candidate2Key = datastore.newKeyFactory().setKind(kind).newKey("candidate2");
-    Key candidate3Key = datastore.newKeyFactory().setKind(kind).newKey("candidate3");
+    Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
+    Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
+    Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
 
-    // Save all the candidates
+    // Save all the tasks
     datastore.put(
-        Entity.newBuilder(candidate1Key).set("qualified", true).build(),
-        Entity.newBuilder(candidate2Key).set("qualified", false).build(),
-        Entity.newBuilder(candidate3Key).set("qualified", true).build()
+        Entity.newBuilder(task1Key).set("done", true).build(),
+        Entity.newBuilder(task2Key).set("done", false).build(),
+        Entity.newBuilder(task3Key).set("done", true).build()
     );
 
-    EntityQuery qualifiedCandidates = Query.newEntityQueryBuilder()
+    EntityQuery completedTasks = Query.newEntityQueryBuilder()
         .setKind(kind)
-        .setFilter(PropertyFilter.eq("qualified", true))
+        .setFilter(PropertyFilter.eq("done", true))
         .build();
-    EntityQuery unQualifiedCandidates = Query.newEntityQueryBuilder()
+    EntityQuery remainingTasks = Query.newEntityQueryBuilder()
         .setKind(kind)
-        .setFilter(PropertyFilter.eq("qualified", false))
+        .setFilter(PropertyFilter.eq("done", false))
         .build();
-    // Creating an aggregation query to get the count of all qualified candidates
-    AggregationQuery qualifiedCandidatesCountQuery = Query.newAggregationQueryBuilder()
-        .over(qualifiedCandidates)
-        .addAggregation(Aggregation.count().as("total_qualified_count"))
+    // Creating an aggregation query to get the count of all completed tasks
+    AggregationQuery completedTasksCountQuery = Query.newAggregationQueryBuilder()
+        .over(completedTasks)
+        .addAggregation(Aggregation.count().as("total_completed_count"))
         .build();
-    // Creating an aggregation query to get the count of all unqualified candidates
-    AggregationQuery unqualifiedCandidatesCountQuery = Query.newAggregationQueryBuilder()
-        .over(unQualifiedCandidates)
-        .addAggregation(Aggregation.count().as("total_unqualified_count"))
+    // Creating an aggregation query to get the count of all remaining tasks
+    AggregationQuery remainingTasksCountQuery = Query.newAggregationQueryBuilder()
+        .over(remainingTasks)
+        .addAggregation(Aggregation.count().as("total_remaining_count"))
         .build();
 
     // Executing aggregation query
-    AggregationResult qualifiedCandidatesCountQueryResult = Iterables.getOnlyElement(
-        datastore.runAggregation(qualifiedCandidatesCountQuery));
-    AggregationResult unQualifiedCandidatesCountQueryResult = Iterables.getOnlyElement(
-        datastore.runAggregation(unqualifiedCandidatesCountQuery));
+    AggregationResult completedTasksCountQueryResult = Iterables.getOnlyElement(
+        datastore.runAggregation(completedTasksCountQuery));
+    AggregationResult remainingTasksCountQueryResult = Iterables.getOnlyElement(
+        datastore.runAggregation(remainingTasksCountQuery));
 
-    System.out.printf("Total qualified candidates count is %d",
-        qualifiedCandidatesCountQueryResult.get("total_qualified_count")); // 2
-    System.out.printf("Total unqualified candidates count is %d",
-        unQualifiedCandidatesCountQueryResult.get("total_unqualified_count")); // 1
+    System.out.printf("Total completed tasks count is %d",
+        completedTasksCountQueryResult.get("total_completed_count")); // 2
+    System.out.printf("Total remaining tasks count is %d",
+        remainingTasksCountQueryResult.get("total_remaining_count")); // 1
 
     // [END datastore_count_aggregation_query_with_filters]
   }
@@ -214,53 +213,53 @@ public class AggregationQuerySample {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
     // The kind for the new entity
-    String kind = "Candidate";
+    String kind = "Task";
 
-    Key candidate1Key = datastore.newKeyFactory().setKind(kind).newKey("candidate1");
-    Key candidate2Key = datastore.newKeyFactory().setKind(kind).newKey("candidate2");
-    Key candidate3Key = datastore.newKeyFactory().setKind(kind).newKey("candidate3");
+    Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
+    Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
+    Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
 
-    // Save all the candidates
+    // Save all the tasks
     datastore.put(
-        Entity.newBuilder(candidate1Key).set("qualified", true).build(),
-        Entity.newBuilder(candidate2Key).set("qualified", false).build(),
-        Entity.newBuilder(candidate3Key).set("qualified", true).build()
+        Entity.newBuilder(task1Key).set("done", true).build(),
+        Entity.newBuilder(task2Key).set("done", false).build(),
+        Entity.newBuilder(task3Key).set("done", true).build()
     );
 
-    GqlQuery<?> selectAllCandidates = Query.newGqlQueryBuilder(
+    GqlQuery<?> selectAllTasks = Query.newGqlQueryBuilder(
             "AGGREGATE COUNT(*) AS total_count, COUNT_UP_TO(2) AS count_with_limit "
-                + "OVER (SELECT * FROM Candidate)")
+                + "OVER (SELECT * FROM Task)")
         .setAllowLiteral(true)
         .build();
-    // Creating an aggregation query to get the count of all candidates
-    AggregationQuery allCandidatesCountQuery = Query.newAggregationQueryBuilder()
-        .over(selectAllCandidates)
+    // Creating an aggregation query to get the count of all tasks
+    AggregationQuery allTasksCountQuery = Query.newAggregationQueryBuilder()
+        .over(selectAllTasks)
         .build();
     // Executing aggregation query
-    AggregationResult allCandidatesCountQueryResult = Iterables.getOnlyElement(
-        datastore.runAggregation(allCandidatesCountQuery));
+    AggregationResult allTasksCountQueryResult = Iterables.getOnlyElement(
+        datastore.runAggregation(allTasksCountQuery));
 
-    System.out.printf("We have at least %d candidates",
-        allCandidatesCountQueryResult.get("count_with_limit")); // 2
-    System.out.printf("Total candidates count is %d",
-        allCandidatesCountQueryResult.get("total_count")); // 3
+    System.out.printf("We have at least %d tasks",
+        allTasksCountQueryResult.get("count_with_limit")); // 2
+    System.out.printf("Total tasks count is %d",
+        allTasksCountQueryResult.get("total_count")); // 3
 
-    GqlQuery<?> qualifiedCandidates = Query.newGqlQueryBuilder(
-            "AGGREGATE COUNT(*) AS total_qualified_count "
-                + "OVER (SELECT * FROM Candidate WHERE qualified = true)")
+    GqlQuery<?> completedTasks = Query.newGqlQueryBuilder(
+            "AGGREGATE COUNT(*) AS total_completed_count "
+                + "OVER (SELECT * FROM Task WHERE done = true)")
         .setAllowLiteral(true)
         .build();
-    // Creating an aggregation query to get the count of all qualified candidates
-    AggregationQuery qualifiedCandidatesCountQuery = Query.newAggregationQueryBuilder()
-        .over(qualifiedCandidates)
+    // Creating an aggregation query to get the count of all completed tasks
+    AggregationQuery completedTasksCountQuery = Query.newAggregationQueryBuilder()
+        .over(completedTasks)
         .build();
 
     // Executing aggregation query
-    AggregationResult qualifiedCandidatesCountQueryResult = Iterables.getOnlyElement(
-        datastore.runAggregation(qualifiedCandidatesCountQuery));
+    AggregationResult completedTasksCountQueryResult = Iterables.getOnlyElement(
+        datastore.runAggregation(completedTasksCountQuery));
 
-    System.out.printf("Total qualified candidates count is %d",
-        qualifiedCandidatesCountQueryResult.get("total_qualified_count")); // 2
+    System.out.printf("Total completed tasks count is %d",
+        completedTasksCountQueryResult.get("total_completed_count")); // 2
 
     // [END datastore_count_aggregation_query_gql]
   }
@@ -272,46 +271,46 @@ public class AggregationQuerySample {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
     // The kind for the new entity
-    String kind = "Candidate";
+    String kind = "Task";
 
-    Key candidate1Key = datastore.newKeyFactory().setKind(kind).newKey("candidate1");
-    Key candidate2Key = datastore.newKeyFactory().setKind(kind).newKey("candidate2");
+    Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
+    Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
 
-    // Saving only two candidates
+    // Saving only two tasks
     datastore.put(
-        Entity.newBuilder(candidate1Key).set("qualified", true).build(),
-        Entity.newBuilder(candidate2Key).set("qualified", false).build()
+        Entity.newBuilder(task1Key).set("done", true).build(),
+        Entity.newBuilder(task2Key).set("done", false).build()
     );
     Thread.sleep(1000);
     final Timestamp pastTimestamp =
-        Timestamp.now(); // we have two candidates in database at this time.
+        Timestamp.now(); // we have two tasks in database at this time.
 
     Thread.sleep(1000);
-    // Saving third candidates
-    Key candidate3Key = datastore.newKeyFactory().setKind(kind).newKey("candidate3");
-    datastore.put(Entity.newBuilder(candidate3Key).set("qualified", false).build());
+    // Saving third tasks
+    Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
+    datastore.put(Entity.newBuilder(task3Key).set("done", false).build());
 
-    EntityQuery selectAllCandidates = Query.newEntityQueryBuilder()
+    EntityQuery selectAllTasks = Query.newEntityQueryBuilder()
         .setKind(kind)
         .build();
 
-    // Creating an aggregation query to get the count of all candidates
-    AggregationQuery allCandidatesCountQuery = Query.newAggregationQueryBuilder()
-        .over(selectAllCandidates)
+    // Creating an aggregation query to get the count of all tasks
+    AggregationQuery allTasksCountQuery = Query.newAggregationQueryBuilder()
+        .over(selectAllTasks)
         .addAggregation(Aggregation.count().as("total_count"))
         .build();
 
     // Executing aggregation query
-    AggregationResult candidatesCountLatest = Iterables.getOnlyElement(
-        datastore.runAggregation(allCandidatesCountQuery));
-    System.out.printf("Latest candidates count is %d",
-        candidatesCountLatest.get("total_count")); // 3
+    AggregationResult tasksCountLatest = Iterables.getOnlyElement(
+        datastore.runAggregation(allTasksCountQuery));
+    System.out.printf("Latest tasks count is %d",
+        tasksCountLatest.get("total_count")); // 3
 
     // Executing aggregation query with past timestamp
-    AggregationResult candidatesCountInPast = Iterables.getOnlyElement(
-        datastore.runAggregation(allCandidatesCountQuery, ReadOption.readTime(pastTimestamp)));
-    System.out.printf("Stale candidates count is %d",
-        candidatesCountInPast.get("total_count")); // 2
+    AggregationResult tasksCountInPast = Iterables.getOnlyElement(
+        datastore.runAggregation(allTasksCountQuery, ReadOption.readTime(pastTimestamp)));
+    System.out.printf("Stale tasks count is %d",
+        tasksCountInPast.get("total_count")); // 2
 
     // [END datastore_count_aggregation_query_stale_read]
   }
@@ -323,38 +322,38 @@ public class AggregationQuerySample {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
     // The kind for the new entity
-    String kind = "Operations";
+    String kind = "Tasks";
 
-    Key operation1Key = datastore.newKeyFactory().setKind(kind).newKey("operation1");
-    Key operation2Key = datastore.newKeyFactory().setKind(kind).newKey("operation2");
+    Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
+    Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
 
-    // Save all the candidates
+    // Save all the tasks
     datastore.put(
-        Entity.newBuilder(operation1Key).set("owner", "john").build(),
-        Entity.newBuilder(operation2Key).set("owner", "john").build()
+        Entity.newBuilder(task1Key).set("owner", "john").build(),
+        Entity.newBuilder(task2Key).set("owner", "john").build()
     );
 
     // Using transactions to maintain consistent application state.
     datastore.runInTransaction((TransactionCallable<Void>) transaction -> {
-      EntityQuery operationsOfJohn = Query.newEntityQueryBuilder()
+      EntityQuery tasksOfJohn = Query.newEntityQueryBuilder()
           .setKind(kind)
           .setFilter(PropertyFilter.eq("owner", "john"))
           .build();
-      AggregationQuery totalOperationsQuery = Query.newAggregationQueryBuilder()
-          .over(operationsOfJohn)
-          .addAggregation(Aggregation.count().as("operations_count"))
+      AggregationQuery totalTasksQuery = Query.newAggregationQueryBuilder()
+          .over(tasksOfJohn)
+          .addAggregation(Aggregation.count().as("tasks_count"))
           .build();
 
-      Long operationsCount = Iterables.getOnlyElement(
-          datastore.runAggregation(totalOperationsQuery)).get("operations_count");
+      Long tasksCount = Iterables.getOnlyElement(
+          datastore.runAggregation(totalTasksQuery)).get("tasks_count");
 
-      if (operationsCount < 2) {
-        Key newOperationKey = datastore.newKeyFactory().setKind(kind).newKey("operation3");
-        Entity newOperation = Entity.newBuilder(newOperationKey).set("owner", "john").build();
-        transaction.put(newOperation);
+      if (tasksCount < 2) {
+        Key newTaskKey = datastore.newKeyFactory().setKind(kind).newKey("task3");
+        Entity newTask = Entity.newBuilder(newTaskKey).set("owner", "john").build();
+        transaction.put(newTask);
       } else {
-        System.out.printf("Found existing %d operations, rolling back", operationsCount);
-        throw new Exception("User 'John' cannot have more than 2 operations");
+        System.out.printf("Found existing %d tasks, rolling back", tasksCount);
+        throw new Exception("User 'John' cannot have more than 2 tasks");
       }
       return null;
     });
