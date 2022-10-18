@@ -40,7 +40,9 @@ public class AggregationQuerySampleTestIT {
 
   @After
   public void tearDown() throws Exception {
-    KeyQuery allKeysQuery = Query.newKeyQueryBuilder().build();
+    KeyQuery allKeysQuery = Query.newKeyQueryBuilder()
+        .setKind("Task")
+        .build();
     QueryResults<Key> allKeys = datastore.run(allKeysQuery);
     Key[] keysToDelete = ImmutableList.copyOf(allKeys).toArray(new Key[0]);
     datastore.delete(keysToDelete);

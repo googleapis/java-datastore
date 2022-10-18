@@ -322,7 +322,7 @@ public class AggregationQuerySample {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
     // The kind for the new entity
-    String kind = "Tasks";
+    String kind = "Task";
 
     Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
     Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
