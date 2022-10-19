@@ -16,6 +16,8 @@
 
 package com.example.datastore;
 
+import static org.junit.Assert.assertThrows;
+
 import com.example.datastore.aggregation.CountAggregationInTransaction;
 import com.example.datastore.aggregation.CountAggregationOnKind;
 import com.example.datastore.aggregation.CountAggregationWithGqlQuery;
@@ -31,7 +33,6 @@ import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.common.collect.ImmutableList;
 import com.rule.SystemsOutRule;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -44,6 +45,7 @@ public class AggregationQuerySampleTestIT {
 
   @Before
   public void setUp() throws Exception {
+    // Retrieving and deleting all the 'Task' entities.
     KeyQuery allKeysQuery = Query.newKeyQueryBuilder().setKind("Task").build();
     QueryResults<Key> allKeys = datastore.run(allKeysQuery);
     Key[] keysToDelete = ImmutableList.copyOf(allKeys).toArray(new Key[0]);
@@ -53,7 +55,6 @@ public class AggregationQuerySampleTestIT {
   @Test
   public void testAggregationQueryAndCountAggregationSample() {
     CountAggregationOnKind.invoke();
-
     systemsOutRule.assertContains("Total tasks count is 3");
     systemsOutRule.assertContains("Total tasks (accessible from default alias) is 3");
   }
@@ -61,21 +62,18 @@ public class AggregationQuerySampleTestIT {
   @Test
   public void testAggregationQueryAndCountAggregationWithLimitSample() {
     CountAggregationWithLimit.invoke();
-
     systemsOutRule.assertContains("We have at least 2 tasks");
   }
 
   @Test
   public void testAggregationQueryAndCountAggregationWithOrderBySample() {
     CountAggregationWithOrderBy.invoke();
-
     systemsOutRule.assertContains("Total 2 tasks found with priority field");
   }
 
   @Test
   public void testAggregationQueryAndCountAggregationWithPropertyFilterSample() {
     CountAggregationWithPropertyFilter.invoke();
-
     systemsOutRule.assertContains("Total completed tasks count is 2");
     systemsOutRule.assertContains("Total remaining tasks count is 1");
   }
@@ -83,7 +81,6 @@ public class AggregationQuerySampleTestIT {
   @Test
   public void testAggregationQueryAndCountAggregationSampleWithGqlQuery() {
     CountAggregationWithGqlQuery.invoke();
-
     systemsOutRule.assertContains("We have at least 2 tasks");
     systemsOutRule.assertContains("Total tasks count is 3");
     systemsOutRule.assertContains("Total completed tasks count is 2");
@@ -92,15 +89,13 @@ public class AggregationQuerySampleTestIT {
   @Test
   public void testAggregationQueryAndCountWithStaleRead() throws InterruptedException {
     CountAggregationWithStaleRead.invoke();
-
     systemsOutRule.assertContains("Latest tasks count is 3");
     systemsOutRule.assertContains("Stale tasks count is 2");
   }
 
   @Test
   public void testAggregationQueryAndCountWithTransaction() throws InterruptedException {
-    Assert.assertThrows(Exception.class, CountAggregationInTransaction::invoke);
-
+    assertThrows(Exception.class, CountAggregationInTransaction::invoke);
     systemsOutRule.assertContains("Found existing 2 tasks, rolling back");
   }
 }

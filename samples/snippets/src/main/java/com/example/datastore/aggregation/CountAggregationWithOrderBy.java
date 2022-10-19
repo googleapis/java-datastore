@@ -48,6 +48,7 @@ public class CountAggregationWithOrderBy {
         Entity.newBuilder(task2Key).set("done", false).build(),
         Entity.newBuilder(task3Key).set("done", true).set("priority", 2).build());
 
+    // OrderBy acts as an existence filter.
     EntityQuery selectAllTasks =
         Query.newEntityQueryBuilder()
             .setKind(kind)
