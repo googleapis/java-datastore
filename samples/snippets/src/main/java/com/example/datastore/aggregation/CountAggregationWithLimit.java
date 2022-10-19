@@ -30,17 +30,17 @@ import com.google.common.collect.Iterables;
 
 public class CountAggregationWithLimit {
   public static void invoke() {
-    // Instantiates a client
+    // Instantiates a client.
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-    // The kind for the new entity
+    // The kind for the new entity.
     String kind = "Task";
 
     Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
     Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
     Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
 
-    // Save all the tasks
+    // Save all the tasks.
     datastore.put(
         Entity.newBuilder(task1Key).set("done", true).build(),
         Entity.newBuilder(task2Key).set("done", false).build(),
@@ -50,13 +50,13 @@ public class CountAggregationWithLimit {
         .setKind(kind)
         .setLimit(2)
         .build();
-    // Creating an aggregation query to get the count of all tasks
+    // Creating an aggregation query to get the count of all tasks.
     AggregationQuery allTasksCountQuery =
         Query.newAggregationQueryBuilder()
             .over(selectAllTasks)
             .addAggregation(Aggregation.count().as("at_least"))
             .build();
-    // Executing aggregation query
+    // Executing aggregation query.
     AggregationResult limitQueryResult =
         Iterables.getOnlyElement(datastore.runAggregation(allTasksCountQuery));
 

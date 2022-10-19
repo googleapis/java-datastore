@@ -32,17 +32,17 @@ import com.google.common.collect.Iterables;
 public class CountAggregationWithPropertyFilter {
 
   public static void invoke() {
-    // Instantiates a client
+    // Instantiates a client.
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-    // The kind for the new entity
+    // The kind for the new entity.
     String kind = "Task";
 
     Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
     Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
     Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
 
-    // Save all the tasks
+    // Save all the tasks.
     datastore.put(
         Entity.newBuilder(task1Key).set("done", true).build(),
         Entity.newBuilder(task2Key).set("done", false).build(),
@@ -58,20 +58,20 @@ public class CountAggregationWithPropertyFilter {
             .setKind(kind)
             .setFilter(PropertyFilter.eq("done", false))
             .build();
-    // Creating an aggregation query to get the count of all completed tasks
+    // Creating an aggregation query to get the count of all completed tasks.
     AggregationQuery completedTasksCountQuery =
         Query.newAggregationQueryBuilder()
             .over(completedTasks)
             .addAggregation(Aggregation.count().as("total_completed_count"))
             .build();
-    // Creating an aggregation query to get the count of all remaining tasks
+    // Creating an aggregation query to get the count of all remaining tasks.
     AggregationQuery remainingTasksCountQuery =
         Query.newAggregationQueryBuilder()
             .over(remainingTasks)
             .addAggregation(Aggregation.count().as("total_remaining_count"))
             .build();
 
-    // Executing aggregation query
+    // Executing aggregation query.
     AggregationResult completedTasksCountQueryResult =
         Iterables.getOnlyElement(datastore.runAggregation(completedTasksCountQuery));
     AggregationResult remainingTasksCountQueryResult =

@@ -33,16 +33,16 @@ import com.google.common.collect.Iterables;
 public class CountAggregationWithStaleRead {
 
   public static void invoke() throws InterruptedException {
-    // Instantiates a client
+    // Instantiates a client.
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-    // The kind for the new entity
+    // The kind for the new entity.
     String kind = "Task";
 
     Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
     Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
 
-    // Saving only two tasks
+    // Saving only two tasks.
     datastore.put(
         Entity.newBuilder(task1Key).set("done", true).build(),
         Entity.newBuilder(task2Key).set("done", false).build());
@@ -50,25 +50,25 @@ public class CountAggregationWithStaleRead {
     final Timestamp pastTimestamp = Timestamp.now(); // we have two tasks in database at this time.
 
     Thread.sleep(1000);
-    // Saving third tasks
+    // Saving third tasks.
     Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
     datastore.put(Entity.newBuilder(task3Key).set("done", false).build());
 
     EntityQuery selectAllTasks = Query.newEntityQueryBuilder().setKind(kind).build();
 
-    // Creating an aggregation query to get the count of all tasks
+    // Creating an aggregation query to get the count of all tasks.
     AggregationQuery allTasksCountQuery =
         Query.newAggregationQueryBuilder()
             .over(selectAllTasks)
             .addAggregation(Aggregation.count().as("total_count"))
             .build();
 
-    // Executing aggregation query
+    // Executing aggregation query.
     AggregationResult tasksCountLatest =
         Iterables.getOnlyElement(datastore.runAggregation(allTasksCountQuery));
     System.out.printf("Latest tasks count is %d", tasksCountLatest.get("total_count")); // 3
 
-    // Executing aggregation query with past timestamp
+    // Executing aggregation query with past timestamp.
     AggregationResult tasksCountInPast =
         Iterables.getOnlyElement(
             datastore.runAggregation(allTasksCountQuery, ReadOption.readTime(pastTimestamp)));

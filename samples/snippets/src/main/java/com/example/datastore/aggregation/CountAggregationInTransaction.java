@@ -32,16 +32,16 @@ import com.google.common.collect.Iterables;
 public class CountAggregationInTransaction {
 
   public static void invoke() {
-    // Instantiates a client
+    // Instantiates a client.
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-    // The kind for the new entity
+    // The kind for the new entity.
     String kind = "Task";
 
     Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
     Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
 
-    // Save all the tasks
+    // Save all the tasks.
     datastore.put(
         Entity.newBuilder(task1Key).set("owner", "john").build(),
         Entity.newBuilder(task2Key).set("owner", "john").build());

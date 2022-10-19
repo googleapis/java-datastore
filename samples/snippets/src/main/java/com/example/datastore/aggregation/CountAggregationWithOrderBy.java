@@ -31,17 +31,17 @@ import com.google.common.collect.Iterables;
 
 public class CountAggregationWithOrderBy {
   public static void invoke() {
-    // Instantiates a client
+    // Instantiates a client.
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-    // The kind for the new entity
+    // The kind for the new entity.
     String kind = "Task";
 
     Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
     Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
     Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
 
-    // Save all the tasks
+    // Save all the tasks.
     datastore.put(
         Entity.newBuilder(task1Key).set("done", true).set("priority", 1).build(),
         // Priority not specified.
@@ -52,15 +52,15 @@ public class CountAggregationWithOrderBy {
     EntityQuery selectAllTasks =
         Query.newEntityQueryBuilder()
             .setKind(kind)
-            .addOrderBy(OrderBy.asc("priority")) // OrderBy acts as an existence filter
+            .addOrderBy(OrderBy.asc("priority"))
             .build();
-    // Creating an aggregation query to get the count of all tasks
+    // Creating an aggregation query to get the count of all tasks.
     AggregationQuery allTasksCountQuery =
         Query.newAggregationQueryBuilder()
             .over(selectAllTasks)
             .addAggregation(Aggregation.count().as("count"))
             .build();
-    // Executing aggregation query
+    // Executing aggregation query.
     AggregationResult limitQueryResult =
         Iterables.getOnlyElement(datastore.runAggregation(allTasksCountQuery));
 

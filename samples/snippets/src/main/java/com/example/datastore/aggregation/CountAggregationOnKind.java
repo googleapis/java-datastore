@@ -31,31 +31,31 @@ import com.google.common.collect.Iterables;
 public class CountAggregationOnKind {
 
   public static void invoke() {
-    // Instantiates a client
+    // Instantiates a client.
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-    // The kind for the new entity
+    // The kind for the new entity.
     String kind = "Task";
 
     Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
     Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
     Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
 
-    // Save all the tasks
+    // Save all the tasks.
     datastore.put(
         Entity.newBuilder(task1Key).set("done", true).build(),
         Entity.newBuilder(task2Key).set("done", false).build(),
         Entity.newBuilder(task3Key).set("done", true).build());
 
     EntityQuery selectAllTasks = Query.newEntityQueryBuilder().setKind(kind).build();
-    // Creating an aggregation query to get the count of all tasks
+    // Creating an aggregation query to get the count of all tasks.
     AggregationQuery allTasksCountQuery =
         Query.newAggregationQueryBuilder()
             .over(selectAllTasks)
             .addAggregation(Aggregation.count())
             .addAggregation(Aggregation.count().as("total_count"))
             .build();
-    // Executing aggregation query
+    // Executing aggregation query.
     AggregationResult allTasksCountQueryResult =
         Iterables.getOnlyElement(datastore.runAggregation(allTasksCountQuery));
 

@@ -30,17 +30,17 @@ import com.google.common.collect.Iterables;
 public class CountAggregationWithGqlQuery {
 
   public static void invoke() {
-    // Instantiates a client
+    // Instantiates a client.
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-    // The kind for the new entity
+    // The kind for the new entity.
     String kind = "Task";
 
     Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
     Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
     Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
 
-    // Save all the tasks
+    // Save all the tasks.
     datastore.put(
         Entity.newBuilder(task1Key).set("done", true).build(),
         Entity.newBuilder(task2Key).set("done", false).build(),
@@ -56,7 +56,7 @@ public class CountAggregationWithGqlQuery {
     // Create the aggregation query builder and set the query.
     AggregationQuery allTasksCountQuery =
         Query.newAggregationQueryBuilder().over(selectAllTasks).build();
-    // Executing aggregation query
+    // Executing aggregation query.
     AggregationResult allTasksCountQueryResult =
         Iterables.getOnlyElement(datastore.runAggregation(allTasksCountQuery));
 
@@ -75,7 +75,7 @@ public class CountAggregationWithGqlQuery {
     AggregationQuery completedTasksCountQuery =
         Query.newAggregationQueryBuilder().over(completedTasks).build();
 
-    // Executing aggregation query
+    // Executing aggregation query.
     AggregationResult completedTasksCountQueryResult =
         Iterables.getOnlyElement(datastore.runAggregation(completedTasksCountQuery));
 
