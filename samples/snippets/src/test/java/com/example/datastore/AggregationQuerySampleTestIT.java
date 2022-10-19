@@ -31,8 +31,8 @@ import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.common.collect.ImmutableList;
 import com.rule.SystemsOutRule;
-import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -42,8 +42,8 @@ public class AggregationQuerySampleTestIT {
 
   @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
-  @After
-  public void tearDown() throws Exception {
+  @Before
+  public void setUp() throws Exception {
     KeyQuery allKeysQuery = Query.newKeyQueryBuilder().setKind("Task").build();
     QueryResults<Key> allKeys = datastore.run(allKeysQuery);
     Key[] keysToDelete = ImmutableList.copyOf(allKeys).toArray(new Key[0]);
