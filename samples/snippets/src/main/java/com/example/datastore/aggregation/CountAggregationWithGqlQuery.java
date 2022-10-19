@@ -65,6 +65,7 @@ public class CountAggregationWithGqlQuery {
         "We have at least %d tasks", allTasksCountQueryResult.get("count_with_limit")); // 2
     System.out.printf("Total tasks count is %d", allTasksCountQueryResult.get("total_count")); // 3
 
+    // Create a query to get the count of all completed tasks.
     GqlQuery<?> completedTasks =
         Query.newGqlQueryBuilder(
                 "AGGREGATE COUNT(*) AS total_completed_count "
