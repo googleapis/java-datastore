@@ -47,6 +47,7 @@ public class CountAggregationWithGqlQuery {
         Entity.newBuilder(task2Key).set("done", false).build(),
         Entity.newBuilder(task3Key).set("done", true).build());
 
+    // Create a GQL query to get the count of all tasks.
     GqlQuery<?> selectAllTasks =
         Query.newGqlQueryBuilder(
                 "AGGREGATE COUNT(*) AS total_count, COUNT_UP_TO(2) AS count_with_limit "
