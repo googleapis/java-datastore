@@ -72,7 +72,7 @@ public class CountAggregationWithGqlQuery {
                     + "OVER (SELECT * FROM Task WHERE done = true)")
             .setAllowLiteral(true)
             .build();
-    // Creating an aggregation query to get the count of all completed tasks
+    // Create the aggregation query builder and set the query.
     AggregationQuery completedTasksCountQuery =
         Query.newAggregationQueryBuilder().over(completedTasks).build();
 
