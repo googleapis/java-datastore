@@ -16,6 +16,7 @@
 
 package com.example.datastore.aggregation;
 
+// [START datastore_count_aggregation_query_with_order_by]
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
@@ -30,8 +31,6 @@ import com.google.common.collect.Iterables;
 
 public class CountAggregationWithOrderBy {
   public static void invoke() {
-    // [START datastore_count_aggregation_query_with_order_by]
-
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
@@ -66,7 +65,6 @@ public class CountAggregationWithOrderBy {
 
     System.out.printf(
         "Total %d tasks found with priority field", limitQueryResult.get("count")); // 2
-
-    // [END datastore_count_aggregation_query_with_order_by]
   }
 }
+// [END datastore_count_aggregation_query_with_order_by]

@@ -16,6 +16,7 @@
 
 package com.example.datastore.aggregation;
 
+// [START datastore_count_aggregation_query_on_kind]
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
@@ -30,8 +31,6 @@ import com.google.common.collect.Iterables;
 public class CountAggregationOnKind {
 
   public static void invoke() {
-    // [START datastore_count_aggregation_query_on_kind]
-
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
@@ -64,7 +63,6 @@ public class CountAggregationOnKind {
     System.out.printf(
         "Total tasks (accessible from default alias) is %d",
         allTasksCountQueryResult.get("property_1")); // 3
-
-    // [END datastore_count_aggregation_query_on_kind]
   }
 }
+// [END datastore_count_aggregation_query_on_kind]

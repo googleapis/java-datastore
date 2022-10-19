@@ -16,6 +16,7 @@
 
 package com.example.datastore.aggregation;
 
+// [START datastore_count_aggregation_query_in_transaction]
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Datastore.TransactionCallable;
@@ -31,8 +32,6 @@ import com.google.common.collect.Iterables;
 public class CountAggregationInTransaction {
 
   public static void invoke() {
-    // [START datastore_count_aggregation_query_in_transaction]
-
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
@@ -76,7 +75,6 @@ public class CountAggregationInTransaction {
               }
               return null;
             });
-    // [END datastore_count_aggregation_query_in_transaction]
-
   }
 }
+// [END datastore_count_aggregation_query_in_transaction]

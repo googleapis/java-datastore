@@ -16,6 +16,7 @@
 
 package com.example.datastore.aggregation;
 
+// [START datastore_count_aggregation_query_stale_read]
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
@@ -32,8 +33,6 @@ import com.google.common.collect.Iterables;
 public class CountAggregationWithStaleRead {
 
   public static void invoke() throws InterruptedException {
-    // [START datastore_count_aggregation_query_stale_read]
-
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
@@ -74,7 +73,6 @@ public class CountAggregationWithStaleRead {
         Iterables.getOnlyElement(
             datastore.runAggregation(allTasksCountQuery, ReadOption.readTime(pastTimestamp)));
     System.out.printf("Stale tasks count is %d", tasksCountInPast.get("total_count")); // 2
-
-    // [END datastore_count_aggregation_query_stale_read]
   }
 }
+// [END datastore_count_aggregation_query_stale_read]

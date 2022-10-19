@@ -16,6 +16,7 @@
 
 package com.example.datastore.aggregation;
 
+// [START datastore_count_aggregation_query_with_filters]
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
@@ -31,8 +32,6 @@ import com.google.common.collect.Iterables;
 public class CountAggregationWithPropertyFilter {
 
   public static void invoke() {
-    // [START datastore_count_aggregation_query_with_filters]
-
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
@@ -84,7 +83,6 @@ public class CountAggregationWithPropertyFilter {
     System.out.printf(
         "Total remaining tasks count is %d",
         remainingTasksCountQueryResult.get("total_remaining_count")); // 1
-
-    // [END datastore_count_aggregation_query_with_filters]
   }
 }
+// [END datastore_count_aggregation_query_with_filters]

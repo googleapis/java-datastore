@@ -16,6 +16,7 @@
 
 package com.example.datastore.aggregation;
 
+// [START datastore_count_aggregation_query_gql]
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
@@ -29,8 +30,6 @@ import com.google.common.collect.Iterables;
 public class CountAggregationWithGqlQuery {
 
   public static void invoke() {
-    // [START datastore_count_aggregation_query_gql]
-
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
@@ -83,7 +82,6 @@ public class CountAggregationWithGqlQuery {
     System.out.printf(
         "Total completed tasks count is %d",
         completedTasksCountQueryResult.get("total_completed_count")); // 2
-
-    // [END datastore_count_aggregation_query_gql]
   }
 }
+// [END datastore_count_aggregation_query_gql]

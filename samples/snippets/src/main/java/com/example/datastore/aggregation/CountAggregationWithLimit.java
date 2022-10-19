@@ -16,6 +16,7 @@
 
 package com.example.datastore.aggregation;
 
+// [START datastore_count_aggregation_query_with_limit]
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
@@ -29,8 +30,6 @@ import com.google.common.collect.Iterables;
 
 public class CountAggregationWithLimit {
   public static void invoke() {
-    // [START datastore_count_aggregation_query_with_limit]
-
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
@@ -62,7 +61,6 @@ public class CountAggregationWithLimit {
         Iterables.getOnlyElement(datastore.runAggregation(allTasksCountQuery));
 
     System.out.printf("We have at least %d tasks", limitQueryResult.get("at_least")); // 2
-
-    // [END datastore_count_aggregation_query_with_limit]
   }
 }
+// [END datastore_count_aggregation_query_with_limit]
