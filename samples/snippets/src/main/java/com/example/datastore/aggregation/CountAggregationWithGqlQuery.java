@@ -54,7 +54,7 @@ public class CountAggregationWithGqlQuery {
                     + "OVER (SELECT * FROM Task)")
             .setAllowLiteral(true)
             .build();
-    // Creating an aggregation query to get the count of all tasks
+    // Create the aggregation query builder and set the query.
     AggregationQuery allTasksCountQuery =
         Query.newAggregationQueryBuilder().over(selectAllTasks).build();
     // Executing aggregation query
