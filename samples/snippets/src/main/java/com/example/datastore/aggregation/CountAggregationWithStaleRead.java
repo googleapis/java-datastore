@@ -30,40 +30,35 @@ public class CountAggregationWithStaleRead {
     // Saving only two tasks
     datastore.put(
         Entity.newBuilder(task1Key).set("done", true).build(),
-        Entity.newBuilder(task2Key).set("done", false).build()
-    );
+        Entity.newBuilder(task2Key).set("done", false).build());
     Thread.sleep(1000);
-    final Timestamp pastTimestamp =
-        Timestamp.now(); // we have two tasks in database at this time.
+    final Timestamp pastTimestamp = Timestamp.now(); // we have two tasks in database at this time.
 
     Thread.sleep(1000);
     // Saving third tasks
     Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
     datastore.put(Entity.newBuilder(task3Key).set("done", false).build());
 
-    EntityQuery selectAllTasks = Query.newEntityQueryBuilder()
-        .setKind(kind)
-        .build();
+    EntityQuery selectAllTasks = Query.newEntityQueryBuilder().setKind(kind).build();
 
     // Creating an aggregation query to get the count of all tasks
-    AggregationQuery allTasksCountQuery = Query.newAggregationQueryBuilder()
-        .over(selectAllTasks)
-        .addAggregation(Aggregation.count().as("total_count"))
-        .build();
+    AggregationQuery allTasksCountQuery =
+        Query.newAggregationQueryBuilder()
+            .over(selectAllTasks)
+            .addAggregation(Aggregation.count().as("total_count"))
+            .build();
 
     // Executing aggregation query
-    AggregationResult tasksCountLatest = Iterables.getOnlyElement(
-        datastore.runAggregation(allTasksCountQuery));
-    System.out.printf("Latest tasks count is %d",
-        tasksCountLatest.get("total_count")); // 3
+    AggregationResult tasksCountLatest =
+        Iterables.getOnlyElement(datastore.runAggregation(allTasksCountQuery));
+    System.out.printf("Latest tasks count is %d", tasksCountLatest.get("total_count")); // 3
 
     // Executing aggregation query with past timestamp
-    AggregationResult tasksCountInPast = Iterables.getOnlyElement(
-        datastore.runAggregation(allTasksCountQuery, ReadOption.readTime(pastTimestamp)));
-    System.out.printf("Stale tasks count is %d",
-        tasksCountInPast.get("total_count")); // 2
+    AggregationResult tasksCountInPast =
+        Iterables.getOnlyElement(
+            datastore.runAggregation(allTasksCountQuery, ReadOption.readTime(pastTimestamp)));
+    System.out.printf("Stale tasks count is %d", tasksCountInPast.get("total_count")); // 2
 
     // [END datastore_count_aggregation_query_stale_read]
   }
-
 }

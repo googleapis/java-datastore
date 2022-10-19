@@ -40,14 +40,11 @@ public class AggregationQuerySampleTestIT {
 
   private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-  @Rule
-  public final SystemsOutRule systemsOutRule = new SystemsOutRule();
+  @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   @After
   public void tearDown() throws Exception {
-    KeyQuery allKeysQuery = Query.newKeyQueryBuilder()
-        .setKind("Task")
-        .build();
+    KeyQuery allKeysQuery = Query.newKeyQueryBuilder().setKind("Task").build();
     QueryResults<Key> allKeys = datastore.run(allKeysQuery);
     Key[] keysToDelete = ImmutableList.copyOf(allKeys).toArray(new Key[0]);
     datastore.delete(keysToDelete);

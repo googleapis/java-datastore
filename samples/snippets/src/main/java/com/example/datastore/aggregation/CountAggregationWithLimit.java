@@ -29,21 +29,18 @@ public class CountAggregationWithLimit {
     datastore.put(
         Entity.newBuilder(task1Key).set("done", true).build(),
         Entity.newBuilder(task2Key).set("done", false).build(),
-        Entity.newBuilder(task3Key).set("done", true).build()
-    );
+        Entity.newBuilder(task3Key).set("done", true).build());
 
-    EntityQuery selectAllTasks = Query.newEntityQueryBuilder()
-        .setKind(kind)
-        .setLimit(2)
-        .build();
+    EntityQuery selectAllTasks = Query.newEntityQueryBuilder().setKind(kind).setLimit(2).build();
     // Creating an aggregation query to get the count of all tasks
-    AggregationQuery allTasksCountQuery = Query.newAggregationQueryBuilder()
-        .over(selectAllTasks)
-        .addAggregation(Aggregation.count().as("at_least"))
-        .build();
+    AggregationQuery allTasksCountQuery =
+        Query.newAggregationQueryBuilder()
+            .over(selectAllTasks)
+            .addAggregation(Aggregation.count().as("at_least"))
+            .build();
     // Executing aggregation query
-    AggregationResult limitQueryResult = Iterables.getOnlyElement(
-        datastore.runAggregation(allTasksCountQuery));
+    AggregationResult limitQueryResult =
+        Iterables.getOnlyElement(datastore.runAggregation(allTasksCountQuery));
 
     System.out.printf("We have at least %d tasks", limitQueryResult.get("at_least")); // 2
 

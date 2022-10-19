@@ -32,8 +32,7 @@ import org.junit.runners.JUnit4;
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
 public class QuickstartSampleIT {
 
-  @Rule
-  public final SystemsOutRule systemsOutRule = new SystemsOutRule();
+  @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   private static final void deleteTestEntity() {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();

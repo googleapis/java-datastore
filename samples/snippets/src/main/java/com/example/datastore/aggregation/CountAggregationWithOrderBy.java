@@ -29,25 +29,26 @@ public class CountAggregationWithOrderBy {
     // Save all the tasks
     datastore.put(
         Entity.newBuilder(task1Key).set("done", true).set("priority", 1).build(),
-        Entity.newBuilder(task2Key).set("done", false).build(),  // no priority specified
-        Entity.newBuilder(task3Key).set("done", true).set("priority", 2).build()
-    );
+        Entity.newBuilder(task2Key).set("done", false).build(), // no priority specified
+        Entity.newBuilder(task3Key).set("done", true).set("priority", 2).build());
 
-    EntityQuery selectAllTasks = Query.newEntityQueryBuilder()
-        .setKind(kind)
-        .addOrderBy(OrderBy.asc("priority"))    // OrderBy acts as an existence filter
-        .build();
+    EntityQuery selectAllTasks =
+        Query.newEntityQueryBuilder()
+            .setKind(kind)
+            .addOrderBy(OrderBy.asc("priority")) // OrderBy acts as an existence filter
+            .build();
     // Creating an aggregation query to get the count of all tasks
-    AggregationQuery allTasksCountQuery = Query.newAggregationQueryBuilder()
-        .over(selectAllTasks)
-        .addAggregation(Aggregation.count().as("count"))
-        .build();
+    AggregationQuery allTasksCountQuery =
+        Query.newAggregationQueryBuilder()
+            .over(selectAllTasks)
+            .addAggregation(Aggregation.count().as("count"))
+            .build();
     // Executing aggregation query
-    AggregationResult limitQueryResult = Iterables.getOnlyElement(
-        datastore.runAggregation(allTasksCountQuery));
+    AggregationResult limitQueryResult =
+        Iterables.getOnlyElement(datastore.runAggregation(allTasksCountQuery));
 
-    System.out.printf("Total %d tasks found with priority field",
-        limitQueryResult.get("count")); // 2
+    System.out.printf(
+        "Total %d tasks found with priority field", limitQueryResult.get("count")); // 2
 
     // [END datastore_count_aggregation_query_with_order_by]
   }

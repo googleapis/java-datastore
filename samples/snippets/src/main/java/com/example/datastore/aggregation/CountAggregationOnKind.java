@@ -45,25 +45,23 @@ public class CountAggregationOnKind {
     datastore.put(
         Entity.newBuilder(task1Key).set("done", true).build(),
         Entity.newBuilder(task2Key).set("done", false).build(),
-        Entity.newBuilder(task3Key).set("done", true).build()
-    );
+        Entity.newBuilder(task3Key).set("done", true).build());
 
-    EntityQuery selectAllTasks = Query.newEntityQueryBuilder()
-        .setKind(kind)
-        .build();
+    EntityQuery selectAllTasks = Query.newEntityQueryBuilder().setKind(kind).build();
     // Creating an aggregation query to get the count of all tasks
-    AggregationQuery allTasksCountQuery = Query.newAggregationQueryBuilder()
-        .over(selectAllTasks)
-        .addAggregation(Aggregation.count())
-        .addAggregation(Aggregation.count().as("total_count"))
-        .build();
+    AggregationQuery allTasksCountQuery =
+        Query.newAggregationQueryBuilder()
+            .over(selectAllTasks)
+            .addAggregation(Aggregation.count())
+            .addAggregation(Aggregation.count().as("total_count"))
+            .build();
     // Executing aggregation query
-    AggregationResult allTasksCountQueryResult = Iterables.getOnlyElement(
-        datastore.runAggregation(allTasksCountQuery));
+    AggregationResult allTasksCountQueryResult =
+        Iterables.getOnlyElement(datastore.runAggregation(allTasksCountQuery));
 
-    System.out.printf("Total tasks count is %d",
-        allTasksCountQueryResult.get("total_count")); // 3
-    System.out.printf("Total tasks (accessible from default alias) is %d",
+    System.out.printf("Total tasks count is %d", allTasksCountQueryResult.get("total_count")); // 3
+    System.out.printf(
+        "Total tasks (accessible from default alias) is %d",
         allTasksCountQueryResult.get("property_1")); // 3
 
     // [END datastore_count_aggregation_query_on_kind]

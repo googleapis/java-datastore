@@ -29,33 +29,37 @@ public class CountAggregationInTransaction {
     // Save all the tasks
     datastore.put(
         Entity.newBuilder(task1Key).set("owner", "john").build(),
-        Entity.newBuilder(task2Key).set("owner", "john").build()
-    );
+        Entity.newBuilder(task2Key).set("owner", "john").build());
 
     // Using transactions to maintain consistent application state.
-    datastore.runInTransaction((TransactionCallable<Void>) transaction -> {
-      EntityQuery tasksOfJohn = Query.newEntityQueryBuilder()
-          .setKind(kind)
-          .setFilter(PropertyFilter.eq("owner", "john"))
-          .build();
-      AggregationQuery totalTasksQuery = Query.newAggregationQueryBuilder()
-          .over(tasksOfJohn)
-          .addAggregation(Aggregation.count().as("tasks_count"))
-          .build();
+    datastore.runInTransaction(
+        (TransactionCallable<Void>)
+            transaction -> {
+              EntityQuery tasksOfJohn =
+                  Query.newEntityQueryBuilder()
+                      .setKind(kind)
+                      .setFilter(PropertyFilter.eq("owner", "john"))
+                      .build();
+              AggregationQuery totalTasksQuery =
+                  Query.newAggregationQueryBuilder()
+                      .over(tasksOfJohn)
+                      .addAggregation(Aggregation.count().as("tasks_count"))
+                      .build();
 
-      Long tasksCount = Iterables.getOnlyElement(
-          datastore.runAggregation(totalTasksQuery)).get("tasks_count");
+              Long tasksCount =
+                  Iterables.getOnlyElement(datastore.runAggregation(totalTasksQuery))
+                      .get("tasks_count");
 
-      if (tasksCount < 2) {
-        Key newTaskKey = datastore.newKeyFactory().setKind(kind).newKey("task3");
-        Entity newTask = Entity.newBuilder(newTaskKey).set("owner", "john").build();
-        transaction.put(newTask);
-      } else {
-        System.out.printf("Found existing %d tasks, rolling back", tasksCount);
-        throw new Exception("User 'John' cannot have more than 2 tasks");
-      }
-      return null;
-    });
+              if (tasksCount < 2) {
+                Key newTaskKey = datastore.newKeyFactory().setKind(kind).newKey("task3");
+                Entity newTask = Entity.newBuilder(newTaskKey).set("owner", "john").build();
+                transaction.put(newTask);
+              } else {
+                System.out.printf("Found existing %d tasks, rolling back", tasksCount);
+                throw new Exception("User 'John' cannot have more than 2 tasks");
+              }
+              return null;
+            });
     // [END datastore_count_aggregation_query_in_transaction]
 
   }
