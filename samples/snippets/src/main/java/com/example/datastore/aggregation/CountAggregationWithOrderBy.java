@@ -45,7 +45,8 @@ public class CountAggregationWithOrderBy {
     // Save all the tasks
     datastore.put(
         Entity.newBuilder(task1Key).set("done", true).set("priority", 1).build(),
-        Entity.newBuilder(task2Key).set("done", false).build(), // no priority specified
+        // Priority not specified.
+        Entity.newBuilder(task2Key).set("done", false).build(),
         Entity.newBuilder(task3Key).set("done", true).set("priority", 2).build());
 
     EntityQuery selectAllTasks =
