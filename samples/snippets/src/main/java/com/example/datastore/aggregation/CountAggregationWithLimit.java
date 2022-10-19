@@ -47,7 +47,10 @@ public class CountAggregationWithLimit {
         Entity.newBuilder(task2Key).set("done", false).build(),
         Entity.newBuilder(task3Key).set("done", true).build());
 
-    EntityQuery selectAllTasks = Query.newEntityQueryBuilder().setKind(kind).setLimit(2).build();
+    EntityQuery selectAllTasks = Query.newEntityQueryBuilder()
+        .setKind(kind)
+        .setLimit(2)
+        .build();
     // Creating an aggregation query to get the count of all tasks
     AggregationQuery allTasksCountQuery =
         Query.newAggregationQueryBuilder()
