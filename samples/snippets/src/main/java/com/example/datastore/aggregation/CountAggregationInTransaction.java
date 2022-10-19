@@ -50,6 +50,7 @@ public class CountAggregationInTransaction {
     datastore.runInTransaction(
         (TransactionCallable<Void>)
             transaction -> {
+              // Create a query to get the count of all tasks of owner 'John'.
               EntityQuery tasksOfJohn =
                   Query.newEntityQueryBuilder()
                       .setKind(kind)
@@ -61,13 +62,15 @@ public class CountAggregationInTransaction {
                       .addAggregation(Aggregation.count().as("tasks_count"))
                       .build();
 
+              // Executing aggregation query in the ongoing transaction.
               Long tasksCount =
-                  Iterables.getOnlyElement(datastore.runAggregation(totalTasksQuery))
+                  Iterables.getOnlyElement(transaction.runAggregation(totalTasksQuery))
                       .get("tasks_count");
 
               if (tasksCount < 2) {
                 Key newTaskKey = datastore.newKeyFactory().setKind(kind).newKey("task3");
                 Entity newTask = Entity.newBuilder(newTaskKey).set("owner", "john").build();
+                // Inserting a new entity in the transaction.
                 transaction.put(newTask);
               } else {
                 System.out.printf("Found existing %d tasks, rolling back", tasksCount);
