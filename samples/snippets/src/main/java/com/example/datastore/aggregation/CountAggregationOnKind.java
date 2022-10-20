@@ -17,6 +17,8 @@
 package com.example.datastore.aggregation;
 
 // [START datastore_count_aggregation_query_on_kind]
+import static com.google.cloud.datastore.aggregation.Aggregation.count;
+
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
@@ -25,18 +27,17 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
-import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.common.collect.Iterables;
 
 public class CountAggregationOnKind {
+  // Instantiates a client.
+  private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-  public static void invoke() {
-    // Instantiates a client.
-    Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+  // The kind for the new entity.
+  private static final String kind = "Task";
 
-    // The kind for the new entity.
-    String kind = "Task";
-
+  // Setting up Tasks in database
+  private static void setUpTasks() {
     Key task1Key = datastore.newKeyFactory().setKind(kind).newKey("task1");
     Key task2Key = datastore.newKeyFactory().setKind(kind).newKey("task2");
     Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
@@ -46,23 +47,47 @@ public class CountAggregationOnKind {
         Entity.newBuilder(task1Key).set("done", true).build(),
         Entity.newBuilder(task2Key).set("done", false).build(),
         Entity.newBuilder(task3Key).set("done", true).build());
+  }
 
+  // Accessing aggregation result by the generated alias.
+  private static void usageWithGeneratedAlias() {
     EntityQuery selectAllTasks = Query.newEntityQueryBuilder().setKind(kind).build();
     // Creating an aggregation query to get the count of all tasks.
     AggregationQuery allTasksCountQuery =
         Query.newAggregationQueryBuilder()
             .over(selectAllTasks)
-            .addAggregation(Aggregation.count())
-            .addAggregation(Aggregation.count().as("total_count"))
+            .addAggregation(count())
             .build();
     // Executing aggregation query.
-    AggregationResult allTasksCountQueryResult =
+    AggregationResult aggregationResult =
         Iterables.getOnlyElement(datastore.runAggregation(allTasksCountQuery));
 
-    System.out.printf("Total tasks count is %d", allTasksCountQueryResult.get("total_count")); // 3
     System.out.printf(
         "Total tasks (accessible from default alias) is %d",
-        allTasksCountQueryResult.get("property_1")); // 3
+        aggregationResult.get("property_1")); // 3
+  }
+
+  // Accessing aggregation result by the provided custom alias.
+  private static void usageWithCustomAlias() {
+    EntityQuery selectAllTasks = Query.newEntityQueryBuilder().setKind(kind).build();
+    // Creating an aggregation query to get the count of all tasks.
+    AggregationQuery allTasksCountQuery =
+        Query.newAggregationQueryBuilder()
+            .over(selectAllTasks)
+            // passing 'total_count' as alias in the aggregation query.
+            .addAggregation(count().as("total_count"))
+            .build();
+    // Executing aggregation query.
+    AggregationResult aggregationResult =
+        Iterables.getOnlyElement(datastore.runAggregation(allTasksCountQuery));
+
+    System.out.printf("Total tasks count is %d", aggregationResult.get("total_count")); // 3
+  }
+
+  public static void invoke() {
+    setUpTasks();
+    usageWithGeneratedAlias();
+    usageWithCustomAlias();
   }
 }
 // [END datastore_count_aggregation_query_on_kind]
