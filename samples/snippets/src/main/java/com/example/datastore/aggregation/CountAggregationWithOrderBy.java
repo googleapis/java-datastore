@@ -17,6 +17,10 @@
 package com.example.datastore.aggregation;
 
 // [START datastore_count_aggregation_query_with_order_by]
+
+import static com.google.cloud.datastore.StructuredQuery.OrderBy.asc;
+import static com.google.cloud.datastore.aggregation.Aggregation.count;
+
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
@@ -25,8 +29,6 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
-import com.google.cloud.datastore.StructuredQuery.OrderBy;
-import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.common.collect.Iterables;
 
 public class CountAggregationWithOrderBy {
@@ -52,13 +54,13 @@ public class CountAggregationWithOrderBy {
     EntityQuery selectAllTasks =
         Query.newEntityQueryBuilder()
             .setKind(kind)
-            .addOrderBy(OrderBy.asc("priority"))
+            .addOrderBy(asc("priority"))
             .build();
     // Creating an aggregation query to get the count of all tasks.
     AggregationQuery allTasksCountQuery =
         Query.newAggregationQueryBuilder()
             .over(selectAllTasks)
-            .addAggregation(Aggregation.count().as("count"))
+            .addAggregation(count().as("count"))
             .build();
     // Executing aggregation query.
     AggregationResult limitQueryResult =

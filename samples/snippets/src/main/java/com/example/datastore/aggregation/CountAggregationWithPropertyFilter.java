@@ -17,6 +17,9 @@
 package com.example.datastore.aggregation;
 
 // [START datastore_count_aggregation_query_with_filters]
+
+import static com.google.cloud.datastore.aggregation.Aggregation.count;
+
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
@@ -26,7 +29,6 @@ import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
-import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.common.collect.Iterables;
 
 public class CountAggregationWithPropertyFilter {
@@ -62,13 +64,13 @@ public class CountAggregationWithPropertyFilter {
     AggregationQuery completedTasksCountQuery =
         Query.newAggregationQueryBuilder()
             .over(completedTasks)
-            .addAggregation(Aggregation.count().as("total_completed_count"))
+            .addAggregation(count().as("total_completed_count"))
             .build();
     // Creating an aggregation query to get the count of all remaining tasks.
     AggregationQuery remainingTasksCountQuery =
         Query.newAggregationQueryBuilder()
             .over(remainingTasks)
-            .addAggregation(Aggregation.count().as("total_remaining_count"))
+            .addAggregation(count().as("total_remaining_count"))
             .build();
 
     // Executing aggregation query.

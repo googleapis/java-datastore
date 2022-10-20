@@ -17,6 +17,9 @@
 package com.example.datastore.aggregation;
 
 // [START datastore_count_aggregation_query_stale_read]
+
+import static com.google.cloud.datastore.aggregation.Aggregation.count;
+
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
@@ -27,7 +30,6 @@ import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.ReadOption;
-import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.common.collect.Iterables;
 
 public class CountAggregationWithStaleRead {
@@ -60,7 +62,7 @@ public class CountAggregationWithStaleRead {
     AggregationQuery allTasksCountQuery =
         Query.newAggregationQueryBuilder()
             .over(selectAllTasks)
-            .addAggregation(Aggregation.count().as("total_count"))
+            .addAggregation(count().as("total_count"))
             .build();
 
     // Executing aggregation query.

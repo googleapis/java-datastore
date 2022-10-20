@@ -17,6 +17,9 @@
 package com.example.datastore.aggregation;
 
 // [START datastore_count_aggregation_query_in_transaction]
+
+import static com.google.cloud.datastore.aggregation.Aggregation.count;
+
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Datastore.TransactionCallable;
@@ -26,7 +29,6 @@ import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
-import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.common.collect.Iterables;
 
 public class CountAggregationInTransaction {
@@ -59,7 +61,7 @@ public class CountAggregationInTransaction {
               AggregationQuery totalTasksQuery =
                   Query.newAggregationQueryBuilder()
                       .over(tasksOfJohn)
-                      .addAggregation(Aggregation.count().as("tasks_count"))
+                      .addAggregation(count().as("tasks_count"))
                       .build();
 
               // Executing aggregation query in the ongoing transaction.
