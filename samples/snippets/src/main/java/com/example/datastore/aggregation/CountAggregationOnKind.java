@@ -54,10 +54,7 @@ public class CountAggregationOnKind {
     EntityQuery selectAllTasks = Query.newEntityQueryBuilder().setKind(kind).build();
     // Creating an aggregation query to get the count of all tasks.
     AggregationQuery allTasksCountQuery =
-        Query.newAggregationQueryBuilder()
-            .over(selectAllTasks)
-            .addAggregation(count())
-            .build();
+        Query.newAggregationQueryBuilder().over(selectAllTasks).addAggregation(count()).build();
     // Executing aggregation query.
     AggregationResult aggregationResult =
         Iterables.getOnlyElement(datastore.runAggregation(allTasksCountQuery));

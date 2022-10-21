@@ -52,10 +52,7 @@ public class CountAggregationWithOrderBy {
 
     // OrderBy acts as an existence filter.
     EntityQuery selectAllTasks =
-        Query.newEntityQueryBuilder()
-            .setKind(kind)
-            .addOrderBy(asc("priority"))
-            .build();
+        Query.newEntityQueryBuilder().setKind(kind).addOrderBy(asc("priority")).build();
     // Creating an aggregation query to get the count of all tasks.
     AggregationQuery allTasksCountQuery =
         Query.newAggregationQueryBuilder()
