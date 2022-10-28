@@ -50,6 +50,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   private final double consistency;
   private final Path gcdPath;
   private boolean storeOnDisk;
+  private String databaseId;
 
   // Gcloud emulator settings
   private static final String GCLOUD_CMD_TEXT = "gcloud beta emulators datastore start";
@@ -83,6 +84,13 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
       throw new IllegalStateException(ex);
     }
   }
+
+  private final DatastoreOptions.Builder optionsBuilder =
+      DatastoreOptions.newBuilder()
+          .setProjectId(getProjectId())
+          .setHost(DEFAULT_HOST + ":" + getPort())
+          .setCredentials(NoCredentials.getInstance())
+          .setRetrySettings(ServiceOptions.getNoRetrySettings());
 
   /** A builder for {@code LocalDatastoreHelper} objects. */
   public static class Builder {
@@ -177,29 +185,32 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     return LOGGER;
   }
 
-  private DatastoreOptions.Builder optionsBuilder() {
-    return DatastoreOptions.newBuilder()
-        .setProjectId(getProjectId())
-        .setHost(DEFAULT_HOST + ":" + Integer.toString(getPort()))
-        .setCredentials(NoCredentials.getInstance())
-        .setRetrySettings(ServiceOptions.getNoRetrySettings());
-  }
-
   /**
    * Returns a {@link DatastoreOptions} instance that sets the host to use the Datastore emulator on
    * localhost.
    */
   @Override
   public DatastoreOptions getOptions() {
-    return optionsBuilder().build();
+    return optionsBuilder.build();
   }
 
   /**
    * Returns a {@link DatastoreOptions} instance that sets the host to use the Datastore emulator on
    * localhost. The default namespace is set to {@code namespace}.
+   *
+   * @deprecated use setNamespace and then build() instead
    */
+  @Deprecated
   public DatastoreOptions getOptions(String namespace) {
-    return optionsBuilder().setNamespace(namespace).build();
+    return optionsBuilder.setNamespace(namespace).build();
+  }
+
+  public DatastoreOptions.Builder setNamespace(String namespace) {
+    return optionsBuilder.setNamespace(namespace);
+  }
+
+  public DatastoreOptions.Builder setDatabaseId(String databaseId) {
+    return optionsBuilder.setDatabaseId(databaseId);
   }
 
   /** Returns the consistency setting for the local Datastore emulator. */

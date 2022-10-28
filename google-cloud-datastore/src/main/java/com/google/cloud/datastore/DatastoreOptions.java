@@ -40,6 +40,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   private static final Set<String> SCOPES = ImmutableSet.of(DATASTORE_SCOPE);
 
   private final String namespace;
+  private final String databaseId;
 
   public static class DefaultDatastoreFactory implements DatastoreFactory {
 
@@ -64,12 +65,14 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   public static class Builder extends ServiceOptions.Builder<Datastore, DatastoreOptions, Builder> {
 
     private String namespace;
+    private String databaseId;
 
     private Builder() {}
 
     private Builder(DatastoreOptions options) {
       super(options);
       namespace = options.namespace;
+      databaseId = options.databaseId;
     }
 
     @Override
@@ -91,11 +94,17 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       this.namespace = validateNamespace(namespace);
       return this;
     }
+
+    public Builder setDatabaseId(String databaseId) {
+      this.databaseId = databaseId;
+      return this;
+    }
   }
 
   private DatastoreOptions(Builder builder) {
     super(DatastoreFactory.class, DatastoreRpcFactory.class, builder, new DatastoreDefaults());
     namespace = builder.namespace != null ? builder.namespace : defaultNamespace();
+    databaseId = builder.databaseId != null ? builder.databaseId : defaultDatabaseId();
   }
 
   @Override
@@ -143,6 +152,10 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     return namespace;
   }
 
+  public String getDatabaseId() {
+    return this.databaseId;
+  }
+
   /** Returns a default {@code DatastoreOptions} instance. */
   public static DatastoreOptions getDefaultInstance() {
     return newBuilder().build();
@@ -158,6 +171,10 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       // return empty string (Datastore default namespace) if could not automatically determine
       return "";
     }
+  }
+
+  private static String defaultDatabaseId() {
+    return "";
   }
 
   @Override

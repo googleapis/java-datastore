@@ -193,6 +193,7 @@ public class QuerySplitterTest {
     RunQueryRequest expectedSplitQueryRequest =
         RunQueryRequest.newBuilder()
             .setPartitionId(PARTITION)
+            .setProjectId(PROJECT_ID)
             .setQuery(
                 splitQuery.toBuilder().setLimit(Int32Value.newBuilder().setValue(2 * 32).build()))
             .build();
@@ -235,6 +236,7 @@ public class QuerySplitterTest {
     RunQueryRequest expectedSplitQueryRequest =
         RunQueryRequest.newBuilder()
             .setPartitionId(PARTITION)
+            .setProjectId(PROJECT_ID)
             .setQuery(
                 splitQuery.toBuilder().setLimit(Int32Value.newBuilder().setValue(99 * 32).build()))
             .build();
@@ -286,6 +288,7 @@ public class QuerySplitterTest {
     RunQueryRequest expectedSplitQueryRequest =
         RunQueryRequest.newBuilder()
             .setPartitionId(PARTITION)
+            .setProjectId(PROJECT_ID)
             .setQuery(
                 splitQuery.toBuilder().setLimit(Int32Value.newBuilder().setValue(2 * 32).build()))
             .setReadOptions(ReadOptions.newBuilder().setReadTime(readTime))
