@@ -68,6 +68,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
 
   // Common settings
   private static final String CONSISTENCY_FLAG = "--consistency=";
+  private static final String PROJECT_FLAG = "--project=";
   private static final double DEFAULT_CONSISTENCY = 0.9;
 
   private static final Logger LOGGER = Logger.getLogger(LocalDatastoreHelper.class.getName());
@@ -140,6 +141,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     List<String> gcloudCommand = new ArrayList<>(Arrays.asList(GCLOUD_CMD_TEXT.split(" ")));
     gcloudCommand.add(GCLOUD_CMD_PORT_FLAG + "localhost:" + getPort());
     gcloudCommand.add(CONSISTENCY_FLAG + builder.consistency);
+    gcloudCommand.add(PROJECT_FLAG + getProjectId());
     if (!builder.storeOnDisk) {
       gcloudCommand.add("--no-store-on-disk");
     }
