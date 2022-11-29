@@ -140,6 +140,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
         "datastore",
         builder.port > 0 ? builder.port : BaseEmulatorHelper.findAvailablePort(DEFAULT_PORT),
         firstNonNull(builder.projectId, DEFAULT_PROJECT_ID));
+    String projectId = firstNonNull(builder.projectId, DEFAULT_PROJECT_ID);
     this.consistency = builder.consistency > 0 ? builder.consistency : DEFAULT_CONSISTENCY;
     this.gcdPath = builder.dataDir;
     this.storeOnDisk = builder.storeOnDisk;
@@ -150,7 +151,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     List<String> gcloudCommand = new ArrayList<>(Arrays.asList(GCLOUD_CMD_TEXT.split(" ")));
     gcloudCommand.add(GCLOUD_CMD_PORT_FLAG + "localhost:" + getPort());
     gcloudCommand.add(CONSISTENCY_FLAG + builder.consistency);
-    gcloudCommand.add(PROJECT_FLAG + getProjectId());
+    gcloudCommand.add(PROJECT_FLAG + projectId);
     if (!builder.storeOnDisk) {
       gcloudCommand.add("--no-store-on-disk");
     }
