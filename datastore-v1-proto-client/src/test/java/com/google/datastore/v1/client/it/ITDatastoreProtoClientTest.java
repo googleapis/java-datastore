@@ -75,7 +75,7 @@ public class ITDatastoreProtoClientTest {
         DatastoreHelper.getQuerySplitter().getSplits(query, PARTITION, 2, DATASTORE);
     splits.forEach(
         split -> {
-          Assert.assertEquals("test-kind", split.getKind(0).getName());
+          Assert.assertEquals(KIND, split.getKind(0).getName());
           Assert.assertEquals(propertyFilter, split.getFilter());
         });
   }

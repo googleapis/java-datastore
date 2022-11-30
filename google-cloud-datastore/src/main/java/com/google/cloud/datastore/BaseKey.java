@@ -125,11 +125,7 @@ public abstract class BaseKey implements Serializable {
   }
 
   BaseKey(String projectId, String namespace, ImmutableList<PathElement> path) {
-    Preconditions.checkArgument(!path.isEmpty(), "Path must not be empty");
-    this.projectId = projectId;
-    this.namespace = namespace;
-    this.databaseId = "";
-    this.path = path;
+    this(projectId, namespace, "", path);
   }
 
   BaseKey(String projectId, String namespace, String databaseId, ImmutableList<PathElement> path) {
