@@ -92,9 +92,7 @@ public class ITLocalDatastoreHelperTest {
   public void testCreateWithCustomProjectId() {
     String customProjectId = "custom-project-id";
     LocalDatastoreHelper helper =
-        LocalDatastoreHelper.newBuilder()
-            .setProjectId(customProjectId)
-            .build();
+        LocalDatastoreHelper.newBuilder().setProjectId(customProjectId).build();
     assertEquals(customProjectId, helper.getProjectId());
   }
 
