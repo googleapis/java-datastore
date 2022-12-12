@@ -38,6 +38,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   private static final String API_SHORT_NAME = "Datastore";
   private static final String DATASTORE_SCOPE = "https://www.googleapis.com/auth/datastore";
   private static final Set<String> SCOPES = ImmutableSet.of(DATASTORE_SCOPE);
+  private static final String DEFAULT_DATABASE_ID = "";
 
   private final String namespace;
   private final String databaseId;
@@ -103,8 +104,8 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
   private DatastoreOptions(Builder builder) {
     super(DatastoreFactory.class, DatastoreRpcFactory.class, builder, new DatastoreDefaults());
-    namespace = builder.namespace != null ? builder.namespace : defaultNamespace();
-    databaseId = builder.databaseId != null ? builder.databaseId : defaultDatabaseId();
+    namespace = MoreObjects.firstNonNull(builder.namespace, defaultNamespace());
+    databaseId = MoreObjects.firstNonNull(builder.databaseId, DEFAULT_DATABASE_ID);
   }
 
   @Override
@@ -171,10 +172,6 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       // return empty string (Datastore default namespace) if could not automatically determine
       return "";
     }
-  }
-
-  private static String defaultDatabaseId() {
-    return "";
   }
 
   @Override
