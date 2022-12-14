@@ -49,20 +49,20 @@ If you are using Maven without BOM, add this to your dependencies:
 If you are using Gradle 5.x or later, add this to your dependencies:
 
 ```Groovy
-implementation platform('com.google.cloud:libraries-bom:26.1.4')
+implementation platform('com.google.cloud:libraries-bom:26.1.5')
 
 implementation 'com.google.cloud:google-cloud-datastore'
 ```
 If you are using Gradle without BOM, add this to your dependencies:
 
 ```Groovy
-implementation 'com.google.cloud:google-cloud-datastore:2.12.5'
+implementation 'com.google.cloud:google-cloud-datastore:2.13.0'
 ```
 
 If you are using SBT, add this to your dependencies:
 
 ```Scala
-libraryDependencies += "com.google.cloud" % "google-cloud-datastore" % "2.12.5"
+libraryDependencies += "com.google.cloud" % "google-cloud-datastore" % "2.13.0"
 ```
 
 ## Authentication
