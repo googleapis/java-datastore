@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Google LLC
+ * Copyright 2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,9 +87,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
 
-// todo: combine this with ITDatastoreTestWithNamedDb once we resolve issues with parameterized
-// graalvm tests
-public class ITDatastoreTest {
+// todo: combine this with ITDatastoreTest once we resolve issues with parameterized graalvm tests
+public class ITDatastoreTestWithNamedDb {
 
   private static final RemoteDatastoreHelper HELPER = RemoteDatastoreHelper.create();
   private static final DatastoreOptions OPTIONS_1 = HELPER.getOptions();
@@ -100,11 +99,9 @@ public class ITDatastoreTest {
   private static final DatastoreOptions OPTIONS_2 = HELPER2.getOptions();
   private static final Datastore DATASTORE_2 = OPTIONS_2.getService();
 
-  private final DatastoreOptions options = OPTIONS_1;
-  private final Datastore datastore = DATASTORE_1;
+  private final DatastoreOptions options = OPTIONS_2;
+  private final Datastore datastore = DATASTORE_2;
 
-  private static String PROJECT_ID;
-  private static String NAMESPACE;
   private static final String KIND1 = "kind1";
   private static final String KIND2 = "kind2";
   private static final String KIND3 = "kind3";
@@ -119,6 +116,8 @@ public class ITDatastoreTest {
   private static final LatLngValue LAT_LNG_VALUE =
       new LatLngValue(LatLng.of(37.422035, -122.084124));
 
+  private static String PROJECT_ID;
+  private static String NAMESPACE;
   private static Key ROOT_KEY;
   private static IncompleteKey INCOMPLETE_KEY1;
   private static ListValue LIST_VALUE2;
@@ -1207,8 +1206,8 @@ public class ITDatastoreTest {
 
   @Test
   public void testRunInTransaction() {
-    Datastore.TransactionCallable<Integer> callable1 =
-        new Datastore.TransactionCallable<Integer>() {
+    TransactionCallable<Integer> callable1 =
+        new TransactionCallable<Integer>() {
           private Integer attempts = 1;
 
           @Override
@@ -1226,8 +1225,8 @@ public class ITDatastoreTest {
     int result = datastore.runInTransaction(callable1);
     assertEquals(result, 2);
 
-    Datastore.TransactionCallable<Integer> callable2 =
-        new Datastore.TransactionCallable<Integer>() {
+    TransactionCallable<Integer> callable2 =
+        new TransactionCallable<Integer>() {
           private Integer attempts = 1;
 
           @Override
@@ -1254,8 +1253,8 @@ public class ITDatastoreTest {
 
     final Entity entity1 = Entity.newBuilder(ENTITY1).clear().setNull("bla").build();
 
-    Datastore.TransactionCallable<Integer> callable1 =
-        new Datastore.TransactionCallable<Integer>() {
+    TransactionCallable<Integer> callable1 =
+        new TransactionCallable<Integer>() {
           private Integer attempts = 1;
 
           @Override
@@ -1274,8 +1273,8 @@ public class ITDatastoreTest {
     assertEquals(result, 2);
 
     final Entity entity2 = Entity.newBuilder(ENTITY2).clear().setNull("bla").build();
-    Datastore.TransactionCallable<Integer> callable2 =
-        new Datastore.TransactionCallable<Integer>() {
+    TransactionCallable<Integer> callable2 =
+        new TransactionCallable<Integer>() {
           private Integer attempts = 1;
 
           @Override
@@ -1291,9 +1290,7 @@ public class ITDatastoreTest {
         };
 
     TransactionOptions readOnlyOptions =
-        TransactionOptions.newBuilder()
-            .setReadOnly(TransactionOptions.ReadOnly.getDefaultInstance())
-            .build();
+        TransactionOptions.newBuilder().setReadOnly(ReadOnly.getDefaultInstance()).build();
 
     try {
       datastore.runInTransaction(callable2, readOnlyOptions);
