@@ -32,23 +32,10 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
-@RunWith(Parameterized.class)
 public class ITDatastoreProtoClientTest {
 
   private static Datastore DATASTORE;
-  private final String databaseId;
-
-  @Parameterized.Parameters(name = "database id: {0}")
-  public static Object[] data() {
-    return new Object[] {"", "test-db"};
-  }
-
-  public ITDatastoreProtoClientTest(String databaseId) {
-    this.databaseId = databaseId;
-  }
 
   private static PartitionId PARTITION;
 
@@ -58,7 +45,27 @@ public class ITDatastoreProtoClientTest {
   @Before
   public void setUp() throws GeneralSecurityException, IOException {
     DATASTORE = DatastoreHelper.getDatastoreFromEnv();
-    PARTITION = PartitionId.newBuilder().setProjectId(PROJECT_ID).setDatabaseId(databaseId).build();
+  }
+
+  @Test
+  public void testQuerySplitterWithDefaultDb() throws DatastoreException {
+    Filter propertyFilter =
+        makeFilter("foo", PropertyFilter.Operator.EQUAL, makeValue("value")).build();
+    Query query =
+        Query.newBuilder()
+            .addKind(KindExpression.newBuilder().setName(KIND).build())
+            .setFilter(propertyFilter)
+            .build();
+
+    PARTITION = PartitionId.newBuilder().setProjectId(PROJECT_ID).build();
+
+    List<Query> splits =
+        DatastoreHelper.getQuerySplitter().getSplits(query, PARTITION, 2, DATASTORE);
+    splits.forEach(
+        split -> {
+          Assert.assertEquals(KIND, split.getKind(0).getName());
+          Assert.assertEquals(propertyFilter, split.getFilter());
+        });
   }
 
   @Test
@@ -70,6 +77,8 @@ public class ITDatastoreProtoClientTest {
             .addKind(KindExpression.newBuilder().setName(KIND).build())
             .setFilter(propertyFilter)
             .build();
+
+    PARTITION = PartitionId.newBuilder().setProjectId(PROJECT_ID).setDatabaseId("test-db").build();
 
     List<Query> splits =
         DatastoreHelper.getQuerySplitter().getSplits(query, PARTITION, 2, DATASTORE);
