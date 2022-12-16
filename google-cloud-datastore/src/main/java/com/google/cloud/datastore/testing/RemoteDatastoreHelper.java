@@ -74,11 +74,17 @@ public class RemoteDatastoreHelper {
 
   /** Creates a {@code RemoteStorageHelper} object. */
   public static RemoteDatastoreHelper create() {
+    return create("");
+  }
+
+  /** Creates a {@code RemoteStorageHelper} object. */
+  public static RemoteDatastoreHelper create(String databaseId) {
     HttpTransportOptions transportOptions = DatastoreOptions.getDefaultHttpTransportOptions();
     transportOptions =
         transportOptions.toBuilder().setConnectTimeout(60000).setReadTimeout(60000).build();
     DatastoreOptions datastoreOption =
         DatastoreOptions.newBuilder()
+            .setDatabaseId(databaseId)
             .setNamespace(UUID.randomUUID().toString())
             .setRetrySettings(retrySettings())
             .setTransportOptions(transportOptions)

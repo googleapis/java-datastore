@@ -29,5 +29,53 @@
     "allPublicMethods":true,
     "allDeclaredConstructors" : true,
     "allPublicConstructors" : true
+  },
+  {
+    "name":"com.google.api.client.auth.oauth2.TokenRequest",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true
+  },
+  {
+    "name":"com.google.api.client.auth.oauth2.TokenResponse",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setAccessToken","parameterTypes":["java.lang.String"] },
+      {"name":"setExpiresInSeconds","parameterTypes":["java.lang.Long"] },
+      {"name":"setTokenType","parameterTypes":["java.lang.String"] }
+    ]
+  },
+  {
+    "name":"com.google.api.client.http.GenericUrl",
+    "allDeclaredFields":true
+  },
+  {
+    "name":"com.google.api.client.json.GenericJson",
+    "allDeclaredFields":true,
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"com.google.api.client.json.webtoken.JsonWebSignature$Header",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true
+  },
+  {
+    "name":"com.google.api.client.json.webtoken.JsonWebToken$Header",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true
+  },
+  {
+    "name":"com.google.api.client.json.webtoken.JsonWebToken$Payload",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true
+  },
+  {
+    "name":"com.google.api.client.util.GenericData",
+    "allDeclaredFields":true
+  },
+  {
+    "name":"com.google.protobuf.ExtensionRegistry",
+    "methods":[{"name":"getEmptyRegistry","parameterTypes":[] }]
   }
 ]
