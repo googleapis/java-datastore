@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Google LLC
+ * Copyright 2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.cloud.Timestamp;
-import com.google.cloud.Tuple;
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.Batch;
 import com.google.cloud.datastore.BooleanValue;
@@ -60,7 +59,6 @@ import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.ReadOption;
 import com.google.cloud.datastore.StringValue;
 import com.google.cloud.datastore.StructuredQuery;
-import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.TimestampValue;
@@ -89,9 +87,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
 
-// todo: combine this with ITDatastoreTestWithNamedDb once we resolve issues with parameterized
-// graalvm tests
-public class ITDatastoreTest {
+// todo: combine this with ITDatastoreTest once we resolve issues with parameterized graalvm tests
+public class ITDatastoreTestWithNamedDb {
 
   private static final RemoteDatastoreHelper HELPER = RemoteDatastoreHelper.create();
   private static final DatastoreOptions OPTIONS_1 = HELPER.getOptions();
@@ -102,11 +99,9 @@ public class ITDatastoreTest {
   private static final DatastoreOptions OPTIONS_2 = HELPER2.getOptions();
   private static final Datastore DATASTORE_2 = OPTIONS_2.getService();
 
-  private final DatastoreOptions options = OPTIONS_1;
-  private final Datastore datastore = DATASTORE_1;
+  private final DatastoreOptions options = OPTIONS_2;
+  private final Datastore datastore = DATASTORE_2;
 
-  private static String PROJECT_ID;
-  private static String NAMESPACE;
   private static final String KIND1 = "kind1";
   private static final String KIND2 = "kind2";
   private static final String KIND3 = "kind3";
@@ -121,6 +116,8 @@ public class ITDatastoreTest {
   private static final LatLngValue LAT_LNG_VALUE =
       new LatLngValue(LatLng.of(37.422035, -122.084124));
 
+  private static String PROJECT_ID;
+  private static String NAMESPACE;
   private static Key ROOT_KEY;
   private static IncompleteKey INCOMPLETE_KEY1;
   private static ListValue LIST_VALUE2;
@@ -262,85 +259,6 @@ public class ITDatastoreTest {
   }
 
   @Test
-  public void orQuery() {
-    Key key = Key.newBuilder(KEY1, KIND2, 2).build();
-    Entity entity3 =
-        Entity.newBuilder(ENTITY1)
-            .setKey(key)
-            .remove("str")
-            .set("name", "Dan")
-            .setNull("null")
-            .set("age", 19)
-            .build();
-    DATASTORE.put(entity3);
-
-    // age == 19 || age == 20
-    CompositeFilter orFilter =
-        CompositeFilter.or(PropertyFilter.eq("age", 19), PropertyFilter.eq("age", 20));
-    Query<Entity> simpleOrQuery =
-        Query.newEntityQueryBuilder()
-            .setNamespace(NAMESPACE)
-            .setKind(KIND2)
-            .setFilter(orFilter)
-            .build();
-    QueryResults<Entity> results = datastore.run(simpleOrQuery);
-    assertTrue(results.hasNext());
-    assertEquals(ENTITY2, results.next());
-    assertTrue(results.hasNext());
-    assertEquals(entity3, results.next());
-    assertFalse(results.hasNext());
-
-    // age == 19 || age == 20 with limit of 1
-    Query<Entity> simpleOrQueryLimit =
-        Query.newEntityQueryBuilder()
-            .setNamespace(NAMESPACE)
-            .setKind(KIND2)
-            .setFilter(orFilter)
-            .setLimit(1)
-            .build();
-    QueryResults<Entity> results2 = datastore.run(simpleOrQueryLimit);
-    assertTrue(results2.hasNext());
-    assertEquals(ENTITY2, results2.next());
-    assertFalse(results2.hasNext());
-
-    // (age == 18 && name == Dan) || (age == 20 && name == Dan)
-    CompositeFilter nestedOr =
-        CompositeFilter.or(
-            CompositeFilter.and(PropertyFilter.eq("age", 18), PropertyFilter.eq("name", "Dan")),
-            CompositeFilter.and(PropertyFilter.eq("age", 20), PropertyFilter.eq("name", "Dan")));
-    CompositeFilter compositeFilter =
-        CompositeFilter.and(PropertyFilter.hasAncestor(ROOT_KEY), nestedOr);
-    Query<Entity> orQueryNested =
-        Query.newEntityQueryBuilder()
-            .setNamespace(NAMESPACE)
-            .setKind(KIND2)
-            .setFilter(compositeFilter)
-            .build();
-    QueryResults<Entity> results3 = datastore.run(orQueryNested);
-    assertTrue(results3.hasNext());
-    assertEquals(ENTITY2, results3.next());
-    assertFalse(results3.hasNext());
-
-    // age == 20 && (name == Bob || name == Dan)
-    CompositeFilter nestedOr2 =
-        CompositeFilter.or(PropertyFilter.eq("name", "Dan"), PropertyFilter.eq("name", "Bob"));
-    CompositeFilter andFilter = CompositeFilter.and(PropertyFilter.eq("age", 20), nestedOr2);
-    CompositeFilter ancestorAndFilter =
-        CompositeFilter.and(PropertyFilter.hasAncestor(ROOT_KEY), andFilter);
-    Query<Entity> orQueryNested2 =
-        Query.newEntityQueryBuilder()
-            .setNamespace(NAMESPACE)
-            .setKind(KIND2)
-            .setFilter(ancestorAndFilter)
-            .setLimit(1)
-            .build();
-    QueryResults<Entity> results4 = datastore.run(orQueryNested2);
-    assertTrue(results4.hasNext());
-    assertEquals(ENTITY2, results4.next());
-    assertFalse(results4.hasNext());
-  }
-
-  @Test
   public void testNewTransactionCommit() {
     Transaction transaction = datastore.newTransaction();
     transaction.add(ENTITY3);
@@ -372,82 +290,57 @@ public class ITDatastoreTest {
   }
 
   @Test
-  public void testTransactionWithRead() throws Exception {
-    StatementExecutor statementExecutor = new StatementExecutor();
-    Transaction baseTransaction = datastore.newTransaction();
-    assertNull(baseTransaction.get(KEY3));
-    baseTransaction.add(ENTITY3);
-    baseTransaction.commit();
+  public void testTransactionWithRead() {
+    Transaction transaction = datastore.newTransaction();
+    assertNull(transaction.get(KEY3));
+    transaction.add(ENTITY3);
+    transaction.commit();
     assertEquals(ENTITY3, datastore.get(KEY3));
 
-    Transaction transaction = datastore.newTransaction();
-    statementExecutor.execute(
-        Tuple.of("T1", () -> assertEquals(ENTITY3, transaction.get(KEY3))),
-        // update entity3 during the transaction, will be blocked in case of pessimistic concurrency
-        Tuple.of(
-            "T2",
-            () ->
-                datastore.put(Entity.newBuilder(ENTITY3).clear().set("from", "datastore").build())),
-        Tuple.of(
-            "T1",
-            () ->
-                transaction.update(
-                    Entity.newBuilder(ENTITY3).clear().set("from", "transaction").build())),
-        Tuple.of("T1", transaction::commit) // T1 will throw error in case of optimistic concurrency
-        );
-
-    boolean t1AllPassed = statementExecutor.didAllPass("T1");
-    boolean t2AllPassed = statementExecutor.didAllPass("T2");
-    // If two transactions conflict with each other, the database guarantees that only
-    // one can commit successfully at a time. Please refer to StatementExecutor class for more info.
-    // Using XOR to ensure that only one of transaction group is successful,
-    boolean onlyOneTransactionIsSuccessful = t1AllPassed ^ t2AllPassed;
-
-    assertThat(onlyOneTransactionIsSuccessful).isTrue();
+    transaction = datastore.newTransaction();
+    assertEquals(ENTITY3, transaction.get(KEY3));
+    // update entity3 during the transaction
+    datastore.put(Entity.newBuilder(ENTITY2).clear().set("from", "datastore").build());
+    transaction.update(Entity.newBuilder(ENTITY2).clear().set("from", "transaction").build());
+    try {
+      transaction.commit();
+      fail("Expecting a failure");
+    } catch (DatastoreException expected) {
+      assertEquals("ABORTED", expected.getReason());
+    }
   }
 
   @Test
-  public void testTransactionWithQuery() throws Exception {
-    StatementExecutor statementExecutor = new StatementExecutor();
+  public void testTransactionWithQuery() {
     Query<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind(KIND2)
             .setFilter(PropertyFilter.hasAncestor(KEY2))
             .setNamespace(NAMESPACE)
             .build();
-    Transaction baseTransaction = datastore.newTransaction();
-    QueryResults<Entity> baseResults = baseTransaction.run(query);
-    assertTrue(baseResults.hasNext());
-    assertEquals(ENTITY2, baseResults.next());
-    assertFalse(baseResults.hasNext());
-    baseTransaction.add(ENTITY3);
-    baseTransaction.commit();
+    Transaction transaction = datastore.newTransaction();
+    QueryResults<Entity> results = transaction.run(query);
+    assertTrue(results.hasNext());
+    assertEquals(ENTITY2, results.next());
+    assertFalse(results.hasNext());
+    transaction.add(ENTITY3);
+    transaction.commit();
     assertEquals(ENTITY3, datastore.get(KEY3));
 
-    Transaction transaction = datastore.newTransaction();
-    statementExecutor.execute(
-        Tuple.of(
-            "T1",
-            () -> {
-              QueryResults<Entity> results = transaction.run(query);
-              assertTrue(results.hasNext());
-              assertEquals(ENTITY2, results.next());
-              assertFalse(results.hasNext());
-            }),
-        Tuple.of("T1", () -> transaction.delete(ENTITY3.getKey())),
-        // update entity2 during the transaction, will be blocked in case of pessimistic concurrency
-        Tuple.of("T2", () -> datastore.put(Entity.newBuilder(ENTITY2).clear().build())),
-        Tuple.of("T1", transaction::commit) // T1 will throw error in case of optimistic concurrency
-        );
-
-    boolean t1AllPassed = statementExecutor.didAllPass("T1");
-    boolean t2AllPassed = statementExecutor.didAllPass("T2");
-    // If two transactions conflict with each other, the database guarantees that only
-    // one can commit successfully at a time. Please refer to StatementExecutor class for more info.
-    // Using XOR to ensure that only one of transaction group is successful,
-    boolean onlyOneTransactionIsSuccessful = t1AllPassed ^ t2AllPassed;
-
-    assertThat(onlyOneTransactionIsSuccessful).isTrue();
+    transaction = datastore.newTransaction();
+    results = transaction.run(query);
+    assertTrue(results.hasNext());
+    assertEquals(ENTITY2, results.next());
+    assertFalse(results.hasNext());
+    transaction.delete(ENTITY3.getKey());
+    // update entity2 during the transaction
+    datastore.put(Entity.newBuilder(ENTITY2).clear().build());
+    try {
+      transaction.commit();
+      fail("Expecting a failure");
+    } catch (DatastoreException expected) {
+      assertEquals("ABORTED", expected.getReason());
+    }
   }
 
   @Test
@@ -1088,21 +981,6 @@ public class ITDatastoreTest {
     assertEquals(e2, resultNeq.next());
     assertFalse(resultNeq.hasNext());
 
-    Query<Entity> scQueryInEqOr =
-        Query.newEntityQueryBuilder()
-            .setKind(KIND1)
-            .setFilter(
-                CompositeFilter.or(
-                    PropertyFilter.in("v_int", ListValue.of(10, 50000)),
-                    PropertyFilter.eq("v_int", 10000)))
-            .build();
-
-    QueryResults<Entity> run = datastore.run(scQueryInEqOr);
-
-    assertTrue(run.hasNext());
-    assertEquals(e1, run.next());
-    assertFalse(run.hasNext());
-
     datastore.delete(e1.getKey());
     datastore.delete(e2.getKey());
   }
@@ -1328,8 +1206,8 @@ public class ITDatastoreTest {
 
   @Test
   public void testRunInTransaction() {
-    Datastore.TransactionCallable<Integer> callable1 =
-        new Datastore.TransactionCallable<Integer>() {
+    TransactionCallable<Integer> callable1 =
+        new TransactionCallable<Integer>() {
           private Integer attempts = 1;
 
           @Override
@@ -1347,8 +1225,8 @@ public class ITDatastoreTest {
     int result = datastore.runInTransaction(callable1);
     assertEquals(result, 2);
 
-    Datastore.TransactionCallable<Integer> callable2 =
-        new Datastore.TransactionCallable<Integer>() {
+    TransactionCallable<Integer> callable2 =
+        new TransactionCallable<Integer>() {
           private Integer attempts = 1;
 
           @Override
@@ -1375,8 +1253,8 @@ public class ITDatastoreTest {
 
     final Entity entity1 = Entity.newBuilder(ENTITY1).clear().setNull("bla").build();
 
-    Datastore.TransactionCallable<Integer> callable1 =
-        new Datastore.TransactionCallable<Integer>() {
+    TransactionCallable<Integer> callable1 =
+        new TransactionCallable<Integer>() {
           private Integer attempts = 1;
 
           @Override
@@ -1395,8 +1273,8 @@ public class ITDatastoreTest {
     assertEquals(result, 2);
 
     final Entity entity2 = Entity.newBuilder(ENTITY2).clear().setNull("bla").build();
-    Datastore.TransactionCallable<Integer> callable2 =
-        new Datastore.TransactionCallable<Integer>() {
+    TransactionCallable<Integer> callable2 =
+        new TransactionCallable<Integer>() {
           private Integer attempts = 1;
 
           @Override
@@ -1412,9 +1290,7 @@ public class ITDatastoreTest {
         };
 
     TransactionOptions readOnlyOptions =
-        TransactionOptions.newBuilder()
-            .setReadOnly(TransactionOptions.ReadOnly.getDefaultInstance())
-            .build();
+        TransactionOptions.newBuilder().setReadOnly(ReadOnly.getDefaultInstance()).build();
 
     try {
       datastore.runInTransaction(callable2, readOnlyOptions);
