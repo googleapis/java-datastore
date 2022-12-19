@@ -41,8 +41,7 @@ public final class KeyFactory extends BaseKey.Builder<KeyFactory> {
   }
 
   public KeyFactory(String projectId, String namespace, String databaseId) {
-    super(projectId);
-    setNamespace(namespace);
+    super(projectId, namespace);
     setDatabaseId(databaseId);
     this.initialProjectId = projectId;
     this.initialNamespace = namespace;
