@@ -59,6 +59,7 @@ import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.ReadOption;
 import com.google.cloud.datastore.StringValue;
 import com.google.cloud.datastore.StructuredQuery;
+import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.TimestampValue;
@@ -83,6 +84,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -221,6 +223,90 @@ public class ITDatastoreTest {
       results.add(scResults.next());
     }
     return results;
+  }
+
+  @Test
+  public void orQuery() {
+    Key key = Key.newBuilder(KEY1, KIND2, 2).build();
+    Entity entity3 =
+        Entity.newBuilder(ENTITY1)
+            .setKey(key)
+            .remove("str")
+            .set("name", "Dan")
+            .setNull("null")
+            .set("age", 19)
+            .build();
+    try {
+      DATASTORE.put(entity3);
+
+      // age == 19 || age == 20
+      Query<Entity> simpleOrQuery =
+          Query.newEntityQueryBuilder()
+              .setNamespace(NAMESPACE)
+              .setKind(KIND2)
+              .setFilter(
+                  CompositeFilter.or(PropertyFilter.eq("age", 19), PropertyFilter.eq("age", 20)))
+              .build();
+      QueryResults<Entity> results = DATASTORE.run(simpleOrQuery);
+      assertTrue(results.hasNext());
+      assertEquals(ENTITY2, results.next());
+      assertTrue(results.hasNext());
+      assertEquals(entity3, results.next());
+      assertFalse(results.hasNext());
+
+      // age == 19 || age == 20 with limit of 1
+      Query<Entity> simpleOrQueryLimit =
+          Query.newEntityQueryBuilder()
+              .setNamespace(NAMESPACE)
+              .setKind(KIND2)
+              .setFilter(
+                  CompositeFilter.or(PropertyFilter.eq("age", 19), PropertyFilter.eq("age", 20)))
+              .setLimit(1)
+              .build();
+      QueryResults<Entity> results2 = DATASTORE.run(simpleOrQueryLimit);
+      assertTrue(results2.hasNext());
+      assertEquals(ENTITY2, results2.next());
+      assertFalse(results2.hasNext());
+
+      // (age == 18 && name == Dan) || (age == 20 && name == Dan)
+      CompositeFilter nestedOr =
+          CompositeFilter.or(
+              CompositeFilter.and(PropertyFilter.eq("age", 18), PropertyFilter.eq("name", "Dan")),
+              CompositeFilter.and(PropertyFilter.eq("age", 20), PropertyFilter.eq("name", "Dan")));
+      // todo update
+      CompositeFilter compositeFilter =
+          CompositeFilter.and(PropertyFilter.hasAncestor(ROOT_KEY), nestedOr);
+      Query<Entity> orQueryNested =
+          Query.newEntityQueryBuilder()
+              .setNamespace(NAMESPACE)
+              .setKind(KIND2)
+              .setFilter(compositeFilter)
+              .build();
+      QueryResults<Entity> results3 = DATASTORE.run(orQueryNested);
+      assertTrue(results3.hasNext());
+      assertEquals(ENTITY2, results3.next());
+      assertFalse(results3.hasNext());
+
+      // age == 20 && (name == Bob || name == Dan)
+      CompositeFilter or =
+          CompositeFilter.or(PropertyFilter.eq("name", "Dan"), PropertyFilter.eq("name", "Bob"));
+      CompositeFilter filter2 = CompositeFilter.and(PropertyFilter.eq("age", 20), or);
+      CompositeFilter compositeFilter2 =
+          CompositeFilter.and(PropertyFilter.hasAncestor(ROOT_KEY), filter2);
+      Query<Entity> orQueryNested2 =
+          Query.newEntityQueryBuilder()
+              .setNamespace(NAMESPACE)
+              .setKind(KIND2)
+              .setFilter(compositeFilter2)
+              .setLimit(1)
+              .build();
+      QueryResults<Entity> results4 = DATASTORE.run(orQueryNested2);
+      assertTrue(results4.hasNext());
+      assertEquals(ENTITY2, results4.next());
+      assertFalse(results4.hasNext());
+    } finally {
+      DATASTORE.delete(entity3.getKey());
+    }
   }
 
   @Test
@@ -945,6 +1031,21 @@ public class ITDatastoreTest {
     assertTrue(resultNeq.hasNext());
     assertEquals(e2, resultNeq.next());
     assertFalse(resultNeq.hasNext());
+
+    Query<Entity> scQueryInEqOr =
+        Query.newEntityQueryBuilder()
+            .setKind(KIND1)
+            .setFilter(
+                CompositeFilter.or(
+                    PropertyFilter.in("v_int", ListValue.of(10, 50000)),
+                    PropertyFilter.eq("v_int", 10000)))
+            .build();
+
+    QueryResults<Entity> run = DATASTORE.run(scQueryInEqOr);
+
+    assertTrue(run.hasNext());
+    assertEquals(e1, run.next());
+    assertFalse(run.hasNext());
 
     DATASTORE.delete(e1.getKey());
     DATASTORE.delete(e2.getKey());
