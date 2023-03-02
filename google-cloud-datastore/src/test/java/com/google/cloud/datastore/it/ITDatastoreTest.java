@@ -239,12 +239,13 @@ public class ITDatastoreTest {
       DATASTORE.put(entity3);
 
       // age == 19 || age == 20
+      CompositeFilter orFilter =
+          CompositeFilter.or(PropertyFilter.eq("age", 19), PropertyFilter.eq("age", 20));
       Query<Entity> simpleOrQuery =
           Query.newEntityQueryBuilder()
               .setNamespace(NAMESPACE)
               .setKind(KIND2)
-              .setFilter(
-                  CompositeFilter.or(PropertyFilter.eq("age", 19), PropertyFilter.eq("age", 20)))
+              .setFilter(orFilter)
               .build();
       QueryResults<Entity> results = DATASTORE.run(simpleOrQuery);
       assertTrue(results.hasNext());
@@ -258,8 +259,7 @@ public class ITDatastoreTest {
           Query.newEntityQueryBuilder()
               .setNamespace(NAMESPACE)
               .setKind(KIND2)
-              .setFilter(
-                  CompositeFilter.or(PropertyFilter.eq("age", 19), PropertyFilter.eq("age", 20)))
+              .setFilter(orFilter)
               .setLimit(1)
               .build();
       QueryResults<Entity> results2 = DATASTORE.run(simpleOrQueryLimit);
@@ -272,7 +272,6 @@ public class ITDatastoreTest {
           CompositeFilter.or(
               CompositeFilter.and(PropertyFilter.eq("age", 18), PropertyFilter.eq("name", "Dan")),
               CompositeFilter.and(PropertyFilter.eq("age", 20), PropertyFilter.eq("name", "Dan")));
-      // todo update
       CompositeFilter compositeFilter =
           CompositeFilter.and(PropertyFilter.hasAncestor(ROOT_KEY), nestedOr);
       Query<Entity> orQueryNested =
@@ -287,16 +286,16 @@ public class ITDatastoreTest {
       assertFalse(results3.hasNext());
 
       // age == 20 && (name == Bob || name == Dan)
-      CompositeFilter or =
+      CompositeFilter nestedOr2 =
           CompositeFilter.or(PropertyFilter.eq("name", "Dan"), PropertyFilter.eq("name", "Bob"));
-      CompositeFilter filter2 = CompositeFilter.and(PropertyFilter.eq("age", 20), or);
-      CompositeFilter compositeFilter2 =
-          CompositeFilter.and(PropertyFilter.hasAncestor(ROOT_KEY), filter2);
+      CompositeFilter andFilter = CompositeFilter.and(PropertyFilter.eq("age", 20), nestedOr2);
+      CompositeFilter ancestorAndFilter =
+          CompositeFilter.and(PropertyFilter.hasAncestor(ROOT_KEY), andFilter);
       Query<Entity> orQueryNested2 =
           Query.newEntityQueryBuilder()
               .setNamespace(NAMESPACE)
               .setKind(KIND2)
-              .setFilter(compositeFilter2)
+              .setFilter(ancestorAndFilter)
               .setLimit(1)
               .build();
       QueryResults<Entity> results4 = DATASTORE.run(orQueryNested2);
