@@ -18,12 +18,14 @@ package com.google.cloud.datastore.testing;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
-import java.util.function.Predicate;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GcloudEmulatorCommandTest  {
+public class GcloudEmulatorCommandTest {
+
+  private static Path TEMP_DIR = new File(System.getProperty("java.io.tmpdir")).toPath();
 
   private List<String> gcloudEmulatorCommand;
 
@@ -34,7 +36,7 @@ public class GcloudEmulatorCommandTest  {
             .setConsistency(0.75)
             .setPort(8081)
             .setProjectId("my-project-id")
-            .setDataDir(new File("/data/datastore").toPath());
+            .setDataDir(TEMP_DIR);
 
     gcloudEmulatorCommand = GcloudEmulatorCommand.get(builder, 8080);
   }
@@ -64,13 +66,15 @@ public class GcloudEmulatorCommandTest  {
   public void defaultProjectIdFlag() {
     LocalDatastoreHelper.Builder builder = LocalDatastoreHelper.newBuilder().setProjectId(null);
 
-    assertThat(GcloudEmulatorCommand.get(builder, 0).stream().anyMatch(
-        s -> s.startsWith("--project=test-project"))).isTrue();
+    assertThat(
+            GcloudEmulatorCommand.get(builder, 0).stream()
+                .anyMatch(s -> s.startsWith("--project=test-project")))
+        .isTrue();
   }
 
   @Test
   public void dataDirFlag() {
-    assertThat(gcloudEmulatorCommand.contains("--data-dir=/data/datastore")).isTrue();
+    assertThat(gcloudEmulatorCommand.contains("--data-dir=" + TEMP_DIR)).isTrue();
   }
 
   @Test

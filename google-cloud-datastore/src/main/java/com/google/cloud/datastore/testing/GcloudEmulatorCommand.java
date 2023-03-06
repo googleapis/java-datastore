@@ -15,8 +15,8 @@
  */
 package com.google.cloud.datastore.testing;
 
-import static com.google.cloud.datastore.testing.LocalDatastoreHelper.PROJECT_FLAG;
 import static com.google.cloud.datastore.testing.LocalDatastoreHelper.CONSISTENCY_FLAG;
+import static com.google.cloud.datastore.testing.LocalDatastoreHelper.PROJECT_FLAG;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.api.core.InternalApi;
@@ -25,9 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Utility to configure gcloud datastore emulator command.
- */
+/** Utility to configure gcloud datastore emulator command. */
 @InternalApi
 public class GcloudEmulatorCommand {
 
@@ -38,7 +36,6 @@ public class GcloudEmulatorCommand {
 
   private static final String PROJECT_ID_PREFIX = "test-project-";
   private static final String DEFAULT_PROJECT_ID = PROJECT_ID_PREFIX + UUID.randomUUID();
-
 
   public static List<String> get(LocalDatastoreHelper.Builder builder, int port) {
     String projectId = firstNonNull(builder.getProjectId(), DEFAULT_PROJECT_ID);

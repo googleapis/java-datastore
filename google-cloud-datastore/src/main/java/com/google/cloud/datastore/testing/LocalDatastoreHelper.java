@@ -131,9 +131,11 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     double getConsistency() {
       return consistency;
     }
+
     boolean isStoreOnDisk() {
       return storeOnDisk;
     }
+
     String getProjectId() {
       return projectId;
     }
@@ -161,7 +163,8 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
       binName = BIN_NAME.replace("/", "\\");
     }
     GcloudEmulatorRunner gcloudRunner =
-        new GcloudEmulatorRunner(GcloudEmulatorCommand.get(builder, getPort()), VERSION_PREFIX, MIN_VERSION);
+        new GcloudEmulatorRunner(
+            GcloudEmulatorCommand.get(builder, getPort()), VERSION_PREFIX, MIN_VERSION);
     List<String> binCommand = new ArrayList<>(Arrays.asList(binName, "start"));
     binCommand.add("--testing");
     binCommand.add(BIN_CMD_PORT_FLAG + getPort());
