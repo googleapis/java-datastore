@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore.testing;
 
+import static com.google.cloud.datastore.testing.GcloudEmulatorCommand.VERSION_PREFIX;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.api.core.InternalApi;
@@ -51,12 +52,10 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   private final List<EmulatorRunner> emulatorRunners;
   private final double consistency;
   private final Path gcdPath;
-  private boolean storeOnDisk;
+  private final boolean storeOnDisk;
 
   // Gcloud emulator settings
-  private static final String GCLOUD_CMD_TEXT = "gcloud beta emulators datastore start";
-  private static final String GCLOUD_CMD_PORT_FLAG = "--host-port=";
-  private static final String VERSION_PREFIX = "cloud-datastore-emulator ";
+
   private static final String MIN_VERSION = "1.2.0";
 
   // Downloadable emulator settings
@@ -69,8 +68,8 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   private static final String ACCESS_TOKEN = System.getenv("DATASTORE_EMULATOR_ACCESS_TOKEN");
 
   // Common settings
-  private static final String CONSISTENCY_FLAG = "--consistency=";
-  private static final String PROJECT_FLAG = "--project=";
+  public static final String CONSISTENCY_FLAG = "--consistency=";
+  public static final String PROJECT_FLAG = "--project=";
   private static final double DEFAULT_CONSISTENCY = 0.9;
   private static final String DEFAULT_PROJECT_ID = PROJECT_ID_PREFIX + UUID.randomUUID();
 
@@ -129,6 +128,20 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
       return this;
     }
 
+    double getConsistency() {
+      return consistency;
+    }
+    boolean isStoreOnDisk() {
+      return storeOnDisk;
+    }
+    String getProjectId() {
+      return projectId;
+    }
+
+    Path getDataDir() {
+      return dataDir;
+    }
+
     /** Creates a {@code LocalDatastoreHelper} object. */
     public LocalDatastoreHelper build() {
       return new LocalDatastoreHelper(this);
@@ -140,7 +153,6 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
         "datastore",
         builder.port > 0 ? builder.port : BaseEmulatorHelper.findAvailablePort(DEFAULT_PORT),
         firstNonNull(builder.projectId, DEFAULT_PROJECT_ID));
-    String projectId = firstNonNull(builder.projectId, DEFAULT_PROJECT_ID);
     this.consistency = builder.consistency > 0 ? builder.consistency : DEFAULT_CONSISTENCY;
     this.gcdPath = builder.dataDir;
     this.storeOnDisk = builder.storeOnDisk;
@@ -148,22 +160,12 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     if (isWindows()) {
       binName = BIN_NAME.replace("/", "\\");
     }
-    List<String> gcloudCommand = new ArrayList<>(Arrays.asList(GCLOUD_CMD_TEXT.split(" ")));
-    gcloudCommand.add(GCLOUD_CMD_PORT_FLAG + "localhost:" + getPort());
-    gcloudCommand.add(CONSISTENCY_FLAG + builder.consistency);
-    gcloudCommand.add(PROJECT_FLAG + projectId);
-    if (!builder.storeOnDisk) {
-      gcloudCommand.add("--no-store-on-disk");
-    }
     GcloudEmulatorRunner gcloudRunner =
-        new GcloudEmulatorRunner(gcloudCommand, VERSION_PREFIX, MIN_VERSION);
+        new GcloudEmulatorRunner(GcloudEmulatorCommand.get(builder, getPort()), VERSION_PREFIX, MIN_VERSION);
     List<String> binCommand = new ArrayList<>(Arrays.asList(binName, "start"));
     binCommand.add("--testing");
     binCommand.add(BIN_CMD_PORT_FLAG + getPort());
     binCommand.add(CONSISTENCY_FLAG + getConsistency());
-    if (builder.dataDir != null) {
-      gcloudCommand.add("--data-dir=" + getGcdPath());
-    }
     DownloadableEmulatorRunner downloadRunner =
         new DownloadableEmulatorRunner(binCommand, EMULATOR_URL, MD5_CHECKSUM, ACCESS_TOKEN);
     this.emulatorRunners = ImmutableList.of(gcloudRunner, downloadRunner);
