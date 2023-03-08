@@ -113,15 +113,18 @@ custom_content: |
   
   #### On your machine
 
-You can test against a temporary local Datastore by following these steps:
+  You can test against a temporary local Datastore by following these steps:
 
   1. [Install Cloud SDK and start the emulator](https://cloud.google.com/datastore/docs/tools/datastore-emulator)
 
-To determine which host/port the emulator is running on:
-
-$ gcloud beta emulators datastore env-init
-# Sample output:
-#   export DATASTORE_EMULATOR_HOST=localhost:8759
+  To determine which host/port the emulator is running on:
+  
+  ```
+  $ gcloud beta emulators datastore env-init
+  
+  # Sample output:
+  #   export DATASTORE_EMULATOR_HOST=localhost:8759
+  ```
   
   3. Point your client to the emulator
   
