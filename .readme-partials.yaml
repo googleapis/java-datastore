@@ -81,7 +81,7 @@ custom_content: |
   #### Updating data
   Another thing you'll probably want to do is update your data. The following snippet shows how to update a Datastore entity if it exists.
 
-  ``` java
+  ```java
   KeyFactory keyFactory = datastore.newKeyFactory().setKind("keyKind");
   Key key = keyFactory.newKey("keyName");
   Entity entity = datastore.get(key);
@@ -118,11 +118,13 @@ You can test against a temporary local Datastore by following these steps:
   1. [Install Cloud SDK and start the emulator](https://cloud.google.com/datastore/docs/tools/datastore-emulator)
 
 To determine which host/port the emulator is running on:
+
   ```
   $ gcloud beta emulators datastore env-init
   # Sample output:
   #   export DATASTORE_EMULATOR_HOST=localhost:8759
   ```
+  
   3. Point your client to the emulator
   
   ```java
