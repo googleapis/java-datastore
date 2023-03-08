@@ -119,11 +119,9 @@ You can test against a temporary local Datastore by following these steps:
 
 To determine which host/port the emulator is running on:
 
-```
 $ gcloud beta emulators datastore env-init
 # Sample output:
 #   export DATASTORE_EMULATOR_HOST=localhost:8759
-```
   
   3. Point your client to the emulator
   
