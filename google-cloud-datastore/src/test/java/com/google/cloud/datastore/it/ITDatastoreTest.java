@@ -235,76 +235,72 @@ public class ITDatastoreTest {
             .setNull("null")
             .set("age", 19)
             .build();
-    try {
-      DATASTORE.put(entity3);
+    DATASTORE.put(entity3);
 
-      // age == 19 || age == 20
-      CompositeFilter orFilter =
-          CompositeFilter.or(PropertyFilter.eq("age", 19), PropertyFilter.eq("age", 20));
-      Query<Entity> simpleOrQuery =
-          Query.newEntityQueryBuilder()
-              .setNamespace(NAMESPACE)
-              .setKind(KIND2)
-              .setFilter(orFilter)
-              .build();
-      QueryResults<Entity> results = DATASTORE.run(simpleOrQuery);
-      assertTrue(results.hasNext());
-      assertEquals(ENTITY2, results.next());
-      assertTrue(results.hasNext());
-      assertEquals(entity3, results.next());
-      assertFalse(results.hasNext());
+    // age == 19 || age == 20
+    CompositeFilter orFilter =
+        CompositeFilter.or(PropertyFilter.eq("age", 19), PropertyFilter.eq("age", 20));
+    Query<Entity> simpleOrQuery =
+        Query.newEntityQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .setKind(KIND2)
+            .setFilter(orFilter)
+            .build();
+    QueryResults<Entity> results = DATASTORE.run(simpleOrQuery);
+    assertTrue(results.hasNext());
+    assertEquals(ENTITY2, results.next());
+    assertTrue(results.hasNext());
+    assertEquals(entity3, results.next());
+    assertFalse(results.hasNext());
 
-      // age == 19 || age == 20 with limit of 1
-      Query<Entity> simpleOrQueryLimit =
-          Query.newEntityQueryBuilder()
-              .setNamespace(NAMESPACE)
-              .setKind(KIND2)
-              .setFilter(orFilter)
-              .setLimit(1)
-              .build();
-      QueryResults<Entity> results2 = DATASTORE.run(simpleOrQueryLimit);
-      assertTrue(results2.hasNext());
-      assertEquals(ENTITY2, results2.next());
-      assertFalse(results2.hasNext());
+    // age == 19 || age == 20 with limit of 1
+    Query<Entity> simpleOrQueryLimit =
+        Query.newEntityQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .setKind(KIND2)
+            .setFilter(orFilter)
+            .setLimit(1)
+            .build();
+    QueryResults<Entity> results2 = DATASTORE.run(simpleOrQueryLimit);
+    assertTrue(results2.hasNext());
+    assertEquals(ENTITY2, results2.next());
+    assertFalse(results2.hasNext());
 
-      // (age == 18 && name == Dan) || (age == 20 && name == Dan)
-      CompositeFilter nestedOr =
-          CompositeFilter.or(
-              CompositeFilter.and(PropertyFilter.eq("age", 18), PropertyFilter.eq("name", "Dan")),
-              CompositeFilter.and(PropertyFilter.eq("age", 20), PropertyFilter.eq("name", "Dan")));
-      CompositeFilter compositeFilter =
-          CompositeFilter.and(PropertyFilter.hasAncestor(ROOT_KEY), nestedOr);
-      Query<Entity> orQueryNested =
-          Query.newEntityQueryBuilder()
-              .setNamespace(NAMESPACE)
-              .setKind(KIND2)
-              .setFilter(compositeFilter)
-              .build();
-      QueryResults<Entity> results3 = DATASTORE.run(orQueryNested);
-      assertTrue(results3.hasNext());
-      assertEquals(ENTITY2, results3.next());
-      assertFalse(results3.hasNext());
+    // (age == 18 && name == Dan) || (age == 20 && name == Dan)
+    CompositeFilter nestedOr =
+        CompositeFilter.or(
+            CompositeFilter.and(PropertyFilter.eq("age", 18), PropertyFilter.eq("name", "Dan")),
+            CompositeFilter.and(PropertyFilter.eq("age", 20), PropertyFilter.eq("name", "Dan")));
+    CompositeFilter compositeFilter =
+        CompositeFilter.and(PropertyFilter.hasAncestor(ROOT_KEY), nestedOr);
+    Query<Entity> orQueryNested =
+        Query.newEntityQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .setKind(KIND2)
+            .setFilter(compositeFilter)
+            .build();
+    QueryResults<Entity> results3 = DATASTORE.run(orQueryNested);
+    assertTrue(results3.hasNext());
+    assertEquals(ENTITY2, results3.next());
+    assertFalse(results3.hasNext());
 
-      // age == 20 && (name == Bob || name == Dan)
-      CompositeFilter nestedOr2 =
-          CompositeFilter.or(PropertyFilter.eq("name", "Dan"), PropertyFilter.eq("name", "Bob"));
-      CompositeFilter andFilter = CompositeFilter.and(PropertyFilter.eq("age", 20), nestedOr2);
-      CompositeFilter ancestorAndFilter =
-          CompositeFilter.and(PropertyFilter.hasAncestor(ROOT_KEY), andFilter);
-      Query<Entity> orQueryNested2 =
-          Query.newEntityQueryBuilder()
-              .setNamespace(NAMESPACE)
-              .setKind(KIND2)
-              .setFilter(ancestorAndFilter)
-              .setLimit(1)
-              .build();
-      QueryResults<Entity> results4 = DATASTORE.run(orQueryNested2);
-      assertTrue(results4.hasNext());
-      assertEquals(ENTITY2, results4.next());
-      assertFalse(results4.hasNext());
-    } finally {
-      DATASTORE.delete(entity3.getKey());
-    }
+    // age == 20 && (name == Bob || name == Dan)
+    CompositeFilter nestedOr2 =
+        CompositeFilter.or(PropertyFilter.eq("name", "Dan"), PropertyFilter.eq("name", "Bob"));
+    CompositeFilter andFilter = CompositeFilter.and(PropertyFilter.eq("age", 20), nestedOr2);
+    CompositeFilter ancestorAndFilter =
+        CompositeFilter.and(PropertyFilter.hasAncestor(ROOT_KEY), andFilter);
+    Query<Entity> orQueryNested2 =
+        Query.newEntityQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .setKind(KIND2)
+            .setFilter(ancestorAndFilter)
+            .setLimit(1)
+            .build();
+    QueryResults<Entity> results4 = DATASTORE.run(orQueryNested2);
+    assertTrue(results4.hasNext());
+    assertEquals(ENTITY2, results4.next());
+    assertFalse(results4.hasNext());
   }
 
   @Test
