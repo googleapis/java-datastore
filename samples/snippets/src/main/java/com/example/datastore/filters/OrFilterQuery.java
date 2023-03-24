@@ -39,15 +39,15 @@ public class OrFilterQuery {
 
     // Create the two filters
     Filter orFilter = CompositeFilter.or(
-      PropertyFilter.eq(propertyName, "Feed cats"),
-      PropertyFilter.eq(propertyName, "Buy milk")
+        PropertyFilter.eq(propertyName, "Feed cats"),
+        PropertyFilter.eq(propertyName, "Buy milk")
       );
 
     // Build the query
     Query<Entity> query = Query.newEntityQueryBuilder()
-      .setKind("Task")
-      .setFilter(orFilter)
-      .build();
+        .setKind("Task")
+        .setFilter(orFilter)
+        .build();
 
     // Get the results back from Datastore
     QueryResults<Entity> results = datastore.run(query);
