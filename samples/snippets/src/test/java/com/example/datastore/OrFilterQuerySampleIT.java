@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.datastore;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -35,6 +36,7 @@ public class OrFilterQuerySampleIT {
   private ByteArrayOutputStream bout;
   private PrintStream out;
   private PrintStream originalPrintStream;
+
   @Before
   public void setUp() {
     bout = new ByteArrayOutputStream();
