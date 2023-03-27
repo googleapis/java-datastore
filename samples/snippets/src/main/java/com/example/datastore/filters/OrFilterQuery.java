@@ -49,16 +49,13 @@ public class OrFilterQuery {
     // Get the results back from Datastore
     QueryResults<Entity> results = datastore.run(query);
 
-    int counter = 0;
+    if (!results.hasNext()) {
+      throw new Exception("query yielded no results");
+    }
 
     while (results.hasNext()) {
       Entity entity = results.next();
       System.out.printf("Entity: %s%n", entity);
-      counter++;
-    }
-
-    if (counter == 0) {
-      throw new Exception("query yielded no results");
     }
   }
 }
