@@ -36,7 +36,8 @@ public class OrFilterQuerySampleIT {
   private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
   private final String fieldName = "description";
 
-  private Key taskKey1, taskKey2;
+  private Key taskKey1;
+  private Key taskKey2;
 
   @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
