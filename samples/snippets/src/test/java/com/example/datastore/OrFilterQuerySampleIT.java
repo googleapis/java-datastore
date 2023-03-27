@@ -43,14 +43,10 @@ public class OrFilterQuerySampleIT {
   @Before
   public void setUp() {
     taskKey1 = datastore.newKeyFactory().setKind("Task").newKey("sampleTask");
-    Entity task1 = Entity.newBuilder(taskKey1)
-        .set(fieldName, "Buy milk")
-        .build();
+    Entity task1 = Entity.newBuilder(taskKey1).set(fieldName, "Buy milk").build();
 
     taskKey2 = datastore.newKeyFactory().setKind("Task").newKey("sampleTask2");
-    Entity task2 = Entity.newBuilder(taskKey2)
-        .set(fieldName, "Feed cats")
-        .build();
+    Entity task2 = Entity.newBuilder(taskKey2).set(fieldName, "Feed cats").build();
 
     datastore.put(task1);
     datastore.put(task2);
@@ -61,7 +57,6 @@ public class OrFilterQuerySampleIT {
     datastore.delete(taskKey1);
     datastore.delete(taskKey2);
   }
-
 
   @Test
   public void testOrFilterQuery() throws Exception {
