@@ -16,17 +16,8 @@
 
 package com.example.datastore;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import com.example.datastore.filters.OrFilterQuery;
 import com.rule.SystemsOutRule;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
-import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
