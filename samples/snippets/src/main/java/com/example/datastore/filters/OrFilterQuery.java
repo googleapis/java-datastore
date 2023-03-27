@@ -32,22 +32,19 @@ import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 
 public class OrFilterQuery {
   public static void invoke() {
-    
+
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     String propertyName = "description";
 
     // Create the two filters
-    Filter orFilter = CompositeFilter.or(
-        PropertyFilter.eq(propertyName, "Feed cats"),
-        PropertyFilter.eq(propertyName, "Buy milk")
-      );
+    Filter orFilter =
+        CompositeFilter.or(
+            PropertyFilter.eq(propertyName, "Feed cats"),
+            PropertyFilter.eq(propertyName, "Buy milk"));
 
     // Build the query
-    Query<Entity> query = Query.newEntityQueryBuilder()
-        .setKind("Task")
-        .setFilter(orFilter)
-        .build();
+    Query<Entity> query = Query.newEntityQueryBuilder().setKind("Task").setFilter(orFilter).build();
 
     // Get the results back from Datastore
     QueryResults<Entity> results = datastore.run(query);
