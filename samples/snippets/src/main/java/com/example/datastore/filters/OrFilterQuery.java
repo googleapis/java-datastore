@@ -52,7 +52,7 @@ public class OrFilterQuery {
     // Get the results back from Datastore
     QueryResults<Entity> results = datastore.run(query);
 
-    if (results.hasNext()) {
+    while (results.hasNext()) {
       Entity entity = results.next();
       System.out.printf("Entity: %s%n", entity);
     }
