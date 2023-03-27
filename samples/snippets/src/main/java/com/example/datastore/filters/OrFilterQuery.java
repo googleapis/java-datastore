@@ -31,7 +31,7 @@ import com.google.cloud.datastore.StructuredQuery.Filter;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 
 public class OrFilterQuery {
-  public static void invoke() {
+  public static void invoke() throws Exception {
 
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
@@ -49,9 +49,16 @@ public class OrFilterQuery {
     // Get the results back from Datastore
     QueryResults<Entity> results = datastore.run(query);
 
+    int counter = 0;
+
     while (results.hasNext()) {
       Entity entity = results.next();
       System.out.printf("Entity: %s%n", entity);
+      counter++;
+    }
+
+    if (counter == 0) {
+      throw new Exception("query yielded no results");
     }
   }
 }

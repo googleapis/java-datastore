@@ -17,7 +17,13 @@
 package com.example.datastore;
 
 import com.example.datastore.filters.OrFilterQuery;
+import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.Key;
 import com.rule.SystemsOutRule;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,10 +32,39 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
 public class OrFilterQuerySampleIT {
+
+  private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+  private final String fieldName = "description";
+
+  private Key taskKey1, taskKey2;
+
   @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
+  @Before
+  public void setUp() {
+    taskKey1 = datastore.newKeyFactory().setKind("Task").newKey("sampleTask");
+    Entity task1 = Entity.newBuilder(taskKey1)
+        .set(fieldName, "Buy milk")
+        .build();
+
+    taskKey2 = datastore.newKeyFactory().setKind("Task").newKey("sampleTask2");
+    Entity task2 = Entity.newBuilder(taskKey2)
+        .set(fieldName, "Feed cats")
+        .build();
+
+    datastore.put(task1);
+    datastore.put(task2);
+  }
+
+  @After
+  public void tearDown() {
+    datastore.delete(taskKey1);
+    datastore.delete(taskKey2);
+  }
+
+
   @Test
-  public void testOrFilterQuery() {
+  public void testOrFilterQuery() throws Exception {
     // Act
     OrFilterQuery.invoke();
 
