@@ -1,6 +1,8 @@
 custom_content: |
   See the [Google Cloud Datastore docs][cloud-datastore-activation] for more details on how to activate
   Cloud Datastore for your project.
+  
+  test
 
   See the [Datastore client library docs][datastore-client-lib-docs] to learn how to interact
   with the Cloud Datastore using this Client Library.
