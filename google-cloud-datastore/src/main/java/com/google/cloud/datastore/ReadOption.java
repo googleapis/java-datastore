@@ -112,7 +112,7 @@ public abstract class ReadOption implements Serializable {
    * {@link Query} in this transaction.
    */
   @InternalApi
-  public static ReadOption transactionId(String transactionId) {
+  public static ReadOption setTransactionId(String transactionId) {
     return new TransactionId(ByteString.copyFrom(transactionId.getBytes()));
   }
 
@@ -121,7 +121,7 @@ public abstract class ReadOption implements Serializable {
    * {@link Query} in this transaction.
    */
   @InternalApi
-  public static ReadOption transactionId(ByteString transactionId) {
+  public static ReadOption setTransactionId(ByteString transactionId) {
     return new TransactionId(transactionId);
   }
 

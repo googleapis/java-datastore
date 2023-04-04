@@ -17,7 +17,7 @@ package com.google.cloud.datastore;
 
 import static com.google.cloud.datastore.ReadOption.eventualConsistency;
 import static com.google.cloud.datastore.ReadOption.readTime;
-import static com.google.cloud.datastore.ReadOption.transactionId;
+import static com.google.cloud.datastore.ReadOption.setTransactionId;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.datastore.v1.ReadOptions.ReadConsistency.EVENTUAL;
 import static java.util.Collections.singletonList;
@@ -45,12 +45,12 @@ public class ReadOptionProtoPreparerTest {
         DatastoreException.class,
         () ->
             protoPreparer.prepare(
-                Arrays.asList(eventualConsistency(), transactionId("transaction-id"))));
+                Arrays.asList(eventualConsistency(), setTransactionId("transaction-id"))));
     assertThrows(
         DatastoreException.class,
         () ->
             protoPreparer.prepare(
-                Arrays.asList(transactionId("transaction-id"), readTime(Timestamp.now()))));
+                Arrays.asList(setTransactionId("transaction-id"), readTime(Timestamp.now()))));
     assertThrows(
         DatastoreException.class,
         () ->
@@ -58,7 +58,7 @@ public class ReadOptionProtoPreparerTest {
                 Arrays.asList(
                     eventualConsistency(),
                     readTime(Timestamp.now()),
-                    transactionId("transaction-id"))));
+                    setTransactionId("transaction-id"))));
   }
 
   @Test
@@ -80,7 +80,7 @@ public class ReadOptionProtoPreparerTest {
   public void shouldPrepareReadOptionsWithTransactionId() {
     String transactionId = "transaction-id";
     Optional<ReadOptions> readOptions =
-        protoPreparer.prepare(singletonList(transactionId(transactionId)));
+        protoPreparer.prepare(singletonList(setTransactionId(transactionId)));
 
     assertThat(readOptions.get().getTransaction().toStringUtf8()).isEqualTo(transactionId);
   }
