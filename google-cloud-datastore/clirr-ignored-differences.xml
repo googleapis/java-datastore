@@ -26,4 +26,14 @@
         <method>com.google.cloud.datastore.AggregationResults runAggregation(com.google.cloud.datastore.AggregationQuery)</method>
         <differenceType>7012</differenceType>
     </difference>
+    <difference>
+        <className>com/google/cloud/datastore/ReadOption</className>
+        <method>com.google.cloud.datastore.ReadOption transactionId(java.lang.String)</method>
+        <differenceType>7002</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/ReadOption</className>
+        <method>com.google.cloud.datastore.ReadOption transactionId(com.google.protobuf.ByteString)</method>
+        <differenceType>7002</differenceType>
+    </difference>
 </differences>
