@@ -16,8 +16,8 @@
 
 package com.example.datastore;
 
-// [START datastore_regional_endpoint]
-// Imports the Google Cloud client library
+// Imports the Google Cloud client library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
+
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
@@ -26,34 +26,15 @@ import com.google.cloud.datastore.Key;
 public class RegionalEndpoint {
 
 
-  public static void main(String... args) throws Exception {
+  public Datastore createClient() throws Exception {
     // Instantiates a client
+    // [START datastore_regional_endpoint]
     DatastoreOptions options = DatastoreOptions.newBuilder()
-        .setProjectId("datastore-project-382616")
         .setHost("https://nam5-firestore.googleapis.com")
         .build();
     Datastore datastore = options.getService();
-
-    // The kind for the new entity
-    String kind = "Task";
-    // The name/ID for the new entity
-    String name = "sampletask1";
-    // The Cloud Datastore key for the new entity
-    Key taskKey = datastore.newKeyFactory().setKind(kind).newKey(name);
-
-    // Prepares the new entity
-    Entity task = Entity.newBuilder(taskKey).set("description", "Buy milk").build();
-
-    // Saves the entity
-    datastore.put(task);
-
-    System.out.printf("Saved %s: %s%n", task.getKey().getName(), task.getString("description"));
-
-    // Retrieve entity
-    Entity retrieved = datastore.get(taskKey);
-
-    System.out.printf("Retrieved %s: %s%n", taskKey.getName(), retrieved.getString("description"));
+    // [END datastore_regional_endpoint]
+    return datastore;
 
   }
 }
-// [END datastore_regional_endpoint]
