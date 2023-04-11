@@ -24,8 +24,6 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 
 public class QuickstartSample {
-
-
   public static void main(String... args) throws Exception {
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
