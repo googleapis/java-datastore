@@ -30,7 +30,7 @@ public class RegionalEndpoint {
     // Instantiates a client
     // [START datastore_regional_endpoint]
     DatastoreOptions options = DatastoreOptions.newBuilder()
-        .setHost("https://nam5-firestore.googleapis.com")
+        .setHost("https://nam5-datastore.googleapis.com")
         .build();
     Datastore datastore = options.getService();
     // [END datastore_regional_endpoint]
