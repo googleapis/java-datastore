@@ -16,7 +16,7 @@
 
 package com.example.datastore;
 
-// Imports the Google Cloud client library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
+// Imports the Google Cloud client library
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
