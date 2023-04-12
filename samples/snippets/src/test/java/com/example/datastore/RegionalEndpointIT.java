@@ -17,7 +17,6 @@
 package com.example.datastore;
 
 import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.rule.SystemsOutRule;
@@ -28,16 +27,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Tests for quickstart sample.
- */
+/** Tests for quickstart sample. */
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
 public class RegionalEndpointIT {
 
   private static RegionalEndpoint regionalEndpoint;
-  @Rule
-  public final SystemsOutRule systemsOutRule = new SystemsOutRule();
+  @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   private static final void deleteTestEntity(Datastore datastore) {
     String kind = "Task";

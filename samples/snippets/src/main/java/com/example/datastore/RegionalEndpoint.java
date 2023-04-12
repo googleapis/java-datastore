@@ -20,21 +20,16 @@ package com.example.datastore;
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Key;
 
 public class RegionalEndpoint {
-
 
   public Datastore createClient() throws Exception {
     // Instantiates a client
     // [START datastore_regional_endpoint]
-    DatastoreOptions options = DatastoreOptions.newBuilder()
-        .setHost("https://nam5-datastore.googleapis.com")
-        .build();
+    DatastoreOptions options =
+        DatastoreOptions.newBuilder().setHost("https://nam5-datastore.googleapis.com").build();
     Datastore datastore = options.getService();
     // [END datastore_regional_endpoint]
     return datastore;
-
   }
 }
