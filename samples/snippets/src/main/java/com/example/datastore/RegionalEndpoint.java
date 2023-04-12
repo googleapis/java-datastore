@@ -17,6 +17,7 @@
 package com.example.datastore;
 
 // Imports the Google Cloud client library
+// [START datastore_regional_endpoint]
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
@@ -25,11 +26,10 @@ public class RegionalEndpoint {
 
   public Datastore createClient() throws Exception {
     // Instantiates a client
-    // [START datastore_regional_endpoint]
     DatastoreOptions options =
         DatastoreOptions.newBuilder().setHost("https://nam5-datastore.googleapis.com").build();
     Datastore datastore = options.getService();
-    // [END datastore_regional_endpoint]
     return datastore;
   }
 }
+// [END datastore_regional_endpoint]

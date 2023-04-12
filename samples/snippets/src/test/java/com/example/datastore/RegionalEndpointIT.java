@@ -16,24 +16,24 @@
 
 package com.example.datastore;
 
+import static org.junit.Assert.assertEquals;
+
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
-import com.rule.SystemsOutRule;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** Tests for quickstart sample. */
+/**
+ * Tests for quickstart sample.
+ */
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
 public class RegionalEndpointIT {
 
   private static RegionalEndpoint regionalEndpoint;
-  @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   private static final void deleteTestEntity(Datastore datastore) {
     String kind = "Task";
@@ -45,11 +45,6 @@ public class RegionalEndpointIT {
   @Before
   public void setUp() {
     regionalEndpoint = new RegionalEndpoint();
-  }
-
-  @After
-  public void tearDown() {
-    System.setOut(null);
   }
 
   @Test
@@ -71,15 +66,10 @@ public class RegionalEndpointIT {
     // Saves the entity
     datastoreWithEndpoint.put(task);
 
-    System.out.printf("Saved %s: %s%n", task.getKey().getName(), task.getString("description"));
-
     // Retrieve entity
     Entity retrieved = datastoreWithEndpoint.get(taskKey);
 
-    System.out.printf("Retrieved %s: %s%n", taskKey.getName(), retrieved.getString("description"));
-
-    systemsOutRule.assertContains("Saved sampletask1: Buy milk");
-    systemsOutRule.assertContains("Retrieved sampletask1: Buy milk");
+    assertEquals(task, retrieved);
     deleteTestEntity(datastoreWithEndpoint);
   }
 }
