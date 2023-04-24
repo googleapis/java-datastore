@@ -30,14 +30,7 @@ public class CountAggregation extends Aggregation {
 
   @Override
   public AggregationQuery.Aggregation toPb() {
-    Count.Builder countBuilder = Count.newBuilder();
-
-    AggregationQuery.Aggregation.Builder aggregationBuilder =
-        AggregationQuery.Aggregation.newBuilder().setCount(countBuilder);
-    if (this.getAlias() != null) {
-      aggregationBuilder.setAlias(this.getAlias());
-    }
-    return aggregationBuilder.build();
+    return aggregationBuilder().setCount(Count.newBuilder()).build();
   }
 
   @Override

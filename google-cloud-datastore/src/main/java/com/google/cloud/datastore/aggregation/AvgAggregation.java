@@ -22,12 +22,7 @@ public class AvgAggregation extends Aggregation {
     PropertyReference reference = PropertyReference.newBuilder().setName(this.propertyReference)
         .build();
     Avg avg = Avg.newBuilder().setProperty(reference).build();
-    AggregationQuery.Aggregation.Builder aggregationBuilder =
-        AggregationQuery.Aggregation.newBuilder().setAvg(avg);
-    if (this.getAlias() != null) {
-      aggregationBuilder.setAlias(this.getAlias());
-    }
-    return aggregationBuilder.build();
+    return aggregationBuilder().setAvg(avg).build();
   }
 
   @Override

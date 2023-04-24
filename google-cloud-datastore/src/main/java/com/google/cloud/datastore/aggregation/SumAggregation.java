@@ -23,12 +23,7 @@ public class SumAggregation extends Aggregation {
     PropertyReference reference = PropertyReference.newBuilder().setName(this.propertyReference)
         .build();
     Sum sum = Sum.newBuilder().setProperty(reference).build();
-    AggregationQuery.Aggregation.Builder aggregationBuilder =
-        AggregationQuery.Aggregation.newBuilder().setSum(sum);
-    if (this.getAlias() != null) {
-      aggregationBuilder.setAlias(this.getAlias());
-    }
-    return aggregationBuilder.build();
+    return aggregationBuilder().setSum(sum).build();
   }
 
   @Override
