@@ -49,4 +49,11 @@ public abstract class Aggregation {
   public static SumAggregation.Builder sum(String propertyReference) {
     return new SumAggregation.Builder().propertyReference(propertyReference);
   }
+
+  /**
+   * Returns a {@link AvgAggregation} builder.
+   */
+  public static AvgAggregation.Builder avg(String propertyReference) {
+    return new AvgAggregation.Builder().propertyReference(propertyReference);
+  }
 }
