@@ -42,4 +42,11 @@ public abstract class Aggregation {
   public static CountAggregation.Builder count() {
     return new CountAggregation.Builder();
   }
+
+  /**
+   * Returns a {@link SumAggregation} builder.
+   */
+  public static SumAggregation.Builder sum(String propertyReference) {
+    return new SumAggregation.Builder().propertyReference(propertyReference);
+  }
 }
