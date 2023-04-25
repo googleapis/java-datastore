@@ -19,7 +19,6 @@ import static com.google.cloud.datastore.AggregationQuery.Mode.GQL;
 import static com.google.cloud.datastore.AggregationQuery.Mode.STRUCTURED;
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.api.core.BetaApi;
 import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.cloud.datastore.aggregation.AggregationBuilder;
 import java.util.HashSet;

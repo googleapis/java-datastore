@@ -15,7 +15,6 @@
  */
 package com.google.cloud.datastore;
 
-import com.google.api.core.BetaApi;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 import java.util.Map;

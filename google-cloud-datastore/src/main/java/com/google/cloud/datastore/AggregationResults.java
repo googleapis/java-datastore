@@ -17,7 +17,6 @@ package com.google.cloud.datastore;
 
 import static com.google.api.client.util.Preconditions.checkNotNull;
 
-import com.google.api.core.BetaApi;
 import com.google.api.core.InternalApi;
 import com.google.cloud.Timestamp;
 import java.util.Iterator;

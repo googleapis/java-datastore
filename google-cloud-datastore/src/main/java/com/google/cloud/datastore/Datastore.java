@@ -16,7 +16,6 @@
 
 package com.google.cloud.datastore;
 
-import com.google.api.core.BetaApi;
 import com.google.cloud.Service;
 import com.google.datastore.v1.TransactionOptions;
 import java.util.Iterator;

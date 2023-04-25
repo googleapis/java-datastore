@@ -16,7 +16,6 @@
 
 package com.google.cloud.datastore.aggregation;
 
-import com.google.api.core.BetaApi;
 import com.google.api.core.InternalApi;
 import com.google.datastore.v1.AggregationQuery;
 

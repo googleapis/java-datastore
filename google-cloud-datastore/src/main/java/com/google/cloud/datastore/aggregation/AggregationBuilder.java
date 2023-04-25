@@ -16,7 +16,6 @@
 
 package com.google.cloud.datastore.aggregation;
 
-import com.google.api.core.BetaApi;
 
 /**
  * An interface to represent the builders which build and customize {@link Aggregation} for {@link

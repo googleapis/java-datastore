@@ -16,7 +16,6 @@
 
 package com.google.cloud.datastore;
 
-import com.google.api.core.BetaApi;
 import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.BaseService;
 import com.google.cloud.ExceptionHandler;
