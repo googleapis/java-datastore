@@ -26,14 +26,8 @@ public class AvgAggregation extends Aggregation {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    AvgAggregation that = (AvgAggregation) o;
+  public boolean sameAs(Aggregation aggregation) {
+    AvgAggregation that = (AvgAggregation) aggregation;
     if (!this.propertyReference.equals(that.propertyReference)) {
       return false;
     }
@@ -47,7 +41,7 @@ public class AvgAggregation extends Aggregation {
   }
 
   @Override
-  public int hashCode() {
+  public int hash() {
     return Objects.hash(getAlias());
   }
 

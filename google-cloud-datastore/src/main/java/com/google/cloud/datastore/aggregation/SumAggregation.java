@@ -27,14 +27,8 @@ public class SumAggregation extends Aggregation {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    SumAggregation that = (SumAggregation) o;
+  public boolean sameAs(Aggregation aggregation) {
+    SumAggregation that = (SumAggregation) aggregation;
     if (!this.propertyReference.equals(that.propertyReference)) {
       return false;
     }
@@ -48,7 +42,7 @@ public class SumAggregation extends Aggregation {
   }
 
   @Override
-  public int hashCode() {
+  public int hash() {
     return Objects.hash(getAlias());
   }
 

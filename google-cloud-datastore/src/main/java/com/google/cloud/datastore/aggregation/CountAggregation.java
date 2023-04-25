@@ -34,14 +34,8 @@ public class CountAggregation extends Aggregation {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    CountAggregation that = (CountAggregation) o;
+  public boolean sameAs(Aggregation aggregation) {
+    CountAggregation that = (CountAggregation) aggregation;
     boolean bothAliasAreNull = getAlias() == null && that.getAlias() == null;
     if (bothAliasAreNull) {
       return true;
@@ -52,7 +46,7 @@ public class CountAggregation extends Aggregation {
   }
 
   @Override
-  public int hashCode() {
+  public int hash() {
     return Objects.hash(getAlias());
   }
 
