@@ -22,7 +22,6 @@ import com.google.datastore.v1.AggregationQuery.Aggregation.Count;
 import java.util.Objects;
 
 /** Represents an {@link Aggregation} which returns count. */
-@BetaApi
 public class CountAggregation extends Aggregation {
 
   /** @param alias Alias to used when running this aggregation. */

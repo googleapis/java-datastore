@@ -198,13 +198,11 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   }
 
   @Override
-  @BetaApi
   public AggregationResults runAggregation(AggregationQuery query) {
     return aggregationQueryExecutor.execute(query);
   }
 
   @Override
-  @BetaApi
   public AggregationResults runAggregation(AggregationQuery query, ReadOption... options) {
     return aggregationQueryExecutor.execute(query, options);
   }

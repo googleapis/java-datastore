@@ -25,7 +25,6 @@ import com.google.api.core.BetaApi;
  * <p>Used by {@link
  * com.google.cloud.datastore.AggregationQuery.Builder#addAggregation(AggregationBuilder)}.
  */
-@BetaApi
 public interface AggregationBuilder<A extends Aggregation> {
   A build();
 }

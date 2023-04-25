@@ -67,7 +67,6 @@ import java.util.Set;
  * @see <a href="https://cloud.google.com/appengine/docs/java/datastore/queries">Datastore
  *     queries</a>
  */
-@BetaApi
 public class AggregationQuery extends Query<AggregationResults> {
 
   private Set<Aggregation> aggregations;

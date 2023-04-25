@@ -60,7 +60,6 @@ public interface DatastoreReader {
    *
    * @throws DatastoreException upon failure
    */
-  @BetaApi
   default AggregationResults runAggregation(AggregationQuery query) {
     throw new UnsupportedOperationException("Not implemented.");
   }

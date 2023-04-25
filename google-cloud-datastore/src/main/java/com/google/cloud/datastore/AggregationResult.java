@@ -23,7 +23,6 @@ import java.util.Map.Entry;
 import java.util.Objects;
 
 /** Represents a result of an {@link AggregationQuery} query submission. */
-@BetaApi
 public class AggregationResult {
 
   private final Map<String, LongValue> properties;

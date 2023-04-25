@@ -30,7 +30,6 @@ import java.util.Objects;
  *
  * <p>This can be used to iterate over an underlying {@link List<AggregationResult>} directly.
  */
-@BetaApi
 public class AggregationResults implements Iterable<AggregationResult> {
 
   private final List<AggregationResult> aggregationResults;
