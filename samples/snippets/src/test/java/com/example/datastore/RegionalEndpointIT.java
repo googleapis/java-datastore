@@ -56,7 +56,7 @@ public class RegionalEndpointIT {
     // The kind for the new entity
     String kind = "Task";
     // The name/ID for the new entity
-    String name = "sampletask1";
+    String name = "regionalEndpointClient50720906";
     // The Cloud Datastore key for the new entity
     Key taskKey = datastoreWithEndpoint.newKeyFactory().setKind(kind).newKey(name);
 
