@@ -27,7 +27,7 @@ public class SumAggregation extends Aggregation {
   }
 
   @Override
-  public boolean sameAs(Aggregation aggregation) {
+  protected boolean sameAs(Aggregation aggregation) {
     SumAggregation that = (SumAggregation) aggregation;
     if (!this.propertyReference.equals(that.propertyReference)) {
       return false;

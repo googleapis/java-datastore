@@ -26,7 +26,7 @@ public class AvgAggregation extends Aggregation {
   }
 
   @Override
-  public boolean sameAs(Aggregation aggregation) {
+  protected boolean sameAs(Aggregation aggregation) {
     AvgAggregation that = (AvgAggregation) aggregation;
     if (!this.propertyReference.equals(that.propertyReference)) {
       return false;

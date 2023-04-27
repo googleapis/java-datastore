@@ -34,7 +34,7 @@ public class CountAggregation extends Aggregation {
   }
 
   @Override
-  public boolean sameAs(Aggregation aggregation) {
+  protected boolean sameAs(Aggregation aggregation) {
     CountAggregation that = (CountAggregation) aggregation;
     boolean bothAliasAreNull = getAlias() == null && that.getAlias() == null;
     if (bothAliasAreNull) {
