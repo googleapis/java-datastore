@@ -15,6 +15,9 @@
  */
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.ValueType.DOUBLE;
+import static com.google.cloud.datastore.ValueType.LONG;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 import java.util.Map;
@@ -24,9 +27,9 @@ import java.util.Objects;
 /** Represents a result of an {@link AggregationQuery} query submission. */
 public class AggregationResult {
 
-  private final Map<String, LongValue> properties;
+  private final Map<String, Value<?>> properties;
 
-  public AggregationResult(Map<String, LongValue> properties) {
+  public AggregationResult(Map<String, Value<?>> properties) {
     this.properties = properties;
   }
 
@@ -38,7 +41,19 @@ public class AggregationResult {
    * @return An aggregation result value for the given alias.
    */
   public Long get(String alias) {
-    return properties.get(alias).get();
+    Value<?> value = properties.get(alias);
+    if (value.getType() == DOUBLE) {
+      return ((Double) value.get()).longValue();
+    }
+    return (Long) value.get();
+  }
+
+  public Double getDouble(String alias) {
+    Value<?> value = properties.get(alias);
+    if (value.getType() == LONG) {
+      return ((Long) value.get()).doubleValue();
+    }
+    return (Double) value.get();
   }
 
   @Override
@@ -61,7 +76,7 @@ public class AggregationResult {
   @Override
   public String toString() {
     ToStringHelper toStringHelper = MoreObjects.toStringHelper(this);
-    for (Entry<String, LongValue> entry : properties.entrySet()) {
+    for (Entry<String, Value<?>> entry : properties.entrySet()) {
       toStringHelper.add(entry.getKey(), entry.getValue().get());
     }
     return toStringHelper.toString();

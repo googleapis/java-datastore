@@ -23,7 +23,7 @@ import org.junit.Test;
 public class AggregationResultTest {
 
   @Test
-  public void shouldGetAggregationResultValueByAlias() {
+  public void shouldGetLongAggregatedResultValueByAlias() {
     AggregationResult aggregationResult =
         new AggregationResult(
             ImmutableMap.of(
@@ -32,5 +32,33 @@ public class AggregationResultTest {
 
     assertThat(aggregationResult.get("count")).isEqualTo(45L);
     assertThat(aggregationResult.get("property_2")).isEqualTo(30L);
+  }
+
+  @Test
+  public void shouldGetDoubleAggregatedResultValueByAlias() {
+    AggregationResult aggregationResult =
+        new AggregationResult(
+            ImmutableMap.of(
+                "qty_avg", DoubleValue.of(45.9322),
+                "qty_sum", DoubleValue.of(783.2134)));
+
+    assertThat(aggregationResult.getDouble("qty_avg")).isEqualTo(45.9322);
+    assertThat(aggregationResult.getDouble("qty_sum")).isEqualTo(783.2134);
+  }
+
+  @Test
+  public void shouldGetLongAggregatedResultValueAsDouble() {
+    AggregationResult aggregationResult =
+        new AggregationResult(ImmutableMap.of("count", LongValue.of(45)));
+
+    assertThat(aggregationResult.getDouble("count")).isEqualTo(45D);
+  }
+
+  @Test
+  public void shouldGetDoubleAggregatedResultValueAsLong() {
+    AggregationResult aggregationResult =
+        new AggregationResult(ImmutableMap.of("qty_avg", DoubleValue.of(45.9322)));
+
+    assertThat(aggregationResult.get("qty_avg")).isEqualTo(45L);
   }
 }

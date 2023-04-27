@@ -45,14 +45,14 @@ public class AggregationQueryResponseTransformer
     return new AggregationResults(aggregationResults, readTime);
   }
 
-  private Map<String, LongValue> resultWithLongValues(
+  private Map<String, com.google.cloud.datastore.Value<?>> resultWithLongValues(
       com.google.datastore.v1.AggregationResult aggregationResult) {
     return aggregationResult.getAggregatePropertiesMap().entrySet().stream()
         .map(
-            (Function<Entry<String, Value>, Entry<String, LongValue>>)
+            (Function<Entry<String, Value>, Entry<String, com.google.cloud.datastore.Value<?>>>)
                 entry ->
                     new SimpleEntry<>(
-                        entry.getKey(), (LongValue) LongValue.fromPb(entry.getValue())))
+                        entry.getKey(), (LongValue) com.google.cloud.datastore.Value.fromPb(entry.getValue())))
         .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
   }
 }

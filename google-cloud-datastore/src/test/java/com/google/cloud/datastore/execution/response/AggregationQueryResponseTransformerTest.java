@@ -78,7 +78,7 @@ public class AggregationQueryResponseTransformerTest {
     assertThat(aggregationResults.getReadTime()).isEqualTo(readTime);
   }
 
-  private Map<String, LongValue> toDomainValues(Map<String, com.google.datastore.v1.Value> map) {
+  private Map<String, com.google.cloud.datastore.Value<?>> toDomainValues(Map<String, com.google.datastore.v1.Value> map) {
 
     return map.entrySet().stream()
         .map(
