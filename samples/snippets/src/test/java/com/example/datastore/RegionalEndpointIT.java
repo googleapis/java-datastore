@@ -18,12 +18,10 @@ package com.example.datastore;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.UUID;
-
-
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
