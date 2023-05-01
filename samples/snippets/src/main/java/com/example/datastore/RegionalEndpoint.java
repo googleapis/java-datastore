@@ -26,6 +26,7 @@ public class RegionalEndpoint {
 
   /**
    * Create a client that uses a regional endpoint.
+   *
    * @return Datastore client with regiona endpoint configured
    */
   public Datastore createClient() throws Exception {
