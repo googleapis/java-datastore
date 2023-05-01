@@ -24,10 +24,14 @@ import com.google.cloud.datastore.DatastoreOptions;
 
 public class RegionalEndpoint {
 
+  /**
+   * Create a client that uses a regional endpoint.
+   * @return Datastore client with regiona endpoint configured
+   */
   public Datastore createClient() throws Exception {
     // Instantiates a client
-    DatastoreOptions options =
-        DatastoreOptions.newBuilder().setHost("https://nam5-datastore.googleapis.com").build();
+    DatastoreOptions options = DatastoreOptions.newBuilder()
+        .setHost("https://nam5-datastore.googleapis.com").build();
     Datastore datastore = options.getService();
     return datastore;
   }

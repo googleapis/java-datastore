@@ -18,6 +18,9 @@ package com.example.datastore;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.UUID;
+
+
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
@@ -35,41 +38,40 @@ public class RegionalEndpointIT {
 
   private static RegionalEndpoint regionalEndpoint;
 
-  private static final void deleteTestEntity(Datastore datastore) {
-    String kind = "Task";
-    String name = "sampletask1";
-    Key taskKey = datastore.newKeyFactory().setKind(kind).newKey(name);
-    datastore.delete(taskKey);
+  private static UUID uuid;
+
+  private static final void deleteTestEntity(Datastore datastore, Key key) {
+    datastore.delete(key);
   }
 
   @Before
   public void setUp() {
+
     regionalEndpoint = new RegionalEndpoint();
+
+    uuid = UUID.randomUUID();
   }
 
   @Test
   public void testRegionalEndpoint() throws Exception {
     Datastore datastoreWithEndpoint = regionalEndpoint.createClient();
 
-    // run a few operations with the client
-    deleteTestEntity(datastoreWithEndpoint);
-    // The kind for the new entity
+    // Run a few operations with the client
+    // The kind for the test entity
     String kind = "Task";
-    // The name/ID for the new entity
-    String name = "regionalEndpointClient50720906";
-    // The Cloud Datastore key for the new entity
-    Key taskKey = datastoreWithEndpoint.newKeyFactory().setKind(kind).newKey(name);
+    // Use uuid to create key for the test entity
+    Key taskKey = datastoreWithEndpoint.newKeyFactory().setKind(kind).newKey(uuid.toString());
 
-    // Prepares the new entity
+    // Prepare the new entity
     Entity task = Entity.newBuilder(taskKey).set("description", "Buy milk").build();
 
-    // Saves the entity
+    // Save the entity
     datastoreWithEndpoint.put(task);
 
-    // Retrieve entity
+    // Retrieve the entity
     Entity retrieved = datastoreWithEndpoint.get(taskKey);
-
     assertEquals(task, retrieved);
-    deleteTestEntity(datastoreWithEndpoint);
+    // Remove the test entity
+    deleteTestEntity(datastoreWithEndpoint, taskKey);
   }
 }
