@@ -15,6 +15,7 @@
  */
 package com.google.cloud.datastore.execution.response;
 
+import static com.google.cloud.datastore.ProtoTestData.doubleValue;
 import static com.google.cloud.datastore.ProtoTestData.intValue;
 import static com.google.common.truth.Truth.assertThat;
 
@@ -22,6 +23,7 @@ import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.AggregationResults;
 import com.google.cloud.datastore.LongValue;
+import com.google.cloud.datastore.ProtoTestData;
 import com.google.common.collect.ImmutableMap;
 import com.google.datastore.v1.AggregationResultBatch;
 import com.google.datastore.v1.RunAggregationQueryResponse;
@@ -45,13 +47,13 @@ public class AggregationQueryResponseTransformerTest {
         new HashMap<>(
             ImmutableMap.of(
                 "count", intValue(209),
-                "property_2", intValue(100)));
+                "property_2", doubleValue(100)));
 
     Map<String, com.google.datastore.v1.Value> result2 =
         new HashMap<>(
             ImmutableMap.of(
                 "count", intValue(509),
-                "property_2", intValue(100)));
+                "property_2", doubleValue(100)));
     Timestamp readTime = Timestamp.now();
 
     AggregationResultBatch resultBatch =
@@ -82,10 +84,10 @@ public class AggregationQueryResponseTransformerTest {
 
     return map.entrySet().stream()
         .map(
-            (Function<Entry<String, Value>, Entry<String, LongValue>>)
+            (Function<Entry<String, Value>, Entry<String, com.google.cloud.datastore.Value<?>>>)
                 entry ->
                     new SimpleEntry<>(
-                        entry.getKey(), (LongValue) LongValue.fromPb(entry.getValue())))
+                        entry.getKey(), com.google.cloud.datastore.Value.fromPb(entry.getValue())))
         .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
   }
 }

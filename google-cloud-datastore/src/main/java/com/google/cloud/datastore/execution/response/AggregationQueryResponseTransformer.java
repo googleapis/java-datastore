@@ -19,7 +19,6 @@ import com.google.api.core.InternalApi;
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.AggregationResults;
-import com.google.cloud.datastore.LongValue;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.Value;
 import java.util.AbstractMap.SimpleEntry;
@@ -40,19 +39,19 @@ public class AggregationQueryResponseTransformer
     List<AggregationResult> aggregationResults =
         response.getBatch().getAggregationResultsList().stream()
             .map(
-                aggregationResult -> new AggregationResult(resultWithLongValues(aggregationResult)))
+                aggregationResult -> new AggregationResult(transformValues(aggregationResult)))
             .collect(Collectors.toCollection(LinkedList::new));
     return new AggregationResults(aggregationResults, readTime);
   }
 
-  private Map<String, com.google.cloud.datastore.Value<?>> resultWithLongValues(
+  private Map<String, com.google.cloud.datastore.Value<?>> transformValues(
       com.google.datastore.v1.AggregationResult aggregationResult) {
     return aggregationResult.getAggregatePropertiesMap().entrySet().stream()
         .map(
             (Function<Entry<String, Value>, Entry<String, com.google.cloud.datastore.Value<?>>>)
                 entry ->
                     new SimpleEntry<>(
-                        entry.getKey(), (LongValue) com.google.cloud.datastore.Value.fromPb(entry.getValue())))
+                        entry.getKey(), com.google.cloud.datastore.Value.fromPb(entry.getValue())))
         .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
   }
 }
