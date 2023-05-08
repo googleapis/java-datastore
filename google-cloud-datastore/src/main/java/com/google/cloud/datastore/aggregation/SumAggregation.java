@@ -2,12 +2,14 @@ package com.google.cloud.datastore.aggregation;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.base.Preconditions;
+import com.google.api.core.BetaApi;
 import com.google.datastore.v1.AggregationQuery;
 import com.google.datastore.v1.AggregationQuery.Aggregation.Sum;
 import com.google.datastore.v1.PropertyReference;
 import java.util.Objects;
 
+/** Represents an {@link Aggregation} which returns sum of numerical values. */
+@BetaApi
 public class SumAggregation extends Aggregation {
 
   private final String propertyReference;
@@ -46,7 +48,7 @@ public class SumAggregation extends Aggregation {
     return Objects.hash(getAlias());
   }
 
-
+  /** A builder class to create and customize a {@link SumAggregation}. */
   public static class Builder implements AggregationBuilder<SumAggregation> {
 
     private String alias;

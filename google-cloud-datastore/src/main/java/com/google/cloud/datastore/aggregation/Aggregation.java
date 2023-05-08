@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore.aggregation;
 
+import com.google.api.core.BetaApi;
 import com.google.api.core.InternalApi;
 import com.google.datastore.v1.AggregationQuery;
 
@@ -77,6 +78,7 @@ public abstract class Aggregation {
   /**
    * Returns a {@link SumAggregation} builder.
    */
+  @BetaApi
   public static SumAggregation.Builder sum(String propertyReference) {
     return new SumAggregation.Builder().propertyReference(propertyReference);
   }
@@ -84,6 +86,7 @@ public abstract class Aggregation {
   /**
    * Returns a {@link AvgAggregation} builder.
    */
+  @BetaApi
   public static AvgAggregation.Builder avg(String propertyReference) {
     return new AvgAggregation.Builder().propertyReference(propertyReference);
   }

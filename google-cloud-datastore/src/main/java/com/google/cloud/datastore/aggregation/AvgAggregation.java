@@ -2,11 +2,14 @@ package com.google.cloud.datastore.aggregation;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.api.core.BetaApi;
 import com.google.datastore.v1.AggregationQuery;
 import com.google.datastore.v1.AggregationQuery.Aggregation.Avg;
 import com.google.datastore.v1.PropertyReference;
 import java.util.Objects;
 
+/** Represents an {@link Aggregation} which returns average of numerical values. */
+@BetaApi
 public class AvgAggregation extends Aggregation {
 
   private final String propertyReference;
@@ -45,7 +48,7 @@ public class AvgAggregation extends Aggregation {
     return Objects.hash(getAlias());
   }
 
-
+  /** A builder class to create and customize a {@link AvgAggregation}. */
   public static class Builder implements AggregationBuilder<AvgAggregation> {
 
     private String alias;
