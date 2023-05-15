@@ -22,8 +22,6 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.AggregationResults;
-import com.google.cloud.datastore.LongValue;
-import com.google.cloud.datastore.ProtoTestData;
 import com.google.common.collect.ImmutableMap;
 import com.google.datastore.v1.AggregationResultBatch;
 import com.google.datastore.v1.RunAggregationQueryResponse;
@@ -80,7 +78,8 @@ public class AggregationQueryResponseTransformerTest {
     assertThat(aggregationResults.getReadTime()).isEqualTo(readTime);
   }
 
-  private Map<String, com.google.cloud.datastore.Value<?>> toDomainValues(Map<String, com.google.datastore.v1.Value> map) {
+  private Map<String, com.google.cloud.datastore.Value<?>> toDomainValues(
+      Map<String, com.google.datastore.v1.Value> map) {
 
     return map.entrySet().stream()
         .map(

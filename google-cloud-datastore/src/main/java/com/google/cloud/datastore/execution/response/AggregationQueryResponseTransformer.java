@@ -38,8 +38,7 @@ public class AggregationQueryResponseTransformer
     Timestamp readTime = Timestamp.fromProto(response.getBatch().getReadTime());
     List<AggregationResult> aggregationResults =
         response.getBatch().getAggregationResultsList().stream()
-            .map(
-                aggregationResult -> new AggregationResult(transformValues(aggregationResult)))
+            .map(aggregationResult -> new AggregationResult(transformValues(aggregationResult)))
             .collect(Collectors.toCollection(LinkedList::new));
     return new AggregationResults(aggregationResults, readTime);
   }

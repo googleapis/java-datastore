@@ -40,8 +40,8 @@ public class AvgAggregation extends Aggregation {
   @InternalApi
   @Override
   public AggregationQuery.Aggregation toPb() {
-    PropertyReference reference = PropertyReference.newBuilder().setName(this.propertyReference)
-        .build();
+    PropertyReference reference =
+        PropertyReference.newBuilder().setName(this.propertyReference).build();
     Avg avg = Avg.newBuilder().setProperty(reference).build();
     return aggregationBuilder().setAvg(avg).build();
   }
@@ -49,8 +49,8 @@ public class AvgAggregation extends Aggregation {
   @Override
   protected boolean sameAs(Aggregation aggregation) {
     AvgAggregation that = (AvgAggregation) aggregation;
-    return Objects.equals(this.propertyReference, that.propertyReference) &&
-        Objects.equals(getAlias(), that.getAlias());
+    return Objects.equals(this.propertyReference, that.propertyReference)
+        && Objects.equals(getAlias(), that.getAlias());
   }
 
   @Override

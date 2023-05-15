@@ -40,8 +40,8 @@ public class SumAggregation extends Aggregation {
   @InternalApi
   @Override
   public AggregationQuery.Aggregation toPb() {
-    PropertyReference reference = PropertyReference.newBuilder().setName(this.propertyReference)
-        .build();
+    PropertyReference reference =
+        PropertyReference.newBuilder().setName(this.propertyReference).build();
     Sum sum = Sum.newBuilder().setProperty(reference).build();
     return aggregationBuilder().setSum(sum).build();
   }
@@ -49,8 +49,8 @@ public class SumAggregation extends Aggregation {
   @Override
   protected boolean sameAs(Aggregation aggregation) {
     SumAggregation that = (SumAggregation) aggregation;
-    return Objects.equals(this.propertyReference, that.propertyReference) &&
-        Objects.equals(getAlias(), that.getAlias());
+    return Objects.equals(this.propertyReference, that.propertyReference)
+        && Objects.equals(getAlias(), that.getAlias());
   }
 
   @Override

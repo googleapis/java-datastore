@@ -21,11 +21,10 @@ import java.io.IOException;
 import okhttp3.mockwebserver.MockWebServer;
 
 /**
- * A proxy server that sits in between a running test and a running datastore instance (emulator or real
- * datastore service) to simulate the aggregation query response.
- * This works by fetching the records by executing the nested query and perform
- * aggregations on it's side in memory.
- * This is a temporary solution and will be deleted once the backend APIs are ready with SUM and AVG
+ * A proxy server that sits in between a running test and a running datastore instance (emulator or
+ * real datastore service) to simulate the aggregation query response. This works by fetching the
+ * records by executing the nested query and perform aggregations on it's side in memory. This is a
+ * temporary solution and will be deleted once the backend APIs are ready with SUM and AVG
  * aggregations.
  */
 public class EmulatorProxy {
@@ -40,7 +39,8 @@ public class EmulatorProxy {
   }
 
   private void init() {
-    this.mockWebServer.setDispatcher(new ProxyDispatcher(new HttpDatastoreRpc(emulatorDataStoreOptions)));
+    this.mockWebServer.setDispatcher(
+        new ProxyDispatcher(new HttpDatastoreRpc(emulatorDataStoreOptions)));
   }
 
   public void start() throws IOException {

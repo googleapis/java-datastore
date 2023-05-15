@@ -45,7 +45,7 @@ public class ITDatastoreAggregationsTest {
 
   private static final EmulatorProxy emulatorProxy = new EmulatorProxy(OPTIONS);
 
-  //TODO(jainsahab): delete it and delegate all calls to DATASTORE when backend is ready
+  // TODO(jainsahab): delete it and delegate all calls to DATASTORE when backend is ready
   private static final Datastore datastoreEmulatorProxy = emulatorProxy.getOptions().getService();
 
   private static final String KIND = "Marks";
@@ -68,94 +68,88 @@ public class ITDatastoreAggregationsTest {
   Key key2 = DATASTORE.newKeyFactory().setKind(KIND).newKey(2);
   Key key3 = DATASTORE.newKeyFactory().setKind(KIND).newKey(3);
 
-  Entity entity1 = Entity.newBuilder(key1)
-      .set("name", "Jon Stark")
-      .set("marks", 89)
-      .set("cgpa", 7.34)
-      .build();
-  Entity entity2 = Entity.newBuilder(key2)
-      .set("name", "Arya Stark")
-      .set("marks", 95)
-      .set("cgpa", 9.27)
-      .build();
-  Entity entity3 = Entity.newBuilder(key3)
-      .set("name", "Night king")
-      .set("marks", 55)
-      .set("cgpa", 5.16)
-      .build();
+  Entity entity1 =
+      Entity.newBuilder(key1).set("name", "Jon Stark").set("marks", 89).set("cgpa", 7.34).build();
+  Entity entity2 =
+      Entity.newBuilder(key2).set("name", "Arya Stark").set("marks", 95).set("cgpa", 9.27).build();
+  Entity entity3 =
+      Entity.newBuilder(key3).set("name", "Night king").set("marks", 55).set("cgpa", 5.16).build();
 
   @Test
   public void testAggregationQueryWithSumAggregation() {
     DATASTORE.put(entity1, entity2);
 
-    EntityQuery baseQuery = Query.newEntityQueryBuilder()
-        .setKind(KIND)
-        .build();
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .over(baseQuery)
-        .addAggregations(sum("marks").as("total_marks"))
-        .setNamespace(OPTIONS.getNamespace())
-        .build();
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregations(sum("marks").as("total_marks"))
+            .setNamespace(OPTIONS.getNamespace())
+            .build();
 
     // sum of 2 entities
-    assertThat(getOnlyElement(
-        datastoreEmulatorProxy.runAggregation(aggregationQuery)).getLong("total_marks")).isEqualTo(
-        184L);
+    assertThat(
+            getOnlyElement(datastoreEmulatorProxy.runAggregation(aggregationQuery))
+                .getLong("total_marks"))
+        .isEqualTo(184L);
 
     // sum of 3 entities
     DATASTORE.put(entity3);
-    assertThat(getOnlyElement(
-        datastoreEmulatorProxy.runAggregation(aggregationQuery)).getLong("total_marks")).isEqualTo(
-        239L);
+    assertThat(
+            getOnlyElement(datastoreEmulatorProxy.runAggregation(aggregationQuery))
+                .getLong("total_marks"))
+        .isEqualTo(239L);
   }
 
   @Test
   public void testAggregationQueryWithSumAggregationResultOfDoubleType() {
     DATASTORE.put(entity1, entity2);
 
-    EntityQuery baseQuery = Query.newEntityQueryBuilder()
-        .setKind(KIND)
-        .build();
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .over(baseQuery)
-        .addAggregations(sum("cgpa").as("total_cgpa"))
-        .setNamespace(OPTIONS.getNamespace())
-        .build();
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregations(sum("cgpa").as("total_cgpa"))
+            .setNamespace(OPTIONS.getNamespace())
+            .build();
 
     // sum of 2 entities
-    assertThat(getOnlyElement(
-        datastoreEmulatorProxy.runAggregation(aggregationQuery)).getDouble("total_cgpa")).isEqualTo(
-        16.61);
+    assertThat(
+            getOnlyElement(datastoreEmulatorProxy.runAggregation(aggregationQuery))
+                .getDouble("total_cgpa"))
+        .isEqualTo(16.61);
 
     // sum of 3 entities
     DATASTORE.put(entity3);
-    assertThat(getOnlyElement(
-        datastoreEmulatorProxy.runAggregation(aggregationQuery)).getDouble("total_cgpa")).isEqualTo(
-        21.77);
+    assertThat(
+            getOnlyElement(datastoreEmulatorProxy.runAggregation(aggregationQuery))
+                .getDouble("total_cgpa"))
+        .isEqualTo(21.77);
   }
 
   @Test
   public void testAggregationQueryWithAvgAggregation() {
     DATASTORE.put(entity1, entity2);
 
-    EntityQuery baseQuery = Query.newEntityQueryBuilder()
-        .setKind(KIND)
-        .build();
-    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
-        .over(baseQuery)
-        .addAggregations(avg("marks").as("avg_marks"))
-        .setNamespace(OPTIONS.getNamespace())
-        .build();
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregations(avg("marks").as("avg_marks"))
+            .setNamespace(OPTIONS.getNamespace())
+            .build();
 
     // avg of 2 entities
-    assertThat(getOnlyElement(
-        datastoreEmulatorProxy.runAggregation(aggregationQuery)).getDouble("avg_marks"))
+    assertThat(
+            getOnlyElement(datastoreEmulatorProxy.runAggregation(aggregationQuery))
+                .getDouble("avg_marks"))
         .isEqualTo(92D);
 
     // avg of 3 entities
     DATASTORE.put(entity3);
-    assertThat(getOnlyElement(
-        datastoreEmulatorProxy.runAggregation(aggregationQuery)).getDouble("avg_marks"))
+    assertThat(
+            getOnlyElement(datastoreEmulatorProxy.runAggregation(aggregationQuery))
+                .getDouble("avg_marks"))
         .isEqualTo(79.66666666666667);
   }
 }

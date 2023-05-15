@@ -16,12 +16,10 @@
 
 package com.google.cloud.datastore.aggregation;
 
-import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.cloud.datastore.aggregation.Aggregation.sum;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
-import com.google.common.truth.Truth;
 import com.google.datastore.v1.AggregationQuery;
 import org.junit.Test;
 

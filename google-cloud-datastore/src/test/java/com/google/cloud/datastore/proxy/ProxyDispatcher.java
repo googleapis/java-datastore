@@ -46,9 +46,8 @@ import okio.Buffer;
 
 /**
  * A response handler which works by intercepting {@link RunAggregationQueryRequest} and calculate
- * aggregations on it's side.
- * This is a temporary solution and will be deleted once the backend APIs are ready with SUM and AVG
- * aggregations.
+ * aggregations on it's side. This is a temporary solution and will be deleted once the backend APIs
+ * are ready with SUM and AVG aggregations.
  */
 public class ProxyDispatcher extends Dispatcher {
 
@@ -63,19 +62,19 @@ public class ProxyDispatcher extends Dispatcher {
     String methodName = recordedRequest.getPath().split(":")[1];
     if (!"runAggregationQuery".equals(methodName)) {
       throw new IllegalStateException(
-          String.format("Proxy only supports RunAggregationQuery method, Found %s method.",
-              methodName));
+          String.format(
+              "Proxy only supports RunAggregationQuery method, Found %s method.", methodName));
     }
 
     try {
-      RunAggregationQueryRequest runAggregationQueryRequest = RunAggregationQueryRequest.parseFrom(
-          recordedRequest.getBody().inputStream());
+      RunAggregationQueryRequest runAggregationQueryRequest =
+          RunAggregationQueryRequest.parseFrom(recordedRequest.getBody().inputStream());
 
       RunQueryRequest runQueryRequest = getRunQueryRequest(runAggregationQueryRequest);
       RunQueryResponse runQueryResponse = this.datastoreRpc.runQuery(runQueryRequest);
 
-      RunAggregationQueryResponse runAggregationQueryResponse = getRunAggregationQueryResponse(
-          runAggregationQueryRequest, runQueryResponse);
+      RunAggregationQueryResponse runAggregationQueryResponse =
+          getRunAggregationQueryResponse(runAggregationQueryRequest, runQueryResponse);
       Buffer buffer = new Buffer();
       runAggregationQueryResponse.writeTo(buffer.outputStream());
       return new MockResponse().setBody(buffer);
@@ -87,11 +86,13 @@ public class ProxyDispatcher extends Dispatcher {
 
   private RunAggregationQueryResponse getRunAggregationQueryResponse(
       RunAggregationQueryRequest runAggregationQueryRequest, RunQueryResponse runQueryResponse) {
-    AggregationResult aggregationResult = AggregationResult.newBuilder()
-        .putAllAggregateProperties(getProperties(
-            runAggregationQueryRequest.getAggregationQuery().getAggregationsList(),
-            runQueryResponse))
-        .build();
+    AggregationResult aggregationResult =
+        AggregationResult.newBuilder()
+            .putAllAggregateProperties(
+                getProperties(
+                    runAggregationQueryRequest.getAggregationQuery().getAggregationsList(),
+                    runQueryResponse))
+            .build();
     return RunAggregationQueryResponse.newBuilder()
         .setBatch(
             AggregationResultBatch.newBuilder().addAggregationResults(aggregationResult).build())
@@ -109,8 +110,8 @@ public class ProxyDispatcher extends Dispatcher {
     return builder.build();
   }
 
-  private Map<String, Value> getProperties(List<Aggregation> aggregationsList,
-      RunQueryResponse runQueryResponse) {
+  private Map<String, Value> getProperties(
+      List<Aggregation> aggregationsList, RunQueryResponse runQueryResponse) {
     HashMap<String, Value> map = new HashMap<>();
     for (Aggregation aggregation : aggregationsList) {
       if (aggregation.getOperatorCase() == OperatorCase.COUNT) {
@@ -137,12 +138,14 @@ public class ProxyDispatcher extends Dispatcher {
     List<EntityResult> entities = runQueryResponse.getBatch().getEntityResultsList();
     String propertyRef = sum.getProperty().getName();
 
-    Double sumAggregatedValue = entities.stream()
-        .map(entityResult -> getNumber(propertyRef, entityResult))
-        .map(Number::doubleValue)
-        .reduce(0D, Double::sum);
+    Double sumAggregatedValue =
+        entities.stream()
+            .map(entityResult -> getNumber(propertyRef, entityResult))
+            .map(Number::doubleValue)
+            .reduce(0D, Double::sum);
 
-    if (sumAggregatedValue <= Long.MAX_VALUE && DoubleMath.isMathematicalInteger(sumAggregatedValue)) {
+    if (sumAggregatedValue <= Long.MAX_VALUE
+        && DoubleMath.isMathematicalInteger(sumAggregatedValue)) {
       return intValue(sumAggregatedValue.longValue());
     }
     return doubleValue(sumAggregatedValue);
@@ -153,10 +156,11 @@ public class ProxyDispatcher extends Dispatcher {
     int totalEntityCount = runQueryResponse.getBatch().getEntityResultsCount();
     String propertyRef = avg.getProperty().getName();
 
-    Double sumAggregatedValue = entities.stream()
-        .map(entityResult -> getNumber(propertyRef, entityResult))
-        .map(Number::doubleValue)
-        .reduce(0D, Double::sum);
+    Double sumAggregatedValue =
+        entities.stream()
+            .map(entityResult -> getNumber(propertyRef, entityResult))
+            .map(Number::doubleValue)
+            .reduce(0D, Double::sum);
 
     return doubleValue(sumAggregatedValue / totalEntityCount);
   }

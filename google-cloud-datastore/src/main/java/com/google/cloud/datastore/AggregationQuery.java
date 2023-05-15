@@ -164,7 +164,6 @@ public class AggregationQuery extends Query<AggregationResults> {
       return this;
     }
 
-
     public Builder over(StructuredQuery<?> nestedQuery) {
       this.nestedStructuredQuery = nestedQuery;
       this.mode = STRUCTURED;

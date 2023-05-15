@@ -758,7 +758,8 @@ public class ITDatastoreTest {
                       getOnlyElement(inFirstTransaction.runAggregation(aggregationQuery))
                           .getLong("count"))
                   .isEqualTo(2L);
-              assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
+              assertThat(
+                      getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
                   .isEqualTo(2L);
               return null;
             });
@@ -778,7 +779,8 @@ public class ITDatastoreTest {
                       getOnlyElement(inSecondTransaction.runAggregation(aggregationQuery))
                           .getLong("count"))
                   .isEqualTo(3L);
-              assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
+              assertThat(
+                      getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
                   .isEqualTo(3L);
               return null;
             });
@@ -809,7 +811,8 @@ public class ITDatastoreTest {
     Transaction readOnlyTransaction = DATASTORE.newTransaction(transactionOptions);
 
     // Executing query in transaction
-    assertThat(getOnlyElement(readOnlyTransaction.runAggregation(aggregationQuery)).getLong("count"))
+    assertThat(
+            getOnlyElement(readOnlyTransaction.runAggregation(aggregationQuery)).getLong("count"))
         .isEqualTo(2L);
 
     // Concurrent write task.

@@ -63,7 +63,8 @@ public abstract class Aggregation {
 
   @InternalApi
   protected AggregationQuery.Aggregation.Builder aggregationBuilder() {
-    AggregationQuery.Aggregation.Builder aggregationBuilder = AggregationQuery.Aggregation.newBuilder();
+    AggregationQuery.Aggregation.Builder aggregationBuilder =
+        AggregationQuery.Aggregation.newBuilder();
     if (this.getAlias() != null) {
       aggregationBuilder.setAlias(this.getAlias());
     }
@@ -75,17 +76,13 @@ public abstract class Aggregation {
     return new CountAggregation.Builder();
   }
 
-  /**
-   * Returns a {@link SumAggregation} builder.
-   */
+  /** Returns a {@link SumAggregation} builder. */
   @BetaApi
   public static SumAggregation.Builder sum(String propertyReference) {
     return new SumAggregation.Builder().propertyReference(propertyReference);
   }
 
-  /**
-   * Returns a {@link AvgAggregation} builder.
-   */
+  /** Returns a {@link AvgAggregation} builder. */
   @BetaApi
   public static AvgAggregation.Builder avg(String propertyReference) {
     return new AvgAggregation.Builder().propertyReference(propertyReference);
