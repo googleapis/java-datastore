@@ -17,6 +17,9 @@ package com.google.cloud.datastore.proxy;
 
 import static com.google.cloud.datastore.ProtoTestData.doubleValue;
 import static com.google.cloud.datastore.ProtoTestData.intValue;
+import static com.google.datastore.v1.AggregationQuery.Aggregation.OperatorCase.AVG;
+import static com.google.datastore.v1.AggregationQuery.Aggregation.OperatorCase.COUNT;
+import static com.google.datastore.v1.AggregationQuery.Aggregation.OperatorCase.SUM;
 
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.common.math.DoubleMath;
@@ -114,18 +117,25 @@ public class ProxyDispatcher extends Dispatcher {
       List<Aggregation> aggregationsList, RunQueryResponse runQueryResponse) {
     HashMap<String, Value> map = new HashMap<>();
     for (Aggregation aggregation : aggregationsList) {
-      if (aggregation.getOperatorCase() == OperatorCase.COUNT) {
-        map.put(aggregation.getAlias(), getValue(runQueryResponse, aggregation.getCount()));
-      } else if (aggregation.getOperatorCase() == OperatorCase.SUM) {
-        map.put(aggregation.getAlias(), getValue(runQueryResponse, aggregation.getSum()));
-      } else if (aggregation.getOperatorCase() == OperatorCase.AVG) {
-        map.put(aggregation.getAlias(), getValue(runQueryResponse, aggregation.getAvg()));
-      }
+      map.put(aggregation.getAlias(), aggregatedValue(aggregation, runQueryResponse));
     }
     return map;
   }
 
-  private Value getValue(RunQueryResponse runQueryResponse, Count count) {
+  private Value aggregatedValue(Aggregation aggregation, RunQueryResponse runQueryResponse) {
+    switch (aggregation.getOperatorCase()) {
+      case COUNT:
+        return getCountValue(runQueryResponse, aggregation.getCount());
+      case SUM:
+        return getSumValue(runQueryResponse, aggregation.getSum());
+      case AVG:
+        return getAvgValue(runQueryResponse, aggregation.getAvg());
+      default:
+        return null;
+    }
+  }
+
+  private Value getCountValue(RunQueryResponse runQueryResponse, Count count) {
     int totalEntityCount = runQueryResponse.getBatch().getEntityResultsCount();
     if (count.hasUpTo()) {
       return intValue(Math.min(count.getUpTo().getValue(), totalEntityCount));
@@ -134,7 +144,7 @@ public class ProxyDispatcher extends Dispatcher {
     }
   }
 
-  private Value getValue(RunQueryResponse runQueryResponse, Sum sum) {
+  private Value getSumValue(RunQueryResponse runQueryResponse, Sum sum) {
     List<EntityResult> entities = runQueryResponse.getBatch().getEntityResultsList();
     String propertyRef = sum.getProperty().getName();
 
@@ -151,7 +161,7 @@ public class ProxyDispatcher extends Dispatcher {
     return doubleValue(sumAggregatedValue);
   }
 
-  private Value getValue(RunQueryResponse runQueryResponse, Avg avg) {
+  private Value getAvgValue(RunQueryResponse runQueryResponse, Avg avg) {
     List<EntityResult> entities = runQueryResponse.getBatch().getEntityResultsList();
     int totalEntityCount = runQueryResponse.getBatch().getEntityResultsCount();
     String propertyRef = avg.getProperty().getName();
