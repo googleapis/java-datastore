@@ -23,6 +23,7 @@ import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.cloud.datastore.aggregation.AggregationBuilder;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -155,6 +156,14 @@ public class AggregationQuery extends Query<AggregationResults> {
       this.aggregations.addAll(Arrays.asList(aggregations));
       return this;
     }
+
+    public Builder addAggregations(List<AggregationBuilder<?>> aggregationBuilders) {
+      for (AggregationBuilder<?> builder : aggregationBuilders) {
+        this.aggregations.add(builder.build());
+      }
+      return this;
+    }
+
 
     public Builder over(StructuredQuery<?> nestedQuery) {
       this.nestedStructuredQuery = nestedQuery;

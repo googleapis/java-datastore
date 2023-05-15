@@ -29,6 +29,7 @@ import com.google.cloud.datastore.aggregation.AvgAggregation;
 import com.google.cloud.datastore.aggregation.CountAggregation;
 import com.google.cloud.datastore.aggregation.SumAggregation;
 import com.google.common.collect.ImmutableSet;
+import java.util.Arrays;
 import org.junit.Test;
 
 public class AggregationQueryTest {
@@ -60,7 +61,7 @@ public class AggregationQueryTest {
   }
 
   @Test
-  public void testAggregationBuilderWithMoreThanOneAggregations1() {
+  public void testAggregationBuilderWithMultipleAggregationsOneByOne() {
     AggregationQuery aggregationQuery =
         Query.newAggregationQueryBuilder()
             .setNamespace(NAMESPACE)
@@ -78,7 +79,7 @@ public class AggregationQueryTest {
   }
 
   @Test
-  public void testAggregationBuilderWithMoreThanOneAggregations2() {
+  public void testAggregationBuilderWithMultipleAggregationsTogether() {
     AggregationQuery aggregationQuery =
         Query.newAggregationQueryBuilder()
             .setNamespace(NAMESPACE)
@@ -97,7 +98,7 @@ public class AggregationQueryTest {
   }
 
   @Test
-  public void testAggregationBuilderWithMoreThanOneAggregations3() {
+  public void testAggregationBuilderWithMultipleAggregationsConfiguredThroughConstructor() {
     AggregationQuery aggregationQuery =
         Query.newAggregationQueryBuilder()
             .setNamespace(NAMESPACE)
@@ -105,6 +106,26 @@ public class AggregationQueryTest {
                 new CountAggregation("total"),
                 new SumAggregation("total_marks", "marks"),
                 new AvgAggregation("avg_marks", "marks"))
+            .over(COMPLETED_TASK_QUERY)
+            .build();
+
+    assertThat(aggregationQuery.getAggregations())
+        .isEqualTo(ImmutableSet.of(count().as("total").build(),
+            sum("marks").as("total_marks").build(),
+            avg("marks").as("avg_marks").build()
+        ));
+  }
+
+  @Test
+  public void testAggregationBuilderWithMultipleAggregationsInAList() {
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .addAggregations(Arrays.asList(
+                count().as("total"),
+                sum("marks").as("total_marks"),
+                avg("marks").as("avg_marks")
+            ))
             .over(COMPLETED_TASK_QUERY)
             .build();
 

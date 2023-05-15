@@ -30,8 +30,8 @@ public class AggregationResultTest {
                 "count", LongValue.of(45),
                 "property_2", LongValue.of(30)));
 
-    assertThat(aggregationResult.get("count")).isEqualTo(45L);
-    assertThat(aggregationResult.get("property_2")).isEqualTo(30L);
+    assertThat(aggregationResult.getLong("count")).isEqualTo(45L);
+    assertThat(aggregationResult.getLong("property_2")).isEqualTo(30L);
   }
 
   @Test
@@ -59,6 +59,6 @@ public class AggregationResultTest {
     AggregationResult aggregationResult =
         new AggregationResult(ImmutableMap.of("qty_avg", DoubleValue.of(45.9322)));
 
-    assertThat(aggregationResult.get("qty_avg")).isEqualTo(45L);
+    assertThat(aggregationResult.getLong("qty_avg")).isEqualTo(45L);
   }
 }

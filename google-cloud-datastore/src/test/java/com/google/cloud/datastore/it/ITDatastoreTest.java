@@ -741,7 +741,7 @@ public class ITDatastoreTest {
             .build();
 
     // original entity count is 2
-    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
         .isEqualTo(2L);
 
     // FIRST TRANSACTION
@@ -756,14 +756,14 @@ public class ITDatastoreTest {
               // count remains 2
               assertThat(
                       getOnlyElement(inFirstTransaction.runAggregation(aggregationQuery))
-                          .get("count"))
+                          .getLong("count"))
                   .isEqualTo(2L);
-              assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+              assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
                   .isEqualTo(2L);
               return null;
             });
     // after first transaction is committed, count is updated to 3 now.
-    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
         .isEqualTo(3L);
 
     // SECOND TRANSACTION
@@ -776,14 +776,14 @@ public class ITDatastoreTest {
               // count remains 3
               assertThat(
                       getOnlyElement(inSecondTransaction.runAggregation(aggregationQuery))
-                          .get("count"))
+                          .getLong("count"))
                   .isEqualTo(3L);
-              assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+              assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
                   .isEqualTo(3L);
               return null;
             });
     // after second transaction is committed, count is updated to 2 now.
-    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
         .isEqualTo(2L);
     DATASTORE.delete(newEntityKey);
   }
@@ -809,7 +809,7 @@ public class ITDatastoreTest {
     Transaction readOnlyTransaction = DATASTORE.newTransaction(transactionOptions);
 
     // Executing query in transaction
-    assertThat(getOnlyElement(readOnlyTransaction.runAggregation(aggregationQuery)).get("count"))
+    assertThat(getOnlyElement(readOnlyTransaction.runAggregation(aggregationQuery)).getLong("count"))
         .isEqualTo(2L);
 
     // Concurrent write task.
@@ -832,7 +832,7 @@ public class ITDatastoreTest {
     readOnlyTransaction.commit();
     executor.shutdownNow();
 
-    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get("count"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
         .isEqualTo(3L);
   }
 
@@ -1459,7 +1459,7 @@ public class ITDatastoreTest {
     AggregationQuery aggregationQuery = builder.build();
     String alias = "total_count";
 
-    Long countBeforeAdd = getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get(alias);
+    Long countBeforeAdd = getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong(alias);
     long expectedCount = countBeforeAdd + 1;
 
     Entity newEntity =
@@ -1471,7 +1471,7 @@ public class ITDatastoreTest {
             .build();
     DATASTORE.put(newEntity);
 
-    Long countAfterAdd = getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).get(alias);
+    Long countAfterAdd = getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong(alias);
     assertThat(countAfterAdd).isEqualTo(expectedCount);
 
     DATASTORE.delete(newEntity.getKey());
@@ -1487,7 +1487,7 @@ public class ITDatastoreTest {
     withoutLimitConfigurer.accept(withoutLimitBuilder);
 
     Long currentCount =
-        getOnlyElement(DATASTORE.runAggregation(withoutLimitBuilder.build())).get(alias);
+        getOnlyElement(DATASTORE.runAggregation(withoutLimitBuilder.build())).getLong(alias);
     long limit = currentCount - 1;
 
     AggregationQuery.Builder withLimitBuilder =
@@ -1495,7 +1495,7 @@ public class ITDatastoreTest {
     withLimitConfigurer.accept(withLimitBuilder, limit);
 
     Long countWithLimit =
-        getOnlyElement(DATASTORE.runAggregation(withLimitBuilder.build())).get(alias);
+        getOnlyElement(DATASTORE.runAggregation(withLimitBuilder.build())).getLong(alias);
     assertThat(countWithLimit).isEqualTo(limit);
   }
 
@@ -1529,12 +1529,12 @@ public class ITDatastoreTest {
       AggregationQuery countAggregationQuery = builder.build();
 
       Long latestCount =
-          getOnlyElement(DATASTORE.runAggregation(countAggregationQuery)).get("total_count");
+          getOnlyElement(DATASTORE.runAggregation(countAggregationQuery)).getLong("total_count");
       assertThat(latestCount).isEqualTo(3L);
 
       Long oldCount =
           getOnlyElement(DATASTORE.runAggregation(countAggregationQuery, ReadOption.readTime(now)))
-              .get("total_count");
+              .getLong("total_count");
       assertThat(oldCount).isEqualTo(2L);
     } finally {
       DATASTORE.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
