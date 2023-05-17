@@ -47,16 +47,23 @@ public class AvgAggregation extends Aggregation {
   }
 
   @Override
-  protected boolean sameAs(Aggregation aggregation) {
-    AvgAggregation that = (AvgAggregation) aggregation;
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AvgAggregation that = (AvgAggregation) o;
     return Objects.equals(this.propertyReference, that.propertyReference)
         && Objects.equals(getAlias(), that.getAlias());
   }
 
   @Override
-  public int hash() {
+  public int hashCode(){
     return Objects.hash(getAlias(), this.propertyReference);
   }
+
 
   /** A builder class to create and customize a {@link AvgAggregation}. */
   public static class Builder implements AggregationBuilder<AvgAggregation> {

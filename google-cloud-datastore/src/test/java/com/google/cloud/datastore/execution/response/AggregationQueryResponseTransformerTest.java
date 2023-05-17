@@ -40,18 +40,57 @@ public class AggregationQueryResponseTransformerTest {
       new AggregationQueryResponseTransformer();
 
   @Test
-  public void shouldTransformAggregationQueryResponse() {
+  public void shouldTransformAggregationQueryResponseWithIntValues() {
     Map<String, com.google.datastore.v1.Value> result1 =
         new HashMap<>(
             ImmutableMap.of(
                 "count", intValue(209),
-                "property_2", doubleValue(100)));
+                "property_2", intValue(100)));
 
     Map<String, com.google.datastore.v1.Value> result2 =
         new HashMap<>(
             ImmutableMap.of(
                 "count", intValue(509),
-                "property_2", doubleValue(100)));
+                "property_2", intValue((100))));
+    Timestamp readTime = Timestamp.now();
+
+    AggregationResultBatch resultBatch =
+        AggregationResultBatch.newBuilder()
+            .addAggregationResults(
+                com.google.datastore.v1.AggregationResult.newBuilder()
+                    .putAllAggregateProperties(result1)
+                    .build())
+            .addAggregationResults(
+                com.google.datastore.v1.AggregationResult.newBuilder()
+                    .putAllAggregateProperties(result2)
+                    .build())
+            .setReadTime(readTime.toProto())
+            .build();
+    RunAggregationQueryResponse runAggregationQueryResponse =
+        RunAggregationQueryResponse.newBuilder().setBatch(resultBatch).build();
+
+    AggregationResults aggregationResults =
+        responseTransformer.transform(runAggregationQueryResponse);
+
+    assertThat(aggregationResults.size()).isEqualTo(2);
+    assertThat(aggregationResults.get(0)).isEqualTo(new AggregationResult(toDomainValues(result1)));
+    assertThat(aggregationResults.get(1)).isEqualTo(new AggregationResult(toDomainValues(result2)));
+    assertThat(aggregationResults.getReadTime()).isEqualTo(readTime);
+  }
+
+  @Test
+  public void shouldTransformAggregationQueryResponseWithDoubleValues() {
+    Map<String, com.google.datastore.v1.Value> result1 =
+        new HashMap<>(
+            ImmutableMap.of(
+                "count", doubleValue(209.678),
+                "property_2", doubleValue(100.678)));
+
+    Map<String, com.google.datastore.v1.Value> result2 =
+        new HashMap<>(
+            ImmutableMap.of(
+                "count", doubleValue(509.678),
+                "property_2", doubleValue((100.678))));
     Timestamp readTime = Timestamp.now();
 
     AggregationResultBatch resultBatch =

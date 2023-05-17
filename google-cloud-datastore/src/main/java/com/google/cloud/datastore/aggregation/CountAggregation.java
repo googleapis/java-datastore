@@ -34,19 +34,19 @@ public class CountAggregation extends Aggregation {
   }
 
   @Override
-  protected boolean sameAs(Aggregation aggregation) {
-    CountAggregation that = (CountAggregation) aggregation;
-    boolean bothAliasAreNull = getAlias() == null && that.getAlias() == null;
-    if (bothAliasAreNull) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
-    } else {
-      boolean bothArePresent = getAlias() != null && that.getAlias() != null;
-      return bothArePresent && getAlias().equals(that.getAlias());
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    CountAggregation that = (CountAggregation) o;
+    return Objects.equals(getAlias(), that.getAlias());
   }
 
   @Override
-  public int hash() {
+  public int hashCode(){
     return Objects.hash(getAlias());
   }
 

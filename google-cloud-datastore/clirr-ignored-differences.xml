@@ -26,14 +26,4 @@
         <method>com.google.cloud.datastore.AggregationResults runAggregation(com.google.cloud.datastore.AggregationQuery)</method>
         <differenceType>7012</differenceType>
     </difference>
-    <difference>
-        <className>com/google/cloud/datastore/aggregation/Aggregation</className>
-        <method>int hash()</method>
-        <differenceType>7013</differenceType>
-    </difference>
-    <difference>
-        <className>com/google/cloud/datastore/aggregation/Aggregation</className>
-        <method>boolean sameAs(com.google.cloud.datastore.aggregation.Aggregation)</method>
-        <differenceType>7013</differenceType>
-    </difference>
 </differences>

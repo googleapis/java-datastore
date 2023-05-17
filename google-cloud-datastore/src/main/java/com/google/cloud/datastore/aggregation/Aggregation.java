@@ -36,30 +36,8 @@ public abstract class Aggregation {
     return alias;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    return this.sameAs((Aggregation) o);
-  }
-
-  @Override
-  public int hashCode(){
-    return hash();
-  }
-
   @InternalApi
   public abstract AggregationQuery.Aggregation toPb();
-
-  @InternalApi
-  protected abstract boolean sameAs(Aggregation aggregation);
-
-  @InternalApi
-  protected abstract int hash();
 
   @InternalApi
   protected AggregationQuery.Aggregation.Builder aggregationBuilder() {
