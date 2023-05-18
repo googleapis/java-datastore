@@ -29,12 +29,9 @@ import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.proxy.EmulatorProxy;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.collect.ImmutableList;
-import java.io.IOException;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Test;
 
 public class ITDatastoreAggregationsTest {
@@ -42,11 +39,6 @@ public class ITDatastoreAggregationsTest {
   private static final RemoteDatastoreHelper HELPER = RemoteDatastoreHelper.create();
   private static final DatastoreOptions OPTIONS = HELPER.getOptions();
   private static final Datastore DATASTORE = OPTIONS.getService();
-
-  private static final EmulatorProxy emulatorProxy = new EmulatorProxy(OPTIONS);
-
-  // TODO(jainsahab): delete it and delegate all calls to DATASTORE when backend is ready
-  private static final Datastore datastoreEmulatorProxy = emulatorProxy.getOptions().getService();
 
   private static final String KIND = "Marks";
 
@@ -57,11 +49,6 @@ public class ITDatastoreAggregationsTest {
     Key[] keysToDelete =
         ImmutableList.copyOf(allEntities).stream().map(Entity::getKey).toArray(Key[]::new);
     DATASTORE.delete(keysToDelete);
-  }
-
-  @AfterClass
-  public static void afterClass() throws IOException {
-    emulatorProxy.stop();
   }
 
   Key key1 = DATASTORE.newKeyFactory().setKind(KIND).newKey(1);
@@ -89,14 +76,14 @@ public class ITDatastoreAggregationsTest {
 
     // sum of 2 entities
     assertThat(
-            getOnlyElement(datastoreEmulatorProxy.runAggregation(aggregationQuery))
+            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
                 .getLong("total_marks"))
         .isEqualTo(184L);
 
     // sum of 3 entities
     DATASTORE.put(entity3);
     assertThat(
-            getOnlyElement(datastoreEmulatorProxy.runAggregation(aggregationQuery))
+            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
                 .getLong("total_marks"))
         .isEqualTo(239L);
   }
@@ -115,14 +102,14 @@ public class ITDatastoreAggregationsTest {
 
     // sum of 2 entities
     assertThat(
-            getOnlyElement(datastoreEmulatorProxy.runAggregation(aggregationQuery))
+            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
                 .getDouble("total_cgpa"))
         .isEqualTo(16.61);
 
     // sum of 3 entities
     DATASTORE.put(entity3);
     assertThat(
-            getOnlyElement(datastoreEmulatorProxy.runAggregation(aggregationQuery))
+            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
                 .getDouble("total_cgpa"))
         .isEqualTo(21.77);
   }
@@ -141,14 +128,14 @@ public class ITDatastoreAggregationsTest {
 
     // avg of 2 entities
     assertThat(
-            getOnlyElement(datastoreEmulatorProxy.runAggregation(aggregationQuery))
+            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
                 .getDouble("avg_marks"))
         .isEqualTo(92D);
 
     // avg of 3 entities
     DATASTORE.put(entity3);
     assertThat(
-            getOnlyElement(datastoreEmulatorProxy.runAggregation(aggregationQuery))
+            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
                 .getDouble("avg_marks"))
         .isEqualTo(79.66666666666667);
   }
