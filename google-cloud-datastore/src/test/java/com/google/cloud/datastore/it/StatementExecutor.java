@@ -60,8 +60,8 @@ class StatementExecutor {
         // waiting for statement to execute
         future.get(10, SECONDS);
       } catch (Exception exception) {
+        future.cancel(true);
         if (transactionConflict(exception)) {
-          future.cancel(true);
           failures.put(groupId, exception);
         } else {
           throw exception;
@@ -78,12 +78,12 @@ class StatementExecutor {
   private boolean transactionConflict(Exception exception) {
     if (exception instanceof TimeoutException) { // timed out coz of pessimistic concurrency delay
       return true;
-    } else {
-      return exception instanceof ExecutionException
-          && exception.getCause().getClass() == DatastoreException.class
-          && exception.getMessage()
-          .contains("contention"); // exception raise coz of optimistic concurrency
     }
+    return exception instanceof ExecutionException
+        && exception.getCause().getClass() == DatastoreException.class
+        && exception.getMessage()
+        .contains("contention"); // exception raise coz of optimistic concurrency
+
   }
 
   interface Statement {
