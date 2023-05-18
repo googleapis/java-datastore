@@ -356,7 +356,7 @@ public class ITDatastoreTest {
     boolean t1AllPassed = statementExecutor.didAllPass("T1");
     boolean t2AllPassed = statementExecutor.didAllPass("T2");
     // If two transactions conflict with each other, the database guarantees that only
-    // one can commit successfully at a time.
+    // one can commit successfully at a time. Please refer to StatementExecutor class for more info.
     // Using XOR to ensure that only one of transaction group is successful,
     boolean onlyOneTransactionIsSuccessful = t1AllPassed ^ t2AllPassed;
 
@@ -398,7 +398,7 @@ public class ITDatastoreTest {
     boolean t1AllPassed = statementExecutor.didAllPass("T1");
     boolean t2AllPassed = statementExecutor.didAllPass("T2");
     // If two transactions conflict with each other, the database guarantees that only
-    // one can commit successfully at a time.
+    // one can commit successfully at a time. Please refer to StatementExecutor class for more info.
     // Using XOR to ensure that only one of transaction group is successful,
     boolean onlyOneTransactionIsSuccessful = t1AllPassed ^ t2AllPassed;
 
