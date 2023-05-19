@@ -336,7 +336,7 @@ public class ITDatastoreTest {
   }
 
   @Test
-  public void testTransactionWithRead() throws Exception{
+  public void testTransactionWithRead() throws Exception {
     StatementExecutor statementExecutor = new StatementExecutor();
     Transaction baseTransaction = DATASTORE.newTransaction();
     assertNull(baseTransaction.get(KEY3));
@@ -348,10 +348,17 @@ public class ITDatastoreTest {
     statementExecutor.execute(
         Tuple.of("T1", () -> assertEquals(ENTITY3, transaction.get(KEY3))),
         // update entity3 during the transaction, will be blocked in case of pessimistic concurrency
-        Tuple.of("T2", () -> DATASTORE.put(Entity.newBuilder(ENTITY3).clear().set("from", "datastore").build())),
-        Tuple.of("T1", () -> transaction.update(Entity.newBuilder(ENTITY3).clear().set("from", "transaction").build())),
+        Tuple.of(
+            "T2",
+            () ->
+                DATASTORE.put(Entity.newBuilder(ENTITY3).clear().set("from", "datastore").build())),
+        Tuple.of(
+            "T1",
+            () ->
+                transaction.update(
+                    Entity.newBuilder(ENTITY3).clear().set("from", "transaction").build())),
         Tuple.of("T1", transaction::commit) // T1 will throw error in case of optimistic concurrency
-    );
+        );
 
     boolean t1AllPassed = statementExecutor.didAllPass("T1");
     boolean t2AllPassed = statementExecutor.didAllPass("T2");
@@ -383,17 +390,19 @@ public class ITDatastoreTest {
 
     Transaction transaction = DATASTORE.newTransaction();
     statementExecutor.execute(
-        Tuple.of("T1", () -> {
-          QueryResults<Entity> results = transaction.run(query);
-          assertTrue(results.hasNext());
-          assertEquals(ENTITY2, results.next());
-          assertFalse(results.hasNext());
-        }),
+        Tuple.of(
+            "T1",
+            () -> {
+              QueryResults<Entity> results = transaction.run(query);
+              assertTrue(results.hasNext());
+              assertEquals(ENTITY2, results.next());
+              assertFalse(results.hasNext());
+            }),
         Tuple.of("T1", () -> transaction.delete(ENTITY3.getKey())),
         // update entity2 during the transaction, will be blocked in case of pessimistic concurrency
         Tuple.of("T2", () -> DATASTORE.put(Entity.newBuilder(ENTITY2).clear().build())),
         Tuple.of("T1", transaction::commit) // T1 will throw error in case of optimistic concurrency
-    );
+        );
 
     boolean t1AllPassed = statementExecutor.didAllPass("T1");
     boolean t2AllPassed = statementExecutor.didAllPass("T2");

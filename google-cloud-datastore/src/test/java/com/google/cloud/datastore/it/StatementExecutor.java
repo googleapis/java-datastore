@@ -28,11 +28,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 
-
 /**
  * An executor class to handle interleaved transactions.
  *
- * It executes statements (under multiple transactions) and record their failures under a groupId
+ * <p>It executes statements (under multiple transactions) and record their failures under a groupId
  * provided by users.
  */
 class StatementExecutor {
@@ -81,13 +80,12 @@ class StatementExecutor {
     }
     return exception instanceof ExecutionException
         && exception.getCause().getClass() == DatastoreException.class
-        && exception.getMessage()
-        .contains("contention"); // exception raise coz of optimistic concurrency
-
+        && exception
+            .getMessage()
+            .contains("contention"); // exception raise coz of optimistic concurrency
   }
 
   interface Statement {
     void execute();
   }
-
 }
