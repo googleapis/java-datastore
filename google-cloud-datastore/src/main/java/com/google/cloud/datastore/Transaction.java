@@ -19,13 +19,14 @@ package com.google.cloud.datastore;
 import com.google.protobuf.ByteString;
 import java.util.Iterator;
 import java.util.List;
+import javax.annotation.concurrent.NotThreadSafe;
 
 /**
  * A Google cloud datastore transaction. Similar to {@link Batch} any write operation that is
  * applied on a transaction will only be sent to the Datastore upon {@link #commit}. A call to
  * {@link #rollback} will invalidate the transaction and discard the changes. Any read operation
  * that is done by a transaction will be part of it and therefore a {@code commit} is guaranteed to
- * fail if an entity was modified outside of the transaction after it was read. Write operation on
+ * fail if an entity was modified outside the transaction after it was read. Write operation on
  * this transaction will not be reflected by read operation (as the changes are only sent to the
  * Datastore upon {@code commit}. A usage example:
  *
@@ -52,7 +53,14 @@ import java.util.List;
  *
  * @see <a href="https://cloud.google.com/datastore/docs/concepts/transactions">Google Cloud
  *     Datastore transactions</a>
+ *     <p><b> WARNING: THIS CLASS MAINTAINS AN INTERNAL STATE IN TERMS OF {@link
+ *     java.util.LinkedHashMap} AND {@link java.util.LinkedHashSet} WHICH GETS UPDATED ON EVERY
+ *     METHOD CALL PERFORMING CRUD OPERATIONS TO RECORD THE MUTATIONS, SINCE {@link
+ *     java.util.LinkedHashMap} IS NOT THREAD SAFE AS PER ITS <a
+ *     href="https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html">DOCUMENTATION</a>.
+ *     THIS CLASS TOO SHOULD NOT BE TREATED AS A THREAD SAFE CLASS. </b>
  */
+@NotThreadSafe
 public interface Transaction extends DatastoreBatchWriter, DatastoreReaderWriter {
 
   interface Response {

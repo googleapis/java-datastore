@@ -17,6 +17,7 @@
 package com.google.cloud.datastore;
 
 import java.util.List;
+import javax.annotation.concurrent.NotThreadSafe;
 
 /**
  * An interface to represent a batch of write operations. Any write operation that is applied on a
@@ -32,7 +33,15 @@ import java.util.List;
  * batch.add(entity2, entity3);
  * batch.submit();
  * }</pre>
+ *
+ * <p><b> WARNING: THIS CLASS MAINTAINS AN INTERNAL STATE IN TERMS OF {@link
+ * java.util.LinkedHashMap} AND {@link java.util.LinkedHashSet} WHICH GETS UPDATED ON EVERY METHOD
+ * CALL PERFORMING CRUD OPERATIONS TO RECORD THE MUTATIONS, SINCE {@link java.util.LinkedHashMap} IS
+ * NOT THREAD SAFE AS PER ITS <a
+ * href="https://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html">DOCUMENTATION</a>.
+ * THIS CLASS TOO SHOULD NOT BE TREATED AS A THREAD SAFE CLASS. </b>
  */
+@NotThreadSafe
 public interface Batch extends DatastoreBatchWriter {
 
   interface Response {
