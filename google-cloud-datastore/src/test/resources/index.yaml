@@ -1,0 +1,32 @@
+indexes:
+  - kind: TaskConcepts
+    properties:
+      - name: done
+      - name: priority
+        direction: desc
+  - kind: TaskConcepts
+    properties:
+      - name: tag
+      - name: tag
+  - kind: TaskConcepts
+    properties:
+      - name: priority
+      - name: created
+  - kind: TaskConcepts
+    properties:
+      - name: category
+      - name: priority
+  - kind: TaskConcepts
+    properties:
+      - name: priority
+        direction: desc
+      - name: created
+  - kind: TaskConcepts
+    properties:
+      - name: percent_complete
+      - name: priority
+  - kind: TaskConcepts
+    properties:
+      - name: done
+      - name: priority
+        direction: desc
