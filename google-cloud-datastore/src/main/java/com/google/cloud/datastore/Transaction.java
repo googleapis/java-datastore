@@ -26,8 +26,8 @@ import javax.annotation.concurrent.NotThreadSafe;
  * applied on a transaction will only be sent to the Datastore upon {@link #commit}. A call to
  * {@link #rollback} will invalidate the transaction and discard the changes. Any read operation
  * that is done by a transaction will be part of it and therefore a {@code commit} is guaranteed to
- * fail if an entity was modified outside the transaction after it was read. Write operation on
- * this transaction will not be reflected by read operation (as the changes are only sent to the
+ * fail if an entity was modified outside the transaction after it was read. Write operation on this
+ * transaction will not be reflected by read operation (as the changes are only sent to the
  * Datastore upon {@code commit}. A usage example:
  *
  * <pre>{@code
