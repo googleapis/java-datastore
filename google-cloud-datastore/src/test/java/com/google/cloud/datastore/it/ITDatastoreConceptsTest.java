@@ -139,43 +139,43 @@ public class ITDatastoreConceptsTest {
 
   private List<Entity> setUpBatchTests(Key taskKey1, Key taskKey2) {
     Entity task1 =
-            Entity.newBuilder(taskKey1)
-                    .set("category", "Personal")
-                    .set("done", false)
-                    .set("priority", 4)
-                    .set("description", "Learn Cloud Datastore")
-                    .build();
+        Entity.newBuilder(taskKey1)
+            .set("category", "Personal")
+            .set("done", false)
+            .set("priority", 4)
+            .set("description", "Learn Cloud Datastore")
+            .build();
     Entity task2 =
-            Entity.newBuilder(taskKey2)
-                    .set("category", "Personal")
-                    .set("done", false)
-                    .set("priority", 5)
-                    .set("description", "Integrate Cloud Datastore")
-                    .build();
+        Entity.newBuilder(taskKey2)
+            .set("category", "Personal")
+            .set("done", false)
+            .set("priority", 5)
+            .set("description", "Integrate Cloud Datastore")
+            .build();
     datastore.put(task1, task2);
     return ImmutableList.of(task1, task2);
   }
 
   private void setUpQueryTests() {
     Key taskKey =
-            datastore
-                    .newKeyFactory()
-                    .setKind(TASK_CONCEPTS)
-                    .addAncestors(PathElement.of("TaskList", "default"))
-                    .newKey("someTask");
+        datastore
+            .newKeyFactory()
+            .setKind(TASK_CONCEPTS)
+            .addAncestors(PathElement.of("TaskList", "default"))
+            .newKey("someTask");
     datastore.put(
-            Entity.newBuilder(taskKey)
-                    .set("category", "Personal")
-                    .set("done", false)
-                    .set("completed", false)
-                    .set("priority", 4)
-                    .set("created", includedDate)
-                    .set("percent_complete", 10.0)
-                    .set(
-                            "description",
-                            StringValue.newBuilder("Learn Cloud Datastore").setExcludeFromIndexes(true).build())
-                    .set("tag", "fun", "l", "programming", "learn")
-                    .build());
+        Entity.newBuilder(taskKey)
+            .set("category", "Personal")
+            .set("done", false)
+            .set("completed", false)
+            .set("priority", 4)
+            .set("created", includedDate)
+            .set("percent_complete", 10.0)
+            .set(
+                "description",
+                StringValue.newBuilder("Learn Cloud Datastore").setExcludeFromIndexes(true).build())
+            .set("tag", "fun", "l", "programming", "learn")
+            .build());
   }
 
   private void assertValidQuery(Query query) {
@@ -433,14 +433,20 @@ public class ITDatastoreConceptsTest {
   @Test
   public void testAscendingSort() {
     Query<Entity> query =
-        Query.newEntityQueryBuilder().setKind(TASK_CONCEPTS).setOrderBy(OrderBy.asc("created")).build();
+        Query.newEntityQueryBuilder()
+            .setKind(TASK_CONCEPTS)
+            .setOrderBy(OrderBy.asc("created"))
+            .build();
     assertValidQuery(query);
   }
 
   @Test
   public void testDescendingSort() {
     Query<Entity> query =
-        Query.newEntityQueryBuilder().setKind(TASK_CONCEPTS).setOrderBy(OrderBy.desc("created")).build();
+        Query.newEntityQueryBuilder()
+            .setKind(TASK_CONCEPTS)
+            .setOrderBy(OrderBy.desc("created"))
+            .build();
     assertValidQuery(query);
   }
 
@@ -820,7 +826,7 @@ public class ITDatastoreConceptsTest {
     }
     Map<String, ImmutableSet<String>> expected =
         ImmutableMap.of(
-                TASK_CONCEPTS,
+            TASK_CONCEPTS,
             ImmutableSet.of(
                 "done", "category", "completed", "priority", "created", "percent_complete", "tag"));
     assertEquals(expected, propertiesByKind);
