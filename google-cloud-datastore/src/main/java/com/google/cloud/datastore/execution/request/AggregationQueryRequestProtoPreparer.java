@@ -94,8 +94,8 @@ public class AggregationQueryRequestProtoPreparer
   private PartitionId getPartitionId(AggregationQuery aggregationQuery) {
     PartitionId.Builder builder =
         PartitionId.newBuilder()
-                .setProjectId(datastoreOptions.getProjectId())
-                .setDatabaseId(datastoreOptions.getDatabaseId());
+            .setProjectId(datastoreOptions.getProjectId())
+            .setDatabaseId(datastoreOptions.getDatabaseId());
     String namespace =
         MoreObjects.firstNonNull(aggregationQuery.getNamespace(), datastoreOptions.getNamespace());
     builder.setNamespaceId(namespace);

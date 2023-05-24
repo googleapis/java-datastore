@@ -72,6 +72,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.datastore.v1.TransactionOptions.ReadOnly;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -88,9 +89,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
-// todo: combine this with ITDatastoreTestWithNamedDb once we resolve issues with parameterized
-// graalvm tests
+@RunWith(Parameterized.class)
 public class ITDatastoreTest {
 
   private static final RemoteDatastoreHelper HELPER = RemoteDatastoreHelper.create();
@@ -102,8 +104,8 @@ public class ITDatastoreTest {
   private static final DatastoreOptions OPTIONS_2 = HELPER2.getOptions();
   private static final Datastore DATASTORE_2 = OPTIONS_2.getService();
 
-  private final DatastoreOptions options = OPTIONS_1;
-  private final Datastore datastore = DATASTORE_1;
+  private final DatastoreOptions options;
+  private final Datastore datastore;
 
   private static String PROJECT_ID;
   private static String NAMESPACE;
@@ -145,8 +147,14 @@ public class ITDatastoreTest {
     HELPER.deleteNamespace();
   }
 
-  @Before
-  public void setUp() {
+  public ITDatastoreTest(
+      DatastoreOptions options,
+      Datastore datastore,
+      // databaseType is unused as a variable, but used as a parameterized label when running tests
+      String databaseType) {
+    this.options = options;
+    this.datastore = datastore;
+
     PROJECT_ID = this.options.getProjectId();
     NAMESPACE = this.options.getNamespace();
 
@@ -215,7 +223,10 @@ public class ITDatastoreTest {
             .set("partial1", PARTIAL_ENTITY2)
             .set("partial2", ENTITY2)
             .build();
+  }
 
+  @Before
+  public void setUp() {
     datastore.put(ENTITY1, ENTITY2);
   }
 
@@ -226,6 +237,12 @@ public class ITDatastoreTest {
     Key[] keysToDelete =
         ImmutableList.copyOf(allEntities).stream().map(Entity::getKey).toArray(Key[]::new);
     datastore.delete(keysToDelete);
+  }
+
+  @Parameterized.Parameters(name = "database: {2}")
+  public static Iterable<Object[]> data() {
+    return Arrays.asList(
+        new Object[][] {{OPTIONS_1, DATASTORE_1, "default"}, {OPTIONS_2, DATASTORE_2, "test-db"}});
   }
 
   private <T> Iterator<T> getStronglyConsistentResults(Query scQuery, Query query)
@@ -272,7 +289,7 @@ public class ITDatastoreTest {
             .setNull("null")
             .set("age", 19)
             .build();
-    DATASTORE.put(entity3);
+    datastore.put(entity3);
 
     // age == 19 || age == 20
     CompositeFilter orFilter =
