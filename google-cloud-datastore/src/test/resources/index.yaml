@@ -1,3 +1,5 @@
+# one time index creation is required to run ITDatastoreConceptsTest
+# see https://cloud.google.com/sdk/gcloud/reference/datastore/indexes/create for more details
 indexes:
   - kind: TaskConcepts
     properties:
