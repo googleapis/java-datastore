@@ -26,6 +26,7 @@ import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.EntityQuery;
+import com.google.cloud.datastore.GqlQuery;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
@@ -89,6 +90,33 @@ public class ITDatastoreAggregationsTest {
   }
 
   @Test
+  public void testGQLAggregationQueryWithSumAggregation() {
+    DATASTORE.put(entity1, entity2);
+
+    GqlQuery<?> gqlQuery = GqlQuery.newGqlQueryBuilder(
+        "AGGREGATE SUM(marks) AS total_marks OVER (SELECT * FROM Marks)").build();
+
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(gqlQuery)
+            .setNamespace(OPTIONS.getNamespace())
+            .build();
+
+    // sum of 2 entities
+    assertThat(
+            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
+                .getLong("total_marks"))
+        .isEqualTo(184L);
+
+    // sum of 3 entities
+    DATASTORE.put(entity3);
+    assertThat(
+            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
+                .getLong("total_marks"))
+        .isEqualTo(239L);
+  }
+
+  @Test
   public void testAggregationQueryWithSumAggregationResultOfDoubleType() {
     DATASTORE.put(entity1, entity2);
 
@@ -123,6 +151,34 @@ public class ITDatastoreAggregationsTest {
         Query.newAggregationQueryBuilder()
             .over(baseQuery)
             .addAggregations(avg("marks").as("avg_marks"))
+            .setNamespace(OPTIONS.getNamespace())
+            .build();
+
+    // avg of 2 entities
+    assertThat(
+            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
+                .getDouble("avg_marks"))
+        .isEqualTo(92D);
+
+    // avg of 3 entities
+    DATASTORE.put(entity3);
+    assertThat(
+            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
+                .getDouble("avg_marks"))
+        .isEqualTo(79.66666666666667);
+  }
+
+  @Test
+  public void testGQLAggregationQueryWithAvgAggregation() {
+    DATASTORE.put(entity1, entity2);
+
+    GqlQuery<?> gqlQuery = Query.newGqlQueryBuilder(
+            "AGGREGATE AVG(marks) AS avg_marks OVER (SELECT * FROM Marks)")
+        .build();
+
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(gqlQuery)
             .setNamespace(OPTIONS.getNamespace())
             .build();
 
