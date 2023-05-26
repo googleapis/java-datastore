@@ -118,27 +118,6 @@ public class AggregationQueryTest {
   }
 
   @Test
-  public void testAggregationBuilderWithMultipleAggregationsInAList() {
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .setNamespace(NAMESPACE)
-            .addAggregations(
-                Arrays.asList(
-                    count().as("total"),
-                    sum("marks").as("total_marks"),
-                    avg("marks").as("avg_marks")))
-            .over(COMPLETED_TASK_QUERY)
-            .build();
-
-    assertThat(aggregationQuery.getAggregations())
-        .isEqualTo(
-            ImmutableSet.of(
-                count().as("total").build(),
-                sum("marks").as("total_marks").build(),
-                avg("marks").as("avg_marks").build()));
-  }
-
-  @Test
   public void testAggregationBuilderWithDuplicateAggregations() {
     AggregationQuery aggregationQueryWithDuplicateCounts =
         Query.newAggregationQueryBuilder()
