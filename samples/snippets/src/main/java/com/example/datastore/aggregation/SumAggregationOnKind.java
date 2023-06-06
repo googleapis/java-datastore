@@ -17,6 +17,7 @@
 package com.example.datastore.aggregation;
 
 // [START datastore_sum_aggregation_query_on_kind]
+
 import static com.google.cloud.datastore.aggregation.Aggregation.sum;
 
 import com.google.cloud.datastore.AggregationQuery;
@@ -30,6 +31,7 @@ import com.google.cloud.datastore.Query;
 import com.google.common.collect.Iterables;
 
 public class SumAggregationOnKind {
+
   // Instantiates a client.
   private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 

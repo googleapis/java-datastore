@@ -31,6 +31,7 @@ import com.google.cloud.datastore.Query;
 import com.google.common.collect.Iterables;
 
 public class SumAggregationWithLimit {
+
   public static void invoke() {
     // Instantiates a client.
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
@@ -59,7 +60,8 @@ public class SumAggregationWithLimit {
     AggregationResult limitQueryResult =
         Iterables.getOnlyElement(datastore.runAggregation(sumOfSalesQuery));
 
-    System.out.printf("We have a minimum sales sum of %d.", limitQueryResult.getLong("at_least")); // 144
+    System.out.printf("We have a minimum sales sum of %d.",
+        limitQueryResult.getLong("at_least")); // 144
   }
 }
 // [END datastore_sum_aggregation_query_with_limit]

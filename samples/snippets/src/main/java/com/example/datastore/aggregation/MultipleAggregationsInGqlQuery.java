@@ -18,22 +18,17 @@ package com.example.datastore.aggregation;
 
 // [START datastore_multiple_aggregation_in_structured_query]
 
-import static com.google.cloud.datastore.aggregation.Aggregation.avg;
-import static com.google.cloud.datastore.aggregation.Aggregation.count;
-import static com.google.cloud.datastore.aggregation.Aggregation.sum;
-
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.GqlQuery;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.common.collect.Iterables;
 
-public class MultipleAggregationsInGQLQuery {
+public class MultipleAggregationsInGqlQuery {
 
   public static void invoke() {
     // Instantiates a client.
@@ -72,7 +67,8 @@ public class MultipleAggregationsInGQLQuery {
 
     System.out.printf("Total sales count: %d", aggregationResult.getLong("total_count")); // 3
     System.out.printf("Sum of sales: %d", aggregationResult.getLong("sales_sum")); // 239
-    System.out.printf("Avg of sales: %.8f", aggregationResult.getDouble("sales_avg")); // 79.66666667
+    System.out.printf("Avg of sales: %.8f",
+        aggregationResult.getDouble("sales_avg")); // 79.66666667
   }
 }
 // [END datastore_multiple_aggregation_in_structured_query]

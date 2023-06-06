@@ -71,7 +71,8 @@ public class MultipleAggregationsInStructuredQuery {
 
     System.out.printf("Total sales count: %d", aggregationResult.getLong("total_count")); // 3
     System.out.printf("Sum of sales: %d", aggregationResult.getLong("sales_sum")); // 239
-    System.out.printf("Avg of sales: %.8f", aggregationResult.getDouble("sales_avg")); // 79.66666667
+    System.out.printf("Avg of sales: %.8f",
+        aggregationResult.getDouble("sales_avg")); // 79.66666667
   }
 }
 // [END datastore_multiple_aggregation_in_structured_query]

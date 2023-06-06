@@ -29,7 +29,7 @@ import com.example.datastore.aggregation.CountAggregationWithLimit;
 import com.example.datastore.aggregation.CountAggregationWithOrderBy;
 import com.example.datastore.aggregation.CountAggregationWithPropertyFilter;
 import com.example.datastore.aggregation.CountAggregationWithStaleRead;
-import com.example.datastore.aggregation.MultipleAggregationsInGQLQuery;
+import com.example.datastore.aggregation.MultipleAggregationsInGqlQuery;
 import com.example.datastore.aggregation.MultipleAggregationsInStructuredQuery;
 import com.example.datastore.aggregation.SumAggregationOnKind;
 import com.example.datastore.aggregation.SumAggregationWithLimit;
@@ -51,7 +51,8 @@ public class AggregationQuerySampleTestIT {
 
   private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-  @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
+  @Rule
+  public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   @Before
   public void setUp() throws Exception {
@@ -126,6 +127,7 @@ public class AggregationQuerySampleTestIT {
     SumAggregationWithPropertyFilter.invoke();
     systemsOutRule.assertContains("Customer 1 sales sum is 184");
   }
+
   @Test
   public void testAvgAggregationWithPropertyFilter() {
     AvgAggregationWithPropertyFilter.invoke();
@@ -166,7 +168,7 @@ public class AggregationQuerySampleTestIT {
 
   @Test
   public void testMultipleAggregationsInGQLQuery() {
-    MultipleAggregationsInGQLQuery.invoke();
+    MultipleAggregationsInGqlQuery.invoke();
     systemsOutRule.assertContains("Total sales count: 3");
     systemsOutRule.assertContains("Sum of sales: 239");
     systemsOutRule.assertContains("Avg of sales: 79.66666667");

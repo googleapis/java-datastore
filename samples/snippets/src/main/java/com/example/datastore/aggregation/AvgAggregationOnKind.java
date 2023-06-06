@@ -31,6 +31,7 @@ import com.google.cloud.datastore.Query;
 import com.google.common.collect.Iterables;
 
 public class AvgAggregationOnKind {
+
   // Instantiates a client.
   private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
@@ -64,7 +65,8 @@ public class AvgAggregationOnKind {
     AggregationResult aggregationResult =
         Iterables.getOnlyElement(datastore.runAggregation(avgOfSalesQuery));
 
-    System.out.printf("Average sales is %.8f", aggregationResult.getDouble("avg_sales_amount")); // 79.66666667
+    System.out.printf("Average sales is %.8f",
+        aggregationResult.getDouble("avg_sales_amount")); // 79.66666667
   }
 
   public static void invoke() {

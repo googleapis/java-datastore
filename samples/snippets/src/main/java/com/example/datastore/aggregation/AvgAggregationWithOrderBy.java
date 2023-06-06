@@ -32,6 +32,7 @@ import com.google.cloud.datastore.Query;
 import com.google.common.collect.Iterables;
 
 public class AvgAggregationWithOrderBy {
+
   public static void invoke() {
     // Instantiates a client.
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
@@ -65,7 +66,8 @@ public class AvgAggregationWithOrderBy {
         Iterables.getOnlyElement(datastore.runAggregation(avgOfSalesQuery));
 
     System.out.printf(
-        "Total avg of %d with valid customerId field", limitQueryResult.getLong("avg_of_sales")); // 72
+        "Total avg of %d with valid customerId field",
+        limitQueryResult.getLong("avg_of_sales")); // 72
   }
 }
 // [END datastore_avg_aggregation_query_with_order_by]

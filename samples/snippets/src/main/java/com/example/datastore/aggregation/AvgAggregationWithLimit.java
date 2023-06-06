@@ -32,6 +32,7 @@ import com.google.cloud.datastore.Query;
 import com.google.common.collect.Iterables;
 
 public class AvgAggregationWithLimit {
+
   public static void invoke() {
     // Instantiates a client.
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
