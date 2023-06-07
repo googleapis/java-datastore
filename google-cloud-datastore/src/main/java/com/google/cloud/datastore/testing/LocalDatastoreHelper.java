@@ -219,10 +219,6 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     return optionsBuilder.setNamespace(namespace);
   }
 
-  public DatastoreOptions.Builder setDatabaseId(String databaseId) {
-    return optionsBuilder.setDatabaseId(databaseId);
-  }
-
   /** Returns the consistency setting for the local Datastore emulator. */
   public double getConsistency() {
     return consistency;

@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore;
 
+import com.google.api.core.BetaApi;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
@@ -106,6 +107,7 @@ public class IncompleteKey extends BaseKey {
     return new Builder(projectId, kind);
   }
 
+  @BetaApi
   public static Builder newBuilderWithDatabaseId(String projectId, String kind, String databaseId) {
     return new Builder(projectId, kind, databaseId);
   }

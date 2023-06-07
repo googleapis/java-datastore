@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.core.BetaApi;
 import java.util.Arrays;
 import java.util.List;
 
@@ -107,6 +108,7 @@ public class DatastoreOptions {
     }
 
     /** Sets the database ID used to access Cloud Datastore. */
+    @BetaApi
     public Builder databaseId(String databaseId) {
       this.databaseId = databaseId;
       return this;
