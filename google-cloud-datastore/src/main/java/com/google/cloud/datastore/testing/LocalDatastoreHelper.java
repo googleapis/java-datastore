@@ -209,9 +209,8 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
    * Returns a {@link DatastoreOptions} instance that sets the host to use the Datastore emulator on
    * localhost. The default namespace is set to {@code namespace}.
    *
-   * @deprecated use setNamespace and then build() instead
+   * <p>Please use setNamespace and then build() instead.
    */
-  @Deprecated
   public DatastoreOptions getOptions(String namespace) {
     return optionsBuilder.setNamespace(namespace).build();
   }

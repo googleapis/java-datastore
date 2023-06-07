@@ -18,6 +18,7 @@ package com.google.datastore.v1.client.it;
 import static com.google.datastore.v1.client.DatastoreHelper.makeFilter;
 import static com.google.datastore.v1.client.DatastoreHelper.makeValue;
 
+import com.google.common.truth.Truth;
 import com.google.datastore.v1.Filter;
 import com.google.datastore.v1.KindExpression;
 import com.google.datastore.v1.PartitionId;
@@ -29,7 +30,6 @@ import com.google.datastore.v1.client.DatastoreHelper;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,10 +61,11 @@ public class ITDatastoreProtoClientTest {
 
     List<Query> splits =
         DatastoreHelper.getQuerySplitter().getSplits(query, PARTITION, 2, DATASTORE);
+    Truth.assertThat(splits).isNotEmpty();
     splits.forEach(
         split -> {
-          Assert.assertEquals(KIND, split.getKind(0).getName());
-          Assert.assertEquals(propertyFilter, split.getFilter());
+          Truth.assertThat(split.getKind(0).getName()).isEqualTo(KIND);
+          Truth.assertThat(split.getFilter()).isEqualTo(propertyFilter);
         });
   }
 
@@ -82,10 +83,12 @@ public class ITDatastoreProtoClientTest {
 
     List<Query> splits =
         DatastoreHelper.getQuerySplitter().getSplits(query, PARTITION, 2, DATASTORE);
+
+    Truth.assertThat(splits).isNotEmpty();
     splits.forEach(
         split -> {
-          Assert.assertEquals(KIND, split.getKind(0).getName());
-          Assert.assertEquals(propertyFilter, split.getFilter());
+          Truth.assertThat(split.getKind(0).getName()).isEqualTo(KIND);
+          Truth.assertThat(split.getFilter()).isEqualTo(propertyFilter);
         });
   }
 }
