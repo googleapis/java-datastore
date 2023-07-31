@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.15.1](https://github.com/googleapis/java-datastore/compare/v2.15.0...v2.15.1) (2023-07-28)
+
+
+### Dependencies
+
+* Shared-dependencies 3.13.0 ([#1146](https://github.com/googleapis/java-datastore/issues/1146)) ([542c628](https://github.com/googleapis/java-datastore/commit/542c6289d58f837b9b76e23f2b15d438cd54528c))
+
+
+### Documentation
+
+* Fix javadoc errors ([#1126](https://github.com/googleapis/java-datastore/issues/1126)) ([#1153](https://github.com/googleapis/java-datastore/issues/1153)) ([00c68b0](https://github.com/googleapis/java-datastore/commit/00c68b05da050c159a83b157cabfcee201f22c76))
+
 ## [2.15.0](https://github.com/googleapis/java-datastore/compare/v2.14.7...v2.15.0) (2023-06-09)
 
 
