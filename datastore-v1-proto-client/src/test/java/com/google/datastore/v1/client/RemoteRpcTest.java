@@ -243,7 +243,8 @@ public class RemoteRpcTest {
     return new RemoteRpc(
         new MyHttpTransport(injectedTestValues).createRequestFactory(),
         null,
-        "https://www.example.com/v1/projects/p");
+        "https://www.example.com/v1/projects/p",
+        "");
   }
 
   private byte[] gzip(BeginTransactionResponse response) throws IOException {

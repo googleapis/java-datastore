@@ -62,6 +62,9 @@ public class QuerySplitterTest {
   private DatastoreOptions.Builder options =
       new DatastoreOptions.Builder().projectId(PROJECT_ID).credential(new MockCredential());
 
+  private DatastoreOptions.Builder optionsWithNamedDb =
+      new DatastoreOptions.Builder().projectId(PROJECT_ID).databaseId("test-database").credential(new MockCredential());
+
   private Filter propertyFilter = makeFilter("foo", Operator.EQUAL, makeValue("value")).build();
 
   private Query query =
@@ -203,7 +206,7 @@ public class QuerySplitterTest {
 
   @Test
   public void getSplitsWithDatabaseId() throws Exception {
-    Datastore datastore = factory.create(options.build());
+    Datastore datastore = factory.create(optionsWithNamedDb.build());
     MockDatastoreFactory mockClient = (MockDatastoreFactory) factory;
 
     PartitionId partition =

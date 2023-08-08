@@ -100,7 +100,8 @@ public class DatastoreFactory {
   protected RemoteRpc newRemoteRpc(DatastoreOptions options) {
     checkNotNull(options);
     HttpRequestFactory client = makeClient(options);
-    return new RemoteRpc(client, options.getInitializer(), buildProjectEndpoint(options));
+    return new RemoteRpc(
+        client, options.getInitializer(), buildProjectEndpoint(options), options.getDatabaseId());
   }
 
   private static String validateUrl(String url) {

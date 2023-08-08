@@ -341,6 +341,12 @@ public final class DatastoreHelper {
     return DatastoreFactory.get().create(getOptionsFromEnv().build());
   }
 
+  /** @see #getOptionsFromEnv() */
+  public static Datastore getDatastoreFromEnv(String databaseId)
+      throws GeneralSecurityException, IOException {
+    return DatastoreFactory.get().create(getOptionsFromEnv().databaseId(databaseId).build());
+  }
+
   /**
    * Gets a {@link QuerySplitter}.
    *

@@ -24,6 +24,7 @@ import com.google.api.client.http.HttpStatusCodes;
 import com.google.api.client.http.protobuf.ProtoHttpContent;
 import com.google.api.client.util.IOUtils;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.protobuf.MessageLite;
 import com.google.rpc.Code;
@@ -33,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
@@ -56,11 +58,17 @@ class RemoteRpc {
   // Not final - so it can be set/reset in Unittests
   private static boolean enableE2EChecksum =
       Boolean.parseBoolean(System.getenv("GOOGLE_CLOUD_DATASTORE_HTTP_ENABLE_E2E_CHECKSUM"));
+  private final String databaseId;
 
-  RemoteRpc(HttpRequestFactory client, HttpRequestInitializer initializer, String url) {
+  RemoteRpc(
+      HttpRequestFactory client,
+      HttpRequestInitializer initializer,
+      String url,
+      String databaseId) {
     this.client = client;
     this.initializer = initializer;
     this.url = url;
+    this.databaseId = databaseId;
     try {
       resolveURL("dummyRpc");
     } catch (Exception e) {
@@ -81,7 +89,12 @@ class RemoteRpc {
       String methodName, MessageLite request, String projectId, String databaseId)
       throws DatastoreException {
     logger.fine("remote datastore call " + methodName);
-
+    Preconditions.checkArgument(
+        databaseIdsMatch(databaseId),
+        "database ids mismatched: request database id: "
+            + databaseId
+            + ", DatastoreOptions db: "
+            + this.databaseId);
     long startTime = System.currentTimeMillis();
     try {
       HttpResponse httpResponse;
@@ -125,6 +138,11 @@ class RemoteRpc {
       long elapsedTime = System.currentTimeMillis() - startTime;
       logger.fine("remote datastore call " + methodName + " took " + elapsedTime + " ms");
     }
+  }
+
+  private boolean databaseIdsMatch(String databaseId) {
+    return (Strings.isNullOrEmpty(this.databaseId) && Strings.isNullOrEmpty(databaseId))
+        || Objects.equals(this.databaseId, databaseId);
   }
 
   @VisibleForTesting
