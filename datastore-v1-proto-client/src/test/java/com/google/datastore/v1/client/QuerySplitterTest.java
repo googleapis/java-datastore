@@ -63,7 +63,10 @@ public class QuerySplitterTest {
       new DatastoreOptions.Builder().projectId(PROJECT_ID).credential(new MockCredential());
 
   private DatastoreOptions.Builder optionsWithNamedDb =
-      new DatastoreOptions.Builder().projectId(PROJECT_ID).databaseId("test-database").credential(new MockCredential());
+      new DatastoreOptions.Builder()
+          .projectId(PROJECT_ID)
+          .databaseId("test-database")
+          .credential(new MockCredential());
 
   private Filter propertyFilter = makeFilter("foo", Operator.EQUAL, makeValue("value")).build();
 
