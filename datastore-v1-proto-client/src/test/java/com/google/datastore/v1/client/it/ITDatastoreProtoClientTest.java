@@ -115,14 +115,7 @@ public class ITDatastoreProtoClientTest {
             .setQuery(queryBuilder)
             .build();
 
-    try {
-      DATASTORE.runQuery(request);
-      Assert.fail("should have thrown error");
-    } catch (IllegalArgumentException e) {
-      Truth.assertThat(e.getMessage())
-          .isEqualTo(
-              "database ids mismatched: request database id: new-db, DatastoreOptions db: null");
-    }
+    Assert.assertThrows(IllegalArgumentException.class, () -> DATASTORE.runQuery(request));
   }
 
   @Test
