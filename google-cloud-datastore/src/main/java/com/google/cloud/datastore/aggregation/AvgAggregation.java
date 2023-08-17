@@ -60,10 +60,9 @@ public class AvgAggregation extends Aggregation {
   }
 
   @Override
-  public int hashCode(){
+  public int hashCode() {
     return Objects.hash(getAlias(), this.propertyReference);
   }
-
 
   /** A builder class to create and customize a {@link AvgAggregation}. */
   public static class Builder implements AggregationBuilder<AvgAggregation> {

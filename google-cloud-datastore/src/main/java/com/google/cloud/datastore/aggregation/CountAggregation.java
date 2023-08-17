@@ -46,7 +46,7 @@ public class CountAggregation extends Aggregation {
   }
 
   @Override
-  public int hashCode(){
+  public int hashCode() {
     return Objects.hash(getAlias());
   }
 

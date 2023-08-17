@@ -29,7 +29,6 @@ import com.google.cloud.datastore.aggregation.AvgAggregation;
 import com.google.cloud.datastore.aggregation.CountAggregation;
 import com.google.cloud.datastore.aggregation.SumAggregation;
 import com.google.common.collect.ImmutableSet;
-import java.util.Arrays;
 import org.junit.Test;
 
 public class AggregationQueryTest {

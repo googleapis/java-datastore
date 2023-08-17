@@ -76,16 +76,12 @@ public class ITDatastoreAggregationsTest {
             .build();
 
     // sum of 2 entities
-    assertThat(
-            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
-                .getLong("total_marks"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("total_marks"))
         .isEqualTo(184L);
 
     // sum of 3 entities
     DATASTORE.put(entity3);
-    assertThat(
-            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
-                .getLong("total_marks"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("total_marks"))
         .isEqualTo(239L);
   }
 
@@ -93,8 +89,10 @@ public class ITDatastoreAggregationsTest {
   public void testGQLAggregationQueryWithSumAggregation() {
     DATASTORE.put(entity1, entity2);
 
-    GqlQuery<?> gqlQuery = GqlQuery.newGqlQueryBuilder(
-        "AGGREGATE SUM(marks) AS total_marks OVER (SELECT * FROM Marks)").build();
+    GqlQuery<?> gqlQuery =
+        GqlQuery.newGqlQueryBuilder(
+                "AGGREGATE SUM(marks) AS total_marks OVER (SELECT * FROM Marks)")
+            .build();
 
     AggregationQuery aggregationQuery =
         Query.newAggregationQueryBuilder()
@@ -103,16 +101,12 @@ public class ITDatastoreAggregationsTest {
             .build();
 
     // sum of 2 entities
-    assertThat(
-            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
-                .getLong("total_marks"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("total_marks"))
         .isEqualTo(184L);
 
     // sum of 3 entities
     DATASTORE.put(entity3);
-    assertThat(
-            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
-                .getLong("total_marks"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("total_marks"))
         .isEqualTo(239L);
   }
 
@@ -129,16 +123,12 @@ public class ITDatastoreAggregationsTest {
             .build();
 
     // sum of 2 entities
-    assertThat(
-            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
-                .getDouble("total_cgpa"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getDouble("total_cgpa"))
         .isEqualTo(16.61);
 
     // sum of 3 entities
     DATASTORE.put(entity3);
-    assertThat(
-            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
-                .getDouble("total_cgpa"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getDouble("total_cgpa"))
         .isEqualTo(21.77);
   }
 
@@ -155,16 +145,12 @@ public class ITDatastoreAggregationsTest {
             .build();
 
     // avg of 2 entities
-    assertThat(
-            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
-                .getDouble("avg_marks"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getDouble("avg_marks"))
         .isEqualTo(92D);
 
     // avg of 3 entities
     DATASTORE.put(entity3);
-    assertThat(
-            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
-                .getDouble("avg_marks"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getDouble("avg_marks"))
         .isEqualTo(79.66666666666667);
   }
 
@@ -172,9 +158,9 @@ public class ITDatastoreAggregationsTest {
   public void testGQLAggregationQueryWithAvgAggregation() {
     DATASTORE.put(entity1, entity2);
 
-    GqlQuery<?> gqlQuery = Query.newGqlQueryBuilder(
-            "AGGREGATE AVG(marks) AS avg_marks OVER (SELECT * FROM Marks)")
-        .build();
+    GqlQuery<?> gqlQuery =
+        Query.newGqlQueryBuilder("AGGREGATE AVG(marks) AS avg_marks OVER (SELECT * FROM Marks)")
+            .build();
 
     AggregationQuery aggregationQuery =
         Query.newAggregationQueryBuilder()
@@ -183,16 +169,12 @@ public class ITDatastoreAggregationsTest {
             .build();
 
     // avg of 2 entities
-    assertThat(
-            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
-                .getDouble("avg_marks"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getDouble("avg_marks"))
         .isEqualTo(92D);
 
     // avg of 3 entities
     DATASTORE.put(entity3);
-    assertThat(
-            getOnlyElement(DATASTORE.runAggregation(aggregationQuery))
-                .getDouble("avg_marks"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getDouble("avg_marks"))
         .isEqualTo(79.66666666666667);
   }
 }
