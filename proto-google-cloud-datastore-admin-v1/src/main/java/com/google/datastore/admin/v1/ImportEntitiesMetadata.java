@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,11 +45,6 @@ public final class ImportEntitiesMetadata extends com.google.protobuf.GeneratedM
   @SuppressWarnings({"unused"})
   protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
     return new ImportEntitiesMetadata();
-  }
-
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
-    return this.unknownFields;
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
@@ -276,7 +271,9 @@ public final class ImportEntitiesMetadata extends com.google.protobuf.GeneratedM
    *
    * <pre>
    * The location of the import metadata file. This will be the same value as
-   * the [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url] field.
+   * the
+   * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url]
+   * field.
    * </pre>
    *
    * <code>string input_url = 5;</code>
@@ -300,7 +297,9 @@ public final class ImportEntitiesMetadata extends com.google.protobuf.GeneratedM
    *
    * <pre>
    * The location of the import metadata file. This will be the same value as
-   * the [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url] field.
+   * the
+   * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url]
+   * field.
    * </pre>
    *
    * <code>string input_url = 5;</code>
@@ -1531,7 +1530,9 @@ public final class ImportEntitiesMetadata extends com.google.protobuf.GeneratedM
      *
      * <pre>
      * The location of the import metadata file. This will be the same value as
-     * the [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url] field.
+     * the
+     * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url]
+     * field.
      * </pre>
      *
      * <code>string input_url = 5;</code>
@@ -1554,7 +1555,9 @@ public final class ImportEntitiesMetadata extends com.google.protobuf.GeneratedM
      *
      * <pre>
      * The location of the import metadata file. This will be the same value as
-     * the [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url] field.
+     * the
+     * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url]
+     * field.
      * </pre>
      *
      * <code>string input_url = 5;</code>
@@ -1577,7 +1580,9 @@ public final class ImportEntitiesMetadata extends com.google.protobuf.GeneratedM
      *
      * <pre>
      * The location of the import metadata file. This will be the same value as
-     * the [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url] field.
+     * the
+     * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url]
+     * field.
      * </pre>
      *
      * <code>string input_url = 5;</code>
@@ -1599,7 +1604,9 @@ public final class ImportEntitiesMetadata extends com.google.protobuf.GeneratedM
      *
      * <pre>
      * The location of the import metadata file. This will be the same value as
-     * the [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url] field.
+     * the
+     * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url]
+     * field.
      * </pre>
      *
      * <code>string input_url = 5;</code>
@@ -1617,7 +1624,9 @@ public final class ImportEntitiesMetadata extends com.google.protobuf.GeneratedM
      *
      * <pre>
      * The location of the import metadata file. This will be the same value as
-     * the [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url] field.
+     * the
+     * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url]
+     * field.
      * </pre>
      *
      * <code>string input_url = 5;</code>

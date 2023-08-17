@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,11 +45,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   @SuppressWarnings({"unused"})
   protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
     return new EntityResult();
-  }
-
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
-    return this.unknownFields;
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
@@ -304,8 +299,10 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
    * <pre>
    * The version of the entity, a strictly positive number that monotonically
    * increases with changes to the entity.
+   *
    * This field is set for
    * [`FULL`][google.datastore.v1.EntityResult.ResultType.FULL] entity results.
+   *
    * For [missing][google.datastore.v1.LookupResponse.missing] entities in
    * `LookupResponse`, this is the version of the snapshot that was used to look
    * up the entity, and it is always set except for eventually consistent reads.
@@ -1086,8 +1083,10 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      * <pre>
      * The version of the entity, a strictly positive number that monotonically
      * increases with changes to the entity.
+     *
      * This field is set for
      * [`FULL`][google.datastore.v1.EntityResult.ResultType.FULL] entity results.
+     *
      * For [missing][google.datastore.v1.LookupResponse.missing] entities in
      * `LookupResponse`, this is the version of the snapshot that was used to look
      * up the entity, and it is always set except for eventually consistent reads.
@@ -1107,8 +1106,10 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      * <pre>
      * The version of the entity, a strictly positive number that monotonically
      * increases with changes to the entity.
+     *
      * This field is set for
      * [`FULL`][google.datastore.v1.EntityResult.ResultType.FULL] entity results.
+     *
      * For [missing][google.datastore.v1.LookupResponse.missing] entities in
      * `LookupResponse`, this is the version of the snapshot that was used to look
      * up the entity, and it is always set except for eventually consistent reads.
@@ -1132,8 +1133,10 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      * <pre>
      * The version of the entity, a strictly positive number that monotonically
      * increases with changes to the entity.
+     *
      * This field is set for
      * [`FULL`][google.datastore.v1.EntityResult.ResultType.FULL] entity results.
+     *
      * For [missing][google.datastore.v1.LookupResponse.missing] entities in
      * `LookupResponse`, this is the version of the snapshot that was used to look
      * up the entity, and it is always set except for eventually consistent reads.

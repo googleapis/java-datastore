@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,11 +47,6 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
   @SuppressWarnings({"unused"})
   protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
     return new ImportEntitiesRequest();
-  }
-
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
-    return this.unknownFields;
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
@@ -241,8 +236,9 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
    *
    *
    * <pre>
-   * Required. The full resource URL of the external storage location. Currently, only
-   * Google Cloud Storage is supported. So input_url should be of the form:
+   * Required. The full resource URL of the external storage location.
+   * Currently, only Google Cloud Storage is supported. So input_url should be
+   * of the form:
    * `gs://BUCKET_NAME[/NAMESPACE_PATH]/OVERALL_EXPORT_METADATA_FILE`, where
    * `BUCKET_NAME` is the name of the Cloud Storage bucket, `NAMESPACE_PATH` is
    * an optional Cloud Storage namespace path (this is not a Cloud Datastore
@@ -251,6 +247,7 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
    * namespace paths, see
    * [Object name
    * considerations](https://cloud.google.com/storage/docs/naming#object-considerations).
+   *
    * For more information, see
    * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url].
    * </pre>
@@ -275,8 +272,9 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
    *
    *
    * <pre>
-   * Required. The full resource URL of the external storage location. Currently, only
-   * Google Cloud Storage is supported. So input_url should be of the form:
+   * Required. The full resource URL of the external storage location.
+   * Currently, only Google Cloud Storage is supported. So input_url should be
+   * of the form:
    * `gs://BUCKET_NAME[/NAMESPACE_PATH]/OVERALL_EXPORT_METADATA_FILE`, where
    * `BUCKET_NAME` is the name of the Cloud Storage bucket, `NAMESPACE_PATH` is
    * an optional Cloud Storage namespace path (this is not a Cloud Datastore
@@ -285,6 +283,7 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
    * namespace paths, see
    * [Object name
    * considerations](https://cloud.google.com/storage/docs/naming#object-considerations).
+   *
    * For more information, see
    * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url].
    * </pre>
@@ -1094,8 +1093,9 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
      *
      *
      * <pre>
-     * Required. The full resource URL of the external storage location. Currently, only
-     * Google Cloud Storage is supported. So input_url should be of the form:
+     * Required. The full resource URL of the external storage location.
+     * Currently, only Google Cloud Storage is supported. So input_url should be
+     * of the form:
      * `gs://BUCKET_NAME[/NAMESPACE_PATH]/OVERALL_EXPORT_METADATA_FILE`, where
      * `BUCKET_NAME` is the name of the Cloud Storage bucket, `NAMESPACE_PATH` is
      * an optional Cloud Storage namespace path (this is not a Cloud Datastore
@@ -1104,6 +1104,7 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
      * namespace paths, see
      * [Object name
      * considerations](https://cloud.google.com/storage/docs/naming#object-considerations).
+     *
      * For more information, see
      * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url].
      * </pre>
@@ -1127,8 +1128,9 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
      *
      *
      * <pre>
-     * Required. The full resource URL of the external storage location. Currently, only
-     * Google Cloud Storage is supported. So input_url should be of the form:
+     * Required. The full resource URL of the external storage location.
+     * Currently, only Google Cloud Storage is supported. So input_url should be
+     * of the form:
      * `gs://BUCKET_NAME[/NAMESPACE_PATH]/OVERALL_EXPORT_METADATA_FILE`, where
      * `BUCKET_NAME` is the name of the Cloud Storage bucket, `NAMESPACE_PATH` is
      * an optional Cloud Storage namespace path (this is not a Cloud Datastore
@@ -1137,6 +1139,7 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
      * namespace paths, see
      * [Object name
      * considerations](https://cloud.google.com/storage/docs/naming#object-considerations).
+     *
      * For more information, see
      * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url].
      * </pre>
@@ -1160,8 +1163,9 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
      *
      *
      * <pre>
-     * Required. The full resource URL of the external storage location. Currently, only
-     * Google Cloud Storage is supported. So input_url should be of the form:
+     * Required. The full resource URL of the external storage location.
+     * Currently, only Google Cloud Storage is supported. So input_url should be
+     * of the form:
      * `gs://BUCKET_NAME[/NAMESPACE_PATH]/OVERALL_EXPORT_METADATA_FILE`, where
      * `BUCKET_NAME` is the name of the Cloud Storage bucket, `NAMESPACE_PATH` is
      * an optional Cloud Storage namespace path (this is not a Cloud Datastore
@@ -1170,6 +1174,7 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
      * namespace paths, see
      * [Object name
      * considerations](https://cloud.google.com/storage/docs/naming#object-considerations).
+     *
      * For more information, see
      * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url].
      * </pre>
@@ -1192,8 +1197,9 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
      *
      *
      * <pre>
-     * Required. The full resource URL of the external storage location. Currently, only
-     * Google Cloud Storage is supported. So input_url should be of the form:
+     * Required. The full resource URL of the external storage location.
+     * Currently, only Google Cloud Storage is supported. So input_url should be
+     * of the form:
      * `gs://BUCKET_NAME[/NAMESPACE_PATH]/OVERALL_EXPORT_METADATA_FILE`, where
      * `BUCKET_NAME` is the name of the Cloud Storage bucket, `NAMESPACE_PATH` is
      * an optional Cloud Storage namespace path (this is not a Cloud Datastore
@@ -1202,6 +1208,7 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
      * namespace paths, see
      * [Object name
      * considerations](https://cloud.google.com/storage/docs/naming#object-considerations).
+     *
      * For more information, see
      * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url].
      * </pre>
@@ -1220,8 +1227,9 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
      *
      *
      * <pre>
-     * Required. The full resource URL of the external storage location. Currently, only
-     * Google Cloud Storage is supported. So input_url should be of the form:
+     * Required. The full resource URL of the external storage location.
+     * Currently, only Google Cloud Storage is supported. So input_url should be
+     * of the form:
      * `gs://BUCKET_NAME[/NAMESPACE_PATH]/OVERALL_EXPORT_METADATA_FILE`, where
      * `BUCKET_NAME` is the name of the Cloud Storage bucket, `NAMESPACE_PATH` is
      * an optional Cloud Storage namespace path (this is not a Cloud Datastore
@@ -1230,6 +1238,7 @@ public final class ImportEntitiesRequest extends com.google.protobuf.GeneratedMe
      * namespace paths, see
      * [Object name
      * considerations](https://cloud.google.com/storage/docs/naming#object-considerations).
+     *
      * For more information, see
      * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url].
      * </pre>

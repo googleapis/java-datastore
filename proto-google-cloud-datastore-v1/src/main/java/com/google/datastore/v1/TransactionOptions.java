@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ package com.google.datastore.v1;
  *
  * <pre>
  * Options for beginning a new transaction.
+ *
  * Transactions can be created explicitly with calls to
  * [Datastore.BeginTransaction][google.datastore.v1.Datastore.BeginTransaction]
  * or implicitly by setting
@@ -48,11 +49,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
   @SuppressWarnings({"unused"})
   protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
     return new TransactionOptions();
-  }
-
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
-    return this.unknownFields;
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
@@ -115,11 +111,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
       return new ReadWrite();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
-      return this.unknownFields;
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
@@ -631,7 +622,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
      *
      * <pre>
      * Reads entities at the given time.
-     * This may not be older than 60 seconds.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -644,7 +638,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
      *
      * <pre>
      * Reads entities at the given time.
-     * This may not be older than 60 seconds.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -657,7 +654,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
      *
      * <pre>
      * Reads entities at the given time.
-     * This may not be older than 60 seconds.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -691,11 +691,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       return new ReadOnly();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
-      return this.unknownFields;
-    }
-
     public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
       return com.google.datastore.v1.DatastoreProto
           .internal_static_google_datastore_v1_TransactionOptions_ReadOnly_descriptor;
@@ -718,7 +713,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
      *
      * <pre>
      * Reads entities at the given time.
-     * This may not be older than 60 seconds.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -734,7 +732,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
      *
      * <pre>
      * Reads entities at the given time.
-     * This may not be older than 60 seconds.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -750,7 +751,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
      *
      * <pre>
      * Reads entities at the given time.
-     * This may not be older than 60 seconds.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -1125,7 +1129,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
        *
        * <pre>
        * Reads entities at the given time.
-       * This may not be older than 60 seconds.
+       *
+       * This must be a microsecond precision timestamp within the past one hour,
+       * or if Point-in-Time Recovery is enabled, can additionally be a whole
+       * minute timestamp within the past 7 days.
        * </pre>
        *
        * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -1140,7 +1147,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
        *
        * <pre>
        * Reads entities at the given time.
-       * This may not be older than 60 seconds.
+       *
+       * This must be a microsecond precision timestamp within the past one hour,
+       * or if Point-in-Time Recovery is enabled, can additionally be a whole
+       * minute timestamp within the past 7 days.
        * </pre>
        *
        * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -1159,7 +1169,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
        *
        * <pre>
        * Reads entities at the given time.
-       * This may not be older than 60 seconds.
+       *
+       * This must be a microsecond precision timestamp within the past one hour,
+       * or if Point-in-Time Recovery is enabled, can additionally be a whole
+       * minute timestamp within the past 7 days.
        * </pre>
        *
        * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -1182,7 +1195,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
        *
        * <pre>
        * Reads entities at the given time.
-       * This may not be older than 60 seconds.
+       *
+       * This must be a microsecond precision timestamp within the past one hour,
+       * or if Point-in-Time Recovery is enabled, can additionally be a whole
+       * minute timestamp within the past 7 days.
        * </pre>
        *
        * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -1202,7 +1218,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
        *
        * <pre>
        * Reads entities at the given time.
-       * This may not be older than 60 seconds.
+       *
+       * This must be a microsecond precision timestamp within the past one hour,
+       * or if Point-in-Time Recovery is enabled, can additionally be a whole
+       * minute timestamp within the past 7 days.
        * </pre>
        *
        * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -1228,7 +1247,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
        *
        * <pre>
        * Reads entities at the given time.
-       * This may not be older than 60 seconds.
+       *
+       * This must be a microsecond precision timestamp within the past one hour,
+       * or if Point-in-Time Recovery is enabled, can additionally be a whole
+       * minute timestamp within the past 7 days.
        * </pre>
        *
        * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -1248,7 +1270,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
        *
        * <pre>
        * Reads entities at the given time.
-       * This may not be older than 60 seconds.
+       *
+       * This must be a microsecond precision timestamp within the past one hour,
+       * or if Point-in-Time Recovery is enabled, can additionally be a whole
+       * minute timestamp within the past 7 days.
        * </pre>
        *
        * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -1263,7 +1288,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
        *
        * <pre>
        * Reads entities at the given time.
-       * This may not be older than 60 seconds.
+       *
+       * This must be a microsecond precision timestamp within the past one hour,
+       * or if Point-in-Time Recovery is enabled, can additionally be a whole
+       * minute timestamp within the past 7 days.
        * </pre>
        *
        * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -1280,7 +1308,10 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
        *
        * <pre>
        * Reads entities at the given time.
-       * This may not be older than 60 seconds.
+       *
+       * This must be a microsecond precision timestamp within the past one hour,
+       * or if Point-in-Time Recovery is enabled, can additionally be a whole
+       * minute timestamp within the past 7 days.
        * </pre>
        *
        * <code>.google.protobuf.Timestamp read_time = 1;</code>
@@ -1367,6 +1398,8 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
   }
 
   private int modeCase_ = 0;
+
+  @SuppressWarnings("serial")
   private java.lang.Object mode_;
 
   public enum ModeCase
@@ -1709,6 +1742,7 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
    *
    * <pre>
    * Options for beginning a new transaction.
+   *
    * Transactions can be created explicitly with calls to
    * [Datastore.BeginTransaction][google.datastore.v1.Datastore.BeginTransaction]
    * or implicitly by setting

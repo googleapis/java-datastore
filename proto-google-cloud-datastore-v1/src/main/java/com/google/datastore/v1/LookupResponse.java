@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,11 +48,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   @SuppressWarnings({"unused"})
   protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
     return new LookupResponse();
-  }
-
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
-    return this.unknownFields;
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
@@ -320,6 +315,7 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
    * <pre>
    * The identifier of the transaction that was started as part of this Lookup
    * request.
+   *
    * Set only when
    * [ReadOptions.new_transaction][google.datastore.v1.ReadOptions.new_transaction]
    * was set in
@@ -2110,6 +2106,7 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
      * <pre>
      * The identifier of the transaction that was started as part of this Lookup
      * request.
+     *
      * Set only when
      * [ReadOptions.new_transaction][google.datastore.v1.ReadOptions.new_transaction]
      * was set in
@@ -2130,6 +2127,7 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
      * <pre>
      * The identifier of the transaction that was started as part of this Lookup
      * request.
+     *
      * Set only when
      * [ReadOptions.new_transaction][google.datastore.v1.ReadOptions.new_transaction]
      * was set in
@@ -2156,6 +2154,7 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
      * <pre>
      * The identifier of the transaction that was started as part of this Lookup
      * request.
+     *
      * Set only when
      * [ReadOptions.new_transaction][google.datastore.v1.ReadOptions.new_transaction]
      * was set in

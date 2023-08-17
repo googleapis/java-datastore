@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,6 +47,14 @@ public final class QueryProto {
       internal_static_google_datastore_v1_AggregationQuery_Aggregation_Count_descriptor;
   static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_google_datastore_v1_AggregationQuery_Aggregation_Count_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+      internal_static_google_datastore_v1_AggregationQuery_Aggregation_Sum_descriptor;
+  static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_google_datastore_v1_AggregationQuery_Aggregation_Sum_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+      internal_static_google_datastore_v1_AggregationQuery_Aggregation_Avg_descriptor;
+  static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_google_datastore_v1_AggregationQuery_Aggregation_Avg_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
       internal_static_google_datastore_v1_KindExpression_descriptor;
   static final com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -120,70 +128,77 @@ public final class QueryProto {
           + "inct_on\030\006 \003(\0132&.google.datastore.v1.Prop"
           + "ertyReference\022\024\n\014start_cursor\030\007 \001(\014\022\022\n\ne"
           + "nd_cursor\030\010 \001(\014\022\016\n\006offset\030\n \001(\005\022*\n\005limit"
-          + "\030\014 \001(\0132\033.google.protobuf.Int32Value\"\326\002\n\020"
+          + "\030\014 \001(\0132\033.google.protobuf.Int32Value\"\347\004\n\020"
           + "AggregationQuery\0222\n\014nested_query\030\001 \001(\0132\032"
-          + ".google.datastore.v1.QueryH\000\022L\n\014aggregat"
+          + ".google.datastore.v1.QueryH\000\022M\n\014aggregat"
           + "ions\030\003 \003(\01321.google.datastore.v1.Aggrega"
-          + "tionQuery.AggregationB\003\340A\001\032\261\001\n\013Aggregati"
-          + "on\022H\n\005count\030\001 \001(\01327.google.datastore.v1."
-          + "AggregationQuery.Aggregation.CountH\000\022\022\n\005"
-          + "alias\030\007 \001(\tB\003\340A\001\0328\n\005Count\022/\n\005up_to\030\001 \001(\013"
-          + "2\033.google.protobuf.Int64ValueB\003\340A\001B\n\n\010op"
-          + "eratorB\014\n\nquery_type\"\036\n\016KindExpression\022\014"
-          + "\n\004name\030\001 \001(\t\"!\n\021PropertyReference\022\014\n\004nam"
-          + "e\030\002 \001(\t\"F\n\nProjection\0228\n\010property\030\001 \001(\0132"
-          + "&.google.datastore.v1.PropertyReference\""
-          + "\321\001\n\rPropertyOrder\0228\n\010property\030\001 \001(\0132&.go"
-          + "ogle.datastore.v1.PropertyReference\022?\n\td"
-          + "irection\030\002 \001(\0162,.google.datastore.v1.Pro"
-          + "pertyOrder.Direction\"E\n\tDirection\022\031\n\025DIR"
-          + "ECTION_UNSPECIFIED\020\000\022\r\n\tASCENDING\020\001\022\016\n\nD"
-          + "ESCENDING\020\002\"\231\001\n\006Filter\022@\n\020composite_filt"
-          + "er\030\001 \001(\0132$.google.datastore.v1.Composite"
-          + "FilterH\000\022>\n\017property_filter\030\002 \001(\0132#.goog"
-          + "le.datastore.v1.PropertyFilterH\000B\r\n\013filt"
-          + "er_type\"\261\001\n\017CompositeFilter\0229\n\002op\030\001 \001(\0162"
-          + "-.google.datastore.v1.CompositeFilter.Op"
-          + "erator\022,\n\007filters\030\002 \003(\0132\033.google.datasto"
-          + "re.v1.Filter\"5\n\010Operator\022\030\n\024OPERATOR_UNS"
-          + "PECIFIED\020\000\022\007\n\003AND\020\001\022\006\n\002OR\020\002\"\352\002\n\016Property"
-          + "Filter\0228\n\010property\030\001 \001(\0132&.google.datast"
-          + "ore.v1.PropertyReference\0228\n\002op\030\002 \001(\0162,.g"
-          + "oogle.datastore.v1.PropertyFilter.Operat"
-          + "or\022)\n\005value\030\003 \001(\0132\032.google.datastore.v1."
-          + "Value\"\270\001\n\010Operator\022\030\n\024OPERATOR_UNSPECIFI"
-          + "ED\020\000\022\r\n\tLESS_THAN\020\001\022\026\n\022LESS_THAN_OR_EQUA"
-          + "L\020\002\022\020\n\014GREATER_THAN\020\003\022\031\n\025GREATER_THAN_OR"
-          + "_EQUAL\020\004\022\t\n\005EQUAL\020\005\022\006\n\002IN\020\006\022\r\n\tNOT_EQUAL"
-          + "\020\t\022\020\n\014HAS_ANCESTOR\020\013\022\n\n\006NOT_IN\020\r\"\245\002\n\010Gql"
-          + "Query\022\024\n\014query_string\030\001 \001(\t\022\026\n\016allow_lit"
-          + "erals\030\002 \001(\010\022H\n\016named_bindings\030\005 \003(\01320.go"
-          + "ogle.datastore.v1.GqlQuery.NamedBindings"
-          + "Entry\022C\n\023positional_bindings\030\004 \003(\0132&.goo"
-          + "gle.datastore.v1.GqlQueryParameter\032\\\n\022Na"
-          + "medBindingsEntry\022\013\n\003key\030\001 \001(\t\0225\n\005value\030\002"
-          + " \001(\0132&.google.datastore.v1.GqlQueryParam"
-          + "eter:\0028\001\"d\n\021GqlQueryParameter\022+\n\005value\030\002"
-          + " \001(\0132\032.google.datastore.v1.ValueH\000\022\020\n\006cu"
-          + "rsor\030\003 \001(\014H\000B\020\n\016parameter_type\"\215\004\n\020Query"
-          + "ResultBatch\022\027\n\017skipped_results\030\006 \001(\005\022\026\n\016"
-          + "skipped_cursor\030\003 \001(\014\022H\n\022entity_result_ty"
-          + "pe\030\001 \001(\0162,.google.datastore.v1.EntityRes"
-          + "ult.ResultType\0229\n\016entity_results\030\002 \003(\0132!"
-          + ".google.datastore.v1.EntityResult\022\022\n\nend"
-          + "_cursor\030\004 \001(\014\022K\n\014more_results\030\005 \001(\01625.go"
-          + "ogle.datastore.v1.QueryResultBatch.MoreR"
-          + "esultsType\022\030\n\020snapshot_version\030\007 \001(\003\022-\n\t"
-          + "read_time\030\010 \001(\0132\032.google.protobuf.Timest"
-          + "amp\"\230\001\n\017MoreResultsType\022!\n\035MORE_RESULTS_"
-          + "TYPE_UNSPECIFIED\020\000\022\020\n\014NOT_FINISHED\020\001\022\034\n\030"
-          + "MORE_RESULTS_AFTER_LIMIT\020\002\022\035\n\031MORE_RESUL"
-          + "TS_AFTER_CURSOR\020\004\022\023\n\017NO_MORE_RESULTS\020\003B\274"
-          + "\001\n\027com.google.datastore.v1B\nQueryProtoP\001"
-          + "Z<google.golang.org/genproto/googleapis/"
-          + "datastore/v1;datastore\252\002\031Google.Cloud.Da"
-          + "tastore.V1\312\002\031Google\\Cloud\\Datastore\\V1\352\002"
-          + "\034Google::Cloud::Datastore::V1b\006proto3"
+          + "tionQuery.AggregationB\004\342A\001\001\032\301\003\n\013Aggregat"
+          + "ion\022H\n\005count\030\001 \001(\01327.google.datastore.v1"
+          + ".AggregationQuery.Aggregation.CountH\000\022D\n"
+          + "\003sum\030\002 \001(\01325.google.datastore.v1.Aggrega"
+          + "tionQuery.Aggregation.SumH\000\022D\n\003avg\030\003 \001(\013"
+          + "25.google.datastore.v1.AggregationQuery."
+          + "Aggregation.AvgH\000\022\023\n\005alias\030\007 \001(\tB\004\342A\001\001\0329"
+          + "\n\005Count\0220\n\005up_to\030\001 \001(\0132\033.google.protobuf"
+          + ".Int64ValueB\004\342A\001\001\032?\n\003Sum\0228\n\010property\030\001 \001"
+          + "(\0132&.google.datastore.v1.PropertyReferen"
+          + "ce\032?\n\003Avg\0228\n\010property\030\001 \001(\0132&.google.dat"
+          + "astore.v1.PropertyReferenceB\n\n\010operatorB"
+          + "\014\n\nquery_type\"\036\n\016KindExpression\022\014\n\004name\030"
+          + "\001 \001(\t\"!\n\021PropertyReference\022\014\n\004name\030\002 \001(\t"
+          + "\"F\n\nProjection\0228\n\010property\030\001 \001(\0132&.googl"
+          + "e.datastore.v1.PropertyReference\"\321\001\n\rPro"
+          + "pertyOrder\0228\n\010property\030\001 \001(\0132&.google.da"
+          + "tastore.v1.PropertyReference\022?\n\tdirectio"
+          + "n\030\002 \001(\0162,.google.datastore.v1.PropertyOr"
+          + "der.Direction\"E\n\tDirection\022\031\n\025DIRECTION_"
+          + "UNSPECIFIED\020\000\022\r\n\tASCENDING\020\001\022\016\n\nDESCENDI"
+          + "NG\020\002\"\231\001\n\006Filter\022@\n\020composite_filter\030\001 \001("
+          + "\0132$.google.datastore.v1.CompositeFilterH"
+          + "\000\022>\n\017property_filter\030\002 \001(\0132#.google.data"
+          + "store.v1.PropertyFilterH\000B\r\n\013filter_type"
+          + "\"\261\001\n\017CompositeFilter\0229\n\002op\030\001 \001(\0162-.googl"
+          + "e.datastore.v1.CompositeFilter.Operator\022"
+          + ",\n\007filters\030\002 \003(\0132\033.google.datastore.v1.F"
+          + "ilter\"5\n\010Operator\022\030\n\024OPERATOR_UNSPECIFIE"
+          + "D\020\000\022\007\n\003AND\020\001\022\006\n\002OR\020\002\"\352\002\n\016PropertyFilter\022"
+          + "8\n\010property\030\001 \001(\0132&.google.datastore.v1."
+          + "PropertyReference\0228\n\002op\030\002 \001(\0162,.google.d"
+          + "atastore.v1.PropertyFilter.Operator\022)\n\005v"
+          + "alue\030\003 \001(\0132\032.google.datastore.v1.Value\"\270"
+          + "\001\n\010Operator\022\030\n\024OPERATOR_UNSPECIFIED\020\000\022\r\n"
+          + "\tLESS_THAN\020\001\022\026\n\022LESS_THAN_OR_EQUAL\020\002\022\020\n\014"
+          + "GREATER_THAN\020\003\022\031\n\025GREATER_THAN_OR_EQUAL\020"
+          + "\004\022\t\n\005EQUAL\020\005\022\006\n\002IN\020\006\022\r\n\tNOT_EQUAL\020\t\022\020\n\014H"
+          + "AS_ANCESTOR\020\013\022\n\n\006NOT_IN\020\r\"\245\002\n\010GqlQuery\022\024"
+          + "\n\014query_string\030\001 \001(\t\022\026\n\016allow_literals\030\002"
+          + " \001(\010\022H\n\016named_bindings\030\005 \003(\01320.google.da"
+          + "tastore.v1.GqlQuery.NamedBindingsEntry\022C"
+          + "\n\023positional_bindings\030\004 \003(\0132&.google.dat"
+          + "astore.v1.GqlQueryParameter\032\\\n\022NamedBind"
+          + "ingsEntry\022\013\n\003key\030\001 \001(\t\0225\n\005value\030\002 \001(\0132&."
+          + "google.datastore.v1.GqlQueryParameter:\0028"
+          + "\001\"d\n\021GqlQueryParameter\022+\n\005value\030\002 \001(\0132\032."
+          + "google.datastore.v1.ValueH\000\022\020\n\006cursor\030\003 "
+          + "\001(\014H\000B\020\n\016parameter_type\"\215\004\n\020QueryResultB"
+          + "atch\022\027\n\017skipped_results\030\006 \001(\005\022\026\n\016skipped"
+          + "_cursor\030\003 \001(\014\022H\n\022entity_result_type\030\001 \001("
+          + "\0162,.google.datastore.v1.EntityResult.Res"
+          + "ultType\0229\n\016entity_results\030\002 \003(\0132!.google"
+          + ".datastore.v1.EntityResult\022\022\n\nend_cursor"
+          + "\030\004 \001(\014\022K\n\014more_results\030\005 \001(\01625.google.da"
+          + "tastore.v1.QueryResultBatch.MoreResultsT"
+          + "ype\022\030\n\020snapshot_version\030\007 \001(\003\022-\n\tread_ti"
+          + "me\030\010 \001(\0132\032.google.protobuf.Timestamp\"\230\001\n"
+          + "\017MoreResultsType\022!\n\035MORE_RESULTS_TYPE_UN"
+          + "SPECIFIED\020\000\022\020\n\014NOT_FINISHED\020\001\022\034\n\030MORE_RE"
+          + "SULTS_AFTER_LIMIT\020\002\022\035\n\031MORE_RESULTS_AFTE"
+          + "R_CURSOR\020\004\022\023\n\017NO_MORE_RESULTS\020\003B\274\001\n\027com."
+          + "google.datastore.v1B\nQueryProtoP\001Z<googl"
+          + "e.golang.org/genproto/googleapis/datasto"
+          + "re/v1;datastore\252\002\031Google.Cloud.Datastore"
+          + ".V1\312\002\031Google\\Cloud\\Datastore\\V1\352\002\034Google"
+          + "::Cloud::Datastore::V1b\006proto3"
     };
     descriptor =
         com.google.protobuf.Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(
@@ -231,7 +246,7 @@ public final class QueryProto {
         new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
             internal_static_google_datastore_v1_AggregationQuery_Aggregation_descriptor,
             new java.lang.String[] {
-              "Count", "Alias", "Operator",
+              "Count", "Sum", "Avg", "Alias", "Operator",
             });
     internal_static_google_datastore_v1_AggregationQuery_Aggregation_Count_descriptor =
         internal_static_google_datastore_v1_AggregationQuery_Aggregation_descriptor
@@ -242,6 +257,26 @@ public final class QueryProto {
             internal_static_google_datastore_v1_AggregationQuery_Aggregation_Count_descriptor,
             new java.lang.String[] {
               "UpTo",
+            });
+    internal_static_google_datastore_v1_AggregationQuery_Aggregation_Sum_descriptor =
+        internal_static_google_datastore_v1_AggregationQuery_Aggregation_descriptor
+            .getNestedTypes()
+            .get(1);
+    internal_static_google_datastore_v1_AggregationQuery_Aggregation_Sum_fieldAccessorTable =
+        new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+            internal_static_google_datastore_v1_AggregationQuery_Aggregation_Sum_descriptor,
+            new java.lang.String[] {
+              "Property",
+            });
+    internal_static_google_datastore_v1_AggregationQuery_Aggregation_Avg_descriptor =
+        internal_static_google_datastore_v1_AggregationQuery_Aggregation_descriptor
+            .getNestedTypes()
+            .get(2);
+    internal_static_google_datastore_v1_AggregationQuery_Aggregation_Avg_fieldAccessorTable =
+        new com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+            internal_static_google_datastore_v1_AggregationQuery_Aggregation_Avg_descriptor,
+            new java.lang.String[] {
+              "Property",
             });
     internal_static_google_datastore_v1_KindExpression_descriptor =
         getDescriptor().getMessageTypes().get(3);

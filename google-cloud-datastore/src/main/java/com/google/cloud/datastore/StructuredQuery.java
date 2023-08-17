@@ -26,7 +26,6 @@ import static com.google.cloud.datastore.TimestampValue.of;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.api.core.ApiFunction;
-import com.google.api.core.BetaApi;
 import com.google.api.core.InternalApi;
 import com.google.cloud.StringEnumType;
 import com.google.cloud.StringEnumValue;
@@ -47,7 +46,7 @@ import java.util.Objects;
  * An implementation of a Google Cloud Datastore Query that can be constructed by providing all the
  * specific query elements.
  *
- * <h3>A usage example:</h3>
+ * <p>A usage example:
  *
  * <p>A simple query that returns all entities for a specific kind
  *
@@ -234,7 +233,6 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
       return new CompositeFilter(Operator.AND, first, other);
     }
 
-    @BetaApi
     public static CompositeFilter or(Filter first, Filter... other) {
       return new CompositeFilter(Operator.OR, first, other);
     }
