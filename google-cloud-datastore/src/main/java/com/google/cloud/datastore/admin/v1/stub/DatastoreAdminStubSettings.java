@@ -265,7 +265,7 @@ public class DatastoreAdminStubSettings extends StubSettings<DatastoreAdminStubS
 
   /** Returns the default service endpoint. */
   public static String getDefaultEndpoint() {
-    return "datastore.apis-s3nscloud.io:443";
+    return "datastore.test-endpoint:443";
   }
 
   /** Returns the default mTLS service endpoint. */
