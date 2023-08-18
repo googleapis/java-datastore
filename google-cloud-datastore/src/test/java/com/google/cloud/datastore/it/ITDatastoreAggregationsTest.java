@@ -17,12 +17,15 @@
 package com.google.cloud.datastore.it;
 
 import static com.google.cloud.datastore.aggregation.Aggregation.avg;
+import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.cloud.datastore.aggregation.Aggregation.sum;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.cloud.datastore.AggregationQuery;
+import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.Datastore.TransactionCallable;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.EntityQuery;
@@ -30,13 +33,19 @@ import com.google.cloud.datastore.GqlQuery;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
+import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.collect.ImmutableList;
+import com.google.datastore.v1.TransactionOptions;
+import com.google.datastore.v1.TransactionOptions.ReadOnly;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import org.junit.After;
 import org.junit.Test;
 
-//TODO(jainsahab) Move all the aggregation related tests from ITDatastoreTest to this file
+// TODO(jainsahab) Move all the aggregation related tests from ITDatastoreTest to this file
 public class ITDatastoreAggregationsTest {
 
   private static final RemoteDatastoreHelper HELPER = RemoteDatastoreHelper.create();
@@ -245,4 +254,108 @@ public class ITDatastoreAggregationsTest {
         .isEqualTo(92D);
   }
 
+  @Test
+  public void testTransactionShouldReturnAConsistentSnapshot() {
+    DATASTORE.put(entity1, entity2);
+
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregation(count().as("count"))
+            .addAggregations(sum("marks").as("total_marks"))
+            .addAggregations(avg("marks").as("avg_marks"))
+            .setNamespace(OPTIONS.getNamespace())
+            .build();
+
+    // original entity count is 2
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
+        .isEqualTo(2L);
+
+    // FIRST TRANSACTION
+    DATASTORE.runInTransaction(
+        (TransactionCallable<Void>)
+            inFirstTransaction -> {
+              // creating a new entity
+              inFirstTransaction.put(entity3);
+
+              // aggregation result consistently being produced for original 2 entities
+              AggregationResult aggregationResult =
+                  getOnlyElement(inFirstTransaction.runAggregation(aggregationQuery));
+              assertThat(aggregationResult.getLong("count")).isEqualTo(2L);
+              assertThat(aggregationResult.getLong("total_marks")).isEqualTo(184L);
+              assertThat(aggregationResult.getDouble("avg_marks")).isEqualTo(92D);
+              return null;
+            });
+
+    // after first transaction is committed, we have 3 entities now.
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
+        .isEqualTo(3L);
+
+    // SECOND TRANSACTION
+    DATASTORE.runInTransaction(
+        (TransactionCallable<Void>)
+            inSecondTransaction -> {
+              // deleting ENTITY3
+              inSecondTransaction.delete(entity3.getKey());
+
+              // aggregation result still coming for 3 entities
+              AggregationResult aggregationResult =
+                  getOnlyElement(inSecondTransaction.runAggregation(aggregationQuery));
+              assertThat(aggregationResult.getLong("count")).isEqualTo(3L);
+              assertThat(aggregationResult.getLong("total_marks")).isEqualTo(239L);
+              assertThat(aggregationResult.getDouble("avg_marks")).isEqualTo(79.66666666666667);
+              return null;
+            });
+
+    // after second transaction is committed, we are back to 2 entities now.
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
+        .isEqualTo(2L);
+  }
+
+  @Test
+  public void testReadOnlyTransactionShouldNotLockTheDocuments()
+      throws ExecutionException, InterruptedException {
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    DATASTORE.put(entity1, entity2);
+
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregation(count().as("count"))
+            .addAggregations(sum("marks").as("total_marks"))
+            .addAggregations(avg("marks").as("avg_marks"))
+            .setNamespace(OPTIONS.getNamespace())
+            .build();
+
+    TransactionOptions transactionOptions =
+        TransactionOptions.newBuilder().setReadOnly(ReadOnly.newBuilder().build()).build();
+    Transaction readOnlyTransaction = DATASTORE.newTransaction(transactionOptions);
+
+    // Executing query in transaction, results for original 2 entities
+    AggregationResult aggregationResult =
+        getOnlyElement(readOnlyTransaction.runAggregation(aggregationQuery));
+    assertThat(aggregationResult.getLong("count")).isEqualTo(2L);
+    assertThat(aggregationResult.getLong("total_marks")).isEqualTo(184L);
+    assertThat(aggregationResult.getDouble("avg_marks")).isEqualTo(92D);
+
+    // Concurrent write task.
+    Future<Void> addNewEntityTaskOutsideTransaction =
+        executor.submit(
+            () -> {
+              DATASTORE.put(entity3);
+              return null;
+            });
+
+    // should not throw exception and complete successfully as the ongoing transaction is read-only.
+    addNewEntityTaskOutsideTransaction.get();
+
+    // cleanup
+    readOnlyTransaction.commit();
+    executor.shutdownNow();
+
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
+        .isEqualTo(3L);
+  }
 }
