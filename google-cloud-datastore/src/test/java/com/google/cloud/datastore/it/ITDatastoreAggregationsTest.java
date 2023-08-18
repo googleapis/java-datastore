@@ -30,11 +30,13 @@ import com.google.cloud.datastore.GqlQuery;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
+import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.collect.ImmutableList;
 import org.junit.After;
 import org.junit.Test;
 
+//TODO(jainsahab) Move all the aggregation related tests from ITDatastoreTest to this file
 public class ITDatastoreAggregationsTest {
 
   private static final RemoteDatastoreHelper HELPER = RemoteDatastoreHelper.create();
@@ -221,4 +223,26 @@ public class ITDatastoreAggregationsTest {
     assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getDouble("avg_marks"))
         .isEqualTo(79.66666666666667);
   }
+
+  @Test
+  public void testSumAndAvgAggregationTogether() {
+    DATASTORE.put(entity1, entity2);
+
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregations(sum("marks").as("total_marks"))
+            .addAggregations(avg("marks").as("avg_marks"))
+            .setNamespace(OPTIONS.getNamespace())
+            .build();
+
+    // sum of 2 entities
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("total_marks"))
+        .isEqualTo(184L);
+    // avg of 2 entities
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getDouble("avg_marks"))
+        .isEqualTo(92D);
+  }
+
 }
