@@ -27,9 +27,9 @@ import java.util.Objects;
 /** Represents a result of an {@link AggregationQuery} query submission. */
 public class AggregationResult {
 
-  private final Map<String, Value<?>> properties;
+  private final Map<String, ? extends Value<?>> properties;
 
-  public AggregationResult(Map<String, Value<?>> properties) {
+  public AggregationResult(Map<String, ? extends Value<?>> properties) {
     this.properties = properties;
   }
 
@@ -54,10 +54,15 @@ public class AggregationResult {
    */
   public Long getLong(String alias) {
     Value<?> value = properties.get(alias);
-    if (value.getType() == DOUBLE) {
-      return ((Double) value.get()).longValue();
+    switch (value.getType()) {
+      case DOUBLE:
+        return ((Double) value.get()).longValue();
+      case LONG:
+        return (Long) value.get();
+      default:
+        throw new RuntimeException(
+            String.format("Unsupported type %s received for alias '%s'.", value.getType(), alias));
     }
-    return (Long) value.get();
   }
 
   /**
@@ -69,10 +74,15 @@ public class AggregationResult {
    */
   public Double getDouble(String alias) {
     Value<?> value = properties.get(alias);
-    if (value.getType() == LONG) {
-      return ((Long) value.get()).doubleValue();
+    switch (value.getType()) {
+      case LONG:
+        return ((Long) value.get()).doubleValue();
+      case DOUBLE:
+        return (Double) value.get();
+      default:
+        throw new RuntimeException(
+            String.format("Unsupported type %s received for alias '%s'.", value.getType(), alias));
     }
-    return (Double) value.get();
   }
 
   @Override
@@ -95,7 +105,7 @@ public class AggregationResult {
   @Override
   public String toString() {
     ToStringHelper toStringHelper = MoreObjects.toStringHelper(this);
-    for (Entry<String, Value<?>> entry : properties.entrySet()) {
+    for (Entry<String, ? extends Value<?>> entry : properties.entrySet()) {
       toStringHelper.add(entry.getKey(), entry.getValue().get());
     }
     return toStringHelper.toString();

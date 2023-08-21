@@ -16,6 +16,7 @@
 package com.google.cloud.datastore;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
@@ -60,5 +61,21 @@ public class AggregationResultTest {
         new AggregationResult(ImmutableMap.of("qty_avg", DoubleValue.of(45.9322)));
 
     assertThat(aggregationResult.getLong("qty_avg")).isEqualTo(45L);
+  }
+
+  @Test
+  public void shouldThrowRuntimeExceptionOnUnknownTypes() {
+    AggregationResult aggregationResult =
+        new AggregationResult(
+            ImmutableMap.of(
+                "qty_avg", BooleanValue.of(true))); // only double and long types are supported
+
+    RuntimeException e1 =
+        assertThrows(RuntimeException.class, () -> aggregationResult.getLong("qty_avg"));
+    assertThat(e1.getMessage()).isEqualTo("Unsupported type BOOLEAN received for alias 'qty_avg'.");
+
+    RuntimeException e2 =
+        assertThrows(RuntimeException.class, () -> aggregationResult.getDouble("qty_avg"));
+    assertThat(e2.getMessage()).isEqualTo("Unsupported type BOOLEAN received for alias 'qty_avg'.");
   }
 }
