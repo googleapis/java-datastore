@@ -1,5 +1,69 @@
 # Changelog
 
+## [2.16.3](https://github.com/googleapis/java-datastore/compare/v2.16.2...v2.16.3) (2023-08-02)
+
+
+### Documentation
+
+* Specify limit for `properties` in `Index` message in Datastore Admin API ([#1149](https://github.com/googleapis/java-datastore/issues/1149)) ([00a696d](https://github.com/googleapis/java-datastore/commit/00a696d5e0fe2ffe6c9e02abd902d1b533265310))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.14.0 ([#1159](https://github.com/googleapis/java-datastore/issues/1159)) ([fcf07d4](https://github.com/googleapis/java-datastore/commit/fcf07d4b5b1f949f1d6b46861406cef88a9a052b))
+* Update dependency com.google.errorprone:error_prone_core to v2.21.0 ([#1158](https://github.com/googleapis/java-datastore/issues/1158)) ([08dbb3a](https://github.com/googleapis/java-datastore/commit/08dbb3ab98870f74b78caa7d160271fccc134ae9))
+
+## [2.16.2](https://github.com/googleapis/java-datastore/compare/v2.16.1...v2.16.2) (2023-07-25)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.13.1 ([#1136](https://github.com/googleapis/java-datastore/issues/1136)) ([f4d66af](https://github.com/googleapis/java-datastore/commit/f4d66aff3b86c656998443d12ff1eec301194cfd))
+* Update dependency org.junit.vintage:junit-vintage-engine to v5.10.0 ([#1139](https://github.com/googleapis/java-datastore/issues/1139)) ([a170611](https://github.com/googleapis/java-datastore/commit/a170611e824d6ca6ea14c0ee57c35e3a4ab1eab0))
+
+## [2.16.1](https://github.com/googleapis/java-datastore/compare/v2.16.0...v2.16.1) (2023-07-10)
+
+
+### Documentation
+
+* Fix javadoc errors ([#1126](https://github.com/googleapis/java-datastore/issues/1126)) ([d4b11bb](https://github.com/googleapis/java-datastore/commit/d4b11bbf9198b446365b25617614434865d7e285))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.13.0 ([#1130](https://github.com/googleapis/java-datastore/issues/1130)) ([2181847](https://github.com/googleapis/java-datastore/commit/2181847666bce403743677b06f90b34e5ae180a3))
+
+## [2.16.0](https://github.com/googleapis/java-datastore/compare/v2.15.0...v2.16.0) (2023-06-22)
+
+
+### Features
+
+* Remove BetaApi annotation from OR query API ([#1118](https://github.com/googleapis/java-datastore/issues/1118)) ([b08dc9a](https://github.com/googleapis/java-datastore/commit/b08dc9ac796bf066e447633644c4380aa2c26753))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.12.0 ([#1121](https://github.com/googleapis/java-datastore/issues/1121)) ([65dd46d](https://github.com/googleapis/java-datastore/commit/65dd46d501de1360701146f4a9d7231dccd1e3c2))
+* Update dependency com.google.errorprone:error_prone_core to v2.20.0 ([#1115](https://github.com/googleapis/java-datastore/issues/1115)) ([381d76e](https://github.com/googleapis/java-datastore/commit/381d76e3e079752f9f02d488603e3b89979018ea))
+* Update dependency org.graalvm.buildtools:native-maven-plugin to v0.9.23 ([#1114](https://github.com/googleapis/java-datastore/issues/1114)) ([7f58868](https://github.com/googleapis/java-datastore/commit/7f588682212e1a8f7e27d4cacb5995c0c129c090))
+
+## [2.15.0](https://github.com/googleapis/java-datastore/compare/v2.14.7...v2.15.0) (2023-06-09)
+
+
+### Features
+
+* Multiple dbs support ([#1102](https://github.com/googleapis/java-datastore/issues/1102)) ([7887f32](https://github.com/googleapis/java-datastore/commit/7887f3255cba4dedd7b4f369d77a3279d903127f))
+
+
+### Bug Fixes
+
+* Add some missing annotations and fix equals/hashcode for DatastoreOptions ([#1106](https://github.com/googleapis/java-datastore/issues/1106)) ([c4a79ef](https://github.com/googleapis/java-datastore/commit/c4a79effa83c5fdb7ad8db15ae52e2c70db238bc))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.11.0 ([#1104](https://github.com/googleapis/java-datastore/issues/1104)) ([fc9b091](https://github.com/googleapis/java-datastore/commit/fc9b09103a1bfbb238b22102dcf2b889292658ce))
+
 ## [2.14.7](https://github.com/googleapis/java-datastore/compare/v2.14.6...v2.14.7) (2023-05-29)
 
 

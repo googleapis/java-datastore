@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,11 +47,6 @@ public final class PropertyReference extends com.google.protobuf.GeneratedMessag
     return new PropertyReference();
   }
 
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
-    return this.unknownFields;
-  }
-
   public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
     return com.google.datastore.v1.QueryProto
         .internal_static_google_datastore_v1_PropertyReference_descriptor;
@@ -75,8 +70,13 @@ public final class PropertyReference extends com.google.protobuf.GeneratedMessag
    *
    *
    * <pre>
-   * The name of the property.
-   * If name includes "."s, it may be interpreted as a property name path.
+   * A reference to a property.
+   *
+   * Requires:
+   *
+   * * MUST be a dot-delimited (`.`) string of segments, where each segment
+   * conforms to [entity property name][google.datastore.v1.Entity.properties]
+   * limitations.
    * </pre>
    *
    * <code>string name = 2;</code>
@@ -99,8 +99,13 @@ public final class PropertyReference extends com.google.protobuf.GeneratedMessag
    *
    *
    * <pre>
-   * The name of the property.
-   * If name includes "."s, it may be interpreted as a property name path.
+   * A reference to a property.
+   *
+   * Requires:
+   *
+   * * MUST be a dot-delimited (`.`) string of segments, where each segment
+   * conforms to [entity property name][google.datastore.v1.Entity.properties]
+   * limitations.
    * </pre>
    *
    * <code>string name = 2;</code>
@@ -466,8 +471,13 @@ public final class PropertyReference extends com.google.protobuf.GeneratedMessag
      *
      *
      * <pre>
-     * The name of the property.
-     * If name includes "."s, it may be interpreted as a property name path.
+     * A reference to a property.
+     *
+     * Requires:
+     *
+     * * MUST be a dot-delimited (`.`) string of segments, where each segment
+     * conforms to [entity property name][google.datastore.v1.Entity.properties]
+     * limitations.
      * </pre>
      *
      * <code>string name = 2;</code>
@@ -489,8 +499,13 @@ public final class PropertyReference extends com.google.protobuf.GeneratedMessag
      *
      *
      * <pre>
-     * The name of the property.
-     * If name includes "."s, it may be interpreted as a property name path.
+     * A reference to a property.
+     *
+     * Requires:
+     *
+     * * MUST be a dot-delimited (`.`) string of segments, where each segment
+     * conforms to [entity property name][google.datastore.v1.Entity.properties]
+     * limitations.
      * </pre>
      *
      * <code>string name = 2;</code>
@@ -512,8 +527,13 @@ public final class PropertyReference extends com.google.protobuf.GeneratedMessag
      *
      *
      * <pre>
-     * The name of the property.
-     * If name includes "."s, it may be interpreted as a property name path.
+     * A reference to a property.
+     *
+     * Requires:
+     *
+     * * MUST be a dot-delimited (`.`) string of segments, where each segment
+     * conforms to [entity property name][google.datastore.v1.Entity.properties]
+     * limitations.
      * </pre>
      *
      * <code>string name = 2;</code>
@@ -534,8 +554,13 @@ public final class PropertyReference extends com.google.protobuf.GeneratedMessag
      *
      *
      * <pre>
-     * The name of the property.
-     * If name includes "."s, it may be interpreted as a property name path.
+     * A reference to a property.
+     *
+     * Requires:
+     *
+     * * MUST be a dot-delimited (`.`) string of segments, where each segment
+     * conforms to [entity property name][google.datastore.v1.Entity.properties]
+     * limitations.
      * </pre>
      *
      * <code>string name = 2;</code>
@@ -552,8 +577,13 @@ public final class PropertyReference extends com.google.protobuf.GeneratedMessag
      *
      *
      * <pre>
-     * The name of the property.
-     * If name includes "."s, it may be interpreted as a property name path.
+     * A reference to a property.
+     *
+     * Requires:
+     *
+     * * MUST be a dot-delimited (`.`) string of segments, where each segment
+     * conforms to [entity property name][google.datastore.v1.Entity.properties]
+     * limitations.
      * </pre>
      *
      * <code>string name = 2;</code>

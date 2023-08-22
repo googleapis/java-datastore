@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,6 +53,7 @@ public interface RunQueryRequestOrBuilder
    *
    * <pre>
    * The ID of the database against which to make the request.
+   *
    * '(default)' is not allowed; please use empty string '' to refer the default
    * database.
    * </pre>
@@ -67,6 +68,7 @@ public interface RunQueryRequestOrBuilder
    *
    * <pre>
    * The ID of the database against which to make the request.
+   *
    * '(default)' is not allowed; please use empty string '' to refer the default
    * database.
    * </pre>
@@ -226,5 +228,5 @@ public interface RunQueryRequestOrBuilder
    */
   com.google.datastore.v1.GqlQueryOrBuilder getGqlQueryOrBuilder();
 
-  public com.google.datastore.v1.RunQueryRequest.QueryTypeCase getQueryTypeCase();
+  com.google.datastore.v1.RunQueryRequest.QueryTypeCase getQueryTypeCase();
 }

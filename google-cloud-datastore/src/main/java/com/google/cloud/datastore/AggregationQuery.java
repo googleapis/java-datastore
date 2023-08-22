@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.cloud.datastore.aggregation.Aggregation;
 import com.google.cloud.datastore.aggregation.AggregationBuilder;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,7 +46,7 @@ import java.util.Set;
  * }
  * }</pre>
  *
- * <h4>{@link GqlQuery} example:</h4>
+ * <p>{@link GqlQuery} example:
  *
  * <pre>{@code
  * GqlQuery<?> selectAllGqlQuery = Query.newGqlQueryBuilder(
@@ -140,6 +141,18 @@ public class AggregationQuery extends Query<AggregationResults> {
 
     public Builder addAggregation(Aggregation aggregation) {
       this.aggregations.add(aggregation);
+      return this;
+    }
+
+    public Builder addAggregations(AggregationBuilder<?>... aggregationBuilders) {
+      for (AggregationBuilder<?> builder : aggregationBuilders) {
+        this.aggregations.add(builder.build());
+      }
+      return this;
+    }
+
+    public Builder addAggregations(Aggregation... aggregations) {
+      this.aggregations.addAll(Arrays.asList(aggregations));
       return this;
     }
 
