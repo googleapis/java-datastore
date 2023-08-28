@@ -68,8 +68,7 @@ public class SumAggregationWithPropertyFilter {
         Iterables.getOnlyElement(datastore.runAggregation(customer1SalesSum));
 
     System.out.printf(
-        "Customer 1 sales sum is %d",
-        customer1SalesSumQueryResult.getLong("total_sales")); // 184
+        "Customer 1 sales sum is %d", customer1SalesSumQueryResult.getLong("total_sales")); // 184
   }
 }
 // [END datastore_sum_aggregation_query_with_filters]

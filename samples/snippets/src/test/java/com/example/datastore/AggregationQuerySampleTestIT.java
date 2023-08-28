@@ -51,8 +51,7 @@ public class AggregationQuerySampleTestIT {
 
   private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-  @Rule
-  public final SystemsOutRule systemsOutRule = new SystemsOutRule();
+  @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   @Before
   public void setUp() throws Exception {

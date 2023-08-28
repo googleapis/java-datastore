@@ -51,10 +51,7 @@ public class MultipleAggregationsInStructuredQuery {
         Entity.newBuilder(sales2Key).set("amount", 95).set("customerId", 1).build(),
         Entity.newBuilder(sales3Key).set("amount", 55).set("customerId", 2).build());
 
-    EntityQuery baseQuery =
-        Query.newEntityQueryBuilder()
-            .setKind(kind)
-            .build();
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(kind).build();
 
     // Creating an aggregation query with COUNT, SUM and AVG aggregations.
     AggregationQuery aggregationQuery =
@@ -71,8 +68,8 @@ public class MultipleAggregationsInStructuredQuery {
 
     System.out.printf("Total sales count: %d", aggregationResult.getLong("total_count")); // 3
     System.out.printf("Sum of sales: %d", aggregationResult.getLong("sales_sum")); // 239
-    System.out.printf("Avg of sales: %.8f",
-        aggregationResult.getDouble("sales_avg")); // 79.66666667
+    System.out.printf(
+        "Avg of sales: %.8f", aggregationResult.getDouble("sales_avg")); // 79.66666667
   }
 }
 // [END datastore_multiple_aggregation_in_structured_query]

@@ -19,7 +19,6 @@ package com.example.datastore.aggregation;
 // [START datastore_avg_aggregation_query_with_limit]
 
 import static com.google.cloud.datastore.aggregation.Aggregation.avg;
-import static com.google.cloud.datastore.aggregation.Aggregation.sum;
 
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;

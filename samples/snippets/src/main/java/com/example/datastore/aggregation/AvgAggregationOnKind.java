@@ -65,8 +65,8 @@ public class AvgAggregationOnKind {
     AggregationResult aggregationResult =
         Iterables.getOnlyElement(datastore.runAggregation(avgOfSalesQuery));
 
-    System.out.printf("Average sales is %.8f",
-        aggregationResult.getDouble("avg_sales_amount")); // 79.66666667
+    System.out.printf(
+        "Average sales is %.8f", aggregationResult.getDouble("avg_sales_amount")); // 79.66666667
   }
 
   public static void invoke() {
