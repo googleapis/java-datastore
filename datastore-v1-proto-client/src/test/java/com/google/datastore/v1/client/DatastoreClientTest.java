@@ -218,10 +218,7 @@ public class DatastoreClientTest {
   @Test
   public void setDatabaseId() {
     DatastoreOptions options =
-        new DatastoreOptions.Builder()
-            .projectId(PROJECT_ID)
-            .localHost("localhost:8080")
-            .build();
+        new DatastoreOptions.Builder().projectId(PROJECT_ID).localHost("localhost:8080").build();
     assertThat(options.getProjectId()).isEqualTo(PROJECT_ID);
   }
 
