@@ -28,7 +28,8 @@ import org.junit.runners.JUnit4;
 /** Test for {@link EndToEndChecksumHandler}. */
 @RunWith(JUnit4.class)
 public class EndToEndChecksumHandlerTest {
-  private final byte[] payloadBytes = "This is a long string with numbers 1234, 134.56 ".getBytes(UTF_8);
+  private final byte[] payloadBytes =
+      "This is a long string with numbers 1234, 134.56 ".getBytes(UTF_8);
   private final byte[] payloadForUnsignedLongChecksum = "aaa".getBytes(UTF_8);
   private final String unsignedLongChecksum = "3818383321";
 
