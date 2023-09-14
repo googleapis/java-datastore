@@ -216,10 +216,16 @@ public class DatastoreClientTest {
   }
 
   @Test
+  // TODO: remove this test once deprecated `databaseId` is removed
   public void setDatabaseId() {
     DatastoreOptions options =
-        new DatastoreOptions.Builder().projectId(PROJECT_ID).localHost("localhost:8080").build();
+        new DatastoreOptions.Builder()
+            .projectId(PROJECT_ID)
+            .databaseId("test-db")
+            .localHost("localhost:8080")
+            .build();
     assertThat(options.getProjectId()).isEqualTo(PROJECT_ID);
+    assertThat(options.getDatabaseId()).isEqualTo("test-db");
   }
 
   @Test
