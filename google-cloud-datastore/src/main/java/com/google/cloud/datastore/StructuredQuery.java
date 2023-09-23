@@ -153,7 +153,7 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
 
       static final Operator OR = type.createAndRegister("OR");
 
-      com.google.datastore.v1.CompositeFilter.Operator toPb() {
+      public com.google.datastore.v1.CompositeFilter.Operator toPb() {
         return com.google.datastore.v1.CompositeFilter.Operator.valueOf(name());
       }
 
@@ -238,7 +238,7 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
     }
 
     @Override
-    com.google.datastore.v1.Filter toPb() {
+    public com.google.datastore.v1.Filter toPb() {
       com.google.datastore.v1.Filter.Builder filterPb = com.google.datastore.v1.Filter.newBuilder();
       com.google.datastore.v1.CompositeFilter.Builder compositeFilterPb =
           filterPb.getCompositeFilterBuilder();
@@ -287,7 +287,7 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
       static final Operator HAS_ANCESTOR = type.createAndRegister("HAS_ANCESTOR");
       static final Operator NOT_IN = type.createAndRegister("NOT_IN");
 
-      com.google.datastore.v1.PropertyFilter.Operator toPb() {
+      public com.google.datastore.v1.PropertyFilter.Operator toPb() {
         return com.google.datastore.v1.PropertyFilter.Operator.valueOf(name());
       }
 
@@ -564,7 +564,7 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
     }
 
     @Override
-    com.google.datastore.v1.Filter toPb() {
+    public com.google.datastore.v1.Filter toPb() {
       com.google.datastore.v1.Filter.Builder filterPb = com.google.datastore.v1.Filter.newBuilder();
       com.google.datastore.v1.PropertyFilter.Builder propertyFilterPb =
           filterPb.getPropertyFilterBuilder();
@@ -605,7 +605,7 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
       public static final Direction ASCENDING = type.createAndRegister("ASCENDING");
       public static final Direction DESCENDING = type.createAndRegister("DESCENDING");
 
-      com.google.datastore.v1.PropertyOrder.Direction toPb() {
+      public com.google.datastore.v1.PropertyOrder.Direction toPb() {
         return com.google.datastore.v1.PropertyOrder.Direction.valueOf(name());
       }
 
@@ -664,7 +664,7 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
       return direction;
     }
 
-    com.google.datastore.v1.PropertyOrder toPb() {
+    public com.google.datastore.v1.PropertyOrder toPb() {
       return com.google.datastore.v1.PropertyOrder.newBuilder()
           .setDirection(direction.toPb())
           .setProperty(
@@ -1053,7 +1053,7 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
     return builder.build();
   }
 
-  com.google.datastore.v1.Query toPb() {
+  public com.google.datastore.v1.Query toPb() {
     StructuredQueryProtoPreparer protoPreparer = new StructuredQueryProtoPreparer();
     return protoPreparer.prepare(this);
   }

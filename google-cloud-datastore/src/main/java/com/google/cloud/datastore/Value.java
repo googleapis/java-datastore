@@ -207,7 +207,7 @@ public abstract class Value<V> implements Serializable {
   }
 
   @SuppressWarnings("unchecked")
-  com.google.datastore.v1.Value toPb() {
+  public com.google.datastore.v1.Value toPb() {
     return getType().getMarshaller().toProto(this);
   }
 

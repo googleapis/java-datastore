@@ -77,7 +77,7 @@ public final class LatLng implements Serializable {
     return new LatLng(latitude, longitude);
   }
 
-  protected com.google.type.LatLng toPb() {
+  public com.google.type.LatLng toPb() {
     return com.google.type.LatLng.newBuilder()
         .setLatitude(latitude)
         .setLongitude(longitude)
