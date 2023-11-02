@@ -29,12 +29,13 @@ else
 fi
 
 #Copying the required directories
-cp -r "$GENERATED_CODE_DIR/google/datastore/v1/google-cloud-datastore-v1-java/grpc-google-cloud-datastore-v1-java" \
+cp -r "$GENERATED_CODE_DIR/google/datastore/v1/google-cloud-datastore-v1-java/grpc-google-cloud-datastore-v1-java/" \
 "$DATASTORE_DIR/grpc-google-cloud-datastore-v1"
 cp -r "$GENERATED_CODE_DIR/google/datastore/v1/google-cloud-datastore-v1-java/gapic-google-cloud-datastore-v1-java/" \
 "$DATASTORE_DIR/google-cloud-datastore"
 
 #Cleaning up unwanted files
+rm grpc-google-cloud-datastore-v1/build.gradle
 rm google-cloud-datastore/build.gradle
 
 echo "Success"
