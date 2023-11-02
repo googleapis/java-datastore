@@ -4,9 +4,3 @@ target/
 __pycache__/
 
 .flattened-pom.xml
-
-# Temporary ignoring these files to prevent accidental commit
-grpc-google-cloud-datastore-v1/src
-google-cloud-datastore/src/main/java/com/google/cloud/datastore/v1/
-google-cloud-datastore/src/main/resources/META-INF/native-image/com.google.cloud.datastore.v1/
-google-cloud-datastore/src/test/java/com/google/cloud/datastore/v1/
