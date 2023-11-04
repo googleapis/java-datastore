@@ -16,8 +16,6 @@
 
 package com.google.cloud.datastore;
 
-import static com.google.cloud.datastore.Validator.validateNamespace;
-
 import com.google.api.core.BetaApi;
 import com.google.cloud.ServiceDefaults;
 import com.google.cloud.ServiceOptions;
@@ -25,13 +23,18 @@ import com.google.cloud.ServiceRpc;
 import com.google.cloud.TransportOptions;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
-import com.google.cloud.datastore.spi.v1.HttpDatastoreRpc;
+import com.google.cloud.datastore.spi.v1.GrpcDatastoreRpc;
+import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.http.HttpTransportOptions;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
+
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.Set;
+
+import static com.google.cloud.datastore.Validator.validateNamespace;
 
 public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions> {
 
@@ -60,7 +63,11 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
     @Override
     public ServiceRpc create(DatastoreOptions options) {
-      return new HttpDatastoreRpc(options);
+      try {
+        return new GrpcDatastoreRpc(options);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 
@@ -116,7 +123,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
         System.getProperty(
             com.google.datastore.v1.client.DatastoreHelper.LOCAL_HOST_ENV_VAR,
             System.getenv(com.google.datastore.v1.client.DatastoreHelper.LOCAL_HOST_ENV_VAR));
-    return host != null ? host : com.google.datastore.v1.client.DatastoreFactory.DEFAULT_HOST;
+    return host != null ? host : DatastoreDefaults.INSTANCE.getHost();
   }
 
   @Override
@@ -129,6 +136,13 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   }
 
   private static class DatastoreDefaults implements ServiceDefaults<Datastore, DatastoreOptions> {
+
+    private static final DatastoreDefaults INSTANCE = new DatastoreDefaults();
+    private final String HOST = DatastoreSettings.getDefaultEndpoint();
+
+    String getHost() {
+      return HOST;
+    }
 
     @Override
     public DatastoreFactory getDefaultServiceFactory() {
