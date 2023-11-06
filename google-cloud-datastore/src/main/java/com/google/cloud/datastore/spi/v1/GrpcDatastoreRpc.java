@@ -1,6 +1,8 @@
 package com.google.cloud.datastore.spi.v1;
 
+import com.google.api.core.ApiFunction;
 import com.google.api.gax.rpc.ClientContext;
+import com.google.api.gax.rpc.UnaryCallSettings;
 import com.google.cloud.datastore.DatastoreException;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.v1.DatastoreSettings;
@@ -42,9 +44,14 @@ public class GrpcDatastoreRpc implements DatastoreRpc{
 
       ClientContext clientContext = ClientContext.create(datastoreSettings);
 
-      //TODO(gapic_upgrade): retry settings
-
-      DatastoreStubSettings datastoreStubSettings = DatastoreStubSettings.newBuilder(clientContext).build();
+      ApiFunction<UnaryCallSettings.Builder<?, ?>, Void> retrySettingsSetter =
+          builder -> {
+            builder.setRetrySettings(datastoreOptions.getRetrySettings());
+            return null;
+          };
+      DatastoreStubSettings datastoreStubSettings = DatastoreStubSettings.newBuilder(clientContext)
+          .applyToAllUnaryMethods(retrySettingsSetter)
+          .build();
       datastoreStub = GrpcDatastoreStub.create(datastoreStubSettings);
     } catch (IOException e) {
       throw new IOException(e);
