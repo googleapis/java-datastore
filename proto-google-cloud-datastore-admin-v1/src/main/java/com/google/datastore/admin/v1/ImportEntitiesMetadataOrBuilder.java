@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -168,7 +168,9 @@ public interface ImportEntitiesMetadataOrBuilder
    *
    * <pre>
    * The location of the import metadata file. This will be the same value as
-   * the [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url] field.
+   * the
+   * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url]
+   * field.
    * </pre>
    *
    * <code>string input_url = 5;</code>
@@ -181,7 +183,9 @@ public interface ImportEntitiesMetadataOrBuilder
    *
    * <pre>
    * The location of the import metadata file. This will be the same value as
-   * the [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url] field.
+   * the
+   * [google.datastore.admin.v1.ExportEntitiesResponse.output_url][google.datastore.admin.v1.ExportEntitiesResponse.output_url]
+   * field.
    * </pre>
    *
    * <code>string input_url = 5;</code>

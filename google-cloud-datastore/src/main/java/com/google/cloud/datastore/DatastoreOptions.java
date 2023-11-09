@@ -18,6 +18,7 @@ package com.google.cloud.datastore;
 
 import static com.google.cloud.datastore.Validator.validateNamespace;
 
+import com.google.api.core.BetaApi;
 import com.google.cloud.ServiceDefaults;
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.ServiceRpc;
@@ -38,8 +39,10 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   private static final String API_SHORT_NAME = "Datastore";
   private static final String DATASTORE_SCOPE = "https://www.googleapis.com/auth/datastore";
   private static final Set<String> SCOPES = ImmutableSet.of(DATASTORE_SCOPE);
+  private static final String DEFAULT_DATABASE_ID = "";
 
   private final String namespace;
+  private final String databaseId;
 
   public static class DefaultDatastoreFactory implements DatastoreFactory {
 
@@ -64,12 +67,14 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   public static class Builder extends ServiceOptions.Builder<Datastore, DatastoreOptions, Builder> {
 
     private String namespace;
+    private String databaseId;
 
     private Builder() {}
 
     private Builder(DatastoreOptions options) {
       super(options);
       namespace = options.namespace;
+      databaseId = options.databaseId;
     }
 
     @Override
@@ -91,11 +96,18 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       this.namespace = validateNamespace(namespace);
       return this;
     }
+
+    @BetaApi
+    public Builder setDatabaseId(String databaseId) {
+      this.databaseId = databaseId;
+      return this;
+    }
   }
 
   private DatastoreOptions(Builder builder) {
     super(DatastoreFactory.class, DatastoreRpcFactory.class, builder, new DatastoreDefaults());
-    namespace = builder.namespace != null ? builder.namespace : defaultNamespace();
+    namespace = MoreObjects.firstNonNull(builder.namespace, defaultNamespace());
+    databaseId = MoreObjects.firstNonNull(builder.databaseId, DEFAULT_DATABASE_ID);
   }
 
   @Override
@@ -143,6 +155,11 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     return namespace;
   }
 
+  @BetaApi
+  public String getDatabaseId() {
+    return this.databaseId;
+  }
+
   /** Returns a default {@code DatastoreOptions} instance. */
   public static DatastoreOptions getDefaultInstance() {
     return newBuilder().build();
@@ -177,7 +194,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
   @Override
   public int hashCode() {
-    return Objects.hash(baseHashCode(), namespace);
+    return Objects.hash(baseHashCode(), namespace, databaseId);
   }
 
   @Override
@@ -186,7 +203,9 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       return false;
     }
     DatastoreOptions other = (DatastoreOptions) obj;
-    return baseEquals(other) && Objects.equals(namespace, other.namespace);
+    return baseEquals(other)
+        && Objects.equals(namespace, other.namespace)
+        && Objects.equals(databaseId, other.databaseId);
   }
 
   public static Builder newBuilder() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,8 @@ package com.google.datastore.v1;
  *
  * <pre>
  * A Datastore data object.
- * An entity is limited to 1 megabyte when stored. That _roughly_
- * corresponds to a limit of 1 megabyte for the serialized form of this
- * message.
+ *
+ * Must not exceed 1 MiB - 4 bytes.
  * </pre>
  *
  * Protobuf type {@code google.datastore.v1.Entity}
@@ -46,11 +45,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
   @SuppressWarnings({"unused"})
   protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
     return new Entity();
-  }
-
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
-    return this.unknownFields;
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
@@ -85,6 +79,7 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
    *
    * <pre>
    * The entity's key.
+   *
    * An entity must have a key, unless otherwise documented (for example,
    * an entity in `Value.entity_value` may have no key).
    * An entity's kind is its key path's last element's kind,
@@ -104,6 +99,7 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
    *
    * <pre>
    * The entity's key.
+   *
    * An entity must have a key, unless otherwise documented (for example,
    * an entity in `Value.entity_value` may have no key).
    * An entity's kind is its key path's last element's kind,
@@ -123,6 +119,7 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
    *
    * <pre>
    * The entity's key.
+   *
    * An entity must have a key, unless otherwise documented (for example,
    * an entity in `Value.entity_value` may have no key).
    * An entity's kind is its key path's last element's kind,
@@ -447,9 +444,8 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
    *
    * <pre>
    * A Datastore data object.
-   * An entity is limited to 1 megabyte when stored. That _roughly_
-   * corresponds to a limit of 1 megabyte for the serialized form of this
-   * message.
+   *
+   * Must not exceed 1 MiB - 4 bytes.
    * </pre>
    *
    * Protobuf type {@code google.datastore.v1.Entity}
@@ -678,6 +674,7 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * The entity's key.
+     *
      * An entity must have a key, unless otherwise documented (for example,
      * an entity in `Value.entity_value` may have no key).
      * An entity's kind is its key path's last element's kind,
@@ -696,6 +693,7 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * The entity's key.
+     *
      * An entity must have a key, unless otherwise documented (for example,
      * an entity in `Value.entity_value` may have no key).
      * An entity's kind is its key path's last element's kind,
@@ -718,6 +716,7 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * The entity's key.
+     *
      * An entity must have a key, unless otherwise documented (for example,
      * an entity in `Value.entity_value` may have no key).
      * An entity's kind is its key path's last element's kind,
@@ -744,6 +743,7 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * The entity's key.
+     *
      * An entity must have a key, unless otherwise documented (for example,
      * an entity in `Value.entity_value` may have no key).
      * An entity's kind is its key path's last element's kind,
@@ -767,6 +767,7 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * The entity's key.
+     *
      * An entity must have a key, unless otherwise documented (for example,
      * an entity in `Value.entity_value` may have no key).
      * An entity's kind is its key path's last element's kind,
@@ -796,6 +797,7 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * The entity's key.
+     *
      * An entity must have a key, unless otherwise documented (for example,
      * an entity in `Value.entity_value` may have no key).
      * An entity's kind is its key path's last element's kind,
@@ -819,6 +821,7 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * The entity's key.
+     *
      * An entity must have a key, unless otherwise documented (for example,
      * an entity in `Value.entity_value` may have no key).
      * An entity's kind is its key path's last element's kind,
@@ -837,6 +840,7 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * The entity's key.
+     *
      * An entity must have a key, unless otherwise documented (for example,
      * an entity in `Value.entity_value` may have no key).
      * An entity's kind is its key path's last element's kind,
@@ -857,6 +861,7 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * The entity's key.
+     *
      * An entity must have a key, unless otherwise documented (for example,
      * an entity in `Value.entity_value` may have no key).
      * An entity's kind is its key path's last element's kind,

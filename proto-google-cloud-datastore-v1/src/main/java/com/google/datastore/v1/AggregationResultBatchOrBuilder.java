@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -109,6 +109,7 @@ public interface AggregationResultBatchOrBuilder
    *
    * <pre>
    * Read timestamp this batch was returned from.
+   *
    * In a single transaction, subsequent query result batches for the same query
    * can have a greater timestamp. Each batch's read timestamp
    * is valid for all preceding batches.
@@ -124,6 +125,7 @@ public interface AggregationResultBatchOrBuilder
    *
    * <pre>
    * Read timestamp this batch was returned from.
+   *
    * In a single transaction, subsequent query result batches for the same query
    * can have a greater timestamp. Each batch's read timestamp
    * is valid for all preceding batches.
@@ -139,6 +141,7 @@ public interface AggregationResultBatchOrBuilder
    *
    * <pre>
    * Read timestamp this batch was returned from.
+   *
    * In a single transaction, subsequent query result batches for the same query
    * can have a greater timestamp. Each batch's read timestamp
    * is valid for all preceding batches.

@@ -19,7 +19,7 @@ If you are using Maven with [BOM][libraries-bom], add this to your pom.xml file:
     <dependency>
       <groupId>com.google.cloud</groupId>
       <artifactId>libraries-bom</artifactId>
-      <version>26.12.0</version>
+      <version>26.27.0</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -42,7 +42,7 @@ If you are using Maven without the BOM, add this to your dependencies:
 <dependency>
   <groupId>com.google.cloud</groupId>
   <artifactId>google-cloud-datastore</artifactId>
-  <version>2.14.2</version>
+  <version>2.17.5</version>
 </dependency>
 
 ```
@@ -50,20 +50,20 @@ If you are using Maven without the BOM, add this to your dependencies:
 If you are using Gradle 5.x or later, add this to your dependencies:
 
 ```Groovy
-implementation platform('com.google.cloud:libraries-bom:26.12.0')
+implementation platform('com.google.cloud:libraries-bom:26.27.0')
 
 implementation 'com.google.cloud:google-cloud-datastore'
 ```
 If you are using Gradle without BOM, add this to your dependencies:
 
 ```Groovy
-implementation 'com.google.cloud:google-cloud-datastore:2.14.2'
+implementation 'com.google.cloud:google-cloud-datastore:2.17.5'
 ```
 
 If you are using SBT, add this to your dependencies:
 
 ```Scala
-libraryDependencies += "com.google.cloud" % "google-cloud-datastore" % "2.14.2"
+libraryDependencies += "com.google.cloud" % "google-cloud-datastore" % "2.17.5"
 ```
 <!-- {x-version-update-end} -->
 
@@ -263,6 +263,10 @@ Samples are in the [`samples/`](https://github.com/googleapis/java-datastore/tre
 | Native Image Datastore Sample | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/native-image-sample/src/main/java/com/example/datastore/NativeImageDatastoreSample.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/native-image-sample/src/main/java/com/example/datastore/NativeImageDatastoreSample.java) |
 | Quickstart Sample | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/QuickstartSample.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/QuickstartSample.java) |
 | Regional Endpoint | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/RegionalEndpoint.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/RegionalEndpoint.java) |
+| Avg Aggregation On Kind | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationOnKind.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationOnKind.java) |
+| Avg Aggregation With Limit | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationWithLimit.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationWithLimit.java) |
+| Avg Aggregation With Order By | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationWithOrderBy.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationWithOrderBy.java) |
+| Avg Aggregation With Property Filter | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationWithPropertyFilter.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationWithPropertyFilter.java) |
 | Count Aggregation In Transaction | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/CountAggregationInTransaction.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/CountAggregationInTransaction.java) |
 | Count Aggregation On Kind | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/CountAggregationOnKind.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/CountAggregationOnKind.java) |
 | Count Aggregation With Gql Query | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/CountAggregationWithGqlQuery.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/CountAggregationWithGqlQuery.java) |
@@ -270,6 +274,12 @@ Samples are in the [`samples/`](https://github.com/googleapis/java-datastore/tre
 | Count Aggregation With Order By | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/CountAggregationWithOrderBy.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/CountAggregationWithOrderBy.java) |
 | Count Aggregation With Property Filter | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/CountAggregationWithPropertyFilter.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/CountAggregationWithPropertyFilter.java) |
 | Count Aggregation With Stale Read | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/CountAggregationWithStaleRead.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/CountAggregationWithStaleRead.java) |
+| Multiple Aggregations In Gql Query | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/MultipleAggregationsInGqlQuery.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/MultipleAggregationsInGqlQuery.java) |
+| Multiple Aggregations In Structured Query | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/MultipleAggregationsInStructuredQuery.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/MultipleAggregationsInStructuredQuery.java) |
+| Sum Aggregation On Kind | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationOnKind.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationOnKind.java) |
+| Sum Aggregation With Limit | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationWithLimit.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationWithLimit.java) |
+| Sum Aggregation With Order By | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationWithOrderBy.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationWithOrderBy.java) |
+| Sum Aggregation With Property Filter | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationWithPropertyFilter.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationWithPropertyFilter.java) |
 | Create a union between two filters | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/filters/OrFilterQuery.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/filters/OrFilterQuery.java) |
 | Task List | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/google/datastore/snippets/TaskList.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/google/datastore/snippets/TaskList.java) |
 
@@ -371,7 +381,7 @@ Java is a registered trademark of Oracle and/or its affiliates.
 [kokoro-badge-link-5]: http://storage.googleapis.com/cloud-devrel-public/java/badges/java-datastore/java11.html
 [stability-image]: https://img.shields.io/badge/stability-stable-green
 [maven-version-image]: https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-datastore.svg
-[maven-version-link]: https://central.sonatype.com/artifact/com.google.cloud/google-cloud-datastore/2.14.2
+[maven-version-link]: https://central.sonatype.com/artifact/com.google.cloud/google-cloud-datastore/2.17.5
 [authentication]: https://github.com/googleapis/google-cloud-java#authentication
 [auth-scopes]: https://developers.google.com/identity/protocols/oauth2/scopes
 [predefined-iam-roles]: https://cloud.google.com/iam/docs/understanding-roles#predefined_roles

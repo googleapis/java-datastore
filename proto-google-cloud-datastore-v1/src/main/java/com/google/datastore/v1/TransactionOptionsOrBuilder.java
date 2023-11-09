@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,5 +93,5 @@ public interface TransactionOptionsOrBuilder
    */
   com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder getReadOnlyOrBuilder();
 
-  public com.google.datastore.v1.TransactionOptions.ModeCase getModeCase();
+  com.google.datastore.v1.TransactionOptions.ModeCase getModeCase();
 }

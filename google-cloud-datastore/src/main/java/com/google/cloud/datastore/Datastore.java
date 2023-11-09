@@ -16,7 +16,6 @@
 
 package com.google.cloud.datastore;
 
-import com.google.api.core.BetaApi;
 import com.google.cloud.Service;
 import com.google.datastore.v1.TransactionOptions;
 import java.util.Iterator;
@@ -485,7 +484,7 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
    * }
    * }</pre>
    *
-   * <h4>{@link GqlQuery} example:</h4>
+   * <p>{@link GqlQuery} example:
    *
    * <pre>{@code
    * GqlQuery<?> selectAllGqlQuery = Query.newGqlQueryBuilder(
@@ -506,7 +505,6 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
    * @throws DatastoreException upon failure
    * @return {@link AggregationResults}
    */
-  @BetaApi
   default AggregationResults runAggregation(AggregationQuery query, ReadOption... options) {
     throw new UnsupportedOperationException("Not implemented.");
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,6 +80,7 @@ public interface EntityFilterOrBuilder
    * <pre>
    * An empty list represents all namespaces. This is the preferred
    * usage for projects that don't use namespaces.
+   *
    * An empty string element represents the default namespace. This should be
    * used if the project has data in non-default namespaces, but doesn't want to
    * include them.
@@ -97,6 +98,7 @@ public interface EntityFilterOrBuilder
    * <pre>
    * An empty list represents all namespaces. This is the preferred
    * usage for projects that don't use namespaces.
+   *
    * An empty string element represents the default namespace. This should be
    * used if the project has data in non-default namespaces, but doesn't want to
    * include them.
@@ -114,6 +116,7 @@ public interface EntityFilterOrBuilder
    * <pre>
    * An empty list represents all namespaces. This is the preferred
    * usage for projects that don't use namespaces.
+   *
    * An empty string element represents the default namespace. This should be
    * used if the project has data in non-default namespaces, but doesn't want to
    * include them.
@@ -132,6 +135,7 @@ public interface EntityFilterOrBuilder
    * <pre>
    * An empty list represents all namespaces. This is the preferred
    * usage for projects that don't use namespaces.
+   *
    * An empty string element represents the default namespace. This should be
    * used if the project has data in non-default namespaces, but doesn't want to
    * include them.

@@ -26,6 +26,7 @@ import com.google.cloud.datastore.ReadOption.QueryAndReadOptions;
 import com.google.cloud.datastore.ReadOptionProtoPreparer;
 import com.google.cloud.datastore.StructuredQueryProtoPreparer;
 import com.google.cloud.datastore.aggregation.Aggregation;
+import com.google.common.base.MoreObjects;
 import com.google.datastore.v1.GqlQuery;
 import com.google.datastore.v1.PartitionId;
 import com.google.datastore.v1.Query;
@@ -59,7 +60,8 @@ public class AggregationQueryRequestProtoPreparer
     RunAggregationQueryRequest.Builder aggregationQueryRequestBuilder =
         RunAggregationQueryRequest.newBuilder()
             .setPartitionId(partitionId)
-            .setProjectId(datastoreOptions.getProjectId());
+            .setProjectId(datastoreOptions.getProjectId())
+            .setDatabaseId(datastoreOptions.getDatabaseId());
 
     if (aggregationQuery.getMode() == GQL) {
       aggregationQueryRequestBuilder.setGqlQuery(buildGqlQuery(aggregationQuery));
@@ -91,10 +93,12 @@ public class AggregationQueryRequestProtoPreparer
 
   private PartitionId getPartitionId(AggregationQuery aggregationQuery) {
     PartitionId.Builder builder =
-        PartitionId.newBuilder().setProjectId(datastoreOptions.getProjectId());
-    if (aggregationQuery.getNamespace() != null) {
-      builder.setNamespaceId(aggregationQuery.getNamespace());
-    }
+        PartitionId.newBuilder()
+            .setProjectId(datastoreOptions.getProjectId())
+            .setDatabaseId(datastoreOptions.getDatabaseId());
+    String namespace =
+        MoreObjects.firstNonNull(aggregationQuery.getNamespace(), datastoreOptions.getNamespace());
+    builder.setNamespaceId(namespace);
     return builder.build();
   }
 }

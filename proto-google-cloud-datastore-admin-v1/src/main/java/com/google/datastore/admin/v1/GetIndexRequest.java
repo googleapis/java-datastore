@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,8 @@ package com.google.datastore.admin.v1;
  *
  *
  * <pre>
- * The request for [google.datastore.admin.v1.DatastoreAdmin.GetIndex][google.datastore.admin.v1.DatastoreAdmin.GetIndex].
+ * The request for
+ * [google.datastore.admin.v1.DatastoreAdmin.GetIndex][google.datastore.admin.v1.DatastoreAdmin.GetIndex].
  * </pre>
  *
  * Protobuf type {@code google.datastore.admin.v1.GetIndexRequest}
@@ -46,11 +47,6 @@ public final class GetIndexRequest extends com.google.protobuf.GeneratedMessageV
   @SuppressWarnings({"unused"})
   protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
     return new GetIndexRequest();
-  }
-
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
-    return this.unknownFields;
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
@@ -342,7 +338,8 @@ public final class GetIndexRequest extends com.google.protobuf.GeneratedMessageV
    *
    *
    * <pre>
-   * The request for [google.datastore.admin.v1.DatastoreAdmin.GetIndex][google.datastore.admin.v1.DatastoreAdmin.GetIndex].
+   * The request for
+   * [google.datastore.admin.v1.DatastoreAdmin.GetIndex][google.datastore.admin.v1.DatastoreAdmin.GetIndex].
    * </pre>
    *
    * Protobuf type {@code google.datastore.admin.v1.GetIndexRequest}

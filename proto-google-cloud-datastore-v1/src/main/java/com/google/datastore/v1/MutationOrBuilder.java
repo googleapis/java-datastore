@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -245,8 +245,7 @@ public interface MutationOrBuilder
    */
   com.google.protobuf.TimestampOrBuilder getUpdateTimeOrBuilder();
 
-  public com.google.datastore.v1.Mutation.OperationCase getOperationCase();
+  com.google.datastore.v1.Mutation.OperationCase getOperationCase();
 
-  public com.google.datastore.v1.Mutation.ConflictDetectionStrategyCase
-      getConflictDetectionStrategyCase();
+  com.google.datastore.v1.Mutation.ConflictDetectionStrategyCase getConflictDetectionStrategyCase();
 }

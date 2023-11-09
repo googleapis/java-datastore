@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2023 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,11 +43,6 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
   @SuppressWarnings({"unused"})
   protected java.lang.Object newInstance(UnusedPrivateParameter unused) {
     return new ReadOptions();
-  }
-
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
-    return this.unknownFields;
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
@@ -225,6 +220,8 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
   }
 
   private int consistencyTypeCase_ = 0;
+
+  @SuppressWarnings("serial")
   private java.lang.Object consistencyType_;
 
   public enum ConsistencyTypeCase
@@ -377,6 +374,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
    *
    * <pre>
    * Options for beginning a new transaction for this request.
+   *
    * The new transaction identifier will be returned in the corresponding
    * response as either
    * [LookupResponse.transaction][google.datastore.v1.LookupResponse.transaction]
@@ -397,6 +395,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
    *
    * <pre>
    * Options for beginning a new transaction for this request.
+   *
    * The new transaction identifier will be returned in the corresponding
    * response as either
    * [LookupResponse.transaction][google.datastore.v1.LookupResponse.transaction]
@@ -420,6 +419,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
    *
    * <pre>
    * Options for beginning a new transaction for this request.
+   *
    * The new transaction identifier will be returned in the corresponding
    * response as either
    * [LookupResponse.transaction][google.datastore.v1.LookupResponse.transaction]
@@ -442,9 +442,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
    *
    *
    * <pre>
-   * Reads entities as they were at the given time. This may not be older
-   * than 270 seconds.  This value is only supported for Cloud Firestore in
-   * Datastore mode.
+   * Reads entities as they were at the given time. This value is only
+   * supported for Cloud Firestore in Datastore mode.
+   *
+   * This must be a microsecond precision timestamp within the past one hour,
+   * or if Point-in-Time Recovery is enabled, can additionally be a whole
+   * minute timestamp within the past 7 days.
    * </pre>
    *
    * <code>.google.protobuf.Timestamp read_time = 4;</code>
@@ -459,9 +462,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
    *
    *
    * <pre>
-   * Reads entities as they were at the given time. This may not be older
-   * than 270 seconds.  This value is only supported for Cloud Firestore in
-   * Datastore mode.
+   * Reads entities as they were at the given time. This value is only
+   * supported for Cloud Firestore in Datastore mode.
+   *
+   * This must be a microsecond precision timestamp within the past one hour,
+   * or if Point-in-Time Recovery is enabled, can additionally be a whole
+   * minute timestamp within the past 7 days.
    * </pre>
    *
    * <code>.google.protobuf.Timestamp read_time = 4;</code>
@@ -479,9 +485,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
    *
    *
    * <pre>
-   * Reads entities as they were at the given time. This may not be older
-   * than 270 seconds.  This value is only supported for Cloud Firestore in
-   * Datastore mode.
+   * Reads entities as they were at the given time. This value is only
+   * supported for Cloud Firestore in Datastore mode.
+   *
+   * This must be a microsecond precision timestamp within the past one hour,
+   * or if Point-in-Time Recovery is enabled, can additionally be a whole
+   * minute timestamp within the past 7 days.
    * </pre>
    *
    * <code>.google.protobuf.Timestamp read_time = 4;</code>
@@ -1167,6 +1176,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * Options for beginning a new transaction for this request.
+     *
      * The new transaction identifier will be returned in the corresponding
      * response as either
      * [LookupResponse.transaction][google.datastore.v1.LookupResponse.transaction]
@@ -1187,6 +1197,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * Options for beginning a new transaction for this request.
+     *
      * The new transaction identifier will be returned in the corresponding
      * response as either
      * [LookupResponse.transaction][google.datastore.v1.LookupResponse.transaction]
@@ -1217,6 +1228,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * Options for beginning a new transaction for this request.
+     *
      * The new transaction identifier will be returned in the corresponding
      * response as either
      * [LookupResponse.transaction][google.datastore.v1.LookupResponse.transaction]
@@ -1244,6 +1256,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * Options for beginning a new transaction for this request.
+     *
      * The new transaction identifier will be returned in the corresponding
      * response as either
      * [LookupResponse.transaction][google.datastore.v1.LookupResponse.transaction]
@@ -1269,6 +1282,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * Options for beginning a new transaction for this request.
+     *
      * The new transaction identifier will be returned in the corresponding
      * response as either
      * [LookupResponse.transaction][google.datastore.v1.LookupResponse.transaction]
@@ -1307,6 +1321,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * Options for beginning a new transaction for this request.
+     *
      * The new transaction identifier will be returned in the corresponding
      * response as either
      * [LookupResponse.transaction][google.datastore.v1.LookupResponse.transaction]
@@ -1337,6 +1352,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * Options for beginning a new transaction for this request.
+     *
      * The new transaction identifier will be returned in the corresponding
      * response as either
      * [LookupResponse.transaction][google.datastore.v1.LookupResponse.transaction]
@@ -1354,6 +1370,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * Options for beginning a new transaction for this request.
+     *
      * The new transaction identifier will be returned in the corresponding
      * response as either
      * [LookupResponse.transaction][google.datastore.v1.LookupResponse.transaction]
@@ -1379,6 +1396,7 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      * <pre>
      * Options for beginning a new transaction for this request.
+     *
      * The new transaction identifier will be returned in the corresponding
      * response as either
      * [LookupResponse.transaction][google.datastore.v1.LookupResponse.transaction]
@@ -1421,9 +1439,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      *
      * <pre>
-     * Reads entities as they were at the given time. This may not be older
-     * than 270 seconds.  This value is only supported for Cloud Firestore in
-     * Datastore mode.
+     * Reads entities as they were at the given time. This value is only
+     * supported for Cloud Firestore in Datastore mode.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 4;</code>
@@ -1438,9 +1459,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      *
      * <pre>
-     * Reads entities as they were at the given time. This may not be older
-     * than 270 seconds.  This value is only supported for Cloud Firestore in
-     * Datastore mode.
+     * Reads entities as they were at the given time. This value is only
+     * supported for Cloud Firestore in Datastore mode.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 4;</code>
@@ -1465,9 +1489,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      *
      * <pre>
-     * Reads entities as they were at the given time. This may not be older
-     * than 270 seconds.  This value is only supported for Cloud Firestore in
-     * Datastore mode.
+     * Reads entities as they were at the given time. This value is only
+     * supported for Cloud Firestore in Datastore mode.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 4;</code>
@@ -1489,9 +1516,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      *
      * <pre>
-     * Reads entities as they were at the given time. This may not be older
-     * than 270 seconds.  This value is only supported for Cloud Firestore in
-     * Datastore mode.
+     * Reads entities as they were at the given time. This value is only
+     * supported for Cloud Firestore in Datastore mode.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 4;</code>
@@ -1510,9 +1540,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      *
      * <pre>
-     * Reads entities as they were at the given time. This may not be older
-     * than 270 seconds.  This value is only supported for Cloud Firestore in
-     * Datastore mode.
+     * Reads entities as they were at the given time. This value is only
+     * supported for Cloud Firestore in Datastore mode.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 4;</code>
@@ -1544,9 +1577,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      *
      * <pre>
-     * Reads entities as they were at the given time. This may not be older
-     * than 270 seconds.  This value is only supported for Cloud Firestore in
-     * Datastore mode.
+     * Reads entities as they were at the given time. This value is only
+     * supported for Cloud Firestore in Datastore mode.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 4;</code>
@@ -1571,9 +1607,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      *
      * <pre>
-     * Reads entities as they were at the given time. This may not be older
-     * than 270 seconds.  This value is only supported for Cloud Firestore in
-     * Datastore mode.
+     * Reads entities as they were at the given time. This value is only
+     * supported for Cloud Firestore in Datastore mode.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 4;</code>
@@ -1585,9 +1624,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      *
      * <pre>
-     * Reads entities as they were at the given time. This may not be older
-     * than 270 seconds.  This value is only supported for Cloud Firestore in
-     * Datastore mode.
+     * Reads entities as they were at the given time. This value is only
+     * supported for Cloud Firestore in Datastore mode.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 4;</code>
@@ -1607,9 +1649,12 @@ public final class ReadOptions extends com.google.protobuf.GeneratedMessageV3
      *
      *
      * <pre>
-     * Reads entities as they were at the given time. This may not be older
-     * than 270 seconds.  This value is only supported for Cloud Firestore in
-     * Datastore mode.
+     * Reads entities as they were at the given time. This value is only
+     * supported for Cloud Firestore in Datastore mode.
+     *
+     * This must be a microsecond precision timestamp within the past one hour,
+     * or if Point-in-Time Recovery is enabled, can additionally be a whole
+     * minute timestamp within the past 7 days.
      * </pre>
      *
      * <code>.google.protobuf.Timestamp read_time = 4;</code>

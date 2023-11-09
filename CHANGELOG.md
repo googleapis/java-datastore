@@ -1,5 +1,203 @@
 # Changelog
 
+## [2.17.5](https://github.com/googleapis/java-datastore/compare/v2.17.4...v2.17.5) (2023-11-02)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.19.0 ([#1226](https://github.com/googleapis/java-datastore/issues/1226)) ([970ac96](https://github.com/googleapis/java-datastore/commit/970ac9652ad16848ccfb26ce248e66956693be9e))
+
+## [2.17.4](https://github.com/googleapis/java-datastore/compare/v2.17.3...v2.17.4) (2023-10-23)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.18.0 ([#1215](https://github.com/googleapis/java-datastore/issues/1215)) ([aa82f01](https://github.com/googleapis/java-datastore/commit/aa82f019bcf90f99e6d3d2c96a52d8f2b9a8d27a))
+* Update dependency com.google.errorprone:error_prone_core to v2.23.0 ([#1213](https://github.com/googleapis/java-datastore/issues/1213)) ([c57db43](https://github.com/googleapis/java-datastore/commit/c57db43c783ba6ec16a55d470664990e932971ef))
+* Update dependency org.graalvm.buildtools:junit-platform-native to v0.9.28 ([#1216](https://github.com/googleapis/java-datastore/issues/1216)) ([ce4eff2](https://github.com/googleapis/java-datastore/commit/ce4eff24aae8d1e6e02558e627c033dc138891e6))
+* Update dependency org.graalvm.buildtools:native-maven-plugin to v0.9.28 ([#1217](https://github.com/googleapis/java-datastore/issues/1217)) ([7d56b3c](https://github.com/googleapis/java-datastore/commit/7d56b3cee53e0852873896f7fd22a0414d4b7d83))
+
+## [2.17.3](https://github.com/googleapis/java-datastore/compare/v2.17.2...v2.17.3) (2023-10-10)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.17.0 ([#1206](https://github.com/googleapis/java-datastore/issues/1206)) ([2ad068b](https://github.com/googleapis/java-datastore/commit/2ad068b115c6ff7c59394fdba5e0e445028a3fee))
+
+## [2.17.2](https://github.com/googleapis/java-datastore/compare/v2.17.1...v2.17.2) (2023-09-26)
+
+
+### Bug Fixes
+
+* Checksum format ([#1178](https://github.com/googleapis/java-datastore/issues/1178)) ([410b939](https://github.com/googleapis/java-datastore/commit/410b9397bb9ba480dff6217c0c4c27364e58db49))
+* Deprecate `databaseId` on datastore-v1-proto-client DatastoreOptions ([#1190](https://github.com/googleapis/java-datastore/issues/1190)) ([12a3d27](https://github.com/googleapis/java-datastore/commit/12a3d27ebc7ca87338ee896fd6ba3e804edd95ce))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.16.0 ([#1195](https://github.com/googleapis/java-datastore/issues/1195)) ([6f0cad7](https://github.com/googleapis/java-datastore/commit/6f0cad7268cee6347d34125c14c1133b80c840d7))
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.16.1 ([#1198](https://github.com/googleapis/java-datastore/issues/1198)) ([8062be9](https://github.com/googleapis/java-datastore/commit/8062be94b00fe2967e592f3d0a35751f0d11a013))
+* Update dependency com.google.errorprone:error_prone_core to v2.22.0 ([#1194](https://github.com/googleapis/java-datastore/issues/1194)) ([b8f108a](https://github.com/googleapis/java-datastore/commit/b8f108a3d013b5b54c519db24b40dd63e4855240))
+* Update dependency org.graalvm.buildtools:junit-platform-native to v0.9.26 ([#1176](https://github.com/googleapis/java-datastore/issues/1176)) ([76e3a71](https://github.com/googleapis/java-datastore/commit/76e3a71560222894513a485cb91cec7161276e3c))
+* Update dependency org.graalvm.buildtools:junit-platform-native to v0.9.27 ([#1192](https://github.com/googleapis/java-datastore/issues/1192)) ([aa3bca1](https://github.com/googleapis/java-datastore/commit/aa3bca10de19350cabc244426ebc284c64cb7344))
+* Update dependency org.graalvm.buildtools:native-maven-plugin to v0.9.26 ([#1177](https://github.com/googleapis/java-datastore/issues/1177)) ([7733004](https://github.com/googleapis/java-datastore/commit/7733004aff34bb8b4b8addccc68e75080f0f33a5))
+* Update dependency org.graalvm.buildtools:native-maven-plugin to v0.9.27 ([#1193](https://github.com/googleapis/java-datastore/issues/1193)) ([a628255](https://github.com/googleapis/java-datastore/commit/a628255dffc2e8f871df699ebe7a94e4b75eb4b9))
+* Update gapic-generator-java to 2.26.0 ([#1197](https://github.com/googleapis/java-datastore/issues/1197)) ([2540282](https://github.com/googleapis/java-datastore/commit/2540282653d8f8f06a71568c81eca8d3cb70f00f))
+
+## [2.17.1](https://github.com/googleapis/java-datastore/compare/v2.17.0...v2.17.1) (2023-09-11)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.15.0 ([#1184](https://github.com/googleapis/java-datastore/issues/1184)) ([6cbb795](https://github.com/googleapis/java-datastore/commit/6cbb79589e7eb8648c734bd02579a93423aa4e13))
+* Update dependency org.easymock:easymock to v5.2.0 ([#1180](https://github.com/googleapis/java-datastore/issues/1180)) ([3e62380](https://github.com/googleapis/java-datastore/commit/3e62380ae2793437aa9c4d21fa4484a8896cb49e))
+
+
+### Documentation
+
+* Marking AggregationResult#get as Obsolete ([#1185](https://github.com/googleapis/java-datastore/issues/1185)) ([252f854](https://github.com/googleapis/java-datastore/commit/252f8549895250ced3aecf5c082cb0b41ea12472))
+
+## [2.17.0](https://github.com/googleapis/java-datastore/compare/v2.16.3...v2.17.0) (2023-08-22)
+
+
+### Features
+
+* Publish proto definitions for SUM/AVG in Datastore ([#1157](https://github.com/googleapis/java-datastore/issues/1157)) ([954320a](https://github.com/googleapis/java-datastore/commit/954320aaefec249c77c757a1610727519a4029bd))
+* Sum and Avg aggregation feature ([#1067](https://github.com/googleapis/java-datastore/issues/1067)) ([56d1001](https://github.com/googleapis/java-datastore/commit/56d1001005cf7d52f8ba3e5258d6401be729bdbf))
+
+
+### Dependencies
+
+* Update dependency com.google.errorprone:error_prone_core to v2.21.1 ([#1163](https://github.com/googleapis/java-datastore/issues/1163)) ([83158b6](https://github.com/googleapis/java-datastore/commit/83158b6172a4a61b3e2a86dea6271ff7f9f84f6b))
+* Update dependency org.graalvm.buildtools:junit-platform-native to v0.9.24 ([#1165](https://github.com/googleapis/java-datastore/issues/1165)) ([4094c70](https://github.com/googleapis/java-datastore/commit/4094c702982e4a005a36324892daee451bd16062))
+* Update dependency org.graalvm.buildtools:native-maven-plugin to v0.9.24 ([#1166](https://github.com/googleapis/java-datastore/issues/1166)) ([70cc371](https://github.com/googleapis/java-datastore/commit/70cc371babd674000fe6f8d78a0f42e75deb5d99))
+
+
+### Documentation
+
+* Update property requirement specifications ([#1169](https://github.com/googleapis/java-datastore/issues/1169)) ([c908837](https://github.com/googleapis/java-datastore/commit/c908837ea953a5fdc87f9c83937646d309806e03))
+
+## [2.16.3](https://github.com/googleapis/java-datastore/compare/v2.16.2...v2.16.3) (2023-08-02)
+
+
+### Documentation
+
+* Specify limit for `properties` in `Index` message in Datastore Admin API ([#1149](https://github.com/googleapis/java-datastore/issues/1149)) ([00a696d](https://github.com/googleapis/java-datastore/commit/00a696d5e0fe2ffe6c9e02abd902d1b533265310))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.14.0 ([#1159](https://github.com/googleapis/java-datastore/issues/1159)) ([fcf07d4](https://github.com/googleapis/java-datastore/commit/fcf07d4b5b1f949f1d6b46861406cef88a9a052b))
+* Update dependency com.google.errorprone:error_prone_core to v2.21.0 ([#1158](https://github.com/googleapis/java-datastore/issues/1158)) ([08dbb3a](https://github.com/googleapis/java-datastore/commit/08dbb3ab98870f74b78caa7d160271fccc134ae9))
+
+## [2.16.2](https://github.com/googleapis/java-datastore/compare/v2.16.1...v2.16.2) (2023-07-25)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.13.1 ([#1136](https://github.com/googleapis/java-datastore/issues/1136)) ([f4d66af](https://github.com/googleapis/java-datastore/commit/f4d66aff3b86c656998443d12ff1eec301194cfd))
+* Update dependency org.junit.vintage:junit-vintage-engine to v5.10.0 ([#1139](https://github.com/googleapis/java-datastore/issues/1139)) ([a170611](https://github.com/googleapis/java-datastore/commit/a170611e824d6ca6ea14c0ee57c35e3a4ab1eab0))
+
+## [2.16.1](https://github.com/googleapis/java-datastore/compare/v2.16.0...v2.16.1) (2023-07-10)
+
+
+### Documentation
+
+* Fix javadoc errors ([#1126](https://github.com/googleapis/java-datastore/issues/1126)) ([d4b11bb](https://github.com/googleapis/java-datastore/commit/d4b11bbf9198b446365b25617614434865d7e285))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.13.0 ([#1130](https://github.com/googleapis/java-datastore/issues/1130)) ([2181847](https://github.com/googleapis/java-datastore/commit/2181847666bce403743677b06f90b34e5ae180a3))
+
+## [2.16.0](https://github.com/googleapis/java-datastore/compare/v2.15.0...v2.16.0) (2023-06-22)
+
+
+### Features
+
+* Remove BetaApi annotation from OR query API ([#1118](https://github.com/googleapis/java-datastore/issues/1118)) ([b08dc9a](https://github.com/googleapis/java-datastore/commit/b08dc9ac796bf066e447633644c4380aa2c26753))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.12.0 ([#1121](https://github.com/googleapis/java-datastore/issues/1121)) ([65dd46d](https://github.com/googleapis/java-datastore/commit/65dd46d501de1360701146f4a9d7231dccd1e3c2))
+* Update dependency com.google.errorprone:error_prone_core to v2.20.0 ([#1115](https://github.com/googleapis/java-datastore/issues/1115)) ([381d76e](https://github.com/googleapis/java-datastore/commit/381d76e3e079752f9f02d488603e3b89979018ea))
+* Update dependency org.graalvm.buildtools:native-maven-plugin to v0.9.23 ([#1114](https://github.com/googleapis/java-datastore/issues/1114)) ([7f58868](https://github.com/googleapis/java-datastore/commit/7f588682212e1a8f7e27d4cacb5995c0c129c090))
+
+## [2.15.0](https://github.com/googleapis/java-datastore/compare/v2.14.7...v2.15.0) (2023-06-09)
+
+
+### Features
+
+* Multiple dbs support ([#1102](https://github.com/googleapis/java-datastore/issues/1102)) ([7887f32](https://github.com/googleapis/java-datastore/commit/7887f3255cba4dedd7b4f369d77a3279d903127f))
+
+
+### Bug Fixes
+
+* Add some missing annotations and fix equals/hashcode for DatastoreOptions ([#1106](https://github.com/googleapis/java-datastore/issues/1106)) ([c4a79ef](https://github.com/googleapis/java-datastore/commit/c4a79effa83c5fdb7ad8db15ae52e2c70db238bc))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.11.0 ([#1104](https://github.com/googleapis/java-datastore/issues/1104)) ([fc9b091](https://github.com/googleapis/java-datastore/commit/fc9b09103a1bfbb238b22102dcf2b889292658ce))
+
+## [2.14.7](https://github.com/googleapis/java-datastore/compare/v2.14.6...v2.14.7) (2023-05-29)
+
+
+### Documentation
+
+* Marking Transaction, Batch and DatastoreBatchWriter class with 'NotThreadSafe' annotation ([#1082](https://github.com/googleapis/java-datastore/issues/1082)) ([9e96650](https://github.com/googleapis/java-datastore/commit/9e966506c1e860f10e82d34bd6a705c1cae71764))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.10.0 ([#1085](https://github.com/googleapis/java-datastore/issues/1085)) ([47df1b8](https://github.com/googleapis/java-datastore/commit/47df1b8a4b54eae0bb42e261e02d64aee7b95e7a))
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.10.1 ([#1086](https://github.com/googleapis/java-datastore/issues/1086)) ([e3ad866](https://github.com/googleapis/java-datastore/commit/e3ad86614a2462054bfb800613f2456f6f98102d))
+* Update dependency com.google.errorprone:error_prone_core to v2.19.1 ([#1069](https://github.com/googleapis/java-datastore/issues/1069)) ([2390016](https://github.com/googleapis/java-datastore/commit/239001682bd1284be39d4646ce0594274070c143))
+* Update dependency org.graalvm.buildtools:junit-platform-native to v0.9.22 ([#1074](https://github.com/googleapis/java-datastore/issues/1074)) ([c0cc456](https://github.com/googleapis/java-datastore/commit/c0cc4565cc0e34098f5bc97c031ae671af44fcf3))
+* Update dependency org.graalvm.buildtools:native-maven-plugin to v0.9.22 ([#1075](https://github.com/googleapis/java-datastore/issues/1075)) ([a4db895](https://github.com/googleapis/java-datastore/commit/a4db89502e9611bf5f9760bfceb1025cc99a9830))
+
+## [2.14.6](https://github.com/googleapis/java-datastore/compare/v2.14.5...v2.14.6) (2023-05-09)
+
+
+### Documentation
+
+* Minor comment update for Entity message ([#1063](https://github.com/googleapis/java-datastore/issues/1063)) ([52f8c27](https://github.com/googleapis/java-datastore/commit/52f8c274b9972fd0e672ee05bebd5b17543fca85))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.9.0 ([#1071](https://github.com/googleapis/java-datastore/issues/1071)) ([6bd4dfe](https://github.com/googleapis/java-datastore/commit/6bd4dfeeecfa0ce9ee9e705f4390c7686e233bd8))
+
+## [2.14.5](https://github.com/googleapis/java-datastore/compare/v2.14.4...v2.14.5) (2023-04-27)
+
+
+### Bug Fixes
+
+* Using namespace from DatastoreOptions if aggregation query is not configured with one. ([#1055](https://github.com/googleapis/java-datastore/issues/1055)) ([ac21ef6](https://github.com/googleapis/java-datastore/commit/ac21ef6cff5308fb17990a768100d1b2ee4c3654)), closes [#1054](https://github.com/googleapis/java-datastore/issues/1054)
+
+## [2.14.4](https://github.com/googleapis/java-datastore/compare/v2.14.3...v2.14.4) (2023-04-26)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.8.0 ([#1052](https://github.com/googleapis/java-datastore/issues/1052)) ([412be61](https://github.com/googleapis/java-datastore/commit/412be617db28a97d38883bd6e26ddbc7d1c434fa))
+* Update dependency org.junit.vintage:junit-vintage-engine to v5.9.3 ([#1056](https://github.com/googleapis/java-datastore/issues/1056)) ([2a871e2](https://github.com/googleapis/java-datastore/commit/2a871e25436a8812bc2f691c6462675b88976afc))
+
+
+### Documentation
+
+* Remove `@BetaApi` annotations for count aggregations ([#1051](https://github.com/googleapis/java-datastore/issues/1051)) ([b8bdaa2](https://github.com/googleapis/java-datastore/commit/b8bdaa23f165f6bcb5a891ef2437ffdd7ce8aa4c))
+
+## [2.14.3](https://github.com/googleapis/java-datastore/compare/v2.14.2...v2.14.3) (2023-04-13)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.7.0 ([#1044](https://github.com/googleapis/java-datastore/issues/1044)) ([3ecd20a](https://github.com/googleapis/java-datastore/commit/3ecd20a1c8575855dfb6c7b70d9f4a98a8e92591))
+* Update dependency org.graalvm.buildtools:junit-platform-native to v0.9.21 ([#1045](https://github.com/googleapis/java-datastore/issues/1045)) ([d18ff7c](https://github.com/googleapis/java-datastore/commit/d18ff7c4738efe3cc7d43966fb1f3ec8733af3b6))
+* Update dependency org.graalvm.buildtools:native-maven-plugin to v0.9.21 ([#1046](https://github.com/googleapis/java-datastore/issues/1046)) ([0d3f78e](https://github.com/googleapis/java-datastore/commit/0d3f78ec05f8a4a6f6d3a89917e1d417740bb883))
+
 ## [2.14.2](https://github.com/googleapis/java-datastore/compare/v2.14.1...v2.14.2) (2023-03-29)
 
 
