@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.core.BetaApi;
 import java.util.Arrays;
 import java.util.List;
 
