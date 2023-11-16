@@ -1,5 +1,7 @@
 package com.google.cloud.datastore.spi.v1;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.google.api.core.ApiFunction;
 import com.google.api.gax.core.BackgroundResource;
 import com.google.api.gax.core.GaxProperties;
@@ -38,13 +40,10 @@ import com.google.datastore.v1.RunQueryResponse;
 import io.grpc.CallOptions;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-
 import java.io.IOException;
 import java.util.Collections;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-//TODO(gapic_upgrade): Make it implement AutoCloseable
+// TODO(gapic_upgrade): Make it implement AutoCloseable
 public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
 
   private final GrpcDatastoreStub datastoreStub;
@@ -54,17 +53,19 @@ public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
   public GrpcDatastoreRpc(DatastoreOptions datastoreOptions) throws IOException {
 
     try {
-      clientContext = isEmulator(datastoreOptions) ?
-          getClientContextForEmulator(datastoreOptions) :
-          getClientContext(datastoreOptions);
+      clientContext =
+          isEmulator(datastoreOptions)
+              ? getClientContextForEmulator(datastoreOptions)
+              : getClientContext(datastoreOptions);
       ApiFunction<UnaryCallSettings.Builder<?, ?>, Void> retrySettingsSetter =
           builder -> {
             builder.setRetrySettings(datastoreOptions.getRetrySettings());
             return null;
           };
-      DatastoreStubSettings datastoreStubSettings = DatastoreStubSettings.newBuilder(clientContext)
-          .applyToAllUnaryMethods(retrySettingsSetter)
-          .build();
+      DatastoreStubSettings datastoreStubSettings =
+          DatastoreStubSettings.newBuilder(clientContext)
+              .applyToAllUnaryMethods(retrySettingsSetter)
+              .build();
       datastoreStub = GrpcDatastoreStub.create(datastoreStubSettings);
     } catch (IOException e) {
       throw new IOException(e);
@@ -73,7 +74,7 @@ public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
 
   @Override
   public void close() throws Exception {
-    if(!closed) {
+    if (!closed) {
       datastoreStub.close();
       for (BackgroundResource resource : clientContext.getBackgroundResources()) {
         resource.close();
@@ -91,7 +92,8 @@ public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
   }
 
   @Override
-  public BeginTransactionResponse beginTransaction(BeginTransactionRequest request) throws DatastoreException {
+  public BeginTransactionResponse beginTransaction(BeginTransactionRequest request)
+      throws DatastoreException {
     return datastoreStub.beginTransactionCallable().call(request);
   }
 
@@ -130,11 +132,10 @@ public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
         || NoCredentials.getInstance().equals(datastoreOptions.getCredentials());
   }
 
-  private ClientContext getClientContextForEmulator(DatastoreOptions datastoreOptions) throws IOException {
+  private ClientContext getClientContextForEmulator(DatastoreOptions datastoreOptions)
+      throws IOException {
     ManagedChannel managedChannel =
-        ManagedChannelBuilder.forTarget(datastoreOptions.getHost())
-            .usePlaintext()
-            .build();
+        ManagedChannelBuilder.forTarget(datastoreOptions.getHost()).usePlaintext().build();
     TransportChannel transportChannel = GrpcTransportChannel.create(managedChannel);
     return ClientContext.newBuilder()
         .setCredentials(null)
@@ -153,11 +154,16 @@ public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
             .setResourceToken(getResourceToken(datastoreOptions))
             .build();
 
-    DatastoreSettingsBuilder settingsBuilder = new DatastoreSettingsBuilder(DatastoreSettings.newBuilder().build());
-    settingsBuilder.setCredentialsProvider(GrpcTransportOptions.setUpCredentialsProvider(datastoreOptions));
-    settingsBuilder.setTransportChannelProvider(GrpcTransportOptions.setUpChannelProvider(DatastoreSettings.defaultGrpcTransportProviderBuilder(), datastoreOptions));
+    DatastoreSettingsBuilder settingsBuilder =
+        new DatastoreSettingsBuilder(DatastoreSettings.newBuilder().build());
+    settingsBuilder.setCredentialsProvider(
+        GrpcTransportOptions.setUpCredentialsProvider(datastoreOptions));
+    settingsBuilder.setTransportChannelProvider(
+        GrpcTransportOptions.setUpChannelProvider(
+            DatastoreSettings.defaultGrpcTransportProviderBuilder(), datastoreOptions));
     settingsBuilder.setInternalHeaderProvider(internalHeaderProvider);
-    settingsBuilder.setHeaderProvider(datastoreOptions.getMergedHeaderProvider(new NoHeaderProvider()));
+    settingsBuilder.setHeaderProvider(
+        datastoreOptions.getMergedHeaderProvider(new NoHeaderProvider()));
     ClientContext clientContext = ClientContext.create(settingsBuilder.build());
     return clientContext;
   }
@@ -184,6 +190,5 @@ public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
         HeaderProvider internalHeaderProvider) {
       return super.setInternalHeaderProvider(internalHeaderProvider);
     }
-
   }
 }

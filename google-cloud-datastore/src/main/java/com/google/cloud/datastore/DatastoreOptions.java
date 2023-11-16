@@ -16,6 +16,8 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.Validator.validateNamespace;
+
 import com.google.api.core.BetaApi;
 import com.google.cloud.ServiceDefaults;
 import com.google.cloud.ServiceOptions;
@@ -28,13 +30,10 @@ import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.http.HttpTransportOptions;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
-
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.Set;
-
-import static com.google.cloud.datastore.Validator.validateNamespace;
 
 public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions> {
 
