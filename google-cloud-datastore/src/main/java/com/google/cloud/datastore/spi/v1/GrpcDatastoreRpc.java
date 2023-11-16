@@ -1,6 +1,7 @@
 package com.google.cloud.datastore.spi.v1;
 
 import com.google.api.core.ApiFunction;
+import com.google.api.gax.core.BackgroundResource;
 import com.google.api.gax.core.GaxProperties;
 import com.google.api.gax.grpc.GrpcCallContext;
 import com.google.api.gax.grpc.GrpcTransportChannel;
@@ -41,15 +42,19 @@ import io.grpc.ManagedChannelBuilder;
 import java.io.IOException;
 import java.util.Collections;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 //TODO(gapic_upgrade): Make it implement AutoCloseable
-public class GrpcDatastoreRpc implements DatastoreRpc {
+public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
 
   private final GrpcDatastoreStub datastoreStub;
+  private final ClientContext clientContext;
+  private boolean closed;
 
   public GrpcDatastoreRpc(DatastoreOptions datastoreOptions) throws IOException {
 
     try {
-      ClientContext clientContext = isEmulator(datastoreOptions) ?
+      clientContext = isEmulator(datastoreOptions) ?
           getClientContextForEmulator(datastoreOptions) :
           getClientContext(datastoreOptions);
       ApiFunction<UnaryCallSettings.Builder<?, ?>, Void> retrySettingsSetter =
@@ -63,6 +68,20 @@ public class GrpcDatastoreRpc implements DatastoreRpc {
       datastoreStub = GrpcDatastoreStub.create(datastoreStubSettings);
     } catch (IOException e) {
       throw new IOException(e);
+    }
+  }
+
+  @Override
+  public void close() throws Exception {
+    if(!closed) {
+      datastoreStub.close();
+      for (BackgroundResource resource : clientContext.getBackgroundResources()) {
+        resource.close();
+      }
+      closed = true;
+    }
+    for (BackgroundResource resource : clientContext.getBackgroundResources()) {
+      resource.awaitTermination(1, SECONDS);
     }
   }
 
