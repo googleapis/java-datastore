@@ -122,7 +122,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
         System.getProperty(
             com.google.datastore.v1.client.DatastoreHelper.LOCAL_HOST_ENV_VAR,
             System.getenv(com.google.datastore.v1.client.DatastoreHelper.LOCAL_HOST_ENV_VAR));
-    return host != null ? host : DatastoreDefaults.INSTANCE.getHost();
+    return host != null ? host : DatastoreSettings.getDefaultEndpoint();
   }
 
   @Override
@@ -135,13 +135,6 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   }
 
   private static class DatastoreDefaults implements ServiceDefaults<Datastore, DatastoreOptions> {
-
-    private static final DatastoreDefaults INSTANCE = new DatastoreDefaults();
-    private final String HOST = DatastoreSettings.getDefaultEndpoint();
-
-    String getHost() {
-      return HOST;
-    }
 
     @Override
     public DatastoreFactory getDefaultServiceFactory() {
