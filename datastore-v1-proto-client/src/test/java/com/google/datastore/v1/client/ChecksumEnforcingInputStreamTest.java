@@ -22,7 +22,6 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -47,7 +46,7 @@ public class ChecksumEnforcingInputStreamTest {
     } catch (IOException e) {
       fail("checksum verification failed! " + e.getMessage());
     }
-    
+
     try (ByteArrayInputStream testInstance = new ByteArrayInputStream(payload)) {
       byte[] buf = new byte[chunkSize];
       start = System.nanoTime();
@@ -59,7 +58,7 @@ public class ChecksumEnforcingInputStreamTest {
       fail("checksum verification failed! " + e.getMessage());
     }
 
-    return new long[]{noChecksumTime, checksumTime, computeTime};
+    return new long[] {noChecksumTime, checksumTime, computeTime};
   }
 
   @Test
@@ -81,7 +80,7 @@ public class ChecksumEnforcingInputStreamTest {
     for (int i = 0; i < iterations; i++) {
       // test with various payload sizes (1, 2, 2**2, 2**3 etc upto 2**28 = 256MB)
       for (int j = minPower - 1; j < maxPower; j++) {
-        long[] result = test((int) Math.pow(2,j));
+        long[] result = test((int) Math.pow(2, j));
         readNoChecksum[j][i] = result[0];
         readAndChecksum[j][i] = result[1];
         compute[j][i] = result[2];
@@ -94,7 +93,7 @@ public class ChecksumEnforcingInputStreamTest {
       Arrays.sort(compute[j]);
       System.out.println(
           "Payload "
-              + (int) Math.pow(2,j) / 1024
+              + (int) Math.pow(2, j) / 1024
               + " KB stream read: "
               + readNoChecksum[j][median] / 1000.0
               + " μs; stream read and calculate checksum: "
