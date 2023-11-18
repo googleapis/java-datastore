@@ -175,6 +175,7 @@ public class DatastoreTest {
 
   @Before
   public void setUp() {
+    System.out.println(helper.checkHealth());;
     rpcFactoryMock = EasyMock.createStrictMock(DatastoreRpcFactory.class);
     rpcMock = EasyMock.createStrictMock(DatastoreRpc.class);
     rpcMockOptions =
