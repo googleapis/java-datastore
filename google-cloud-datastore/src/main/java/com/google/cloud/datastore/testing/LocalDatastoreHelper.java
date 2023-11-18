@@ -102,6 +102,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
           .setRetrySettings(ServiceOptions.getNoRetrySettings());
 
   String sendGetRequest(String request) throws IOException {
+
     URL url = new URL("http", DEFAULT_HOST, this.getPort(), request);
     HttpURLConnection con = (HttpURLConnection) url.openConnection();
     con.setRequestMethod("GET");
@@ -110,6 +111,15 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     String response = CharStreams.toString(new InputStreamReader(con.getInputStream()));
     in.close();
     return response;
+  }
+
+  public void checkProcessStatus() {
+    for (EmulatorRunner emulatorRunner : emulatorRunners) {
+      if (emulatorRunner.getProcess() != null  && !emulatorRunner.getProcess().isAlive()) {
+        Process process = emulatorRunner.getProcess();
+        System.out.println("Exit code: " + process.exitValue());
+      }
+    }
   }
   public String checkHealth() {
     try {

@@ -80,6 +80,7 @@ import java.util.Set;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Predicate;
 import org.easymock.EasyMock;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -175,7 +176,7 @@ public class DatastoreTest {
 
   @Before
   public void setUp() {
-    System.out.println(helper.checkHealth());;
+    helper.checkProcessStatus();
     rpcFactoryMock = EasyMock.createStrictMock(DatastoreRpcFactory.class);
     rpcMock = EasyMock.createStrictMock(DatastoreRpc.class);
     rpcMockOptions =
@@ -189,6 +190,11 @@ public class DatastoreTest {
     QueryResults<Key> result = datastore.run(query);
     datastore.delete(Iterators.toArray(result, Key.class));
     datastore.add(ENTITY1, ENTITY2);
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    helper.checkProcessStatus();
   }
 
   @AfterClass
