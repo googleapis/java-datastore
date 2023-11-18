@@ -193,7 +193,7 @@ public class DatastoreTest {
 
   @After
   public void tearDown() throws Exception {
-    // TODO(gapic_upgrade): Constant ping: temporarily addressing the connection refused error
+    // TODO(gapic_upgrade): Constant ping: temporarily addressing the flaky connection refused error
     helper.checkHealth();
   }
 
