@@ -25,10 +25,6 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.testing.BaseEmulatorHelper;
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.FileVisitResult;
@@ -42,8 +38,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
-
-import com.google.common.io.CharStreams;
 import org.threeten.bp.Duration;
 
 /**
@@ -100,24 +94,6 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
           .setHost(DEFAULT_HOST + ":" + getPort())
           .setCredentials(NoCredentials.getInstance())
           .setRetrySettings(ServiceOptions.getNoRetrySettings());
-
-  String sendGetRequest(String request) throws IOException {
-    URL url = new URL("http", DEFAULT_HOST, this.getPort(), request);
-    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-    con.setRequestMethod("GET");
-
-    InputStream in = con.getInputStream();
-    String response = CharStreams.toString(new InputStreamReader(con.getInputStream()));
-    in.close();
-    return response;
-  }
-  public String checkHealth() {
-    try {
-      return sendGetRequest("/");
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
 
   /** A builder for {@code LocalDatastoreHelper} objects. */
   public static class Builder {
