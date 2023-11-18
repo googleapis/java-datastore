@@ -176,7 +176,6 @@ public class DatastoreTest {
 
   @Before
   public void setUp() {
-    helper.checkProcessStatus();
     rpcFactoryMock = EasyMock.createStrictMock(DatastoreRpcFactory.class);
     rpcMock = EasyMock.createStrictMock(DatastoreRpc.class);
     rpcMockOptions =
@@ -194,7 +193,8 @@ public class DatastoreTest {
 
   @After
   public void tearDown() throws Exception {
-    helper.checkProcessStatus();
+    // TODO(gapic_upgrade): Constant ping: temporarily addressing the connection refused error
+    helper.checkHealth();
   }
 
   @AfterClass

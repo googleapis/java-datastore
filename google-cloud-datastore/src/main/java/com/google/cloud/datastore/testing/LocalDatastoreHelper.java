@@ -24,10 +24,10 @@ import com.google.cloud.ServiceOptions;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.testing.BaseEmulatorHelper;
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.CharStreams;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -42,8 +42,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
-
-import com.google.common.io.CharStreams;
 import org.threeten.bp.Duration;
 
 /**
@@ -113,14 +111,6 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     return response;
   }
 
-  public void checkProcessStatus() {
-    for (EmulatorRunner emulatorRunner : emulatorRunners) {
-      if (emulatorRunner.getProcess() != null  && !emulatorRunner.getProcess().isAlive()) {
-        Process process = emulatorRunner.getProcess();
-        System.out.println("Exit code: " + process.exitValue());
-      }
-    }
-  }
   public String checkHealth() {
     try {
       return sendGetRequest("/");
