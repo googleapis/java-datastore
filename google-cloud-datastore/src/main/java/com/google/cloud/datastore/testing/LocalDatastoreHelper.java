@@ -344,6 +344,8 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
    */
   @Override
   public void stop(Duration timeout) throws IOException, InterruptedException, TimeoutException {
+    // TODO(gapic_upgrade): Temporarily addressing the flaky connection refused error
+    checkHealth();
     sendPostRequest("/shutdown");
     waitForProcess(timeout);
     deleteRecursively(gcdPath);

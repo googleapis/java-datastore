@@ -191,12 +191,6 @@ public class DatastoreTest {
     datastore.add(ENTITY1, ENTITY2);
   }
 
-  @After
-  public void tearDown() throws Exception {
-    // TODO(gapic_upgrade): Constant ping: temporarily addressing the flaky connection refused error
-    helper.checkHealth();
-  }
-
   @AfterClass
   public static void afterClass() throws IOException, InterruptedException, TimeoutException {
     helper.stop(Duration.ofMinutes(1));
