@@ -137,9 +137,6 @@ public class ConceptsTest {
     KeyQuery taskQuery = Query.newKeyQueryBuilder().setKind("Task").build();
     Key[] taskKeysToDelete = Iterators.toArray(datastoreRealBackend.run(taskQuery), Key.class);
     datastoreRealBackend.delete(taskKeysToDelete);
-
-    // TODO(gapic_upgrade): Constant ping: temporarily addressing the flaky connection refused error
-    HELPER.checkHealth();
   }
 
   /**
