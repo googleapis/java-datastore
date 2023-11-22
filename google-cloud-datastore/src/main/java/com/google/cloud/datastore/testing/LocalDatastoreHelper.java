@@ -24,11 +24,7 @@ import com.google.cloud.ServiceOptions;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.testing.BaseEmulatorHelper;
 import com.google.common.collect.ImmutableList;
-import com.google.common.io.CharStreams;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.FileVisitResult;
@@ -98,7 +94,6 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
           .setHost(DEFAULT_HOST + ":" + getPort())
           .setCredentials(NoCredentials.getInstance())
           .setRetrySettings(ServiceOptions.getNoRetrySettings());
-
 
   /** A builder for {@code LocalDatastoreHelper} objects. */
   public static class Builder {

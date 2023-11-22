@@ -16,15 +16,11 @@
 package com.google.cloud.datastore;
 
 import com.google.common.io.CharStreams;
-import org.easymock.EasyMock;
-import org.easymock.IArgumentMatcher;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.function.Predicate;
 
 public class EmulatorUtils {
   static String sendGetRequest(int port, String request) throws IOException {
