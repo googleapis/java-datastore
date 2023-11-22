@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore.spi.v1;
 
+import static com.google.cloud.datastore.DatastoreUtils.removeScheme;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.api.core.ApiFunction;
@@ -33,6 +34,7 @@ import com.google.cloud.NoCredentials;
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.datastore.DatastoreException;
 import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.DatastoreUtils;
 import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.datastore.v1.stub.DatastoreStubSettings;
 import com.google.cloud.datastore.v1.stub.GrpcDatastoreStub;
@@ -145,14 +147,17 @@ public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
   }
 
   private boolean isEmulator(DatastoreOptions datastoreOptions) {
-    return datastoreOptions.getHost().contains("localhost")
+    return DatastoreUtils.isLocalHost(datastoreOptions.getHost())
         || NoCredentials.getInstance().equals(datastoreOptions.getCredentials());
   }
 
   private ClientContext getClientContextForEmulator(DatastoreOptions datastoreOptions)
       throws IOException {
+    // TODO(gapic_upgrade): ensure there is no scheme in host (HttpDatastoreRpc)
     ManagedChannel managedChannel =
-        ManagedChannelBuilder.forTarget(datastoreOptions.getHost()).usePlaintext().build();
+        ManagedChannelBuilder.forTarget(removeScheme(datastoreOptions.getHost()))
+            .usePlaintext()
+            .build();
     TransportChannel transportChannel = GrpcTransportChannel.create(managedChannel);
     return ClientContext.newBuilder()
         .setCredentials(null)
