@@ -192,6 +192,8 @@ public class DatastoreTest {
 
   @AfterClass
   public static void afterClass() throws IOException, InterruptedException, TimeoutException {
+    // TODO(gapic_upgrade): Temporarily addressing the flaky connection refused error
+    EmulatorUtils.checkHealth(helper.getPort());
     helper.stop(Duration.ofMinutes(1));
   }
 

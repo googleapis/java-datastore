@@ -99,25 +99,6 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
           .setCredentials(NoCredentials.getInstance())
           .setRetrySettings(ServiceOptions.getNoRetrySettings());
 
-  String sendGetRequest(String request) throws IOException {
-
-    URL url = new URL("http", DEFAULT_HOST, this.getPort(), request);
-    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-    con.setRequestMethod("GET");
-
-    InputStream in = con.getInputStream();
-    String response = CharStreams.toString(new InputStreamReader(con.getInputStream()));
-    in.close();
-    return response;
-  }
-
-  public String checkHealth() {
-    try {
-      return sendGetRequest("/");
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
 
   /** A builder for {@code LocalDatastoreHelper} objects. */
   public static class Builder {
@@ -344,8 +325,6 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
    */
   @Override
   public void stop(Duration timeout) throws IOException, InterruptedException, TimeoutException {
-    // TODO(gapic_upgrade): Temporarily addressing the flaky connection refused error
-    checkHealth();
     sendPostRequest("/shutdown");
     waitForProcess(timeout);
     deleteRecursively(gcdPath);
