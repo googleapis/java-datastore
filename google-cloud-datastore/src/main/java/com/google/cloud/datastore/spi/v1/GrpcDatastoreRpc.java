@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore.spi.v1;
 
+import static com.google.cloud.datastore.DatastoreUtils.isLocalHost;
 import static com.google.cloud.datastore.DatastoreUtils.removeScheme;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -142,13 +143,12 @@ public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
   }
 
   private boolean isEmulator(DatastoreOptions datastoreOptions) {
-    return DatastoreUtils.isLocalHost(datastoreOptions.getHost())
+    return isLocalHost(datastoreOptions.getHost())
         || NoCredentials.getInstance().equals(datastoreOptions.getCredentials());
   }
 
   private ClientContext getClientContextForEmulator(DatastoreOptions datastoreOptions)
       throws IOException {
-    // TODO(gapic_upgrade): ensure there is no scheme in host (HttpDatastoreRpc)
     ManagedChannel managedChannel =
         ManagedChannelBuilder.forTarget(removeScheme(datastoreOptions.getHost()))
             .usePlaintext()
