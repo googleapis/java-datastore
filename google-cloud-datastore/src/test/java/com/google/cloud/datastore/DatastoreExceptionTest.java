@@ -76,6 +76,13 @@ public class DatastoreExceptionTest {
     assertEquals("message", exception.getMessage());
     assertFalse(exception.isRetryable());
     assertSame(cause, exception.getCause());
+
+    exception = new DatastoreException(2, "message", "INTERNAL", true, cause);
+    assertEquals(2, exception.getCode());
+    assertEquals("INTERNAL", exception.getReason());
+    assertEquals("message", exception.getMessage());
+    assertFalse(exception.isRetryable());
+    assertSame(cause, exception.getCause());
   }
 
   @Test

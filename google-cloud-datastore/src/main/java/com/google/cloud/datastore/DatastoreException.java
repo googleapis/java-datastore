@@ -16,9 +16,11 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.cloud.BaseServiceException.isRetryable;
+
 import com.google.cloud.BaseServiceException;
 import com.google.cloud.RetryHelper.RetryHelperException;
-import com.google.cloud.http.BaseHttpServiceException;
+import com.google.cloud.grpc.BaseGrpcServiceException;
 import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
 import java.util.Set;
@@ -29,7 +31,7 @@ import java.util.Set;
  * @see <a href="https://cloud.google.com/datastore/docs/concepts/errors#Error_Codes">Google Cloud
  *     Datastore error codes</a>
  */
-public final class DatastoreException extends BaseHttpServiceException {
+public final class DatastoreException extends BaseGrpcServiceException {
 
   // see https://cloud.google.com/datastore/docs/concepts/errors#Error_Codes"
   private static final Set<Error> RETRYABLE_ERRORS =
@@ -38,22 +40,31 @@ public final class DatastoreException extends BaseHttpServiceException {
           new Error(4, "DEADLINE_EXCEEDED", false),
           new Error(14, "UNAVAILABLE", true));
   private static final long serialVersionUID = 2663750991205874435L;
+  private String reason;
 
   public DatastoreException(int code, String message, String reason) {
     this(code, message, reason, true, null);
+    this.reason = reason;
   }
 
   public DatastoreException(int code, String message, String reason, Throwable cause) {
-    super(code, message, reason, true, RETRYABLE_ERRORS, cause);
+    super(message, cause, code, isRetryable(code, reason, true, RETRYABLE_ERRORS));
+    this.reason = reason;
   }
 
   public DatastoreException(
       int code, String message, String reason, boolean idempotent, Throwable cause) {
-    super(code, message, reason, idempotent, RETRYABLE_ERRORS, cause);
+    super(message, cause, code, isRetryable(code, reason, idempotent, RETRYABLE_ERRORS));
+    this.reason = reason;
   }
 
   public DatastoreException(IOException exception) {
-    super(exception, true, RETRYABLE_ERRORS);
+    super(exception, true);
+  }
+
+  @Override
+  public String getReason() {
+    return this.reason != null ? this.reason : super.getReason();
   }
 
   /**
