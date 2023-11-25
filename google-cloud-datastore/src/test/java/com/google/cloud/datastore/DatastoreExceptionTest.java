@@ -16,6 +16,9 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.rpc.Code.FAILED_PRECONDITION;
+import static java.util.Collections.singletonMap;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -27,8 +30,16 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.api.gax.grpc.GrpcStatusCode;
+import com.google.api.gax.rpc.ApiException;
+import com.google.api.gax.rpc.ApiExceptionFactory;
+import com.google.api.gax.rpc.ErrorDetails;
+import com.google.api.gax.rpc.StatusCode;
 import com.google.cloud.BaseServiceException;
 import com.google.cloud.RetryHelper;
+import com.google.protobuf.Any;
+import com.google.rpc.ErrorInfo;
+import io.grpc.Status;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import org.junit.Test;
@@ -83,6 +94,27 @@ public class DatastoreExceptionTest {
     assertEquals("message", exception.getMessage());
     assertFalse(exception.isRetryable());
     assertSame(cause, exception.getCause());
+
+    ApiException apiException =
+        new ApiException("message", cause, GrpcStatusCode.of(Status.Code.NOT_FOUND), true);
+    exception = new DatastoreException(apiException);
+    assertEquals(404, exception.getCode());
+    assertEquals("NOT_FOUND", exception.getReason());
+    assertEquals("message", exception.getMessage());
+    assertTrue(exception.isRetryable());
+    assertSame(apiException, exception.getCause());
+  }
+
+  @Test
+  public void testApiException() {
+    ApiException apiException = createApiException();
+    DatastoreException datastoreException = new DatastoreException(apiException);
+
+    assertThat(datastoreException.getReason()).isEqualTo("FAILED_PRECONDITION");
+    assertThat(datastoreException.getDomain()).isEqualTo("datastore.googleapis.com");
+    assertThat(datastoreException.getMetadata())
+        .isEqualTo(singletonMap("missing_indexes_url", "__some__url__"));
+    assertThat(datastoreException.getErrorDetails()).isEqualTo(apiException.getErrorDetails());
   }
 
   @Test
@@ -127,5 +159,27 @@ public class DatastoreExceptionTest {
       assertEquals("FAILED_PRECONDITION", ex.getReason());
       assertEquals("message a 1", ex.getMessage());
     }
+  }
+
+  private ApiException createApiException() {
+    // Simulating google.rpc.Status with an ErrorInfo
+    ErrorInfo errorInfo =
+        ErrorInfo.newBuilder()
+            .setDomain("datastore.googleapis.com")
+            .setReason("MISSING_INDEXES")
+            .putMetadata("missing_indexes_url", "__some__url__")
+            .build();
+    com.google.rpc.Status status =
+        com.google.rpc.Status.newBuilder()
+            .setCode(FAILED_PRECONDITION.getNumber())
+            .setMessage("The query requires indexes.")
+            .addDetails(Any.pack(errorInfo))
+            .build();
+
+    // Using Gax to convert to ApiException
+    StatusCode statusCode = GrpcStatusCode.of(Status.fromCodeValue(status.getCode()).getCode());
+    ErrorDetails errorDetails =
+        ErrorDetails.builder().setRawErrorMessages(status.getDetailsList()).build();
+    return ApiExceptionFactory.createException(null, statusCode, true, errorDetails);
   }
 }

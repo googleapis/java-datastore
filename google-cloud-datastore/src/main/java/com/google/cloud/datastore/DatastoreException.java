@@ -18,11 +18,14 @@ package com.google.cloud.datastore;
 
 import static com.google.cloud.BaseServiceException.isRetryable;
 
+import com.google.api.gax.rpc.ApiException;
+import com.google.api.gax.rpc.ErrorDetails;
 import com.google.cloud.BaseServiceException;
 import com.google.cloud.RetryHelper.RetryHelperException;
 import com.google.cloud.grpc.BaseGrpcServiceException;
 import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -41,6 +44,7 @@ public final class DatastoreException extends BaseGrpcServiceException {
           new Error(14, "UNAVAILABLE", true));
   private static final long serialVersionUID = 2663750991205874435L;
   private String reason;
+  private ApiException apiException;
 
   public DatastoreException(int code, String message, String reason) {
     this(code, message, reason, true, null);
@@ -60,6 +64,59 @@ public final class DatastoreException extends BaseGrpcServiceException {
 
   public DatastoreException(IOException exception) {
     super(exception, true);
+  }
+
+  public DatastoreException(ApiException apiException) {
+    super(apiException);
+    this.apiException = apiException;
+  }
+
+  /**
+   * Checks the underlying reason of the exception and if it's {@link ApiException} then return the
+   * specific domain otherwise null.
+   *
+   * @see <a
+   *     href="https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto#L125">Domain</a>
+   * @return the logical grouping to which the "reason" belongs.
+   */
+  public String getDomain() {
+    if (this.apiException != null) {
+      return this.apiException.getDomain();
+    }
+    return null;
+  }
+
+  /**
+   * Checks the underlying reason of the exception and if it's {@link ApiException} then return a
+   * map of key-value pairs otherwise null.
+   *
+   * @see <a
+   *     href="https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto#L135">Metadata</a>
+   * @return the map of additional structured details about an error.
+   */
+  public Map<String, String> getMetadata() {
+    if (this.apiException != null) {
+      return this.apiException.getMetadata();
+    }
+    return null;
+  }
+
+  /**
+   * Checks the underlying reason of the exception and if it's {@link ApiException} then return the
+   * ErrorDetails otherwise null.
+   *
+   * @see <a
+   *     href="https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto">Status</a>
+   * @see <a
+   *     href="https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto">Error
+   *     Details</a>
+   * @return An object containing getters for structured objects from error_details.proto.
+   */
+  public ErrorDetails getErrorDetails() {
+    if (this.apiException != null) {
+      return this.apiException.getErrorDetails();
+    }
+    return null;
   }
 
   @Override
