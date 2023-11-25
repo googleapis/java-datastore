@@ -26,4 +26,14 @@
         <method>com.google.cloud.datastore.AggregationResults runAggregation(com.google.cloud.datastore.AggregationQuery)</method>
         <differenceType>7012</differenceType>
     </difference>
+    <difference>
+        <className>com/google/cloud/datastore/DatastoreException</className>
+        <differenceType>5000</differenceType>
+        <to>com/google/cloud/grpc/BaseGrpcServiceException</to>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/DatastoreException</className>
+        <differenceType>5001</differenceType>
+        <to>com/google/cloud/http/BaseHttpServiceException</to>
+    </difference>
 </differences>
