@@ -27,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -120,34 +121,46 @@ public class DatastoreExceptionTest {
   @Test
   public void testTranslateAndThrow() {
     Exception cause = new DatastoreException(14, "message", "UNAVAILABLE");
-    RetryHelper.RetryHelperException exceptionMock =
+    final RetryHelper.RetryHelperException exceptionMock =
         createMock(RetryHelper.RetryHelperException.class);
     expect(exceptionMock.getCause()).andReturn(cause).times(2);
     replay(exceptionMock);
-    try {
-      DatastoreException.translateAndThrow(exceptionMock);
-    } catch (BaseServiceException ex) {
-      assertEquals(14, ex.getCode());
-      assertEquals("message", ex.getMessage());
-      assertTrue(ex.isRetryable());
-    } finally {
-      verify(exceptionMock);
-    }
+    BaseServiceException ex =
+        assertThrows(
+            BaseServiceException.class, () -> DatastoreException.translateAndThrow(exceptionMock));
+    assertEquals(14, ex.getCode());
+    assertEquals("message", ex.getMessage());
+    assertTrue(ex.isRetryable());
+    verify(exceptionMock);
+
+    cause = createApiException();
+    final RetryHelper.RetryHelperException exceptionMock2 =
+        createMock(RetryHelper.RetryHelperException.class);
+    expect(exceptionMock2.getCause()).andReturn(cause).times(3);
+    replay(exceptionMock2);
+    DatastoreException ex2 =
+        assertThrows(
+            DatastoreException.class, () -> DatastoreException.translateAndThrow(exceptionMock2));
+    assertThat(ex2.getReason()).isEqualTo("FAILED_PRECONDITION");
+    assertThat(ex2.getDomain()).isEqualTo("datastore.googleapis.com");
+    assertThat(ex2.getMetadata()).isEqualTo(singletonMap("missing_indexes_url", "__some__url__"));
+    assertThat(ex2.getErrorDetails()).isEqualTo(((ApiException) cause).getErrorDetails());
+    verify(exceptionMock2);
+
     cause = new IllegalArgumentException("message");
-    exceptionMock = createMock(RetryHelper.RetryHelperException.class);
-    expect(exceptionMock.getMessage()).andReturn("message").times(1);
-    expect(exceptionMock.getCause()).andReturn(cause).times(2);
-    replay(exceptionMock);
-    try {
-      DatastoreException.translateAndThrow(exceptionMock);
-    } catch (BaseServiceException ex) {
-      assertEquals(DatastoreException.UNKNOWN_CODE, ex.getCode());
-      assertEquals("message", ex.getMessage());
-      assertFalse(ex.isRetryable());
-      assertSame(cause, ex.getCause());
-    } finally {
-      verify(exceptionMock);
-    }
+    final RetryHelper.RetryHelperException exceptionMock3 =
+        createMock(RetryHelper.RetryHelperException.class);
+    expect(exceptionMock3.getMessage()).andReturn("message").times(1);
+    expect(exceptionMock3.getCause()).andReturn(cause).times(3);
+    replay(exceptionMock3);
+    BaseServiceException ex3 =
+        assertThrows(
+            BaseServiceException.class, () -> DatastoreException.translateAndThrow(exceptionMock3));
+    assertEquals(DatastoreException.UNKNOWN_CODE, ex3.getCode());
+    assertEquals("message", ex3.getMessage());
+    assertFalse(ex3.isRetryable());
+    assertSame(cause, ex3.getCause());
+    verify(exceptionMock3);
   }
 
   @Test

@@ -132,6 +132,9 @@ public final class DatastoreException extends BaseGrpcServiceException {
    */
   static DatastoreException translateAndThrow(RetryHelperException ex) {
     BaseServiceException.translate(ex);
+    if (ex.getCause() instanceof ApiException) {
+      throw new DatastoreException((ApiException) ex.getCause());
+    }
     throw new DatastoreException(UNKNOWN_CODE, ex.getMessage(), null, ex.getCause());
   }
 
