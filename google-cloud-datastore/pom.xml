@@ -31,6 +31,10 @@
       <artifactId>google-cloud-core-http</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-core-grpc</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.google.api.grpc</groupId>
       <artifactId>proto-google-cloud-datastore-v1</artifactId>
     </dependency>

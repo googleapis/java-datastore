@@ -16,14 +16,14 @@
 
 package com.google.cloud.datastore;
 
-import com.google.cloud.datastore.spi.v1.HttpDatastoreRpc;
+import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import io.opencensus.trace.EndSpanOptions;
 import io.opencensus.trace.Span;
 import io.opencensus.trace.Tracer;
 import io.opencensus.trace.Tracing;
 
 /**
- * Helper class for tracing utility. It is used for instrumenting {@link HttpDatastoreRpc} with
+ * Helper class for tracing utility. It is used for instrumenting {@link DatastoreRpc} with
  * OpenCensus APIs.
  *
  * <p>TraceUtil instances are created by the {@link TraceUtil#getInstance()} method.
