@@ -96,13 +96,12 @@ public class DatastoreExceptionTest {
     assertFalse(exception.isRetryable());
     assertSame(cause, exception.getCause());
 
-    ApiException apiException =
-        new ApiException("message", cause, GrpcStatusCode.of(Status.Code.NOT_FOUND), true);
+    ApiException apiException = createApiException();
     exception = new DatastoreException(apiException);
-    assertEquals(404, exception.getCode());
-    assertEquals("NOT_FOUND", exception.getReason());
-    assertEquals("message", exception.getMessage());
-    assertTrue(exception.isRetryable());
+    assertEquals(400, exception.getCode());
+    assertEquals("MISSING_INDEXES", exception.getReason());
+    assertThat(exception.getMetadata())
+        .isEqualTo(singletonMap("missing_indexes_url", "__some__url__"));
     assertSame(apiException, exception.getCause());
   }
 
@@ -111,7 +110,7 @@ public class DatastoreExceptionTest {
     ApiException apiException = createApiException();
     DatastoreException datastoreException = new DatastoreException(apiException);
 
-    assertThat(datastoreException.getReason()).isEqualTo("FAILED_PRECONDITION");
+    assertThat(datastoreException.getReason()).isEqualTo("MISSING_INDEXES");
     assertThat(datastoreException.getDomain()).isEqualTo("datastore.googleapis.com");
     assertThat(datastoreException.getMetadata())
         .isEqualTo(singletonMap("missing_indexes_url", "__some__url__"));
@@ -141,7 +140,7 @@ public class DatastoreExceptionTest {
     DatastoreException ex2 =
         assertThrows(
             DatastoreException.class, () -> DatastoreException.translateAndThrow(exceptionMock2));
-    assertThat(ex2.getReason()).isEqualTo("FAILED_PRECONDITION");
+    assertThat(ex2.getReason()).isEqualTo("MISSING_INDEXES");
     assertThat(ex2.getDomain()).isEqualTo("datastore.googleapis.com");
     assertThat(ex2.getMetadata()).isEqualTo(singletonMap("missing_indexes_url", "__some__url__"));
     assertThat(ex2.getErrorDetails()).isEqualTo(((ApiException) cause).getErrorDetails());

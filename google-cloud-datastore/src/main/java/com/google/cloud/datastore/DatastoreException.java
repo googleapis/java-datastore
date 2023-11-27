@@ -119,9 +119,20 @@ public final class DatastoreException extends BaseGrpcServiceException {
     return null;
   }
 
+  /**
+   * Checks the underlying reason of the exception and if it's {@link ApiException} then return the
+   * reason otherwise null/custom reason.
+   *
+   * @see <a
+   *     href="https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto#L117">Reason</a>
+   * @return the reason of an error.
+   */
   @Override
   public String getReason() {
-    return this.reason != null ? this.reason : super.getReason();
+    if (this.apiException != null) {
+      return this.apiException.getReason();
+    }
+    return this.reason;
   }
 
   /**
