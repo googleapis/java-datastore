@@ -23,12 +23,16 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.api.core.ApiFunction;
 import com.google.api.core.InternalApi;
 import com.google.api.gax.core.BackgroundResource;
+import com.google.api.gax.core.GaxProperties;
 import com.google.api.gax.grpc.GrpcCallContext;
 import com.google.api.gax.grpc.GrpcTransportChannel;
 import com.google.api.gax.rpc.ClientContext;
+import com.google.api.gax.rpc.HeaderProvider;
+import com.google.api.gax.rpc.NoHeaderProvider;
 import com.google.api.gax.rpc.TransportChannel;
 import com.google.api.gax.rpc.UnaryCallSettings;
 import com.google.cloud.NoCredentials;
+import com.google.cloud.ServiceOptions;
 import com.google.cloud.datastore.DatastoreException;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.DatastoreUtils;
@@ -36,6 +40,7 @@ import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.datastore.v1.stub.DatastoreStubSettings;
 import com.google.cloud.datastore.v1.stub.GrpcDatastoreStub;
 import com.google.cloud.grpc.GrpcTransportOptions;
+import com.google.common.base.Strings;
 import com.google.datastore.v1.AllocateIdsRequest;
 import com.google.datastore.v1.AllocateIdsResponse;
 import com.google.datastore.v1.BeginTransactionRequest;
@@ -163,12 +168,49 @@ public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
   }
 
   private ClientContext getClientContext(DatastoreOptions datastoreOptions) throws IOException {
-    DatastoreSettings.Builder settingsBuilder = DatastoreSettings.newBuilder();
+    HeaderProvider internalHeaderProvider =
+        DatastoreSettings.defaultApiClientHeaderProviderBuilder()
+            .setClientLibToken(
+                ServiceOptions.getGoogApiClientLibName(),
+                GaxProperties.getLibraryVersion(datastoreOptions.getClass()))
+            .setResourceToken(getResourceToken(datastoreOptions))
+            .build();
+
+    DatastoreSettingsBuilder settingsBuilder =
+        new DatastoreSettingsBuilder(DatastoreSettings.newBuilder().build());
     settingsBuilder.setCredentialsProvider(
         GrpcTransportOptions.setUpCredentialsProvider(datastoreOptions));
     settingsBuilder.setTransportChannelProvider(
         GrpcTransportOptions.setUpChannelProvider(
             DatastoreSettings.defaultGrpcTransportProviderBuilder(), datastoreOptions));
-    return ClientContext.create(settingsBuilder.build());
+    settingsBuilder.setInternalHeaderProvider(internalHeaderProvider);
+    settingsBuilder.setHeaderProvider(
+        datastoreOptions.getMergedHeaderProvider(new NoHeaderProvider()));
+    ClientContext clientContext = ClientContext.create(settingsBuilder.build());
+    return clientContext;
+  }
+
+  private String getResourceToken(DatastoreOptions datastoreOptions) {
+    StringBuilder builder = new StringBuilder("project_id=");
+    builder.append(datastoreOptions.getProjectId());
+    if (!Strings.isNullOrEmpty(datastoreOptions.getDatabaseId())) {
+      builder.append("&database_id=");
+      builder.append(datastoreOptions.getDatabaseId());
+    }
+    return builder.toString();
+  }
+
+  // This class is needed solely to get access to protected method setInternalHeaderProvider()
+  private static class DatastoreSettingsBuilder extends DatastoreSettings.Builder {
+
+    private DatastoreSettingsBuilder(DatastoreSettings settings) {
+      super(settings);
+    }
+
+    @Override
+    protected DatastoreSettings.Builder setInternalHeaderProvider(
+        HeaderProvider internalHeaderProvider) {
+      return super.setInternalHeaderProvider(internalHeaderProvider);
+    }
   }
 }
