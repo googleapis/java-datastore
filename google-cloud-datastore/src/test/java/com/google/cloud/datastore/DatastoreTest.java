@@ -85,8 +85,8 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -95,8 +95,9 @@ import org.threeten.bp.Duration;
 @RunWith(JUnit4.class)
 public class DatastoreTest {
   private static final int NUMBER_OF_ATTEMPTS = 5;
-  @Rule
-  public MultipleAttemptsRule rr = new MultipleAttemptsRule(NUMBER_OF_ATTEMPTS, 10);
+
+  @ClassRule
+  public static MultipleAttemptsRule rr = new MultipleAttemptsRule(NUMBER_OF_ATTEMPTS, 10);
 
   private static LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0);
   private static final DatastoreOptions options = helper.getOptions();

@@ -35,7 +35,6 @@ import com.google.cloud.NoCredentials;
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.datastore.DatastoreException;
 import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.DatastoreUtils;
 import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.datastore.v1.stub.DatastoreStubSettings;
 import com.google.cloud.datastore.v1.stub.GrpcDatastoreStub;
