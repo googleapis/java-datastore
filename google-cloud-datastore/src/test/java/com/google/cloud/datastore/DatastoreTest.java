@@ -38,6 +38,7 @@ import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.Query.ResultType;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
+import com.google.cloud.datastore.it.MultipleAttemptsRule;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.cloud.datastore.testing.LocalDatastoreHelper;
@@ -85,6 +86,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -92,6 +94,9 @@ import org.threeten.bp.Duration;
 
 @RunWith(JUnit4.class)
 public class DatastoreTest {
+  private static final int NUMBER_OF_ATTEMPTS = 5;
+  @Rule
+  public MultipleAttemptsRule rr = new MultipleAttemptsRule(NUMBER_OF_ATTEMPTS, 10);
 
   private static LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0);
   private static final DatastoreOptions options = helper.getOptions();
@@ -192,8 +197,6 @@ public class DatastoreTest {
 
   @AfterClass
   public static void afterClass() throws IOException, InterruptedException, TimeoutException {
-    // TODO(gapic_upgrade): Temporarily addressing the flaky connection refused error
-    EmulatorUtils.checkHealth(helper.getPort());
     helper.stop(Duration.ofMinutes(1));
   }
 
