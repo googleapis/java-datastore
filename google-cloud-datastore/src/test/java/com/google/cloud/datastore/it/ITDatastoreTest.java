@@ -29,8 +29,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.google.api.gax.grpc.GrpcStatusCode;
-import com.google.api.gax.rpc.StatusCode;
 import com.google.cloud.Timestamp;
 import com.google.cloud.Tuple;
 import com.google.cloud.datastore.AggregationQuery;
@@ -89,7 +87,6 @@ import java.util.function.Consumer;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -1445,7 +1442,9 @@ public class ITDatastoreTest {
       datastore.runInTransaction(callable2, readOnlyOptions);
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertEquals(INVALID_ARGUMENT.getHttpStatusCode(), ((DatastoreException) expected.getCause()).getCode());
+      assertEquals(
+          INVALID_ARGUMENT.getHttpStatusCode(),
+          ((DatastoreException) expected.getCause()).getCode());
     }
   }
 
