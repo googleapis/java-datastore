@@ -16,11 +16,16 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.cloud.BaseServiceException.isRetryable;
+
+import com.google.api.gax.rpc.ApiException;
+import com.google.api.gax.rpc.ErrorDetails;
 import com.google.cloud.BaseServiceException;
 import com.google.cloud.RetryHelper.RetryHelperException;
-import com.google.cloud.http.BaseHttpServiceException;
+import com.google.cloud.grpc.BaseGrpcServiceException;
 import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -29,7 +34,7 @@ import java.util.Set;
  * @see <a href="https://cloud.google.com/datastore/docs/concepts/errors#Error_Codes">Google Cloud
  *     Datastore error codes</a>
  */
-public final class DatastoreException extends BaseHttpServiceException {
+public final class DatastoreException extends BaseGrpcServiceException {
 
   // see https://cloud.google.com/datastore/docs/concepts/errors#Error_Codes"
   private static final Set<Error> RETRYABLE_ERRORS =
@@ -38,22 +43,96 @@ public final class DatastoreException extends BaseHttpServiceException {
           new Error(4, "DEADLINE_EXCEEDED", false),
           new Error(14, "UNAVAILABLE", true));
   private static final long serialVersionUID = 2663750991205874435L;
+  private String reason;
+  private ApiException apiException;
 
   public DatastoreException(int code, String message, String reason) {
     this(code, message, reason, true, null);
+    this.reason = reason;
   }
 
   public DatastoreException(int code, String message, String reason, Throwable cause) {
-    super(code, message, reason, true, RETRYABLE_ERRORS, cause);
+    super(message, cause, code, isRetryable(code, reason, true, RETRYABLE_ERRORS));
+    this.reason = reason;
   }
 
   public DatastoreException(
       int code, String message, String reason, boolean idempotent, Throwable cause) {
-    super(code, message, reason, idempotent, RETRYABLE_ERRORS, cause);
+    super(message, cause, code, isRetryable(code, reason, idempotent, RETRYABLE_ERRORS));
+    this.reason = reason;
   }
 
   public DatastoreException(IOException exception) {
-    super(exception, true, RETRYABLE_ERRORS);
+    super(exception, true);
+  }
+
+  public DatastoreException(ApiException apiException) {
+    super(apiException);
+    this.apiException = apiException;
+  }
+
+  /**
+   * Checks the underlying reason of the exception and if it's {@link ApiException} then return the
+   * specific domain otherwise null.
+   *
+   * @see <a
+   *     href="https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto#L125">Domain</a>
+   * @return the logical grouping to which the "reason" belongs.
+   */
+  public String getDomain() {
+    if (this.apiException != null) {
+      return this.apiException.getDomain();
+    }
+    return null;
+  }
+
+  /**
+   * Checks the underlying reason of the exception and if it's {@link ApiException} then return a
+   * map of key-value pairs otherwise null.
+   *
+   * @see <a
+   *     href="https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto#L135">Metadata</a>
+   * @return the map of additional structured details about an error.
+   */
+  public Map<String, String> getMetadata() {
+    if (this.apiException != null) {
+      return this.apiException.getMetadata();
+    }
+    return null;
+  }
+
+  /**
+   * Checks the underlying reason of the exception and if it's {@link ApiException} then return the
+   * ErrorDetails otherwise null.
+   *
+   * @see <a
+   *     href="https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto">Status</a>
+   * @see <a
+   *     href="https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto">Error
+   *     Details</a>
+   * @return An object containing getters for structured objects from error_details.proto.
+   */
+  public ErrorDetails getErrorDetails() {
+    if (this.apiException != null) {
+      return this.apiException.getErrorDetails();
+    }
+    return null;
+  }
+
+  /**
+   * Checks the underlying reason of the exception and if it's {@link ApiException} then return the
+   * reason otherwise null/custom reason.
+   *
+   * @see <a
+   *     href="https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto#L117">Reason</a>
+   * @return the reason of an error.
+   */
+  @Override
+  public String getReason() {
+    if (this.apiException != null) {
+      return this.apiException.getReason();
+    }
+    return this.reason;
   }
 
   /**
@@ -64,6 +143,9 @@ public final class DatastoreException extends BaseHttpServiceException {
    */
   static DatastoreException translateAndThrow(RetryHelperException ex) {
     BaseServiceException.translate(ex);
+    if (ex.getCause() instanceof ApiException) {
+      throw new DatastoreException((ApiException) ex.getCause());
+    }
     throw new DatastoreException(UNKNOWN_CODE, ex.getMessage(), null, ex.getCause());
   }
 

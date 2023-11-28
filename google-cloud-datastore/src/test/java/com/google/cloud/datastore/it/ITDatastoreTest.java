@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore.it;
 
+import static com.google.api.gax.rpc.StatusCode.Code.INVALID_ARGUMENT;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
@@ -86,7 +87,6 @@ import java.util.function.Consumer;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -1392,8 +1392,6 @@ public class ITDatastoreTest {
     }
   }
 
-  // TODO(gapic_upgrade): Remove the @ignore annotation
-  @Ignore("This should be fixed with actionable error implementation")
   @Test
   public void testRunInTransactionReadWrite() {
 
@@ -1444,7 +1442,9 @@ public class ITDatastoreTest {
       datastore.runInTransaction(callable2, readOnlyOptions);
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertEquals(3, ((DatastoreException) expected.getCause()).getCode());
+      assertEquals(
+          INVALID_ARGUMENT.getHttpStatusCode(),
+          ((DatastoreException) expected.getCause()).getCode());
     }
   }
 

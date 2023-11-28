@@ -16,6 +16,9 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.rpc.Code.FAILED_PRECONDITION;
+import static java.util.Collections.singletonMap;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -24,11 +27,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.api.gax.grpc.GrpcStatusCode;
+import com.google.api.gax.rpc.ApiException;
+import com.google.api.gax.rpc.ApiExceptionFactory;
+import com.google.api.gax.rpc.ErrorDetails;
+import com.google.api.gax.rpc.StatusCode;
 import com.google.cloud.BaseServiceException;
 import com.google.cloud.RetryHelper;
+import com.google.protobuf.Any;
+import com.google.rpc.ErrorInfo;
+import io.grpc.Status;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import org.junit.Test;
@@ -76,39 +88,78 @@ public class DatastoreExceptionTest {
     assertEquals("message", exception.getMessage());
     assertFalse(exception.isRetryable());
     assertSame(cause, exception.getCause());
+
+    exception = new DatastoreException(2, "message", "INTERNAL", true, cause);
+    assertEquals(2, exception.getCode());
+    assertEquals("INTERNAL", exception.getReason());
+    assertEquals("message", exception.getMessage());
+    assertFalse(exception.isRetryable());
+    assertSame(cause, exception.getCause());
+
+    ApiException apiException = createApiException();
+    exception = new DatastoreException(apiException);
+    assertEquals(400, exception.getCode());
+    assertEquals("MISSING_INDEXES", exception.getReason());
+    assertThat(exception.getMetadata())
+        .isEqualTo(singletonMap("missing_indexes_url", "__some__url__"));
+    assertSame(apiException, exception.getCause());
+  }
+
+  @Test
+  public void testApiException() {
+    ApiException apiException = createApiException();
+    DatastoreException datastoreException = new DatastoreException(apiException);
+
+    assertThat(datastoreException.getReason()).isEqualTo("MISSING_INDEXES");
+    assertThat(datastoreException.getDomain()).isEqualTo("datastore.googleapis.com");
+    assertThat(datastoreException.getMetadata())
+        .isEqualTo(singletonMap("missing_indexes_url", "__some__url__"));
+    assertThat(datastoreException.getErrorDetails()).isEqualTo(apiException.getErrorDetails());
   }
 
   @Test
   public void testTranslateAndThrow() {
     Exception cause = new DatastoreException(14, "message", "UNAVAILABLE");
-    RetryHelper.RetryHelperException exceptionMock =
+    final RetryHelper.RetryHelperException exceptionMock =
         createMock(RetryHelper.RetryHelperException.class);
     expect(exceptionMock.getCause()).andReturn(cause).times(2);
     replay(exceptionMock);
-    try {
-      DatastoreException.translateAndThrow(exceptionMock);
-    } catch (BaseServiceException ex) {
-      assertEquals(14, ex.getCode());
-      assertEquals("message", ex.getMessage());
-      assertTrue(ex.isRetryable());
-    } finally {
-      verify(exceptionMock);
-    }
+    BaseServiceException ex =
+        assertThrows(
+            BaseServiceException.class, () -> DatastoreException.translateAndThrow(exceptionMock));
+    assertEquals(14, ex.getCode());
+    assertEquals("message", ex.getMessage());
+    assertTrue(ex.isRetryable());
+    verify(exceptionMock);
+
+    cause = createApiException();
+    final RetryHelper.RetryHelperException exceptionMock2 =
+        createMock(RetryHelper.RetryHelperException.class);
+    expect(exceptionMock2.getCause()).andReturn(cause).times(3);
+    replay(exceptionMock2);
+    DatastoreException ex2 =
+        assertThrows(
+            DatastoreException.class, () -> DatastoreException.translateAndThrow(exceptionMock2));
+    assertThat(ex2.getReason()).isEqualTo("MISSING_INDEXES");
+    assertThat(ex2.getDomain()).isEqualTo("datastore.googleapis.com");
+    assertThat(ex2.getMetadata()).isEqualTo(singletonMap("missing_indexes_url", "__some__url__"));
+    assertThat(ex2.getErrorDetails()).isEqualTo(((ApiException) cause).getErrorDetails());
+    verify(exceptionMock2);
+
     cause = new IllegalArgumentException("message");
-    exceptionMock = createMock(RetryHelper.RetryHelperException.class);
-    expect(exceptionMock.getMessage()).andReturn("message").times(1);
-    expect(exceptionMock.getCause()).andReturn(cause).times(2);
-    replay(exceptionMock);
-    try {
-      DatastoreException.translateAndThrow(exceptionMock);
-    } catch (BaseServiceException ex) {
-      assertEquals(DatastoreException.UNKNOWN_CODE, ex.getCode());
-      assertEquals("message", ex.getMessage());
-      assertFalse(ex.isRetryable());
-      assertSame(cause, ex.getCause());
-    } finally {
-      verify(exceptionMock);
-    }
+    final RetryHelper.RetryHelperException exceptionMock3 =
+        createMock(RetryHelper.RetryHelperException.class);
+    expect(exceptionMock3.getMessage()).andReturn("message").times(1);
+    expect(exceptionMock3.getCause()).andReturn(cause).times(3);
+    replay(exceptionMock3);
+    BaseServiceException ex3 =
+        assertThrows(
+            BaseServiceException.class, () -> DatastoreException.translateAndThrow(exceptionMock3));
+    assertEquals(DatastoreException.UNKNOWN_CODE, ex3.getCode());
+    assertEquals("message", ex3.getMessage());
+    assertFalse(ex3.isRetryable());
+    assertSame(cause, ex3.getCause());
+    verify(exceptionMock3);
   }
 
   @Test
@@ -120,5 +171,27 @@ public class DatastoreExceptionTest {
       assertEquals("FAILED_PRECONDITION", ex.getReason());
       assertEquals("message a 1", ex.getMessage());
     }
+  }
+
+  private ApiException createApiException() {
+    // Simulating google.rpc.Status with an ErrorInfo
+    ErrorInfo errorInfo =
+        ErrorInfo.newBuilder()
+            .setDomain("datastore.googleapis.com")
+            .setReason("MISSING_INDEXES")
+            .putMetadata("missing_indexes_url", "__some__url__")
+            .build();
+    com.google.rpc.Status status =
+        com.google.rpc.Status.newBuilder()
+            .setCode(FAILED_PRECONDITION.getNumber())
+            .setMessage("The query requires indexes.")
+            .addDetails(Any.pack(errorInfo))
+            .build();
+
+    // Using Gax to convert to ApiException
+    StatusCode statusCode = GrpcStatusCode.of(Status.fromCodeValue(status.getCode()).getCode());
+    ErrorDetails errorDetails =
+        ErrorDetails.builder().setRawErrorMessages(status.getDetailsList()).build();
+    return ApiExceptionFactory.createException(null, statusCode, true, errorDetails);
   }
 }

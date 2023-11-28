@@ -185,8 +185,7 @@ public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
     settingsBuilder.setInternalHeaderProvider(internalHeaderProvider);
     settingsBuilder.setHeaderProvider(
         datastoreOptions.getMergedHeaderProvider(new NoHeaderProvider()));
-    ClientContext clientContext = ClientContext.create(settingsBuilder.build());
-    return clientContext;
+    return ClientContext.create(settingsBuilder.build());
   }
 
   private String getResourceToken(DatastoreOptions datastoreOptions) {
