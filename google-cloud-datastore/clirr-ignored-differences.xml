@@ -27,11 +27,13 @@
         <differenceType>7012</differenceType>
     </difference>
     <difference>
+        <!-- Added BaseGrpcServiceException as a superclass -->
         <className>com/google/cloud/datastore/DatastoreException</className>
         <differenceType>5000</differenceType>
         <to>com/google/cloud/grpc/BaseGrpcServiceException</to>
     </difference>
     <difference>
+        <!-- Removed BaseHttpServiceException as a superclass -->
         <className>com/google/cloud/datastore/DatastoreException</className>
         <differenceType>5001</differenceType>
         <to>com/google/cloud/http/BaseHttpServiceException</to>
