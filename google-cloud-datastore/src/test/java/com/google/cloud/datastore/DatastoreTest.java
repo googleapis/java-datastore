@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.api.gax.rpc.StatusCode.Code.ABORTED;
 import static com.google.cloud.datastore.ProtoTestData.intValue;
 import static com.google.cloud.datastore.TestUtils.matches;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
@@ -238,8 +239,6 @@ public class DatastoreTest {
     verifyNotUsable(transaction);
   }
 
-  // TODO(gapic_upgrade): Remove the @ignore annotation
-  @Ignore("This should be fixed with actionable error implementation")
   @Test
   public void testTransactionWithRead() {
     Transaction transaction = datastore.newTransaction();
@@ -257,12 +256,10 @@ public class DatastoreTest {
       transaction.commit();
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertEquals("ABORTED", expected.getReason());
+      assertEquals(ABORTED.getHttpStatusCode(), expected.getCode());
     }
   }
 
-  // TODO(gapic_upgrade): Remove the @ignore annotation
-  @Ignore("This should be fixed with actionable error implementation")
   @Test
   public void testTransactionWithQuery() {
     Query<Entity> query =
@@ -288,7 +285,7 @@ public class DatastoreTest {
       transaction.commit();
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertEquals("ABORTED", expected.getReason());
+      assertEquals(ABORTED.getHttpStatusCode(), expected.getCode());
     }
   }
 
