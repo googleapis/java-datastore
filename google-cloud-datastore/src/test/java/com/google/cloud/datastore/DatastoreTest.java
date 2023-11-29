@@ -197,8 +197,9 @@ public class DatastoreTest {
   }
 
   @AfterClass
-  public static void afterClass() throws IOException, InterruptedException, TimeoutException {
+  public static void afterClass() throws Exception {
     helper.stop(Duration.ofMinutes(1));
+    datastore.close();
   }
 
   @Test
