@@ -79,7 +79,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeoutException;
 import java.util.function.Predicate;
 import org.easymock.EasyMock;
 import org.junit.AfterClass;

@@ -89,18 +89,13 @@ public class ITDatastoreConceptsTest {
 
   private static final String TASK_CONCEPTS = "TaskConcepts";
 
-  /**
-   * Initializes Datastore for testing.
-   */
+  /** Initializes Datastore for testing. */
   @BeforeClass
   public static void beforeClass() throws Exception {
     datastore = OPTIONS.getService();
   }
 
-  /**
-   * Cleans out any residual values. Also initializes global variables
-   * used for testing.
-   */
+  /** Cleans out any residual values. Also initializes global variables used for testing. */
   @Before
   public void setUp() {
     StructuredQuery<Key> query = Query.newKeyQueryBuilder().build();
@@ -141,7 +136,6 @@ public class ITDatastoreConceptsTest {
   public static void afterClass() throws Exception {
     datastore.close();
   }
-
 
   private void assertValidKey(Key taskKey) {
     datastore.put(Entity.newBuilder(taskKey, TEST_FULL_ENTITY).build());
