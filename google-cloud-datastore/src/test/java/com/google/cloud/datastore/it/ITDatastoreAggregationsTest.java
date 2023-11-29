@@ -43,6 +43,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 
 // TODO(jainsahab) Move all the aggregation related tests from ITDatastoreTest to this file
@@ -61,6 +62,11 @@ public class ITDatastoreAggregationsTest {
     Key[] keysToDelete =
         ImmutableList.copyOf(allEntities).stream().map(Entity::getKey).toArray(Key[]::new);
     DATASTORE.delete(keysToDelete);
+  }
+
+  @AfterClass
+  public static void afterClass() throws Exception {
+    DATASTORE.close();
   }
 
   Key key1 = DATASTORE.newKeyFactory().setKind(KIND).newKey(1);

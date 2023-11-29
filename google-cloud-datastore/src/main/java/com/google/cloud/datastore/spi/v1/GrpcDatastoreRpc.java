@@ -63,7 +63,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 @InternalApi
-public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
+public class GrpcDatastoreRpc implements DatastoreRpc {
 
   private final GrpcDatastoreStub datastoreStub;
   private final ClientContext clientContext;

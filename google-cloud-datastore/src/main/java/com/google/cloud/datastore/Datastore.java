@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /** An interface for Google Cloud Datastore. */
-public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWriter {
+public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWriter, AutoCloseable {
 
   /**
    * Returns a new Datastore transaction.
@@ -508,4 +508,12 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
   default AggregationResults runAggregation(AggregationQuery query, ReadOption... options) {
     throw new UnsupportedOperationException("Not implemented.");
   }
+
+  /**
+   * Closes the gRPC channels associated with this instance and frees up their resources. This
+   * method blocks until all channels are closed. Once this method is called, this Datastore client
+   * is no longer usable.
+   */
+  @Override
+  void close() throws Exception;
 }

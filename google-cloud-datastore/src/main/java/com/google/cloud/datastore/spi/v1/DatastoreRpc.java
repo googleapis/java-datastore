@@ -36,7 +36,7 @@ import com.google.datastore.v1.RunQueryRequest;
 import com.google.datastore.v1.RunQueryResponse;
 
 /** Provides access to the remote Datastore service. */
-public interface DatastoreRpc extends ServiceRpc {
+public interface DatastoreRpc extends ServiceRpc, AutoCloseable {
 
   /**
    * Sends an allocate IDs request.
@@ -95,5 +95,10 @@ public interface DatastoreRpc extends ServiceRpc {
    */
   default RunAggregationQueryResponse runAggregationQuery(RunAggregationQueryRequest request) {
     throw new UnsupportedOperationException("Not implemented.");
+  }
+
+  @Override
+  default void close() throws Exception {
+    // do nothing
   }
 }
