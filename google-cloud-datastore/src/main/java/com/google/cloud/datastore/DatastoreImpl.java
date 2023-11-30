@@ -102,6 +102,11 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     }
   }
 
+  @Override
+  public boolean isClosed() {
+    return datastoreRpc.isClosed();
+  }
+
   static class ReadWriteTransactionCallable<T> implements Callable<T> {
 
     private final Datastore datastore;

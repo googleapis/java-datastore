@@ -48,5 +48,15 @@
         <method>void close()</method>
         <differenceType>7012</differenceType>
     </difference>
+    <difference>
+        <className>com/google/cloud/datastore/Datastore</className>
+        <method>boolean isClosed()</method>
+        <differenceType>7012</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/spi/v1/DatastoreRpc</className>
+        <method>boolean isClosed()</method>
+        <differenceType>7012</differenceType>
+    </difference>
 
 </differences>

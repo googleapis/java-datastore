@@ -211,4 +211,14 @@ public class HttpDatastoreRpc implements DatastoreRpc {
       throw translate(ex);
     }
   }
+
+  @Override
+  public void close() throws Exception {
+    throw new UnsupportedOperationException("close() is not supported");
+  }
+
+  @Override
+  public boolean isClosed() {
+    throw new UnsupportedOperationException("isClosed() is not supported");
+  }
 }

@@ -146,6 +146,11 @@ public class GrpcDatastoreRpc implements DatastoreRpc {
     return datastoreStub.runAggregationQueryCallable().call(request);
   }
 
+  @Override
+  public boolean isClosed() {
+    return closed && datastoreStub.isShutdown();
+  }
+
   private boolean isEmulator(DatastoreOptions datastoreOptions) {
     return isLocalHost(datastoreOptions.getHost())
         || NoCredentials.getInstance().equals(datastoreOptions.getCredentials());

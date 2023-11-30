@@ -98,7 +98,8 @@ public interface DatastoreRpc extends ServiceRpc, AutoCloseable {
   }
 
   @Override
-  default void close() throws Exception {
-    // do nothing
-  }
+  void close() throws Exception;
+
+  /** Returns true if this background resource has been shut down. */
+  boolean isClosed();
 }
