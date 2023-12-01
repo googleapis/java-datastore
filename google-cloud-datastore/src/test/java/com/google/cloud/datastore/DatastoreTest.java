@@ -99,9 +99,9 @@ public class DatastoreTest {
   @ClassRule
   public static MultipleAttemptsRule rr = new MultipleAttemptsRule(NUMBER_OF_ATTEMPTS, 10);
 
-  private static LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0);
+  private static final LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0, 9090);
   private static final DatastoreOptions options = helper.getOptions();
-  private static final Datastore datastore = options.getService();
+  private static Datastore datastore;
   private static final String PROJECT_ID = options.getProjectId();
   private static final String KIND1 = "kind1";
   private static final String KIND2 = "kind2";
@@ -177,6 +177,7 @@ public class DatastoreTest {
   @BeforeClass
   public static void beforeClass() throws IOException, InterruptedException {
     helper.start();
+    datastore = options.getService();
   }
 
   @Before
