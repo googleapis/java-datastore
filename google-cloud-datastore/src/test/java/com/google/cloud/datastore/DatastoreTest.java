@@ -100,7 +100,7 @@ public class DatastoreTest {
   public static MultipleAttemptsRule rr = new MultipleAttemptsRule(NUMBER_OF_ATTEMPTS, 10);
 
   private static final LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0, 9090);
-  private static final DatastoreOptions options = helper.getOptions();
+  private static DatastoreOptions options = helper.getOptions();
   private static Datastore datastore;
   private static final String PROJECT_ID = options.getProjectId();
   private static final String KIND1 = "kind1";
@@ -177,6 +177,7 @@ public class DatastoreTest {
   @BeforeClass
   public static void beforeClass() throws IOException, InterruptedException {
     helper.start();
+    options = helper.getOptions();
     datastore = options.getService();
   }
 
@@ -199,8 +200,8 @@ public class DatastoreTest {
 
   @AfterClass
   public static void afterClass() throws Exception {
-    helper.stop(Duration.ofMinutes(1));
     datastore.close();
+    helper.stop(Duration.ofMinutes(1));
   }
 
   @Test
