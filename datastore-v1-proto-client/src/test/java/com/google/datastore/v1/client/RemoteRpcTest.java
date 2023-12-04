@@ -177,7 +177,7 @@ public class RemoteRpcTest {
                 EndToEndChecksumHandler.HTTP_RESPONSE_CHECKSUM_HEADER, "invalid_checksum"));
 
     Set<MyHeader> expectedRequestHeaders = new HashSet<>();
-    expectedRequestHeaders.add(MyHeader.AnyValue(RemoteRpc.API_FORMAT_VERSION_HEADER));
+    expectedRequestHeaders.add(MyHeader.anyValue(RemoteRpc.API_FORMAT_VERSION_HEADER));
 
     if (reqEnabled) {
       expectedRequestHeaders.add(
@@ -186,7 +186,7 @@ public class RemoteRpcTest {
               EndToEndChecksumHandler.computeChecksum(request.toByteArray())));
     } else {
       expectedRequestHeaders.add(
-          MyHeader.AnyValue(EndToEndChecksumHandler.HTTP_REQUEST_CHECKSUM_HEADER).mustNotExist());
+          MyHeader.anyValue(EndToEndChecksumHandler.HTTP_REQUEST_CHECKSUM_HEADER).mustNotExist());
     }
 
     InjectedTestValues testVals =
@@ -366,7 +366,7 @@ public class RemoteRpcTest {
     private final boolean ignoreValue;
     private boolean mustExist;
 
-    public static MyHeader AnyValue(String key) {
+    public static MyHeader anyValue(String key) {
       return new MyHeader(key, "", true);
     }
 
