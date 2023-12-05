@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore;
 
+import com.google.api.core.InternalExtensionOnly;
 import com.google.datastore.v1.QueryResultBatch;
 import java.util.Iterator;
 
@@ -28,6 +29,7 @@ import java.util.Iterator;
  *
  * @param <V> the type of the results value.
  */
+@InternalExtensionOnly
 public interface QueryResults<V> extends Iterator<V> {
 
   /** Returns the actual class of the result's values. */
