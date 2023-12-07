@@ -53,9 +53,37 @@ class RemoteRpc {
   private final HttpRequestInitializer initializer;
   private final String url;
   private final AtomicInteger rpcCount = new AtomicInteger(0);
-  // Not final - so it can be set/reset in Unittests
-  private static boolean enableE2EChecksum =
-      Boolean.parseBoolean(System.getenv("GOOGLE_CLOUD_DATASTORE_HTTP_ENABLE_E2E_CHECKSUM"));
+  private static final String E2E_REQUEST_CHECKSUM_FLAG =
+      "GOOGLE_CLOUD_DATASTORE_HTTP_ENABLE_E2E_REQUEST_CHECKSUM";
+  private static final String E2E_RESPONSE_CHECKSUM_FLAG =
+      "GOOGLE_CLOUD_DATASTORE_HTTP_ENABLE_E2E_RESPONSE_CHECKSUM";
+  // By default request checksum is enabled.
+  // Not final - so it can be set/reset in Unittests.
+  private static boolean enableE2ERequestChecksum =
+      System.getenv(E2E_REQUEST_CHECKSUM_FLAG) == null
+          || Boolean.parseBoolean(System.getenv(E2E_REQUEST_CHECKSUM_FLAG));
+
+  private static boolean enableE2EResponseChecksum =
+      Boolean.parseBoolean(System.getenv(E2E_RESPONSE_CHECKSUM_FLAG));
+
+  // Deprecated env var for enabling both request and response checksum.
+  private static final String E2E_CHECKSUM_FLAG_DEPRECATED =
+      "GOOGLE_CLOUD_DATASTORE_HTTP_ENABLE_E2E_CHECKSUM";
+
+  static {
+    if (System.getenv(E2E_CHECKSUM_FLAG_DEPRECATED) != null
+        && System.getenv(E2E_REQUEST_CHECKSUM_FLAG) == null
+        && System.getenv(E2E_RESPONSE_CHECKSUM_FLAG) == null) {
+      logger.warning(
+          String.format(
+              "%s environment variable is deprecated. "
+                  + "Please switch to using %s and/or %s to enable/disable "
+                  + "request and/or response checksum features.",
+              E2E_CHECKSUM_FLAG_DEPRECATED, E2E_REQUEST_CHECKSUM_FLAG, E2E_RESPONSE_CHECKSUM_FLAG));
+      enableE2ERequestChecksum = Boolean.parseBoolean(System.getenv(E2E_CHECKSUM_FLAG_DEPRECATED));
+      enableE2EResponseChecksum = enableE2ERequestChecksum;
+    }
+  }
 
   RemoteRpc(HttpRequestFactory client, HttpRequestInitializer initializer, String url) {
     this.client = client;
@@ -113,7 +141,7 @@ class RemoteRpc {
           }
         }
         InputStream inputStream = httpResponse.getContent();
-        return enableE2EChecksum && EndToEndChecksumHandler.hasChecksumHeader(httpResponse)
+        return enableE2EResponseChecksum && EndToEndChecksumHandler.hasChecksumHeader(httpResponse)
             ? new ChecksumEnforcingInputStream(inputStream, httpResponse)
             : inputStream;
       } catch (SocketTimeoutException e) {
@@ -138,7 +166,7 @@ class RemoteRpc {
       builder.append(databaseId);
     }
     httpRequest.getHeaders().put(X_GOOG_REQUEST_PARAMS_HEADER, builder.toString());
-    if (enableE2EChecksum && request != null) {
+    if (enableE2ERequestChecksum && request != null) {
       String checksum = EndToEndChecksumHandler.computeChecksum(request.toByteArray());
       if (checksum != null) {
         httpRequest
@@ -154,8 +182,10 @@ class RemoteRpc {
   }
 
   @VisibleForTesting
-  static void setSystemEnvE2EChecksum(boolean enableE2EChecksum) {
-    RemoteRpc.enableE2EChecksum = enableE2EChecksum;
+  static void setSystemEnvE2EChecksum(
+      boolean enableE2ERequestChecksum, boolean enableE2EResponseChecksum) {
+    RemoteRpc.enableE2ERequestChecksum = enableE2ERequestChecksum;
+    RemoteRpc.enableE2EResponseChecksum = enableE2EResponseChecksum;
   }
 
   void resetRpcCount() {
