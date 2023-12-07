@@ -66,6 +66,25 @@ class RemoteRpc {
   private static boolean enableE2EResponseChecksum =
       Boolean.parseBoolean(System.getenv(E2E_RESPONSE_CHECKSUM_FLAG));
 
+  // Deprecated env var for enabling both request and response checksum.
+  private static final String E2E_CHECKSUM_FLAG_DEPRECATED =
+      "GOOGLE_CLOUD_DATASTORE_HTTP_ENABLE_E2E_CHECKSUM";
+
+  static {
+    if (System.getenv(E2E_CHECKSUM_FLAG_DEPRECATED) != null
+        && System.getenv(E2E_REQUEST_CHECKSUM_FLAG) == null
+        && System.getenv(E2E_RESPONSE_CHECKSUM_FLAG) == null) {
+      logger.warning(
+          String.format(
+              "%s environment variable is deprecated. "
+                  + "Please switch to using %s and/or %s to enable/disable "
+                  + "request and/or response checksum features.",
+              E2E_CHECKSUM_FLAG_DEPRECATED, E2E_REQUEST_CHECKSUM_FLAG, E2E_RESPONSE_CHECKSUM_FLAG));
+      enableE2ERequestChecksum = Boolean.parseBoolean(System.getenv(E2E_CHECKSUM_FLAG_DEPRECATED));
+      enableE2EResponseChecksum = enableE2ERequestChecksum;
+    }
+  }
+
   RemoteRpc(HttpRequestFactory client, HttpRequestInitializer initializer, String url) {
     this.client = client;
     this.initializer = initializer;
