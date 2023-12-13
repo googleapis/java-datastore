@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.example.datastore;
+package com.example.datastore.queryprofile;
 
-import com.example.datastore.filters.OrFilterQuery;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
@@ -31,7 +30,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
-public class OrFilterQuerySampleIT {
+public class QueryProfileSampleIT {
 
   private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
   private final String fieldName = "description";
@@ -60,11 +59,43 @@ public class OrFilterQuerySampleIT {
   }
 
   @Test
-  public void testOrFilterQuery() throws Exception {
+  public void testQueryProfileExplain() throws Exception {
     // Act
-    OrFilterQuery.invoke();
+    QueryProfileExplain.invoke();
 
     // Assert
-    systemsOutRule.assertContains("Entity");
+    systemsOutRule.assertContains("Plan Info: indexes_used");
+  }
+
+  @Test
+  public void testQueryProfileExplainAggregation() throws Exception {
+    // Act
+    QueryProfileExplainAggregation.invoke();
+
+    // Assert
+    systemsOutRule.assertContains("Plan Info: indexes_used");
+    systemsOutRule.assertContains("Count: 1");
+  }
+
+  @Test
+  public void testQueryProfileExplainAnalyze() throws Exception {
+    // Act
+    QueryProfileExplainAnalyze.invoke();
+
+    // Assert
+    systemsOutRule.assertContains("Stat: index_entries_scanned");
+    systemsOutRule.assertContains("Plan Info: indexes_used");
+    systemsOutRule.assertContains("Entity: Entity{key=");
+  }
+
+  @Test
+  public void testQueryProfileExplainAnalyzeAggregation() throws Exception {
+    // Act
+    QueryProfileExplainAnalyzeAggregation.invoke();
+
+    // Assert
+    systemsOutRule.assertContains("Stat: index_entries_scanned");
+    systemsOutRule.assertContains("Plan Info: indexes_used");
+    systemsOutRule.assertContains("Count: 1");
   }
 }

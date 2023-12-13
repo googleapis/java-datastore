@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.datastore;
+package com.example.datastore.aggregation;
 
 import static org.junit.Assert.assertThrows;
 
