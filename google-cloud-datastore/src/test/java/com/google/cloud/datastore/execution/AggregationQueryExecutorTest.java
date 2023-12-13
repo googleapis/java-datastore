@@ -36,6 +36,7 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.LongValue;
 import com.google.cloud.datastore.Query;
+import com.google.cloud.datastore.models.QueryProfile.QueryMode;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.common.collect.ImmutableMap;
 import com.google.datastore.v1.AggregationResultBatch;
@@ -88,7 +89,8 @@ public class AggregationQueryExecutorTest {
 
     replay(mockRpc);
 
-    AggregationResults aggregationResults = queryExecutor.execute(aggregationQuery);
+    AggregationResults aggregationResults =
+        queryExecutor.execute(aggregationQuery, QueryMode.NORMAL);
 
     verify(mockRpc);
     assertThat(aggregationResults)
@@ -101,7 +103,8 @@ public class AggregationQueryExecutorTest {
                     new AggregationResult(
                         ImmutableMap.of(
                             "count", LongValue.of(509), "property_2", LongValue.of(100)))),
-                Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime())));
+                Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime()),
+                null));
   }
 
   @Test
@@ -127,7 +130,7 @@ public class AggregationQueryExecutorTest {
     replay(mockRpc);
 
     AggregationResults aggregationResults =
-        queryExecutor.execute(aggregationQuery, eventualConsistency());
+        queryExecutor.execute(aggregationQuery, QueryMode.NORMAL, eventualConsistency());
 
     verify(mockRpc);
     assertThat(aggregationResults)
@@ -140,7 +143,8 @@ public class AggregationQueryExecutorTest {
                     new AggregationResult(
                         ImmutableMap.of(
                             "count", LongValue.of(509), "property_2", LongValue.of(100)))),
-                Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime())));
+                Timestamp.fromProto(runAggregationQueryResponse.getBatch().getReadTime()),
+                null));
   }
 
   private RunAggregationQueryResponse placeholderAggregationQueryResponse() {
@@ -167,7 +171,10 @@ public class AggregationQueryExecutorTest {
                     .putAllAggregateProperties(result2)
                     .build())
             .build();
-    return RunAggregationQueryResponse.newBuilder().setBatch(resultBatch).build();
+    return RunAggregationQueryResponse.newBuilder()
+        .setBatch(resultBatch)
+        .setStats(com.google.datastore.v1.ResultSetStats.newBuilder().build())
+        .build();
   }
 
   private Predicate<RunAggregationQueryRequest> runAggregationRequestWithEventualConsistency() {

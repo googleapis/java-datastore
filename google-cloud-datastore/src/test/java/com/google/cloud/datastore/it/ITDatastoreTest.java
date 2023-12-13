@@ -31,6 +31,7 @@ import static org.junit.Assert.fail;
 import com.google.cloud.Timestamp;
 import com.google.cloud.Tuple;
 import com.google.cloud.datastore.AggregationQuery;
+import com.google.cloud.datastore.AggregationResults;
 import com.google.cloud.datastore.Batch;
 import com.google.cloud.datastore.BooleanValue;
 import com.google.cloud.datastore.Cursor;
@@ -66,9 +67,13 @@ import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.TimestampValue;
 import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.ValueType;
+import com.google.cloud.datastore.models.QueryProfile;
+import com.google.cloud.datastore.models.QueryProfile.QueryMode;
+import com.google.cloud.datastore.models.ResultSetStats;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.truth.Truth;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.datastore.v1.TransactionOptions.ReadOnly;
 import java.util.ArrayList;
@@ -77,6 +82,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -359,6 +365,57 @@ public class ITDatastoreTest {
   }
 
   @Test
+  public void testQueryProfile() {
+    Key key = Key.newBuilder(KEY1, KIND2, 2).build();
+    Entity entity3 =
+        Entity.newBuilder(ENTITY1)
+            .setKey(key)
+            .remove("str")
+            .set("name", "Dan")
+            .setNull("null")
+            .set("age", 19)
+            .build();
+    datastore.put(entity3);
+
+    // age == 19 || age == 20
+    CompositeFilter orFilter =
+        CompositeFilter.or(PropertyFilter.eq("age", 19), PropertyFilter.eq("age", 20));
+    StructuredQuery<Entity> simpleOrQuery =
+        Query.newEntityQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .setKind(KIND2)
+            .setFilter(orFilter)
+            .build();
+    QueryResults<Entity> results =
+        datastore.run(simpleOrQuery, QueryProfile.QueryMode.EXPLAIN_ANALYZE);
+    Truth.assertThat(results.hasNext()).isTrue();
+    ResultSetStats resultSetStats = results.getResultSetStats();
+    assertQueryPlan(resultSetStats);
+    assertQueryStats(resultSetStats);
+
+    QueryResults<Entity> results2 = datastore.run(simpleOrQuery, QueryProfile.QueryMode.EXPLAIN);
+    Truth.assertThat(results2.hasNext()).isFalse();
+    ResultSetStats resultSetStats2 = results2.getResultSetStats();
+    assertQueryPlan(resultSetStats2);
+    Truth.assertThat(resultSetStats2.getQueryStats()).isNull();
+
+    QueryResults<Entity> results3 = datastore.run(simpleOrQuery, QueryProfile.QueryMode.NORMAL);
+    Truth.assertThat(results3.hasNext()).isTrue();
+    Truth.assertThat(results3.getResultSetStats()).isNull();
+
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder().over(simpleOrQuery).addAggregation(count()).build();
+    AggregationResults resultsAggregation =
+        datastore.runAggregation(aggregationQuery, QueryProfile.QueryMode.EXPLAIN_ANALYZE);
+
+    Truth.assertThat(resultsAggregation.size() > 0).isTrue();
+
+    ResultSetStats aggregationStats = resultsAggregation.getResultSetStats();
+    assertQueryPlan(aggregationStats);
+    assertQueryStats(aggregationStats);
+  }
+
+  @Test
   public void testNewTransactionCommit() {
     Transaction transaction = datastore.newTransaction();
     transaction.add(ENTITY3);
@@ -466,6 +523,117 @@ public class ITDatastoreTest {
     boolean onlyOneTransactionIsSuccessful = t1AllPassed ^ t2AllPassed;
 
     assertThat(onlyOneTransactionIsSuccessful).isTrue();
+  }
+
+  @Test
+  public void testTransactionQueryModeExplainAnalyze() {
+    StructuredQuery<Entity> query =
+        Query.newEntityQueryBuilder()
+            .setKind(KIND2)
+            .setFilter(PropertyFilter.hasAncestor(KEY2))
+            .setNamespace(NAMESPACE)
+            .build();
+    Transaction baseTransaction = datastore.newTransaction();
+    QueryResults<Entity> baseResults =
+        baseTransaction.run(query, QueryProfile.QueryMode.EXPLAIN_ANALYZE);
+    assertTrue(baseResults.hasNext());
+    assertEquals(ENTITY2, baseResults.next());
+    assertFalse(baseResults.hasNext());
+
+    ResultSetStats resultSetStats = baseResults.getResultSetStats();
+    assertQueryPlan(resultSetStats);
+    assertQueryStats(resultSetStats);
+
+    baseTransaction.add(ENTITY3);
+    baseTransaction.commit();
+    assertEquals(ENTITY3, datastore.get(KEY3));
+
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder().addAggregation(count()).over(query).build();
+
+    Transaction aggregationTransaction = datastore.newTransaction();
+    AggregationResults results =
+        aggregationTransaction.runAggregation(
+            aggregationQuery, QueryProfile.QueryMode.EXPLAIN_ANALYZE);
+    assertTrue(results.size() > 0);
+
+    ResultSetStats aggregationStats = results.getResultSetStats();
+    assertQueryPlan(aggregationStats);
+    assertQueryStats(aggregationStats);
+    aggregationTransaction.commit();
+  }
+
+  @Test
+  public void testTransactionQueryModeExplain() {
+    StructuredQuery<Entity> query =
+        Query.newEntityQueryBuilder()
+            .setKind(KIND2)
+            .setFilter(PropertyFilter.hasAncestor(KEY2))
+            .setNamespace(NAMESPACE)
+            .build();
+    Transaction baseTransaction = datastore.newTransaction();
+    QueryResults<Entity> baseResults = baseTransaction.run(query, QueryProfile.QueryMode.EXPLAIN);
+    assertFalse(baseResults.hasNext());
+
+    ResultSetStats resultSetStats = baseResults.getResultSetStats();
+    assertQueryPlan(resultSetStats);
+    Truth.assertThat(resultSetStats.hasQueryStats()).isFalse();
+    Truth.assertThat(resultSetStats.getQueryStats()).isNull();
+
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder().addAggregation(count()).over(query).build();
+
+    Transaction aggregationTransaction = datastore.newTransaction();
+    AggregationResults results =
+        aggregationTransaction.runAggregation(aggregationQuery, QueryProfile.QueryMode.EXPLAIN);
+    assertFalse(results.size() > 0);
+
+    ResultSetStats aggregationStats = results.getResultSetStats();
+    assertQueryPlan(aggregationStats);
+    Truth.assertThat(aggregationStats.hasQueryStats()).isFalse();
+    Truth.assertThat(aggregationStats.getQueryStats()).isNull();
+  }
+
+  private void assertQueryPlan(ResultSetStats resultSetStats) {
+    Truth.assertThat(resultSetStats.getQueryPlan().getPlanInfo().keySet()).contains("indexes_used");
+  }
+
+  private void assertQueryStats(ResultSetStats resultSetStats) {
+    Map<String, Object> queryStatsAggregation = resultSetStats.getQueryStats();
+    Truth.assertThat(queryStatsAggregation.keySet())
+        .containsAtLeast(
+            "bytes_returned",
+            "total_execution_time",
+            "documents_scanned",
+            "index_entries_scanned",
+            "results_returned");
+  }
+
+  @Test
+  public void testTransactionQueryModeNormal() {
+    StructuredQuery<Entity> query =
+        Query.newEntityQueryBuilder()
+            .setKind(KIND2)
+            .setFilter(PropertyFilter.hasAncestor(KEY2))
+            .setNamespace(NAMESPACE)
+            .build();
+    Transaction baseTransaction = datastore.newTransaction();
+    QueryResults<Entity> baseResults = baseTransaction.run(query, QueryProfile.QueryMode.NORMAL);
+    assertTrue(baseResults.hasNext());
+
+    Truth.assertThat(baseResults.getResultSetStats()).isNull();
+    baseTransaction.commit();
+
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder().addAggregation(count()).over(query).build();
+
+    Transaction aggregationTransaction = datastore.newTransaction();
+    AggregationResults results =
+        aggregationTransaction.runAggregation(aggregationQuery, QueryProfile.QueryMode.NORMAL);
+    assertTrue(results.size() > 0);
+
+    Truth.assertThat(results.getResultSetStats()).isNull();
+    aggregationTransaction.commit();
   }
 
   @Test
@@ -1646,10 +1814,13 @@ public class ITDatastoreTest {
           getOnlyElement(datastore.runAggregation(countAggregationQuery)).getLong("total_count");
       assertThat(latestCount).isEqualTo(3L);
 
-      Long oldCount =
-          getOnlyElement(datastore.runAggregation(countAggregationQuery, ReadOption.readTime(now)))
-              .getLong("total_count");
+      AggregationResults results =
+          datastore.runAggregation(
+              countAggregationQuery, QueryMode.EXPLAIN_ANALYZE, ReadOption.readTime(now));
+      Long oldCount = getOnlyElement(results).getLong("total_count");
       assertThat(oldCount).isEqualTo(2L);
+      assertQueryPlan(results.getResultSetStats());
+      assertQueryStats(results.getResultSetStats());
     } finally {
       datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
     }

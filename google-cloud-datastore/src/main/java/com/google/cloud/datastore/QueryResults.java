@@ -16,6 +16,8 @@
 
 package com.google.cloud.datastore;
 
+import com.google.api.core.BetaApi;
+import com.google.cloud.datastore.models.ResultSetStats;
 import com.google.datastore.v1.QueryResultBatch;
 import java.util.Iterator;
 
@@ -70,4 +72,12 @@ public interface QueryResults<V> extends Iterator<V> {
 
   /** Returns MoreResults state of the query after the current batch. */
   QueryResultBatch.MoreResultsType getMoreResults();
+
+  /*
+   * Returns the {@link ResultSetStats} if {@link QueryMode} was set to EXPLAIN or EXPLAIN_ANALYZE. Otherwise, it will return null.
+   */
+  @BetaApi
+  default ResultSetStats getResultSetStats() {
+    throw new UnsupportedOperationException("not implemented");
+  }
 }

@@ -19,6 +19,7 @@ import static com.google.api.client.util.Preconditions.checkNotNull;
 
 import com.google.api.core.InternalApi;
 import com.google.cloud.Timestamp;
+import com.google.cloud.datastore.models.ResultSetStats;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -33,12 +34,21 @@ public class AggregationResults implements Iterable<AggregationResult> {
 
   private final List<AggregationResult> aggregationResults;
   private final Timestamp readTime;
+  private final ResultSetStats resultSetStats;
 
   public AggregationResults(List<AggregationResult> aggregationResults, Timestamp readTime) {
+    this(aggregationResults, readTime, null);
+  }
+
+  public AggregationResults(
+      List<AggregationResult> aggregationResults,
+      Timestamp readTime,
+      ResultSetStats resultSetStats) {
     checkNotNull(aggregationResults, "Aggregation results cannot be null");
     checkNotNull(readTime, "readTime cannot be null");
     this.aggregationResults = aggregationResults;
     this.readTime = readTime;
+    this.resultSetStats = resultSetStats;
   }
 
   /** Returns {@link Iterator} for underlying List&lt;{@link AggregationResult}&gt;. */
@@ -49,6 +59,13 @@ public class AggregationResults implements Iterable<AggregationResult> {
 
   public int size() {
     return this.aggregationResults.size();
+  }
+
+  /*
+   * Returns the ResultSetStats if QueryMode is set to EXPLAIN or EXPLAIN_ANALYZE. Otherwise, returns null.
+   */
+  public ResultSetStats getResultSetStats() {
+    return this.resultSetStats;
   }
 
   @InternalApi
@@ -70,11 +87,13 @@ public class AggregationResults implements Iterable<AggregationResult> {
       return false;
     }
     AggregationResults that = (AggregationResults) o;
-    return Objects.equals(aggregationResults, that.aggregationResults);
+    return Objects.equals(aggregationResults, that.aggregationResults)
+        && Objects.equals(readTime, that.readTime)
+        && Objects.equals(resultSetStats, that.resultSetStats);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(aggregationResults);
+    return Objects.hash(aggregationResults, readTime, resultSetStats);
   }
 }

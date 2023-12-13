@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore;
 
+import com.google.cloud.datastore.models.QueryProfile;
 import java.util.Iterator;
 import java.util.List;
 
@@ -60,6 +61,17 @@ public interface DatastoreReader {
    * @throws DatastoreException upon failure
    */
   default AggregationResults runAggregation(AggregationQuery query) {
+    throw new UnsupportedOperationException("Not implemented.");
+  }
+
+  /**
+   * Submits a {@link AggregationQuery} with a specified {@link com.google.cloud.datastore.models.QueryProfile.QueryMode} and returns {@link
+   * AggregationResults}.
+   *
+   * @throws DatastoreException upon failure
+   */
+  default AggregationResults runAggregation(
+      AggregationQuery query, QueryProfile.QueryMode queryMode) {
     throw new UnsupportedOperationException("Not implemented.");
   }
 }

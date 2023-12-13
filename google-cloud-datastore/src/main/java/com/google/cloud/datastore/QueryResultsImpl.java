@@ -16,9 +16,12 @@
 
 package com.google.cloud.datastore;
 
+import com.google.api.core.BetaApi;
 import com.google.cloud.datastore.Query.ResultType;
+import com.google.cloud.datastore.models.ResultSetStats;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.AbstractIterator;
+import com.google.datastore.v1.QueryMode;
 import com.google.datastore.v1.QueryResultBatch.MoreResultsType;
 import com.google.datastore.v1.ReadOptions;
 import com.google.protobuf.ByteString;
@@ -40,16 +43,20 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
   private Iterator<com.google.datastore.v1.EntityResult> entityResultPbIter;
   private ByteString cursor;
   private MoreResultsType moreResults;
+  private QueryMode queryMode;
+  private ResultSetStats resultSetStats;
 
   QueryResultsImpl(
       DatastoreImpl datastore,
       Optional<ReadOptions> readOptionsPb,
       RecordQuery<T> query,
-      String namespace) {
+      String namespace,
+      QueryMode queryMode) {
     this.datastore = datastore;
     this.readOptionsPb = readOptionsPb;
     this.query = query;
     queryResultType = query.getType();
+    this.queryMode = queryMode;
     com.google.datastore.v1.PartitionId.Builder pbBuilder =
         com.google.datastore.v1.PartitionId.newBuilder();
     pbBuilder.setProjectId(datastore.getOptions().getProjectId());
@@ -75,6 +82,7 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
     requestPb.setPartitionId(partitionIdPb);
     requestPb.setProjectId(datastore.getOptions().getProjectId());
     requestPb.setDatabaseId(datastore.getOptions().getDatabaseId());
+    requestPb.setMode(queryMode);
     query.populatePb(requestPb);
     runQueryResponsePb = datastore.runQuery(requestPb.build());
     mostRecentQueryPb = requestPb.getQuery();
@@ -86,9 +94,14 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
       // projection entity can represent all type of results
       actualResultType = ResultType.PROJECTION_ENTITY;
     }
+    boolean isQueryPlan = actualResultType.getQueryType() == null && queryMode == QueryMode.PLAN;
     Preconditions.checkState(
-        queryResultType.isAssignableFrom(actualResultType),
+        queryResultType.isAssignableFrom(actualResultType) || isQueryPlan,
         "Unexpected result type " + actualResultType + " vs " + queryResultType);
+    if (runQueryResponsePb.getStats().hasQueryPlan()
+        || runQueryResponsePb.getStats().hasQueryStats()) {
+      this.resultSetStats = new ResultSetStats(runQueryResponsePb.getStats());
+    }
   }
 
   @Override
@@ -126,5 +139,11 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
   @Override
   public MoreResultsType getMoreResults() {
     return moreResults;
+  }
+
+  @Override
+  @BetaApi
+  public ResultSetStats getResultSetStats() {
+    return this.resultSetStats;
   }
 }

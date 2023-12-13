@@ -67,7 +67,7 @@ public class AggregationQueryRequestProtoPreparer
     } else {
       aggregationQueryRequestBuilder.setAggregationQuery(getAggregationQuery(aggregationQuery));
     }
-
+    aggregationQueryRequestBuilder.setMode(queryConfig.getQueryMode());
     Optional<ReadOptions> readOptionsPb = readOptionProtoPreparer.prepare(readOptions);
     readOptionsPb.ifPresent(aggregationQueryRequestBuilder::setReadOptions);
     return aggregationQueryRequestBuilder.build();

@@ -13,4 +13,60 @@
         <to>*QueryConfig*</to>
         <differenceType>7005</differenceType>
     </difference>
+
+    <!--  added a default method to an interface-->
+    <difference>
+        <className>com/google/cloud/datastore/Datastore</className>
+        <method>com.google.cloud.datastore.QueryResults run(com.google.cloud.datastore.Query, com.google.cloud.datastore.models.QueryProfile$QueryMode, com.google.cloud.datastore.ReadOption[])</method>
+        <differenceType>7012</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/Datastore</className>
+        <method>com.google.cloud.datastore.AggregationResults runAggregation(com.google.cloud.datastore.AggregationQuery, com.google.cloud.datastore.models.QueryProfile$QueryMode, com.google.cloud.datastore.ReadOption[])</method>
+        <differenceType>7012</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/QueryResults</className>
+        <method>com.google.cloud.datastore.models.ResultSetStats getResultSetStats()</method>
+        <differenceType>7012</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/DatastoreReader</className>
+        <method>com.google.cloud.datastore.AggregationResults runAggregation(com.google.cloud.datastore.AggregationQuery, com.google.cloud.datastore.models.QueryProfile$QueryMode)</method>
+        <differenceType>7012</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/DatastoreReader</className>
+        <method>com.google.cloud.datastore.AggregationResults runAggregation(com.google.cloud.datastore.AggregationQuery,  com.google.cloud.datastore.models.QueryProfile$QueryMode)</method>
+        <differenceType>7012</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/Transaction</className>
+        <method>com.google.cloud.datastore.QueryResults run(com.google.cloud.datastore.Query, com.google.cloud.datastore.models.QueryProfile$QueryMode)</method>
+        <differenceType>7012</differenceType>
+    </difference>
+
+    <!-- added to internal only interface-->
+    <difference>
+        <className>com/google/cloud/datastore/execution/QueryExecutor</className>
+        <method>java.lang.Object execute(com.google.cloud.datastore.Query, com.google.cloud.datastore.models.QueryProfile$QueryMode, com.google.cloud.datastore.ReadOption[])</method>
+        <differenceType>7012</differenceType>
+    </difference>
+
+    <!-- updated internal only interface-->
+    <difference>
+        <className>com/google/cloud/datastore/execution/AggregationQueryExecutor</className>
+        <method>com.google.cloud.datastore.AggregationResults execute(com.google.cloud.datastore.AggregationQuery, com.google.cloud.datastore.ReadOption[])</method>
+        <differenceType>7004</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/execution/AggregationQueryExecutor</className>
+        <method>java.lang.Object execute(com.google.cloud.datastore.Query, com.google.cloud.datastore.ReadOption[])</method>
+        <differenceType>7004</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/execution/QueryExecutor</className>
+        <method>java.lang.Object execute(com.google.cloud.datastore.Query, com.google.cloud.datastore.ReadOption[])</method>
+        <differenceType>7004</differenceType>
+    </difference>
 </differences>

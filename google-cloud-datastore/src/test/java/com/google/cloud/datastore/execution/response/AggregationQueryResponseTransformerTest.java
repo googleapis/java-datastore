@@ -24,6 +24,8 @@ import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.AggregationResults;
 import com.google.common.collect.ImmutableMap;
 import com.google.datastore.v1.AggregationResultBatch;
+import com.google.datastore.v1.QueryPlan;
+import com.google.datastore.v1.ResultSetStats;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.Value;
 import java.util.AbstractMap.SimpleEntry;
@@ -76,6 +78,50 @@ public class AggregationQueryResponseTransformerTest {
     assertThat(aggregationResults.get(0)).isEqualTo(new AggregationResult(toDomainValues(result1)));
     assertThat(aggregationResults.get(1)).isEqualTo(new AggregationResult(toDomainValues(result2)));
     assertThat(aggregationResults.getReadTime()).isEqualTo(readTime);
+    assertThat(aggregationResults.getResultSetStats()).isEqualTo(null);
+  }
+
+  @Test
+  public void shouldTransformAggregationQueryResponseWithIntValuesWithStats() {
+    Map<String, com.google.datastore.v1.Value> result1 =
+        new HashMap<>(
+            ImmutableMap.of(
+                "count", intValue(209),
+                "property_2", intValue(100)));
+
+    Map<String, com.google.datastore.v1.Value> result2 =
+        new HashMap<>(
+            ImmutableMap.of(
+                "count", intValue(509),
+                "property_2", intValue((100))));
+    Timestamp readTime = Timestamp.now();
+
+    AggregationResultBatch resultBatch =
+        AggregationResultBatch.newBuilder()
+            .addAggregationResults(
+                com.google.datastore.v1.AggregationResult.newBuilder()
+                    .putAllAggregateProperties(result1)
+                    .build())
+            .addAggregationResults(
+                com.google.datastore.v1.AggregationResult.newBuilder()
+                    .putAllAggregateProperties(result2)
+                    .build())
+            .setReadTime(readTime.toProto())
+            .build();
+    ResultSetStats stats =
+        ResultSetStats.newBuilder().setQueryPlan(QueryPlan.newBuilder().build()).build();
+    RunAggregationQueryResponse runAggregationQueryResponse =
+        RunAggregationQueryResponse.newBuilder().setBatch(resultBatch).setStats(stats).build();
+
+    AggregationResults aggregationResults =
+        responseTransformer.transform(runAggregationQueryResponse);
+
+    assertThat(aggregationResults.size()).isEqualTo(2);
+    assertThat(aggregationResults.get(0)).isEqualTo(new AggregationResult(toDomainValues(result1)));
+    assertThat(aggregationResults.get(1)).isEqualTo(new AggregationResult(toDomainValues(result2)));
+    assertThat(aggregationResults.getReadTime()).isEqualTo(readTime);
+    assertThat(aggregationResults.getResultSetStats())
+        .isEqualTo(new com.google.cloud.datastore.models.ResultSetStats(stats));
   }
 
   @Test

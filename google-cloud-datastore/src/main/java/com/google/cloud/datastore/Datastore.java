@@ -16,7 +16,9 @@
 
 package com.google.cloud.datastore;
 
+import com.google.api.core.BetaApi;
 import com.google.cloud.Service;
+import com.google.cloud.datastore.models.QueryProfile;
 import com.google.datastore.v1.TransactionOptions;
 import java.util.Iterator;
 import java.util.List;
@@ -463,6 +465,29 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
   <T> QueryResults<T> run(Query<T> query, ReadOption... options);
 
   /**
+   * Submits a {@link Query} with specified {@link com.google.cloud.datastore.models.QueryProfile.QueryMode} and returns its result. {@link ReadOption}s can be specified if
+   * desired.
+   *
+   * <p>Example of running a query to find all entities of one kind.
+   *
+   * <pre>{@code
+   * String kind = "my_kind";
+   * StructuredQuery<Entity> query = Query.newEntityQueryBuilder()
+   *     .setKind(kind)
+   *     .build();
+   * QueryResults<Entity> results = datastore.run(query, QueryMode.EXPLAIN_ANALYZE);
+   * ResultSetStats resultSetStats = results.getResultSetStats();
+   * }</pre>
+   *
+   * @throws DatastoreException upon failure
+   */
+  @BetaApi
+  default <T> QueryResults<T> run(
+      Query<T> query, QueryProfile.QueryMode queryMode, ReadOption... options) {
+    throw new UnsupportedOperationException("not implemented");
+  }
+
+  /**
    * Submits a {@link AggregationQuery} and returns {@link AggregationResults}. {@link ReadOption}s
    * can be specified if desired.
    *
@@ -506,6 +531,34 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
    * @return {@link AggregationResults}
    */
   default AggregationResults runAggregation(AggregationQuery query, ReadOption... options) {
+    throw new UnsupportedOperationException("Not implemented.");
+  }
+
+  /**
+   * Submits a {@link AggregationQuery} with specified {@link com.google.cloud.datastore.models.QueryProfile.QueryMode} and returns {@link AggregationResults}. {@link ReadOption}s
+   * can be specified if desired.
+   *
+   * <p>Example of running an {@link AggregationQuery} to find the count of entities of one kind.
+   *
+   * <p>{@link StructuredQuery} example:
+   *
+   * <pre>{@code
+   * EntityQuery selectAllQuery = Query.newEntityQueryBuilder()
+   *    .setKind("Task")
+   *    .build();
+   * AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
+   *    .addAggregation(count().as("total_count"))
+   *    .over(selectAllQuery)
+   *    .build();
+   * AggregationResults aggregationResults = datastore.runAggregation(aggregationQuery, QueryMode.EXPLAIN_ANALYZE);
+   * ResultSetStats aggregationStats = aggregationResults.getResultSetStats();
+   * }</pre>
+   * @throws DatastoreException upon failure
+   * @return {@link AggregationResults}
+   */
+  @BetaApi
+  default AggregationResults runAggregation(
+      AggregationQuery query, QueryProfile.QueryMode queryMode, ReadOption... options) {
     throw new UnsupportedOperationException("Not implemented.");
   }
 }
