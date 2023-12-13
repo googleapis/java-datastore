@@ -197,18 +197,4 @@ public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
     }
     return builder.toString();
   }
-
-  // This class is needed solely to get access to protected method setInternalHeaderProvider()
-  private static class DatastoreSettingsBuilder extends DatastoreSettings.Builder {
-
-    private DatastoreSettingsBuilder(DatastoreSettings settings) {
-      super(settings);
-    }
-
-    @Override
-    protected DatastoreSettings.Builder setInternalHeaderProvider(
-        HeaderProvider internalHeaderProvider) {
-      return super.setInternalHeaderProvider(internalHeaderProvider);
-    }
-  }
 }

@@ -16,8 +16,10 @@
 
 package com.google.cloud.datastore.spi.v1;
 
+import com.google.api.gax.rpc.HeaderProvider;
 import com.google.cloud.ServiceRpc;
 import com.google.cloud.datastore.DatastoreException;
+import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.datastore.v1.AllocateIdsRequest;
 import com.google.datastore.v1.AllocateIdsResponse;
 import com.google.datastore.v1.BeginTransactionRequest;
@@ -95,5 +97,18 @@ public interface DatastoreRpc extends ServiceRpc {
    */
   default RunAggregationQueryResponse runAggregationQuery(RunAggregationQueryRequest request) {
     throw new UnsupportedOperationException("Not implemented.");
+  }
+
+  // This class is needed solely to get access to protected method setInternalHeaderProvider()
+  class DatastoreSettingsBuilder extends DatastoreSettings.Builder {
+    DatastoreSettingsBuilder(DatastoreSettings settings) {
+      super(settings);
+    }
+
+    @Override
+    protected DatastoreSettings.Builder setInternalHeaderProvider(
+        HeaderProvider internalHeaderProvider) {
+      return super.setInternalHeaderProvider(internalHeaderProvider);
+    }
   }
 }

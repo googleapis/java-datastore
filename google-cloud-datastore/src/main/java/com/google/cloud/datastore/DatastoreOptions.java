@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.Transport.GRPC;
 import static com.google.cloud.datastore.Validator.validateNamespace;
 
 import com.google.api.core.BetaApi;
@@ -26,8 +27,10 @@ import com.google.cloud.TransportOptions;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.cloud.datastore.spi.v1.GrpcDatastoreRpc;
+import com.google.cloud.datastore.spi.v1.HttpDatastoreRpc;
 import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.http.HttpTransportOptions;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
@@ -45,6 +48,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
   private final String namespace;
   private final String databaseId;
+  private final Transport transport;
 
   public static class DefaultDatastoreFactory implements DatastoreFactory {
 
@@ -63,7 +67,9 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     @Override
     public ServiceRpc create(DatastoreOptions options) {
       try {
-        return new GrpcDatastoreRpc(options);
+        return options.transport == GRPC
+            ? new GrpcDatastoreRpc(options)
+            : new HttpDatastoreRpc(options);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -74,6 +80,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
     private String namespace;
     private String databaseId;
+    private Transport transport = GRPC;
 
     private Builder() {}
 
@@ -81,6 +88,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       super(options);
       namespace = options.namespace;
       databaseId = options.databaseId;
+      transport = options.transport;
     }
 
     @Override
@@ -108,12 +116,18 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       this.databaseId = databaseId;
       return this;
     }
+
+    public Builder useHttp() {
+      this.transport = Transport.HTTP;
+      return this;
+    }
   }
 
   private DatastoreOptions(Builder builder) {
     super(DatastoreFactory.class, DatastoreRpcFactory.class, builder, new DatastoreDefaults());
     namespace = MoreObjects.firstNonNull(builder.namespace, defaultNamespace());
     databaseId = MoreObjects.firstNonNull(builder.databaseId, DEFAULT_DATABASE_ID);
+    transport = builder.transport;
   }
 
   @Override
@@ -164,6 +178,12 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   @BetaApi
   public String getDatabaseId() {
     return this.databaseId;
+  }
+
+  /** Returns the current transport */
+  @VisibleForTesting
+  Transport getTransport() {
+    return this.transport;
   }
 
   /** Returns a default {@code DatastoreOptions} instance. */
