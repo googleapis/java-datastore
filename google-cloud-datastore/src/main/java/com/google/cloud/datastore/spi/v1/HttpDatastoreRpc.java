@@ -19,8 +19,10 @@ package com.google.cloud.datastore.spi.v1;
 import static com.google.cloud.datastore.DatastoreUtils.isLocalHost;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.api.core.ApiFunction;
 import com.google.api.gax.core.BackgroundResource;
 import com.google.api.gax.rpc.ClientContext;
+import com.google.api.gax.rpc.UnaryCallSettings;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.datastore.v1.stub.DatastoreStubSettings;
@@ -62,9 +64,16 @@ public class HttpDatastoreRpc implements AutoCloseable, DatastoreRpc {
 
     clientContext = ClientContext.create(datastoreSettings);
 
-    // TODO(gapic_upgrade) retry setting in DatastoreStubSettings
+    ApiFunction<UnaryCallSettings.Builder<?, ?>, Void> retrySettingsSetter =
+        builder -> {
+          builder.setRetrySettings(options.getRetrySettings());
+          return null;
+        };
     DatastoreStubSettings datastoreStubSettings =
-        DatastoreStubSettings.newBuilder(clientContext).build();
+        DatastoreStubSettings.newBuilder(clientContext)
+            .applyToAllUnaryMethods(retrySettingsSetter)
+            .build();
+
 
     datastoreStub = HttpJsonDatastoreStub.create(datastoreStubSettings);
   }
