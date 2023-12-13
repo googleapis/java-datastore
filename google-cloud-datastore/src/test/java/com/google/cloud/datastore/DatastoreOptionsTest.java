@@ -90,7 +90,8 @@ public class DatastoreOptionsTest {
     assertThat(options.build().getTransport()).isEqualTo(GRPC);
 
     // custom http transport
-    DatastoreOptions httpDatastoreOptions = DatastoreOptions.newBuilder().useHttp().build();
+    DatastoreOptions httpDatastoreOptions =
+        DatastoreOptions.newBuilder().useHttp().setProjectId(PROJECT_ID).build();
     assertThat(httpDatastoreOptions.getTransport()).isEqualTo(HTTP);
   }
 

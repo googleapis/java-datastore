@@ -74,7 +74,6 @@ public class HttpDatastoreRpc implements AutoCloseable, DatastoreRpc {
             .applyToAllUnaryMethods(retrySettingsSetter)
             .build();
 
-
     datastoreStub = HttpJsonDatastoreStub.create(datastoreStubSettings);
   }
 
