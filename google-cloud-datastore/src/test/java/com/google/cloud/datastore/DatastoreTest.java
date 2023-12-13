@@ -96,6 +96,9 @@ import org.threeten.bp.Duration;
 public class DatastoreTest {
   private static final int NUMBER_OF_ATTEMPTS = 5;
 
+  @ClassRule
+  public static MultipleAttemptsRule rr = new MultipleAttemptsRule(NUMBER_OF_ATTEMPTS, 10);
+
   private static LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0);
   private static final DatastoreOptions options = helper.getOptions();
   private static final Datastore datastore = options.getService();
@@ -173,7 +176,6 @@ public class DatastoreTest {
 
   @BeforeClass
   public static void beforeClass() throws IOException, InterruptedException {
-    System.setProperty("java.net.preferIPv6Addresses", "true");
     helper.start();
   }
 
