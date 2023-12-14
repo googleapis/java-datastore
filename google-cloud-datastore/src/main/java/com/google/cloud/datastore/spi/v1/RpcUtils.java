@@ -16,9 +16,6 @@
 
 package com.google.cloud.datastore.spi.v1;
 
-import static com.google.api.gax.rpc.StatusCode.Code.ABORTED;
-import static com.google.api.gax.rpc.StatusCode.Code.DEADLINE_EXCEEDED;
-import static com.google.api.gax.rpc.StatusCode.Code.UNAVAILABLE;
 
 import com.google.api.core.ApiFunction;
 import com.google.api.core.InternalApi;
@@ -31,7 +28,6 @@ public class RpcUtils {
   static ApiFunction<UnaryCallSettings.Builder<?, ?>, Void> retrySettingSetter(
       DatastoreOptions datastoreOptions) {
     return builder -> {
-      builder.setRetryableCodes(ABORTED, DEADLINE_EXCEEDED, UNAVAILABLE);
       builder.setRetrySettings(datastoreOptions.getRetrySettings());
       return null;
     };
