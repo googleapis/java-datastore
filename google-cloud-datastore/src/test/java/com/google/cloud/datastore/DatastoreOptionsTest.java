@@ -16,8 +16,8 @@
 
 package com.google.cloud.datastore;
 
-import static com.google.cloud.datastore.Transport.GRPC;
-import static com.google.cloud.datastore.Transport.HTTP;
+import static com.google.cloud.datastore.spi.v1.DatastoreRpc.Transport.GRPC;
+import static com.google.cloud.datastore.spi.v1.DatastoreRpc.Transport.HTTP;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;

@@ -16,8 +16,8 @@
 
 package com.google.cloud.datastore;
 
-import static com.google.cloud.datastore.Transport.GRPC;
 import static com.google.cloud.datastore.Validator.validateNamespace;
+import static com.google.cloud.datastore.spi.v1.DatastoreRpc.Transport.GRPC;
 
 import com.google.api.core.BetaApi;
 import com.google.cloud.ServiceDefaults;
@@ -26,6 +26,7 @@ import com.google.cloud.ServiceRpc;
 import com.google.cloud.TransportOptions;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
+import com.google.cloud.datastore.spi.v1.DatastoreRpc.Transport;
 import com.google.cloud.datastore.spi.v1.GrpcDatastoreRpc;
 import com.google.cloud.datastore.spi.v1.HttpDatastoreRpc;
 import com.google.cloud.datastore.v1.DatastoreSettings;

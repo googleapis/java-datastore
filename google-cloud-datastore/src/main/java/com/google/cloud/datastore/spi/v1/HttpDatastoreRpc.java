@@ -20,6 +20,7 @@ import static com.google.cloud.datastore.DatastoreUtils.isLocalHost;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.api.core.ApiFunction;
+import com.google.api.core.InternalApi;
 import com.google.api.gax.core.BackgroundResource;
 import com.google.api.gax.rpc.ClientContext;
 import com.google.api.gax.rpc.UnaryCallSettings;
@@ -45,7 +46,8 @@ import com.google.datastore.v1.RunQueryRequest;
 import com.google.datastore.v1.RunQueryResponse;
 import java.io.IOException;
 
-public class HttpDatastoreRpc implements AutoCloseable, DatastoreRpc {
+@InternalApi
+public class HttpDatastoreRpc implements DatastoreRpc {
 
   private final ClientContext clientContext;
   private final HttpJsonDatastoreStub datastoreStub;
