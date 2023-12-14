@@ -16,7 +16,6 @@
 
 package com.google.cloud.datastore.spi.v1;
 
-
 import com.google.api.core.ApiFunction;
 import com.google.api.core.InternalApi;
 import com.google.api.gax.rpc.UnaryCallSettings;
