@@ -14,7 +14,8 @@ public class DatastoreRpcTest {
 
   @Test
   public void testRetrySettingSetter() {
-    DatastoreOptions datastoreOptions = DatastoreOptions.getDefaultInstance();
+    DatastoreOptions datastoreOptions =
+        DatastoreOptions.newBuilder().setProjectId("project-id").build();
     UnaryCallSettings.Builder<Object, Object> builder =
         UnaryCallSettings.newUnaryCallSettingsBuilder();
 
