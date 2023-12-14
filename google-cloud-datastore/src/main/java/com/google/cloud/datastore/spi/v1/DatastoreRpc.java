@@ -16,10 +16,17 @@
 
 package com.google.cloud.datastore.spi.v1;
 
+import static com.google.api.gax.rpc.StatusCode.Code.ABORTED;
+import static com.google.api.gax.rpc.StatusCode.Code.DEADLINE_EXCEEDED;
+import static com.google.api.gax.rpc.StatusCode.Code.UNAVAILABLE;
+
+import com.google.api.core.ApiFunction;
 import com.google.api.core.InternalApi;
 import com.google.api.gax.rpc.HeaderProvider;
+import com.google.api.gax.rpc.UnaryCallSettings;
 import com.google.cloud.ServiceRpc;
 import com.google.cloud.datastore.DatastoreException;
+import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.datastore.v1.AllocateIdsRequest;
 import com.google.datastore.v1.AllocateIdsResponse;
@@ -104,6 +111,16 @@ public interface DatastoreRpc extends ServiceRpc, AutoCloseable {
   void close() throws Exception;
   /** Returns true if this background resource has been shut down. */
   boolean isClosed();
+
+  @InternalApi
+  static ApiFunction<UnaryCallSettings.Builder<?, ?>, Void> retrySettingSetter(
+      DatastoreOptions datastoreOptions) {
+    return builder -> {
+      builder.setRetryableCodes(ABORTED, DEADLINE_EXCEEDED, UNAVAILABLE);
+      builder.setRetrySettings(datastoreOptions.getRetrySettings());
+      return null;
+    };
+  }
 
   // This class is needed solely to get access to protected method setInternalHeaderProvider()
   class DatastoreSettingsBuilder extends DatastoreSettings.Builder {

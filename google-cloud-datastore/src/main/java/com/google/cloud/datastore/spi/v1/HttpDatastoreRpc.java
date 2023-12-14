@@ -17,13 +17,12 @@
 package com.google.cloud.datastore.spi.v1;
 
 import static com.google.cloud.datastore.DatastoreUtils.isLocalHost;
+import static com.google.cloud.datastore.spi.v1.DatastoreRpc.retrySettingSetter;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.api.core.ApiFunction;
 import com.google.api.core.InternalApi;
 import com.google.api.gax.core.BackgroundResource;
 import com.google.api.gax.rpc.ClientContext;
-import com.google.api.gax.rpc.UnaryCallSettings;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.datastore.v1.stub.DatastoreStubSettings;
@@ -54,26 +53,21 @@ public class HttpDatastoreRpc implements DatastoreRpc {
 
   private boolean closed;
 
-  public HttpDatastoreRpc(DatastoreOptions options) throws IOException {
+  public HttpDatastoreRpc(DatastoreOptions datastoreOptions) throws IOException {
     DatastoreSettings datastoreSettings =
         new DatastoreSettingsBuilder(DatastoreSettings.newBuilder().build())
             .setInternalHeaderProvider(
                 DatastoreStubSettings.defaultHttpJsonApiClientHeaderProviderBuilder().build())
             .setTransportChannelProvider(
                 DatastoreStubSettings.defaultHttpJsonTransportProviderBuilder().build())
-            .setEndpoint(getHost(options))
+            .setEndpoint(getHost(datastoreOptions))
             .build();
 
     clientContext = ClientContext.create(datastoreSettings);
 
-    ApiFunction<UnaryCallSettings.Builder<?, ?>, Void> retrySettingsSetter =
-        builder -> {
-          builder.setRetrySettings(options.getRetrySettings());
-          return null;
-        };
     DatastoreStubSettings datastoreStubSettings =
         DatastoreStubSettings.newBuilder(clientContext)
-            .applyToAllUnaryMethods(retrySettingsSetter)
+            .applyToAllUnaryMethods(retrySettingSetter(datastoreOptions))
             .build();
 
     datastoreStub = HttpJsonDatastoreStub.create(datastoreStubSettings);
