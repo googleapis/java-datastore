@@ -31,6 +31,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -39,7 +40,6 @@ import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.Query.ResultType;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
-import com.google.cloud.datastore.it.MultipleAttemptsRule;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.cloud.datastore.testing.LocalDatastoreHelper;
@@ -79,14 +79,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeoutException;
 import java.util.function.Predicate;
 import org.easymock.EasyMock;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -94,14 +92,9 @@ import org.threeten.bp.Duration;
 
 @RunWith(JUnit4.class)
 public class DatastoreTest {
-  private static final int NUMBER_OF_ATTEMPTS = 5;
-
-  @ClassRule
-  public static MultipleAttemptsRule rr = new MultipleAttemptsRule(NUMBER_OF_ATTEMPTS, 10);
-
-  private static LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0);
-  private static final DatastoreOptions options = helper.getOptions();
-  private static final Datastore datastore = options.getService();
+  private static final LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0, 9090);
+  private static DatastoreOptions options = helper.getOptions();
+  private static Datastore datastore;
   private static final String PROJECT_ID = options.getProjectId();
   private static final String KIND1 = "kind1";
   private static final String KIND2 = "kind2";
@@ -177,6 +170,8 @@ public class DatastoreTest {
   @BeforeClass
   public static void beforeClass() throws IOException, InterruptedException {
     helper.start();
+    options = helper.getOptions();
+    datastore = options.getService();
   }
 
   @Before
@@ -197,7 +192,8 @@ public class DatastoreTest {
   }
 
   @AfterClass
-  public static void afterClass() throws IOException, InterruptedException, TimeoutException {
+  public static void afterClass() throws Exception {
+    datastore.close();
     helper.stop(Duration.ofMinutes(1));
   }
 
@@ -1384,6 +1380,21 @@ public class DatastoreTest {
 
     IncompleteKey incompleteKey = keyFactory.newKey();
     checkKeyProperties(incompleteKey);
+  }
+
+  @Test
+  public void testDatastoreClose() throws Exception {
+    Datastore datastore = options.toBuilder().build().getService();
+    Entity entity = datastore.get(KEY3);
+    assertNull(entity);
+
+    datastore.close();
+    assertTrue(datastore.isClosed());
+
+    assertThrows(
+        "io.grpc.StatusRuntimeException: UNAVAILABLE: Channel shutdown invoked",
+        DatastoreException.class,
+        () -> datastore.get(KEY3));
   }
 
   private void checkKeyProperties(BaseKey key) {

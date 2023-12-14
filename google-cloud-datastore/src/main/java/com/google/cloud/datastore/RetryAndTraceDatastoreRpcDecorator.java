@@ -109,6 +109,16 @@ public class RetryAndTraceDatastoreRpcDecorator implements DatastoreRpc {
         () -> datastoreRpc.runAggregationQuery(request), SPAN_NAME_RUN_AGGREGATION_QUERY);
   }
 
+  @Override
+  public void close() throws Exception {
+    datastoreRpc.close();
+  }
+
+  @Override
+  public boolean isClosed() {
+    return datastoreRpc.isClosed();
+  }
+
   public <O> O invokeRpc(Callable<O> block, String startSpan) {
     Span span = traceUtil.startSpan(startSpan);
     try (Scope scope = traceUtil.getTracer().withSpan(span)) {
