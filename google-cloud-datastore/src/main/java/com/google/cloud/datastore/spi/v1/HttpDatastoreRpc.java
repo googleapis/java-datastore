@@ -17,7 +17,7 @@
 package com.google.cloud.datastore.spi.v1;
 
 import static com.google.cloud.datastore.DatastoreUtils.isLocalHost;
-import static com.google.cloud.datastore.spi.v1.DatastoreRpc.retrySettingSetter;
+import static com.google.cloud.datastore.spi.v1.RpcUtils.retrySettingSetter;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.api.core.InternalApi;
