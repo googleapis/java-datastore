@@ -63,7 +63,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 @InternalApi
-public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
+public class GrpcDatastoreRpc implements DatastoreRpc {
 
   private final GrpcDatastoreStub datastoreStub;
   private final ClientContext clientContext;
@@ -144,6 +144,11 @@ public class GrpcDatastoreRpc implements AutoCloseable, DatastoreRpc {
   @Override
   public RunAggregationQueryResponse runAggregationQuery(RunAggregationQueryRequest request) {
     return datastoreStub.runAggregationQueryCallable().call(request);
+  }
+
+  @Override
+  public boolean isClosed() {
+    return closed && datastoreStub.isShutdown();
   }
 
   private boolean isEmulator(DatastoreOptions datastoreOptions) {

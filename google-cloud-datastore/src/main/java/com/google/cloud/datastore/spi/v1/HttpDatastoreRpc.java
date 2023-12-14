@@ -131,6 +131,11 @@ public class HttpDatastoreRpc implements AutoCloseable, DatastoreRpc {
     }
   }
 
+  @Override
+  public boolean isClosed() {
+    return closed && datastoreStub.isShutdown();
+  }
+
   /**
    * Prefixing it with http scheme when host is localhost, otherwise {@link
    * com.google.api.gax.httpjson.HttpRequestRunnable#normalizeEndpoint(String)} will prefix it with
