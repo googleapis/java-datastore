@@ -18,21 +18,40 @@ package com.google.cloud.datastore.spi.v1;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.api.gax.retrying.RetrySettings;
 import com.google.api.gax.rpc.UnaryCallSettings;
 import com.google.cloud.datastore.DatastoreOptions;
 import org.junit.Test;
+import org.threeten.bp.Duration;
 
 public class RpcUtilsTest {
 
   @Test
   public void testRetrySettingSetter() {
-    DatastoreOptions datastoreOptions =
-        DatastoreOptions.newBuilder().setProjectId("project-id").build();
     UnaryCallSettings.Builder<Object, Object> builder =
         UnaryCallSettings.newUnaryCallSettingsBuilder();
 
+    // datastoreOptions with default retry settings
+    DatastoreOptions datastoreOptions =
+        DatastoreOptions.newBuilder().setProjectId("project-id").build();
     RpcUtils.retrySettingSetter(datastoreOptions).apply(builder);
-
     assertThat(builder.getRetrySettings()).isEqualTo(datastoreOptions.getRetrySettings());
+
+    // datastoreOptions with custom retry settings
+    RetrySettings customRetrySettings =
+        RetrySettings.newBuilder()
+            .setTotalTimeout(Duration.ofMinutes(2))
+            .setInitialRpcTimeout(Duration.ofSeconds(5))
+            .setMaxRpcTimeout(Duration.ofSeconds(10))
+            .setRetryDelayMultiplier(1.5)
+            .setMaxAttempts(5)
+            .build();
+    DatastoreOptions datastoreOptionsWithCustomRetrySettings =
+        DatastoreOptions.newBuilder()
+            .setProjectId("project-id")
+            .setRetrySettings(customRetrySettings)
+            .build();
+    RpcUtils.retrySettingSetter(datastoreOptionsWithCustomRetrySettings).apply(builder);
+    assertThat(builder.getRetrySettings()).isEqualTo(customRetrySettings);
   }
 }

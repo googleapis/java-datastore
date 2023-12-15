@@ -118,8 +118,8 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       return this;
     }
 
-    public Builder useHttp() {
-      this.transport = Transport.HTTP;
+    public Builder setTransport(Transport transport) {
+      this.transport = transport;
       return this;
     }
   }
