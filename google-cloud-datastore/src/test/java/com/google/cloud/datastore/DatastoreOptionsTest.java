@@ -16,6 +16,9 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.spi.v1.DatastoreRpc.Transport.GRPC;
+import static com.google.cloud.datastore.spi.v1.DatastoreRpc.Transport.HTTP;
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -79,6 +82,22 @@ public class DatastoreOptionsTest {
   @Test
   public void testDatastore() {
     assertSame(datastoreRpc, options.build().getRpc());
+  }
+
+  @Test
+  public void testTransport() {
+    // default grpc transport
+    assertThat(options.build().getTransport()).isEqualTo(GRPC);
+
+    // custom http transport
+    DatastoreOptions httpDatastoreOptions =
+        DatastoreOptions.newBuilder().setTransport(HTTP).setProjectId(PROJECT_ID).build();
+    assertThat(httpDatastoreOptions.getTransport()).isEqualTo(HTTP);
+
+    // custom grpc transport
+    DatastoreOptions grpcDatastoreOptions =
+        DatastoreOptions.newBuilder().setTransport(GRPC).setProjectId(PROJECT_ID).build();
+    assertThat(grpcDatastoreOptions.getTransport()).isEqualTo(GRPC);
   }
 
   @Test

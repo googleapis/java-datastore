@@ -18,9 +18,9 @@ package com.google.cloud.datastore.spi.v1;
 
 import static com.google.cloud.datastore.DatastoreUtils.isLocalHost;
 import static com.google.cloud.datastore.DatastoreUtils.removeScheme;
+import static com.google.cloud.datastore.spi.v1.RpcUtils.retrySettingSetter;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.api.core.ApiFunction;
 import com.google.api.core.InternalApi;
 import com.google.api.gax.core.BackgroundResource;
 import com.google.api.gax.core.GaxProperties;
@@ -30,7 +30,6 @@ import com.google.api.gax.rpc.ClientContext;
 import com.google.api.gax.rpc.HeaderProvider;
 import com.google.api.gax.rpc.NoHeaderProvider;
 import com.google.api.gax.rpc.TransportChannel;
-import com.google.api.gax.rpc.UnaryCallSettings;
 import com.google.cloud.NoCredentials;
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.datastore.DatastoreException;
@@ -76,14 +75,10 @@ public class GrpcDatastoreRpc implements DatastoreRpc {
           isEmulator(datastoreOptions)
               ? getClientContextForEmulator(datastoreOptions)
               : getClientContext(datastoreOptions);
-      ApiFunction<UnaryCallSettings.Builder<?, ?>, Void> retrySettingsSetter =
-          builder -> {
-            builder.setRetrySettings(datastoreOptions.getRetrySettings());
-            return null;
-          };
+
       DatastoreStubSettings datastoreStubSettings =
           DatastoreStubSettings.newBuilder(clientContext)
-              .applyToAllUnaryMethods(retrySettingsSetter)
+              .applyToAllUnaryMethods(retrySettingSetter(datastoreOptions))
               .build();
       datastoreStub = GrpcDatastoreStub.create(datastoreStubSettings);
     } catch (IOException e) {
@@ -201,19 +196,5 @@ public class GrpcDatastoreRpc implements DatastoreRpc {
       builder.append(datastoreOptions.getDatabaseId());
     }
     return builder.toString();
-  }
-
-  // This class is needed solely to get access to protected method setInternalHeaderProvider()
-  private static class DatastoreSettingsBuilder extends DatastoreSettings.Builder {
-
-    private DatastoreSettingsBuilder(DatastoreSettings settings) {
-      super(settings);
-    }
-
-    @Override
-    protected DatastoreSettings.Builder setInternalHeaderProvider(
-        HeaderProvider internalHeaderProvider) {
-      return super.setInternalHeaderProvider(internalHeaderProvider);
-    }
   }
 }
