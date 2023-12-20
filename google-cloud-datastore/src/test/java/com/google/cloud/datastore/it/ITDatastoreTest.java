@@ -241,11 +241,23 @@ public class ITDatastoreTest {
     Key aggKey3 = this.datastore.newKeyFactory().setKind(AGG_KIND).newKey(3);
 
     AGG_ENTITY1 =
-        Entity.newBuilder(aggKey1).set("name", "person 1").set("marks", 89).set("cgpa", 7.34).build();
+        Entity.newBuilder(aggKey1)
+            .set("name", "person 1")
+            .set("marks", 89)
+            .set("cgpa", 7.34)
+            .build();
     AGG_ENTITY2 =
-        Entity.newBuilder(aggKey2).set("name", "person 2").set("marks", 95).set("cgpa", 9.27).build();
+        Entity.newBuilder(aggKey2)
+            .set("name", "person 2")
+            .set("marks", 95)
+            .set("cgpa", 9.27)
+            .build();
     AGG_ENTITY3 =
-        Entity.newBuilder(aggKey3).set("name", "person 3").set("marks", 55).set("cgpa", 5.16).build();
+        Entity.newBuilder(aggKey3)
+            .set("name", "person 3")
+            .set("marks", 55)
+            .set("cgpa", 5.16)
+            .build();
   }
 
   @Before
