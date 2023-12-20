@@ -154,8 +154,10 @@ public class ITDatastoreTest {
   @Rule public MultipleAttemptsRule multipleAttemptsRule = new MultipleAttemptsRule(3);
 
   @AfterClass
-  public static void afterClass() {
+  public static void afterClass() throws Exception {
     HELPER.deleteNamespace();
+    DATASTORE_1.close();
+    DATASTORE_2.close();
   }
 
   public ITDatastoreTest(
