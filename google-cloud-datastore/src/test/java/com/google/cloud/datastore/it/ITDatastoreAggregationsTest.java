@@ -26,7 +26,6 @@ import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Datastore.TransactionCallable;
-import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.EntityQuery;
 import com.google.cloud.datastore.GqlQuery;
@@ -34,7 +33,6 @@ import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.Transaction;
-import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.collect.ImmutableList;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.datastore.v1.TransactionOptions.ReadOnly;
@@ -43,17 +41,23 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.junit.After;
-import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 // TODO(jainsahab) Move all the aggregation related tests from ITDatastoreTest to this file
 public class ITDatastoreAggregationsTest {
 
-  private static final RemoteDatastoreHelper HELPER = RemoteDatastoreHelper.create();
-  private static final DatastoreOptions OPTIONS = HELPER.getOptions();
-  private static final Datastore DATASTORE = OPTIONS.getService();
+  @ClassRule public static MultiDbRule multiDbRule = new MultiDbRule();
+
+  private static Datastore DATASTORE;
 
   private static final String KIND = "Marks";
+
+  @BeforeClass
+  public static void beforeClass() throws Exception {
+    DATASTORE = multiDbRule.getDatastore();
+  }
 
   @After
   public void tearDown() {
@@ -62,11 +66,6 @@ public class ITDatastoreAggregationsTest {
     Key[] keysToDelete =
         ImmutableList.copyOf(allEntities).stream().map(Entity::getKey).toArray(Key[]::new);
     DATASTORE.delete(keysToDelete);
-  }
-
-  @AfterClass
-  public static void afterClass() throws Exception {
-    DATASTORE.close();
   }
 
   Key key1 = DATASTORE.newKeyFactory().setKind(KIND).newKey(1);
@@ -89,7 +88,6 @@ public class ITDatastoreAggregationsTest {
         Query.newAggregationQueryBuilder()
             .over(baseQuery)
             .addAggregations(sum("marks").as("total_marks"))
-            .setNamespace(OPTIONS.getNamespace())
             .build();
 
     // sum of 2 entities
@@ -108,11 +106,7 @@ public class ITDatastoreAggregationsTest {
 
     EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(KIND).build();
     AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(baseQuery)
-            .addAggregations(sum("marks"))
-            .setNamespace(OPTIONS.getNamespace())
-            .build();
+        Query.newAggregationQueryBuilder().over(baseQuery).addAggregations(sum("marks")).build();
 
     // sum of 2 entities
     assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("property_1"))
@@ -133,11 +127,7 @@ public class ITDatastoreAggregationsTest {
                 "AGGREGATE SUM(marks) AS total_marks OVER (SELECT * FROM Marks)")
             .build();
 
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(gqlQuery)
-            .setNamespace(OPTIONS.getNamespace())
-            .build();
+    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder().over(gqlQuery).build();
 
     // sum of 2 entities
     assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("total_marks"))
@@ -158,7 +148,6 @@ public class ITDatastoreAggregationsTest {
         Query.newAggregationQueryBuilder()
             .over(baseQuery)
             .addAggregations(sum("cgpa").as("total_cgpa"))
-            .setNamespace(OPTIONS.getNamespace())
             .build();
 
     // sum of 2 entities
@@ -180,7 +169,6 @@ public class ITDatastoreAggregationsTest {
         Query.newAggregationQueryBuilder()
             .over(baseQuery)
             .addAggregations(avg("marks").as("avg_marks"))
-            .setNamespace(OPTIONS.getNamespace())
             .build();
 
     // avg of 2 entities
@@ -199,11 +187,7 @@ public class ITDatastoreAggregationsTest {
 
     EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(KIND).build();
     AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(baseQuery)
-            .addAggregations(avg("marks"))
-            .setNamespace(OPTIONS.getNamespace())
-            .build();
+        Query.newAggregationQueryBuilder().over(baseQuery).addAggregations(avg("marks")).build();
 
     // avg of 2 entities
     assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getDouble("property_1"))
@@ -223,11 +207,7 @@ public class ITDatastoreAggregationsTest {
         Query.newGqlQueryBuilder("AGGREGATE AVG(marks) AS avg_marks OVER (SELECT * FROM Marks)")
             .build();
 
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(gqlQuery)
-            .setNamespace(OPTIONS.getNamespace())
-            .build();
+    AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder().over(gqlQuery).build();
 
     // avg of 2 entities
     assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getDouble("avg_marks"))
@@ -249,7 +229,6 @@ public class ITDatastoreAggregationsTest {
             .over(baseQuery)
             .addAggregations(sum("marks").as("total_marks"))
             .addAggregations(avg("marks").as("avg_marks"))
-            .setNamespace(OPTIONS.getNamespace())
             .build();
 
     // sum of 2 entities
@@ -271,7 +250,6 @@ public class ITDatastoreAggregationsTest {
             .addAggregation(count().as("count"))
             .addAggregations(sum("marks").as("total_marks"))
             .addAggregations(avg("marks").as("avg_marks"))
-            .setNamespace(OPTIONS.getNamespace())
             .build();
 
     // original entity count is 2
@@ -332,7 +310,6 @@ public class ITDatastoreAggregationsTest {
             .addAggregation(count().as("count"))
             .addAggregations(sum("marks").as("total_marks"))
             .addAggregations(avg("marks").as("avg_marks"))
-            .setNamespace(OPTIONS.getNamespace())
             .build();
 
     TransactionOptions transactionOptions =
