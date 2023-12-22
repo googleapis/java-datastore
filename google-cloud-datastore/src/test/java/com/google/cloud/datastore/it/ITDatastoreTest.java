@@ -67,13 +67,11 @@ import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.TimestampValue;
 import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.ValueType;
-import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.datastore.v1.TransactionOptions.ReadOnly;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -85,28 +83,17 @@ import java.util.concurrent.Future;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
-@RunWith(Parameterized.class)
 public class ITDatastoreTest {
 
-  private static final RemoteDatastoreHelper HELPER = RemoteDatastoreHelper.create();
-  private static final DatastoreOptions OPTIONS_1 = HELPER.getOptions();
-  private static final Datastore DATASTORE_1 = OPTIONS_1.getService();
-
-  private static final String CUSTOM_DB_ID = "test-db";
-  private static final RemoteDatastoreHelper HELPER2 = RemoteDatastoreHelper.create(CUSTOM_DB_ID);
-  private static final DatastoreOptions OPTIONS_2 = HELPER2.getOptions();
-  private static final Datastore DATASTORE_2 = OPTIONS_2.getService();
-
-  private final DatastoreOptions options;
-  private final Datastore datastore;
+  private static DatastoreOptions DATASTORE_OPTIONS;
+  private static Datastore DATASTORE;
 
   private static String PROJECT_ID;
   private static String NAMESPACE;
@@ -139,37 +126,30 @@ public class ITDatastoreTest {
   private static Entity ENTITY2;
   private static Entity ENTITY3;
 
+  @ClassRule public static MultiDbRule multiDbRule = new MultiDbRule();
+
   @Rule public Timeout globalTimeout = Timeout.seconds(100);
 
   @Rule public MultipleAttemptsRule multipleAttemptsRule = new MultipleAttemptsRule(3);
 
-  @AfterClass
-  public static void afterClass() throws Exception {
-    HELPER.deleteNamespace();
-    DATASTORE_1.close();
-    DATASTORE_2.close();
-  }
+  @BeforeClass
+  public static void beforeClass() throws Exception {
 
-  public ITDatastoreTest(
-      DatastoreOptions options,
-      Datastore datastore,
-      // databaseType is unused as a variable, but used as a parameterized label when running tests
-      String databaseType) {
-    this.options = options;
-    this.datastore = datastore;
+    DATASTORE_OPTIONS = multiDbRule.getCurrentOptions();
+    DATASTORE = multiDbRule.getDatastore();
 
-    PROJECT_ID = this.options.getProjectId();
-    NAMESPACE = this.options.getNamespace();
+    PROJECT_ID = DATASTORE_OPTIONS.getProjectId();
+    NAMESPACE = DATASTORE_OPTIONS.getNamespace();
 
     ROOT_KEY =
-        Key.newBuilder(PROJECT_ID, "rootkey", "default", options.getDatabaseId())
+        Key.newBuilder(PROJECT_ID, "rootkey", "default", DATASTORE_OPTIONS.getDatabaseId())
             .setNamespace(NAMESPACE)
             .build();
     INCOMPLETE_KEY1 = IncompleteKey.newBuilder(ROOT_KEY, KIND1).setNamespace(NAMESPACE).build();
 
     IncompleteKey INCOMPLETE_KEY2 =
         IncompleteKey.newBuilder(PROJECT_ID, KIND2)
-            .setDatabaseId(options.getDatabaseId())
+            .setDatabaseId(DATASTORE_OPTIONS.getDatabaseId())
             .setNamespace(NAMESPACE)
             .build();
 
@@ -198,7 +178,7 @@ public class ITDatastoreTest {
             .setKey(
                 IncompleteKey.newBuilder(PROJECT_ID, KIND3)
                     .setNamespace(NAMESPACE)
-                    .setDatabaseId(options.getDatabaseId())
+                    .setDatabaseId(DATASTORE_OPTIONS.getDatabaseId())
                     .build())
             .build();
     ENTITY1 =
@@ -231,36 +211,30 @@ public class ITDatastoreTest {
 
   @Before
   public void setUp() {
-    datastore.put(ENTITY1, ENTITY2);
+    DATASTORE.put(ENTITY1, ENTITY2);
   }
 
   @After
   public void tearDown() {
     EntityQuery allEntitiesQuery = Query.newEntityQueryBuilder().build();
-    QueryResults<Entity> allEntities = datastore.run(allEntitiesQuery);
+    QueryResults<Entity> allEntities = DATASTORE.run(allEntitiesQuery);
     Key[] keysToDelete =
         ImmutableList.copyOf(allEntities).stream().map(Entity::getKey).toArray(Key[]::new);
-    datastore.delete(keysToDelete);
-  }
-
-  @Parameterized.Parameters(name = "database: {2}")
-  public static Iterable<Object[]> data() {
-    return Arrays.asList(
-        new Object[][] {{OPTIONS_1, DATASTORE_1, "default"}, {OPTIONS_2, DATASTORE_2, "test-db"}});
+    DATASTORE.delete(keysToDelete);
   }
 
   private <T> Iterator<T> getStronglyConsistentResults(Query scQuery, Query query)
       throws InterruptedException {
     // scQuery is equivalent to query, but with an ancestor filter in it
     // this makes scQuery strongly consistent
-    QueryResults<T> scResults = datastore.run(scQuery);
+    QueryResults<T> scResults = DATASTORE.run(scQuery);
     List<T> scResultsCopy = makeResultsCopy(scResults);
     Set<T> scResultsSet = new HashSet<>(scResultsCopy);
     int maxAttempts = 20;
 
     while (maxAttempts > 0) {
       --maxAttempts;
-      QueryResults<T> results = datastore.run(query);
+      QueryResults<T> results = DATASTORE.run(query);
       List<T> resultsCopy = makeResultsCopy(results);
       Set<T> resultsSet = new HashSet<>(resultsCopy);
       if (scResultsSet.size() == resultsSet.size() && scResultsSet.containsAll(resultsSet)) {
@@ -293,7 +267,7 @@ public class ITDatastoreTest {
             .setNull("null")
             .set("age", 19)
             .build();
-    datastore.put(entity3);
+    DATASTORE.put(entity3);
 
     // age == 19 || age == 20
     CompositeFilter orFilter =
@@ -304,7 +278,7 @@ public class ITDatastoreTest {
             .setKind(KIND2)
             .setFilter(orFilter)
             .build();
-    QueryResults<Entity> results = datastore.run(simpleOrQuery);
+    QueryResults<Entity> results = DATASTORE.run(simpleOrQuery);
     assertTrue(results.hasNext());
     assertEquals(ENTITY2, results.next());
     assertTrue(results.hasNext());
@@ -319,7 +293,7 @@ public class ITDatastoreTest {
             .setFilter(orFilter)
             .setLimit(1)
             .build();
-    QueryResults<Entity> results2 = datastore.run(simpleOrQueryLimit);
+    QueryResults<Entity> results2 = DATASTORE.run(simpleOrQueryLimit);
     assertTrue(results2.hasNext());
     assertEquals(ENTITY2, results2.next());
     assertFalse(results2.hasNext());
@@ -337,7 +311,7 @@ public class ITDatastoreTest {
             .setKind(KIND2)
             .setFilter(compositeFilter)
             .build();
-    QueryResults<Entity> results3 = datastore.run(orQueryNested);
+    QueryResults<Entity> results3 = DATASTORE.run(orQueryNested);
     assertTrue(results3.hasNext());
     assertEquals(ENTITY2, results3.next());
     assertFalse(results3.hasNext());
@@ -355,7 +329,7 @@ public class ITDatastoreTest {
             .setFilter(ancestorAndFilter)
             .setLimit(1)
             .build();
-    QueryResults<Entity> results4 = datastore.run(orQueryNested2);
+    QueryResults<Entity> results4 = DATASTORE.run(orQueryNested2);
     assertTrue(results4.hasNext());
     assertEquals(ENTITY2, results4.next());
     assertFalse(results4.hasNext());
@@ -363,7 +337,7 @@ public class ITDatastoreTest {
 
   @Test
   public void testNewTransactionCommit() {
-    Transaction transaction = datastore.newTransaction();
+    Transaction transaction = DATASTORE.newTransaction();
     transaction.add(ENTITY3);
     Entity entity2 = Entity.newBuilder(ENTITY2).clear().setNull("bla").build();
     transaction.update(entity2);
@@ -371,7 +345,7 @@ public class ITDatastoreTest {
     transaction.commit();
     assertFalse(transaction.isActive());
 
-    List<Entity> list = datastore.fetch(KEY1, KEY2, KEY3);
+    List<Entity> list = DATASTORE.fetch(KEY1, KEY2, KEY3);
     assertNull(list.get(0));
     assertEquals(entity2, list.get(1));
     assertEquals(ENTITY3, list.get(2));
@@ -395,20 +369,20 @@ public class ITDatastoreTest {
   @Test
   public void testTransactionWithRead() throws Exception {
     StatementExecutor statementExecutor = new StatementExecutor();
-    Transaction baseTransaction = datastore.newTransaction();
+    Transaction baseTransaction = DATASTORE.newTransaction();
     assertNull(baseTransaction.get(KEY3));
     baseTransaction.add(ENTITY3);
     baseTransaction.commit();
-    assertEquals(ENTITY3, datastore.get(KEY3));
+    assertEquals(ENTITY3, DATASTORE.get(KEY3));
 
-    Transaction transaction = datastore.newTransaction();
+    Transaction transaction = DATASTORE.newTransaction();
     statementExecutor.execute(
         Tuple.of("T1", () -> assertEquals(ENTITY3, transaction.get(KEY3))),
         // update entity3 during the transaction, will be blocked in case of pessimistic concurrency
         Tuple.of(
             "T2",
             () ->
-                datastore.put(Entity.newBuilder(ENTITY3).clear().set("from", "datastore").build())),
+                DATASTORE.put(Entity.newBuilder(ENTITY3).clear().set("from", "datastore").build())),
         Tuple.of(
             "T1",
             () ->
@@ -436,16 +410,16 @@ public class ITDatastoreTest {
             .setFilter(PropertyFilter.hasAncestor(KEY2))
             .setNamespace(NAMESPACE)
             .build();
-    Transaction baseTransaction = datastore.newTransaction();
+    Transaction baseTransaction = DATASTORE.newTransaction();
     QueryResults<Entity> baseResults = baseTransaction.run(query);
     assertTrue(baseResults.hasNext());
     assertEquals(ENTITY2, baseResults.next());
     assertFalse(baseResults.hasNext());
     baseTransaction.add(ENTITY3);
     baseTransaction.commit();
-    assertEquals(ENTITY3, datastore.get(KEY3));
+    assertEquals(ENTITY3, DATASTORE.get(KEY3));
 
-    Transaction transaction = datastore.newTransaction();
+    Transaction transaction = DATASTORE.newTransaction();
     statementExecutor.execute(
         Tuple.of(
             "T1",
@@ -457,7 +431,7 @@ public class ITDatastoreTest {
             }),
         Tuple.of("T1", () -> transaction.delete(ENTITY3.getKey())),
         // update entity2 during the transaction, will be blocked in case of pessimistic concurrency
-        Tuple.of("T2", () -> datastore.put(Entity.newBuilder(ENTITY2).clear().build())),
+        Tuple.of("T2", () -> DATASTORE.put(Entity.newBuilder(ENTITY2).clear().build())),
         Tuple.of("T1", transaction::commit) // T1 will throw error in case of optimistic concurrency
         );
 
@@ -473,7 +447,7 @@ public class ITDatastoreTest {
 
   @Test
   public void testNewTransactionRollback() {
-    Transaction transaction = datastore.newTransaction();
+    Transaction transaction = DATASTORE.newTransaction();
     transaction.add(ENTITY3);
     Entity entity2 =
         Entity.newBuilder(ENTITY2)
@@ -493,7 +467,7 @@ public class ITDatastoreTest {
       assertEquals("FAILED_PRECONDITION", expected.getReason());
     }
 
-    List<Entity> list = datastore.fetch(KEY1, KEY2, KEY3);
+    List<Entity> list = DATASTORE.fetch(KEY1, KEY2, KEY3);
     assertEquals(ENTITY1, list.get(0));
     assertEquals(ENTITY2, list.get(1));
     assertNull(list.get(2));
@@ -502,7 +476,7 @@ public class ITDatastoreTest {
 
   @Test
   public void testNewBatch() {
-    Batch batch = datastore.newBatch();
+    Batch batch = DATASTORE.newBatch();
     Entity entity1 = Entity.newBuilder(ENTITY1).clear().build();
     Entity entity2 = Entity.newBuilder(ENTITY2).clear().setNull("bla").build();
     Entity entity4 = Entity.newBuilder(KEY4).set("value", StringValue.of("value")).build();
@@ -525,7 +499,7 @@ public class ITDatastoreTest {
 
     Batch.Response response = batch.submit();
     entities =
-        datastore.fetch(KEY1, KEY2, KEY3, entity4.getKey(), entity5.getKey(), entity6.getKey());
+        DATASTORE.fetch(KEY1, KEY2, KEY3, entity4.getKey(), entity5.getKey(), entity6.getKey());
     assertEquals(entity1, entities.get(0));
     assertEquals(entity2, entities.get(1));
     assertEquals(ENTITY3, entities.get(2));
@@ -535,7 +509,7 @@ public class ITDatastoreTest {
     assertEquals(6, entities.size());
     List<Key> generatedKeys = response.getGeneratedKeys();
     assertEquals(1, generatedKeys.size());
-    assertEquals(PARTIAL_ENTITY3.getNames(), datastore.get(generatedKeys.get(0)).getNames());
+    assertEquals(PARTIAL_ENTITY3.getNames(), DATASTORE.get(generatedKeys.get(0)).getNames());
     assertEquals(PARTIAL_ENTITY3.getKey(), IncompleteKey.newBuilder(generatedKeys.get(0)).build());
 
     try {
@@ -545,12 +519,12 @@ public class ITDatastoreTest {
       assertEquals("FAILED_PRECONDITION", expected.getReason());
     }
 
-    batch = datastore.newBatch();
+    batch = DATASTORE.newBatch();
     batch.delete(entity4.getKey(), entity5.getKey(), entity6.getKey());
     batch.update(ENTITY1, ENTITY2, ENTITY3);
     batch.submit();
     entities =
-        datastore.fetch(KEY1, KEY2, KEY3, entity4.getKey(), entity5.getKey(), entity6.getKey());
+        DATASTORE.fetch(KEY1, KEY2, KEY3, entity4.getKey(), entity5.getKey(), entity6.getKey());
     assertEquals(ENTITY1, entities.get(0));
     assertEquals(ENTITY2, entities.get(1));
     assertEquals(ENTITY3, entities.get(2));
@@ -579,7 +553,7 @@ public class ITDatastoreTest {
     assertEquals(ENTITY1, results1.next());
     assertFalse(results1.hasNext());
 
-    datastore.put(ENTITY3);
+    DATASTORE.put(ENTITY3);
     Query<? extends Entity> query2 =
         Query.newGqlQueryBuilder(ResultType.ENTITY, "select * from " + KIND2 + " order by __key__")
             .setNamespace(NAMESPACE)
@@ -646,7 +620,7 @@ public class ITDatastoreTest {
     assertEquals(KEY1, projectionEntity.getKey());
     assertTrue(projectionEntity.getNames().isEmpty());
     assertFalse(keyProjectionResult.hasNext());
-    datastore.delete(ENTITY3.getKey());
+    DATASTORE.delete(ENTITY3.getKey());
   }
 
   @Test
@@ -669,7 +643,7 @@ public class ITDatastoreTest {
     Query<?> query2 =
         Query.newGqlQueryBuilder("select * from " + KIND1).setNamespace(NAMESPACE).build();
 
-    QueryResults<?> results2 = datastore.run(query2);
+    QueryResults<?> results2 = DATASTORE.run(query2);
 
     assertSame(Entity.class, results2.getResultClass());
 
@@ -824,11 +798,11 @@ public class ITDatastoreTest {
             .build();
 
     // original entity count is 2
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
         .isEqualTo(2L);
 
     // FIRST TRANSACTION
-    datastore.runInTransaction(
+    DATASTORE.runInTransaction(
         (TransactionCallable<Void>)
             inFirstTransaction -> {
               // creating a new entity
@@ -842,16 +816,16 @@ public class ITDatastoreTest {
                           .getLong("count"))
                   .isEqualTo(2L);
               assertThat(
-                      getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
+                      getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
                   .isEqualTo(2L);
               return null;
             });
     // after first transaction is committed, count is updated to 3 now.
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
         .isEqualTo(3L);
 
     // SECOND TRANSACTION
-    datastore.runInTransaction(
+    DATASTORE.runInTransaction(
         (TransactionCallable<Void>)
             inSecondTransaction -> {
               // deleting ENTITY2
@@ -863,14 +837,14 @@ public class ITDatastoreTest {
                           .getLong("count"))
                   .isEqualTo(3L);
               assertThat(
-                      getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
+                      getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
                   .isEqualTo(3L);
               return null;
             });
     // after second transaction is committed, count is updated to 2 now.
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
         .isEqualTo(2L);
-    datastore.delete(newEntityKey);
+    DATASTORE.delete(newEntityKey);
   }
 
   @Test
@@ -891,7 +865,7 @@ public class ITDatastoreTest {
 
     TransactionOptions transactionOptions =
         TransactionOptions.newBuilder().setReadOnly(ReadOnly.newBuilder().build()).build();
-    Transaction readOnlyTransaction = datastore.newTransaction(transactionOptions);
+    Transaction readOnlyTransaction = DATASTORE.newTransaction(transactionOptions);
 
     // Executing query in transaction
     assertThat(
@@ -907,7 +881,7 @@ public class ITDatastoreTest {
                       .setKey(Key.newBuilder(KEY1, "newKind", "name-01").build())
                       .set("v_int", 10)
                       .build();
-              datastore.put(aNewEntity);
+              DATASTORE.put(aNewEntity);
               return null;
             });
 
@@ -918,7 +892,7 @@ public class ITDatastoreTest {
     readOnlyTransaction.commit();
     executor.shutdownNow();
 
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
+    assertThat(getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong("count"))
         .isEqualTo(3L);
   }
 
@@ -1051,7 +1025,7 @@ public class ITDatastoreTest {
             .setKey(Key.newBuilder(INCOMPLETE_KEY1, "e2").build())
             .set("v_int", 20)
             .build();
-    datastore.put(e1, e2);
+    DATASTORE.put(e1, e2);
 
     Query<Entity> queryIn =
         Query.newEntityQueryBuilder()
@@ -1121,21 +1095,21 @@ public class ITDatastoreTest {
                     PropertyFilter.eq("v_int", 10000)))
             .build();
 
-    QueryResults<Entity> run = datastore.run(scQueryInEqOr);
+    QueryResults<Entity> run = DATASTORE.run(scQueryInEqOr);
 
     assertTrue(run.hasNext());
     assertEquals(e1, run.next());
     assertFalse(run.hasNext());
 
-    datastore.delete(e1.getKey());
-    datastore.delete(e2.getKey());
+    DATASTORE.delete(e1.getKey());
+    DATASTORE.delete(e2.getKey());
   }
 
   @Test
   public void testAllocateId() {
-    KeyFactory keyFactory = datastore.newKeyFactory().setKind(KIND1);
+    KeyFactory keyFactory = DATASTORE.newKeyFactory().setKind(KIND1);
     IncompleteKey pk1 = keyFactory.newKey();
-    Key key1 = datastore.allocateId(pk1);
+    Key key1 = DATASTORE.allocateId(pk1);
     assertEquals(key1.getProjectId(), pk1.getProjectId());
     assertEquals(key1.getNamespace(), pk1.getNamespace());
     assertEquals(key1.getAncestors(), pk1.getAncestors());
@@ -1144,31 +1118,31 @@ public class ITDatastoreTest {
     assertFalse(key1.hasName());
     assertEquals(Key.newBuilder(pk1, key1.getId()).build(), key1);
 
-    Key key2 = datastore.allocateId(pk1);
+    Key key2 = DATASTORE.allocateId(pk1);
     assertNotEquals(key1, key2);
     assertEquals(Key.newBuilder(pk1, key2.getId()).build(), key2);
   }
 
   @Test
   public void testReserveIds() {
-    KeyFactory keyFactory = datastore.newKeyFactory().setKind("MyKind");
+    KeyFactory keyFactory = DATASTORE.newKeyFactory().setKind("MyKind");
     Key key1 = keyFactory.newKey(10);
     Key key2 = keyFactory.newKey("name");
-    List<Key> keyList = datastore.reserveIds(key1, key2);
+    List<Key> keyList = DATASTORE.reserveIds(key1, key2);
     assertEquals(2, keyList.size());
   }
 
   @Test
   public void testAllocateIdArray() {
-    KeyFactory keyFactory = datastore.newKeyFactory().setKind(KIND1);
+    KeyFactory keyFactory = DATASTORE.newKeyFactory().setKind(KIND1);
     IncompleteKey incompleteKey1 = keyFactory.newKey();
     IncompleteKey incompleteKey2 =
         keyFactory
             .setKind(KIND2)
-            .setDatabaseId(options.getDatabaseId())
+            .setDatabaseId(DATASTORE_OPTIONS.getDatabaseId())
             .addAncestors(PathElement.of(KIND1, 10))
             .newKey();
-    List<Key> result = datastore.allocateId(incompleteKey1, incompleteKey2, incompleteKey1);
+    List<Key> result = DATASTORE.allocateId(incompleteKey1, incompleteKey2, incompleteKey1);
     assertEquals(3, result.size());
     assertEquals(Key.newBuilder(incompleteKey1, result.get(0).getId()).build(), result.get(0));
     assertEquals(Key.newBuilder(incompleteKey1, result.get(2).getId()).build(), result.get(2));
@@ -1177,10 +1151,10 @@ public class ITDatastoreTest {
 
   @Test
   public void testGet() {
-    Entity entity = datastore.get(KEY3);
+    Entity entity = DATASTORE.get(KEY3);
     assertNull(entity);
 
-    entity = datastore.get(KEY1);
+    entity = DATASTORE.get(KEY1);
     assertEquals(ENTITY1, entity);
     StringValue value1 = entity.getValue("str");
     assertEquals(STR_VALUE, value1);
@@ -1203,36 +1177,36 @@ public class ITDatastoreTest {
   @Test
   public void testGetWithReadTime() throws InterruptedException {
     Key key =
-        Key.newBuilder(PROJECT_ID, "new_kind", "name", options.getDatabaseId())
+        Key.newBuilder(PROJECT_ID, "new_kind", "name", DATASTORE_OPTIONS.getDatabaseId())
             .setNamespace(NAMESPACE)
             .build();
 
     try {
-      datastore.put(Entity.newBuilder(key).set("str", "old_str_value").build());
+      DATASTORE.put(Entity.newBuilder(key).set("str", "old_str_value").build());
 
       Thread.sleep(1000);
       Timestamp now = Timestamp.now();
       Thread.sleep(1000);
 
-      datastore.put(Entity.newBuilder(key).set("str", "new_str_value").build());
+      DATASTORE.put(Entity.newBuilder(key).set("str", "new_str_value").build());
 
-      Entity entity = datastore.get(key);
+      Entity entity = DATASTORE.get(key);
       StringValue value1 = entity.getValue("str");
       assertEquals(StringValue.of("new_str_value"), value1);
 
-      entity = datastore.get(key, ReadOption.readTime(now));
+      entity = DATASTORE.get(key, ReadOption.readTime(now));
       value1 = entity.getValue("str");
       assertEquals(StringValue.of("old_str_value"), value1);
     } finally {
-      datastore.delete(key);
+      DATASTORE.delete(key);
     }
   }
 
   @Test
   public void testGetArrayNoDeferredResults() {
-    datastore.put(ENTITY3);
+    DATASTORE.put(ENTITY3);
     Iterator<Entity> result =
-        datastore.fetch(KEY1, Key.newBuilder(KEY1).setName("bla").build(), KEY2, KEY3).iterator();
+        DATASTORE.fetch(KEY1, Key.newBuilder(KEY1).setName("bla").build(), KEY2, KEY3).iterator();
     assertEquals(ENTITY1, result.next());
     assertNull(result.next());
     assertEquals(ENTITY2, result.next());
@@ -1257,93 +1231,93 @@ public class ITDatastoreTest {
       // expected - no such property
     }
     assertFalse(result.hasNext());
-    datastore.delete(ENTITY3.getKey());
+    DATASTORE.delete(ENTITY3.getKey());
   }
 
   @Test
   public void testAddEntity() {
-    List<Entity> keys = datastore.fetch(ENTITY1.getKey(), ENTITY3.getKey());
+    List<Entity> keys = DATASTORE.fetch(ENTITY1.getKey(), ENTITY3.getKey());
     assertEquals(ENTITY1, keys.get(0));
     assertNull(keys.get(1));
     assertEquals(2, keys.size());
 
     try {
-      datastore.add(ENTITY1);
+      DATASTORE.add(ENTITY1);
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
       // expected;
     }
 
-    List<Entity> entities = datastore.add(ENTITY3, PARTIAL_ENTITY1, PARTIAL_ENTITY2);
-    assertEquals(ENTITY3, datastore.get(ENTITY3.getKey()));
+    List<Entity> entities = DATASTORE.add(ENTITY3, PARTIAL_ENTITY1, PARTIAL_ENTITY2);
+    assertEquals(ENTITY3, DATASTORE.get(ENTITY3.getKey()));
     assertEquals(ENTITY3, entities.get(0));
     assertEquals(PARTIAL_ENTITY1.getNames(), entities.get(1).getNames());
     assertEquals(PARTIAL_ENTITY1.getKey().getAncestors(), entities.get(1).getKey().getAncestors());
-    assertNotNull(datastore.get(entities.get(1).getKey()));
+    assertNotNull(DATASTORE.get(entities.get(1).getKey()));
     assertEquals(PARTIAL_ENTITY2.getNames(), entities.get(2).getNames());
     assertEquals(PARTIAL_ENTITY2.getKey().getAncestors(), entities.get(2).getKey().getAncestors());
-    assertNotNull(datastore.get(entities.get(2).getKey()));
+    assertNotNull(DATASTORE.get(entities.get(2).getKey()));
     for (Entity entity : entities) {
-      datastore.delete(entity.getKey());
+      DATASTORE.delete(entity.getKey());
     }
   }
 
   @Test
   public void testUpdate() {
-    List<Entity> keys = datastore.fetch(ENTITY1.getKey(), ENTITY3.getKey());
+    List<Entity> keys = DATASTORE.fetch(ENTITY1.getKey(), ENTITY3.getKey());
     assertEquals(ENTITY1, keys.get(0));
     assertNull(keys.get(1));
     assertEquals(2, keys.size());
 
     try {
-      datastore.update(ENTITY3);
+      DATASTORE.update(ENTITY3);
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
       // expected;
     }
-    datastore.add(ENTITY3);
-    assertEquals(ENTITY3, datastore.get(ENTITY3.getKey()));
+    DATASTORE.add(ENTITY3);
+    assertEquals(ENTITY3, DATASTORE.get(ENTITY3.getKey()));
     Entity entity3 = Entity.newBuilder(ENTITY3).clear().set("bla", new NullValue()).build();
     assertNotEquals(ENTITY3, entity3);
-    datastore.update(entity3);
-    assertEquals(entity3, datastore.get(ENTITY3.getKey()));
-    datastore.delete(ENTITY3.getKey());
+    DATASTORE.update(entity3);
+    assertEquals(entity3, DATASTORE.get(ENTITY3.getKey()));
+    DATASTORE.delete(ENTITY3.getKey());
   }
 
   @Test
   public void testPut() {
     Entity updatedEntity = Entity.newBuilder(ENTITY1).set("new_property", 42L).build();
-    assertEquals(updatedEntity, datastore.put(updatedEntity));
-    assertEquals(updatedEntity, datastore.get(updatedEntity.getKey()));
+    assertEquals(updatedEntity, DATASTORE.put(updatedEntity));
+    assertEquals(updatedEntity, DATASTORE.get(updatedEntity.getKey()));
 
     Entity entity2 = Entity.newBuilder(ENTITY2).clear().set("bla", new NullValue()).build();
     assertNotEquals(ENTITY2, entity2);
-    List<Entity> entities = datastore.put(ENTITY1, entity2, ENTITY3, PARTIAL_ENTITY1);
+    List<Entity> entities = DATASTORE.put(ENTITY1, entity2, ENTITY3, PARTIAL_ENTITY1);
     assertEquals(ENTITY1, entities.get(0));
     assertEquals(entity2, entities.get(1));
     assertEquals(ENTITY3, entities.get(2));
     assertEquals(PARTIAL_ENTITY1.getNames(), entities.get(3).getNames());
     assertEquals(PARTIAL_ENTITY1.getKey().getAncestors(), entities.get(3).getKey().getAncestors());
-    assertEquals(ENTITY1, datastore.get(ENTITY1.getKey()));
-    assertEquals(entity2, datastore.get(entity2.getKey()));
-    assertEquals(ENTITY3, datastore.get(ENTITY3.getKey()));
-    Entity entity = datastore.get(entities.get(3).getKey());
+    assertEquals(ENTITY1, DATASTORE.get(ENTITY1.getKey()));
+    assertEquals(entity2, DATASTORE.get(entity2.getKey()));
+    assertEquals(ENTITY3, DATASTORE.get(ENTITY3.getKey()));
+    Entity entity = DATASTORE.get(entities.get(3).getKey());
     assertEquals(entities.get(3), entity);
     for (Entity entityToDelete : entities) {
-      datastore.delete(entityToDelete.getKey());
+      DATASTORE.delete(entityToDelete.getKey());
     }
   }
 
   @Test
   public void testDelete() {
     Iterator<Entity> keys =
-        datastore.fetch(ENTITY1.getKey(), ENTITY2.getKey(), ENTITY3.getKey()).iterator();
+        DATASTORE.fetch(ENTITY1.getKey(), ENTITY2.getKey(), ENTITY3.getKey()).iterator();
     assertEquals(ENTITY1, keys.next());
     assertEquals(ENTITY2, keys.next());
     assertNull(keys.next());
     assertFalse(keys.hasNext());
-    datastore.delete(ENTITY1.getKey(), ENTITY2.getKey(), ENTITY3.getKey());
-    keys = datastore.fetch(ENTITY1.getKey(), ENTITY2.getKey(), ENTITY3.getKey()).iterator();
+    DATASTORE.delete(ENTITY1.getKey(), ENTITY2.getKey(), ENTITY3.getKey());
+    keys = DATASTORE.fetch(ENTITY1.getKey(), ENTITY2.getKey(), ENTITY3.getKey()).iterator();
     assertNull(keys.next());
     assertNull(keys.next());
     assertNull(keys.next());
@@ -1368,7 +1342,7 @@ public class ITDatastoreTest {
           }
         };
 
-    int result = datastore.runInTransaction(callable1);
+    int result = DATASTORE.runInTransaction(callable1);
     assertEquals(result, 2);
 
     Datastore.TransactionCallable<Integer> callable2 =
@@ -1387,7 +1361,7 @@ public class ITDatastoreTest {
         };
 
     try {
-      datastore.runInTransaction(callable2);
+      DATASTORE.runInTransaction(callable2);
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
       assertEquals(4, ((DatastoreException) expected.getCause()).getCode());
@@ -1415,7 +1389,7 @@ public class ITDatastoreTest {
           }
         };
 
-    int result = datastore.runInTransaction(callable1);
+    int result = DATASTORE.runInTransaction(callable1);
     assertEquals(result, 2);
 
     final Entity entity2 = Entity.newBuilder(ENTITY2).clear().setNull("bla").build();
@@ -1441,7 +1415,7 @@ public class ITDatastoreTest {
             .build();
 
     try {
-      datastore.runInTransaction(callable2, readOnlyOptions);
+      DATASTORE.runInTransaction(callable2, readOnlyOptions);
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
       assertEquals(
@@ -1453,20 +1427,20 @@ public class ITDatastoreTest {
   @Test
   public void testSkippedResults() {
     Query<Key> query = Query.newKeyQueryBuilder().setOffset(Integer.MAX_VALUE).build();
-    int numberOfEntities = datastore.run(query).getSkippedResults();
+    int numberOfEntities = DATASTORE.run(query).getSkippedResults();
     assertEquals(2, numberOfEntities);
   }
 
   @Test
   public void testSetLimit() {
-    datastore.put(ENTITY1);
+    DATASTORE.put(ENTITY1);
     Query<Key> keyQuery = Query.newKeyQueryBuilder().setLimit(1).build();
-    QueryResults<?> queryResults = datastore.run(keyQuery);
+    QueryResults<?> queryResults = DATASTORE.run(keyQuery);
     assertTrue(queryResults.hasNext());
     assertEquals(KEY1, queryResults.next());
 
     Query<?> query = Query.newEntityQueryBuilder().setLimit(0).build();
-    QueryResults<?> results = datastore.run(query);
+    QueryResults<?> results = DATASTORE.run(query);
     assertFalse(results.hasNext());
   }
 
@@ -1477,7 +1451,7 @@ public class ITDatastoreTest {
             .setNamespace(NAMESPACE)
             .setNullBinding("name")
             .build();
-    Iterator<Entity> results = datastore.run(query);
+    Iterator<Entity> results = DATASTORE.run(query);
     assertTrue(results.hasNext());
     assertEquals(ENTITY1, results.next());
     assertFalse(results.hasNext());
@@ -1487,27 +1461,30 @@ public class ITDatastoreTest {
   public void testQueryWithStartCursor() {
     Entity entity1 =
         Entity.newBuilder(
-                Key.newBuilder(PROJECT_ID, KIND1, "name-01", options.getDatabaseId()).build())
+                Key.newBuilder(PROJECT_ID, KIND1, "name-01", DATASTORE_OPTIONS.getDatabaseId())
+                    .build())
             .build();
     Entity entity2 =
         Entity.newBuilder(
-                Key.newBuilder(PROJECT_ID, KIND1, "name-02", options.getDatabaseId()).build())
+                Key.newBuilder(PROJECT_ID, KIND1, "name-02", DATASTORE_OPTIONS.getDatabaseId())
+                    .build())
             .build();
     Entity entity3 =
         Entity.newBuilder(
-                Key.newBuilder(PROJECT_ID, KIND1, "name-03", options.getDatabaseId()).build())
+                Key.newBuilder(PROJECT_ID, KIND1, "name-03", DATASTORE_OPTIONS.getDatabaseId())
+                    .build())
             .build();
-    datastore.put(entity1, entity2, entity3);
-    QueryResults<Entity> run1 = datastore.run(Query.newEntityQueryBuilder().setKind(KIND1).build());
+    DATASTORE.put(entity1, entity2, entity3);
+    QueryResults<Entity> run1 = DATASTORE.run(Query.newEntityQueryBuilder().setKind(KIND1).build());
     run1.next();
     Cursor cursor1 = run1.getCursorAfter();
     assertNotNull(cursor1);
     QueryResults<Entity> run2 =
-        datastore.run(Query.newEntityQueryBuilder().setKind(KIND1).setStartCursor(cursor1).build());
+        DATASTORE.run(Query.newEntityQueryBuilder().setKind(KIND1).setStartCursor(cursor1).build());
     Cursor cursor2 = run2.getCursorAfter();
     assertNotNull(cursor2);
     assertEquals(cursor2, cursor1);
-    datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
+    DATASTORE.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
   }
 
   @Test
@@ -1515,35 +1492,35 @@ public class ITDatastoreTest {
     Entity entity1 =
         Entity.newBuilder(
                 Key.newBuilder(PROJECT_ID, "new_kind", "name-01")
-                    .setDatabaseId(options.getDatabaseId())
+                    .setDatabaseId(DATASTORE_OPTIONS.getDatabaseId())
                     .setNamespace(NAMESPACE)
                     .build())
             .build();
     Entity entity2 =
         Entity.newBuilder(
                 Key.newBuilder(PROJECT_ID, "new_kind", "name-02")
-                    .setDatabaseId(options.getDatabaseId())
+                    .setDatabaseId(DATASTORE_OPTIONS.getDatabaseId())
                     .setNamespace(NAMESPACE)
                     .build())
             .build();
     Entity entity3 =
         Entity.newBuilder(
                 Key.newBuilder(PROJECT_ID, "new_kind", "name-03")
-                    .setDatabaseId(options.getDatabaseId())
+                    .setDatabaseId(DATASTORE_OPTIONS.getDatabaseId())
                     .setNamespace(NAMESPACE)
                     .build())
             .build();
 
-    datastore.put(entity1, entity2);
+    DATASTORE.put(entity1, entity2);
     Thread.sleep(1000);
     Timestamp now = Timestamp.now();
     Thread.sleep(1000);
-    datastore.put(entity3);
+    DATASTORE.put(entity3);
 
     try {
       Query<Entity> query = Query.newEntityQueryBuilder().setKind("new_kind").build();
 
-      QueryResults<Entity> withoutReadTime = datastore.run(query);
+      QueryResults<Entity> withoutReadTime = DATASTORE.run(query);
       assertTrue(withoutReadTime.hasNext());
       assertEquals(entity1, withoutReadTime.next());
       assertTrue(withoutReadTime.hasNext());
@@ -1552,14 +1529,14 @@ public class ITDatastoreTest {
       assertEquals(entity3, withoutReadTime.next());
       assertFalse(withoutReadTime.hasNext());
 
-      QueryResults<Entity> withReadTime = datastore.run(query, ReadOption.readTime(now));
+      QueryResults<Entity> withReadTime = DATASTORE.run(query, ReadOption.readTime(now));
       assertTrue(withReadTime.hasNext());
       assertEquals(entity1, withReadTime.next());
       assertTrue(withReadTime.hasNext());
       assertEquals(entity2, withReadTime.next());
       assertFalse(withReadTime.hasNext());
     } finally {
-      datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
+      DATASTORE.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
     }
   }
 
@@ -1569,7 +1546,7 @@ public class ITDatastoreTest {
     AggregationQuery aggregationQuery = builder.build();
     String alias = "total_count";
 
-    Long countBeforeAdd = getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong(alias);
+    Long countBeforeAdd = getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong(alias);
     long expectedCount = countBeforeAdd + 1;
 
     Entity newEntity =
@@ -1579,12 +1556,12 @@ public class ITDatastoreTest {
             .set("partial1", PARTIAL_ENTITY2)
             .set("partial2", ENTITY2)
             .build();
-    datastore.put(newEntity);
+    DATASTORE.put(newEntity);
 
-    Long countAfterAdd = getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong(alias);
+    Long countAfterAdd = getOnlyElement(DATASTORE.runAggregation(aggregationQuery)).getLong(alias);
     assertThat(countAfterAdd).isEqualTo(expectedCount);
 
-    datastore.delete(newEntity.getKey());
+    DATASTORE.delete(newEntity.getKey());
   }
 
   private void testCountAggregationWithLimit(
@@ -1597,7 +1574,7 @@ public class ITDatastoreTest {
     withoutLimitConfigurer.accept(withoutLimitBuilder);
 
     Long currentCount =
-        getOnlyElement(datastore.runAggregation(withoutLimitBuilder.build())).getLong(alias);
+        getOnlyElement(DATASTORE.runAggregation(withoutLimitBuilder.build())).getLong(alias);
     long limit = currentCount - 1;
 
     AggregationQuery.Builder withLimitBuilder =
@@ -1605,7 +1582,7 @@ public class ITDatastoreTest {
     withLimitConfigurer.accept(withLimitBuilder, limit);
 
     Long countWithLimit =
-        getOnlyElement(datastore.runAggregation(withLimitBuilder.build())).getLong(alias);
+        getOnlyElement(DATASTORE.runAggregation(withLimitBuilder.build())).getLong(alias);
     assertThat(countWithLimit).isEqualTo(limit);
   }
 
@@ -1614,7 +1591,7 @@ public class ITDatastoreTest {
     Entity entity1 =
         Entity.newBuilder(
                 Key.newBuilder(PROJECT_ID, "new_kind", "name-01")
-                    .setDatabaseId(options.getDatabaseId())
+                    .setDatabaseId(DATASTORE_OPTIONS.getDatabaseId())
                     .setNamespace(NAMESPACE)
                     .build())
             .set("name", "Tyrion Lannister")
@@ -1622,7 +1599,7 @@ public class ITDatastoreTest {
     Entity entity2 =
         Entity.newBuilder(
                 Key.newBuilder(PROJECT_ID, "new_kind", "name-02")
-                    .setDatabaseId(options.getDatabaseId())
+                    .setDatabaseId(DATASTORE_OPTIONS.getDatabaseId())
                     .setNamespace(NAMESPACE)
                     .build())
             .set("name", "Jaime Lannister")
@@ -1630,17 +1607,17 @@ public class ITDatastoreTest {
     Entity entity3 =
         Entity.newBuilder(
                 Key.newBuilder(PROJECT_ID, "new_kind", "name-03")
-                    .setDatabaseId(options.getDatabaseId())
+                    .setDatabaseId(DATASTORE_OPTIONS.getDatabaseId())
                     .setNamespace(NAMESPACE)
                     .build())
             .set("name", "Cersei Lannister")
             .build();
 
-    datastore.put(entity1, entity2);
+    DATASTORE.put(entity1, entity2);
     Thread.sleep(1000);
     Timestamp now = Timestamp.now();
     Thread.sleep(1000);
-    datastore.put(entity3);
+    DATASTORE.put(entity3);
 
     try {
       AggregationQuery.Builder builder = Query.newAggregationQueryBuilder().setNamespace(NAMESPACE);
@@ -1648,15 +1625,15 @@ public class ITDatastoreTest {
       AggregationQuery countAggregationQuery = builder.build();
 
       Long latestCount =
-          getOnlyElement(datastore.runAggregation(countAggregationQuery)).getLong("total_count");
+          getOnlyElement(DATASTORE.runAggregation(countAggregationQuery)).getLong("total_count");
       assertThat(latestCount).isEqualTo(3L);
 
       Long oldCount =
-          getOnlyElement(datastore.runAggregation(countAggregationQuery, ReadOption.readTime(now)))
+          getOnlyElement(DATASTORE.runAggregation(countAggregationQuery, ReadOption.readTime(now)))
               .getLong("total_count");
       assertThat(oldCount).isEqualTo(2L);
     } finally {
-      datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
+      DATASTORE.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
     }
   }
 }

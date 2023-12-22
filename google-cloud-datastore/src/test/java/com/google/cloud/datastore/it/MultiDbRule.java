@@ -29,22 +29,28 @@ public class MultiDbRule implements TestRule {
 
   private static final Logger logger = Logger.getLogger(MultiDbRule.class.getName());
 
+  private final RemoteDatastoreHelper HELPER_1;
+  private final DatastoreOptions OPTIONS_1;
   private final Datastore DATASTORE_1;
+  private final RemoteDatastoreHelper HELPER_2;
+  private final DatastoreOptions OPTIONS_2;
   private final Datastore DATASTORE_2;
 
   private Datastore currentDatastore;
+  private DatastoreOptions currentDatastoreOptions;
 
   public MultiDbRule() {
-    RemoteDatastoreHelper HELPER = RemoteDatastoreHelper.create();
-    DatastoreOptions OPTIONS_1 = HELPER.getOptions();
+    HELPER_1 = RemoteDatastoreHelper.create();
+    OPTIONS_1 = HELPER_1.getOptions();
 
     String CUSTOM_DB_ID = "test-db";
-    RemoteDatastoreHelper HELPER2 = RemoteDatastoreHelper.create(CUSTOM_DB_ID);
-    DatastoreOptions OPTIONS_2 = HELPER2.getOptions();
+    HELPER_2 = RemoteDatastoreHelper.create(CUSTOM_DB_ID);
+    OPTIONS_2 = HELPER_2.getOptions();
 
     DATASTORE_1 = OPTIONS_1.getService();
     DATASTORE_2 = OPTIONS_2.getService();
     this.currentDatastore = DATASTORE_1;
+    this.currentDatastoreOptions = OPTIONS_1;
   }
 
   @Override
@@ -60,9 +66,12 @@ public class MultiDbRule implements TestRule {
           // running with test-db Datastore
           logger.log(Level.INFO, "Current database: test-db");
           MultiDbRule.this.currentDatastore = DATASTORE_2;
+          MultiDbRule.this.currentDatastoreOptions = OPTIONS_2;
           base.evaluate();
 
         } finally {
+          HELPER_1.deleteNamespace();
+          HELPER_2.deleteNamespace();
           DATASTORE_1.close();
           DATASTORE_2.close();
         }
@@ -72,5 +81,9 @@ public class MultiDbRule implements TestRule {
 
   public Datastore getDatastore() {
     return this.currentDatastore;
+  }
+
+  public DatastoreOptions getCurrentOptions() {
+    return this.currentDatastoreOptions;
   }
 }
