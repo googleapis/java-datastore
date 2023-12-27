@@ -25,6 +25,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Random;
+
+import com.google.common.testing.EqualsTester;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,7 +48,8 @@ public class BlobTest {
 
   @Test
   public void testEquals() {
-    assertEquals(blob1, blob1);
+    EqualsTester equalsTester = new EqualsTester();
+    equalsTester.addEqualityGroup(blob1, blob1).testEquals();
     assertEquals(blob1, Blob.copyFrom(bytes1));
     assertNotEquals(blob1, blob2);
   }
