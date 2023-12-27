@@ -21,12 +21,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 
+import com.google.common.testing.EqualsTester;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Random;
-
-import com.google.common.testing.EqualsTester;
 import org.junit.Before;
 import org.junit.Test;
 
