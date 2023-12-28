@@ -27,6 +27,7 @@ import org.junit.runners.model.Statement;
 
 public class MultiDbRule implements TestRule {
 
+  private static final String CUSTOM_DB_ID = "test-db";
   private static final Logger logger = Logger.getLogger(MultiDbRule.class.getName());
 
   private final RemoteDatastoreHelper HELPER_1;
@@ -43,7 +44,6 @@ public class MultiDbRule implements TestRule {
     HELPER_1 = RemoteDatastoreHelper.create();
     OPTIONS_1 = HELPER_1.getOptions();
 
-    String CUSTOM_DB_ID = "test-db";
     HELPER_2 = RemoteDatastoreHelper.create(CUSTOM_DB_ID);
     OPTIONS_2 = HELPER_2.getOptions();
 
@@ -59,12 +59,15 @@ public class MultiDbRule implements TestRule {
       @Override
       public void evaluate() throws Throwable {
         try {
+          String testName = description.getDisplayName();
           // running with default Datastore
-          logger.log(Level.INFO, "Current database: default");
+          logger.log(
+              Level.INFO, "Running {0} with database {1}", new Object[] {testName, "default"});
           base.evaluate();
 
           // running with test-db Datastore
-          logger.log(Level.INFO, "Current database: test-db");
+          logger.log(
+              Level.INFO, "Running {0} with database {1}", new Object[] {testName, CUSTOM_DB_ID});
           MultiDbRule.this.currentDatastore = DATASTORE_2;
           MultiDbRule.this.currentDatastoreOptions = OPTIONS_2;
           base.evaluate();
