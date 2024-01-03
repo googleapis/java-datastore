@@ -107,10 +107,6 @@
       <artifactId>google-oauth-client</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.google.auth</groupId>
-      <artifactId>google-auth-library-oauth2-http</artifactId>
-    </dependency>
-    <dependency>
       <groupId>io.opencensus</groupId>
       <artifactId>opencensus-api</artifactId>
     </dependency>
