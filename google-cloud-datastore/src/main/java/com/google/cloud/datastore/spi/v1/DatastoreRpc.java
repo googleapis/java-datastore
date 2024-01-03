@@ -17,8 +17,8 @@
 package com.google.cloud.datastore.spi.v1;
 
 import com.google.api.core.InternalApi;
-import com.google.api.gax.rpc.HeaderProvider;
 import com.google.api.core.InternalExtensionOnly;
+import com.google.api.gax.rpc.HeaderProvider;
 import com.google.cloud.ServiceRpc;
 import com.google.cloud.datastore.DatastoreException;
 import com.google.cloud.datastore.v1.DatastoreSettings;
