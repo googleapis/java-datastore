@@ -117,11 +117,4 @@ public interface DatastoreRpc extends ServiceRpc, AutoCloseable {
       return super.setInternalHeaderProvider(internalHeaderProvider);
     }
   }
-
-  /** Transport used to sending requests. */
-  @InternalApi
-  enum Transport {
-    GRPC,
-    HTTP
-  }
 }

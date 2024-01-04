@@ -16,8 +16,6 @@
 
 package com.google.cloud.datastore;
 
-import static com.google.cloud.datastore.spi.v1.DatastoreRpc.Transport.GRPC;
-import static com.google.cloud.datastore.spi.v1.DatastoreRpc.Transport.HTTP;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -28,6 +26,8 @@ import static org.junit.Assert.assertTrue;
 import com.google.cloud.TransportOptions;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
+import com.google.cloud.grpc.GrpcTransportOptions;
+import com.google.cloud.http.HttpTransportOptions;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -87,17 +87,17 @@ public class DatastoreOptionsTest {
   @Test
   public void testTransport() {
     // default grpc transport
-    assertThat(options.build().getTransport()).isEqualTo(GRPC);
+    assertThat(options.build().getTransportOptions()).isInstanceOf(GrpcTransportOptions.class);
 
     // custom http transport
     DatastoreOptions httpDatastoreOptions =
-        DatastoreOptions.newBuilder().setTransport(HTTP).setProjectId(PROJECT_ID).build();
-    assertThat(httpDatastoreOptions.getTransport()).isEqualTo(HTTP);
+        DatastoreOptions.newBuilder().setTransportOptions(HttpTransportOptions.newBuilder().build()).setProjectId(PROJECT_ID).build();
+    assertThat(httpDatastoreOptions.getTransportOptions()).isInstanceOf(HttpTransportOptions.class);
 
     // custom grpc transport
     DatastoreOptions grpcDatastoreOptions =
-        DatastoreOptions.newBuilder().setTransport(GRPC).setProjectId(PROJECT_ID).build();
-    assertThat(grpcDatastoreOptions.getTransport()).isEqualTo(GRPC);
+        DatastoreOptions.newBuilder().setTransportOptions(GrpcTransportOptions.newBuilder().build()).setProjectId(PROJECT_ID).build();
+    assertThat(grpcDatastoreOptions.getTransportOptions()).isInstanceOf(GrpcTransportOptions.class);
   }
 
   @Test

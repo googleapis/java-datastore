@@ -17,7 +17,6 @@
 package com.google.cloud.datastore;
 
 import static com.google.cloud.datastore.Validator.validateNamespace;
-import static com.google.cloud.datastore.spi.v1.DatastoreRpc.Transport.GRPC;
 
 import com.google.api.core.BetaApi;
 import com.google.cloud.ServiceDefaults;
@@ -26,12 +25,11 @@ import com.google.cloud.ServiceRpc;
 import com.google.cloud.TransportOptions;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
-import com.google.cloud.datastore.spi.v1.DatastoreRpc.Transport;
 import com.google.cloud.datastore.spi.v1.GrpcDatastoreRpc;
 import com.google.cloud.datastore.spi.v1.HttpDatastoreRpc;
 import com.google.cloud.datastore.v1.DatastoreSettings;
+import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.http.HttpTransportOptions;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
@@ -49,7 +47,6 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
   private final String namespace;
   private final String databaseId;
-  private final Transport transport;
 
   public static class DefaultDatastoreFactory implements DatastoreFactory {
 
@@ -68,9 +65,13 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     @Override
     public ServiceRpc create(DatastoreOptions options) {
       try {
-        return options.transport == GRPC
-            ? new GrpcDatastoreRpc(options)
-            : new HttpDatastoreRpc(options);
+        if (options.getTransportOptions() instanceof GrpcTransportOptions) {
+          return new GrpcDatastoreRpc(options);
+        } else if (options.getTransportOptions() instanceof HttpTransportOptions) {
+          return new HttpDatastoreRpc(options);
+        } else {
+          throw new IllegalArgumentException("unknown transport type: " + options.getTransportOptions());
+        }
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -81,7 +82,6 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
     private String namespace;
     private String databaseId;
-    private Transport transport = GRPC;
 
     private Builder() {}
 
@@ -89,15 +89,10 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       super(options);
       namespace = options.namespace;
       databaseId = options.databaseId;
-      transport = options.transport;
     }
 
     @Override
     public Builder setTransportOptions(TransportOptions transportOptions) {
-      if (!(transportOptions instanceof HttpTransportOptions)) {
-        throw new IllegalArgumentException(
-            "Only http transport is allowed for " + API_SHORT_NAME + ".");
-      }
       return super.setTransportOptions(transportOptions);
     }
 
@@ -117,18 +112,12 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       this.databaseId = databaseId;
       return this;
     }
-
-    public Builder setTransport(Transport transport) {
-      this.transport = transport;
-      return this;
-    }
   }
 
   private DatastoreOptions(Builder builder) {
     super(DatastoreFactory.class, DatastoreRpcFactory.class, builder, new DatastoreDefaults());
     namespace = MoreObjects.firstNonNull(builder.namespace, defaultNamespace());
     databaseId = MoreObjects.firstNonNull(builder.databaseId, DEFAULT_DATABASE_ID);
-    transport = builder.transport;
   }
 
   @Override
@@ -163,12 +152,16 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
     @Override
     public TransportOptions getDefaultTransportOptions() {
-      return getDefaultHttpTransportOptions();
+      return getDefaultGrpcTransportOptions();
     }
   }
 
   public static HttpTransportOptions getDefaultHttpTransportOptions() {
     return HttpTransportOptions.newBuilder().build();
+  }
+
+  public static GrpcTransportOptions getDefaultGrpcTransportOptions() {
+    return GrpcTransportOptions.newBuilder().build();
   }
 
   /** Returns the default namespace to be used by the datastore service. */
@@ -179,12 +172,6 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   @BetaApi
   public String getDatabaseId() {
     return this.databaseId;
-  }
-
-  /** Returns the current transport */
-  @VisibleForTesting
-  Transport getTransport() {
-    return this.transport;
   }
 
   /** Returns a default {@code DatastoreOptions} instance. */

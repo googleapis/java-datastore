@@ -25,6 +25,7 @@ import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery;
+import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.http.HttpTransportOptions;
 import java.util.UUID;
 import org.threeten.bp.Duration;
@@ -81,9 +82,7 @@ public class RemoteDatastoreHelper {
   /** Creates a {@code RemoteStorageHelper} object. */
   @BetaApi
   public static RemoteDatastoreHelper create(String databaseId) {
-    HttpTransportOptions transportOptions = DatastoreOptions.getDefaultHttpTransportOptions();
-    transportOptions =
-        transportOptions.toBuilder().setConnectTimeout(60000).setReadTimeout(60000).build();
+    GrpcTransportOptions transportOptions = DatastoreOptions.getDefaultGrpcTransportOptions();
     DatastoreOptions datastoreOption =
         DatastoreOptions.newBuilder()
             .setDatabaseId(databaseId)
