@@ -19,7 +19,6 @@ package com.google.cloud.datastore;
 import static com.google.cloud.datastore.Validator.validateNamespace;
 import static com.google.cloud.datastore.spi.v1.DatastoreRpc.Transport.GRPC;
 
-import com.google.api.core.BetaApi;
 import com.google.cloud.ServiceDefaults;
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.ServiceRpc;
@@ -112,7 +111,6 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       return this;
     }
 
-    @BetaApi
     public Builder setDatabaseId(String databaseId) {
       this.databaseId = databaseId;
       return this;
@@ -176,7 +174,6 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     return namespace;
   }
 
-  @BetaApi
   public String getDatabaseId() {
     return this.databaseId;
   }
