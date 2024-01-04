@@ -91,12 +91,18 @@ public class DatastoreOptionsTest {
 
     // custom http transport
     DatastoreOptions httpDatastoreOptions =
-        DatastoreOptions.newBuilder().setTransportOptions(HttpTransportOptions.newBuilder().build()).setProjectId(PROJECT_ID).build();
+        DatastoreOptions.newBuilder()
+            .setTransportOptions(HttpTransportOptions.newBuilder().build())
+            .setProjectId(PROJECT_ID)
+            .build();
     assertThat(httpDatastoreOptions.getTransportOptions()).isInstanceOf(HttpTransportOptions.class);
 
     // custom grpc transport
     DatastoreOptions grpcDatastoreOptions =
-        DatastoreOptions.newBuilder().setTransportOptions(GrpcTransportOptions.newBuilder().build()).setProjectId(PROJECT_ID).build();
+        DatastoreOptions.newBuilder()
+            .setTransportOptions(GrpcTransportOptions.newBuilder().build())
+            .setProjectId(PROJECT_ID)
+            .build();
     assertThat(grpcDatastoreOptions.getTransportOptions()).isInstanceOf(GrpcTransportOptions.class);
   }
 

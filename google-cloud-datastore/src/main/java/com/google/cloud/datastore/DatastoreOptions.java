@@ -70,7 +70,8 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
         } else if (options.getTransportOptions() instanceof HttpTransportOptions) {
           return new HttpDatastoreRpc(options);
         } else {
-          throw new IllegalArgumentException("unknown transport type: " + options.getTransportOptions());
+          throw new IllegalArgumentException(
+              "unknown transport type: " + options.getTransportOptions());
         }
       } catch (IOException e) {
         throw new RuntimeException(e);
