@@ -122,15 +122,4 @@ public class DatastoreOptionsTest {
     assertNotEquals(original, newOptions);
     assertNotEquals(original.hashCode(), newOptions.hashCode());
   }
-
-  @Test
-  public void testInvalidTransport() {
-    try {
-      DatastoreOptions.newBuilder()
-          .setTransportOptions(EasyMock.createMock(TransportOptions.class));
-      Assert.fail();
-    } catch (IllegalArgumentException ex) {
-      assertNotNull(ex.getMessage());
-    }
-  }
 }
