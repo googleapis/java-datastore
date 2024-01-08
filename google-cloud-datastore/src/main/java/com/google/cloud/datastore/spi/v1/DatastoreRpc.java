@@ -17,6 +17,7 @@
 package com.google.cloud.datastore.spi.v1;
 
 import com.google.api.core.InternalApi;
+import com.google.api.core.InternalExtensionOnly;
 import com.google.api.gax.rpc.HeaderProvider;
 import com.google.cloud.ServiceRpc;
 import com.google.cloud.datastore.DatastoreException;
@@ -39,6 +40,7 @@ import com.google.datastore.v1.RunQueryRequest;
 import com.google.datastore.v1.RunQueryResponse;
 
 /** Provides access to the remote Datastore service. */
+@InternalExtensionOnly
 public interface DatastoreRpc extends ServiceRpc, AutoCloseable {
 
   /**
@@ -96,9 +98,7 @@ public interface DatastoreRpc extends ServiceRpc, AutoCloseable {
    *
    * @throws DatastoreException upon failure
    */
-  default RunAggregationQueryResponse runAggregationQuery(RunAggregationQueryRequest request) {
-    throw new UnsupportedOperationException("Not implemented.");
-  }
+  RunAggregationQueryResponse runAggregationQuery(RunAggregationQueryRequest request);
 
   @Override
   void close() throws Exception;
