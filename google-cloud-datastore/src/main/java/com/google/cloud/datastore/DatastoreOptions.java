@@ -45,6 +45,8 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   private static final String DATASTORE_SCOPE = "https://www.googleapis.com/auth/datastore";
   private static final Set<String> SCOPES = ImmutableSet.of(DATASTORE_SCOPE);
   private static final String DEFAULT_DATABASE_ID = "";
+  public static final String PROJECT_ID_ENV_VAR = "DATASTORE_PROJECT_ID";
+  public static final String LOCAL_HOST_ENV_VAR = "DATASTORE_EMULATOR_HOST";
 
   private final String namespace;
   private final String databaseId;
@@ -131,19 +133,13 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
   @Override
   protected String getDefaultHost() {
-    String host =
-        System.getProperty(
-            com.google.datastore.v1.client.DatastoreHelper.LOCAL_HOST_ENV_VAR,
-            System.getenv(com.google.datastore.v1.client.DatastoreHelper.LOCAL_HOST_ENV_VAR));
+    String host = System.getProperty(LOCAL_HOST_ENV_VAR, System.getenv(LOCAL_HOST_ENV_VAR));
     return host != null ? host : DatastoreSettings.getDefaultEndpoint();
   }
 
   @Override
   protected String getDefaultProject() {
-    String projectId =
-        System.getProperty(
-            com.google.datastore.v1.client.DatastoreHelper.PROJECT_ID_ENV_VAR,
-            System.getenv(com.google.datastore.v1.client.DatastoreHelper.PROJECT_ID_ENV_VAR));
+    String projectId = System.getProperty(PROJECT_ID_ENV_VAR, System.getenv(PROJECT_ID_ENV_VAR));
     return projectId != null ? projectId : super.getDefaultProject();
   }
 

@@ -43,10 +43,6 @@
       <artifactId>proto-google-cloud-datastore-admin-v1</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.google.cloud.datastore</groupId>
-      <artifactId>datastore-v1-proto-client</artifactId>
-    </dependency>
-    <dependency>
       <groupId>io.grpc</groupId>
       <artifactId>grpc-api</artifactId>
     </dependency>
