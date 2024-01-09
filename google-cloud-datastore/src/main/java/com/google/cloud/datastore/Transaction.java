@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore;
 
+import com.google.api.core.InternalExtensionOnly;
 import com.google.protobuf.ByteString;
 import java.util.Iterator;
 import java.util.List;
@@ -61,6 +62,7 @@ import javax.annotation.concurrent.NotThreadSafe;
  *     This class too should not be treated as a thread safe class. </b>
  */
 @NotThreadSafe
+@InternalExtensionOnly
 public interface Transaction extends DatastoreBatchWriter, DatastoreReaderWriter {
 
   interface Response {
