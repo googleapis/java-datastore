@@ -116,6 +116,7 @@ import javax.annotation.Generated;
  * as threads. In the example above, try-with-resources is used, which automatically calls close().
  *
  * <table>
+ *     <caption>Methods</caption>
  *    <tr>
  *      <th>Method</th>
  *      <th>Description</th>
@@ -130,7 +131,7 @@ import javax.annotation.Generated;
  *      </ul>
  *      <p>Methods that return long-running operations have "Async" method variants that return `OperationFuture`, which is used to track polling of the service.</p>
  *      <ul>
- *           <li>exportEntitiesAsync(String projectId, Map<String, String> labels, EntityFilter entityFilter, String outputUrlPrefix)
+ *           <li>exportEntitiesAsync(String projectId, Map&lt;String, String&gt; labels, EntityFilter entityFilter, String outputUrlPrefix)
  *      </ul>
  *      <p>Callable method variants take no parameters and return an immutable API callable object, which can be used to initiate calls to the service.</p>
  *      <ul>
@@ -149,7 +150,7 @@ import javax.annotation.Generated;
  *      </ul>
  *      <p>Methods that return long-running operations have "Async" method variants that return `OperationFuture`, which is used to track polling of the service.</p>
  *      <ul>
- *           <li>importEntitiesAsync(String projectId, Map<String, String> labels, String inputUrl, EntityFilter entityFilter)
+ *           <li>importEntitiesAsync(String projectId, Map&lt;String, String&gt; labels, String inputUrl, EntityFilter entityFilter)
  *      </ul>
  *      <p>Callable method variants take no parameters and return an immutable API callable object, which can be used to initiate calls to the service.</p>
  *      <ul>
@@ -219,7 +220,6 @@ import javax.annotation.Generated;
  *           <li>listIndexesCallable()
  *      </ul>
  *       </td>
- *    </tr>
  *    </tr>
  *  </table>
  *
