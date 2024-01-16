@@ -16,7 +16,6 @@
 
 package com.google.cloud.datastore.spi.v1;
 
-import com.google.api.core.InternalApi;
 import com.google.api.core.InternalExtensionOnly;
 import com.google.api.gax.rpc.HeaderProvider;
 import com.google.cloud.ServiceRpc;
@@ -116,12 +115,5 @@ public interface DatastoreRpc extends ServiceRpc, AutoCloseable {
         HeaderProvider internalHeaderProvider) {
       return super.setInternalHeaderProvider(internalHeaderProvider);
     }
-  }
-
-  /** Transport used to sending requests. */
-  @InternalApi
-  enum Transport {
-    GRPC,
-    HTTP
   }
 }
