@@ -16,7 +16,6 @@
 
 package com.example.datastore.filters;
 
-import com.example.datastore.filters.OrFilterQuery;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;

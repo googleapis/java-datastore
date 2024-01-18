@@ -28,7 +28,6 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.StructuredQuery;
 import com.google.cloud.datastore.models.QueryPlan;
-import com.google.cloud.datastore.models.QueryProfile.QueryMode;
 import com.google.common.collect.Iterables;
 import java.util.Map;
 
@@ -50,13 +49,21 @@ public class QueryProfileExplainAnalyzeAggregation {
     // Set the query mode to EXPLAIN_ANALYZE to get back the query stats, plan info, and aggregation
     // results
     AggregationResults results =
-        datastore.runAggregation(aggregationQuery, QueryMode.EXPLAIN_ANALYZE);
+        datastore.runAggregation(aggregationQuery, QueryProfile.QueryMode.EXPLAIN_ANALYZE);
 
-    Map<String, Object> queryStats = results.getResultSetStats().getQueryStats();
+    if (!results.getResultSetStats().isPresent()) {
+      throw new Exception("No result set stats returned");
+    }
+    ResultSetStats resultSetStats = results.getResultSetStats().get();
+
+    if (!resultSetStats.getQueryStats().isPresent()) {
+      throw new Exception("No query stats returned");
+    }
+    Map<String, Object> queryStats = resultSetStats.getQueryStats().get();
     System.out.println("----- Query Stats -----");
     queryStats.forEach((stat, value) -> System.out.println("Stat: " + stat + ", Value: " + value));
 
-    QueryPlan queryPlan = results.getResultSetStats().getQueryPlan();
+    QueryPlan queryPlan = resultSetStats.getQueryPlan();
     Map<String, Object> planInfo = queryPlan.getPlanInfo();
     System.out.println("----- Plan Info -----");
     planInfo.forEach(

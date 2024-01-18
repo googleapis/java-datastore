@@ -37,13 +37,23 @@ public class QueryProfileExplainAnalyze {
     // results
     QueryResults<Entity> results = datastore.run(query, QueryProfile.QueryMode.EXPLAIN_ANALYZE);
 
+    // Get the result set stats
+    if (!results.getResultSetStats().isPresent()) {
+      throw new Exception("No result set stats returned");
+    }
+    ResultSetStats resultSetStats = results.getResultSetStats().get();
+
     // Get the query stats
-    Map<String, Object> queryStats = results.getResultSetStats().getQueryStats();
+    if (!resultSetStats.getQueryStats().isPresent()) {
+      throw new Exception("No query stats returned");
+    }
+
+    Map<String, Object> queryStats = resultSetStats.getQueryStats().get();
     System.out.println("----- Query Stats -----");
     queryStats.forEach((stat, value) -> System.out.println("Stat: " + stat + ", Value: " + value));
 
     // Get the query plan
-    QueryPlan queryPlan = results.getResultSetStats().getQueryPlan();
+    QueryPlan queryPlan = resultSetStats.getQueryPlan();
     Map<String, Object> planInfo = queryPlan.getPlanInfo();
     System.out.println("----- Plan Info -----");
     planInfo.forEach(

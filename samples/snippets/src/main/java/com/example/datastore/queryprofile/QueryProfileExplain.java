@@ -23,8 +23,8 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.models.QueryPlan;
-import com.google.cloud.datastore.models.QueryProfile.QueryMode;
 import java.util.Map;
+import java.util.Optional;
 
 public class QueryProfileExplain {
   public static void invoke() throws Exception {
@@ -35,10 +35,14 @@ public class QueryProfileExplain {
     Query<Entity> query = Query.newEntityQueryBuilder().setKind("Task").build();
 
     // Set the query mode to EXPLAIN to get back *only* the plan info
-    QueryResults<Entity> results = datastore.run(query, QueryMode.EXPLAIN);
+    QueryResults<Entity> results = datastore.run(query, QueryProfile.QueryMode.EXPLAIN);
 
     // Get the query plan
-    QueryPlan queryPlan = results.getResultSetStats().getQueryPlan();
+    Optional<ResultSetStats> resultSetStats = results.getResultSetStats();
+    if (!resultSetStats.isPresent()) {
+      throw new Exception("No result set stats returned");
+    }
+    QueryPlan queryPlan = resultSetStats.get().getQueryPlan();
     Map<String, Object> planInfo = queryPlan.getPlanInfo();
     System.out.println("----- Plan Info -----");
     planInfo.forEach(
