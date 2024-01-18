@@ -485,7 +485,7 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
   @BetaApi
   default <T> QueryResults<T> run(
       Query<T> query, QueryProfile.QueryMode queryMode, ReadOption... options) {
-    throw new UnsupportedOperationException("not implemented");
+    throw new UnsupportedOperationException("Not implemented.");
   }
 
   /**
