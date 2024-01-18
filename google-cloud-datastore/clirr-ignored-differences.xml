@@ -14,7 +14,7 @@
     </difference>
     <difference>
         <className>com/google/cloud/datastore/QueryResults</className>
-        <method>com.google.cloud.datastore.models.ResultSetStats getResultSetStats()</method>
+        <method>java.util.Optional getResultSetStats()</method>
         <differenceType>7012</differenceType>
     </difference>
     <difference>

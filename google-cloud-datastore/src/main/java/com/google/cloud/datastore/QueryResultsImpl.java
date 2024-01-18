@@ -149,7 +149,7 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
 
   @Override
   @BetaApi
-  public ResultSetStats getResultSetStats() {
-    return this.resultSetStats;
+  public Optional<ResultSetStats> getResultSetStats() {
+    return Optional.ofNullable(this.resultSetStats);
   }
 }

@@ -389,19 +389,19 @@ public class ITDatastoreTest {
     QueryResults<Entity> results =
         datastore.run(simpleOrQuery, QueryProfile.QueryMode.EXPLAIN_ANALYZE);
     Truth.assertThat(results.hasNext()).isTrue();
-    ResultSetStats resultSetStats = results.getResultSetStats();
+    ResultSetStats resultSetStats = results.getResultSetStats().get();
     assertQueryPlan(resultSetStats);
     assertQueryStats(resultSetStats);
 
     QueryResults<Entity> results2 = datastore.run(simpleOrQuery, QueryProfile.QueryMode.EXPLAIN);
     Truth.assertThat(results2.hasNext()).isFalse();
-    ResultSetStats resultSetStats2 = results2.getResultSetStats();
+    ResultSetStats resultSetStats2 = results2.getResultSetStats().get();
     assertQueryPlan(resultSetStats2);
-    Truth.assertThat(resultSetStats2.getQueryStats()).isNull();
+    Truth.assertThat(resultSetStats2.getQueryStats().isPresent()).isFalse();
 
     QueryResults<Entity> results3 = datastore.run(simpleOrQuery, QueryProfile.QueryMode.NORMAL);
     Truth.assertThat(results3.hasNext()).isTrue();
-    Truth.assertThat(results3.getResultSetStats()).isNull();
+    Truth.assertThat(results3.getResultSetStats().isPresent()).isFalse();
 
     AggregationQuery aggregationQuery =
         Query.newAggregationQueryBuilder().over(simpleOrQuery).addAggregation(count()).build();
@@ -410,7 +410,7 @@ public class ITDatastoreTest {
 
     Truth.assertThat(resultsAggregation.size() > 0).isTrue();
 
-    ResultSetStats aggregationStats = resultsAggregation.getResultSetStats();
+    ResultSetStats aggregationStats = resultsAggregation.getResultSetStats().get();
     assertQueryPlan(aggregationStats);
     assertQueryStats(aggregationStats);
   }
@@ -540,7 +540,7 @@ public class ITDatastoreTest {
     assertEquals(ENTITY2, baseResults.next());
     assertFalse(baseResults.hasNext());
 
-    ResultSetStats resultSetStats = baseResults.getResultSetStats();
+    ResultSetStats resultSetStats = baseResults.getResultSetStats().get();
     assertQueryPlan(resultSetStats);
     assertQueryStats(resultSetStats);
 
@@ -557,7 +557,7 @@ public class ITDatastoreTest {
             aggregationQuery, QueryProfile.QueryMode.EXPLAIN_ANALYZE);
     assertTrue(results.size() > 0);
 
-    ResultSetStats aggregationStats = results.getResultSetStats();
+    ResultSetStats aggregationStats = results.getResultSetStats().get();
     assertQueryPlan(aggregationStats);
     assertQueryStats(aggregationStats);
     aggregationTransaction.commit();
@@ -575,10 +575,10 @@ public class ITDatastoreTest {
     QueryResults<Entity> baseResults = baseTransaction.run(query, QueryProfile.QueryMode.EXPLAIN);
     assertFalse(baseResults.hasNext());
 
-    ResultSetStats resultSetStats = baseResults.getResultSetStats();
+    ResultSetStats resultSetStats = baseResults.getResultSetStats().get();
     assertQueryPlan(resultSetStats);
     Truth.assertThat(resultSetStats.hasQueryStats()).isFalse();
-    Truth.assertThat(resultSetStats.getQueryStats()).isNull();
+    Truth.assertThat(resultSetStats.getQueryStats().isPresent()).isFalse();
 
     AggregationQuery aggregationQuery =
         Query.newAggregationQueryBuilder().addAggregation(count()).over(query).build();
@@ -588,10 +588,10 @@ public class ITDatastoreTest {
         aggregationTransaction.runAggregation(aggregationQuery, QueryProfile.QueryMode.EXPLAIN);
     assertFalse(results.size() > 0);
 
-    ResultSetStats aggregationStats = results.getResultSetStats();
+    ResultSetStats aggregationStats = results.getResultSetStats().get();
     assertQueryPlan(aggregationStats);
     Truth.assertThat(aggregationStats.hasQueryStats()).isFalse();
-    Truth.assertThat(aggregationStats.getQueryStats()).isNull();
+    Truth.assertThat(aggregationStats.getQueryStats().isPresent()).isFalse();
   }
 
   private void assertQueryPlan(ResultSetStats resultSetStats) {
@@ -599,7 +599,7 @@ public class ITDatastoreTest {
   }
 
   private void assertQueryStats(ResultSetStats resultSetStats) {
-    Map<String, Object> queryStatsAggregation = resultSetStats.getQueryStats();
+    Map<String, Object> queryStatsAggregation = resultSetStats.getQueryStats().get();
     Truth.assertThat(queryStatsAggregation.keySet())
         .containsAtLeast(
             "bytes_returned",
@@ -621,7 +621,7 @@ public class ITDatastoreTest {
     QueryResults<Entity> baseResults = baseTransaction.run(query, QueryProfile.QueryMode.NORMAL);
     assertTrue(baseResults.hasNext());
 
-    Truth.assertThat(baseResults.getResultSetStats()).isNull();
+    Truth.assertThat(baseResults.getResultSetStats().isPresent()).isFalse();
     baseTransaction.commit();
 
     AggregationQuery aggregationQuery =
@@ -632,7 +632,7 @@ public class ITDatastoreTest {
         aggregationTransaction.runAggregation(aggregationQuery, QueryProfile.QueryMode.NORMAL);
     assertTrue(results.size() > 0);
 
-    Truth.assertThat(results.getResultSetStats()).isNull();
+    Truth.assertThat(results.getResultSetStats().isPresent()).isFalse();
     aggregationTransaction.commit();
   }
 
@@ -1819,8 +1819,8 @@ public class ITDatastoreTest {
               countAggregationQuery, QueryMode.EXPLAIN_ANALYZE, ReadOption.readTime(now));
       Long oldCount = getOnlyElement(results).getLong("total_count");
       assertThat(oldCount).isEqualTo(2L);
-      assertQueryPlan(results.getResultSetStats());
-      assertQueryStats(results.getResultSetStats());
+      assertQueryPlan(results.getResultSetStats().get());
+      assertQueryStats(results.getResultSetStats().get());
     } finally {
       datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
     }

@@ -23,6 +23,7 @@ import com.google.cloud.datastore.models.ResultSetStats;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * The result of an {@link AggregationQuery} query submission. Contains a List&lt;{@link
@@ -64,8 +65,8 @@ public class AggregationResults implements Iterable<AggregationResult> {
   /*
    * Returns the ResultSetStats if QueryMode is set to EXPLAIN or EXPLAIN_ANALYZE. Otherwise, returns null.
    */
-  public ResultSetStats getResultSetStats() {
-    return this.resultSetStats;
+  public Optional<ResultSetStats> getResultSetStats() {
+    return Optional.ofNullable(this.resultSetStats);
   }
 
   @InternalApi

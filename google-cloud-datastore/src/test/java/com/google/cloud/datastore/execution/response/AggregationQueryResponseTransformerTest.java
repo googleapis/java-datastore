@@ -78,7 +78,7 @@ public class AggregationQueryResponseTransformerTest {
     assertThat(aggregationResults.get(0)).isEqualTo(new AggregationResult(toDomainValues(result1)));
     assertThat(aggregationResults.get(1)).isEqualTo(new AggregationResult(toDomainValues(result2)));
     assertThat(aggregationResults.getReadTime()).isEqualTo(readTime);
-    assertThat(aggregationResults.getResultSetStats()).isEqualTo(null);
+    assertThat(aggregationResults.getResultSetStats().isPresent()).isFalse();
   }
 
   @Test
@@ -120,7 +120,7 @@ public class AggregationQueryResponseTransformerTest {
     assertThat(aggregationResults.get(0)).isEqualTo(new AggregationResult(toDomainValues(result1)));
     assertThat(aggregationResults.get(1)).isEqualTo(new AggregationResult(toDomainValues(result2)));
     assertThat(aggregationResults.getReadTime()).isEqualTo(readTime);
-    assertThat(aggregationResults.getResultSetStats())
+    assertThat(aggregationResults.getResultSetStats().get())
         .isEqualTo(new com.google.cloud.datastore.models.ResultSetStats(stats));
   }
 
