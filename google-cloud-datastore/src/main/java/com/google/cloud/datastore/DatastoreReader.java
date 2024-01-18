@@ -65,7 +65,8 @@ public interface DatastoreReader {
   }
 
   /**
-   * Submits a {@link AggregationQuery} with a specified {@link com.google.cloud.datastore.models.QueryProfile.QueryMode} and returns {@link
+   * Submits a {@link AggregationQuery} with a specified {@link
+   * com.google.cloud.datastore.models.QueryProfile.QueryMode} and returns {@link
    * AggregationResults}.
    *
    * @throws DatastoreException upon failure
