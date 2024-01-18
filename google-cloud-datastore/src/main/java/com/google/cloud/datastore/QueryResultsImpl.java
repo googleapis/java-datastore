@@ -97,7 +97,13 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
     boolean isQueryPlan = actualResultType.getQueryType() == null && queryMode == QueryMode.PLAN;
     Preconditions.checkState(
         queryResultType.isAssignableFrom(actualResultType) || isQueryPlan,
-        "Unexpected result type " + actualResultType + " vs " + queryResultType);
+        "Unexpected result type or query mode. Result type: "
+            + actualResultType
+            + " vs "
+            + queryResultType
+            + ", query mode: "
+            + queryMode);
+
     if (runQueryResponsePb.getStats().hasQueryPlan()
         || runQueryResponsePb.getStats().hasQueryStats()) {
       this.resultSetStats = new ResultSetStats(runQueryResponsePb.getStats());
@@ -143,7 +149,7 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
 
   @Override
   @BetaApi
-  public ResultSetStats getResultSetStats() {
-    return this.resultSetStats;
+  public Optional<ResultSetStats> getResultSetStats() {
+    return Optional.ofNullable(this.resultSetStats);
   }
 }

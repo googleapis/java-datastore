@@ -465,8 +465,9 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
   <T> QueryResults<T> run(Query<T> query, ReadOption... options);
 
   /**
-   * Submits a {@link Query} with specified {@link com.google.cloud.datastore.models.QueryProfile.QueryMode} and returns its result. {@link ReadOption}s can be specified if
-   * desired.
+   * Submits a {@link Query} with specified {@link
+   * com.google.cloud.datastore.models.QueryProfile.QueryMode} and returns its result. {@link
+   * ReadOption}s can be specified if desired.
    *
    * <p>Example of running a query to find all entities of one kind.
    *
@@ -484,7 +485,7 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
   @BetaApi
   default <T> QueryResults<T> run(
       Query<T> query, QueryProfile.QueryMode queryMode, ReadOption... options) {
-    throw new UnsupportedOperationException("not implemented");
+    throw new UnsupportedOperationException("Not implemented.");
   }
 
   /**
@@ -535,8 +536,9 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
   }
 
   /**
-   * Submits a {@link AggregationQuery} with specified {@link com.google.cloud.datastore.models.QueryProfile.QueryMode} and returns {@link AggregationResults}. {@link ReadOption}s
-   * can be specified if desired.
+   * Submits a {@link AggregationQuery} with specified {@link
+   * com.google.cloud.datastore.models.QueryProfile.QueryMode} and returns {@link
+   * AggregationResults}. {@link ReadOption}s can be specified if desired.
    *
    * <p>Example of running an {@link AggregationQuery} to find the count of entities of one kind.
    *
@@ -553,6 +555,7 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
    * AggregationResults aggregationResults = datastore.runAggregation(aggregationQuery, QueryMode.EXPLAIN_ANALYZE);
    * ResultSetStats aggregationStats = aggregationResults.getResultSetStats();
    * }</pre>
+   *
    * @throws DatastoreException upon failure
    * @return {@link AggregationResults}
    */

@@ -20,6 +20,7 @@ import com.google.api.core.BetaApi;
 import com.google.cloud.datastore.models.ResultSetStats;
 import com.google.datastore.v1.QueryResultBatch;
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * The result of a Google Cloud Datastore query submission. When the result is not typed it is
@@ -77,7 +78,7 @@ public interface QueryResults<V> extends Iterator<V> {
    * Returns the {@link ResultSetStats} if {@link QueryMode} was set to EXPLAIN or EXPLAIN_ANALYZE. Otherwise, it will return null.
    */
   @BetaApi
-  default ResultSetStats getResultSetStats() {
-    throw new UnsupportedOperationException("not implemented");
+  default Optional<ResultSetStats> getResultSetStats() {
+    throw new UnsupportedOperationException("Not implemented.");
   }
 }

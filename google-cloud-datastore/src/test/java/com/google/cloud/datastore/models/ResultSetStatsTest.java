@@ -44,7 +44,7 @@ public class ResultSetStatsTest {
     ResultSetStats resultSetStats = new ResultSetStats(proto);
 
     Truth.assertThat(resultSetStats.getQueryPlan()).isEqualTo(new QueryPlan(queryPlanProto));
-    Truth.assertThat(resultSetStats.getQueryStats()).isEqualTo(Structs.asMap(statsProto));
+    Truth.assertThat(resultSetStats.getQueryStats().get()).isEqualTo(Structs.asMap(statsProto));
   }
 
   @Test

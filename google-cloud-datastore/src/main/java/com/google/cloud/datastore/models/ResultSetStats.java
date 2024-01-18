@@ -19,6 +19,7 @@ import com.google.api.core.InternalApi;
 import com.google.cloud.Structs;
 import com.google.common.base.Objects;
 import java.util.Map;
+import java.util.Optional;
 
 /*
  * Model class containing the planning and execution stats for the query. If QueryMode.EXPLAIN_ANALYZE was set,
@@ -40,7 +41,7 @@ public class ResultSetStats {
   }
 
   /*
-   * Returns the plan for the query, if EXPLAIN or EXPLAIN_ANALYZE was set. Otherwise, returns null.
+   * Returns the plan for the query.
    */
   public QueryPlan getQueryPlan() {
     return this.queryPlan;
@@ -49,8 +50,8 @@ public class ResultSetStats {
   /*
    * Returns the stats for the query if EXPLAIN_ANALYZE was set. Otherwise, returns null.
    */
-  public Map<String, Object> getQueryStats() {
-    return this.queryStats;
+  public Optional<Map<String, Object>> getQueryStats() {
+    return Optional.ofNullable(this.queryStats);
   }
 
   public boolean hasQueryStats() {
