@@ -8,7 +8,7 @@
 *                       @googleapis/yoshi-java @googleapis/cloud-native-db-dpes @googleapis/api-datastore-sdk
 
 # for handwritten libraries, keep codeowner_team in .repo-metadata.json as owner
-**/*.java               @googleapis/cloud-native-db-dpes @googleapis/api-datastore-sdk
+**/*.java               @googleapis/cloud-native-db-dpes @googleapis/api-datastore-sdk @googleapis/api-firestore-partners
 
 
 # The java-samples-reviewers team is the default owner for samples changes
