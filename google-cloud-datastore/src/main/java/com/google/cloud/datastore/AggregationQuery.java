@@ -69,6 +69,7 @@ import java.util.Set;
  */
 public class AggregationQuery extends Query<AggregationResults> {
 
+  //test
   private Set<Aggregation> aggregations;
   private StructuredQuery<?> nestedStructuredQuery;
   private final Mode mode;
