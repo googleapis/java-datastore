@@ -1,0 +1,27 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.cloud.datastore.DatastoreReaderWriter"
+  id: "DatastoreReaderWriter"
+  parent: "com.google.cloud.datastore"
+  langs:
+  - "java"
+  name: "DatastoreReaderWriter"
+  nameWithType: "DatastoreReaderWriter"
+  fullName: "com.google.cloud.datastore.DatastoreReaderWriter"
+  type: "Interface"
+  package: "com.google.cloud.datastore"
+  summary: "An interface that combines both Google Cloud Datastore read and write operations."
+  syntax:
+    content: "public interface DatastoreReaderWriter extends DatastoreReader, DatastoreWriter"
+  implements:
+  - "com.google.cloud.datastore.DatastoreReader"
+  - "com.google.cloud.datastore.DatastoreWriter"
+references:
+- uid: "com.google.cloud.datastore.DatastoreWriter"
+  name: "DatastoreWriter"
+  nameWithType: "DatastoreWriter"
+  fullName: "com.google.cloud.datastore.DatastoreWriter"
+- uid: "com.google.cloud.datastore.DatastoreReader"
+  name: "DatastoreReader"
+  nameWithType: "DatastoreReader"
+  fullName: "com.google.cloud.datastore.DatastoreReader"

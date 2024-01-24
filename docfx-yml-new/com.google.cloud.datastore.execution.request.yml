@@ -1,0 +1,25 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.cloud.datastore.execution.request"
+  id: "request"
+  children:
+  - "com.google.cloud.datastore.execution.request.AggregationQueryRequestProtoPreparer"
+  - "com.google.cloud.datastore.execution.request.ProtoPreparer"
+  langs:
+  - "java"
+  name: "com.google.cloud.datastore.execution.request"
+  nameWithType: "com.google.cloud.datastore.execution.request"
+  fullName: "com.google.cloud.datastore.execution.request"
+  type: "Namespace"
+  syntax:
+    content: "package com.google.cloud.datastore.execution.request"
+  javaType: "package"
+references:
+- uid: "com.google.cloud.datastore.execution.request.AggregationQueryRequestProtoPreparer"
+  name: "AggregationQueryRequestProtoPreparer"
+  nameWithType: "AggregationQueryRequestProtoPreparer"
+  fullName: "com.google.cloud.datastore.execution.request.AggregationQueryRequestProtoPreparer"
+- uid: "com.google.cloud.datastore.execution.request.ProtoPreparer"
+  name: "ProtoPreparer<INPUT,OUTPUT>"
+  nameWithType: "ProtoPreparer<INPUT,OUTPUT>"
+  fullName: "com.google.cloud.datastore.execution.request.ProtoPreparer<INPUT,OUTPUT>"

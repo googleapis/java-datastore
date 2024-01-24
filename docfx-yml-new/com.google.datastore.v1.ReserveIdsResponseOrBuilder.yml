@@ -1,0 +1,22 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.datastore.v1.ReserveIdsResponseOrBuilder"
+  id: "ReserveIdsResponseOrBuilder"
+  parent: "com.google.datastore.v1"
+  langs:
+  - "java"
+  name: "ReserveIdsResponseOrBuilder"
+  nameWithType: "ReserveIdsResponseOrBuilder"
+  fullName: "com.google.datastore.v1.ReserveIdsResponseOrBuilder"
+  type: "Interface"
+  package: "com.google.datastore.v1"
+  syntax:
+    content: "public interface ReserveIdsResponseOrBuilder extends MessageOrBuilder"
+  implements:
+  - "com.google.protobuf.MessageOrBuilder"
+references:
+- uid: "com.google.protobuf.MessageOrBuilder"
+  isExternal: true
+  name: "MessageOrBuilder"
+  nameWithType: "MessageOrBuilder"
+  fullName: "com.google.protobuf.MessageOrBuilder"

@@ -1,0 +1,134 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.cloud.datastore.RecordQuery"
+  id: "RecordQuery"
+  parent: "com.google.cloud.datastore"
+  children:
+  - "com.google.cloud.datastore.RecordQuery.getType()"
+  - "com.google.cloud.datastore.RecordQuery.nextQuery(com.google.datastore.v1.RunQueryResponse)"
+  - "com.google.cloud.datastore.RecordQuery.populatePb(com.google.datastore.v1.RunQueryRequest.Builder)"
+  langs:
+  - "java"
+  name: "RecordQuery<V>"
+  nameWithType: "RecordQuery<V>"
+  fullName: "com.google.cloud.datastore.RecordQuery<V>"
+  type: "Interface"
+  package: "com.google.cloud.datastore"
+  summary: "An internal marker interface to represent <xref uid=\"com.google.datastore.v1.Query\" data-throw-if-not-resolved=\"false\">Query</xref> that returns the entity records."
+  syntax:
+    content: "public interface RecordQuery<V>"
+    typeParameters:
+    - id: "V"
+- uid: "com.google.cloud.datastore.RecordQuery.getType()"
+  id: "getType()"
+  parent: "com.google.cloud.datastore.RecordQuery"
+  langs:
+  - "java"
+  name: "getType()"
+  nameWithType: "RecordQuery<V>.getType()"
+  fullName: "com.google.cloud.datastore.RecordQuery<V>.getType()"
+  overload: "com.google.cloud.datastore.RecordQuery.getType*"
+  type: "Method"
+  package: "com.google.cloud.datastore"
+  syntax:
+    content: "public abstract Query.ResultType<V> getType()"
+    return:
+      type: "com.google.cloud.datastore.Query.ResultType<V>"
+- uid: "com.google.cloud.datastore.RecordQuery.nextQuery(com.google.datastore.v1.RunQueryResponse)"
+  id: "nextQuery(com.google.datastore.v1.RunQueryResponse)"
+  parent: "com.google.cloud.datastore.RecordQuery"
+  langs:
+  - "java"
+  name: "nextQuery(RunQueryResponse responsePb)"
+  nameWithType: "RecordQuery<V>.nextQuery(RunQueryResponse responsePb)"
+  fullName: "com.google.cloud.datastore.RecordQuery<V>.nextQuery(RunQueryResponse responsePb)"
+  overload: "com.google.cloud.datastore.RecordQuery.nextQuery*"
+  type: "Method"
+  package: "com.google.cloud.datastore"
+  syntax:
+    content: "public abstract RecordQuery<V> nextQuery(RunQueryResponse responsePb)"
+    parameters:
+    - id: "responsePb"
+      type: "com.google.datastore.v1.RunQueryResponse"
+    return:
+      type: "com.google.cloud.datastore.RecordQuery<V>"
+- uid: "com.google.cloud.datastore.RecordQuery.populatePb(com.google.datastore.v1.RunQueryRequest.Builder)"
+  id: "populatePb(com.google.datastore.v1.RunQueryRequest.Builder)"
+  parent: "com.google.cloud.datastore.RecordQuery"
+  langs:
+  - "java"
+  name: "populatePb(RunQueryRequest.Builder requestPb)"
+  nameWithType: "RecordQuery<V>.populatePb(RunQueryRequest.Builder requestPb)"
+  fullName: "com.google.cloud.datastore.RecordQuery<V>.populatePb(RunQueryRequest.Builder requestPb)"
+  overload: "com.google.cloud.datastore.RecordQuery.populatePb*"
+  type: "Method"
+  package: "com.google.cloud.datastore"
+  syntax:
+    content: "public abstract void populatePb(RunQueryRequest.Builder requestPb)"
+    parameters:
+    - id: "requestPb"
+      type: "com.google.datastore.v1.RunQueryRequest.Builder"
+references:
+- uid: "com.google.cloud.datastore.Query.ResultType<V>"
+  spec.java:
+  - uid: "com.google.cloud.datastore.Query.ResultType"
+    name: "ResultType"
+    fullName: "com.google.cloud.datastore.Query.ResultType"
+    isExternal: false
+  - name: "<"
+    fullName: "<"
+    isExternal: false
+  - uid: "V"
+    name: "V"
+    fullName: "V"
+    isExternal: false
+  - name: ">"
+    fullName: ">"
+    isExternal: false
+- uid: "com.google.cloud.datastore.RecordQuery.getType*"
+  name: "getType"
+  nameWithType: "RecordQuery<V>.getType"
+  fullName: "com.google.cloud.datastore.RecordQuery<V>.getType"
+  package: "com.google.cloud.datastore"
+- uid: "com.google.datastore.v1.RunQueryRequest.Builder"
+  name: "RunQueryRequest.Builder"
+  nameWithType: "RunQueryRequest.Builder"
+  fullName: "com.google.datastore.v1.RunQueryRequest.Builder"
+- uid: "com.google.cloud.datastore.RecordQuery.populatePb*"
+  name: "populatePb"
+  nameWithType: "RecordQuery<V>.populatePb"
+  fullName: "com.google.cloud.datastore.RecordQuery<V>.populatePb"
+  package: "com.google.cloud.datastore"
+- uid: "com.google.datastore.v1.RunQueryResponse"
+  name: "RunQueryResponse"
+  nameWithType: "RunQueryResponse"
+  fullName: "com.google.datastore.v1.RunQueryResponse"
+- uid: "com.google.cloud.datastore.RecordQuery<V>"
+  spec.java:
+  - uid: "com.google.cloud.datastore.RecordQuery"
+    name: "RecordQuery"
+    fullName: "com.google.cloud.datastore.RecordQuery"
+    isExternal: false
+  - name: "<"
+    fullName: "<"
+    isExternal: false
+  - uid: "V"
+    name: "V"
+    fullName: "V"
+    isExternal: false
+  - name: ">"
+    fullName: ">"
+    isExternal: false
+- uid: "com.google.cloud.datastore.RecordQuery.nextQuery*"
+  name: "nextQuery"
+  nameWithType: "RecordQuery<V>.nextQuery"
+  fullName: "com.google.cloud.datastore.RecordQuery<V>.nextQuery"
+  package: "com.google.cloud.datastore"
+- uid: "V"
+  name: "V"
+  nameWithType: "V"
+  fullName: "V"
+- uid: "com.google.cloud.datastore.Query.ResultType"
+  name: "Query.ResultType"
+  nameWithType: "Query.ResultType"
+  fullName: "com.google.cloud.datastore.Query.ResultType"

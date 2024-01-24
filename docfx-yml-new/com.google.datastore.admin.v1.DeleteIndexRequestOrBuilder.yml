@@ -1,0 +1,130 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder"
+  id: "DeleteIndexRequestOrBuilder"
+  parent: "com.google.datastore.admin.v1"
+  children:
+  - "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getIndexId()"
+  - "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getIndexIdBytes()"
+  - "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getProjectId()"
+  - "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getProjectIdBytes()"
+  langs:
+  - "java"
+  name: "DeleteIndexRequestOrBuilder"
+  nameWithType: "DeleteIndexRequestOrBuilder"
+  fullName: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder"
+  type: "Interface"
+  package: "com.google.datastore.admin.v1"
+  syntax:
+    content: "public interface DeleteIndexRequestOrBuilder extends MessageOrBuilder"
+  implements:
+  - "com.google.protobuf.MessageOrBuilder"
+- uid: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getIndexId()"
+  id: "getIndexId()"
+  parent: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder"
+  langs:
+  - "java"
+  name: "getIndexId()"
+  nameWithType: "DeleteIndexRequestOrBuilder.getIndexId()"
+  fullName: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getIndexId()"
+  overload: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getIndexId*"
+  type: "Method"
+  package: "com.google.datastore.admin.v1"
+  summary: "\n The resource ID of the index to delete.\n \n\n <code>string index_id = 3;</code>"
+  syntax:
+    content: "public abstract String getIndexId()"
+    return:
+      type: "java.lang.String"
+      description: "The indexId."
+- uid: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getIndexIdBytes()"
+  id: "getIndexIdBytes()"
+  parent: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder"
+  langs:
+  - "java"
+  name: "getIndexIdBytes()"
+  nameWithType: "DeleteIndexRequestOrBuilder.getIndexIdBytes()"
+  fullName: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getIndexIdBytes()"
+  overload: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getIndexIdBytes*"
+  type: "Method"
+  package: "com.google.datastore.admin.v1"
+  summary: "\n The resource ID of the index to delete.\n \n\n <code>string index_id = 3;</code>"
+  syntax:
+    content: "public abstract ByteString getIndexIdBytes()"
+    return:
+      type: "com.google.protobuf.ByteString"
+      description: "The bytes for indexId."
+- uid: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getProjectId()"
+  id: "getProjectId()"
+  parent: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder"
+  langs:
+  - "java"
+  name: "getProjectId()"
+  nameWithType: "DeleteIndexRequestOrBuilder.getProjectId()"
+  fullName: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getProjectId()"
+  overload: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getProjectId*"
+  type: "Method"
+  package: "com.google.datastore.admin.v1"
+  summary: "\n Project ID against which to make the request.\n \n\n <code>string project_id = 1;</code>"
+  syntax:
+    content: "public abstract String getProjectId()"
+    return:
+      type: "java.lang.String"
+      description: "The projectId."
+- uid: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getProjectIdBytes()"
+  id: "getProjectIdBytes()"
+  parent: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder"
+  langs:
+  - "java"
+  name: "getProjectIdBytes()"
+  nameWithType: "DeleteIndexRequestOrBuilder.getProjectIdBytes()"
+  fullName: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getProjectIdBytes()"
+  overload: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getProjectIdBytes*"
+  type: "Method"
+  package: "com.google.datastore.admin.v1"
+  summary: "\n Project ID against which to make the request.\n \n\n <code>string project_id = 1;</code>"
+  syntax:
+    content: "public abstract ByteString getProjectIdBytes()"
+    return:
+      type: "com.google.protobuf.ByteString"
+      description: "The bytes for projectId."
+references:
+- uid: "java.lang.String"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/String.html"
+  spec.java:
+  - uid: "java.lang.String"
+    name: "String"
+    fullName: "java.lang.String"
+    isExternal: false
+    href: "https://docs.oracle.com/javase/8/docs/api/java/lang/String.html"
+- uid: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getProjectId*"
+  name: "getProjectId"
+  nameWithType: "DeleteIndexRequestOrBuilder.getProjectId"
+  fullName: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getProjectId"
+  package: "com.google.datastore.admin.v1"
+- uid: "com.google.protobuf.ByteString"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.protobuf.ByteString"
+    name: "ByteString"
+    fullName: "com.google.protobuf.ByteString"
+    isExternal: true
+- uid: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getProjectIdBytes*"
+  name: "getProjectIdBytes"
+  nameWithType: "DeleteIndexRequestOrBuilder.getProjectIdBytes"
+  fullName: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getProjectIdBytes"
+  package: "com.google.datastore.admin.v1"
+- uid: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getIndexId*"
+  name: "getIndexId"
+  nameWithType: "DeleteIndexRequestOrBuilder.getIndexId"
+  fullName: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getIndexId"
+  package: "com.google.datastore.admin.v1"
+- uid: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getIndexIdBytes*"
+  name: "getIndexIdBytes"
+  nameWithType: "DeleteIndexRequestOrBuilder.getIndexIdBytes"
+  fullName: "com.google.datastore.admin.v1.DeleteIndexRequestOrBuilder.getIndexIdBytes"
+  package: "com.google.datastore.admin.v1"
+- uid: "com.google.protobuf.MessageOrBuilder"
+  isExternal: true
+  name: "MessageOrBuilder"
+  nameWithType: "MessageOrBuilder"
+  fullName: "com.google.protobuf.MessageOrBuilder"

@@ -1,0 +1,80 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder"
+  id: "RedirectWritesStepDetailsOrBuilder"
+  parent: "com.google.datastore.admin.v1"
+  children:
+  - "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyMode()"
+  - "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyModeValue()"
+  langs:
+  - "java"
+  name: "MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder"
+  nameWithType: "MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder"
+  fullName: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder"
+  type: "Interface"
+  package: "com.google.datastore.admin.v1"
+  syntax:
+    content: "public static interface MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder extends MessageOrBuilder"
+  implements:
+  - "com.google.protobuf.MessageOrBuilder"
+- uid: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyMode()"
+  id: "getConcurrencyMode()"
+  parent: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder"
+  langs:
+  - "java"
+  name: "getConcurrencyMode()"
+  nameWithType: "MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyMode()"
+  fullName: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyMode()"
+  overload: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyMode*"
+  type: "Method"
+  package: "com.google.datastore.admin.v1"
+  summary: "\n Ths concurrency mode for this database.\n \n\n <code>.google.datastore.admin.v1.MigrationProgressEvent.ConcurrencyMode concurrency_mode = 1;\n </code>"
+  syntax:
+    content: "public abstract MigrationProgressEvent.ConcurrencyMode getConcurrencyMode()"
+    return:
+      type: "com.google.datastore.admin.v1.MigrationProgressEvent.ConcurrencyMode"
+      description: "The concurrencyMode."
+- uid: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyModeValue()"
+  id: "getConcurrencyModeValue()"
+  parent: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder"
+  langs:
+  - "java"
+  name: "getConcurrencyModeValue()"
+  nameWithType: "MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyModeValue()"
+  fullName: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyModeValue()"
+  overload: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyModeValue*"
+  type: "Method"
+  package: "com.google.datastore.admin.v1"
+  summary: "\n Ths concurrency mode for this database.\n \n\n <code>.google.datastore.admin.v1.MigrationProgressEvent.ConcurrencyMode concurrency_mode = 1;\n </code>"
+  syntax:
+    content: "public abstract int getConcurrencyModeValue()"
+    return:
+      type: "int"
+      description: "The enum numeric value on the wire for concurrencyMode."
+references:
+- uid: "int"
+  href: "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html"
+  spec.java:
+  - uid: "int"
+    name: "int"
+    fullName: "int"
+    isExternal: false
+- uid: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyModeValue*"
+  name: "getConcurrencyModeValue"
+  nameWithType: "MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyModeValue"
+  fullName: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyModeValue"
+  package: "com.google.datastore.admin.v1"
+- uid: "com.google.datastore.admin.v1.MigrationProgressEvent.ConcurrencyMode"
+  name: "MigrationProgressEvent.ConcurrencyMode"
+  nameWithType: "MigrationProgressEvent.ConcurrencyMode"
+  fullName: "com.google.datastore.admin.v1.MigrationProgressEvent.ConcurrencyMode"
+- uid: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyMode*"
+  name: "getConcurrencyMode"
+  nameWithType: "MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyMode"
+  fullName: "com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder.getConcurrencyMode"
+  package: "com.google.datastore.admin.v1"
+- uid: "com.google.protobuf.MessageOrBuilder"
+  isExternal: true
+  name: "MessageOrBuilder"
+  nameWithType: "MessageOrBuilder"
+  fullName: "com.google.protobuf.MessageOrBuilder"

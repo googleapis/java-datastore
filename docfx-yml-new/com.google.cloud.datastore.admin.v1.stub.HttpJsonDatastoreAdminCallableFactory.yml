@@ -1,0 +1,628 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory"
+  id: "HttpJsonDatastoreAdminCallableFactory"
+  parent: "com.google.cloud.datastore.admin.v1.stub"
+  children:
+  - "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT,MetadataT>createOperationCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,com.google.longrunning.Operation>,com.google.api.gax.rpc.OperationCallSettings<RequestT,ResponseT,MetadataT>,com.google.api.gax.rpc.ClientContext,com.google.api.gax.httpjson.longrunning.stub.OperationsStub)"
+  - "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT,PagedListResponseT>createPagedCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.PagedCallSettings<RequestT,ResponseT,PagedListResponseT>,com.google.api.gax.rpc.ClientContext)"
+  - "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createBatchingCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.BatchingCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.ClientContext)"
+  - "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createServerStreamingCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.ServerStreamingCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.ClientContext)"
+  - "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createUnaryCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.UnaryCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.ClientContext)"
+  - "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.HttpJsonDatastoreAdminCallableFactory()"
+  langs:
+  - "java"
+  name: "HttpJsonDatastoreAdminCallableFactory"
+  nameWithType: "HttpJsonDatastoreAdminCallableFactory"
+  fullName: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory"
+  type: "Class"
+  package: "com.google.cloud.datastore.admin.v1.stub"
+  summary: "REST callable factory implementation for the DatastoreAdmin service API.\n\n <p>This class is for advanced usage."
+  syntax:
+    content: "public class HttpJsonDatastoreAdminCallableFactory implements HttpJsonStubCallableFactory<Operation,OperationsStub>"
+  inheritance:
+  - "java.lang.Object"
+  implements:
+  - "com.google.api.gax.httpjson.HttpJsonStubCallableFactory<com.google.longrunning.Operation,com.google.api.gax.httpjson.longrunning.stub.OperationsStub>"
+  inheritedMembers:
+  - "java.lang.Object.clone()"
+  - "java.lang.Object.equals(java.lang.Object)"
+  - "java.lang.Object.finalize()"
+  - "java.lang.Object.getClass()"
+  - "java.lang.Object.hashCode()"
+  - "java.lang.Object.notify()"
+  - "java.lang.Object.notifyAll()"
+  - "java.lang.Object.toString()"
+  - "java.lang.Object.wait()"
+  - "java.lang.Object.wait(long)"
+  - "java.lang.Object.wait(long,int)"
+- uid: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT,MetadataT>createOperationCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,com.google.longrunning.Operation>,com.google.api.gax.rpc.OperationCallSettings<RequestT,ResponseT,MetadataT>,com.google.api.gax.rpc.ClientContext,com.google.api.gax.httpjson.longrunning.stub.OperationsStub)"
+  id: "<RequestT,ResponseT,MetadataT>createOperationCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,com.google.longrunning.Operation>,com.google.api.gax.rpc.OperationCallSettings<RequestT,ResponseT,MetadataT>,com.google.api.gax.rpc.ClientContext,com.google.api.gax.httpjson.longrunning.stub.OperationsStub)"
+  parent: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory"
+  langs:
+  - "java"
+  name: "<RequestT,ResponseT,MetadataT>createOperationCallable(HttpJsonCallSettings<RequestT,Operation> httpJsonCallSettings, OperationCallSettings<RequestT,ResponseT,MetadataT> callSettings, ClientContext clientContext, OperationsStub operationsStub)"
+  nameWithType: "HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT,MetadataT>createOperationCallable(HttpJsonCallSettings<RequestT,Operation> httpJsonCallSettings, OperationCallSettings<RequestT,ResponseT,MetadataT> callSettings, ClientContext clientContext, OperationsStub operationsStub)"
+  fullName: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT,MetadataT>createOperationCallable(HttpJsonCallSettings<RequestT,Operation> httpJsonCallSettings, OperationCallSettings<RequestT,ResponseT,MetadataT> callSettings, ClientContext clientContext, OperationsStub operationsStub)"
+  overload: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.createOperationCallable*"
+  type: "Method"
+  package: "com.google.cloud.datastore.admin.v1.stub"
+  syntax:
+    content: "public OperationCallable<RequestT,ResponseT,MetadataT> <RequestT,ResponseT,MetadataT>createOperationCallable(HttpJsonCallSettings<RequestT,Operation> httpJsonCallSettings, OperationCallSettings<RequestT,ResponseT,MetadataT> callSettings, ClientContext clientContext, OperationsStub operationsStub)"
+    parameters:
+    - id: "httpJsonCallSettings"
+      type: "com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,com.google.longrunning.Operation>"
+    - id: "callSettings"
+      type: "com.google.api.gax.rpc.OperationCallSettings<RequestT,ResponseT,MetadataT>"
+    - id: "clientContext"
+      type: "com.google.api.gax.rpc.ClientContext"
+    - id: "operationsStub"
+      type: "com.google.api.gax.httpjson.longrunning.stub.OperationsStub"
+    return:
+      type: "com.google.api.gax.rpc.OperationCallable<RequestT,ResponseT,MetadataT>"
+- uid: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT,PagedListResponseT>createPagedCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.PagedCallSettings<RequestT,ResponseT,PagedListResponseT>,com.google.api.gax.rpc.ClientContext)"
+  id: "<RequestT,ResponseT,PagedListResponseT>createPagedCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.PagedCallSettings<RequestT,ResponseT,PagedListResponseT>,com.google.api.gax.rpc.ClientContext)"
+  parent: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory"
+  langs:
+  - "java"
+  name: "<RequestT,ResponseT,PagedListResponseT>createPagedCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, PagedCallSettings<RequestT,ResponseT,PagedListResponseT> callSettings, ClientContext clientContext)"
+  nameWithType: "HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT,PagedListResponseT>createPagedCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, PagedCallSettings<RequestT,ResponseT,PagedListResponseT> callSettings, ClientContext clientContext)"
+  fullName: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT,PagedListResponseT>createPagedCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, PagedCallSettings<RequestT,ResponseT,PagedListResponseT> callSettings, ClientContext clientContext)"
+  overload: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.createPagedCallable*"
+  type: "Method"
+  package: "com.google.cloud.datastore.admin.v1.stub"
+  syntax:
+    content: "public UnaryCallable<RequestT,PagedListResponseT> <RequestT,ResponseT,PagedListResponseT>createPagedCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, PagedCallSettings<RequestT,ResponseT,PagedListResponseT> callSettings, ClientContext clientContext)"
+    parameters:
+    - id: "httpJsonCallSettings"
+      type: "com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>"
+    - id: "callSettings"
+      type: "com.google.api.gax.rpc.PagedCallSettings<RequestT,ResponseT,PagedListResponseT>"
+    - id: "clientContext"
+      type: "com.google.api.gax.rpc.ClientContext"
+    return:
+      type: "com.google.api.gax.rpc.UnaryCallable<RequestT,PagedListResponseT>"
+- uid: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createBatchingCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.BatchingCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.ClientContext)"
+  id: "<RequestT,ResponseT>createBatchingCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.BatchingCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.ClientContext)"
+  parent: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory"
+  langs:
+  - "java"
+  name: "<RequestT,ResponseT>createBatchingCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, BatchingCallSettings<RequestT,ResponseT> callSettings, ClientContext clientContext)"
+  nameWithType: "HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createBatchingCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, BatchingCallSettings<RequestT,ResponseT> callSettings, ClientContext clientContext)"
+  fullName: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createBatchingCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, BatchingCallSettings<RequestT,ResponseT> callSettings, ClientContext clientContext)"
+  overload: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.createBatchingCallable*"
+  type: "Method"
+  package: "com.google.cloud.datastore.admin.v1.stub"
+  syntax:
+    content: "public UnaryCallable<RequestT,ResponseT> <RequestT,ResponseT>createBatchingCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, BatchingCallSettings<RequestT,ResponseT> callSettings, ClientContext clientContext)"
+    parameters:
+    - id: "httpJsonCallSettings"
+      type: "com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>"
+    - id: "callSettings"
+      type: "com.google.api.gax.rpc.BatchingCallSettings<RequestT,ResponseT>"
+    - id: "clientContext"
+      type: "com.google.api.gax.rpc.ClientContext"
+    return:
+      type: "com.google.api.gax.rpc.UnaryCallable<RequestT,ResponseT>"
+- uid: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createServerStreamingCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.ServerStreamingCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.ClientContext)"
+  id: "<RequestT,ResponseT>createServerStreamingCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.ServerStreamingCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.ClientContext)"
+  parent: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory"
+  langs:
+  - "java"
+  name: "<RequestT,ResponseT>createServerStreamingCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, ServerStreamingCallSettings<RequestT,ResponseT> callSettings, ClientContext clientContext)"
+  nameWithType: "HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createServerStreamingCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, ServerStreamingCallSettings<RequestT,ResponseT> callSettings, ClientContext clientContext)"
+  fullName: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createServerStreamingCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, ServerStreamingCallSettings<RequestT,ResponseT> callSettings, ClientContext clientContext)"
+  overload: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.createServerStreamingCallable*"
+  type: "Method"
+  package: "com.google.cloud.datastore.admin.v1.stub"
+  syntax:
+    content: "public ServerStreamingCallable<RequestT,ResponseT> <RequestT,ResponseT>createServerStreamingCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, ServerStreamingCallSettings<RequestT,ResponseT> callSettings, ClientContext clientContext)"
+    parameters:
+    - id: "httpJsonCallSettings"
+      type: "com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>"
+    - id: "callSettings"
+      type: "com.google.api.gax.rpc.ServerStreamingCallSettings<RequestT,ResponseT>"
+    - id: "clientContext"
+      type: "com.google.api.gax.rpc.ClientContext"
+    return:
+      type: "com.google.api.gax.rpc.ServerStreamingCallable<RequestT,ResponseT>"
+- uid: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createUnaryCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.UnaryCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.ClientContext)"
+  id: "<RequestT,ResponseT>createUnaryCallable(com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.UnaryCallSettings<RequestT,ResponseT>,com.google.api.gax.rpc.ClientContext)"
+  parent: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory"
+  langs:
+  - "java"
+  name: "<RequestT,ResponseT>createUnaryCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, UnaryCallSettings<RequestT,ResponseT> callSettings, ClientContext clientContext)"
+  nameWithType: "HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createUnaryCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, UnaryCallSettings<RequestT,ResponseT> callSettings, ClientContext clientContext)"
+  fullName: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createUnaryCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, UnaryCallSettings<RequestT,ResponseT> callSettings, ClientContext clientContext)"
+  overload: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.createUnaryCallable*"
+  type: "Method"
+  package: "com.google.cloud.datastore.admin.v1.stub"
+  syntax:
+    content: "public UnaryCallable<RequestT,ResponseT> <RequestT,ResponseT>createUnaryCallable(HttpJsonCallSettings<RequestT,ResponseT> httpJsonCallSettings, UnaryCallSettings<RequestT,ResponseT> callSettings, ClientContext clientContext)"
+    parameters:
+    - id: "httpJsonCallSettings"
+      type: "com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>"
+    - id: "callSettings"
+      type: "com.google.api.gax.rpc.UnaryCallSettings<RequestT,ResponseT>"
+    - id: "clientContext"
+      type: "com.google.api.gax.rpc.ClientContext"
+    return:
+      type: "com.google.api.gax.rpc.UnaryCallable<RequestT,ResponseT>"
+- uid: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.HttpJsonDatastoreAdminCallableFactory()"
+  id: "HttpJsonDatastoreAdminCallableFactory()"
+  parent: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory"
+  langs:
+  - "java"
+  name: "HttpJsonDatastoreAdminCallableFactory()"
+  nameWithType: "HttpJsonDatastoreAdminCallableFactory.HttpJsonDatastoreAdminCallableFactory()"
+  fullName: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.HttpJsonDatastoreAdminCallableFactory()"
+  overload: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.HttpJsonDatastoreAdminCallableFactory*"
+  type: "Constructor"
+  package: "com.google.cloud.datastore.admin.v1.stub"
+  syntax:
+    content: "public HttpJsonDatastoreAdminCallableFactory()"
+references:
+- uid: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.HttpJsonDatastoreAdminCallableFactory*"
+  name: "HttpJsonDatastoreAdminCallableFactory"
+  nameWithType: "HttpJsonDatastoreAdminCallableFactory.HttpJsonDatastoreAdminCallableFactory"
+  fullName: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.HttpJsonDatastoreAdminCallableFactory"
+  package: "com.google.cloud.datastore.admin.v1.stub"
+- uid: "com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,ResponseT>"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.api.gax.httpjson.HttpJsonCallSettings"
+    name: "HttpJsonCallSettings"
+    fullName: "com.google.api.gax.httpjson.HttpJsonCallSettings"
+    isExternal: true
+  - name: "<"
+    fullName: "<"
+    isExternal: false
+  - uid: "RequestT"
+    name: "RequestT"
+    fullName: "RequestT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "ResponseT"
+    name: "ResponseT"
+    fullName: "ResponseT"
+    isExternal: false
+  - name: ">"
+    fullName: ">"
+    isExternal: false
+- uid: "com.google.api.gax.rpc.UnaryCallSettings<RequestT,ResponseT>"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.api.gax.rpc.UnaryCallSettings"
+    name: "UnaryCallSettings"
+    fullName: "com.google.api.gax.rpc.UnaryCallSettings"
+    isExternal: true
+  - name: "<"
+    fullName: "<"
+    isExternal: false
+  - uid: "RequestT"
+    name: "RequestT"
+    fullName: "RequestT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "ResponseT"
+    name: "ResponseT"
+    fullName: "ResponseT"
+    isExternal: false
+  - name: ">"
+    fullName: ">"
+    isExternal: false
+- uid: "com.google.api.gax.rpc.ClientContext"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.api.gax.rpc.ClientContext"
+    name: "ClientContext"
+    fullName: "com.google.api.gax.rpc.ClientContext"
+    isExternal: true
+- uid: "com.google.api.gax.rpc.UnaryCallable<RequestT,ResponseT>"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.api.gax.rpc.UnaryCallable"
+    name: "UnaryCallable"
+    fullName: "com.google.api.gax.rpc.UnaryCallable"
+    isExternal: true
+  - name: "<"
+    fullName: "<"
+    isExternal: false
+  - uid: "RequestT"
+    name: "RequestT"
+    fullName: "RequestT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "ResponseT"
+    name: "ResponseT"
+    fullName: "ResponseT"
+    isExternal: false
+  - name: ">"
+    fullName: ">"
+    isExternal: false
+- uid: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.createUnaryCallable*"
+  name: "<RequestT,ResponseT>createUnaryCallable"
+  nameWithType: "HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createUnaryCallable"
+  fullName: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createUnaryCallable"
+  package: "com.google.cloud.datastore.admin.v1.stub"
+- uid: "com.google.api.gax.rpc.PagedCallSettings<RequestT,ResponseT,PagedListResponseT>"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.api.gax.rpc.PagedCallSettings"
+    name: "PagedCallSettings"
+    fullName: "com.google.api.gax.rpc.PagedCallSettings"
+    isExternal: true
+  - name: "<"
+    fullName: "<"
+    isExternal: false
+  - uid: "RequestT"
+    name: "RequestT"
+    fullName: "RequestT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "ResponseT"
+    name: "ResponseT"
+    fullName: "ResponseT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "PagedListResponseT"
+    name: "PagedListResponseT"
+    fullName: "PagedListResponseT"
+    isExternal: false
+  - name: ">"
+    fullName: ">"
+    isExternal: false
+- uid: "com.google.api.gax.rpc.UnaryCallable<RequestT,PagedListResponseT>"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.api.gax.rpc.UnaryCallable"
+    name: "UnaryCallable"
+    fullName: "com.google.api.gax.rpc.UnaryCallable"
+    isExternal: true
+  - name: "<"
+    fullName: "<"
+    isExternal: false
+  - uid: "RequestT"
+    name: "RequestT"
+    fullName: "RequestT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "PagedListResponseT"
+    name: "PagedListResponseT"
+    fullName: "PagedListResponseT"
+    isExternal: false
+  - name: ">"
+    fullName: ">"
+    isExternal: false
+- uid: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.createPagedCallable*"
+  name: "<RequestT,ResponseT,PagedListResponseT>createPagedCallable"
+  nameWithType: "HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT,PagedListResponseT>createPagedCallable"
+  fullName: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT,PagedListResponseT>createPagedCallable"
+  package: "com.google.cloud.datastore.admin.v1.stub"
+- uid: "com.google.api.gax.rpc.BatchingCallSettings<RequestT,ResponseT>"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.api.gax.rpc.BatchingCallSettings"
+    name: "BatchingCallSettings"
+    fullName: "com.google.api.gax.rpc.BatchingCallSettings"
+    isExternal: true
+  - name: "<"
+    fullName: "<"
+    isExternal: false
+  - uid: "RequestT"
+    name: "RequestT"
+    fullName: "RequestT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "ResponseT"
+    name: "ResponseT"
+    fullName: "ResponseT"
+    isExternal: false
+  - name: ">"
+    fullName: ">"
+    isExternal: false
+- uid: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.createBatchingCallable*"
+  name: "<RequestT,ResponseT>createBatchingCallable"
+  nameWithType: "HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createBatchingCallable"
+  fullName: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createBatchingCallable"
+  package: "com.google.cloud.datastore.admin.v1.stub"
+- uid: "com.google.api.gax.httpjson.HttpJsonCallSettings<RequestT,com.google.longrunning.Operation>"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.api.gax.httpjson.HttpJsonCallSettings"
+    name: "HttpJsonCallSettings"
+    fullName: "com.google.api.gax.httpjson.HttpJsonCallSettings"
+    isExternal: true
+  - name: "<"
+    fullName: "<"
+    isExternal: false
+  - uid: "RequestT"
+    name: "RequestT"
+    fullName: "RequestT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "com.google.longrunning.Operation"
+    name: "Operation"
+    fullName: "com.google.longrunning.Operation"
+    isExternal: true
+  - name: ">"
+    fullName: ">"
+    isExternal: false
+- uid: "com.google.api.gax.rpc.OperationCallSettings<RequestT,ResponseT,MetadataT>"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.api.gax.rpc.OperationCallSettings"
+    name: "OperationCallSettings"
+    fullName: "com.google.api.gax.rpc.OperationCallSettings"
+    isExternal: true
+  - name: "<"
+    fullName: "<"
+    isExternal: false
+  - uid: "RequestT"
+    name: "RequestT"
+    fullName: "RequestT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "ResponseT"
+    name: "ResponseT"
+    fullName: "ResponseT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "MetadataT"
+    name: "MetadataT"
+    fullName: "MetadataT"
+    isExternal: false
+  - name: ">"
+    fullName: ">"
+    isExternal: false
+- uid: "com.google.api.gax.httpjson.longrunning.stub.OperationsStub"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.api.gax.httpjson.longrunning.stub.OperationsStub"
+    name: "OperationsStub"
+    fullName: "com.google.api.gax.httpjson.longrunning.stub.OperationsStub"
+    isExternal: true
+- uid: "com.google.api.gax.rpc.OperationCallable<RequestT,ResponseT,MetadataT>"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.api.gax.rpc.OperationCallable"
+    name: "OperationCallable"
+    fullName: "com.google.api.gax.rpc.OperationCallable"
+    isExternal: true
+  - name: "<"
+    fullName: "<"
+    isExternal: false
+  - uid: "RequestT"
+    name: "RequestT"
+    fullName: "RequestT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "ResponseT"
+    name: "ResponseT"
+    fullName: "ResponseT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "MetadataT"
+    name: "MetadataT"
+    fullName: "MetadataT"
+    isExternal: false
+  - name: ">"
+    fullName: ">"
+    isExternal: false
+- uid: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.createOperationCallable*"
+  name: "<RequestT,ResponseT,MetadataT>createOperationCallable"
+  nameWithType: "HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT,MetadataT>createOperationCallable"
+  fullName: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT,MetadataT>createOperationCallable"
+  package: "com.google.cloud.datastore.admin.v1.stub"
+- uid: "com.google.api.gax.rpc.ServerStreamingCallSettings<RequestT,ResponseT>"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.api.gax.rpc.ServerStreamingCallSettings"
+    name: "ServerStreamingCallSettings"
+    fullName: "com.google.api.gax.rpc.ServerStreamingCallSettings"
+    isExternal: true
+  - name: "<"
+    fullName: "<"
+    isExternal: false
+  - uid: "RequestT"
+    name: "RequestT"
+    fullName: "RequestT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "ResponseT"
+    name: "ResponseT"
+    fullName: "ResponseT"
+    isExternal: false
+  - name: ">"
+    fullName: ">"
+    isExternal: false
+- uid: "com.google.api.gax.rpc.ServerStreamingCallable<RequestT,ResponseT>"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.api.gax.rpc.ServerStreamingCallable"
+    name: "ServerStreamingCallable"
+    fullName: "com.google.api.gax.rpc.ServerStreamingCallable"
+    isExternal: true
+  - name: "<"
+    fullName: "<"
+    isExternal: false
+  - uid: "RequestT"
+    name: "RequestT"
+    fullName: "RequestT"
+    isExternal: false
+  - name: ","
+    fullName: ","
+    isExternal: false
+  - uid: "ResponseT"
+    name: "ResponseT"
+    fullName: "ResponseT"
+    isExternal: false
+  - name: ">"
+    fullName: ">"
+    isExternal: false
+- uid: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.createServerStreamingCallable*"
+  name: "<RequestT,ResponseT>createServerStreamingCallable"
+  nameWithType: "HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createServerStreamingCallable"
+  fullName: "com.google.cloud.datastore.admin.v1.stub.HttpJsonDatastoreAdminCallableFactory.<RequestT,ResponseT>createServerStreamingCallable"
+  package: "com.google.cloud.datastore.admin.v1.stub"
+- uid: "com.google.api.gax.httpjson.HttpJsonStubCallableFactory<com.google.longrunning.Operation,com.google.api.gax.httpjson.longrunning.stub.OperationsStub>"
+  isExternal: true
+  name: "HttpJsonStubCallableFactory<Operation,OperationsStub>"
+  nameWithType: "HttpJsonStubCallableFactory<Operation,OperationsStub>"
+  fullName: "com.google.api.gax.httpjson.HttpJsonStubCallableFactory<com.google.longrunning.Operation,com.google.api.gax.httpjson.longrunning.stub.OperationsStub>"
+- uid: "java.lang.Object.notify()"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notify--"
+  name: "Object.notify()"
+  nameWithType: "Object.notify()"
+  fullName: "java.lang.Object.notify()"
+- uid: "java.lang.Object.wait()"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait--"
+  name: "Object.wait()"
+  nameWithType: "Object.wait()"
+  fullName: "java.lang.Object.wait()"
+- uid: "java.lang.Object.finalize()"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#finalize--"
+  name: "Object.finalize()"
+  nameWithType: "Object.finalize()"
+  fullName: "java.lang.Object.finalize()"
+- uid: "java.lang.Object.clone()"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#clone--"
+  name: "Object.clone()"
+  nameWithType: "Object.clone()"
+  fullName: "java.lang.Object.clone()"
+- uid: "java.lang.Object.notifyAll()"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#notifyAll--"
+  name: "Object.notifyAll()"
+  nameWithType: "Object.notifyAll()"
+  fullName: "java.lang.Object.notifyAll()"
+- uid: "java.lang.Object.equals(java.lang.Object)"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-"
+  name: "Object.equals(Object)"
+  nameWithType: "Object.equals(Object)"
+  fullName: "java.lang.Object.equals(java.lang.Object)"
+- uid: "java.lang.Object.getClass()"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#getClass--"
+  name: "Object.getClass()"
+  nameWithType: "Object.getClass()"
+  fullName: "java.lang.Object.getClass()"
+- uid: "java.lang.Object.wait(long)"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-"
+  name: "Object.wait(long)"
+  nameWithType: "Object.wait(long)"
+  fullName: "java.lang.Object.wait(long)"
+- uid: "java.lang.Object.hashCode()"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#hashCode--"
+  name: "Object.hashCode()"
+  nameWithType: "Object.hashCode()"
+  fullName: "java.lang.Object.hashCode()"
+- uid: "java.lang.Object.wait(long,int)"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#wait-long-int-"
+  name: "Object.wait(long,int)"
+  nameWithType: "Object.wait(long,int)"
+  fullName: "java.lang.Object.wait(long,int)"
+- uid: "java.lang.Object.toString()"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#toString--"
+  name: "Object.toString()"
+  nameWithType: "Object.toString()"
+  fullName: "java.lang.Object.toString()"
+- uid: "RequestT,ResponseT"
+  name: "RequestT,ResponseT"
+  nameWithType: "RequestT,ResponseT"
+  fullName: "RequestT,ResponseT"
+- uid: "com.google.api.gax.httpjson.HttpJsonCallSettings"
+  isExternal: true
+  name: "HttpJsonCallSettings"
+  nameWithType: "HttpJsonCallSettings"
+  fullName: "com.google.api.gax.httpjson.HttpJsonCallSettings"
+- uid: "com.google.api.gax.rpc.UnaryCallSettings"
+  isExternal: true
+  name: "UnaryCallSettings"
+  nameWithType: "UnaryCallSettings"
+  fullName: "com.google.api.gax.rpc.UnaryCallSettings"
+- uid: "com.google.api.gax.rpc.UnaryCallable"
+  isExternal: true
+  name: "UnaryCallable"
+  nameWithType: "UnaryCallable"
+  fullName: "com.google.api.gax.rpc.UnaryCallable"
+- uid: "com.google.api.gax.rpc.PagedCallSettings"
+  isExternal: true
+  name: "PagedCallSettings"
+  nameWithType: "PagedCallSettings"
+  fullName: "com.google.api.gax.rpc.PagedCallSettings"
+- uid: "RequestT,ResponseT,PagedListResponseT"
+  name: "RequestT,ResponseT,PagedListResponseT"
+  nameWithType: "RequestT,ResponseT,PagedListResponseT"
+  fullName: "RequestT,ResponseT,PagedListResponseT"
+- uid: "RequestT,PagedListResponseT"
+  name: "RequestT,PagedListResponseT"
+  nameWithType: "RequestT,PagedListResponseT"
+  fullName: "RequestT,PagedListResponseT"
+- uid: "com.google.api.gax.rpc.BatchingCallSettings"
+  isExternal: true
+  name: "BatchingCallSettings"
+  nameWithType: "BatchingCallSettings"
+  fullName: "com.google.api.gax.rpc.BatchingCallSettings"
+- uid: "RequestT,com.google.longrunning.Operation"
+  name: "RequestT,Operation"
+  nameWithType: "RequestT,Operation"
+  fullName: "RequestT,com.google.longrunning.Operation"
+- uid: "com.google.api.gax.rpc.OperationCallSettings"
+  isExternal: true
+  name: "OperationCallSettings"
+  nameWithType: "OperationCallSettings"
+  fullName: "com.google.api.gax.rpc.OperationCallSettings"
+- uid: "RequestT,ResponseT,MetadataT"
+  name: "RequestT,ResponseT,MetadataT"
+  nameWithType: "RequestT,ResponseT,MetadataT"
+  fullName: "RequestT,ResponseT,MetadataT"
+- uid: "com.google.api.gax.rpc.OperationCallable"
+  isExternal: true
+  name: "OperationCallable"
+  nameWithType: "OperationCallable"
+  fullName: "com.google.api.gax.rpc.OperationCallable"
+- uid: "com.google.api.gax.rpc.ServerStreamingCallSettings"
+  isExternal: true
+  name: "ServerStreamingCallSettings"
+  nameWithType: "ServerStreamingCallSettings"
+  fullName: "com.google.api.gax.rpc.ServerStreamingCallSettings"
+- uid: "com.google.api.gax.rpc.ServerStreamingCallable"
+  isExternal: true
+  name: "ServerStreamingCallable"
+  nameWithType: "ServerStreamingCallable"
+  fullName: "com.google.api.gax.rpc.ServerStreamingCallable"
+- uid: "com.google.api.gax.httpjson.HttpJsonStubCallableFactory"
+  isExternal: true
+  name: "HttpJsonStubCallableFactory"
+  nameWithType: "HttpJsonStubCallableFactory"
+  fullName: "com.google.api.gax.httpjson.HttpJsonStubCallableFactory"
+- uid: "com.google.longrunning.Operation,com.google.api.gax.httpjson.longrunning.stub.OperationsStub"
+  isExternal: true
+  name: "Operation,OperationsStub"
+  nameWithType: "Operation,OperationsStub"
+  fullName: "com.google.longrunning.Operation,com.google.api.gax.httpjson.longrunning.stub.OperationsStub"

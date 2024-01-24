@@ -1,0 +1,53 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.datastore.v1.BeginTransactionResponseOrBuilder"
+  id: "BeginTransactionResponseOrBuilder"
+  parent: "com.google.datastore.v1"
+  children:
+  - "com.google.datastore.v1.BeginTransactionResponseOrBuilder.getTransaction()"
+  langs:
+  - "java"
+  name: "BeginTransactionResponseOrBuilder"
+  nameWithType: "BeginTransactionResponseOrBuilder"
+  fullName: "com.google.datastore.v1.BeginTransactionResponseOrBuilder"
+  type: "Interface"
+  package: "com.google.datastore.v1"
+  syntax:
+    content: "public interface BeginTransactionResponseOrBuilder extends MessageOrBuilder"
+  implements:
+  - "com.google.protobuf.MessageOrBuilder"
+- uid: "com.google.datastore.v1.BeginTransactionResponseOrBuilder.getTransaction()"
+  id: "getTransaction()"
+  parent: "com.google.datastore.v1.BeginTransactionResponseOrBuilder"
+  langs:
+  - "java"
+  name: "getTransaction()"
+  nameWithType: "BeginTransactionResponseOrBuilder.getTransaction()"
+  fullName: "com.google.datastore.v1.BeginTransactionResponseOrBuilder.getTransaction()"
+  overload: "com.google.datastore.v1.BeginTransactionResponseOrBuilder.getTransaction*"
+  type: "Method"
+  package: "com.google.datastore.v1"
+  summary: "\n The transaction identifier (always present).\n \n\n <code>bytes transaction = 1;</code>"
+  syntax:
+    content: "public abstract ByteString getTransaction()"
+    return:
+      type: "com.google.protobuf.ByteString"
+      description: "The transaction."
+references:
+- uid: "com.google.protobuf.ByteString"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.protobuf.ByteString"
+    name: "ByteString"
+    fullName: "com.google.protobuf.ByteString"
+    isExternal: true
+- uid: "com.google.datastore.v1.BeginTransactionResponseOrBuilder.getTransaction*"
+  name: "getTransaction"
+  nameWithType: "BeginTransactionResponseOrBuilder.getTransaction"
+  fullName: "com.google.datastore.v1.BeginTransactionResponseOrBuilder.getTransaction"
+  package: "com.google.datastore.v1"
+- uid: "com.google.protobuf.MessageOrBuilder"
+  isExternal: true
+  name: "MessageOrBuilder"
+  nameWithType: "MessageOrBuilder"
+  fullName: "com.google.protobuf.MessageOrBuilder"

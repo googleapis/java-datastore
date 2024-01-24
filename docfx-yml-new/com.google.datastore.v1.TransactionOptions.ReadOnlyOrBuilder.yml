@@ -1,0 +1,112 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder"
+  id: "ReadOnlyOrBuilder"
+  parent: "com.google.datastore.v1"
+  children:
+  - "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.getReadTime()"
+  - "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.getReadTimeOrBuilder()"
+  - "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.hasReadTime()"
+  langs:
+  - "java"
+  name: "TransactionOptions.ReadOnlyOrBuilder"
+  nameWithType: "TransactionOptions.ReadOnlyOrBuilder"
+  fullName: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder"
+  type: "Interface"
+  package: "com.google.datastore.v1"
+  syntax:
+    content: "public static interface TransactionOptions.ReadOnlyOrBuilder extends MessageOrBuilder"
+  implements:
+  - "com.google.protobuf.MessageOrBuilder"
+- uid: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.getReadTime()"
+  id: "getReadTime()"
+  parent: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder"
+  langs:
+  - "java"
+  name: "getReadTime()"
+  nameWithType: "TransactionOptions.ReadOnlyOrBuilder.getReadTime()"
+  fullName: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.getReadTime()"
+  overload: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.getReadTime*"
+  type: "Method"
+  package: "com.google.datastore.v1"
+  summary: "\n Reads entities at the given time.\n\n This must be a microsecond precision timestamp within the past one hour,\n or if Point-in-Time Recovery is enabled, can additionally be a whole\n minute timestamp within the past 7 days.\n \n\n <code>.google.protobuf.Timestamp read_time = 1;</code>"
+  syntax:
+    content: "public abstract Timestamp getReadTime()"
+    return:
+      type: "com.google.protobuf.Timestamp"
+      description: "The readTime."
+- uid: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.getReadTimeOrBuilder()"
+  id: "getReadTimeOrBuilder()"
+  parent: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder"
+  langs:
+  - "java"
+  name: "getReadTimeOrBuilder()"
+  nameWithType: "TransactionOptions.ReadOnlyOrBuilder.getReadTimeOrBuilder()"
+  fullName: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.getReadTimeOrBuilder()"
+  overload: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.getReadTimeOrBuilder*"
+  type: "Method"
+  package: "com.google.datastore.v1"
+  summary: "\n Reads entities at the given time.\n\n This must be a microsecond precision timestamp within the past one hour,\n or if Point-in-Time Recovery is enabled, can additionally be a whole\n minute timestamp within the past 7 days.\n \n\n <code>.google.protobuf.Timestamp read_time = 1;</code>"
+  syntax:
+    content: "public abstract TimestampOrBuilder getReadTimeOrBuilder()"
+    return:
+      type: "com.google.protobuf.TimestampOrBuilder"
+- uid: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.hasReadTime()"
+  id: "hasReadTime()"
+  parent: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder"
+  langs:
+  - "java"
+  name: "hasReadTime()"
+  nameWithType: "TransactionOptions.ReadOnlyOrBuilder.hasReadTime()"
+  fullName: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.hasReadTime()"
+  overload: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.hasReadTime*"
+  type: "Method"
+  package: "com.google.datastore.v1"
+  summary: "\n Reads entities at the given time.\n\n This must be a microsecond precision timestamp within the past one hour,\n or if Point-in-Time Recovery is enabled, can additionally be a whole\n minute timestamp within the past 7 days.\n \n\n <code>.google.protobuf.Timestamp read_time = 1;</code>"
+  syntax:
+    content: "public abstract boolean hasReadTime()"
+    return:
+      type: "boolean"
+      description: "Whether the readTime field is set."
+references:
+- uid: "boolean"
+  href: "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html"
+  spec.java:
+  - uid: "boolean"
+    name: "boolean"
+    fullName: "boolean"
+    isExternal: false
+- uid: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.hasReadTime*"
+  name: "hasReadTime"
+  nameWithType: "TransactionOptions.ReadOnlyOrBuilder.hasReadTime"
+  fullName: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.hasReadTime"
+  package: "com.google.datastore.v1"
+- uid: "com.google.protobuf.Timestamp"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.protobuf.Timestamp"
+    name: "Timestamp"
+    fullName: "com.google.protobuf.Timestamp"
+    isExternal: true
+- uid: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.getReadTime*"
+  name: "getReadTime"
+  nameWithType: "TransactionOptions.ReadOnlyOrBuilder.getReadTime"
+  fullName: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.getReadTime"
+  package: "com.google.datastore.v1"
+- uid: "com.google.protobuf.TimestampOrBuilder"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.protobuf.TimestampOrBuilder"
+    name: "TimestampOrBuilder"
+    fullName: "com.google.protobuf.TimestampOrBuilder"
+    isExternal: true
+- uid: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.getReadTimeOrBuilder*"
+  name: "getReadTimeOrBuilder"
+  nameWithType: "TransactionOptions.ReadOnlyOrBuilder.getReadTimeOrBuilder"
+  fullName: "com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder.getReadTimeOrBuilder"
+  package: "com.google.datastore.v1"
+- uid: "com.google.protobuf.MessageOrBuilder"
+  isExternal: true
+  name: "MessageOrBuilder"
+  nameWithType: "MessageOrBuilder"
+  fullName: "com.google.protobuf.MessageOrBuilder"

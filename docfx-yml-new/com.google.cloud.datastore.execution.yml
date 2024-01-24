@@ -1,0 +1,25 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.cloud.datastore.execution"
+  id: "execution"
+  children:
+  - "com.google.cloud.datastore.execution.AggregationQueryExecutor"
+  - "com.google.cloud.datastore.execution.QueryExecutor"
+  langs:
+  - "java"
+  name: "com.google.cloud.datastore.execution"
+  nameWithType: "com.google.cloud.datastore.execution"
+  fullName: "com.google.cloud.datastore.execution"
+  type: "Namespace"
+  syntax:
+    content: "package com.google.cloud.datastore.execution"
+  javaType: "package"
+references:
+- uid: "com.google.cloud.datastore.execution.AggregationQueryExecutor"
+  name: "AggregationQueryExecutor"
+  nameWithType: "AggregationQueryExecutor"
+  fullName: "com.google.cloud.datastore.execution.AggregationQueryExecutor"
+- uid: "com.google.cloud.datastore.execution.QueryExecutor"
+  name: "QueryExecutor<INPUT,OUTPUT>"
+  nameWithType: "QueryExecutor<INPUT,OUTPUT>"
+  fullName: "com.google.cloud.datastore.execution.QueryExecutor<INPUT,OUTPUT>"

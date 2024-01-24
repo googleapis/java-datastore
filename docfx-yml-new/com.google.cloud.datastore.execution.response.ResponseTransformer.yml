@@ -1,0 +1,56 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.cloud.datastore.execution.response.ResponseTransformer"
+  id: "ResponseTransformer"
+  parent: "com.google.cloud.datastore.execution.response"
+  children:
+  - "com.google.cloud.datastore.execution.response.ResponseTransformer.transform(INPUT)"
+  langs:
+  - "java"
+  name: "ResponseTransformer<INPUT,OUTPUT>"
+  nameWithType: "ResponseTransformer<INPUT,OUTPUT>"
+  fullName: "com.google.cloud.datastore.execution.response.ResponseTransformer<INPUT,OUTPUT>"
+  type: "Interface"
+  package: "com.google.cloud.datastore.execution.response"
+  summary: "An internal functional interface whose implementation has the responsibility to populate a Domain\n object from a proto response."
+  syntax:
+    content: "public interface ResponseTransformer<INPUT,OUTPUT>"
+    typeParameters:
+    - id: "INPUT"
+    - id: "OUTPUT"
+- uid: "com.google.cloud.datastore.execution.response.ResponseTransformer.transform(INPUT)"
+  id: "transform(INPUT)"
+  parent: "com.google.cloud.datastore.execution.response.ResponseTransformer"
+  langs:
+  - "java"
+  name: "transform(INPUT response)"
+  nameWithType: "ResponseTransformer<INPUT,OUTPUT>.transform(INPUT response)"
+  fullName: "com.google.cloud.datastore.execution.response.ResponseTransformer<INPUT,OUTPUT>.transform(INPUT response)"
+  overload: "com.google.cloud.datastore.execution.response.ResponseTransformer.transform*"
+  type: "Method"
+  package: "com.google.cloud.datastore.execution.response"
+  syntax:
+    content: "public abstract OUTPUT transform(INPUT response)"
+    parameters:
+    - id: "response"
+      type: "INPUT"
+    return:
+      type: "OUTPUT"
+references:
+- uid: "INPUT"
+  spec.java:
+  - uid: "INPUT"
+    name: "INPUT"
+    fullName: "INPUT"
+    isExternal: false
+- uid: "OUTPUT"
+  spec.java:
+  - uid: "OUTPUT"
+    name: "OUTPUT"
+    fullName: "OUTPUT"
+    isExternal: false
+- uid: "com.google.cloud.datastore.execution.response.ResponseTransformer.transform*"
+  name: "transform"
+  nameWithType: "ResponseTransformer<INPUT,OUTPUT>.transform"
+  fullName: "com.google.cloud.datastore.execution.response.ResponseTransformer<INPUT,OUTPUT>.transform"
+  package: "com.google.cloud.datastore.execution.response"

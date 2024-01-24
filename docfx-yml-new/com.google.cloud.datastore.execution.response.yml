@@ -1,0 +1,25 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.cloud.datastore.execution.response"
+  id: "response"
+  children:
+  - "com.google.cloud.datastore.execution.response.AggregationQueryResponseTransformer"
+  - "com.google.cloud.datastore.execution.response.ResponseTransformer"
+  langs:
+  - "java"
+  name: "com.google.cloud.datastore.execution.response"
+  nameWithType: "com.google.cloud.datastore.execution.response"
+  fullName: "com.google.cloud.datastore.execution.response"
+  type: "Namespace"
+  syntax:
+    content: "package com.google.cloud.datastore.execution.response"
+  javaType: "package"
+references:
+- uid: "com.google.cloud.datastore.execution.response.AggregationQueryResponseTransformer"
+  name: "AggregationQueryResponseTransformer"
+  nameWithType: "AggregationQueryResponseTransformer"
+  fullName: "com.google.cloud.datastore.execution.response.AggregationQueryResponseTransformer"
+- uid: "com.google.cloud.datastore.execution.response.ResponseTransformer"
+  name: "ResponseTransformer<INPUT,OUTPUT>"
+  nameWithType: "ResponseTransformer<INPUT,OUTPUT>"
+  fullName: "com.google.cloud.datastore.execution.response.ResponseTransformer<INPUT,OUTPUT>"

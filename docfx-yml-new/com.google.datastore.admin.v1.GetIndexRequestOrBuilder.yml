@@ -1,0 +1,130 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder"
+  id: "GetIndexRequestOrBuilder"
+  parent: "com.google.datastore.admin.v1"
+  children:
+  - "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getIndexId()"
+  - "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getIndexIdBytes()"
+  - "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getProjectId()"
+  - "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getProjectIdBytes()"
+  langs:
+  - "java"
+  name: "GetIndexRequestOrBuilder"
+  nameWithType: "GetIndexRequestOrBuilder"
+  fullName: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder"
+  type: "Interface"
+  package: "com.google.datastore.admin.v1"
+  syntax:
+    content: "public interface GetIndexRequestOrBuilder extends MessageOrBuilder"
+  implements:
+  - "com.google.protobuf.MessageOrBuilder"
+- uid: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getIndexId()"
+  id: "getIndexId()"
+  parent: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder"
+  langs:
+  - "java"
+  name: "getIndexId()"
+  nameWithType: "GetIndexRequestOrBuilder.getIndexId()"
+  fullName: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getIndexId()"
+  overload: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getIndexId*"
+  type: "Method"
+  package: "com.google.datastore.admin.v1"
+  summary: "\n The resource ID of the index to get.\n \n\n <code>string index_id = 3;</code>"
+  syntax:
+    content: "public abstract String getIndexId()"
+    return:
+      type: "java.lang.String"
+      description: "The indexId."
+- uid: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getIndexIdBytes()"
+  id: "getIndexIdBytes()"
+  parent: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder"
+  langs:
+  - "java"
+  name: "getIndexIdBytes()"
+  nameWithType: "GetIndexRequestOrBuilder.getIndexIdBytes()"
+  fullName: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getIndexIdBytes()"
+  overload: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getIndexIdBytes*"
+  type: "Method"
+  package: "com.google.datastore.admin.v1"
+  summary: "\n The resource ID of the index to get.\n \n\n <code>string index_id = 3;</code>"
+  syntax:
+    content: "public abstract ByteString getIndexIdBytes()"
+    return:
+      type: "com.google.protobuf.ByteString"
+      description: "The bytes for indexId."
+- uid: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getProjectId()"
+  id: "getProjectId()"
+  parent: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder"
+  langs:
+  - "java"
+  name: "getProjectId()"
+  nameWithType: "GetIndexRequestOrBuilder.getProjectId()"
+  fullName: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getProjectId()"
+  overload: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getProjectId*"
+  type: "Method"
+  package: "com.google.datastore.admin.v1"
+  summary: "\n Project ID against which to make the request.\n \n\n <code>string project_id = 1;</code>"
+  syntax:
+    content: "public abstract String getProjectId()"
+    return:
+      type: "java.lang.String"
+      description: "The projectId."
+- uid: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getProjectIdBytes()"
+  id: "getProjectIdBytes()"
+  parent: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder"
+  langs:
+  - "java"
+  name: "getProjectIdBytes()"
+  nameWithType: "GetIndexRequestOrBuilder.getProjectIdBytes()"
+  fullName: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getProjectIdBytes()"
+  overload: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getProjectIdBytes*"
+  type: "Method"
+  package: "com.google.datastore.admin.v1"
+  summary: "\n Project ID against which to make the request.\n \n\n <code>string project_id = 1;</code>"
+  syntax:
+    content: "public abstract ByteString getProjectIdBytes()"
+    return:
+      type: "com.google.protobuf.ByteString"
+      description: "The bytes for projectId."
+references:
+- uid: "java.lang.String"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/String.html"
+  spec.java:
+  - uid: "java.lang.String"
+    name: "String"
+    fullName: "java.lang.String"
+    isExternal: false
+    href: "https://docs.oracle.com/javase/8/docs/api/java/lang/String.html"
+- uid: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getProjectId*"
+  name: "getProjectId"
+  nameWithType: "GetIndexRequestOrBuilder.getProjectId"
+  fullName: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getProjectId"
+  package: "com.google.datastore.admin.v1"
+- uid: "com.google.protobuf.ByteString"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.protobuf.ByteString"
+    name: "ByteString"
+    fullName: "com.google.protobuf.ByteString"
+    isExternal: true
+- uid: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getProjectIdBytes*"
+  name: "getProjectIdBytes"
+  nameWithType: "GetIndexRequestOrBuilder.getProjectIdBytes"
+  fullName: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getProjectIdBytes"
+  package: "com.google.datastore.admin.v1"
+- uid: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getIndexId*"
+  name: "getIndexId"
+  nameWithType: "GetIndexRequestOrBuilder.getIndexId"
+  fullName: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getIndexId"
+  package: "com.google.datastore.admin.v1"
+- uid: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getIndexIdBytes*"
+  name: "getIndexIdBytes"
+  nameWithType: "GetIndexRequestOrBuilder.getIndexIdBytes"
+  fullName: "com.google.datastore.admin.v1.GetIndexRequestOrBuilder.getIndexIdBytes"
+  package: "com.google.datastore.admin.v1"
+- uid: "com.google.protobuf.MessageOrBuilder"
+  isExternal: true
+  name: "MessageOrBuilder"
+  nameWithType: "MessageOrBuilder"
+  fullName: "com.google.protobuf.MessageOrBuilder"

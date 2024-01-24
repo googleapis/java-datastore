@@ -1,0 +1,84 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.datastore.v1.KindExpressionOrBuilder"
+  id: "KindExpressionOrBuilder"
+  parent: "com.google.datastore.v1"
+  children:
+  - "com.google.datastore.v1.KindExpressionOrBuilder.getName()"
+  - "com.google.datastore.v1.KindExpressionOrBuilder.getNameBytes()"
+  langs:
+  - "java"
+  name: "KindExpressionOrBuilder"
+  nameWithType: "KindExpressionOrBuilder"
+  fullName: "com.google.datastore.v1.KindExpressionOrBuilder"
+  type: "Interface"
+  package: "com.google.datastore.v1"
+  syntax:
+    content: "public interface KindExpressionOrBuilder extends MessageOrBuilder"
+  implements:
+  - "com.google.protobuf.MessageOrBuilder"
+- uid: "com.google.datastore.v1.KindExpressionOrBuilder.getName()"
+  id: "getName()"
+  parent: "com.google.datastore.v1.KindExpressionOrBuilder"
+  langs:
+  - "java"
+  name: "getName()"
+  nameWithType: "KindExpressionOrBuilder.getName()"
+  fullName: "com.google.datastore.v1.KindExpressionOrBuilder.getName()"
+  overload: "com.google.datastore.v1.KindExpressionOrBuilder.getName*"
+  type: "Method"
+  package: "com.google.datastore.v1"
+  summary: "\n The name of the kind.\n \n\n <code>string name = 1;</code>"
+  syntax:
+    content: "public abstract String getName()"
+    return:
+      type: "java.lang.String"
+      description: "The name."
+- uid: "com.google.datastore.v1.KindExpressionOrBuilder.getNameBytes()"
+  id: "getNameBytes()"
+  parent: "com.google.datastore.v1.KindExpressionOrBuilder"
+  langs:
+  - "java"
+  name: "getNameBytes()"
+  nameWithType: "KindExpressionOrBuilder.getNameBytes()"
+  fullName: "com.google.datastore.v1.KindExpressionOrBuilder.getNameBytes()"
+  overload: "com.google.datastore.v1.KindExpressionOrBuilder.getNameBytes*"
+  type: "Method"
+  package: "com.google.datastore.v1"
+  summary: "\n The name of the kind.\n \n\n <code>string name = 1;</code>"
+  syntax:
+    content: "public abstract ByteString getNameBytes()"
+    return:
+      type: "com.google.protobuf.ByteString"
+      description: "The bytes for name."
+references:
+- uid: "java.lang.String"
+  href: "https://docs.oracle.com/javase/8/docs/api/java/lang/String.html"
+  spec.java:
+  - uid: "java.lang.String"
+    name: "String"
+    fullName: "java.lang.String"
+    isExternal: false
+    href: "https://docs.oracle.com/javase/8/docs/api/java/lang/String.html"
+- uid: "com.google.datastore.v1.KindExpressionOrBuilder.getName*"
+  name: "getName"
+  nameWithType: "KindExpressionOrBuilder.getName"
+  fullName: "com.google.datastore.v1.KindExpressionOrBuilder.getName"
+  package: "com.google.datastore.v1"
+- uid: "com.google.protobuf.ByteString"
+  isExternal: true
+  spec.java:
+  - uid: "com.google.protobuf.ByteString"
+    name: "ByteString"
+    fullName: "com.google.protobuf.ByteString"
+    isExternal: true
+- uid: "com.google.datastore.v1.KindExpressionOrBuilder.getNameBytes*"
+  name: "getNameBytes"
+  nameWithType: "KindExpressionOrBuilder.getNameBytes"
+  fullName: "com.google.datastore.v1.KindExpressionOrBuilder.getNameBytes"
+  package: "com.google.datastore.v1"
+- uid: "com.google.protobuf.MessageOrBuilder"
+  isExternal: true
+  name: "MessageOrBuilder"
+  nameWithType: "MessageOrBuilder"
+  fullName: "com.google.protobuf.MessageOrBuilder"

@@ -1,0 +1,20 @@
+### YamlMime:ManagedReference
+items:
+- uid: "com.google.cloud.datastore.spi"
+  id: "spi"
+  children:
+  - "com.google.cloud.datastore.spi.DatastoreRpcFactory"
+  langs:
+  - "java"
+  name: "com.google.cloud.datastore.spi"
+  nameWithType: "com.google.cloud.datastore.spi"
+  fullName: "com.google.cloud.datastore.spi"
+  type: "Namespace"
+  syntax:
+    content: "package com.google.cloud.datastore.spi"
+  javaType: "package"
+references:
+- uid: "com.google.cloud.datastore.spi.DatastoreRpcFactory"
+  name: "DatastoreRpcFactory"
+  nameWithType: "DatastoreRpcFactory"
+  fullName: "com.google.cloud.datastore.spi.DatastoreRpcFactory"
