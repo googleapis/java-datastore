@@ -160,16 +160,23 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     namespace = MoreObjects.firstNonNull(builder.namespace, defaultNamespace());
     databaseId = MoreObjects.firstNonNull(builder.databaseId, DEFAULT_DATABASE_ID);
 
-    this.channelProvider =
-        builder.channelProvider != null
-            ? builder.channelProvider
-            : GrpcTransportOptions.setUpChannelProvider(
-                DatastoreSettings.defaultGrpcTransportProviderBuilder(), this);
+    // todo see if we can update this
+    if (getTransportOptions() instanceof HttpTransportOptions
+        && (builder.channelProvider != null || builder.credentialsProvider != null)) {
+      throw new IllegalArgumentException(
+          "Only gRPC transport allows setting of channel provider or credentials provider");
+    } else {
+      this.channelProvider =
+          builder.channelProvider != null
+              ? builder.channelProvider
+              : GrpcTransportOptions.setUpChannelProvider(
+                  DatastoreSettings.defaultGrpcTransportProviderBuilder(), this);
 
-    this.credentialsProvider =
-        builder.credentialsProvider != null
-            ? builder.credentialsProvider
-            : GrpcTransportOptions.setUpCredentialsProvider(this);
+      this.credentialsProvider =
+          builder.credentialsProvider != null
+              ? builder.credentialsProvider
+              : GrpcTransportOptions.setUpCredentialsProvider(this);
+    }
   }
 
   public CredentialsProvider getCredentialsProvider() {

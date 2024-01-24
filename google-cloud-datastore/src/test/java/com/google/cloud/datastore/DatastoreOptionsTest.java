@@ -32,6 +32,7 @@ import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.http.HttpTransportOptions;
 import org.easymock.EasyMock;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -111,6 +112,20 @@ public class DatastoreOptionsTest {
     DatastoreOptions datastoreOptions = options2.build();
     assertEquals(datastoreOptions.getTransportChannelProvider(), channelProvider);
     assertEquals(datastoreOptions.getCredentialsProvider(), noCredentialsProvider);
+  }
+
+  @Test
+  public void testInvalidConfigForHttp() {
+    DatastoreOptions.Builder options =
+        DatastoreOptions.newBuilder()
+            .setServiceRpcFactory(datastoreRpcFactory)
+            .setProjectId(PROJECT_ID)
+            .setDatabaseId(DATABASE_ID)
+            .setTransportOptions(HttpTransportOptions.newBuilder().build())
+            .setChannelProvider(channelProvider)
+            .setCredentialsProvider(noCredentialsProvider)
+            .setHost("http://localhost:" + PORT);
+    Assert.assertThrows(IllegalArgumentException.class, options::build);
   }
 
   @Test
