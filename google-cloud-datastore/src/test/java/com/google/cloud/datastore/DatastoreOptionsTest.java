@@ -22,8 +22,13 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import com.google.api.gax.core.NoCredentialsProvider;
+import com.google.api.gax.grpc.ChannelPoolSettings;
+import com.google.api.gax.grpc.InstantiatingGrpcChannelProvider;
+import com.google.cloud.NoCredentials;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
+import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.http.HttpTransportOptions;
 import org.easymock.EasyMock;
@@ -38,6 +43,16 @@ public class DatastoreOptionsTest {
   private DatastoreRpcFactory datastoreRpcFactory;
   private DatastoreRpc datastoreRpc;
   private DatastoreOptions.Builder options;
+  private DatastoreOptions.Builder options2;
+  private final InstantiatingGrpcChannelProvider channelProvider =
+      DatastoreSettings.defaultGrpcTransportProviderBuilder()
+          .setChannelPoolSettings(
+              ChannelPoolSettings.builder()
+                  .setInitialChannelCount(10)
+                  .setMaxChannelCount(20)
+                  .build())
+          .build();
+  private final NoCredentialsProvider noCredentialsProvider = NoCredentialsProvider.create();
 
   @Before
   public void setUp() {
@@ -48,6 +63,16 @@ public class DatastoreOptionsTest {
             .setServiceRpcFactory(datastoreRpcFactory)
             .setProjectId(PROJECT_ID)
             .setDatabaseId(DATABASE_ID)
+            .setCredentials(NoCredentials.getInstance())
+            .setHost("http://localhost:" + PORT);
+
+    options2 =
+        DatastoreOptions.newBuilder()
+            .setServiceRpcFactory(datastoreRpcFactory)
+            .setProjectId(PROJECT_ID)
+            .setDatabaseId(DATABASE_ID)
+            .setChannelProvider(channelProvider)
+            .setCredentialsProvider(noCredentialsProvider)
             .setHost("http://localhost:" + PORT);
     EasyMock.expect(datastoreRpcFactory.create(EasyMock.anyObject(DatastoreOptions.class)))
         .andReturn(datastoreRpc)
@@ -79,6 +104,13 @@ public class DatastoreOptionsTest {
   @Test
   public void testDatastore() {
     assertSame(datastoreRpc, options.build().getRpc());
+  }
+
+  @Test
+  public void testCustomChannelAndCredentials() {
+    DatastoreOptions datastoreOptions = options2.build();
+    assertEquals(datastoreOptions.getTransportChannelProvider(), channelProvider);
+    assertEquals(datastoreOptions.getCredentialsProvider(), noCredentialsProvider);
   }
 
   @Test

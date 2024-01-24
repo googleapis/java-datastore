@@ -17,12 +17,18 @@
 package com.google.cloud.datastore;
 
 import com.google.api.core.InternalApi;
+import com.google.cloud.NoCredentials;
 import com.google.common.base.Strings;
 import java.net.InetAddress;
 import java.net.URL;
 
 @InternalApi
 public class DatastoreUtils {
+
+  public static boolean isEmulator(DatastoreOptions datastoreOptions) {
+    return isLocalHost(datastoreOptions.getHost())
+        || NoCredentials.getInstance().equals(datastoreOptions.getCredentials());
+  }
 
   public static boolean isLocalHost(String host) {
     if (Strings.isNullOrEmpty(host)) {
