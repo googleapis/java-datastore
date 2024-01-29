@@ -17,7 +17,7 @@
     <method>boolean contains*(*)</method>
   </difference>
 
-<!--  see https://github.com/googleapis/java-datastore/pull/1304 for more details-->
+<!-- These are interfaces not meant to be implemented by library users. See https://github.com/googleapis/java-datastore/pull/1304 for more details-->
     <difference>
         <className>com/google/datastore/v1/QueryMode</className>
         <method>*</method>
