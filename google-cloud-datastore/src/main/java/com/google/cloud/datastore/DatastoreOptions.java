@@ -49,8 +49,8 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   public static final String PROJECT_ID_ENV_VAR = "DATASTORE_PROJECT_ID";
   public static final String LOCAL_HOST_ENV_VAR = "DATASTORE_EMULATOR_HOST";
 
-  private final TransportChannelProvider channelProvider;
-  private final CredentialsProvider credentialsProvider;
+  private final transient TransportChannelProvider channelProvider;
+  private final transient CredentialsProvider credentialsProvider;
 
   private final String namespace;
   private final String databaseId;
