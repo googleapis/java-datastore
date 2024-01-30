@@ -19,7 +19,6 @@ package com.google.cloud.datastore;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.cloud.BaseSerializationTest;
-import com.google.cloud.NoCredentials;
 import com.google.cloud.Restorable;
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
