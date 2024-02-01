@@ -273,7 +273,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
   @Override
   public int hashCode() {
-    return Objects.hash(baseHashCode(), namespace, databaseId, channelProvider);
+    return Objects.hash(baseHashCode(), namespace, databaseId);
   }
 
   @Override
@@ -284,7 +284,6 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     DatastoreOptions other = (DatastoreOptions) obj;
     return baseEquals(other)
         && Objects.equals(namespace, other.namespace)
-        && Objects.equals(channelProvider, other.channelProvider)
         && Objects.equals(databaseId, other.databaseId);
   }
 
