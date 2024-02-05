@@ -49,8 +49,8 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   public static final String PROJECT_ID_ENV_VAR = "DATASTORE_PROJECT_ID";
   public static final String LOCAL_HOST_ENV_VAR = "DATASTORE_EMULATOR_HOST";
 
-  private final transient TransportChannelProvider channelProvider;
-  private final transient CredentialsProvider credentialsProvider;
+  private transient TransportChannelProvider channelProvider = null;
+  private transient CredentialsProvider credentialsProvider = null;
 
   private final String namespace;
   private final String databaseId;
@@ -101,8 +101,8 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
     private Builder(DatastoreOptions options) {
       super(options);
-      namespace = options.namespace;
-      databaseId = options.databaseId;
+      this.namespace = options.namespace;
+      this.databaseId = options.databaseId;
       this.channelProvider = options.channelProvider;
       this.credentialsProvider = options.credentialsProvider;
     }
@@ -165,7 +165,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
         && (builder.channelProvider != null || builder.credentialsProvider != null)) {
       throw new IllegalArgumentException(
           "Only gRPC transport allows setting of channel provider or credentials provider");
-    } else {
+    } else if (getTransportOptions() instanceof GrpcTransportOptions) {
       this.channelProvider =
           builder.channelProvider != null
               ? builder.channelProvider
