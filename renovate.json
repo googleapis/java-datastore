@@ -1,4 +1,5 @@
 {
+  "baseBranches": ["main", "V3-experimental"],
   "extends": [
     ":separateMajorReleases",
     ":combinePatchMinorReleases",
