@@ -103,7 +103,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       super(options);
       this.namespace = options.namespace;
       this.databaseId = options.databaseId;
-      this.channelProvider = options.channelProvider;
+      this.channelProvider = validateChannelProvider(options.channelProvider);
       this.credentialsProvider = options.credentialsProvider;
     }
 
@@ -119,11 +119,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
      *     provider for this client.
      */
     public Builder setChannelProvider(TransportChannelProvider channelProvider) {
-      if (!(channelProvider instanceof InstantiatingGrpcChannelProvider)) {
-        throw new IllegalArgumentException(
-            "Only GRPC channels are allowed for " + API_SHORT_NAME + ".");
-      }
-      this.channelProvider = channelProvider;
+      this.channelProvider = validateChannelProvider(channelProvider);
       return this;
     }
 
@@ -153,6 +149,14 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       this.databaseId = databaseId;
       return this;
     }
+  }
+
+  private static TransportChannelProvider validateChannelProvider(TransportChannelProvider channelProvider) {
+    if (!(channelProvider instanceof InstantiatingGrpcChannelProvider)) {
+      throw new IllegalArgumentException(
+          "Only GRPC channels are allowed for " + API_SHORT_NAME + ".");
+    }
+    return channelProvider;
   }
 
   private DatastoreOptions(Builder builder) {
