@@ -151,7 +151,8 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     }
   }
 
-  private static TransportChannelProvider validateChannelProvider(TransportChannelProvider channelProvider) {
+  private static TransportChannelProvider validateChannelProvider(
+      TransportChannelProvider channelProvider) {
     if (!(channelProvider instanceof InstantiatingGrpcChannelProvider)) {
       throw new IllegalArgumentException(
           "Only GRPC channels are allowed for " + API_SHORT_NAME + ".");
