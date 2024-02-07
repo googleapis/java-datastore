@@ -19,15 +19,15 @@ updates:
     ignore:
       - dependency-name: "*"
       
-# rules for the `V3-experimental` branch
-- package-ecosystem: maven
-  directory: "/"
-  schedule:
-    interval: daily
-  commit-message:
-    # Prefix all commit messages with "deps: "
-    prefix: "deps"
-  open-pull-requests-limit: 10
-  target-branch: "V3-experimental"
-  labels:
-    - "V3 dependencies"
+  # rules for the `V3-experimental` branch
+  - package-ecosystem: maven
+    directory: "/"
+    schedule:
+      interval: daily
+    commit-message:
+      # Prefix all commit messages with "deps: "
+      prefix: "deps"
+    open-pull-requests-limit: 10
+    target-branch: "V3-experimental"
+    labels:
+      - "V3 dependencies"
