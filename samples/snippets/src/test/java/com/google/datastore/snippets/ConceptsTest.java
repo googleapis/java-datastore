@@ -1159,8 +1159,8 @@ public class ConceptsTest {
   @Test
   public void testStaleReads() throws InterruptedException {
     setUpQueryTestsRealBackend();
-    // waiting for 6 seconds, so that we can query with read time of 5 seconds ago
-    TimeUnit.SECONDS.sleep(6);
+    // waiting for 15 seconds, so that we can query with read time of 5 seconds ago
+    TimeUnit.SECONDS.sleep(15);
     Datastore datastoreClient = datastoreRealBackend;
     // [START datastore_stale_read]
     Key taskKey =

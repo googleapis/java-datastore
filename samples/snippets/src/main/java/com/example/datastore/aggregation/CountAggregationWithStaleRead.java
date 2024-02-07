@@ -48,10 +48,10 @@ public class CountAggregationWithStaleRead {
     datastore.put(
         Entity.newBuilder(task1Key).set("done", true).build(),
         Entity.newBuilder(task2Key).set("done", false).build());
-    Thread.sleep(1000);
+    Thread.sleep(5000);
     final Timestamp pastTimestamp = Timestamp.now(); // we have two tasks in database at this time.
 
-    Thread.sleep(1000);
+    Thread.sleep(5000);
     // Saving third tasks.
     Key task3Key = datastore.newKeyFactory().setKind(kind).newKey("task3");
     datastore.put(Entity.newBuilder(task3Key).set("done", false).build());
