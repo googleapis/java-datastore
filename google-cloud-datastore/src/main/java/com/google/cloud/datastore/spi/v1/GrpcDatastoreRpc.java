@@ -16,7 +16,7 @@
 
 package com.google.cloud.datastore.spi.v1;
 
-import static com.google.cloud.datastore.DatastoreUtils.isLocalHost;
+import static com.google.cloud.datastore.DatastoreUtils.isEmulator;
 import static com.google.cloud.datastore.DatastoreUtils.removeScheme;
 import static com.google.cloud.datastore.spi.v1.RpcUtils.retrySettingSetter;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -30,14 +30,12 @@ import com.google.api.gax.rpc.ClientContext;
 import com.google.api.gax.rpc.HeaderProvider;
 import com.google.api.gax.rpc.NoHeaderProvider;
 import com.google.api.gax.rpc.TransportChannel;
-import com.google.cloud.NoCredentials;
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.datastore.DatastoreException;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.datastore.v1.stub.DatastoreStubSettings;
 import com.google.cloud.datastore.v1.stub.GrpcDatastoreStub;
-import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.common.base.Strings;
 import com.google.datastore.v1.AllocateIdsRequest;
 import com.google.datastore.v1.AllocateIdsResponse;
@@ -69,7 +67,6 @@ public class GrpcDatastoreRpc implements DatastoreRpc {
   private boolean closed;
 
   public GrpcDatastoreRpc(DatastoreOptions datastoreOptions) throws IOException {
-
     try {
       clientContext =
           isEmulator(datastoreOptions)
@@ -146,11 +143,6 @@ public class GrpcDatastoreRpc implements DatastoreRpc {
     return closed && datastoreStub.isShutdown();
   }
 
-  private boolean isEmulator(DatastoreOptions datastoreOptions) {
-    return isLocalHost(datastoreOptions.getHost())
-        || NoCredentials.getInstance().equals(datastoreOptions.getCredentials());
-  }
-
   private ClientContext getClientContextForEmulator(DatastoreOptions datastoreOptions)
       throws IOException {
     ManagedChannel managedChannel =
@@ -177,11 +169,8 @@ public class GrpcDatastoreRpc implements DatastoreRpc {
 
     DatastoreSettingsBuilder settingsBuilder =
         new DatastoreSettingsBuilder(DatastoreSettings.newBuilder().build());
-    settingsBuilder.setCredentialsProvider(
-        GrpcTransportOptions.setUpCredentialsProvider(datastoreOptions));
-    settingsBuilder.setTransportChannelProvider(
-        GrpcTransportOptions.setUpChannelProvider(
-            DatastoreSettings.defaultGrpcTransportProviderBuilder(), datastoreOptions));
+    settingsBuilder.setCredentialsProvider(datastoreOptions.getCredentialsProvider());
+    settingsBuilder.setTransportChannelProvider(datastoreOptions.getTransportChannelProvider());
     settingsBuilder.setInternalHeaderProvider(internalHeaderProvider);
     settingsBuilder.setHeaderProvider(
         datastoreOptions.getMergedHeaderProvider(new NoHeaderProvider()));

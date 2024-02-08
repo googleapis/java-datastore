@@ -18,6 +18,9 @@ package com.google.cloud.datastore;
 
 import static com.google.cloud.datastore.Validator.validateNamespace;
 
+import com.google.api.gax.core.CredentialsProvider;
+import com.google.api.gax.grpc.InstantiatingGrpcChannelProvider;
+import com.google.api.gax.rpc.TransportChannelProvider;
 import com.google.cloud.ServiceDefaults;
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.ServiceRpc;
@@ -46,6 +49,9 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   public static final String PROJECT_ID_ENV_VAR = "DATASTORE_PROJECT_ID";
   public static final String LOCAL_HOST_ENV_VAR = "DATASTORE_EMULATOR_HOST";
 
+  private transient TransportChannelProvider channelProvider = null;
+  private transient CredentialsProvider credentialsProvider = null;
+
   private final String namespace;
   private final String databaseId;
 
@@ -69,6 +75,10 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
         if (options.getTransportOptions() instanceof GrpcTransportOptions) {
           return new GrpcDatastoreRpc(options);
         } else if (options.getTransportOptions() instanceof HttpTransportOptions) {
+          // todo see if we can remove this check
+          if (DatastoreUtils.isEmulator(options)) {
+            throw new IllegalArgumentException("Only GRPC channels are allowed for emulator.");
+          }
           return new HttpDatastoreRpc(options);
         } else {
           throw new IllegalArgumentException(
@@ -84,18 +94,44 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
     private String namespace;
     private String databaseId;
+    private TransportChannelProvider channelProvider = null;
+    private CredentialsProvider credentialsProvider = null;
 
     private Builder() {}
 
     private Builder(DatastoreOptions options) {
       super(options);
-      namespace = options.namespace;
-      databaseId = options.databaseId;
+      this.namespace = options.namespace;
+      this.databaseId = options.databaseId;
+      this.channelProvider = validateChannelProvider(options.channelProvider);
+      this.credentialsProvider = options.credentialsProvider;
     }
 
     @Override
     public Builder setTransportOptions(TransportOptions transportOptions) {
       return super.setTransportOptions(transportOptions);
+    }
+
+    /**
+     * Sets the {@link TransportChannelProvider} to use with this Datastore client.
+     *
+     * @param channelProvider A InstantiatingGrpcChannelProvider object that defines the transport
+     *     provider for this client.
+     */
+    public Builder setChannelProvider(TransportChannelProvider channelProvider) {
+      this.channelProvider = validateChannelProvider(channelProvider);
+      return this;
+    }
+
+    /**
+     * Sets the {@link CredentialsProvider} to use with this Datastore client.
+     *
+     * @param credentialsProvider A CredentialsProvider object that defines the credential provider
+     *     for this client.
+     */
+    public Builder setCredentialsProvider(CredentialsProvider credentialsProvider) {
+      this.credentialsProvider = credentialsProvider;
+      return this;
     }
 
     @Override
@@ -115,10 +151,45 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     }
   }
 
+  private static TransportChannelProvider validateChannelProvider(
+      TransportChannelProvider channelProvider) {
+    if (!(channelProvider instanceof InstantiatingGrpcChannelProvider)) {
+      throw new IllegalArgumentException(
+          "Only GRPC channels are allowed for " + API_SHORT_NAME + ".");
+    }
+    return channelProvider;
+  }
+
   private DatastoreOptions(Builder builder) {
     super(DatastoreFactory.class, DatastoreRpcFactory.class, builder, new DatastoreDefaults());
     namespace = MoreObjects.firstNonNull(builder.namespace, defaultNamespace());
     databaseId = MoreObjects.firstNonNull(builder.databaseId, DEFAULT_DATABASE_ID);
+
+    // todo see if we can update this
+    if (getTransportOptions() instanceof HttpTransportOptions
+        && (builder.channelProvider != null || builder.credentialsProvider != null)) {
+      throw new IllegalArgumentException(
+          "Only gRPC transport allows setting of channel provider or credentials provider");
+    } else if (getTransportOptions() instanceof GrpcTransportOptions) {
+      this.channelProvider =
+          builder.channelProvider != null
+              ? builder.channelProvider
+              : GrpcTransportOptions.setUpChannelProvider(
+                  DatastoreSettings.defaultGrpcTransportProviderBuilder(), this);
+
+      this.credentialsProvider =
+          builder.credentialsProvider != null
+              ? builder.credentialsProvider
+              : GrpcTransportOptions.setUpCredentialsProvider(this);
+    }
+  }
+
+  public CredentialsProvider getCredentialsProvider() {
+    return credentialsProvider;
+  }
+
+  public TransportChannelProvider getTransportChannelProvider() {
+    return channelProvider;
   }
 
   @Override
@@ -134,6 +205,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   }
 
   private static class DatastoreDefaults implements ServiceDefaults<Datastore, DatastoreOptions> {
+    private final TransportOptions TRANSPORT_OPTIONS = getDefaultTransportOptionsBuilder().build();
 
     @Override
     public DatastoreFactory getDefaultServiceFactory() {
@@ -147,7 +219,11 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
     @Override
     public TransportOptions getDefaultTransportOptions() {
-      return getDefaultGrpcTransportOptions();
+      return TRANSPORT_OPTIONS;
+    }
+
+    public static GrpcTransportOptions.Builder getDefaultTransportOptionsBuilder() {
+      return GrpcTransportOptions.newBuilder();
     }
   }
 
