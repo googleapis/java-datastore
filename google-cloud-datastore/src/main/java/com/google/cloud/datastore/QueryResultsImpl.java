@@ -18,10 +18,10 @@ package com.google.cloud.datastore;
 
 import com.google.api.core.BetaApi;
 import com.google.cloud.datastore.Query.ResultType;
-import com.google.cloud.datastore.models.ResultSetStats;
+import com.google.cloud.datastore.models.ExplainMetrics;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.AbstractIterator;
-import com.google.datastore.v1.QueryMode;
+import com.google.datastore.v1.ExplainOptions;
 import com.google.datastore.v1.QueryResultBatch.MoreResultsType;
 import com.google.datastore.v1.ReadOptions;
 import com.google.protobuf.ByteString;
@@ -43,20 +43,20 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
   private Iterator<com.google.datastore.v1.EntityResult> entityResultPbIter;
   private ByteString cursor;
   private MoreResultsType moreResults;
-  private QueryMode queryMode;
-  private ResultSetStats resultSetStats;
+  private final ExplainOptions explainOptions;
+  private ExplainMetrics explainMetrics;
 
   QueryResultsImpl(
       DatastoreImpl datastore,
       Optional<ReadOptions> readOptionsPb,
       RecordQuery<T> query,
       String namespace,
-      QueryMode queryMode) {
+      ExplainOptions explainOptions) {
     this.datastore = datastore;
     this.readOptionsPb = readOptionsPb;
     this.query = query;
     queryResultType = query.getType();
-    this.queryMode = queryMode;
+    this.explainOptions = explainOptions;
     com.google.datastore.v1.PartitionId.Builder pbBuilder =
         com.google.datastore.v1.PartitionId.newBuilder();
     pbBuilder.setProjectId(datastore.getOptions().getProjectId());
@@ -82,7 +82,9 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
     requestPb.setPartitionId(partitionIdPb);
     requestPb.setProjectId(datastore.getOptions().getProjectId());
     requestPb.setDatabaseId(datastore.getOptions().getDatabaseId());
-    requestPb.setMode(queryMode);
+    if (explainOptions != null) {
+      requestPb.setExplainOptions(explainOptions);
+    }
     query.populatePb(requestPb);
     runQueryResponsePb = datastore.runQuery(requestPb.build());
     mostRecentQueryPb = requestPb.getQuery();
@@ -94,19 +96,19 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
       // projection entity can represent all type of results
       actualResultType = ResultType.PROJECTION_ENTITY;
     }
-    boolean isQueryPlan = actualResultType.getQueryType() == null && queryMode == QueryMode.PLAN;
+    boolean isExplain =
+        explainOptions != null
+            && actualResultType.getQueryType() == null
+            && !explainOptions.getAnalyze();
     Preconditions.checkState(
-        queryResultType.isAssignableFrom(actualResultType) || isQueryPlan,
-        "Unexpected result type or query mode. Result type: "
+        queryResultType.isAssignableFrom(actualResultType) || isExplain,
+        "Unexpected result type or explain options set "
             + actualResultType
             + " vs "
             + queryResultType
-            + ", query mode: "
-            + queryMode);
-
-    if (runQueryResponsePb.getStats().hasQueryPlan()
-        || runQueryResponsePb.getStats().hasQueryStats()) {
-      this.resultSetStats = new ResultSetStats(runQueryResponsePb.getStats());
+            + ", explain options = false");
+    if (runQueryResponsePb.hasExplainMetrics()) {
+      this.explainMetrics = new ExplainMetrics(runQueryResponsePb.getExplainMetrics());
     }
   }
 
@@ -149,7 +151,7 @@ class QueryResultsImpl<T> extends AbstractIterator<T> implements QueryResults<T>
 
   @Override
   @BetaApi
-  public Optional<ResultSetStats> getResultSetStats() {
-    return Optional.ofNullable(this.resultSetStats);
+  public Optional<ExplainMetrics> getExplainMetrics() {
+    return Optional.ofNullable(this.explainMetrics);
   }
 }

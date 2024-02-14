@@ -22,10 +22,9 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.AggregationResults;
+import com.google.cloud.datastore.models.ExplainMetrics;
 import com.google.common.collect.ImmutableMap;
 import com.google.datastore.v1.AggregationResultBatch;
-import com.google.datastore.v1.QueryPlan;
-import com.google.datastore.v1.ResultSetStats;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.Value;
 import java.util.AbstractMap.SimpleEntry;
@@ -78,7 +77,7 @@ public class AggregationQueryResponseTransformerTest {
     assertThat(aggregationResults.get(0)).isEqualTo(new AggregationResult(toDomainValues(result1)));
     assertThat(aggregationResults.get(1)).isEqualTo(new AggregationResult(toDomainValues(result2)));
     assertThat(aggregationResults.getReadTime()).isEqualTo(readTime);
-    assertThat(aggregationResults.getResultSetStats().isPresent()).isFalse();
+    assertThat(aggregationResults.getExplainMetrics().isPresent()).isFalse();
   }
 
   @Test
@@ -108,10 +107,15 @@ public class AggregationQueryResponseTransformerTest {
                     .build())
             .setReadTime(readTime.toProto())
             .build();
-    ResultSetStats stats =
-        ResultSetStats.newBuilder().setQueryPlan(QueryPlan.newBuilder().build()).build();
+
+    com.google.datastore.v1.ExplainMetrics explainMetrics =
+        com.google.datastore.v1.ExplainMetrics.newBuilder().build();
+
     RunAggregationQueryResponse runAggregationQueryResponse =
-        RunAggregationQueryResponse.newBuilder().setBatch(resultBatch).setStats(stats).build();
+        RunAggregationQueryResponse.newBuilder()
+            .setBatch(resultBatch)
+            .setExplainMetrics(explainMetrics)
+            .build();
 
     AggregationResults aggregationResults =
         responseTransformer.transform(runAggregationQueryResponse);
@@ -120,8 +124,8 @@ public class AggregationQueryResponseTransformerTest {
     assertThat(aggregationResults.get(0)).isEqualTo(new AggregationResult(toDomainValues(result1)));
     assertThat(aggregationResults.get(1)).isEqualTo(new AggregationResult(toDomainValues(result2)));
     assertThat(aggregationResults.getReadTime()).isEqualTo(readTime);
-    assertThat(aggregationResults.getResultSetStats().get())
-        .isEqualTo(new com.google.cloud.datastore.models.ResultSetStats(stats));
+    assertThat(aggregationResults.getExplainMetrics().get())
+        .isEqualTo(new ExplainMetrics(explainMetrics));
   }
 
   @Test

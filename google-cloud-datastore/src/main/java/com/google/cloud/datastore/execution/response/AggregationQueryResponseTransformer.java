@@ -19,7 +19,7 @@ import com.google.api.core.InternalApi;
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.AggregationResult;
 import com.google.cloud.datastore.AggregationResults;
-import com.google.cloud.datastore.models.ResultSetStats;
+import com.google.cloud.datastore.models.ExplainMetrics;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.Value;
 import java.util.AbstractMap.SimpleEntry;
@@ -41,11 +41,11 @@ public class AggregationQueryResponseTransformer
         response.getBatch().getAggregationResultsList().stream()
             .map(aggregationResult -> new AggregationResult(transformValues(aggregationResult)))
             .collect(Collectors.toCollection(LinkedList::new));
-    ResultSetStats stats = null;
-    if (response.getStats().hasQueryStats() || response.getStats().hasQueryPlan()) {
-      stats = new ResultSetStats(response.getStats());
+    ExplainMetrics explainMetrics = null;
+    if (response.hasExplainMetrics()) {
+      explainMetrics = new ExplainMetrics(response.getExplainMetrics());
     }
-    return new AggregationResults(aggregationResults, readTime, stats);
+    return new AggregationResults(aggregationResults, readTime, explainMetrics);
   }
 
   private Map<String, com.google.cloud.datastore.Value<?>> transformValues(

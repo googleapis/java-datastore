@@ -17,9 +17,10 @@ package com.google.cloud.datastore;
 
 import static com.google.api.client.util.Preconditions.checkNotNull;
 
+import com.google.api.core.BetaApi;
 import com.google.api.core.InternalApi;
 import com.google.cloud.Timestamp;
-import com.google.cloud.datastore.models.ResultSetStats;
+import com.google.cloud.datastore.models.ExplainMetrics;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -35,21 +36,22 @@ public class AggregationResults implements Iterable<AggregationResult> {
 
   private final List<AggregationResult> aggregationResults;
   private final Timestamp readTime;
-  private final ResultSetStats resultSetStats;
 
-  public AggregationResults(List<AggregationResult> aggregationResults, Timestamp readTime) {
-    this(aggregationResults, readTime, null);
-  }
+  private final ExplainMetrics explainMetrics;
 
   public AggregationResults(
       List<AggregationResult> aggregationResults,
       Timestamp readTime,
-      ResultSetStats resultSetStats) {
+      ExplainMetrics explainMetrics) {
     checkNotNull(aggregationResults, "Aggregation results cannot be null");
     checkNotNull(readTime, "readTime cannot be null");
     this.aggregationResults = aggregationResults;
     this.readTime = readTime;
-    this.resultSetStats = resultSetStats;
+    this.explainMetrics = explainMetrics;
+  }
+
+  public AggregationResults(List<AggregationResult> aggregationResults, Timestamp readTime) {
+    this(aggregationResults, readTime, null);
   }
 
   /** Returns {@link Iterator} for underlying List&lt;{@link AggregationResult}&gt;. */
@@ -65,8 +67,9 @@ public class AggregationResults implements Iterable<AggregationResult> {
   /*
    * Returns the ResultSetStats if QueryMode is set to EXPLAIN or EXPLAIN_ANALYZE. Otherwise, returns null.
    */
-  public Optional<ResultSetStats> getResultSetStats() {
-    return Optional.ofNullable(this.resultSetStats);
+  @BetaApi
+  public Optional<ExplainMetrics> getExplainMetrics() {
+    return Optional.ofNullable(this.explainMetrics);
   }
 
   @InternalApi
@@ -90,11 +93,11 @@ public class AggregationResults implements Iterable<AggregationResult> {
     AggregationResults that = (AggregationResults) o;
     return Objects.equals(aggregationResults, that.aggregationResults)
         && Objects.equals(readTime, that.readTime)
-        && Objects.equals(resultSetStats, that.resultSetStats);
+        && Objects.equals(explainMetrics, that.explainMetrics);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(aggregationResults, readTime, resultSetStats);
+    return Objects.hash(aggregationResults, readTime, explainMetrics);
   }
 }

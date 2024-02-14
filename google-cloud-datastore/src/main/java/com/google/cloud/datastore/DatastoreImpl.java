@@ -24,7 +24,6 @@ import com.google.cloud.RetryHelper;
 import com.google.cloud.RetryHelper.RetryHelperException;
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.datastore.execution.AggregationQueryExecutor;
-import com.google.cloud.datastore.models.QueryProfile;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
@@ -32,7 +31,7 @@ import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
-import com.google.datastore.v1.QueryMode;
+import com.google.datastore.v1.ExplainOptions;
 import com.google.datastore.v1.ReadOptions;
 import com.google.datastore.v1.ReserveIdsRequest;
 import com.google.datastore.v1.TransactionOptions;
@@ -185,50 +184,54 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   @Override
   public <T> QueryResults<T> run(Query<T> query) {
-    return run(Optional.empty(), query, QueryMode.NORMAL);
+    return run(Optional.empty(), query, null);
   }
 
   @Override
   public <T> QueryResults<T> run(Query<T> query, ReadOption... options) {
-    return run(toReadOptionsPb(options), query, QueryMode.NORMAL);
+    return run(toReadOptionsPb(options), query, null);
   }
 
   @Override
   @BetaApi
   public <T> QueryResults<T> run(
-      Query<T> query, QueryProfile.QueryMode queryMode, ReadOption... options) {
-    return run(toReadOptionsPb(options), query, queryMode.toPb());
+      Query<T> query,
+      com.google.cloud.datastore.models.ExplainOptions explainOptions,
+      ReadOption... options) {
+    return run(toReadOptionsPb(options), query, explainOptions.toPb());
   }
 
   @SuppressWarnings("unchecked")
   <T> QueryResults<T> run(
-      Optional<ReadOptions> readOptionsPb, Query<T> query, QueryMode queryMode) {
+      Optional<ReadOptions> readOptionsPb, Query<T> query, ExplainOptions explainOptions) {
     return new QueryResultsImpl<T>(
-        this, readOptionsPb, (RecordQuery<T>) query, query.getNamespace(), queryMode);
+        this, readOptionsPb, (RecordQuery<T>) query, query.getNamespace(), explainOptions);
   }
 
   @Override
   public AggregationResults runAggregation(AggregationQuery query) {
-    return aggregationQueryExecutor.execute(query, QueryProfile.QueryMode.NORMAL);
+    return aggregationQueryExecutor.execute(query, null);
   }
 
   @Override
   public AggregationResults runAggregation(AggregationQuery query, ReadOption... options) {
-    return aggregationQueryExecutor.execute(query, QueryProfile.QueryMode.NORMAL, options);
+    return aggregationQueryExecutor.execute(query, null, options);
   }
 
   @Override
   @BetaApi
   public AggregationResults runAggregation(
-      AggregationQuery query, QueryProfile.QueryMode queryMode) {
-    return aggregationQueryExecutor.execute(query, queryMode);
+      AggregationQuery query, com.google.cloud.datastore.models.ExplainOptions explainOptions) {
+    return aggregationQueryExecutor.execute(query, explainOptions);
   }
 
   @Override
   @BetaApi
   public AggregationResults runAggregation(
-      AggregationQuery query, QueryProfile.QueryMode queryMode, ReadOption... options) {
-    return aggregationQueryExecutor.execute(query, queryMode, options);
+      AggregationQuery query,
+      com.google.cloud.datastore.models.ExplainOptions explainOptions,
+      ReadOption... options) {
+    return aggregationQueryExecutor.execute(query, explainOptions, options);
   }
 
   com.google.datastore.v1.RunQueryResponse runQuery(

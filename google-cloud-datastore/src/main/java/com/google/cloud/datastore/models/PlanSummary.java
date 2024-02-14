@@ -1,11 +1,11 @@
 /*
- * Copyright 2023 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *       https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,40 +18,34 @@ package com.google.cloud.datastore.models;
 import com.google.api.core.InternalApi;
 import com.google.cloud.Structs;
 import com.google.common.base.Objects;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-/*
- * Class to model the returned plan for the query. This includes plan info - a map containing phase information for the query.
- */
-public class QueryPlan {
-  private final Map<String, Object> planInfo;
+public class PlanSummary {
+  private final List<Map<String, Object>> indexesUsed = new ArrayList<>();
 
   @InternalApi
-  public QueryPlan(com.google.datastore.v1.QueryPlan proto) {
-    this.planInfo = Structs.asMap(proto.getPlanInfo());
+  public PlanSummary(com.google.datastore.v1.PlanSummary proto) {
+    proto
+        .getIndexesUsedList()
+        .forEach(indexesUsed -> this.indexesUsed.add(Structs.asMap(indexesUsed)));
   }
 
-  /*
-   * Returns the plan info as a map.
-   */
-  public Map<String, Object> getPlanInfo() {
-    return this.planInfo;
+  public List<Map<String, Object>> getIndexesUsed() {
+    return indexesUsed;
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof QueryPlan)) {
-      return false;
-    }
-    QueryPlan queryPlan = (QueryPlan) o;
-    return Objects.equal(planInfo, queryPlan.planInfo);
+    if (this == o) return true;
+    if (!(o instanceof PlanSummary)) return false;
+    PlanSummary planSummary = (PlanSummary) o;
+    return Objects.equal(indexesUsed, planSummary.indexesUsed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(planInfo);
+    return Objects.hashCode(indexesUsed);
   }
 }
