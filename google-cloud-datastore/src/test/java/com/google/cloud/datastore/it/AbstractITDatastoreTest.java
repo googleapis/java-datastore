@@ -73,7 +73,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.datastore.v1.TransactionOptions.ReadOnly;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -85,28 +84,17 @@ import java.util.concurrent.Future;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
-@RunWith(Parameterized.class)
-public class ITDatastoreTest {
+public abstract class AbstractITDatastoreTest {
+  protected static final String CUSTOM_DB_ID = "test-db";
+  protected static final RemoteDatastoreHelper HELPER = RemoteDatastoreHelper.create();
 
-  private static final RemoteDatastoreHelper HELPER = RemoteDatastoreHelper.create();
-  private static final DatastoreOptions OPTIONS_1 = HELPER.getOptions();
-  private static final Datastore DATASTORE_1 = OPTIONS_1.getService();
-
-  private static final String CUSTOM_DB_ID = "test-db";
-  private static final RemoteDatastoreHelper HELPER2 = RemoteDatastoreHelper.create(CUSTOM_DB_ID);
-  private static final DatastoreOptions OPTIONS_2 = HELPER2.getOptions();
-  private static final Datastore DATASTORE_2 = OPTIONS_2.getService();
-
-  private final DatastoreOptions options;
-  private final Datastore datastore;
+  protected DatastoreOptions options;
+  protected Datastore datastore;
 
   private static String PROJECT_ID;
   private static String NAMESPACE;
@@ -143,18 +131,27 @@ public class ITDatastoreTest {
 
   @Rule public MultipleAttemptsRule multipleAttemptsRule = new MultipleAttemptsRule(3);
 
-  @AfterClass
-  public static void afterClass() throws Exception {
-    HELPER.deleteNamespace();
-    DATASTORE_1.close();
-    DATASTORE_2.close();
+  @Before
+  public void setUp() {
+    datastore.put(ENTITY1, ENTITY2);
   }
 
-  public ITDatastoreTest(
+  @After
+  public void tearDown() {
+    EntityQuery allEntitiesQuery = Query.newEntityQueryBuilder().build();
+    QueryResults<Entity> allEntities = datastore.run(allEntitiesQuery);
+    Key[] keysToDelete =
+        ImmutableList.copyOf(allEntities).stream().map(Entity::getKey).toArray(Key[]::new);
+    datastore.delete(keysToDelete);
+  }
+
+  public AbstractITDatastoreTest(
       DatastoreOptions options,
       Datastore datastore,
-      // databaseType is unused as a variable, but used as a parameterized label when running tests
-      String databaseType) {
+      // databaseType and transport are unused as a variable, but used as a parameterized label when
+      // running tests
+      String databaseType,
+      String transport) {
     this.options = options;
     this.datastore = datastore;
 
@@ -227,26 +224,6 @@ public class ITDatastoreTest {
             .set("partial1", PARTIAL_ENTITY2)
             .set("partial2", ENTITY2)
             .build();
-  }
-
-  @Before
-  public void setUp() {
-    datastore.put(ENTITY1, ENTITY2);
-  }
-
-  @After
-  public void tearDown() {
-    EntityQuery allEntitiesQuery = Query.newEntityQueryBuilder().build();
-    QueryResults<Entity> allEntities = datastore.run(allEntitiesQuery);
-    Key[] keysToDelete =
-        ImmutableList.copyOf(allEntities).stream().map(Entity::getKey).toArray(Key[]::new);
-    datastore.delete(keysToDelete);
-  }
-
-  @Parameterized.Parameters(name = "database: {2}")
-  public static Iterable<Object[]> data() {
-    return Arrays.asList(
-        new Object[][] {{OPTIONS_1, DATASTORE_1, "default"}, {OPTIONS_2, DATASTORE_2, "test-db"}});
   }
 
   private <T> Iterator<T> getStronglyConsistentResults(Query scQuery, Query query)
