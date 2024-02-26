@@ -157,10 +157,8 @@ public abstract class AbstractITDatastoreTest {
   public AbstractITDatastoreTest(
       DatastoreOptions options,
       Datastore datastore,
-      // databaseType and transport are unused as a variable, but used as a parameterized label when
-      // running tests
-      String databaseType,
-      String transport) {
+      // databaseType is unused as a variable, but used as a parameterized label when running tests
+      String databaseType) {
     this.options = options;
     this.datastore = datastore;
 
@@ -1626,10 +1624,7 @@ public abstract class AbstractITDatastoreTest {
             .build();
 
     AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(gqlQuery)
-            .setNamespace(NAMESPACE)
-            .build();
+        Query.newAggregationQueryBuilder().over(gqlQuery).setNamespace(NAMESPACE).build();
 
     // sum of 2 entities
     assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("total_marks"))
@@ -1716,10 +1711,7 @@ public abstract class AbstractITDatastoreTest {
             .build();
 
     AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(gqlQuery)
-            .setNamespace(NAMESPACE)
-            .build();
+        Query.newAggregationQueryBuilder().over(gqlQuery).setNamespace(NAMESPACE).build();
 
     // avg of 2 entities
     assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("avg_marks"))

@@ -38,17 +38,16 @@ public class ITDatastoreTestHttp extends AbstractITDatastoreTest {
   private static final DatastoreOptions OPTIONS_CUSTOM_DB_HTTP = HELPER_CUSTOM_DB_HTTP.getOptions();
   private static final Datastore DATASTORE_CUSTOM_DB_HTTP = OPTIONS_CUSTOM_DB_HTTP.getService();
 
-  public ITDatastoreTestHttp(
-      DatastoreOptions options, Datastore datastore, String databaseType, String transport) {
-    super(options, datastore, databaseType, transport);
+  public ITDatastoreTestHttp(DatastoreOptions options, Datastore datastore, String databaseType) {
+    super(options, datastore, databaseType);
   }
 
-  @Parameterized.Parameters(name = "database: {2}, transport: {3}")
+  @Parameterized.Parameters(name = "database: {2}")
   public static Iterable<Object[]> data() {
     return Arrays.asList(
         new Object[][] {
-          {OPTIONS_DEFAULT_HTTP, DATASTORE_DEFAULT_HTTP, "default", "http"},
-          {OPTIONS_CUSTOM_DB_HTTP, DATASTORE_CUSTOM_DB_HTTP, "test-db", "http"},
+          {OPTIONS_DEFAULT_HTTP, DATASTORE_DEFAULT_HTTP, "default"},
+          {OPTIONS_CUSTOM_DB_HTTP, DATASTORE_CUSTOM_DB_HTTP, CUSTOM_DB_ID},
         });
   }
 

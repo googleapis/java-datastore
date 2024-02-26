@@ -35,17 +35,16 @@ public class ITDatastoreTestGrpc extends AbstractITDatastoreTest {
   private static final DatastoreOptions OPTIONS_CUSTOM_DB_GRPC = HELPER_CUSTOM_DB_GRPC.getOptions();
   private static final Datastore DATASTORE_CUSTOM_DB_GRPC = OPTIONS_CUSTOM_DB_GRPC.getService();
 
-  public ITDatastoreTestGrpc(
-      DatastoreOptions options, Datastore datastore, String databaseType, String transport) {
-    super(options, datastore, databaseType, transport);
+  public ITDatastoreTestGrpc(DatastoreOptions options, Datastore datastore, String databaseType) {
+    super(options, datastore, databaseType);
   }
 
-  @Parameterized.Parameters(name = "database: {2}, transport: {3}")
+  @Parameterized.Parameters(name = "database: {2}")
   public static Iterable<Object[]> data() {
     return Arrays.asList(
         new Object[][] {
-          {OPTIONS_DEFAULT_GRPC, DATASTORE_DEFAULT_GRPC, "default", "grpc"},
-          {OPTIONS_CUSTOM_DB_GRPC, DATASTORE_CUSTOM_DB_GRPC, "test-db", "grpc"},
+          {OPTIONS_DEFAULT_GRPC, DATASTORE_DEFAULT_GRPC, "default"},
+          {OPTIONS_CUSTOM_DB_GRPC, DATASTORE_CUSTOM_DB_GRPC, CUSTOM_DB_ID},
         });
   }
 
