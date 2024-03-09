@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -317,7 +317,6 @@ public class DatastoreAdminStubSettings extends StubSettings<DatastoreAdminStubS
     return defaultGrpcTransportProviderBuilder().build();
   }
 
-  @BetaApi("The surface for customizing headers is not stable yet and may change in the future.")
   public static ApiClientHeaderProvider.Builder defaultGrpcApiClientHeaderProviderBuilder() {
     return ApiClientHeaderProvider.newBuilder()
         .setGeneratedLibToken(
@@ -326,7 +325,6 @@ public class DatastoreAdminStubSettings extends StubSettings<DatastoreAdminStubS
             GaxGrpcProperties.getGrpcTokenName(), GaxGrpcProperties.getGrpcVersion());
   }
 
-  @BetaApi("The surface for customizing headers is not stable yet and may change in the future.")
   public static ApiClientHeaderProvider.Builder defaultHttpJsonApiClientHeaderProviderBuilder() {
     return ApiClientHeaderProvider.newBuilder()
         .setGeneratedLibToken(
@@ -667,8 +665,6 @@ public class DatastoreAdminStubSettings extends StubSettings<DatastoreAdminStubS
     }
 
     /** Returns the builder for the settings used for calls to exportEntities. */
-    @BetaApi(
-        "The surface for use by generated code is not stable yet and may change in the future.")
     public OperationCallSettings.Builder<
             ExportEntitiesRequest, ExportEntitiesResponse, ExportEntitiesMetadata>
         exportEntitiesOperationSettings() {
@@ -681,8 +677,6 @@ public class DatastoreAdminStubSettings extends StubSettings<DatastoreAdminStubS
     }
 
     /** Returns the builder for the settings used for calls to importEntities. */
-    @BetaApi(
-        "The surface for use by generated code is not stable yet and may change in the future.")
     public OperationCallSettings.Builder<ImportEntitiesRequest, Empty, ImportEntitiesMetadata>
         importEntitiesOperationSettings() {
       return importEntitiesOperationSettings;
@@ -694,8 +688,6 @@ public class DatastoreAdminStubSettings extends StubSettings<DatastoreAdminStubS
     }
 
     /** Returns the builder for the settings used for calls to createIndex. */
-    @BetaApi(
-        "The surface for use by generated code is not stable yet and may change in the future.")
     public OperationCallSettings.Builder<CreateIndexRequest, Index, IndexOperationMetadata>
         createIndexOperationSettings() {
       return createIndexOperationSettings;
@@ -707,8 +699,6 @@ public class DatastoreAdminStubSettings extends StubSettings<DatastoreAdminStubS
     }
 
     /** Returns the builder for the settings used for calls to deleteIndex. */
-    @BetaApi(
-        "The surface for use by generated code is not stable yet and may change in the future.")
     public OperationCallSettings.Builder<DeleteIndexRequest, Index, IndexOperationMetadata>
         deleteIndexOperationSettings() {
       return deleteIndexOperationSettings;

@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.18.5](https://github.com/googleapis/java-datastore/compare/v2.18.4...v2.18.5) (2024-03-04)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.27.0 ([#1352](https://github.com/googleapis/java-datastore/issues/1352)) ([124d7ca](https://github.com/googleapis/java-datastore/commit/124d7cab46e2fa1ba654369887fb10ffb3f8eaef))
+* Update dependency com.google.errorprone:error_prone_core to v2.25.0 ([#1339](https://github.com/googleapis/java-datastore/issues/1339)) ([0c6702e](https://github.com/googleapis/java-datastore/commit/0c6702e27917b976c76a0d44d3f5d550418310be))
+
+## [2.18.4](https://github.com/googleapis/java-datastore/compare/v2.18.3...v2.18.4) (2024-02-14)
+
+
+### Dependencies
+
+* **autogen:** Set packed = false on field_behavior extension ([#1320](https://github.com/googleapis/java-datastore/issues/1320)) ([9cfa1c3](https://github.com/googleapis/java-datastore/commit/9cfa1c37a8a86fcb09ec896dc9219e4416ff2fef))
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.25.0 ([#1333](https://github.com/googleapis/java-datastore/issues/1333)) ([0e64a7d](https://github.com/googleapis/java-datastore/commit/0e64a7da73a3b6d40d5952bf09372d631a7d247b))
+
 ## [2.18.3](https://github.com/googleapis/java-datastore/compare/v2.18.2...v2.18.3) (2024-02-01)
 
 
