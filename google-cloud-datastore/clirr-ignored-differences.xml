@@ -19,12 +19,7 @@
     </difference>
     <difference>
         <className>com/google/cloud/datastore/QueryResults</className>
-        <method>java.util.Optional getExecutionStats()</method>
-        <differenceType>7012</differenceType>
-    </difference>
-    <difference>
-        <className>com/google/cloud/datastore/QueryResults</className>
-        <method>java.util.Optional getPlan()</method>
+        <method>java.util.Optional getExplainMetrics()</method>
         <differenceType>7012</differenceType>
     </difference>
     <difference>
