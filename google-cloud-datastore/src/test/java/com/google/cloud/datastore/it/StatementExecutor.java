@@ -54,6 +54,7 @@ class StatementExecutor {
     for (Tuple<String, Statement> tuple : tuples) {
       String groupId = tuple.x();
       Statement statement = tuple.y();
+      Thread.sleep(10000);
       Future<?> future = executorService.submit(statement::execute);
       try {
         // waiting for statement to execute

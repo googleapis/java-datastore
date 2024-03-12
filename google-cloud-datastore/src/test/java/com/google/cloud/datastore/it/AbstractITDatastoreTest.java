@@ -70,7 +70,6 @@ import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.TimestampValue;
 import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.ValueType;
-import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.datastore.v1.TransactionOptions;
