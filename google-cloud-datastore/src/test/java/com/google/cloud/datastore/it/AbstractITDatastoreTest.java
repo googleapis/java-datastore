@@ -95,7 +95,6 @@ import org.junit.rules.Timeout;
 
 public abstract class AbstractITDatastoreTest {
   protected static final String CUSTOM_DB_ID = "test-db";
-  protected static final RemoteDatastoreHelper HELPER = RemoteDatastoreHelper.create();
 
   protected DatastoreOptions options;
   protected Datastore datastore;

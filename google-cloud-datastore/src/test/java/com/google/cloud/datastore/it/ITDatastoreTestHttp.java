@@ -53,7 +53,8 @@ public class ITDatastoreTestHttp extends AbstractITDatastoreTest {
 
   @AfterClass
   public static void afterClass() throws Exception {
-    HELPER.deleteNamespace();
+    HELPER_DEFAULT_HTTP.deleteNamespace();
+    HELPER_CUSTOM_DB_HTTP.deleteNamespace();
     DATASTORE_DEFAULT_HTTP.close();
     DATASTORE_CUSTOM_DB_HTTP.close();
   }

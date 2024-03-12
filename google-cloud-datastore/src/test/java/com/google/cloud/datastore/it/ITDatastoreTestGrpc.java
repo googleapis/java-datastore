@@ -26,7 +26,8 @@ import org.junit.runners.Parameterized;
 @RunWith(Parameterized.class)
 public class ITDatastoreTestGrpc extends AbstractITDatastoreTest {
   // setup for default db, grpc transport
-  private static final DatastoreOptions OPTIONS_DEFAULT_GRPC = HELPER.getOptions();
+  protected static final RemoteDatastoreHelper HELPER_DEFAULT_GRPC = RemoteDatastoreHelper.create();
+  private static final DatastoreOptions OPTIONS_DEFAULT_GRPC = HELPER_DEFAULT_GRPC.getOptions();
   private static final Datastore DATASTORE_DEFAULT_GRPC = OPTIONS_DEFAULT_GRPC.getService();
 
   // setup for custom db, grpc transport
@@ -50,7 +51,8 @@ public class ITDatastoreTestGrpc extends AbstractITDatastoreTest {
 
   @AfterClass
   public static void afterClass() throws Exception {
-    HELPER.deleteNamespace();
+    HELPER_DEFAULT_GRPC.deleteNamespace();
+    HELPER_CUSTOM_DB_GRPC.deleteNamespace();
     DATASTORE_DEFAULT_GRPC.close();
     DATASTORE_CUSTOM_DB_GRPC.close();
   }
