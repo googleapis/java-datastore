@@ -15,20 +15,19 @@
  */
 package com.google.cloud.datastore.models;
 
+import com.google.api.core.BetaApi;
 import com.google.api.core.InternalApi;
 import com.google.cloud.Structs;
 import com.google.common.base.Objects;
 import java.util.Map;
 import org.threeten.bp.Duration;
 
+/** Model class for {@code com.google.datastore.v1.ExecutionStats} */
+@BetaApi
 public class ExecutionStats {
-
   private final long resultsReturned;
-
   private final Duration executionDuration;
-
   private final long readOperations;
-
   private final Map<String, Object> debugStats;
 
   @InternalApi
@@ -39,18 +38,25 @@ public class ExecutionStats {
     this.debugStats = Structs.asMap(proto.getDebugStats());
   }
 
+  /**
+   * Returns the total number of results returned, including documents, projections, aggregation
+   * results, keys.
+   */
   public long getResultsReturned() {
     return resultsReturned;
   }
 
+  /** Returns the debugging statistics from the execution of the query. */
   public Map<String, Object> getDebugStats() {
     return debugStats;
   }
 
+  /** Returns the total time to execute the query in the backend. */
   public Duration getExecutionDuration() {
     return executionDuration;
   }
 
+  /** Returns the total billable read operations. */
   public long getReadOperations() {
     return readOperations;
   }
@@ -68,7 +74,7 @@ public class ExecutionStats {
     return Objects.equal(resultsReturned, that.resultsReturned)
         && Objects.equal(executionDuration, that.executionDuration)
         && Objects.equal(readOperations, that.readOperations)
-        && java.util.Objects.equals(debugStats, that.debugStats);
+        && Objects.equal(debugStats, that.debugStats);
   }
 
   @Override

@@ -180,7 +180,7 @@ public interface Transaction extends DatastoreBatchWriter, DatastoreReaderWriter
 
   @BetaApi
   default <T> QueryResults<T> run(Query<T> query, ExplainOptions explainOptions) {
-    throw new UnsupportedOperationException("not implemented");
+    throw new UnsupportedOperationException("Not implemented.");
   }
 
   /**

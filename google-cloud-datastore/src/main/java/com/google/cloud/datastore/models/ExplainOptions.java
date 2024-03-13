@@ -15,10 +15,16 @@
  */
 package com.google.cloud.datastore.models;
 
+import com.google.api.core.BetaApi;
 import com.google.api.core.InternalApi;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 
+/**
+ * Model class for {@code com.google.datastore.v1.ExplainOptions}. Contains the explain options for
+ * the query. Analyze is set to 'false' by default.
+ */
+@BetaApi
 public class ExplainOptions {
   private final com.google.datastore.v1.ExplainOptions proto;
 
@@ -30,6 +36,12 @@ public class ExplainOptions {
     return new Builder();
   }
 
+  /**
+   * Returns whether analyze is set to true or false. When false (the default), the query will be
+   * planned, returning only metrics from the planning stages. When true, the query will be planned
+   * and executed, returning the full query results along with both planning and execution stage
+   * metrics.
+   */
   public boolean shouldAnalyze() {
     return proto.getAnalyze();
   }
@@ -56,6 +68,11 @@ public class ExplainOptions {
   public static class Builder {
     private boolean analyze = false;
 
+    /*
+     * Set 'analyze' to true or false for the explain options.
+     * When false (the default), the query will be planned, returning only metrics from the planning stages.
+     * When true, the query will be planned and executed, returning the full query results along with both planning and execution stage metrics.
+     */
     public Builder setAnalyze(boolean analyze) {
       this.analyze = analyze;
       return this;

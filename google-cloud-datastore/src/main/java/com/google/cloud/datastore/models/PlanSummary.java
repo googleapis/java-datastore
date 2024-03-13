@@ -15,6 +15,7 @@
  */
 package com.google.cloud.datastore.models;
 
+import com.google.api.core.BetaApi;
 import com.google.api.core.InternalApi;
 import com.google.cloud.Structs;
 import com.google.common.base.Objects;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/** Model class for {@code com.google.datastore.v1.PlanSummary} */
+@BetaApi
 public class PlanSummary {
   private final List<Map<String, Object>> indexesUsed = new ArrayList<>();
 
@@ -32,6 +35,7 @@ public class PlanSummary {
         .forEach(indexesUsed -> this.indexesUsed.add(Structs.asMap(indexesUsed)));
   }
 
+  /** Returns the indexes selected for the query. */
   public List<Map<String, Object>> getIndexesUsed() {
     return indexesUsed;
   }

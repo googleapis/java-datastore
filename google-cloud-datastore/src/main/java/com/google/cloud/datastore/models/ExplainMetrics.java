@@ -15,12 +15,15 @@
  */
 package com.google.cloud.datastore.models;
 
+import com.google.api.core.BetaApi;
 import com.google.api.core.InternalApi;
 import com.google.common.base.Objects;
 import java.util.Optional;
 
+/** Model class for {@code com.google.datastore.v1.ExplainMetrics}. */
+@BetaApi
 public class ExplainMetrics {
-  private PlanSummary planSummary;
+  private final PlanSummary planSummary;
   private ExecutionStats executionStats;
 
   @InternalApi
@@ -31,20 +34,17 @@ public class ExplainMetrics {
     this.planSummary = new PlanSummary(proto.getPlanSummary());
   }
 
+  /** Returns the planning phase information for the query. */
   public PlanSummary getPlanSummary() {
     return planSummary;
   }
 
-  public void setPlanSummary(PlanSummary planSummary) {
-    this.planSummary = planSummary;
-  }
-
+  /**
+   * Returns the aggregated stats from the execution of the query, if present. Only present when
+   * 'analyze' is set to true for {@code ExplainOptions}.
+   */
   public Optional<ExecutionStats> getExecutionStats() {
     return Optional.ofNullable(executionStats);
-  }
-
-  public void setExecutionStats(ExecutionStats executionStats) {
-    this.executionStats = executionStats;
   }
 
   @Override

@@ -25,8 +25,12 @@ import com.google.cloud.datastore.AggregationResults;
 import com.google.cloud.datastore.models.ExplainMetrics;
 import com.google.common.collect.ImmutableMap;
 import com.google.datastore.v1.AggregationResultBatch;
+import com.google.datastore.v1.ExecutionStats;
+import com.google.datastore.v1.PlanSummary;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.Value;
+import com.google.protobuf.Duration;
+import com.google.protobuf.Struct;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import java.util.Map;
@@ -108,8 +112,34 @@ public class AggregationQueryResponseTransformerTest {
             .setReadTime(readTime.toProto())
             .build();
 
+    ExecutionStats executionStats =
+        ExecutionStats.newBuilder()
+            .setDebugStats(
+                Struct.newBuilder()
+                    .putFields(
+                        "field",
+                        com.google.protobuf.Value.newBuilder().setStringValue("val").build())
+                    .build())
+            .setExecutionDuration(Duration.newBuilder().setSeconds(1).build())
+            .setReadOperations(1)
+            .setResultsReturned(2)
+            .build();
+
+    PlanSummary planSummary =
+        PlanSummary.newBuilder()
+            .addIndexesUsed(
+                Struct.newBuilder()
+                    .putFields(
+                        "field2",
+                        com.google.protobuf.Value.newBuilder().setStringValue("val2").build())
+                    .build())
+            .build();
+
     com.google.datastore.v1.ExplainMetrics explainMetrics =
-        com.google.datastore.v1.ExplainMetrics.newBuilder().build();
+        com.google.datastore.v1.ExplainMetrics.newBuilder()
+            .setExecutionStats(executionStats)
+            .setPlanSummary(planSummary)
+            .build();
 
     RunAggregationQueryResponse runAggregationQueryResponse =
         RunAggregationQueryResponse.newBuilder()

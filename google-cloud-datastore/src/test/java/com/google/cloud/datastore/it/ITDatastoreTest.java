@@ -406,6 +406,12 @@ public class ITDatastoreTest {
     Truth.assertThat(results3.hasNext()).isTrue();
     Truth.assertThat(results3.getExplainMetrics().isPresent()).isFalse();
 
+    QueryResults<Entity> results4 =
+        datastore.run(simpleOrQuery, ExplainOptions.newBuilder().setAnalyze(false).build());
+    Truth.assertThat(results4.hasNext()).isFalse();
+    assertPlanSummary(results4.getExplainMetrics().get().getPlanSummary());
+    Truth.assertThat(results4.getExplainMetrics().get().getExecutionStats().isPresent()).isFalse();
+
     AggregationQuery aggregationQuery =
         Query.newAggregationQueryBuilder().over(simpleOrQuery).addAggregation(count()).build();
     AggregationResults resultsAggregation =
@@ -529,7 +535,7 @@ public class ITDatastoreTest {
   }
 
   @Test
-  public void testTransactionQueryModeExplainAnalyze() {
+  public void testTransactionExplainOptionsAnalyze() {
     StructuredQuery<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind(KIND2)
@@ -566,7 +572,7 @@ public class ITDatastoreTest {
   }
 
   @Test
-  public void testTransactionQueryModeExplain() {
+  public void testTransactionExplainOptions() {
     StructuredQuery<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind(KIND2)
@@ -598,20 +604,21 @@ public class ITDatastoreTest {
   private void assertPlanSummary(PlanSummary planSummary) {
     List<Map<String, Object>> indexesUsed = planSummary.getIndexesUsed();
     indexesUsed.forEach(
-        each -> {
-          Truth.assertThat(each.keySet()).containsAtLeast("properties", "query_scope");
-        });
+        each -> Truth.assertThat(each.keySet()).containsAtLeast("properties", "query_scope"));
   }
 
   private void assertExecutionStats(ExecutionStats executionStats) {
-    Map<String, Object> queryStatsAggregation = executionStats.getDebugStats();
-    Duration executionDuration = executionStats.getExecutionDuration();
-    long readOperations = executionStats.getReadOperations();
-    long resultsReturned = executionStats.getResultsReturned();
-    Truth.assertThat(queryStatsAggregation.keySet())
+    Map<String, Object> debugStats = executionStats.getDebugStats();
+    Truth.assertThat(debugStats.keySet())
         .containsAtLeast("billing_details", "documents_scanned", "index_entries_scanned");
-    Truth.assertThat(executionDuration).isIn(Range.atLeast(Duration.ofMillis(0)));
+
+    Duration executionDuration = executionStats.getExecutionDuration();
+    Truth.assertThat(executionDuration).isIn(Range.greaterThan(Duration.ofMillis(0)));
+
+    long readOperations = executionStats.getReadOperations();
     Truth.assertThat(readOperations).isIn(Range.atLeast(1L));
+
+    long resultsReturned = executionStats.getResultsReturned();
     Truth.assertThat(resultsReturned).isIn(Range.atLeast(1L));
   }
 

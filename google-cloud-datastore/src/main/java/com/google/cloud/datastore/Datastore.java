@@ -475,8 +475,7 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
    * StructuredQuery<Entity> query = Query.newEntityQueryBuilder()
    *     .setKind(kind)
    *     .build();
-   * QueryResults<Entity> results = datastore.run(query, QueryMode.EXPLAIN_ANALYZE);
-   * ResultSetStats resultSetStats = results.getResultSetStats();
+   * QueryResults<Entity> results = datastore.run(query, ExplainOptions.newBuilder().setAnalyze(true).build());
    * }</pre>
    *
    * @throws DatastoreException upon failure
@@ -551,8 +550,7 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
    *    .addAggregation(count().as("total_count"))
    *    .over(selectAllQuery)
    *    .build();
-   * AggregationResults aggregationResults = datastore.runAggregation(aggregationQuery, QueryMode.EXPLAIN_ANALYZE);
-   * ResultSetStats aggregationStats = aggregationResults.getResultSetStats();
+   * AggregationResults aggregationResults = datastore.runAggregation(aggregationQuery, ExplainOptions.newBuilder().setAnalyze(true).build());
    * }</pre>
    *
    * @throws DatastoreException upon failure

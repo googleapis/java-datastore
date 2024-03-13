@@ -51,7 +51,6 @@ public class ExecutionStatsTest {
   public void testEqualsAndHashcode() {
     com.google.datastore.v1.ExecutionStats proto2 =
         com.google.datastore.v1.ExecutionStats.newBuilder()
-            .setBytesReturned(5)
             .setDebugStats(struct)
             .setExecutionDuration(duration)
             .setReadOperations(6)

@@ -76,6 +76,6 @@ public interface QueryResults<V> extends Iterator<V> {
 
   @BetaApi
   default Optional<ExplainMetrics> getExplainMetrics() {
-    throw new UnsupportedOperationException("not implemented");
+    throw new UnsupportedOperationException("Not implemented.");
   }
 }

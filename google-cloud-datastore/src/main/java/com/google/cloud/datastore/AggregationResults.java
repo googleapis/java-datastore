@@ -64,8 +64,8 @@ public class AggregationResults implements Iterable<AggregationResult> {
     return this.aggregationResults.size();
   }
 
-  /*
-   * Returns the ResultSetStats if QueryMode is set to EXPLAIN or EXPLAIN_ANALYZE. Otherwise, returns null.
+  /**
+   * Returns {@code ExplainMetrics} if {@code ExplainOptions} were enabled. Otherwise, returns null.
    */
   @BetaApi
   public Optional<ExplainMetrics> getExplainMetrics() {
