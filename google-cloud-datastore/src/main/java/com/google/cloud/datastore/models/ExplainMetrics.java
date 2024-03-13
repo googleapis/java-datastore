@@ -20,7 +20,7 @@ import com.google.api.core.InternalApi;
 import com.google.common.base.Objects;
 import java.util.Optional;
 
-/** Model class for {@code com.google.datastore.v1.ExplainMetrics}. */
+/** Model class for {@link com.google.datastore.v1.ExplainMetrics}. */
 @BetaApi
 public class ExplainMetrics {
   private final PlanSummary planSummary;
@@ -41,7 +41,7 @@ public class ExplainMetrics {
 
   /**
    * Returns the aggregated stats from the execution of the query, if present. Only present when
-   * 'analyze' is set to true for {@code ExplainOptions}.
+   * 'analyze' is set to true for {@link ExplainOptions}.
    */
   public Optional<ExecutionStats> getExecutionStats() {
     return Optional.ofNullable(executionStats);

@@ -22,7 +22,7 @@ import com.google.common.base.Objects;
 import java.util.Map;
 import org.threeten.bp.Duration;
 
-/** Model class for {@code com.google.datastore.v1.ExecutionStats} */
+/** Model class for {@link com.google.datastore.v1.ExecutionStats} */
 @BetaApi
 public class ExecutionStats {
   private final long resultsReturned;

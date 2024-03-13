@@ -21,7 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 
 /**
- * Model class for {@code com.google.datastore.v1.ExplainOptions}. Contains the explain options for
+ * Model class for {@link com.google.datastore.v1.ExplainOptions}. Contains the explain options for
  * the query. Analyze is set to 'false' by default.
  */
 @BetaApi

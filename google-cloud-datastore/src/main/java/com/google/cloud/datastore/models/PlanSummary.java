@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/** Model class for {@code com.google.datastore.v1.PlanSummary} */
+/** Model class for {@link com.google.datastore.v1.PlanSummary} */
 @BetaApi
 public class PlanSummary {
   private final List<Map<String, Object>> indexesUsed = new ArrayList<>();
