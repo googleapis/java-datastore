@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,7 +64,8 @@ public class QueryProfileSampleIT {
     QueryProfileExplain.invoke();
 
     // Assert
-    systemsOutRule.assertContains("Plan Info: indexes_used");
+    systemsOutRule.assertContains("query_scope: Collection Group");
+    systemsOutRule.assertContains("properties: (__name__ ASC)");
   }
 
   @Test
@@ -73,8 +74,8 @@ public class QueryProfileSampleIT {
     QueryProfileExplainAggregation.invoke();
 
     // Assert
-    systemsOutRule.assertContains("Plan Info: indexes_used");
-    systemsOutRule.assertContains("Count: 1");
+    systemsOutRule.assertContains("query_scope: Collection Group");
+    systemsOutRule.assertContains("properties: (__name__ ASC)");
   }
 
   @Test
@@ -83,8 +84,9 @@ public class QueryProfileSampleIT {
     QueryProfileExplainAnalyze.invoke();
 
     // Assert
-    systemsOutRule.assertContains("Stat: index_entries_scanned");
-    systemsOutRule.assertContains("Plan Info: indexes_used");
+    systemsOutRule.assertContains("documents_scanned: 3");
+    systemsOutRule.assertContains("index_entries_scanned: 3");
+    systemsOutRule.assertContains("query_scope: Collection Group");
     systemsOutRule.assertContains("Entity: Entity{key=");
   }
 
@@ -94,8 +96,9 @@ public class QueryProfileSampleIT {
     QueryProfileExplainAnalyzeAggregation.invoke();
 
     // Assert
-    systemsOutRule.assertContains("Stat: index_entries_scanned");
-    systemsOutRule.assertContains("Plan Info: indexes_used");
-    systemsOutRule.assertContains("Count: 1");
+    systemsOutRule.assertContains("index_entries_scanned: 3");
+    systemsOutRule.assertContains("documents_scanned: 0");
+    systemsOutRule.assertContains("query_scope: Collection Group");
+    systemsOutRule.assertContains("Count: 3");
   }
 }

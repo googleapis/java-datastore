@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,10 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.StructuredQuery;
-import com.google.cloud.datastore.models.QueryPlan;
+import com.google.cloud.datastore.models.ExplainMetrics;
+import com.google.cloud.datastore.models.ExplainOptions;
+import com.google.cloud.datastore.models.PlanSummary;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -42,20 +45,19 @@ public class QueryProfileExplainAggregation {
     AggregationQuery aggregationQuery =
         Query.newAggregationQueryBuilder().over(query).addAggregation(count()).build();
 
-    // Set the query mode to EXPLAIN to get back *only* the plan info
+    // Set the explain options to get back *only* the plan summary
     AggregationResults results =
-        datastore.runAggregation(aggregationQuery, QueryProfile.QueryMode.EXPLAIN);
+        datastore.runAggregation(aggregationQuery, ExplainOptions.newBuilder().build());
 
-    // Get the query plan
-    Optional<ResultSetStats> resultSetStats = results.getResultSetStats();
-    if (!resultSetStats.isPresent()) {
-      throw new Exception("No result set stats returned");
+    // Get the explain metrics
+    Optional<ExplainMetrics> explainMetrics = results.getExplainMetrics();
+    if (!explainMetrics.isPresent()) {
+      throw new Exception("No explain metrics returned");
     }
-    QueryPlan queryPlan = resultSetStats.get().getQueryPlan();
-    Map<String, Object> planInfo = queryPlan.getPlanInfo();
-    System.out.println("----- Plan Info -----");
-    planInfo.forEach(
-        (plan, value) -> System.out.println("Plan Info: " + plan + ", Value: " + value));
+    PlanSummary planSummary = explainMetrics.get().getPlanSummary();
+    List<Map<String, Object>> indexesUsed = planSummary.getIndexesUsed();
+    System.out.println("----- Indexes Used -----");
+    indexesUsed.forEach(map -> map.forEach((s, o) -> System.out.println(s + ": " + o)));
   }
 }
 // [END datastore_query_explain_aggregation]

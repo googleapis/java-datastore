@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,11 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.models.QueryPlan;
-import com.google.cloud.datastore.models.QueryProfile;
+import com.google.cloud.datastore.models.ExecutionStats;
+import com.google.cloud.datastore.models.ExplainMetrics;
+import com.google.cloud.datastore.models.ExplainOptions;
+import com.google.cloud.datastore.models.PlanSummary;
+import java.util.List;
 import java.util.Map;
 
 public class QueryProfileExplainAnalyze {
@@ -33,31 +36,32 @@ public class QueryProfileExplainAnalyze {
     // Build the query
     Query<Entity> query = Query.newEntityQueryBuilder().setKind("Task").build();
 
-    // Set the query mode to EXPLAIN_ANALYZE to get back the query stats, plan info, and query
+    // Set explain options with analzye = true to get back the query stats, plan info, and query
     // results
-    QueryResults<Entity> results = datastore.run(query, QueryProfile.QueryMode.EXPLAIN_ANALYZE);
+    QueryResults<Entity> results =
+        datastore.run(query, ExplainOptions.newBuilder().setAnalyze(true).build());
 
     // Get the result set stats
-    if (!results.getResultSetStats().isPresent()) {
-      throw new Exception("No result set stats returned");
+    if (!results.getExplainMetrics().isPresent()) {
+      throw new Exception("No explain metrics returned");
     }
-    ResultSetStats resultSetStats = results.getResultSetStats().get();
+    ExplainMetrics explainMetrics = results.getExplainMetrics().get();
 
-    // Get the query stats
-    if (!resultSetStats.getQueryStats().isPresent()) {
-      throw new Exception("No query stats returned");
+    // Get the execution stats
+    if (!explainMetrics.getExecutionStats().isPresent()) {
+      throw new Exception("No execution stats returned");
     }
 
-    Map<String, Object> queryStats = resultSetStats.getQueryStats().get();
-    System.out.println("----- Query Stats -----");
-    queryStats.forEach((stat, value) -> System.out.println("Stat: " + stat + ", Value: " + value));
+    ExecutionStats queryStats = explainMetrics.getExecutionStats().get();
+    Map<String, Object> debugStats = queryStats.getDebugStats();
+    System.out.println("----- Debug Stats -----");
+    debugStats.forEach((s, o) -> System.out.println(s + ": " + o));
 
-    // Get the query plan
-    QueryPlan queryPlan = resultSetStats.getQueryPlan();
-    Map<String, Object> planInfo = queryPlan.getPlanInfo();
-    System.out.println("----- Plan Info -----");
-    planInfo.forEach(
-        (plan, value) -> System.out.println("Plan Info: " + plan + ", Value: " + value));
+    // Get the plan summary
+    PlanSummary planSummary = explainMetrics.getPlanSummary();
+    List<Map<String, Object>> indexesUsed = planSummary.getIndexesUsed();
+    System.out.println("----- Indexes Used -----");
+    indexesUsed.forEach(map -> map.forEach((s, o) -> System.out.println(s + ": " + o)));
 
     if (!results.hasNext()) {
       throw new Exception("query yielded no results");
