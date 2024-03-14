@@ -20,7 +20,7 @@ import com.google.api.core.BetaApi;
 import com.google.api.core.InternalApi;
 import com.google.cloud.Timestamp;
 import com.google.common.collect.ImmutableMap;
-import com.google.datastore.v1.QueryMode;
+import com.google.datastore.v1.ExplainOptions;
 import com.google.protobuf.ByteString;
 import java.io.Serializable;
 import java.util.Collections;
@@ -147,39 +147,38 @@ public abstract class ReadOption implements Serializable {
 
     Q query;
     List<ReadOption> readOptions;
-    QueryMode queryMode;
+    ExplainOptions explainOptions;
 
-    private QueryConfig(Q query, QueryMode queryMode, List<ReadOption> readOptions) {
+    private QueryConfig(Q query, ExplainOptions explainOptions, List<ReadOption> readOptions) {
       this.query = query;
-      this.queryMode = queryMode;
+      this.explainOptions = explainOptions;
       this.readOptions = readOptions;
     }
 
-    private QueryConfig(Q query, QueryMode queryMode) {
-      this.query = query;
-      this.readOptions = Collections.emptyList();
-      this.queryMode = queryMode;
+    private QueryConfig(Q query, ExplainOptions explainOptions) {
+      this(query, explainOptions, Collections.emptyList());
     }
 
     public Q getQuery() {
       return query;
     }
 
-    public QueryMode getQueryMode() {
-      return this.queryMode;
+    public ExplainOptions getExplainOptions() {
+      return this.explainOptions;
     }
 
     public List<ReadOption> getReadOptions() {
       return readOptions;
     }
 
-    public static <Q extends Query<?>> QueryConfig<Q> create(Q query, QueryMode queryMode) {
-      return new QueryConfig<>(query, queryMode);
+    public static <Q extends Query<?>> QueryConfig<Q> create(
+        Q query, ExplainOptions explainOptions) {
+      return new QueryConfig<>(query, explainOptions);
     }
 
     public static <Q extends Query<?>> QueryConfig<Q> create(
-        Q query, QueryMode queryMode, List<ReadOption> readOptions) {
-      return new QueryConfig<>(query, queryMode, readOptions);
+        Q query, ExplainOptions explainOptions, List<ReadOption> readOptions) {
+      return new QueryConfig<>(query, explainOptions, readOptions);
     }
   }
 }

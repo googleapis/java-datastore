@@ -17,7 +17,7 @@
 package com.google.cloud.datastore;
 
 import com.google.api.core.BetaApi;
-import com.google.cloud.datastore.models.QueryProfile.QueryMode;
+import com.google.cloud.datastore.models.ExplainOptions;
 import com.google.protobuf.ByteString;
 import java.util.Iterator;
 import java.util.List;
@@ -179,8 +179,8 @@ public interface Transaction extends DatastoreBatchWriter, DatastoreReaderWriter
   <T> QueryResults<T> run(Query<T> query);
 
   @BetaApi
-  default <T> QueryResults<T> run(Query<T> query, QueryMode queryMode) {
-    throw new UnsupportedOperationException("not implemented");
+  default <T> QueryResults<T> run(Query<T> query, ExplainOptions explainOptions) {
+    throw new UnsupportedOperationException("Not implemented.");
   }
 
   /**

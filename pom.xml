@@ -4,7 +4,7 @@
   <groupId>com.google.cloud</groupId>
   <artifactId>google-cloud-datastore-parent</artifactId>
   <packaging>pom</packaging>
-  <version>2.18.1-SNAPSHOT</version><!-- {x-version-update:google-cloud-datastore:current} -->
+  <version>2.18.6-SNAPSHOT</version><!-- {x-version-update:google-cloud-datastore:current} -->
   <name>Google Cloud Datastore Parent</name>
   <url>https://github.com/googleapis/java-datastore</url>
   <description>
@@ -13,8 +13,8 @@
 
   <parent>
     <groupId>com.google.cloud</groupId>
-    <artifactId>google-cloud-shared-config</artifactId>
-    <version>1.7.1</version>
+    <artifactId>sdk-platform-java-config</artifactId>
+    <version>3.27.0</version>
   </parent>
 
   <developers>
@@ -143,7 +143,7 @@
     <github.global.server>github</github.global.server>
     <site.installationModule>google-cloud-datastore-parent</site.installationModule>
     <project.javadoc.protobufBaseURL>https://googleapis.dev/java/google-api-grpc/latest</project.javadoc.protobufBaseURL>
-    <error-prone.version>2.24.1</error-prone.version>
+    <error-prone.version>2.26.0</error-prone.version>
   </properties>
 
   <dependencyManagement>
@@ -151,7 +151,7 @@
       <dependency>
         <groupId>com.google.cloud</groupId>
         <artifactId>google-cloud-shared-dependencies</artifactId>
-        <version>3.21.0</version>
+        <version>${google-cloud-shared-dependencies.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -159,27 +159,27 @@
       <dependency>
         <groupId>com.google.api.grpc</groupId>
         <artifactId>proto-google-cloud-datastore-admin-v1</artifactId>
-        <version>2.18.1-SNAPSHOT</version><!-- {x-version-update:proto-google-cloud-datastore-admin-v1:current} -->
+        <version>2.18.6-SNAPSHOT</version><!-- {x-version-update:proto-google-cloud-datastore-admin-v1:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.api.grpc</groupId>
         <artifactId>grpc-google-cloud-datastore-admin-v1</artifactId>
-        <version>2.18.1-SNAPSHOT</version><!-- {x-version-update:grpc-google-cloud-datastore-admin-v1:current} -->
+        <version>2.18.6-SNAPSHOT</version><!-- {x-version-update:grpc-google-cloud-datastore-admin-v1:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.cloud</groupId>
         <artifactId>google-cloud-datastore</artifactId>
-        <version>2.18.1-SNAPSHOT</version><!-- {x-version-update:google-cloud-datastore:current} -->
+        <version>2.18.6-SNAPSHOT</version><!-- {x-version-update:google-cloud-datastore:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.api.grpc</groupId>
         <artifactId>proto-google-cloud-datastore-v1</artifactId>
-        <version>0.109.1-SNAPSHOT</version><!-- {x-version-update:proto-google-cloud-datastore-v1:current} -->
+        <version>0.109.6-SNAPSHOT</version><!-- {x-version-update:proto-google-cloud-datastore-v1:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.cloud.datastore</groupId>
         <artifactId>datastore-v1-proto-client</artifactId>
-        <version>2.18.1-SNAPSHOT</version><!-- {x-version-update:datastore-v1-proto-client:current} -->
+        <version>2.18.6-SNAPSHOT</version><!-- {x-version-update:datastore-v1-proto-client:current} -->
         <exclusions>
           <exclusion>
             <groupId>com.google.api.grpc</groupId>

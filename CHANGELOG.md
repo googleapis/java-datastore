@@ -1,5 +1,58 @@
 # Changelog
 
+## [2.18.5](https://github.com/googleapis/java-datastore/compare/v2.18.4...v2.18.5) (2024-03-04)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.27.0 ([#1352](https://github.com/googleapis/java-datastore/issues/1352)) ([124d7ca](https://github.com/googleapis/java-datastore/commit/124d7cab46e2fa1ba654369887fb10ffb3f8eaef))
+* Update dependency com.google.errorprone:error_prone_core to v2.25.0 ([#1339](https://github.com/googleapis/java-datastore/issues/1339)) ([0c6702e](https://github.com/googleapis/java-datastore/commit/0c6702e27917b976c76a0d44d3f5d550418310be))
+
+## [2.18.4](https://github.com/googleapis/java-datastore/compare/v2.18.3...v2.18.4) (2024-02-14)
+
+
+### Dependencies
+
+* **autogen:** Set packed = false on field_behavior extension ([#1320](https://github.com/googleapis/java-datastore/issues/1320)) ([9cfa1c3](https://github.com/googleapis/java-datastore/commit/9cfa1c37a8a86fcb09ec896dc9219e4416ff2fef))
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.25.0 ([#1333](https://github.com/googleapis/java-datastore/issues/1333)) ([0e64a7d](https://github.com/googleapis/java-datastore/commit/0e64a7da73a3b6d40d5952bf09372d631a7d247b))
+
+## [2.18.3](https://github.com/googleapis/java-datastore/compare/v2.18.2...v2.18.3) (2024-02-01)
+
+
+### Bug Fixes
+
+* Remove QueryMode field from RunAggregationQueryRequest ([c1e7c62](https://github.com/googleapis/java-datastore/commit/c1e7c6201e0e35469df1492a4ce61bf6a095f8be))
+* Remove QueryMode field from RunQueryRequest ([c1e7c62](https://github.com/googleapis/java-datastore/commit/c1e7c6201e0e35469df1492a4ce61bf6a095f8be))
+* Remove ResultSetStats field from RunAggregationQueryResponse ([c1e7c62](https://github.com/googleapis/java-datastore/commit/c1e7c6201e0e35469df1492a4ce61bf6a095f8be))
+* Remove ResultSetStats field from RunQueryResponse ([c1e7c62](https://github.com/googleapis/java-datastore/commit/c1e7c6201e0e35469df1492a4ce61bf6a095f8be))
+* Remove types QueryMode, QueryPlan, ResultSetStats ([#1304](https://github.com/googleapis/java-datastore/issues/1304)) ([c1e7c62](https://github.com/googleapis/java-datastore/commit/c1e7c6201e0e35469df1492a4ce61bf6a095f8be))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.24.0 ([#1310](https://github.com/googleapis/java-datastore/issues/1310)) ([26e5f98](https://github.com/googleapis/java-datastore/commit/26e5f9873c4df1815406020a6c22e4a20638f959))
+* Update protobuf to 25.2 in WORKSPACE ([#1311](https://github.com/googleapis/java-datastore/issues/1311)) ([3f4ae83](https://github.com/googleapis/java-datastore/commit/3f4ae83b20f160eaccd9de17582d54d8222dd015))
+
+## [2.18.2](https://github.com/googleapis/java-datastore/compare/v2.18.1...v2.18.2) (2024-01-25)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.23.0 ([#1301](https://github.com/googleapis/java-datastore/issues/1301)) ([ac947a5](https://github.com/googleapis/java-datastore/commit/ac947a545235fa41f0ffb52c4e3a0ffc498991e1))
+
+## [2.18.1](https://github.com/googleapis/java-datastore/compare/v2.18.0...v2.18.1) (2024-01-22)
+
+
+### Bug Fixes
+
+* **deps:** Update the Java code generator (gapic-generator-java) to 2.31.0 ([#1278](https://github.com/googleapis/java-datastore/issues/1278)) ([01cced6](https://github.com/googleapis/java-datastore/commit/01cced66613bc10ba71cc80166119e321915ec34))
+* **deps:** Update the Java code generator (gapic-generator-java) to 2.32.0 ([#1293](https://github.com/googleapis/java-datastore/issues/1293)) ([f4ee0cb](https://github.com/googleapis/java-datastore/commit/f4ee0cb4668077f9fb6b0ede1ea69b9033748fe9))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.22.0 ([#1291](https://github.com/googleapis/java-datastore/issues/1291)) ([5a5c78e](https://github.com/googleapis/java-datastore/commit/5a5c78e01a765d3ebce547b54d7d6d16c0894fb2))
+
 ## [2.18.0](https://github.com/googleapis/java-datastore/compare/v2.17.6...v2.18.0) (2024-01-08)
 
 

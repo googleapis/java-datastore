@@ -51,4 +51,7 @@ java.common_templates(excludes=[
     '.kokoro/presubmit/graalvm-native-17.cfg',
     '.kokoro/nightly/integration.cfg',
     '.kokoro/nightly/java11-integration.cfg',
+    '.kokoro/requirements.in',
+    '.kokoro/requirements.txt',
+    '.github/dependabot.yml'
 ])
