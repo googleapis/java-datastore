@@ -422,6 +422,24 @@ public class ITDatastoreTest {
 
     assertPlanSummary(resultsAggregation.getExplainMetrics().get().getPlanSummary());
     assertExecutionStats(resultsAggregation.getExplainMetrics().get().getExecutionStats().get());
+
+    AggregationQuery aggregationQuery2 =
+        Query.newAggregationQueryBuilder().over(simpleOrQuery).addAggregation(count()).build();
+    AggregationResults resultsAggregation2 =
+        datastore.runAggregation(aggregationQuery2, ExplainOptions.newBuilder().build());
+
+    Truth.assertThat(resultsAggregation2.size() > 0).isFalse();
+
+    assertPlanSummary(resultsAggregation2.getExplainMetrics().get().getPlanSummary());
+    Truth.assertThat(resultsAggregation2.getExplainMetrics().get().getExecutionStats().isPresent())
+        .isFalse();
+
+    AggregationQuery aggregationQuery3 =
+        Query.newAggregationQueryBuilder().over(simpleOrQuery).addAggregation(count()).build();
+    AggregationResults resultsAggregation3 = datastore.runAggregation(aggregationQuery3);
+
+    Truth.assertThat(resultsAggregation3.size() > 0).isTrue();
+    Truth.assertThat(resultsAggregation3.getExplainMetrics().isPresent()).isFalse();
   }
 
   @Test
