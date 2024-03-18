@@ -122,6 +122,7 @@ final class TransactionImpl extends BaseDatastoreBatchWriter implements Transact
   }
 
   @Override
+  @BetaApi
   public AggregationResults runAggregation(AggregationQuery query, ExplainOptions explainOptions) {
     return datastore.runAggregation(query, explainOptions, transactionId(transactionId));
   }
