@@ -25,15 +25,24 @@ public class ExplainOptionsTest {
     com.google.datastore.v1.ExplainOptions builtProto =
         com.google.datastore.v1.ExplainOptions.newBuilder().setAnalyze(true).build();
 
-    ExplainOptions explainOptions = ExplainOptions.newBuilder().setAnalyze(true).build();
-    ExplainOptions explainOptions3 = ExplainOptions.newBuilder().setAnalyze(false).build();
+    com.google.datastore.v1.ExplainOptions defaultProto =
+        com.google.datastore.v1.ExplainOptions.newBuilder().build();
+
+    ExplainOptions explainOptionsAnalyzeTrue = ExplainOptions.newBuilder().setAnalyze(true).build();
+    ExplainOptions explainOptionsAnalyzeFalse =
+        ExplainOptions.newBuilder().setAnalyze(false).build();
     ExplainOptions explainOptionsDefault = ExplainOptions.newBuilder().build();
 
-    Truth.assertThat(explainOptions.shouldAnalyze()).isTrue();
-    Truth.assertThat(explainOptions.toPb()).isEqualTo(builtProto);
+    Truth.assertThat(explainOptionsAnalyzeTrue.shouldAnalyze()).isTrue();
+    Truth.assertThat(explainOptionsAnalyzeTrue.toPb()).isEqualTo(builtProto);
+
+    Truth.assertThat(explainOptionsAnalyzeFalse.shouldAnalyze()).isFalse();
+    Truth.assertThat(explainOptionsAnalyzeFalse.toPb()).isEqualTo(defaultProto);
+
     Truth.assertThat(explainOptionsDefault.shouldAnalyze()).isFalse();
     Truth.assertThat(explainOptionsDefault.toPb()).isNotEqualTo(builtProto);
-    Truth.assertThat(explainOptionsDefault).isEqualTo(explainOptions3);
+    Truth.assertThat(explainOptionsDefault.toPb()).isEqualTo(defaultProto);
+    Truth.assertThat(explainOptionsDefault).isEqualTo(explainOptionsAnalyzeFalse);
   }
 
   @Test
