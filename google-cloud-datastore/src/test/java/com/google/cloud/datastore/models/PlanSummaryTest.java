@@ -31,6 +31,7 @@ public class PlanSummaryTest {
   private final Struct struct2 =
       Struct.newBuilder()
           .putFields("key2", Value.newBuilder().setStringValue("val2").build())
+          .putFields("key3", Value.newBuilder().setStringValue("val3").build())
           .build();
   private final com.google.datastore.v1.PlanSummary proto =
       com.google.datastore.v1.PlanSummary.newBuilder()
@@ -43,6 +44,7 @@ public class PlanSummaryTest {
   public void testModel() {
     Truth.assertThat(planSummary.getIndexesUsed())
         .isEqualTo(Lists.newArrayList(Structs.asMap(struct1), Structs.asMap(struct2)));
+    Truth.assertThat(planSummary.getIndexesUsed().get(0).get("key")).isEqualTo("val");
   }
 
   @Test
