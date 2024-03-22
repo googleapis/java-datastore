@@ -64,10 +64,14 @@ public class QueryProfileExplainAnalyzeAggregation {
     if (!explainMetrics.getExecutionStats().isPresent()) {
       throw new Exception("No execution stats returned");
     }
-    ExecutionStats queryStats = explainMetrics.getExecutionStats().get();
-    Map<String, Object> debugStats = queryStats.getDebugStats();
+    ExecutionStats executionStats = explainMetrics.getExecutionStats().get();
+    Map<String, Object> debugStats = executionStats.getDebugStats();
     System.out.println("----- Debug Stats -----");
     debugStats.forEach((s, o) -> System.out.println(s + ": " + o));
+    System.out.println("----------");
+
+    long resultsReturned = executionStats.getResultsReturned();
+    System.out.println("Results returned: " + resultsReturned);
 
     // Get the plan summary
     PlanSummary planSummary = explainMetrics.getPlanSummary();
