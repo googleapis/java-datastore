@@ -39,6 +39,7 @@ public class AggregationResults implements Iterable<AggregationResult> {
 
   private final ExplainMetrics explainMetrics;
 
+  @BetaApi
   public AggregationResults(
       List<AggregationResult> aggregationResults,
       Timestamp readTime,

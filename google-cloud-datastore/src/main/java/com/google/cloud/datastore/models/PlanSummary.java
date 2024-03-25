@@ -19,20 +19,19 @@ import com.google.api.core.BetaApi;
 import com.google.api.core.InternalApi;
 import com.google.cloud.Structs;
 import com.google.common.base.Objects;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /** Model class for {@link com.google.datastore.v1.PlanSummary} */
 @BetaApi
 public class PlanSummary {
-  private final List<Map<String, Object>> indexesUsed = new ArrayList<>();
+  private final List<Map<String, Object>> indexesUsed;
 
   @InternalApi
   public PlanSummary(com.google.datastore.v1.PlanSummary proto) {
-    proto
-        .getIndexesUsedList()
-        .forEach(indexesUsed -> this.indexesUsed.add(Structs.asMap(indexesUsed)));
+    this.indexesUsed =
+        proto.getIndexesUsedList().stream().map(Structs::asMap).collect(Collectors.toList());
   }
 
   /** Returns the indexes selected for the query. */
