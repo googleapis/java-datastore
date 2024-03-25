@@ -575,7 +575,7 @@ public class ITDatastoreConceptsTest {
   }
 
   @Test
-  public void testInequalityInvalid() {
+  public void testInequalityValid() {
     Query<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind(TASK_CONCEPTS)
@@ -583,7 +583,7 @@ public class ITDatastoreConceptsTest {
                 CompositeFilter.and(
                     PropertyFilter.gt("created", startDate), PropertyFilter.gt("priority", 3)))
             .build();
-    assertInvalidQuery(query);
+    assertValidQuery(query);
   }
 
   @Test
