@@ -68,7 +68,7 @@ public class QueryProfileExplainAnalyzeAggregation {
     ExecutionStats executionStats = explainMetrics.getExecutionStats().get();
     Map<String, Object> debugStats = executionStats.getDebugStats();
     System.out.println("----- Debug Stats -----");
-    debugStats.forEach((s, o) -> System.out.println(s + ": " + o));
+    debugStats.forEach((key, val) -> System.out.println(key + ": " + val));
     System.out.println("----------");
 
     long resultsReturned = executionStats.getResultsReturned();
@@ -78,7 +78,7 @@ public class QueryProfileExplainAnalyzeAggregation {
     PlanSummary planSummary = explainMetrics.getPlanSummary();
     List<Map<String, Object>> indexesUsed = planSummary.getIndexesUsed();
     System.out.println("----- Indexes Used -----");
-    indexesUsed.forEach(map -> map.forEach((s, o) -> System.out.println(s + ": " + o)));
+    indexesUsed.forEach(map -> map.forEach((key, val) -> System.out.println(key + ": " + val)));
 
     System.out.println("----- Aggregation Results -----");
     AggregationResult result = Iterables.getOnlyElement(results);

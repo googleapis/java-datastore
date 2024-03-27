@@ -58,7 +58,7 @@ public class QueryProfileExplainAggregation {
     PlanSummary planSummary = explainMetrics.get().getPlanSummary();
     List<Map<String, Object>> indexesUsed = planSummary.getIndexesUsed();
     System.out.println("----- Indexes Used -----");
-    indexesUsed.forEach(map -> map.forEach((s, o) -> System.out.println(s + ": " + o)));
+    indexesUsed.forEach(map -> map.forEach((key, val) -> System.out.println(key + ": " + val)));
   }
 }
 // [END datastore_query_explain_aggregation]
