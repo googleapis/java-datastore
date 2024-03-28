@@ -135,7 +135,7 @@ public final class Blob implements Serializable {
     return copyFrom(bytes.toByteArray());
   }
 
-  com.google.datastore.v1.Value toPb() {
+  public com.google.datastore.v1.Value toPb() {
     return com.google.datastore.v1.Value.newBuilder().setBlobValue(byteString).build();
   }
 }
