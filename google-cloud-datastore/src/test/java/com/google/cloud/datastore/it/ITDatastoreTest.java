@@ -1837,7 +1837,8 @@ public class ITDatastoreTest {
     }
   }
 
-  private void assertDatastoreException(DatastoreException expected, String reason, int statusCode) {
+  private void assertDatastoreException(
+      DatastoreException expected, String reason, int statusCode) {
     assertEquals(reason, expected.getReason());
     assertEquals(statusCode, expected.getCode());
   }
