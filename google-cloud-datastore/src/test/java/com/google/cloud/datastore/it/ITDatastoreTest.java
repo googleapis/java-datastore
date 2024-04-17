@@ -1566,7 +1566,7 @@ public class ITDatastoreTest {
       datastore.runInTransaction(callable2);
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertDatastoreException(expected, null, 0);
+      assertDatastoreException((DatastoreException) expected.getCause(), "DEADLINE_EXCEEDED", 4);
     }
   }
 
@@ -1620,7 +1620,7 @@ public class ITDatastoreTest {
       datastore.runInTransaction(callable2, readOnlyOptions);
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertDatastoreException(expected, null, 0);
+      assertDatastoreException((DatastoreException) expected.getCause(), "INVALID_ARGUMENT", 3);
     }
   }
 
