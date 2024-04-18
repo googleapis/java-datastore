@@ -132,11 +132,6 @@ public class ITDatastoreConceptsTest {
     datastore.delete(taskKeysToDelete);
   }
 
-  @AfterClass
-  public static void afterClass() throws Exception {
-    datastore.close();
-  }
-
   private void assertValidKey(Key taskKey) {
     datastore.put(Entity.newBuilder(taskKey, TEST_FULL_ENTITY).build());
   }
