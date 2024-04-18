@@ -70,6 +70,7 @@ import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.TimestampValue;
 import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.ValueType;
+import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.datastore.v1.TransactionOptions;
@@ -1449,9 +1450,13 @@ public abstract class AbstractITDatastoreTest {
       datastore.runInTransaction(callable2, readOnlyOptions);
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertEquals(
-          INVALID_ARGUMENT.getHttpStatusCode(),
-          ((DatastoreException) expected.getCause()).getCode());
+      if (datastore.getOptions().getTransportOptions() instanceof GrpcTransportOptions) {
+        assertEquals(
+            INVALID_ARGUMENT.getHttpStatusCode(),
+            ((DatastoreException) expected.getCause()).getCode());
+      } else {
+        assertEquals(3, ((DatastoreException) expected.getCause()).getCode());
+      }
     }
   }
 

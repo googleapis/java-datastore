@@ -18,7 +18,6 @@ package com.google.cloud.datastore.it;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
-import com.google.cloud.http.HttpTransportOptions;
 import java.util.Arrays;
 import org.junit.AfterClass;
 import org.junit.runner.RunWith;
@@ -27,14 +26,14 @@ import org.junit.runners.Parameterized;
 @RunWith(Parameterized.class)
 public class ITDatastoreTestHttp extends AbstractITDatastoreTest {
   // setup for default db, http transport
-  private static final RemoteDatastoreHelper HELPER_DEFAULT_HTTP =
-      RemoteDatastoreHelper.create(HttpTransportOptions.newBuilder().build());
+  private static final RemoteDatastoreHelper HELPER_DEFAULT_HTTP = RemoteDatastoreHelper.create();
+
   private static final DatastoreOptions OPTIONS_DEFAULT_HTTP = HELPER_DEFAULT_HTTP.getOptions();
   private static final Datastore DATASTORE_DEFAULT_HTTP = OPTIONS_DEFAULT_HTTP.getService();
 
   // setup for custom db, http transport
   private static final RemoteDatastoreHelper HELPER_CUSTOM_DB_HTTP =
-      RemoteDatastoreHelper.create(CUSTOM_DB_ID, HttpTransportOptions.newBuilder().build());
+      RemoteDatastoreHelper.create(CUSTOM_DB_ID);
   private static final DatastoreOptions OPTIONS_CUSTOM_DB_HTTP = HELPER_CUSTOM_DB_HTTP.getOptions();
   private static final Datastore DATASTORE_CUSTOM_DB_HTTP = OPTIONS_CUSTOM_DB_HTTP.getService();
 
@@ -55,7 +54,5 @@ public class ITDatastoreTestHttp extends AbstractITDatastoreTest {
   public static void afterClass() throws Exception {
     HELPER_DEFAULT_HTTP.deleteNamespace();
     HELPER_CUSTOM_DB_HTTP.deleteNamespace();
-    DATASTORE_DEFAULT_HTTP.close();
-    DATASTORE_CUSTOM_DB_HTTP.close();
   }
 }

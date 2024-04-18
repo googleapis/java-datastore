@@ -18,6 +18,8 @@ package com.google.cloud.datastore.it;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
+import com.google.cloud.grpc.GrpcTransportOptions;
+import com.google.common.truth.Truth;
 import java.util.Arrays;
 import org.junit.AfterClass;
 import org.junit.runner.RunWith;
@@ -26,13 +28,14 @@ import org.junit.runners.Parameterized;
 @RunWith(Parameterized.class)
 public class ITDatastoreTestGrpc extends AbstractITDatastoreTest {
   // setup for default db, grpc transport
-  protected static final RemoteDatastoreHelper HELPER_DEFAULT_GRPC = RemoteDatastoreHelper.create();
+  protected static final RemoteDatastoreHelper HELPER_DEFAULT_GRPC =
+      RemoteDatastoreHelper.create(GrpcTransportOptions.newBuilder().build());
   private static final DatastoreOptions OPTIONS_DEFAULT_GRPC = HELPER_DEFAULT_GRPC.getOptions();
   private static final Datastore DATASTORE_DEFAULT_GRPC = OPTIONS_DEFAULT_GRPC.getService();
 
   // setup for custom db, grpc transport
   private static final RemoteDatastoreHelper HELPER_CUSTOM_DB_GRPC =
-      RemoteDatastoreHelper.create(CUSTOM_DB_ID);
+      RemoteDatastoreHelper.create(CUSTOM_DB_ID, GrpcTransportOptions.newBuilder().build());
   private static final DatastoreOptions OPTIONS_CUSTOM_DB_GRPC = HELPER_CUSTOM_DB_GRPC.getOptions();
   private static final Datastore DATASTORE_CUSTOM_DB_GRPC = OPTIONS_CUSTOM_DB_GRPC.getService();
 
@@ -55,5 +58,7 @@ public class ITDatastoreTestGrpc extends AbstractITDatastoreTest {
     HELPER_CUSTOM_DB_GRPC.deleteNamespace();
     DATASTORE_DEFAULT_GRPC.close();
     DATASTORE_CUSTOM_DB_GRPC.close();
+    Truth.assertThat(DATASTORE_DEFAULT_GRPC.isClosed()).isTrue();
+    Truth.assertThat(DATASTORE_CUSTOM_DB_GRPC.isClosed()).isTrue();
   }
 }
