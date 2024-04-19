@@ -29,8 +29,10 @@ import com.google.cloud.NoCredentials;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.cloud.datastore.v1.DatastoreSettings;
+import com.google.cloud.datastore.v1.stub.DatastoreStubSettings;
 import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.http.HttpTransportOptions;
+import com.google.datastore.v1.client.DatastoreFactory;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -152,6 +154,43 @@ public class DatastoreOptionsTest {
         .isInstanceOf(NoCredentialsProvider.class);
     assertThat(grpcTransportOptions.getTransportChannelProvider())
         .isInstanceOf(InstantiatingGrpcChannelProvider.class);
+  }
+
+  @Test
+  public void testHostWithGrpcAndHttp() {
+    DatastoreOptions grpcTransportOptions =
+        DatastoreOptions.newBuilder()
+            .setTransportOptions(GrpcTransportOptions.newBuilder().build())
+            .setProjectId(PROJECT_ID)
+            .setCredentialsProvider(NoCredentialsProvider.create())
+            .build();
+    assertThat(grpcTransportOptions.getHost())
+        .isEqualTo(DatastoreStubSettings.getDefaultEndpoint());
+
+    String customHost = "http://localhost:" + PORT;
+    DatastoreOptions grpcTransportOptionsCustomHost =
+        DatastoreOptions.newBuilder()
+            .setTransportOptions(GrpcTransportOptions.newBuilder().build())
+            .setHost(customHost)
+            .setProjectId(PROJECT_ID)
+            .setCredentialsProvider(NoCredentialsProvider.create())
+            .build();
+    assertThat(grpcTransportOptionsCustomHost.getHost()).isEqualTo(customHost);
+
+    DatastoreOptions httpTransportOptions =
+        DatastoreOptions.newBuilder()
+            .setProjectId(PROJECT_ID)
+            .setCredentials(NoCredentials.getInstance())
+            .build();
+    assertThat(httpTransportOptions.getHost()).isEqualTo(DatastoreFactory.DEFAULT_HOST);
+
+    DatastoreOptions httpTransportOptionsCustomHost =
+        DatastoreOptions.newBuilder()
+            .setHost(customHost)
+            .setProjectId(PROJECT_ID)
+            .setCredentials(NoCredentials.getInstance())
+            .build();
+    assertThat(httpTransportOptionsCustomHost.getHost()).isEqualTo(customHost);
   }
 
   @Test

@@ -41,7 +41,6 @@ import com.google.datastore.v1.RunAggregationQueryRequest;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.RunQueryRequest;
 import com.google.datastore.v1.RunQueryResponse;
-import com.google.datastore.v1.client.DatastoreFactory;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
@@ -61,11 +60,6 @@ public class HttpDatastoreRpc implements DatastoreRpc {
             .initializer(getHttpRequestInitializer(options, httpTransportOptions))
             .transport(transport);
     String normalizedHost = options.getHost() != null ? options.getHost().toLowerCase() : "";
-
-    // the default gRPC host was set, reset to the default HTTP host
-    if (normalizedHost.equals("datastore.googleapis.com:443")) {
-      normalizedHost = DatastoreFactory.DEFAULT_HOST;
-    }
 
     if (isLocalHost(normalizedHost)) {
       clientBuilder = clientBuilder.localHost(removeScheme(normalizedHost));

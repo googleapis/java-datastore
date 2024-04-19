@@ -31,6 +31,7 @@ import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.cloud.datastore.spi.v1.GrpcDatastoreRpc;
 import com.google.cloud.datastore.spi.v1.HttpDatastoreRpc;
 import com.google.cloud.datastore.v1.DatastoreSettings;
+import com.google.cloud.datastore.v1.stub.DatastoreStubSettings;
 import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.http.HttpTransportOptions;
 import com.google.common.base.MoreObjects;
@@ -90,6 +91,8 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     private String databaseId;
     private TransportChannelProvider channelProvider = null;
     private CredentialsProvider credentialsProvider = null;
+    private String host;
+    private TransportOptions transportOptions;
 
     private Builder() {}
 
@@ -107,12 +110,20 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
         throw new IllegalArgumentException(
             "Only http transport is allowed for " + API_SHORT_NAME + ".");
       }
+      this.transportOptions = transportOptions;
       return super.setTransportOptions(transportOptions);
     }
 
     @BetaApi
     public Builder setTransportOptions(GrpcTransportOptions transportOptions) {
+      this.transportOptions = transportOptions;
       return super.setTransportOptions(transportOptions);
+    }
+
+    @Override
+    public Builder setHost(String host) {
+      this.host = host;
+      return super.setHost(host);
     }
 
     /**
@@ -141,6 +152,9 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
     @Override
     public DatastoreOptions build() {
+      if (this.host == null && this.transportOptions instanceof GrpcTransportOptions) {
+        this.setHost(DatastoreStubSettings.getDefaultEndpoint());
+      }
       return new DatastoreOptions(this);
     }
 
@@ -199,7 +213,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   @Override
   protected String getDefaultHost() {
     String host = System.getProperty(LOCAL_HOST_ENV_VAR, System.getenv(LOCAL_HOST_ENV_VAR));
-    return host != null ? host : DatastoreSettings.getDefaultEndpoint();
+    return host != null ? host : com.google.datastore.v1.client.DatastoreFactory.DEFAULT_HOST;
   }
 
   @Override
