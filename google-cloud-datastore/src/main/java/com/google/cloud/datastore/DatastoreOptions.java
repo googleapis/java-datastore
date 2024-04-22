@@ -31,7 +31,6 @@ import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.cloud.datastore.spi.v1.GrpcDatastoreRpc;
 import com.google.cloud.datastore.spi.v1.HttpDatastoreRpc;
 import com.google.cloud.datastore.v1.DatastoreSettings;
-import com.google.cloud.datastore.v1.stub.DatastoreStubSettings;
 import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.http.HttpTransportOptions;
 import com.google.common.base.MoreObjects;

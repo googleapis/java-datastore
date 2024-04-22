@@ -29,7 +29,6 @@ import com.google.cloud.NoCredentials;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.cloud.datastore.v1.DatastoreSettings;
-import com.google.cloud.datastore.v1.stub.DatastoreStubSettings;
 import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.http.HttpTransportOptions;
 import com.google.datastore.v1.client.DatastoreFactory;
@@ -164,10 +163,8 @@ public class DatastoreOptionsTest {
             .setProjectId(PROJECT_ID)
             .setCredentialsProvider(NoCredentialsProvider.create())
             .build();
-    assertThat(grpcTransportOptions.getHost())
-        .isEqualTo(DatastoreSettings.getDefaultEndpoint());
-    assertThat(grpcTransportOptions.getHost())
-        .isEqualTo("datastore.googleapis.com:443");
+    assertThat(grpcTransportOptions.getHost()).isEqualTo(DatastoreSettings.getDefaultEndpoint());
+    assertThat(grpcTransportOptions.getHost()).isEqualTo("datastore.googleapis.com:443");
 
     String customHost = "http://localhost:" + PORT;
     DatastoreOptions grpcTransportOptionsCustomHost =
