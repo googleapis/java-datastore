@@ -153,7 +153,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     @Override
     public DatastoreOptions build() {
       if (this.host == null && this.transportOptions instanceof GrpcTransportOptions) {
-        this.setHost(DatastoreStubSettings.getDefaultEndpoint());
+        this.setHost(DatastoreSettings.getDefaultEndpoint());
       }
       return new DatastoreOptions(this);
     }

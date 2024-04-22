@@ -165,7 +165,9 @@ public class DatastoreOptionsTest {
             .setCredentialsProvider(NoCredentialsProvider.create())
             .build();
     assertThat(grpcTransportOptions.getHost())
-        .isEqualTo(DatastoreStubSettings.getDefaultEndpoint());
+        .isEqualTo(DatastoreSettings.getDefaultEndpoint());
+    assertThat(grpcTransportOptions.getHost())
+        .isEqualTo("datastore.googleapis.com:443");
 
     String customHost = "http://localhost:" + PORT;
     DatastoreOptions grpcTransportOptionsCustomHost =
