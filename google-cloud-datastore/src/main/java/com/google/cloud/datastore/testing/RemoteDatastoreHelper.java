@@ -25,6 +25,7 @@ import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery;
+import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.http.HttpTransportOptions;
 import java.util.UUID;
 import org.threeten.bp.Duration;
@@ -75,11 +76,11 @@ public class RemoteDatastoreHelper {
 
   /** Creates a {@code RemoteStorageHelper} object. */
   public static RemoteDatastoreHelper create() {
-    return create("", DatastoreOptions.getDefaultGrpcTransportOptions());
+    return create("", DatastoreOptions.getDefaultHttpTransportOptions());
   }
 
   public static RemoteDatastoreHelper create(String databaseId) {
-    return create(databaseId, DatastoreOptions.getDefaultGrpcTransportOptions());
+    return create(databaseId, DatastoreOptions.getDefaultHttpTransportOptions());
   }
 
   public static RemoteDatastoreHelper create(TransportOptions transportOptions) {
@@ -88,13 +89,17 @@ public class RemoteDatastoreHelper {
 
   /** Creates a {@code RemoteStorageHelper} object. */
   public static RemoteDatastoreHelper create(String databaseId, TransportOptions transportOptions) {
-    DatastoreOptions datastoreOption =
+    DatastoreOptions.Builder builder =
         DatastoreOptions.newBuilder()
             .setDatabaseId(databaseId)
             .setNamespace(UUID.randomUUID().toString())
-            .setRetrySettings(retrySettings())
-            .setTransportOptions(transportOptions)
-            .build();
+            .setRetrySettings(retrySettings());
+    if (transportOptions instanceof GrpcTransportOptions) {
+      builder = builder.setTransportOptions((GrpcTransportOptions) transportOptions);
+    } else {
+      builder = builder.setTransportOptions(transportOptions);
+    }
+    DatastoreOptions datastoreOption = builder.build();
     return new RemoteDatastoreHelper(datastoreOption);
   }
 

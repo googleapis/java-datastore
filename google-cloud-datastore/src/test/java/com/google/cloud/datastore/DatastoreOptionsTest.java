@@ -31,6 +31,7 @@ import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.http.HttpTransportOptions;
+import com.google.datastore.v1.client.DatastoreFactory;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -105,6 +106,7 @@ public class DatastoreOptionsTest {
             .setServiceRpcFactory(datastoreRpcFactory)
             .setProjectId(PROJECT_ID)
             .setDatabaseId(DATABASE_ID)
+            .setTransportOptions(GrpcTransportOptions.newBuilder().build())
             .setChannelProvider(channelProvider)
             .setCredentialsProvider(noCredentialsProvider)
             .setHost("http://localhost:" + PORT)
@@ -136,26 +138,58 @@ public class DatastoreOptionsTest {
 
   @Test
   public void testTransport() {
-    // default grpc transport
-    assertThat(options.build().getTransportOptions()).isInstanceOf(GrpcTransportOptions.class);
-
-    // custom http transport
-    DatastoreOptions httpDatastoreOptions =
-        DatastoreOptions.newBuilder()
-            .setTransportOptions(HttpTransportOptions.newBuilder().build())
-            .setProjectId(PROJECT_ID)
-            .build();
-    assertThat(httpDatastoreOptions.getTransportOptions()).isInstanceOf(HttpTransportOptions.class);
-    assertThat(httpDatastoreOptions.getCredentialsProvider()).isNull();
-    assertThat(httpDatastoreOptions.getTransportChannelProvider()).isNull();
+    // default http transport
+    assertThat(options.build().getTransportOptions()).isInstanceOf(HttpTransportOptions.class);
 
     // custom grpc transport
-    DatastoreOptions grpcDatastoreOptions =
+    DatastoreOptions grpcTransportOptions =
         DatastoreOptions.newBuilder()
             .setTransportOptions(GrpcTransportOptions.newBuilder().build())
             .setProjectId(PROJECT_ID)
+            .setCredentialsProvider(NoCredentialsProvider.create())
             .build();
-    assertThat(grpcDatastoreOptions.getTransportOptions()).isInstanceOf(GrpcTransportOptions.class);
+    assertThat(grpcTransportOptions.getTransportOptions()).isInstanceOf(GrpcTransportOptions.class);
+    assertThat(grpcTransportOptions.getCredentialsProvider())
+        .isInstanceOf(NoCredentialsProvider.class);
+    assertThat(grpcTransportOptions.getTransportChannelProvider())
+        .isInstanceOf(InstantiatingGrpcChannelProvider.class);
+  }
+
+  @Test
+  public void testHostWithGrpcAndHttp() {
+    DatastoreOptions grpcTransportOptions =
+        DatastoreOptions.newBuilder()
+            .setTransportOptions(GrpcTransportOptions.newBuilder().build())
+            .setProjectId(PROJECT_ID)
+            .setCredentialsProvider(NoCredentialsProvider.create())
+            .build();
+    assertThat(grpcTransportOptions.getHost()).isEqualTo(DatastoreSettings.getDefaultEndpoint());
+    assertThat(grpcTransportOptions.getHost()).isEqualTo("datastore.googleapis.com:443");
+
+    String customHost = "http://localhost:" + PORT;
+    DatastoreOptions grpcTransportOptionsCustomHost =
+        DatastoreOptions.newBuilder()
+            .setTransportOptions(GrpcTransportOptions.newBuilder().build())
+            .setHost(customHost)
+            .setProjectId(PROJECT_ID)
+            .setCredentialsProvider(NoCredentialsProvider.create())
+            .build();
+    assertThat(grpcTransportOptionsCustomHost.getHost()).isEqualTo(customHost);
+
+    DatastoreOptions httpTransportOptions =
+        DatastoreOptions.newBuilder()
+            .setProjectId(PROJECT_ID)
+            .setCredentials(NoCredentials.getInstance())
+            .build();
+    assertThat(httpTransportOptions.getHost()).isEqualTo(DatastoreFactory.DEFAULT_HOST);
+
+    DatastoreOptions httpTransportOptionsCustomHost =
+        DatastoreOptions.newBuilder()
+            .setHost(customHost)
+            .setProjectId(PROJECT_ID)
+            .setCredentials(NoCredentials.getInstance())
+            .build();
+    assertThat(httpTransportOptionsCustomHost.getHost()).isEqualTo(customHost);
   }
 
   @Test
@@ -164,6 +198,7 @@ public class DatastoreOptionsTest {
     DatastoreOptions copy = original.toBuilder().build();
     assertEquals(original.getProjectId(), copy.getProjectId());
     assertEquals(original.getNamespace(), copy.getNamespace());
+    assertEquals(original.getDatabaseId(), copy.getDatabaseId());
     assertEquals(original.getHost(), copy.getHost());
     assertEquals(original.getRetrySettings(), copy.getRetrySettings());
     assertEquals(original.getCredentials(), copy.getCredentials());

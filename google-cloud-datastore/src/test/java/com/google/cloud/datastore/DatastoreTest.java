@@ -16,7 +16,6 @@
 
 package com.google.cloud.datastore;
 
-import static com.google.api.gax.rpc.StatusCode.Code.ABORTED;
 import static com.google.cloud.datastore.ProtoTestData.intValue;
 import static com.google.cloud.datastore.TestUtils.matches;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
@@ -31,7 +30,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -252,7 +250,7 @@ public class DatastoreTest {
       transaction.commit();
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertEquals(ABORTED.getHttpStatusCode(), expected.getCode());
+      assertEquals("ABORTED", expected.getReason());
     }
   }
 
@@ -281,7 +279,7 @@ public class DatastoreTest {
       transaction.commit();
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertEquals(ABORTED.getHttpStatusCode(), expected.getCode());
+      assertEquals("ABORTED", expected.getReason());
     }
   }
 
@@ -1381,21 +1379,6 @@ public class DatastoreTest {
 
     IncompleteKey incompleteKey = keyFactory.newKey();
     checkKeyProperties(incompleteKey);
-  }
-
-  @Test
-  public void testDatastoreClose() throws Exception {
-    Datastore datastore = options.toBuilder().build().getService();
-    Entity entity = datastore.get(KEY3);
-    assertNull(entity);
-
-    datastore.close();
-    assertTrue(datastore.isClosed());
-
-    assertThrows(
-        "io.grpc.StatusRuntimeException: UNAVAILABLE: Channel shutdown invoked",
-        DatastoreException.class,
-        () -> datastore.get(KEY3));
   }
 
   private void checkKeyProperties(BaseKey key) {

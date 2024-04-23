@@ -67,7 +67,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -130,11 +129,6 @@ public class ITDatastoreConceptsTest {
     KeyQuery taskQuery = Query.newKeyQueryBuilder().setKind(TASK_CONCEPTS).build();
     Key[] taskKeysToDelete = Iterators.toArray(datastore.run(taskQuery), Key.class);
     datastore.delete(taskKeysToDelete);
-  }
-
-  @AfterClass
-  public static void afterClass() throws Exception {
-    datastore.close();
   }
 
   private void assertValidKey(Key taskKey) {
@@ -575,7 +569,7 @@ public class ITDatastoreConceptsTest {
   }
 
   @Test
-  public void testInequalityInvalid() {
+  public void testInequalityValid() {
     Query<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind(TASK_CONCEPTS)
@@ -583,7 +577,7 @@ public class ITDatastoreConceptsTest {
                 CompositeFilter.and(
                     PropertyFilter.gt("created", startDate), PropertyFilter.gt("priority", 3)))
             .build();
-    assertInvalidQuery(query);
+    assertValidQuery(query);
   }
 
   @Test
