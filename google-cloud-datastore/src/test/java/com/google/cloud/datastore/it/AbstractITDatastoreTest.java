@@ -16,7 +16,11 @@
 
 package com.google.cloud.datastore.it;
 
+import static com.google.api.gax.rpc.StatusCode.Code.ALREADY_EXISTS;
+import static com.google.api.gax.rpc.StatusCode.Code.DEADLINE_EXCEEDED;
+import static com.google.api.gax.rpc.StatusCode.Code.FAILED_PRECONDITION;
 import static com.google.api.gax.rpc.StatusCode.Code.INVALID_ARGUMENT;
+import static com.google.api.gax.rpc.StatusCode.Code.NOT_FOUND;
 import static com.google.cloud.datastore.aggregation.Aggregation.avg;
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.cloud.datastore.aggregation.Aggregation.sum;
@@ -70,7 +74,6 @@ import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.TimestampValue;
 import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.ValueType;
-import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.datastore.v1.TransactionOptions;
@@ -387,14 +390,14 @@ public abstract class AbstractITDatastoreTest {
       transaction.commit();
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertEquals("FAILED_PRECONDITION", expected.getReason());
+      assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
     }
 
     try {
       transaction.rollback();
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertEquals("FAILED_PRECONDITION", expected.getReason());
+      assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
     }
   }
 
@@ -496,7 +499,7 @@ public abstract class AbstractITDatastoreTest {
       transaction.commit();
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertEquals("FAILED_PRECONDITION", expected.getReason());
+      assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
     }
 
     List<Entity> list = datastore.fetch(KEY1, KEY2, KEY3);
@@ -548,7 +551,7 @@ public abstract class AbstractITDatastoreTest {
       batch.submit();
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertEquals("FAILED_PRECONDITION", expected.getReason());
+      assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
     }
 
     batch = datastore.newBatch();
@@ -1260,7 +1263,7 @@ public abstract class AbstractITDatastoreTest {
       entity3.getString("str");
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      // expected - no such property
+      assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
     }
     assertFalse(result.hasNext());
     datastore.delete(ENTITY3.getKey());
@@ -1277,7 +1280,7 @@ public abstract class AbstractITDatastoreTest {
       datastore.add(ENTITY1);
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      // expected;
+      assertDatastoreException(expected, ALREADY_EXISTS.name(), 6);
     }
 
     List<Entity> entities = datastore.add(ENTITY3, PARTIAL_ENTITY1, PARTIAL_ENTITY2);
@@ -1305,7 +1308,7 @@ public abstract class AbstractITDatastoreTest {
       datastore.update(ENTITY3);
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      // expected;
+      assertDatastoreException(expected, NOT_FOUND.name(), 5);
     }
     datastore.add(ENTITY3);
     assertEquals(ENTITY3, datastore.get(ENTITY3.getKey()));
@@ -1314,6 +1317,12 @@ public abstract class AbstractITDatastoreTest {
     datastore.update(entity3);
     assertEquals(entity3, datastore.get(ENTITY3.getKey()));
     datastore.delete(ENTITY3.getKey());
+  }
+
+  private void assertDatastoreException(
+      DatastoreException expected, String reason, int datastoreStatusCode) {
+    assertEquals(reason, expected.getReason());
+    assertEquals(datastoreStatusCode, expected.getCode());
   }
 
   @Test
@@ -1396,7 +1405,8 @@ public abstract class AbstractITDatastoreTest {
       datastore.runInTransaction(callable2);
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      assertEquals(4, ((DatastoreException) expected.getCause()).getCode());
+      assertDatastoreException(
+          (DatastoreException) expected.getCause(), DEADLINE_EXCEEDED.name(), 4);
     }
   }
 
@@ -1450,13 +1460,8 @@ public abstract class AbstractITDatastoreTest {
       datastore.runInTransaction(callable2, readOnlyOptions);
       fail("Expecting a failure");
     } catch (DatastoreException expected) {
-      if (datastore.getOptions().getTransportOptions() instanceof GrpcTransportOptions) {
-        assertEquals(
-            INVALID_ARGUMENT.getHttpStatusCode(),
-            ((DatastoreException) expected.getCause()).getCode());
-      } else {
-        assertEquals(3, ((DatastoreException) expected.getCause()).getCode());
-      }
+      assertDatastoreException(
+          (DatastoreException) expected.getCause(), INVALID_ARGUMENT.name(), 3);
     }
   }
 
