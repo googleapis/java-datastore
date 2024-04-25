@@ -32,8 +32,8 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.Tuple;
@@ -76,6 +76,7 @@ import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.ValueType;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.truth.Truth;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.datastore.v1.TransactionOptions.ReadOnly;
 import java.util.ArrayList;
@@ -386,19 +387,8 @@ public abstract class AbstractITDatastoreTest {
     assertEquals(ENTITY3, list.get(2));
     assertEquals(3, list.size());
 
-    try {
-      transaction.commit();
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
-    }
-
-    try {
-      transaction.rollback();
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
-    }
+    DatastoreException expected = assertThrows(DatastoreException.class, transaction::commit);
+    assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
   }
 
   @Test
@@ -495,12 +485,8 @@ public abstract class AbstractITDatastoreTest {
     transaction.rollback();
     transaction.rollback(); // should be safe to repeat rollback calls
 
-    try {
-      transaction.commit();
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
-    }
+    DatastoreException expected = assertThrows(DatastoreException.class, transaction::commit);
+    assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
 
     List<Entity> list = datastore.fetch(KEY1, KEY2, KEY3);
     assertEquals(ENTITY1, list.get(0));
@@ -547,12 +533,8 @@ public abstract class AbstractITDatastoreTest {
     assertEquals(PARTIAL_ENTITY3.getNames(), datastore.get(generatedKeys.get(0)).getNames());
     assertEquals(PARTIAL_ENTITY3.getKey(), IncompleteKey.newBuilder(generatedKeys.get(0)).build());
 
-    try {
-      batch.submit();
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
-    }
+    DatastoreException expected = assertThrows(DatastoreException.class, batch::submit);
+    assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
 
     batch = datastore.newBatch();
     batch.delete(entity4.getKey(), entity5.getKey(), entity6.getKey());
@@ -1259,12 +1241,11 @@ public abstract class AbstractITDatastoreTest {
     assertEquals(EMPTY_LIST_VALUE, entity3.getValue("emptyList"));
     assertEquals(8, entity3.getNames().size());
     assertFalse(entity3.contains("bla"));
-    try {
-      entity3.getString("str");
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
-    }
+
+    DatastoreException expected =
+        assertThrows(DatastoreException.class, () -> entity3.getString("str"));
+    assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
+
     assertFalse(result.hasNext());
     datastore.delete(ENTITY3.getKey());
   }
@@ -1276,12 +1257,9 @@ public abstract class AbstractITDatastoreTest {
     assertNull(keys.get(1));
     assertEquals(2, keys.size());
 
-    try {
-      datastore.add(ENTITY1);
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      assertDatastoreException(expected, ALREADY_EXISTS.name(), 6);
-    }
+    DatastoreException expected =
+        assertThrows(DatastoreException.class, () -> datastore.add(ENTITY1));
+    assertDatastoreException(expected, ALREADY_EXISTS.name(), 6);
 
     List<Entity> entities = datastore.add(ENTITY3, PARTIAL_ENTITY1, PARTIAL_ENTITY2);
     assertEquals(ENTITY3, datastore.get(ENTITY3.getKey()));
@@ -1304,12 +1282,10 @@ public abstract class AbstractITDatastoreTest {
     assertNull(keys.get(1));
     assertEquals(2, keys.size());
 
-    try {
-      datastore.update(ENTITY3);
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      assertDatastoreException(expected, NOT_FOUND.name(), 5);
-    }
+    DatastoreException expected =
+        assertThrows(DatastoreException.class, () -> datastore.update(ENTITY3));
+    assertDatastoreException(expected, NOT_FOUND.name(), 5);
+
     datastore.add(ENTITY3);
     assertEquals(ENTITY3, datastore.get(ENTITY3.getKey()));
     Entity entity3 = Entity.newBuilder(ENTITY3).clear().set("bla", new NullValue()).build();
@@ -1321,8 +1297,8 @@ public abstract class AbstractITDatastoreTest {
 
   private void assertDatastoreException(
       DatastoreException expected, String reason, int datastoreStatusCode) {
-    assertEquals(reason, expected.getReason());
-    assertEquals(datastoreStatusCode, expected.getCode());
+    Truth.assertThat(expected.getReason()).isEqualTo(reason);
+    Truth.assertThat(expected.getCode()).isEqualTo(datastoreStatusCode);
   }
 
   @Test
@@ -1401,13 +1377,9 @@ public abstract class AbstractITDatastoreTest {
           }
         };
 
-    try {
-      datastore.runInTransaction(callable2);
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      assertDatastoreException(
-          (DatastoreException) expected.getCause(), DEADLINE_EXCEEDED.name(), 4);
-    }
+    DatastoreException expected =
+        assertThrows(DatastoreException.class, () -> datastore.runInTransaction(callable2));
+    assertDatastoreException((DatastoreException) expected.getCause(), DEADLINE_EXCEEDED.name(), 4);
   }
 
   @Test
@@ -1456,13 +1428,10 @@ public abstract class AbstractITDatastoreTest {
             .setReadOnly(TransactionOptions.ReadOnly.getDefaultInstance())
             .build();
 
-    try {
-      datastore.runInTransaction(callable2, readOnlyOptions);
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      assertDatastoreException(
-          (DatastoreException) expected.getCause(), INVALID_ARGUMENT.name(), 3);
-    }
+    DatastoreException expected =
+        assertThrows(
+            DatastoreException.class, () -> datastore.runInTransaction(callable2, readOnlyOptions));
+    assertDatastoreException((DatastoreException) expected.getCause(), INVALID_ARGUMENT.name(), 3);
   }
 
   @Test

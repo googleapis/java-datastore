@@ -110,7 +110,7 @@ public final class DatastoreException extends BaseHttpServiceException {
           GrpcToDatastoreCodeTranslation.grpcCodeToDatastoreStatusCode(gsc.getTransportCode());
     }
 
-    // If there is a gRPC exception in our cause change pull it's error message up to be our
+    // If there is a gRPC exception in our cause, pull its error message up to be our
     // message otherwise, create a generic error message with the status code.
     String statusCodeName = statusCode.getCode().name();
     String statusExceptionMessage = getStatusExceptionMessage(apiEx);
