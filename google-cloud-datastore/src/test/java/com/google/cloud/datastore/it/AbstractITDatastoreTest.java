@@ -34,11 +34,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.Tuple;
 import com.google.cloud.datastore.AggregationQuery;
 import com.google.cloud.datastore.AggregationResult;
+import com.google.cloud.datastore.AggregationResults;
 import com.google.cloud.datastore.Batch;
 import com.google.cloud.datastore.BooleanValue;
 import com.google.cloud.datastore.Cursor;
@@ -74,8 +76,13 @@ import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.TimestampValue;
 import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.ValueType;
+import com.google.cloud.datastore.models.ExecutionStats;
+import com.google.cloud.datastore.models.ExplainMetrics;
+import com.google.cloud.datastore.models.ExplainOptions;
+import com.google.cloud.datastore.models.PlanSummary;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Range;
 import com.google.common.truth.Truth;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.datastore.v1.TransactionOptions.ReadOnly;
@@ -84,6 +91,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -96,7 +104,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.threeten.bp.Duration;
 
+@RunWith(Parameterized.class)
 public abstract class AbstractITDatastoreTest {
   protected static final String CUSTOM_DB_ID = "test-db";
 
@@ -372,6 +384,82 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
+  public void testQueryProfile() {
+    Key key = Key.newBuilder(KEY1, KIND2, 2).build();
+    Entity entity3 =
+        Entity.newBuilder(ENTITY1)
+            .setKey(key)
+            .remove("str")
+            .set("name", "Dan")
+            .setNull("null")
+            .set("age", 19)
+            .build();
+    datastore.put(entity3);
+
+    // age == 19 || age == 20
+    CompositeFilter orFilter =
+        CompositeFilter.or(PropertyFilter.eq("age", 19), PropertyFilter.eq("age", 20));
+    StructuredQuery<Entity> simpleOrQuery =
+        Query.newEntityQueryBuilder()
+            .setNamespace(NAMESPACE)
+            .setKind(KIND2)
+            .setFilter(orFilter)
+            .build();
+    QueryResults<Entity> results =
+        datastore.run(simpleOrQuery, ExplainOptions.newBuilder().setAnalyze(true).build());
+    Truth.assertThat(results.hasNext()).isTrue();
+    Truth.assertThat(results.getExplainMetrics().isPresent()).isTrue();
+    assertPlanSummary(results.getExplainMetrics().get().getPlanSummary());
+    assertExecutionStats(results.getExplainMetrics().get().getExecutionStats().get(), 2, 2, "2");
+
+    QueryResults<Entity> results2 =
+        datastore.run(simpleOrQuery, ExplainOptions.newBuilder().build());
+    Truth.assertThat(results2.hasNext()).isFalse();
+    assertPlanSummary(results2.getExplainMetrics().get().getPlanSummary());
+    Truth.assertThat(results2.getExplainMetrics().get().getExecutionStats().isPresent()).isFalse();
+
+    QueryResults<Entity> results3 = datastore.run(simpleOrQuery);
+    Truth.assertThat(results3.hasNext()).isTrue();
+    Truth.assertThat(results3.getExplainMetrics().isPresent()).isFalse();
+
+    QueryResults<Entity> results4 =
+        datastore.run(simpleOrQuery, ExplainOptions.newBuilder().setAnalyze(false).build());
+    Truth.assertThat(results4.hasNext()).isFalse();
+    assertPlanSummary(results4.getExplainMetrics().get().getPlanSummary());
+    Truth.assertThat(results4.getExplainMetrics().get().getExecutionStats().isPresent()).isFalse();
+
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder().over(simpleOrQuery).addAggregation(count()).build();
+    AggregationResults resultsAggregation =
+        datastore.runAggregation(
+            aggregationQuery, ExplainOptions.newBuilder().setAnalyze(true).build());
+
+    Truth.assertThat(resultsAggregation.size() > 0).isTrue();
+
+    assertPlanSummary(resultsAggregation.getExplainMetrics().get().getPlanSummary());
+    assertExecutionStats(
+        resultsAggregation.getExplainMetrics().get().getExecutionStats().get(), 1, 1, "2");
+
+    AggregationQuery aggregationQuery2 =
+        Query.newAggregationQueryBuilder().over(simpleOrQuery).addAggregation(count()).build();
+    AggregationResults resultsAggregation2 =
+        datastore.runAggregation(aggregationQuery2, ExplainOptions.newBuilder().build());
+
+    Truth.assertThat(resultsAggregation2.size() > 0).isFalse();
+
+    assertPlanSummary(resultsAggregation2.getExplainMetrics().get().getPlanSummary());
+    Truth.assertThat(resultsAggregation2.getExplainMetrics().get().getExecutionStats().isPresent())
+        .isFalse();
+
+    AggregationQuery aggregationQuery3 =
+        Query.newAggregationQueryBuilder().over(simpleOrQuery).addAggregation(count()).build();
+    AggregationResults resultsAggregation3 = datastore.runAggregation(aggregationQuery3);
+
+    Truth.assertThat(resultsAggregation3.size() > 0).isTrue();
+    Truth.assertThat(resultsAggregation3.getExplainMetrics().isPresent()).isFalse();
+  }
+
+  @Test
   public void testNewTransactionCommit() {
     Transaction transaction = datastore.newTransaction();
     transaction.add(ENTITY3);
@@ -389,6 +477,9 @@ public abstract class AbstractITDatastoreTest {
 
     DatastoreException expected = assertThrows(DatastoreException.class, transaction::commit);
     assertDatastoreException(expected, FAILED_PRECONDITION.name(), 0);
+
+    DatastoreException expected2 = assertThrows(DatastoreException.class, transaction::rollback);
+    assertDatastoreException(expected2, FAILED_PRECONDITION.name(), 0);
   }
 
   @Test
@@ -468,6 +559,100 @@ public abstract class AbstractITDatastoreTest {
     boolean onlyOneTransactionIsSuccessful = t1AllPassed ^ t2AllPassed;
 
     assertThat(onlyOneTransactionIsSuccessful).isTrue();
+  }
+
+  @Test
+  public void testTransactionExplainOptionsAnalyze() {
+    StructuredQuery<Entity> query =
+        Query.newEntityQueryBuilder()
+            .setKind(KIND2)
+            .setFilter(PropertyFilter.hasAncestor(KEY2))
+            .setNamespace(NAMESPACE)
+            .build();
+    Transaction baseTransaction = datastore.newTransaction();
+    QueryResults<Entity> baseResults =
+        baseTransaction.run(query, ExplainOptions.newBuilder().setAnalyze(true).build());
+    assertTrue(baseResults.hasNext());
+    assertEquals(ENTITY2, baseResults.next());
+    assertFalse(baseResults.hasNext());
+
+    ExplainMetrics explainMetrics = baseResults.getExplainMetrics().get();
+    assertPlanSummary(explainMetrics.getPlanSummary());
+    assertExecutionStats(explainMetrics.getExecutionStats().get(), 1, 1, "1");
+
+    baseTransaction.add(ENTITY3);
+    baseTransaction.commit();
+    assertEquals(ENTITY3, datastore.get(KEY3));
+
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder().addAggregation(count()).over(query).build();
+
+    Transaction aggregationTransaction = datastore.newTransaction();
+    AggregationResults results =
+        aggregationTransaction.runAggregation(
+            aggregationQuery, ExplainOptions.newBuilder().setAnalyze(true).build());
+    assertTrue(results.size() > 0);
+
+    assertPlanSummary(results.getExplainMetrics().get().getPlanSummary());
+    assertExecutionStats(results.getExplainMetrics().get().getExecutionStats().get(), 1, 1, "1");
+    aggregationTransaction.commit();
+  }
+
+  @Test
+  public void testTransactionExplainOptions() {
+    StructuredQuery<Entity> query =
+        Query.newEntityQueryBuilder()
+            .setKind(KIND2)
+            .setFilter(PropertyFilter.hasAncestor(KEY2))
+            .setNamespace(NAMESPACE)
+            .build();
+    Transaction baseTransaction = datastore.newTransaction();
+    QueryResults<Entity> baseResults =
+        baseTransaction.run(query, ExplainOptions.newBuilder().build());
+    assertFalse(baseResults.hasNext());
+
+    ExplainMetrics explainMetrics = baseResults.getExplainMetrics().get();
+    assertPlanSummary(explainMetrics.getPlanSummary());
+    Truth.assertThat(explainMetrics.getExecutionStats().isPresent()).isFalse();
+
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder().addAggregation(count()).over(query).build();
+
+    Transaction aggregationTransaction = datastore.newTransaction();
+    AggregationResults results =
+        aggregationTransaction.runAggregation(
+            aggregationQuery, ExplainOptions.newBuilder().build());
+    assertFalse(results.size() > 0);
+
+    assertPlanSummary(results.getExplainMetrics().get().getPlanSummary());
+    assertThat(results.getExplainMetrics().get().getExecutionStats().isPresent()).isFalse();
+  }
+
+  private void assertPlanSummary(PlanSummary planSummary) {
+    List<Map<String, Object>> indexesUsed = planSummary.getIndexesUsed();
+    indexesUsed.forEach(
+        each -> Truth.assertThat(each.keySet()).containsAtLeast("properties", "query_scope"));
+  }
+
+  private void assertExecutionStats(
+      ExecutionStats executionStats,
+      long expectedReadOps,
+      long expectedResultsReturned,
+      String expectedIndexEntriesScanned) {
+    Map<String, Object> debugStats = executionStats.getDebugStats();
+    Truth.assertThat(debugStats.keySet())
+        .containsAtLeast("billing_details", "documents_scanned", "index_entries_scanned");
+    Truth.assertThat(debugStats.get("index_entries_scanned"))
+        .isEqualTo(expectedIndexEntriesScanned);
+
+    Duration executionDuration = executionStats.getExecutionDuration();
+    Truth.assertThat(executionDuration).isIn(Range.greaterThan(Duration.ofMillis(0)));
+
+    long readOperations = executionStats.getReadOperations();
+    Truth.assertThat(readOperations).isEqualTo(expectedReadOps);
+
+    long resultsReturned = executionStats.getResultsReturned();
+    Truth.assertThat(resultsReturned).isEqualTo(expectedResultsReturned);
   }
 
   @Test
@@ -787,6 +972,385 @@ public abstract class AbstractITDatastoreTest {
                     .setNamespace(NAMESPACE)
                     .setBinding("limit", limit)
                     .build()));
+  }
+
+  @Test
+  public void testSumAggregation() {
+    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
+
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregations(sum("marks").as("total_marks"))
+            .setNamespace(NAMESPACE)
+            .build();
+
+    // sum of 2 entities
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("total_marks"))
+        .isEqualTo(184L);
+
+    // sum of 3 entities
+    datastore.put(AGGREGATION_ENTITY_3);
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("total_marks"))
+        .isEqualTo(239L);
+  }
+
+  @Test
+  public void testSumAggregationWithAutoGeneratedAlias() {
+    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
+
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregations(sum("marks"))
+            .setNamespace(NAMESPACE)
+            .build();
+
+    // sum of 2 entities
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("property_1"))
+        .isEqualTo(184L);
+
+    // sum of 3 entities
+    datastore.put(AGGREGATION_ENTITY_3);
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("property_1"))
+        .isEqualTo(239L);
+  }
+
+  @Test
+  public void testSumAggregationInGqlQuery() {
+    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
+
+    GqlQuery<?> gqlQuery =
+        GqlQuery.newGqlQueryBuilder(
+                "AGGREGATE SUM(marks) AS total_marks OVER (SELECT * FROM Marks)")
+            .build();
+
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder().over(gqlQuery).setNamespace(NAMESPACE).build();
+
+    // sum of 2 entities
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("total_marks"))
+        .isEqualTo(184L);
+
+    // sum of 3 entities
+    datastore.put(AGGREGATION_ENTITY_3);
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("total_marks"))
+        .isEqualTo(239L);
+  }
+
+  @Test
+  public void testSumAggregationWithResultOfDoubleType() {
+    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
+
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregations(sum("cgpa").as("total_cgpa"))
+            .setNamespace(NAMESPACE)
+            .build();
+
+    // sum of 2 entities
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("total_cgpa"))
+        .isEqualTo(16.61);
+
+    // sum of 3 entities
+    datastore.put(AGGREGATION_ENTITY_3);
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("total_cgpa"))
+        .isEqualTo(21.77);
+  }
+
+  @Test
+  public void testAvgAggregation() {
+    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
+
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregations(avg("marks").as("avg_marks"))
+            .setNamespace(NAMESPACE)
+            .build();
+
+    // avg of 2 entities
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("avg_marks"))
+        .isEqualTo(92D);
+
+    // avg of 3 entities
+    datastore.put(AGGREGATION_ENTITY_3);
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("avg_marks"))
+        .isEqualTo(79.66666666666667);
+  }
+
+  @Test
+  public void testAvgAggregationWithAutoGeneratedAlias() {
+    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
+
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregations(avg("marks"))
+            .setNamespace(NAMESPACE)
+            .build();
+
+    // avg of 2 entities
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("property_1"))
+        .isEqualTo(92D);
+
+    // avg of 3 entities
+    datastore.put(AGGREGATION_ENTITY_3);
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("property_1"))
+        .isEqualTo(79.66666666666667);
+  }
+
+  @Test
+  public void testAvgAggregationInGqlQuery() {
+    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
+
+    GqlQuery<?> gqlQuery =
+        Query.newGqlQueryBuilder("AGGREGATE AVG(marks) AS avg_marks OVER (SELECT * FROM Marks)")
+            .build();
+
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder().over(gqlQuery).setNamespace(NAMESPACE).build();
+
+    // avg of 2 entities
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("avg_marks"))
+        .isEqualTo(92D);
+
+    // avg of 3 entities
+    datastore.put(AGGREGATION_ENTITY_3);
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("avg_marks"))
+        .isEqualTo(79.66666666666667);
+  }
+
+  @Test
+  public void testSumAndAvgAggregationTogether() {
+    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
+
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregations(sum("marks").as("total_marks"))
+            .addAggregations(avg("marks").as("avg_marks"))
+            .setNamespace(NAMESPACE)
+            .build();
+
+    // sum of 2 entities
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("total_marks"))
+        .isEqualTo(184L);
+    // avg of 2 entities
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("avg_marks"))
+        .isEqualTo(92D);
+  }
+
+  @Test
+  public void testTransactionShouldReturnAConsistentSnapshot() {
+    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
+
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregation(count().as("count"))
+            .addAggregations(sum("marks").as("total_marks"))
+            .addAggregations(avg("marks").as("avg_marks"))
+            .setNamespace(NAMESPACE)
+            .build();
+
+    // original entity count is 2
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
+        .isEqualTo(2L);
+
+    // FIRST TRANSACTION
+    datastore.runInTransaction(
+        (TransactionCallable<Void>)
+            inFirstTransaction -> {
+              // creating a new entity
+              inFirstTransaction.put(AGGREGATION_ENTITY_3);
+
+              // aggregation result consistently being produced for original 2 entities
+              AggregationResult aggregationResult =
+                  getOnlyElement(inFirstTransaction.runAggregation(aggregationQuery));
+              assertThat(aggregationResult.getLong("count")).isEqualTo(2L);
+              assertThat(aggregationResult.getLong("total_marks")).isEqualTo(184L);
+              assertThat(aggregationResult.getDouble("avg_marks")).isEqualTo(92D);
+              return null;
+            });
+
+    // after first transaction is committed, we have 3 entities now.
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
+        .isEqualTo(3L);
+
+    // SECOND TRANSACTION
+    datastore.runInTransaction(
+        (TransactionCallable<Void>)
+            inSecondTransaction -> {
+              // deleting ENTITY3
+              inSecondTransaction.delete(AGGREGATION_ENTITY_3.getKey());
+
+              // aggregation result still coming for 3 entities
+              AggregationResult aggregationResult =
+                  getOnlyElement(inSecondTransaction.runAggregation(aggregationQuery));
+              assertThat(aggregationResult.getLong("count")).isEqualTo(3L);
+              assertThat(aggregationResult.getLong("total_marks")).isEqualTo(239L);
+              assertThat(aggregationResult.getDouble("avg_marks")).isEqualTo(79.66666666666667);
+              return null;
+            });
+
+    // after second transaction is committed, we are back to 2 entities now.
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
+        .isEqualTo(2L);
+  }
+
+  @Test
+  public void testReadOnlyTransactionShouldNotLockTheDocuments()
+      throws ExecutionException, InterruptedException {
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
+
+    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
+    AggregationQuery aggregationQuery =
+        Query.newAggregationQueryBuilder()
+            .over(baseQuery)
+            .addAggregation(count().as("count"))
+            .addAggregations(sum("marks").as("total_marks"))
+            .addAggregations(avg("marks").as("avg_marks"))
+            .setNamespace(NAMESPACE)
+            .build();
+
+    TransactionOptions transactionOptions =
+        TransactionOptions.newBuilder().setReadOnly(ReadOnly.newBuilder().build()).build();
+    Transaction readOnlyTransaction = datastore.newTransaction(transactionOptions);
+
+    // Executing query in transaction, results for original 2 entities
+    AggregationResult aggregationResult =
+        getOnlyElement(readOnlyTransaction.runAggregation(aggregationQuery));
+    assertThat(aggregationResult.getLong("count")).isEqualTo(2L);
+    assertThat(aggregationResult.getLong("total_marks")).isEqualTo(184L);
+    assertThat(aggregationResult.getDouble("avg_marks")).isEqualTo(92D);
+
+    // Concurrent write task.
+    Future<Void> addNewEntityTaskOutsideTransaction =
+        executor.submit(
+            () -> {
+              datastore.put(AGGREGATION_ENTITY_3);
+              return null;
+            });
+
+    // should not throw exception and complete successfully as the ongoing transaction is read-only.
+    addNewEntityTaskOutsideTransaction.get();
+
+    // cleanup
+    readOnlyTransaction.commit();
+    executor.shutdownNow();
+
+    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
+        .isEqualTo(3L);
+  }
+
+  private void testCountAggregationWith(Consumer<AggregationQuery.Builder> configurer) {
+    AggregationQuery.Builder builder = Query.newAggregationQueryBuilder().setNamespace(NAMESPACE);
+    configurer.accept(builder);
+    AggregationQuery aggregationQuery = builder.build();
+    String alias = "total_count";
+
+    Long countBeforeAdd = getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong(alias);
+    long expectedCount = countBeforeAdd + 1;
+
+    Entity newEntity =
+        Entity.newBuilder(ENTITY1)
+            .setKey(Key.newBuilder(KEY3, KIND1, 1).build())
+            .set("null", NULL_VALUE)
+            .set("partial1", PARTIAL_ENTITY2)
+            .set("partial2", ENTITY2)
+            .build();
+    datastore.put(newEntity);
+
+    Long countAfterAdd = getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong(alias);
+    assertThat(countAfterAdd).isEqualTo(expectedCount);
+
+    datastore.delete(newEntity.getKey());
+  }
+
+  private void testCountAggregationWithLimit(
+      Consumer<AggregationQuery.Builder> withoutLimitConfigurer,
+      BiConsumer<AggregationQuery.Builder, Long> withLimitConfigurer) {
+    String alias = "total_count";
+
+    AggregationQuery.Builder withoutLimitBuilder =
+        Query.newAggregationQueryBuilder().setNamespace(NAMESPACE);
+    withoutLimitConfigurer.accept(withoutLimitBuilder);
+
+    Long currentCount =
+        getOnlyElement(datastore.runAggregation(withoutLimitBuilder.build())).getLong(alias);
+    long limit = currentCount - 1;
+
+    AggregationQuery.Builder withLimitBuilder =
+        Query.newAggregationQueryBuilder().setNamespace(NAMESPACE);
+    withLimitConfigurer.accept(withLimitBuilder, limit);
+
+    Long countWithLimit =
+        getOnlyElement(datastore.runAggregation(withLimitBuilder.build())).getLong(alias);
+    assertThat(countWithLimit).isEqualTo(limit);
+  }
+
+  private void testCountAggregationReadTimeWith(Consumer<AggregationQuery.Builder> configurer)
+      throws InterruptedException {
+    Entity entity1 =
+        Entity.newBuilder(
+                Key.newBuilder(PROJECT_ID, "new_kind", "name-01")
+                    .setDatabaseId(options.getDatabaseId())
+                    .setNamespace(NAMESPACE)
+                    .build())
+            .set("name", "name01")
+            .build();
+    Entity entity2 =
+        Entity.newBuilder(
+                Key.newBuilder(PROJECT_ID, "new_kind", "name-02")
+                    .setDatabaseId(options.getDatabaseId())
+                    .setNamespace(NAMESPACE)
+                    .build())
+            .set("name", "name02")
+            .build();
+    Entity entity3 =
+        Entity.newBuilder(
+                Key.newBuilder(PROJECT_ID, "new_kind", "name-03")
+                    .setDatabaseId(options.getDatabaseId())
+                    .setNamespace(NAMESPACE)
+                    .build())
+            .set("name", "name03")
+            .build();
+
+    datastore.put(entity1, entity2);
+    Thread.sleep(1000);
+    Timestamp now = Timestamp.now();
+    Thread.sleep(1000);
+    datastore.put(entity3);
+
+    try {
+      AggregationQuery.Builder builder = Query.newAggregationQueryBuilder().setNamespace(NAMESPACE);
+      configurer.accept(builder);
+      AggregationQuery countAggregationQuery = builder.build();
+
+      Long latestCount =
+          getOnlyElement(datastore.runAggregation(countAggregationQuery)).getLong("total_count");
+      assertThat(latestCount).isEqualTo(3L);
+
+      ExplainOptions explainOptions = ExplainOptions.newBuilder().setAnalyze(true).build();
+      AggregationResults results =
+          datastore.runAggregation(countAggregationQuery, explainOptions, ReadOption.readTime(now));
+      Long oldCount = getOnlyElement(results).getLong("total_count");
+      assertThat(oldCount).isEqualTo(2L);
+      assertPlanSummary(results.getExplainMetrics().get().getPlanSummary());
+      assertExecutionStats(results.getExplainMetrics().get().getExecutionStats().get(), 1, 1, "2");
+    } finally {
+      datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
+    }
   }
 
   /**
@@ -1542,382 +2106,6 @@ public abstract class AbstractITDatastoreTest {
       assertTrue(withReadTime.hasNext());
       assertEquals(entity2, withReadTime.next());
       assertFalse(withReadTime.hasNext());
-    } finally {
-      datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
-    }
-  }
-
-  @Test
-  public void testSumAggregation() {
-    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
-
-    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(baseQuery)
-            .addAggregations(sum("marks").as("total_marks"))
-            .setNamespace(NAMESPACE)
-            .build();
-
-    // sum of 2 entities
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("total_marks"))
-        .isEqualTo(184L);
-
-    // sum of 3 entities
-    datastore.put(AGGREGATION_ENTITY_3);
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("total_marks"))
-        .isEqualTo(239L);
-  }
-
-  @Test
-  public void testSumAggregationWithAutoGeneratedAlias() {
-    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
-
-    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(baseQuery)
-            .addAggregations(sum("marks"))
-            .setNamespace(NAMESPACE)
-            .build();
-
-    // sum of 2 entities
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("property_1"))
-        .isEqualTo(184L);
-
-    // sum of 3 entities
-    datastore.put(AGGREGATION_ENTITY_3);
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("property_1"))
-        .isEqualTo(239L);
-  }
-
-  @Test
-  public void testSumAggregationInGqlQuery() {
-    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
-
-    GqlQuery<?> gqlQuery =
-        GqlQuery.newGqlQueryBuilder(
-                "AGGREGATE SUM(marks) AS total_marks OVER (SELECT * FROM Marks)")
-            .build();
-
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder().over(gqlQuery).setNamespace(NAMESPACE).build();
-
-    // sum of 2 entities
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("total_marks"))
-        .isEqualTo(184L);
-
-    // sum of 3 entities
-    datastore.put(AGGREGATION_ENTITY_3);
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("total_marks"))
-        .isEqualTo(239L);
-  }
-
-  @Test
-  public void testSumAggregationWithResultOfDoubleType() {
-    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
-
-    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(baseQuery)
-            .addAggregations(sum("cgpa").as("total_cgpa"))
-            .setNamespace(NAMESPACE)
-            .build();
-
-    // sum of 2 entities
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("total_cgpa"))
-        .isEqualTo(16.61);
-
-    // sum of 3 entities
-    datastore.put(AGGREGATION_ENTITY_3);
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("total_cgpa"))
-        .isEqualTo(21.77);
-  }
-
-  @Test
-  public void testAvgAggregation() {
-    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
-
-    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(baseQuery)
-            .addAggregations(avg("marks").as("avg_marks"))
-            .setNamespace(NAMESPACE)
-            .build();
-
-    // avg of 2 entities
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("avg_marks"))
-        .isEqualTo(92D);
-
-    // avg of 3 entities
-    datastore.put(AGGREGATION_ENTITY_3);
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("avg_marks"))
-        .isEqualTo(79.66666666666667);
-  }
-
-  @Test
-  public void testAvgAggregationWithAutoGeneratedAlias() {
-    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
-
-    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(baseQuery)
-            .addAggregations(avg("marks"))
-            .setNamespace(NAMESPACE)
-            .build();
-
-    // avg of 2 entities
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("property_1"))
-        .isEqualTo(92D);
-
-    // avg of 3 entities
-    datastore.put(AGGREGATION_ENTITY_3);
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("property_1"))
-        .isEqualTo(79.66666666666667);
-  }
-
-  @Test
-  public void testAvgAggregationInGqlQuery() {
-    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
-
-    GqlQuery<?> gqlQuery =
-        Query.newGqlQueryBuilder("AGGREGATE AVG(marks) AS avg_marks OVER (SELECT * FROM Marks)")
-            .build();
-
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder().over(gqlQuery).setNamespace(NAMESPACE).build();
-
-    // avg of 2 entities
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("avg_marks"))
-        .isEqualTo(92D);
-
-    // avg of 3 entities
-    datastore.put(AGGREGATION_ENTITY_3);
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("avg_marks"))
-        .isEqualTo(79.66666666666667);
-  }
-
-  @Test
-  public void testSumAndAvgAggregationTogether() {
-    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
-
-    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(baseQuery)
-            .addAggregations(sum("marks").as("total_marks"))
-            .addAggregations(avg("marks").as("avg_marks"))
-            .setNamespace(NAMESPACE)
-            .build();
-
-    // sum of 2 entities
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("total_marks"))
-        .isEqualTo(184L);
-    // avg of 2 entities
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getDouble("avg_marks"))
-        .isEqualTo(92D);
-  }
-
-  @Test
-  public void testTransactionShouldReturnAConsistentSnapshot() {
-    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
-
-    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(baseQuery)
-            .addAggregation(count().as("count"))
-            .addAggregations(sum("marks").as("total_marks"))
-            .addAggregations(avg("marks").as("avg_marks"))
-            .setNamespace(NAMESPACE)
-            .build();
-
-    // original entity count is 2
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
-        .isEqualTo(2L);
-
-    // FIRST TRANSACTION
-    datastore.runInTransaction(
-        (TransactionCallable<Void>)
-            inFirstTransaction -> {
-              // creating a new entity
-              inFirstTransaction.put(AGGREGATION_ENTITY_3);
-
-              // aggregation result consistently being produced for original 2 entities
-              AggregationResult aggregationResult =
-                  getOnlyElement(inFirstTransaction.runAggregation(aggregationQuery));
-              assertThat(aggregationResult.getLong("count")).isEqualTo(2L);
-              assertThat(aggregationResult.getLong("total_marks")).isEqualTo(184L);
-              assertThat(aggregationResult.getDouble("avg_marks")).isEqualTo(92D);
-              return null;
-            });
-
-    // after first transaction is committed, we have 3 entities now.
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
-        .isEqualTo(3L);
-
-    // SECOND TRANSACTION
-    datastore.runInTransaction(
-        (TransactionCallable<Void>)
-            inSecondTransaction -> {
-              // deleting ENTITY3
-              inSecondTransaction.delete(AGGREGATION_ENTITY_3.getKey());
-
-              // aggregation result still coming for 3 entities
-              AggregationResult aggregationResult =
-                  getOnlyElement(inSecondTransaction.runAggregation(aggregationQuery));
-              assertThat(aggregationResult.getLong("count")).isEqualTo(3L);
-              assertThat(aggregationResult.getLong("total_marks")).isEqualTo(239L);
-              assertThat(aggregationResult.getDouble("avg_marks")).isEqualTo(79.66666666666667);
-              return null;
-            });
-
-    // after second transaction is committed, we are back to 2 entities now.
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
-        .isEqualTo(2L);
-  }
-
-  @Test
-  public void testReadOnlyTransactionShouldNotLockTheDocuments()
-      throws ExecutionException, InterruptedException {
-    ExecutorService executor = Executors.newSingleThreadExecutor();
-    datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
-
-    EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
-    AggregationQuery aggregationQuery =
-        Query.newAggregationQueryBuilder()
-            .over(baseQuery)
-            .addAggregation(count().as("count"))
-            .addAggregations(sum("marks").as("total_marks"))
-            .addAggregations(avg("marks").as("avg_marks"))
-            .setNamespace(NAMESPACE)
-            .build();
-
-    TransactionOptions transactionOptions =
-        TransactionOptions.newBuilder().setReadOnly(ReadOnly.newBuilder().build()).build();
-    Transaction readOnlyTransaction = datastore.newTransaction(transactionOptions);
-
-    // Executing query in transaction, results for original 2 entities
-    AggregationResult aggregationResult =
-        getOnlyElement(readOnlyTransaction.runAggregation(aggregationQuery));
-    assertThat(aggregationResult.getLong("count")).isEqualTo(2L);
-    assertThat(aggregationResult.getLong("total_marks")).isEqualTo(184L);
-    assertThat(aggregationResult.getDouble("avg_marks")).isEqualTo(92D);
-
-    // Concurrent write task.
-    Future<Void> addNewEntityTaskOutsideTransaction =
-        executor.submit(
-            () -> {
-              datastore.put(AGGREGATION_ENTITY_3);
-              return null;
-            });
-
-    // should not throw exception and complete successfully as the ongoing transaction is read-only.
-    addNewEntityTaskOutsideTransaction.get();
-
-    // cleanup
-    readOnlyTransaction.commit();
-    executor.shutdownNow();
-
-    assertThat(getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong("count"))
-        .isEqualTo(3L);
-  }
-
-  private void testCountAggregationWith(Consumer<AggregationQuery.Builder> configurer) {
-    AggregationQuery.Builder builder = Query.newAggregationQueryBuilder().setNamespace(NAMESPACE);
-    configurer.accept(builder);
-    AggregationQuery aggregationQuery = builder.build();
-    String alias = "total_count";
-
-    Long countBeforeAdd = getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong(alias);
-    long expectedCount = countBeforeAdd + 1;
-
-    Entity newEntity =
-        Entity.newBuilder(ENTITY1)
-            .setKey(Key.newBuilder(KEY3, KIND1, 1).build())
-            .set("null", NULL_VALUE)
-            .set("partial1", PARTIAL_ENTITY2)
-            .set("partial2", ENTITY2)
-            .build();
-    datastore.put(newEntity);
-
-    Long countAfterAdd = getOnlyElement(datastore.runAggregation(aggregationQuery)).getLong(alias);
-    assertThat(countAfterAdd).isEqualTo(expectedCount);
-
-    datastore.delete(newEntity.getKey());
-  }
-
-  private void testCountAggregationWithLimit(
-      Consumer<AggregationQuery.Builder> withoutLimitConfigurer,
-      BiConsumer<AggregationQuery.Builder, Long> withLimitConfigurer) {
-    String alias = "total_count";
-
-    AggregationQuery.Builder withoutLimitBuilder =
-        Query.newAggregationQueryBuilder().setNamespace(NAMESPACE);
-    withoutLimitConfigurer.accept(withoutLimitBuilder);
-
-    Long currentCount =
-        getOnlyElement(datastore.runAggregation(withoutLimitBuilder.build())).getLong(alias);
-    long limit = currentCount - 1;
-
-    AggregationQuery.Builder withLimitBuilder =
-        Query.newAggregationQueryBuilder().setNamespace(NAMESPACE);
-    withLimitConfigurer.accept(withLimitBuilder, limit);
-
-    Long countWithLimit =
-        getOnlyElement(datastore.runAggregation(withLimitBuilder.build())).getLong(alias);
-    assertThat(countWithLimit).isEqualTo(limit);
-  }
-
-  private void testCountAggregationReadTimeWith(Consumer<AggregationQuery.Builder> configurer)
-      throws InterruptedException {
-    Entity entity1 =
-        Entity.newBuilder(
-                Key.newBuilder(PROJECT_ID, "new_kind", "name-01")
-                    .setDatabaseId(options.getDatabaseId())
-                    .setNamespace(NAMESPACE)
-                    .build())
-            .set("name", "Tyrion Lannister")
-            .build();
-    Entity entity2 =
-        Entity.newBuilder(
-                Key.newBuilder(PROJECT_ID, "new_kind", "name-02")
-                    .setDatabaseId(options.getDatabaseId())
-                    .setNamespace(NAMESPACE)
-                    .build())
-            .set("name", "Jaime Lannister")
-            .build();
-    Entity entity3 =
-        Entity.newBuilder(
-                Key.newBuilder(PROJECT_ID, "new_kind", "name-03")
-                    .setDatabaseId(options.getDatabaseId())
-                    .setNamespace(NAMESPACE)
-                    .build())
-            .set("name", "Cersei Lannister")
-            .build();
-
-    datastore.put(entity1, entity2);
-    Thread.sleep(1000);
-    Timestamp now = Timestamp.now();
-    Thread.sleep(1000);
-    datastore.put(entity3);
-
-    try {
-      AggregationQuery.Builder builder = Query.newAggregationQueryBuilder().setNamespace(NAMESPACE);
-      configurer.accept(builder);
-      AggregationQuery countAggregationQuery = builder.build();
-
-      Long latestCount =
-          getOnlyElement(datastore.runAggregation(countAggregationQuery)).getLong("total_count");
-      assertThat(latestCount).isEqualTo(3L);
-
-      Long oldCount =
-          getOnlyElement(datastore.runAggregation(countAggregationQuery, ReadOption.readTime(now)))
-              .getLong("total_count");
-      assertThat(oldCount).isEqualTo(2L);
     } finally {
       datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
     }

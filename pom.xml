@@ -13,8 +13,8 @@
 
   <parent>
     <groupId>com.google.cloud</groupId>
-    <artifactId>google-cloud-shared-config</artifactId>
-    <version>1.7.7</version>
+    <artifactId>sdk-platform-java-config</artifactId>
+    <version>3.29.0</version>
   </parent>
 
   <developers>
@@ -143,7 +143,7 @@
     <github.global.server>github</github.global.server>
     <site.installationModule>google-cloud-datastore-parent</site.installationModule>
     <project.javadoc.protobufBaseURL>https://googleapis.dev/java/google-api-grpc/latest</project.javadoc.protobufBaseURL>
-    <error-prone.version>2.26.1</error-prone.version>
+    <error-prone.version>2.27.0</error-prone.version>
   </properties>
 
   <dependencyManagement>
@@ -151,7 +151,7 @@
       <dependency>
         <groupId>com.google.cloud</groupId>
         <artifactId>google-cloud-shared-dependencies</artifactId>
-        <version>3.29.0</version>
+        <version>${google-cloud-shared-dependencies.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>

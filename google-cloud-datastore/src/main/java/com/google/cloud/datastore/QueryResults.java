@@ -16,9 +16,12 @@
 
 package com.google.cloud.datastore;
 
+import com.google.api.core.BetaApi;
 import com.google.api.core.InternalExtensionOnly;
+import com.google.cloud.datastore.models.ExplainMetrics;
 import com.google.datastore.v1.QueryResultBatch;
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * The result of a Google Cloud Datastore query submission. When the result is not typed it is
@@ -72,4 +75,9 @@ public interface QueryResults<V> extends Iterator<V> {
 
   /** Returns MoreResults state of the query after the current batch. */
   QueryResultBatch.MoreResultsType getMoreResults();
+
+  @BetaApi
+  default Optional<ExplainMetrics> getExplainMetrics() {
+    throw new UnsupportedOperationException("Not implemented.");
+  }
 }

@@ -1,5 +1,114 @@
 # Changelog
 
+## [2.19.1](https://github.com/googleapis/java-datastore/compare/v2.19.0...v2.19.1) (2024-04-19)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.29.0 ([#1403](https://github.com/googleapis/java-datastore/issues/1403)) ([d23dc4c](https://github.com/googleapis/java-datastore/commit/d23dc4c26a95f2c323ade4db9a88d5435a173be8))
+
+## [2.19.0](https://github.com/googleapis/java-datastore/compare/v2.18.6...v2.19.0) (2024-03-25)
+
+
+### Features
+
+* Implement query profile ([#1365](https://github.com/googleapis/java-datastore/issues/1365)) ([2515ed6](https://github.com/googleapis/java-datastore/commit/2515ed6cf733df84069309a3055a21cdd65c9c90))
+
+## [2.18.6](https://github.com/googleapis/java-datastore/compare/v2.18.5...v2.18.6) (2024-03-18)
+
+
+### Bug Fixes
+
+* **deps:** Update the Java code generator (gapic-generator-java) to 2.37.0 ([#1355](https://github.com/googleapis/java-datastore/issues/1355)) ([bcc5668](https://github.com/googleapis/java-datastore/commit/bcc5668039d4dd2055e9666a65fcda3984fc33b5))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.28.0 ([#1372](https://github.com/googleapis/java-datastore/issues/1372)) ([09db2a7](https://github.com/googleapis/java-datastore/commit/09db2a75fa714a909bc6fa9b43a9213ae6467c84))
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.28.1 ([#1373](https://github.com/googleapis/java-datastore/issues/1373)) ([c6e63e5](https://github.com/googleapis/java-datastore/commit/c6e63e5f876fdda953935d09f0536a90a98a812c))
+* Update dependency com.google.errorprone:error_prone_core to v2.26.0 ([#1361](https://github.com/googleapis/java-datastore/issues/1361)) ([9442766](https://github.com/googleapis/java-datastore/commit/9442766ad61b0c1001d36ecfc0668308838b4a83))
+* Update dependency com.google.errorprone:error_prone_core to v2.26.1 ([#1363](https://github.com/googleapis/java-datastore/issues/1363)) ([05fe5bc](https://github.com/googleapis/java-datastore/commit/05fe5bccf97dae92c00f2eead98424771cb321fd))
+* Update dependency com.google.guava:guava-testlib to v33.1.0-jre ([#1368](https://github.com/googleapis/java-datastore/issues/1368)) ([0195345](https://github.com/googleapis/java-datastore/commit/0195345630f404bbcaf1601ded8a8e2011fc3e6e))
+
+## [2.18.5](https://github.com/googleapis/java-datastore/compare/v2.18.4...v2.18.5) (2024-03-04)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.27.0 ([#1352](https://github.com/googleapis/java-datastore/issues/1352)) ([124d7ca](https://github.com/googleapis/java-datastore/commit/124d7cab46e2fa1ba654369887fb10ffb3f8eaef))
+* Update dependency com.google.errorprone:error_prone_core to v2.25.0 ([#1339](https://github.com/googleapis/java-datastore/issues/1339)) ([0c6702e](https://github.com/googleapis/java-datastore/commit/0c6702e27917b976c76a0d44d3f5d550418310be))
+
+## [2.18.4](https://github.com/googleapis/java-datastore/compare/v2.18.3...v2.18.4) (2024-02-14)
+
+
+### Dependencies
+
+* **autogen:** Set packed = false on field_behavior extension ([#1320](https://github.com/googleapis/java-datastore/issues/1320)) ([9cfa1c3](https://github.com/googleapis/java-datastore/commit/9cfa1c37a8a86fcb09ec896dc9219e4416ff2fef))
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.25.0 ([#1333](https://github.com/googleapis/java-datastore/issues/1333)) ([0e64a7d](https://github.com/googleapis/java-datastore/commit/0e64a7da73a3b6d40d5952bf09372d631a7d247b))
+
+## [2.18.3](https://github.com/googleapis/java-datastore/compare/v2.18.2...v2.18.3) (2024-02-01)
+
+
+### Bug Fixes
+
+* Remove QueryMode field from RunAggregationQueryRequest ([c1e7c62](https://github.com/googleapis/java-datastore/commit/c1e7c6201e0e35469df1492a4ce61bf6a095f8be))
+* Remove QueryMode field from RunQueryRequest ([c1e7c62](https://github.com/googleapis/java-datastore/commit/c1e7c6201e0e35469df1492a4ce61bf6a095f8be))
+* Remove ResultSetStats field from RunAggregationQueryResponse ([c1e7c62](https://github.com/googleapis/java-datastore/commit/c1e7c6201e0e35469df1492a4ce61bf6a095f8be))
+* Remove ResultSetStats field from RunQueryResponse ([c1e7c62](https://github.com/googleapis/java-datastore/commit/c1e7c6201e0e35469df1492a4ce61bf6a095f8be))
+* Remove types QueryMode, QueryPlan, ResultSetStats ([#1304](https://github.com/googleapis/java-datastore/issues/1304)) ([c1e7c62](https://github.com/googleapis/java-datastore/commit/c1e7c6201e0e35469df1492a4ce61bf6a095f8be))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.24.0 ([#1310](https://github.com/googleapis/java-datastore/issues/1310)) ([26e5f98](https://github.com/googleapis/java-datastore/commit/26e5f9873c4df1815406020a6c22e4a20638f959))
+* Update protobuf to 25.2 in WORKSPACE ([#1311](https://github.com/googleapis/java-datastore/issues/1311)) ([3f4ae83](https://github.com/googleapis/java-datastore/commit/3f4ae83b20f160eaccd9de17582d54d8222dd015))
+
+## [2.18.2](https://github.com/googleapis/java-datastore/compare/v2.18.1...v2.18.2) (2024-01-25)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.23.0 ([#1301](https://github.com/googleapis/java-datastore/issues/1301)) ([ac947a5](https://github.com/googleapis/java-datastore/commit/ac947a545235fa41f0ffb52c4e3a0ffc498991e1))
+
+## [2.18.1](https://github.com/googleapis/java-datastore/compare/v2.18.0...v2.18.1) (2024-01-22)
+
+
+### Bug Fixes
+
+* **deps:** Update the Java code generator (gapic-generator-java) to 2.31.0 ([#1278](https://github.com/googleapis/java-datastore/issues/1278)) ([01cced6](https://github.com/googleapis/java-datastore/commit/01cced66613bc10ba71cc80166119e321915ec34))
+* **deps:** Update the Java code generator (gapic-generator-java) to 2.32.0 ([#1293](https://github.com/googleapis/java-datastore/issues/1293)) ([f4ee0cb](https://github.com/googleapis/java-datastore/commit/f4ee0cb4668077f9fb6b0ede1ea69b9033748fe9))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.22.0 ([#1291](https://github.com/googleapis/java-datastore/issues/1291)) ([5a5c78e](https://github.com/googleapis/java-datastore/commit/5a5c78e01a765d3ebce547b54d7d6d16c0894fb2))
+
+## [2.18.0](https://github.com/googleapis/java-datastore/compare/v2.17.6...v2.18.0) (2024-01-08)
+
+
+### Features
+
+* Remove `@BetaApi` annotations from get/setDatabaseId methods ([#1272](https://github.com/googleapis/java-datastore/issues/1272)) ([2bd9a51](https://github.com/googleapis/java-datastore/commit/2bd9a51122248ee242bbcd4914e219d9d5e435bb))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.21.0 ([#1280](https://github.com/googleapis/java-datastore/issues/1280)) ([ac253dc](https://github.com/googleapis/java-datastore/commit/ac253dca1add844124ca03039a996196e09a1759))
+* Update dependency com.google.errorprone:error_prone_core to v2.24.1 ([#1274](https://github.com/googleapis/java-datastore/issues/1274)) ([86cd785](https://github.com/googleapis/java-datastore/commit/86cd7856463c5039601afc10fecc1b28727d4906))
+
+## [2.17.6](https://github.com/googleapis/java-datastore/compare/v2.17.5...v2.17.6) (2023-11-30)
+
+
+### Bug Fixes
+
+* Remove deprecated `databaseId` field in DatastoreOptions ([#1237](https://github.com/googleapis/java-datastore/issues/1237)) ([05e25e5](https://github.com/googleapis/java-datastore/commit/05e25e5d31f72f9cdedbb5efa85c64b55ccbc405))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.20.0 ([#1247](https://github.com/googleapis/java-datastore/issues/1247)) ([c4e3533](https://github.com/googleapis/java-datastore/commit/c4e3533fe357827cc25d0f029e5a83ced31db12a))
+* Update dependency org.junit.vintage:junit-vintage-engine to v5.10.1 ([#1230](https://github.com/googleapis/java-datastore/issues/1230)) ([05c7fc6](https://github.com/googleapis/java-datastore/commit/05c7fc69d52f5a9026a6529f638fe6164860e8f9))
+
 ## [2.17.5](https://github.com/googleapis/java-datastore/compare/v2.17.4...v2.17.5) (2023-11-02)
 
 

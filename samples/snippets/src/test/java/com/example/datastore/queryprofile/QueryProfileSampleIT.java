@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.example.datastore;
+package com.example.datastore.queryprofile;
 
-import com.example.datastore.filters.OrFilterQuery;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
@@ -31,7 +30,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
-public class OrFilterQuerySampleIT {
+public class QueryProfileSampleIT {
 
   private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
   private final String fieldName = "description";
@@ -60,11 +59,46 @@ public class OrFilterQuerySampleIT {
   }
 
   @Test
-  public void testOrFilterQuery() throws Exception {
+  public void testQueryProfileExplain() throws Exception {
     // Act
-    OrFilterQuery.invoke();
+    QueryProfileExplain.invoke();
 
     // Assert
-    systemsOutRule.assertContains("Entity");
+    systemsOutRule.assertContains("query_scope: Collection group");
+    systemsOutRule.assertContains("properties: (__name__ ASC)");
+  }
+
+  @Test
+  public void testQueryProfileExplainAggregation() throws Exception {
+    // Act
+    QueryProfileExplainAggregation.invoke();
+
+    // Assert
+    systemsOutRule.assertContains("query_scope: Collection group");
+    systemsOutRule.assertContains("properties: (__name__ ASC)");
+  }
+
+  @Test
+  public void testQueryProfileExplainAnalyze() throws Exception {
+    // Act
+    QueryProfileExplainAnalyze.invoke();
+
+    // Assert
+    systemsOutRule.assertContains("documents_scanned:");
+    systemsOutRule.assertContains("index_entries_scanned:");
+    systemsOutRule.assertContains("query_scope: Collection group");
+    systemsOutRule.assertContains("Entity: Entity{key=");
+  }
+
+  @Test
+  public void testQueryProfileExplainAnalyzeAggregation() throws Exception {
+    // Act
+    QueryProfileExplainAnalyzeAggregation.invoke();
+
+    // Assert
+    systemsOutRule.assertContains("index_entries_scanned:");
+    systemsOutRule.assertContains("documents_scanned:");
+    systemsOutRule.assertContains("query_scope: Collection group");
+    systemsOutRule.assertContains("Count: 2");
   }
 }

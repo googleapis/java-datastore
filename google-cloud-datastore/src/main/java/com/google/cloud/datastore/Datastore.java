@@ -16,8 +16,10 @@
 
 package com.google.cloud.datastore;
 
+import com.google.api.core.BetaApi;
 import com.google.api.core.InternalExtensionOnly;
 import com.google.cloud.Service;
+import com.google.cloud.datastore.models.ExplainOptions;
 import com.google.datastore.v1.TransactionOptions;
 import java.util.Iterator;
 import java.util.List;
@@ -465,6 +467,26 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
   <T> QueryResults<T> run(Query<T> query, ReadOption... options);
 
   /**
+   * Submits a {@link Query} with specified {@link com.google.cloud.datastore.models.ExplainOptions}
+   * and returns its result. {@link ReadOption}s can be specified if desired.
+   *
+   * <p>Example of running a query to find all entities of one kind.
+   *
+   * <pre>{@code
+   * String kind = "my_kind";
+   * StructuredQuery<Entity> query = Query.newEntityQueryBuilder()
+   *     .setKind(kind)
+   *     .build();
+   * QueryResults<Entity> results = datastore.run(query, ExplainOptions.newBuilder().setAnalyze(true).build());
+   * }</pre>
+   *
+   * @throws DatastoreException upon failure
+   */
+  @BetaApi
+  <T> QueryResults<T> run(
+      Query<T> query, ExplainOptions explainOptions, ReadOption... options);
+
+  /**
    * Submits a {@link AggregationQuery} and returns {@link AggregationResults}. {@link ReadOption}s
    * can be specified if desired.
    *
@@ -508,6 +530,33 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
    * @return {@link AggregationResults}
    */
   AggregationResults runAggregation(AggregationQuery query, ReadOption... options);
+
+  /**
+   * Submits a {@link AggregationQuery} with specified {@link
+   * com.google.cloud.datastore.models.ExplainOptions} and returns {@link AggregationResults}.
+   * {@link ReadOption}s can be specified if desired.
+   *
+   * <p>Example of running an {@link AggregationQuery} to find the count of entities of one kind.
+   *
+   * <p>{@link StructuredQuery} example:
+   *
+   * <pre>{@code
+   * EntityQuery selectAllQuery = Query.newEntityQueryBuilder()
+   *    .setKind("Task")
+   *    .build();
+   * AggregationQuery aggregationQuery = Query.newAggregationQueryBuilder()
+   *    .addAggregation(count().as("total_count"))
+   *    .over(selectAllQuery)
+   *    .build();
+   * AggregationResults aggregationResults = datastore.runAggregation(aggregationQuery, ExplainOptions.newBuilder().setAnalyze(true).build());
+   * }</pre>
+   *
+   * @throws DatastoreException upon failure
+   * @return {@link AggregationResults}
+   */
+  @BetaApi
+  AggregationResults runAggregation(
+      AggregationQuery query, ExplainOptions explainOptions, ReadOption... options);
 
   /**
    * Closes the gRPC channels associated with this instance and frees up their resources. This

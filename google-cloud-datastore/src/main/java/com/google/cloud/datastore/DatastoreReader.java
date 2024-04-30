@@ -16,7 +16,9 @@
 
 package com.google.cloud.datastore;
 
+import com.google.api.core.BetaApi;
 import com.google.api.core.InternalExtensionOnly;
+import com.google.cloud.datastore.models.ExplainOptions;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,4 +64,13 @@ public interface DatastoreReader {
    * @throws DatastoreException upon failure
    */
   AggregationResults runAggregation(AggregationQuery query);
+
+  /**
+   * Submits a {@link AggregationQuery} with a specified {@link
+   * com.google.cloud.datastore.models.ExplainOptions} and returns {@link AggregationResults}.
+   *
+   * @throws DatastoreException upon failure
+   */
+  @BetaApi
+  AggregationResults runAggregation(AggregationQuery query, ExplainOptions explainOptions);
 }
