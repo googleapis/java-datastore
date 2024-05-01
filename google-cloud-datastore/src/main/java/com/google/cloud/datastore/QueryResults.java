@@ -77,7 +77,5 @@ public interface QueryResults<V> extends Iterator<V> {
   QueryResultBatch.MoreResultsType getMoreResults();
 
   @BetaApi
-  default Optional<ExplainMetrics> getExplainMetrics() {
-    throw new UnsupportedOperationException("Not implemented.");
-  }
+  Optional<ExplainMetrics> getExplainMetrics();
 }

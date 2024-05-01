@@ -45,5 +45,45 @@
         <method>boolean isClosed()</method>
         <differenceType>7012</differenceType>
     </difference>
+    <difference>
+        <className>com/google/cloud/datastore/Datastore</className>
+        <method>com.google.cloud.datastore.QueryResults run(com.google.cloud.datastore.Query, com.google.cloud.datastore.models.ExplainOptions, com.google.cloud.datastore.ReadOption[])</method>
+        <differenceType>7012</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/Datastore</className>
+        <method>com.google.cloud.datastore.AggregationResults runAggregation(com.google.cloud.datastore.AggregationQuery, com.google.cloud.datastore.models.ExplainOptions, com.google.cloud.datastore.ReadOption[])</method>
+        <differenceType>7012</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/DatastoreReader</className>
+        <method>com.google.cloud.datastore.AggregationResults runAggregation(com.google.cloud.datastore.AggregationQuery, com.google.cloud.datastore.models.ExplainOptions)</method>
+        <differenceType>7012</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/QueryResults</className>
+        <method>java.util.Optional getExplainMetrics()</method>
+        <differenceType>7012</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/Transaction</className>
+        <method>com.google.cloud.datastore.QueryResults run(com.google.cloud.datastore.Query, com.google.cloud.datastore.models.ExplainOptions)</method>
+        <differenceType>7012</differenceType>
+    </difference>
 
+    <difference>
+        <className>com/google/cloud/datastore/execution/AggregationQueryExecutor</className>
+        <method>com.google.cloud.datastore.AggregationResults execute(com.google.cloud.datastore.AggregationQuery, com.google.cloud.datastore.ReadOption[])</method>
+        <differenceType>7004</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/execution/AggregationQueryExecutor</className>
+        <method>java.lang.Object execute(com.google.cloud.datastore.Query, com.google.cloud.datastore.ReadOption[])</method>
+        <differenceType>7004</differenceType>
+    </difference>
+    <difference>
+        <className>com/google/cloud/datastore/execution/QueryExecutor</className>
+        <method>java.lang.Object execute(com.google.cloud.datastore.Query, com.google.cloud.datastore.ReadOption[])</method>
+        <differenceType>7004</differenceType>
+    </difference>
 </differences>
