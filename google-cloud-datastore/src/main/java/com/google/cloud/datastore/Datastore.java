@@ -483,8 +483,7 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
    * @throws DatastoreException upon failure
    */
   @BetaApi
-  <T> QueryResults<T> run(
-      Query<T> query, ExplainOptions explainOptions, ReadOption... options);
+  <T> QueryResults<T> run(Query<T> query, ExplainOptions explainOptions, ReadOption... options);
 
   /**
    * Submits a {@link AggregationQuery} and returns {@link AggregationResults}. {@link ReadOption}s
