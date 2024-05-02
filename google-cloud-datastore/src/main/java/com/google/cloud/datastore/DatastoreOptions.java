@@ -18,16 +18,24 @@ package com.google.cloud.datastore;
 
 import static com.google.cloud.datastore.Validator.validateNamespace;
 
+import com.google.api.core.BetaApi;
+import com.google.api.gax.core.CredentialsProvider;
+import com.google.api.gax.grpc.InstantiatingGrpcChannelProvider;
+import com.google.api.gax.rpc.TransportChannelProvider;
 import com.google.cloud.ServiceDefaults;
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.ServiceRpc;
 import com.google.cloud.TransportOptions;
 import com.google.cloud.datastore.spi.DatastoreRpcFactory;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
+import com.google.cloud.datastore.spi.v1.GrpcDatastoreRpc;
 import com.google.cloud.datastore.spi.v1.HttpDatastoreRpc;
+import com.google.cloud.datastore.v1.DatastoreSettings;
+import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.http.HttpTransportOptions;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.Set;
@@ -39,6 +47,11 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   private static final String DATASTORE_SCOPE = "https://www.googleapis.com/auth/datastore";
   private static final Set<String> SCOPES = ImmutableSet.of(DATASTORE_SCOPE);
   private static final String DEFAULT_DATABASE_ID = "";
+  public static final String PROJECT_ID_ENV_VAR = "DATASTORE_PROJECT_ID";
+  public static final String LOCAL_HOST_ENV_VAR = "DATASTORE_EMULATOR_HOST";
+
+  private transient TransportChannelProvider channelProvider = null;
+  private transient CredentialsProvider credentialsProvider = null;
 
   private final String namespace;
   private final String databaseId;
@@ -59,7 +72,15 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
     @Override
     public ServiceRpc create(DatastoreOptions options) {
-      return new HttpDatastoreRpc(options);
+      try {
+        if (options.getTransportOptions() instanceof GrpcTransportOptions) {
+          return new GrpcDatastoreRpc(options);
+        } else {
+          return new HttpDatastoreRpc(options);
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 
@@ -67,13 +88,19 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
     private String namespace;
     private String databaseId;
+    private TransportChannelProvider channelProvider = null;
+    private CredentialsProvider credentialsProvider = null;
+    private String host;
+    private TransportOptions transportOptions;
 
     private Builder() {}
 
     private Builder(DatastoreOptions options) {
       super(options);
-      namespace = options.namespace;
-      databaseId = options.databaseId;
+      this.namespace = options.namespace;
+      this.databaseId = options.databaseId;
+      this.channelProvider = validateChannelProvider(options.channelProvider);
+      this.credentialsProvider = options.credentialsProvider;
     }
 
     @Override
@@ -82,11 +109,51 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
         throw new IllegalArgumentException(
             "Only http transport is allowed for " + API_SHORT_NAME + ".");
       }
+      this.transportOptions = transportOptions;
+      return super.setTransportOptions(transportOptions);
+    }
+
+    @BetaApi
+    public Builder setTransportOptions(GrpcTransportOptions transportOptions) {
+      this.transportOptions = transportOptions;
       return super.setTransportOptions(transportOptions);
     }
 
     @Override
+    public Builder setHost(String host) {
+      this.host = host;
+      return super.setHost(host);
+    }
+
+    /**
+     * Sets the {@link TransportChannelProvider} to use with this Datastore client.
+     *
+     * @param channelProvider A InstantiatingGrpcChannelProvider object that defines the transport
+     *     provider for this client.
+     */
+    @BetaApi
+    public Builder setChannelProvider(TransportChannelProvider channelProvider) {
+      this.channelProvider = validateChannelProvider(channelProvider);
+      return this;
+    }
+
+    /**
+     * Sets the {@link CredentialsProvider} to use with this Datastore client.
+     *
+     * @param credentialsProvider A CredentialsProvider object that defines the credential provider
+     *     for this client.
+     */
+    @BetaApi
+    public Builder setCredentialsProvider(CredentialsProvider credentialsProvider) {
+      this.credentialsProvider = credentialsProvider;
+      return this;
+    }
+
+    @Override
     public DatastoreOptions build() {
+      if (this.host == null && this.transportOptions instanceof GrpcTransportOptions) {
+        this.setHost(DatastoreSettings.getDefaultEndpoint());
+      }
       return new DatastoreOptions(this);
     }
 
@@ -102,31 +169,60 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     }
   }
 
+  private static TransportChannelProvider validateChannelProvider(
+      TransportChannelProvider channelProvider) {
+    if (channelProvider != null && !(channelProvider instanceof InstantiatingGrpcChannelProvider)) {
+      throw new IllegalArgumentException(
+          "Only GRPC channels are allowed for " + API_SHORT_NAME + ".");
+    }
+    return channelProvider;
+  }
+
   private DatastoreOptions(Builder builder) {
     super(DatastoreFactory.class, DatastoreRpcFactory.class, builder, new DatastoreDefaults());
     namespace = MoreObjects.firstNonNull(builder.namespace, defaultNamespace());
     databaseId = MoreObjects.firstNonNull(builder.databaseId, DEFAULT_DATABASE_ID);
+
+    if (getTransportOptions() instanceof HttpTransportOptions
+        && (builder.channelProvider != null || builder.credentialsProvider != null)) {
+      throw new IllegalArgumentException(
+          "Only gRPC transport allows setting of channel provider or credentials provider");
+    } else if (getTransportOptions() instanceof GrpcTransportOptions) {
+      this.channelProvider =
+          builder.channelProvider != null
+              ? builder.channelProvider
+              : GrpcTransportOptions.setUpChannelProvider(
+                  DatastoreSettings.defaultGrpcTransportProviderBuilder(), this);
+
+      this.credentialsProvider =
+          builder.credentialsProvider != null
+              ? builder.credentialsProvider
+              : GrpcTransportOptions.setUpCredentialsProvider(this);
+    }
+  }
+
+  public CredentialsProvider getCredentialsProvider() {
+    return credentialsProvider;
+  }
+
+  public TransportChannelProvider getTransportChannelProvider() {
+    return channelProvider;
   }
 
   @Override
   protected String getDefaultHost() {
-    String host =
-        System.getProperty(
-            com.google.datastore.v1.client.DatastoreHelper.LOCAL_HOST_ENV_VAR,
-            System.getenv(com.google.datastore.v1.client.DatastoreHelper.LOCAL_HOST_ENV_VAR));
+    String host = System.getProperty(LOCAL_HOST_ENV_VAR, System.getenv(LOCAL_HOST_ENV_VAR));
     return host != null ? host : com.google.datastore.v1.client.DatastoreFactory.DEFAULT_HOST;
   }
 
   @Override
   protected String getDefaultProject() {
-    String projectId =
-        System.getProperty(
-            com.google.datastore.v1.client.DatastoreHelper.PROJECT_ID_ENV_VAR,
-            System.getenv(com.google.datastore.v1.client.DatastoreHelper.PROJECT_ID_ENV_VAR));
+    String projectId = System.getProperty(PROJECT_ID_ENV_VAR, System.getenv(PROJECT_ID_ENV_VAR));
     return projectId != null ? projectId : super.getDefaultProject();
   }
 
   private static class DatastoreDefaults implements ServiceDefaults<Datastore, DatastoreOptions> {
+    private final TransportOptions TRANSPORT_OPTIONS = getDefaultTransportOptionsBuilder().build();
 
     @Override
     public DatastoreFactory getDefaultServiceFactory() {
@@ -140,12 +236,20 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
     @Override
     public TransportOptions getDefaultTransportOptions() {
-      return getDefaultHttpTransportOptions();
+      return TRANSPORT_OPTIONS;
+    }
+
+    public static HttpTransportOptions.Builder getDefaultTransportOptionsBuilder() {
+      return HttpTransportOptions.newBuilder();
     }
   }
 
   public static HttpTransportOptions getDefaultHttpTransportOptions() {
     return HttpTransportOptions.newBuilder().build();
+  }
+
+  public static GrpcTransportOptions getDefaultGrpcTransportOptions() {
+    return GrpcTransportOptions.newBuilder().build();
   }
 
   /** Returns the default namespace to be used by the datastore service. */

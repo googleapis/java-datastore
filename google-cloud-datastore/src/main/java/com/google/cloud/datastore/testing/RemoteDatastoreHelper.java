@@ -18,12 +18,14 @@ package com.google.cloud.datastore.testing;
 
 import com.google.api.core.InternalApi;
 import com.google.api.gax.retrying.RetrySettings;
+import com.google.cloud.TransportOptions;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery;
+import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.http.HttpTransportOptions;
 import java.util.UUID;
 import org.threeten.bp.Duration;
@@ -74,21 +76,30 @@ public class RemoteDatastoreHelper {
 
   /** Creates a {@code RemoteStorageHelper} object. */
   public static RemoteDatastoreHelper create() {
-    return create("");
+    return create("", DatastoreOptions.getDefaultHttpTransportOptions());
+  }
+
+  public static RemoteDatastoreHelper create(String databaseId) {
+    return create(databaseId, DatastoreOptions.getDefaultHttpTransportOptions());
+  }
+
+  public static RemoteDatastoreHelper create(TransportOptions transportOptions) {
+    return create("", transportOptions);
   }
 
   /** Creates a {@code RemoteStorageHelper} object. */
-  public static RemoteDatastoreHelper create(String databaseId) {
-    HttpTransportOptions transportOptions = DatastoreOptions.getDefaultHttpTransportOptions();
-    transportOptions =
-        transportOptions.toBuilder().setConnectTimeout(60000).setReadTimeout(60000).build();
-    DatastoreOptions datastoreOption =
+  public static RemoteDatastoreHelper create(String databaseId, TransportOptions transportOptions) {
+    DatastoreOptions.Builder builder =
         DatastoreOptions.newBuilder()
             .setDatabaseId(databaseId)
             .setNamespace(UUID.randomUUID().toString())
-            .setRetrySettings(retrySettings())
-            .setTransportOptions(transportOptions)
-            .build();
+            .setRetrySettings(retrySettings());
+    if (transportOptions instanceof GrpcTransportOptions) {
+      builder = builder.setTransportOptions((GrpcTransportOptions) transportOptions);
+    } else {
+      builder = builder.setTransportOptions(transportOptions);
+    }
+    DatastoreOptions datastoreOption = builder.build();
     return new RemoteDatastoreHelper(datastoreOption);
   }
 

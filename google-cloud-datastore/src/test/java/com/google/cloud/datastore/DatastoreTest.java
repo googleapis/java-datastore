@@ -77,7 +77,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeoutException;
 import java.util.function.Predicate;
 import org.easymock.EasyMock;
 import org.junit.AfterClass;
@@ -92,9 +91,9 @@ import org.threeten.bp.Duration;
 @RunWith(JUnit4.class)
 public class DatastoreTest {
 
-  private static LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0);
-  private static final DatastoreOptions options = helper.getOptions();
-  private static final Datastore datastore = options.getService();
+  private static final LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0, 9090);
+  private static DatastoreOptions options = helper.getOptions();
+  private static Datastore datastore;
   private static final String PROJECT_ID = options.getProjectId();
   private static final String KIND1 = "kind1";
   private static final String KIND2 = "kind2";
@@ -170,6 +169,8 @@ public class DatastoreTest {
   @BeforeClass
   public static void beforeClass() throws IOException, InterruptedException {
     helper.start();
+    options = helper.getOptions();
+    datastore = options.getService();
   }
 
   @Before
@@ -190,7 +191,8 @@ public class DatastoreTest {
   }
 
   @AfterClass
-  public static void afterClass() throws IOException, InterruptedException, TimeoutException {
+  public static void afterClass() throws Exception {
+    datastore.close();
     helper.stop(Duration.ofMinutes(1));
   }
 
@@ -648,6 +650,7 @@ public class DatastoreTest {
     List<RunQueryResponse> responses = new ArrayList<>();
     RecordQuery<Key> query = Query.newKeyQueryBuilder().build();
     RunQueryRequest.Builder requestPb = RunQueryRequest.newBuilder();
+    requestPb.setProjectId(PROJECT_ID);
     query.populatePb(requestPb);
     QueryResultBatch queryResultBatchPb =
         RunQueryResponse.newBuilder()
@@ -757,6 +760,7 @@ public class DatastoreTest {
     List<RunQueryResponse> responses = new ArrayList<>();
     RecordQuery<Entity> query = Query.newEntityQueryBuilder().build();
     RunQueryRequest.Builder requestPb = RunQueryRequest.newBuilder();
+    requestPb.setProjectId(PROJECT_ID);
     query.populatePb(requestPb);
     QueryResultBatch queryResultBatchPb =
         RunQueryResponse.newBuilder()
