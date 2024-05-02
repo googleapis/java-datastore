@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.api.grpc</groupId>
   <artifactId>grpc-google-cloud-datastore-v1</artifactId>
-  <version>2.19.2-SNAPSHOT</version><!-- {x-version-update:grpc-google-cloud-datastore-v1:current} -->
+  <version>2.19.2-grpc-experimental-1-SNAPSHOT</version><!-- {x-version-update:grpc-google-cloud-datastore-v1:current} -->
   <name>grpc-google-cloud-datastore-v1</name>
   <description>GRPC library for google-cloud-datastore</description>
   <parent>
     <groupId>com.google.cloud</groupId>
     <artifactId>google-cloud-datastore-parent</artifactId>
-    <version>2.19.2-SNAPSHOT</version><!-- {x-version-update:google-cloud-datastore:current} -->
+    <version>2.19.2-grpc-experimental-1-SNAPSHOT</version><!-- {x-version-update:google-cloud-datastore:current} -->
   </parent>
   <dependencies>
     <dependency>
@@ -60,20 +60,11 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>flatten-maven-plugin</artifactId>
         </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <skip>true</skip> <!-- TODO(gapic_upgrade): remove this configuration once we have Owlbot running for V3 version -->
-        </configuration>
-      </plugin>
-
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>clirr-maven-plugin</artifactId>
         <configuration>
-          <skip>true</skip> <!-- TODO(gapic_upgrade): remove this configuration once we V3 goes GA -->
+          <skip>true</skip> <!-- TODO(gapic_upgrade): remove after first release -->
         </configuration>
       </plugin>
     </plugins>
