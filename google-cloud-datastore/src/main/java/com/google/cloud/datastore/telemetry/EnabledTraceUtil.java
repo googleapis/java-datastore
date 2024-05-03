@@ -200,7 +200,7 @@ public class EnabledTraceUtil implements TraceUtil {
 
     @Override
     public Scope makeCurrent() {
-      try(io.opentelemetry.context.Scope scope = context.makeCurrent()) {
+      try (io.opentelemetry.context.Scope scope = context.makeCurrent()) {
         return new Scope(scope);
       }
     }
