@@ -21,78 +21,77 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class DatastoreOpenTelemetryOptions {
-    private final boolean enabled;
-    private final @Nullable OpenTelemetry openTelemetry;
+  private final boolean enabled;
+  private final @Nullable OpenTelemetry openTelemetry;
 
   DatastoreOpenTelemetryOptions(Builder builder) {
-      this.enabled = builder.enabled;
-      this.openTelemetry = builder.openTelemetry;
+    this.enabled = builder.enabled;
+    this.openTelemetry = builder.openTelemetry;
+  }
+
+  public boolean getEnabled() {
+    return enabled;
+  }
+
+  @Nullable
+  public OpenTelemetry getOpenTelemetry() {
+    return openTelemetry;
+  }
+
+  @Nonnull
+  public DatastoreOpenTelemetryOptions.Builder toBuilder() {
+    return new DatastoreOpenTelemetryOptions.Builder(this);
+  }
+
+  @Nonnull
+  public static DatastoreOpenTelemetryOptions.Builder newBuilder() {
+    return new DatastoreOpenTelemetryOptions.Builder();
+  }
+
+  public static class Builder {
+
+    private boolean enabled;
+
+    @Nullable private OpenTelemetry openTelemetry;
+
+    private Builder() {
+      enabled = false;
+      openTelemetry = null;
     }
 
-    public boolean getEnabled() {
-      return enabled;
-    }
-
-    @Nullable
-    public OpenTelemetry getOpenTelemetry() {
-      return openTelemetry;
+    private Builder(DatastoreOpenTelemetryOptions options) {
+      this.enabled = options.enabled;
+      this.openTelemetry = options.openTelemetry;
     }
 
     @Nonnull
-    public DatastoreOpenTelemetryOptions.Builder toBuilder() {
-      return new DatastoreOpenTelemetryOptions.Builder(this);
+    public DatastoreOpenTelemetryOptions build() {
+      return new DatastoreOpenTelemetryOptions(this);
     }
 
+    /**
+     * Sets whether tracing should be enabled.
+     *
+     * @param enable Whether tracing should be enabled.
+     */
     @Nonnull
-    public static DatastoreOpenTelemetryOptions.Builder newBuilder() {
-      return new DatastoreOpenTelemetryOptions.Builder();
+    public DatastoreOpenTelemetryOptions.Builder setTracingEnabled(boolean enable) {
+      this.enabled = enable;
+      return this;
     }
 
-    public static class Builder {
-
-      private boolean enabled;
-
-      @Nullable
-      private OpenTelemetry openTelemetry;
-
-      private Builder() {
-        enabled = false;
-        openTelemetry = null;
-      }
-
-      private Builder(DatastoreOpenTelemetryOptions options) {
-        this.enabled = options.enabled;
-        this.openTelemetry = options.openTelemetry;
-      }
-
-      @Nonnull
-      public DatastoreOpenTelemetryOptions build() {
-        return new DatastoreOpenTelemetryOptions(this);
-      }
-
-      /**
-       * Sets whether tracing should be enabled.
-       *
-       * @param enable Whether tracing should be enabled.
-       */
-      @Nonnull
-      public DatastoreOpenTelemetryOptions.Builder setTracingEnabled(boolean enable) {
-        this.enabled = enable;
-        return this;
-      }
-
-      /**
-       * Sets the {@link OpenTelemetry} to use with this Firestore instance. If telemetry collection
-       * is enabled, but an `OpenTelemetry` is not provided, the Firestore SDK will attempt to use
-       * the `GlobalOpenTelemetry`.
-       *
-       * @param openTelemetry The OpenTelemetry that should be used by this Firestore instance.
-       */
-      @Nonnull
-      public DatastoreOpenTelemetryOptions.Builder setOpenTelemetry(
-          @Nonnull OpenTelemetry openTelemetry) {
-        this.openTelemetry = openTelemetry;
-        return this;
-      }
+    /**
+     * Sets the {@link OpenTelemetry} to use with this Firestore instance. If telemetry collection
+     * is enabled, but an `OpenTelemetry` is not provided, the Firestore SDK will attempt to use the
+     * `GlobalOpenTelemetry`.
+     *
+     * @param openTelemetry The OpenTelemetry that should be used by this Firestore instance.
+     */
+    @Nonnull
+    public DatastoreOpenTelemetryOptions.Builder setOpenTelemetry(
+        @Nonnull OpenTelemetry openTelemetry) {
+      this.openTelemetry = openTelemetry;
+      return this;
     }
+  }
 }

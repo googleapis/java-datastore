@@ -85,8 +85,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     private String namespace;
     private String databaseId;
 
-    @Nullable
-    private DatastoreOpenTelemetryOptions openTelemetryOptions = null;
+    @Nullable private DatastoreOpenTelemetryOptions openTelemetryOptions = null;
 
     private Builder() {}
 
