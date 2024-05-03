@@ -46,8 +46,8 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   private final String namespace;
   private final String databaseId;
 
-  private final @Nonnull DatastoreOpenTelemetryOptions openTelemetryOptions;
-  private final @Nonnull com.google.cloud.datastore.telemetry.TraceUtil traceUtil;
+  private final transient @Nonnull DatastoreOpenTelemetryOptions openTelemetryOptions;
+  private final transient @Nonnull com.google.cloud.datastore.telemetry.TraceUtil traceUtil;
 
   public static class DefaultDatastoreFactory implements DatastoreFactory {
 
