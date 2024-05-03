@@ -112,7 +112,7 @@ public class ITDatastoreTest {
   private static final DatastoreOptions OPTIONS_1 = HELPER.getOptions();
   private static final Datastore DATASTORE_1 = OPTIONS_1.getService();
 
-  private static final String CUSTOM_DB_ID = "jimit-test-datastore";
+  private static final String CUSTOM_DB_ID = "test-db";
   private static final RemoteDatastoreHelper HELPER2 = RemoteDatastoreHelper.create(CUSTOM_DB_ID);
   private static final DatastoreOptions OPTIONS_2 = HELPER2.getOptions();
   private static final Datastore DATASTORE_2 = OPTIONS_2.getService();
@@ -162,8 +162,7 @@ public class ITDatastoreTest {
 
   @AfterClass
   public static void afterClass() {
-
-    //HELPER.deleteNamespace();
+    HELPER.deleteNamespace();
   }
 
   public ITDatastoreTest(
@@ -285,7 +284,7 @@ public class ITDatastoreTest {
   @Parameterized.Parameters(name = "database: {2}")
   public static Iterable<Object[]> data() {
     return Arrays.asList(
-        new Object[][] {{OPTIONS_1, DATASTORE_1, "jimit-test-datastore"}, {OPTIONS_2, DATASTORE_2, "jimit-test-datastore"}});
+        new Object[][] {{OPTIONS_1, DATASTORE_1, "default"}, {OPTIONS_2, DATASTORE_2, "test-db"}});
   }
 
   private <T> Iterator<T> getStronglyConsistentResults(Query scQuery, Query query)
