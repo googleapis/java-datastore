@@ -45,6 +45,7 @@ public class DatastoreUtils {
 
   public static String removeScheme(String url) {
     if (url != null) {
+      url = url.toLowerCase();
       if (url.startsWith("https://")) {
         return url.substring("https://".length());
       } else if (url.startsWith("http://")) {

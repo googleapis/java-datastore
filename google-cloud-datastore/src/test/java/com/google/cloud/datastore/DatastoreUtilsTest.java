@@ -38,5 +38,6 @@ public class DatastoreUtilsTest {
     assertThat(removeScheme("http://localhost:9090")).isEqualTo("localhost:9090");
     assertThat(removeScheme("https://localhost:9090")).isEqualTo("localhost:9090");
     assertThat(removeScheme("https://localhost:9090")).isEqualTo("localhost:9090");
+    assertThat(removeScheme("Https://localhost:9090")).isEqualTo("localhost:9090");
   }
 }
