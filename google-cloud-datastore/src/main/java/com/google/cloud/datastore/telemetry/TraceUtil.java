@@ -25,9 +25,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public interface TraceUtil {
-  String ATTRIBUTE_SERVICE_PREFIX = "gcp.datastore.";
-  String ENABLE_TRACING_ENV_VAR = "DATASTORE_ENABLE_TRACING";
-  String LIBRARY_NAME = "com.google.cloud.datastore";
+  static final String ATTRIBUTE_SERVICE_PREFIX = "gcp.datastore.";
+  static final String ENABLE_TRACING_ENV_VAR = "DATASTORE_ENABLE_TRACING";
+  static final String LIBRARY_NAME = "com.google.cloud.datastore";
 
   /**
    * Creates and returns an instance of the TraceUtil class.
