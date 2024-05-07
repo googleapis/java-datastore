@@ -25,11 +25,11 @@ public class DatastoreOpenTelemetryOptions {
   private final @Nullable OpenTelemetry openTelemetry;
 
   DatastoreOpenTelemetryOptions(Builder builder) {
-    this.enabled = builder.isEnabled;
+    this.enabled = builder.enabled;
     this.openTelemetry = builder.openTelemetry;
   }
 
-  public boolean getEnabled() {
+  public boolean isEnabled() {
     return enabled;
   }
 
@@ -50,17 +50,17 @@ public class DatastoreOpenTelemetryOptions {
 
   public static class Builder {
 
-    private boolean isEnabled;
+    private boolean enabled;
 
     @Nullable private OpenTelemetry openTelemetry;
 
     private Builder() {
-      isEnabled = false;
+      enabled = false;
       openTelemetry = null;
     }
 
     private Builder(DatastoreOpenTelemetryOptions options) {
-      this.isEnabled = options.enabled;
+      this.enabled = options.enabled;
       this.openTelemetry = options.openTelemetry;
     }
 
@@ -76,7 +76,7 @@ public class DatastoreOpenTelemetryOptions {
      */
     @Nonnull
     public DatastoreOpenTelemetryOptions.Builder setTracingEnabled(boolean enable) {
-      this.isEnabled = enable;
+      this.enabled = enable;
       return this;
     }
 

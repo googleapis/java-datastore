@@ -74,14 +74,14 @@ public class DatastoreOptionsTest {
   public void testOpenTelemetryOptionsEnabled() {
     options.setOpenTelemetryOptions(
         DatastoreOpenTelemetryOptions.newBuilder().setTracingEnabled(true).build());
-    assertTrue(options.build().getOpenTelemetryOptions().getEnabled());
+    assertTrue(options.build().getOpenTelemetryOptions().isEnabled());
   }
 
   @Test
   public void testOpenTelemetryOptionsDisabled() {
     options.setOpenTelemetryOptions(
         DatastoreOpenTelemetryOptions.newBuilder().setTracingEnabled(false).build());
-    assertTrue(!options.build().getOpenTelemetryOptions().getEnabled());
+    assertTrue(!options.build().getOpenTelemetryOptions().isEnabled());
   }
 
   @Test

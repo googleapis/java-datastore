@@ -40,7 +40,7 @@ public interface TraceUtil {
    * @return An instance of the TraceUtil class.
    */
   static TraceUtil getInstance(@Nonnull DatastoreOptions datastoreOptions) {
-    boolean createEnabledInstance = datastoreOptions.getOpenTelemetryOptions().getEnabled();
+    boolean createEnabledInstance = datastoreOptions.getOpenTelemetryOptions().isEnabled();
 
     // The environment variable can override options to enable/disable telemetry collection.
     String enableTracingEnvVar = System.getenv(ENABLE_TRACING_ENV_VAR);
