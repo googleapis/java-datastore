@@ -107,9 +107,6 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
     @Override
     public DatastoreOptions build() {
-      if (this.openTelemetryOptions == null) {
-        this.setOpenTelemetryOptions(DatastoreOpenTelemetryOptions.newBuilder().build());
-      }
       return new DatastoreOptions(this);
     }
 
