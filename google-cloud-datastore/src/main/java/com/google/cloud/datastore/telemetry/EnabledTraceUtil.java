@@ -20,6 +20,7 @@ import com.google.api.core.ApiFunction;
 import com.google.api.core.ApiFuture;
 import com.google.api.core.ApiFutureCallback;
 import com.google.api.core.ApiFutures;
+import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.common.base.Throwables;
 import io.grpc.ManagedChannelBuilder;
@@ -35,6 +36,10 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+/**
+ * Tracing utility implementation, used to stub out tracing instrumentation when tracing is enabled.
+ */
+@InternalApi
 public class EnabledTraceUtil implements TraceUtil {
   private final Tracer tracer;
   private final OpenTelemetry openTelemetry;

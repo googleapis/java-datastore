@@ -18,11 +18,17 @@ package com.google.cloud.datastore.telemetry;
 
 import com.google.api.core.ApiFunction;
 import com.google.api.core.ApiFuture;
+import com.google.api.core.InternalApi;
 import io.grpc.ManagedChannelBuilder;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+/**
+ * Tracing utility implementation, used to stub out tracing instrumentation when tracing is
+ * disabled.
+ */
+@InternalApi
 public class DisabledTraceUtil implements TraceUtil {
 
   static class Span implements TraceUtil.Span {

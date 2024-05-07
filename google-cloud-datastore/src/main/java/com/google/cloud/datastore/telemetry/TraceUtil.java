@@ -18,12 +18,15 @@ package com.google.cloud.datastore.telemetry;
 
 import com.google.api.core.ApiFunction;
 import com.google.api.core.ApiFuture;
+import com.google.api.core.InternalExtensionOnly;
 import com.google.cloud.datastore.DatastoreOptions;
 import io.grpc.ManagedChannelBuilder;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+/** Utility interface to manage OpenTelemetry tracing instrumentation based on the configuration. */
+@InternalExtensionOnly
 public interface TraceUtil {
   static final String ATTRIBUTE_SERVICE_PREFIX = "gcp.datastore.";
   static final String ENABLE_TRACING_ENV_VAR = "DATASTORE_ENABLE_TRACING";
