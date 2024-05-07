@@ -17,6 +17,7 @@ package com.google.cloud.datastore.telemetry;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.cloud.NoCredentials;
 import com.google.cloud.datastore.DatastoreOpenTelemetryOptions;
 import com.google.cloud.datastore.DatastoreOptions;
 import io.opentelemetry.api.GlobalOpenTelemetry;
@@ -31,7 +32,9 @@ public class EnabledTraceUtilTest {
   }
 
   DatastoreOptions.Builder getBaseOptions() {
-    return DatastoreOptions.newBuilder().setProjectId("test-project").setDatabaseId("(default)");
+    return DatastoreOptions.newBuilder()
+        .setProjectId("test-project")
+        .setCredentials(NoCredentials.getInstance());
   }
 
   DatastoreOptions getTracingEnabledOptions() {

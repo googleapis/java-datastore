@@ -17,6 +17,7 @@ package com.google.cloud.datastore.telemetry;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.cloud.NoCredentials;
 import com.google.cloud.datastore.DatastoreOpenTelemetryOptions;
 import com.google.cloud.datastore.DatastoreOptions;
 import org.junit.Test;
@@ -28,7 +29,7 @@ public class TraceUtilTest {
         TraceUtil.getInstance(
             DatastoreOptions.newBuilder()
                 .setProjectId("test-project")
-                .setDatabaseId("(default)")
+                .setCredentials(NoCredentials.getInstance())
                 .build());
     assertThat(traceUtil instanceof DisabledTraceUtil).isTrue();
   }
@@ -39,7 +40,7 @@ public class TraceUtilTest {
         TraceUtil.getInstance(
             DatastoreOptions.newBuilder()
                 .setProjectId("test-project")
-                .setDatabaseId("(default)")
+                .setCredentials(NoCredentials.getInstance())
                 .setOpenTelemetryOptions(
                     DatastoreOpenTelemetryOptions.newBuilder().setTracingEnabled(false).build())
                 .build());
@@ -52,7 +53,7 @@ public class TraceUtilTest {
         TraceUtil.getInstance(
             DatastoreOptions.newBuilder()
                 .setProjectId("test-project")
-                .setDatabaseId("(default)")
+                .setCredentials(NoCredentials.getInstance())
                 .setOpenTelemetryOptions(
                     DatastoreOpenTelemetryOptions.newBuilder().setTracingEnabled(true).build())
                 .build());
