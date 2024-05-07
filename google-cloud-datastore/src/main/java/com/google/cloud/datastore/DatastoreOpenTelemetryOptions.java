@@ -81,11 +81,11 @@ public class DatastoreOpenTelemetryOptions {
     }
 
     /**
-     * Sets the {@link OpenTelemetry} to use with this Firestore instance. If telemetry collection
-     * is enabled, but an `OpenTelemetry` is not provided, the Firestore SDK will attempt to use the
+     * Sets the {@link OpenTelemetry} to use with this Datastore instance. If telemetry collection
+     * is enabled, but an `OpenTelemetry` is not provided, the Datastore SDK will attempt to use the
      * `GlobalOpenTelemetry`.
      *
-     * @param openTelemetry The OpenTelemetry that should be used by this Firestore instance.
+     * @param openTelemetry The OpenTelemetry that should be used by this Datastore instance.
      */
     @Nonnull
     public DatastoreOpenTelemetryOptions.Builder setOpenTelemetry(
