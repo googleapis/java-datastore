@@ -72,11 +72,11 @@ public class DatastoreOpenTelemetryOptions {
     /**
      * Sets whether tracing should be enabled.
      *
-     * @param enable Whether tracing should be enabled.
+     * @param enabled Whether tracing should be enabled.
      */
     @Nonnull
-    public DatastoreOpenTelemetryOptions.Builder setTracingEnabled(boolean enable) {
-      this.enabled = enable;
+    public DatastoreOpenTelemetryOptions.Builder setTracingEnabled(boolean enabled) {
+      this.enabled = enabled;
       return this;
     }
 
