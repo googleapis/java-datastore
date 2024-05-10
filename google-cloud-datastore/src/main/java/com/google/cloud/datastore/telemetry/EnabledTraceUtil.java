@@ -176,6 +176,12 @@ public class EnabledTraceUtil implements TraceUtil {
     }
 
     @Override
+    public TraceUtil.Span setAttribute(String key, boolean value) {
+      span.setAttribute(ATTRIBUTE_SERVICE_PREFIX + key, value);
+      return this;
+    }
+
+    @Override
     public Scope makeCurrent() {
       try (io.opentelemetry.context.Scope scope = span.makeCurrent()) {
         return new Scope(scope);
