@@ -32,6 +32,7 @@ public interface TraceUtil {
   static final String ENABLE_TRACING_ENV_VAR = "DATASTORE_ENABLE_TRACING";
   static final String LIBRARY_NAME = "com.google.cloud.datastore";
 
+  static final String SPAN_NAME_LOOKUP = "Lookup";
   /**
    * Creates and returns an instance of the TraceUtil class.
    *
@@ -79,6 +80,9 @@ public interface TraceUtil {
 
     /** Adds the given attribute to this span. */
     Span setAttribute(String key, String value);
+
+    /** Adds the given attribute to this span. */
+    Span setAttribute(String key, boolean value);
 
     /** Marks this span as the current span. */
     Scope makeCurrent();
