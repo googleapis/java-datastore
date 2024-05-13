@@ -85,9 +85,7 @@ import org.junit.Test;
 // 4. Datastore operations are run inside a root TraceSpan created using the custom SpanContext from
 // (3).
 // 5. Traces are read-back using TraceServiceClient and verified against expected Call Stacks.
-// TODO In the future it would be great to have a single test-driver for this test and
-// ITTracingTest.
-public abstract class ITE2ETracingTest {
+public abstract class AbstractITE2ETracingTest {
 
   protected abstract boolean isUsingGlobalOpenTelemetrySDK();
 
@@ -180,7 +178,7 @@ public abstract class ITE2ETracingTest {
     }
   }
 
-  private static final Logger logger = Logger.getLogger(ITE2ETracingTest.class.getName());
+  private static final Logger logger = Logger.getLogger(AbstractITE2ETracingTest.class.getName());
 
   private static final String SERVICE = "google.datastore.v1.Datastore/";
 
