@@ -290,7 +290,7 @@ public abstract class ITE2ETracingTest {
                       .build());
     }
 
-    String namedDb = System.getProperty("FIRESTORE_NAMED_DATABASE");
+    String namedDb = System.getProperty("DATASTORE_NAMED_DATABASE");
     if (namedDb != null) {
       logger.log(Level.INFO, "Integration test using named database " + namedDb);
       optionsBuilder = optionsBuilder.setDatabaseId(namedDb);
