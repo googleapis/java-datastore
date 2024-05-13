@@ -36,6 +36,8 @@ import com.google.cloud.trace.v1.TraceServiceClient;
 import com.google.common.base.Preconditions;
 import com.google.devtools.cloudtrace.v1.Trace;
 import com.google.devtools.cloudtrace.v1.TraceSpan;
+import com.google.testing.junit.testparameterinjector.TestParameter;
+import com.google.testing.junit.testparameterinjector.TestParameterInjector;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanContext;
@@ -65,6 +67,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 // This End-to-End test verifies Client-side Tracing Functionality instrumented using the
 // OpenTelemetry API.
@@ -85,9 +88,11 @@ import org.junit.Test;
 // 4. Datastore operations are run inside a root TraceSpan created using the custom SpanContext from
 // (3).
 // 5. Traces are read-back using TraceServiceClient and verified against expected Call Stacks.
-public abstract class AbstractITE2ETracingTest {
-
-  protected abstract boolean isUsingGlobalOpenTelemetrySDK();
+@RunWith(TestParameterInjector.class)
+public class ITE2ETracingTest {
+  protected boolean isUsingGlobalOpenTelemetrySDK() {
+    return useGlobalOpenTelemetrySDK;
+  }
 
   // Helper class to track call-stacks in a trace
   protected static class TraceContainer {
@@ -178,7 +183,7 @@ public abstract class AbstractITE2ETracingTest {
     }
   }
 
-  private static final Logger logger = Logger.getLogger(AbstractITE2ETracingTest.class.getName());
+  private static final Logger logger = Logger.getLogger(ITE2ETracingTest.class.getName());
 
   private static final String SERVICE = "google.datastore.v1.Datastore/";
 
@@ -225,6 +230,8 @@ public abstract class AbstractITE2ETracingTest {
   private static DatastoreOptions options;
 
   private static Datastore datastore;
+
+  @TestParameter boolean useGlobalOpenTelemetrySDK;
 
   @BeforeClass
   public static void setup() throws IOException {
@@ -348,7 +355,7 @@ public abstract class AbstractITE2ETracingTest {
 
   // Generates a random hex string of length `numBytes`
   private String generateRandomHexString(int numBytes) {
-    StringBuffer newTraceId = new StringBuffer();
+    StringBuilder newTraceId = new StringBuilder();
     while (newTraceId.length() < numBytes) {
       newTraceId.append(Integer.toHexString(random.nextInt()));
     }
@@ -379,10 +386,6 @@ public abstract class AbstractITE2ETracingTest {
         .spanBuilder(rootSpanName)
         .setParent(Context.root().with(Span.wrap(customSpanContext)))
         .startSpan();
-  }
-
-  protected String grpcSpanName(String rpcName) {
-    return "Sent." + SERVICE + rpcName;
   }
 
   protected void waitForTracesToComplete() throws Exception {
