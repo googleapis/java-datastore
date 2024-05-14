@@ -94,6 +94,10 @@ public class ITE2ETracingTest {
     return useGlobalOpenTelemetrySDK;
   }
 
+  protected String datastoreNamedDatabase() {
+    return datastoreNamedDatabase;
+  }
+
   // Helper class to track call-stacks in a trace
   protected static class TraceContainer {
 
@@ -233,6 +237,8 @@ public class ITE2ETracingTest {
 
   @TestParameter boolean useGlobalOpenTelemetrySDK;
 
+  @TestParameter({"default", "test-db"}) String datastoreNamedDatabase;
+
   @BeforeClass
   public static void setup() throws IOException {
     projectId = DatastoreOptions.getDefaultProjectId();
@@ -295,8 +301,8 @@ public class ITE2ETracingTest {
                       .build());
     }
 
-    String namedDb = System.getProperty("DATASTORE_NAMED_DATABASE");
-    if (namedDb != null) {
+    String namedDb = datastoreNamedDatabase();
+    if (!namedDb.equals("default")) {
       logger.log(Level.INFO, "Integration test using named database " + namedDb);
       optionsBuilder = optionsBuilder.setDatabaseId(namedDb);
     } else {
