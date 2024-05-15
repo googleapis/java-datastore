@@ -33,6 +33,9 @@ public interface TraceUtil {
   static final String LIBRARY_NAME = "com.google.cloud.datastore";
 
   static final String SPAN_NAME_LOOKUP = "Lookup";
+  
+  static final String SPAN_NAME_RUNQUERY = "RunQuery";
+
   /**
    * Creates and returns an instance of the TraceUtil class.
    *
