@@ -17,6 +17,7 @@
 package com.google.cloud.datastore.it;
 
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP;
+import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUNQUERY;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SERVICE_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -29,6 +30,9 @@ import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.Query;
+import com.google.cloud.datastore.QueryResults;
+import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.cloud.opentelemetry.trace.TraceConfiguration;
 import com.google.cloud.opentelemetry.trace.TraceExporter;
@@ -207,6 +211,8 @@ public class ITE2ETracingTest {
 
   private static Key KEY1;
 
+  private static Key KEY2;
+
   // Random int generator for trace ID and span ID
   private static Random random;
 
@@ -233,9 +239,14 @@ public class ITE2ETracingTest {
 
   private static Datastore datastore;
 
+  private static RemoteDatastoreHelper remoteDatastoreHelper;
+
   @TestParameter boolean useGlobalOpenTelemetrySDK;
 
-  @TestParameter({"default", "test-db"})
+  @TestParameter({
+      /*(default)*/
+    "", "test-db"
+  })
   String datastoreNamedDatabase;
 
   @BeforeClass
@@ -280,8 +291,7 @@ public class ITE2ETracingTest {
     // but because gRPC traces need to be deterministically force-flushed for every test
     String namedDb = datastoreNamedDatabase();
     logger.log(Level.INFO, "Integration test using named database " + namedDb);
-    RemoteDatastoreHelper remoteDatastoreHelper =
-        RemoteDatastoreHelper.create(namedDb, openTelemetrySdk);
+    remoteDatastoreHelper = RemoteDatastoreHelper.create(namedDb, openTelemetrySdk);
     options = remoteDatastoreHelper.getOptions();
     datastore = options.getService();
 
@@ -292,7 +302,14 @@ public class ITE2ETracingTest {
 
     String projectId = options.getProjectId();
     String kind1 = "kind1";
-    KEY1 = Key.newBuilder(projectId, kind1, "name", options.getDatabaseId()).build();
+    KEY1 =
+        Key.newBuilder(projectId, kind1, "key1", options.getDatabaseId())
+            .setNamespace(options.getNamespace())
+            .build();
+    KEY2 =
+        Key.newBuilder(projectId, kind1, "key2", options.getDatabaseId())
+            .setNamespace(options.getNamespace())
+            .build();
 
     // Set up the tracer for custom TraceID injection
     rootSpanName =
@@ -319,6 +336,7 @@ public class ITE2ETracingTest {
     if (isUsingGlobalOpenTelemetrySDK()) {
       GlobalOpenTelemetry.resetForTest();
     }
+    remoteDatastoreHelper.deleteNamespace();
     rootSpanName = null;
     tracer = null;
     retrievedTrace = null;
@@ -526,5 +544,33 @@ public class ITE2ETracingTest {
     waitForTracesToComplete();
 
     fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_LOOKUP);
+  }
+
+  @Test
+  public void runQueryTraceTest() throws Exception {
+    Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
+    Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
+    List<Entity> entityList = new ArrayList<>();
+    entityList.add(entity1);
+    entityList.add(entity2);
+
+    List<Entity> response = datastore.add(entity1, entity2);
+    assertEquals(entityList, response);
+
+    Span rootSpan = getNewRootSpanWithContext();
+    try (Scope ignored = rootSpan.makeCurrent()) {
+      PropertyFilter filter = PropertyFilter.eq("test_field", entity1.getValue("test_field"));
+      Query<Entity> query =
+          Query.newEntityQueryBuilder().setKind(KEY1.getKind()).setFilter(filter).build();
+      QueryResults<Entity> queryResults = datastore.run(query);
+      assertTrue(queryResults.hasNext());
+      assertEquals(entity1, queryResults.next());
+      assertFalse(queryResults.hasNext());
+    } finally {
+      rootSpan.end();
+    }
+    waitForTracesToComplete();
+
+    fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_RUNQUERY);
   }
 }
