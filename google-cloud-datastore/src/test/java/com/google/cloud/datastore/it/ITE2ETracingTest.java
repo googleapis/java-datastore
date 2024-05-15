@@ -241,15 +241,10 @@ public class ITE2ETracingTest {
   @BeforeClass
   public static void setup() throws IOException {
     projectId = DatastoreOptions.getDefaultProjectId();
-    logger.info("projectId:" + projectId);
-
-    // TODO(jimit) Make it re-usable w/ InMemorySpanExporter
     traceExporter =
         TraceExporter.createWithConfiguration(
             TraceConfiguration.builder().setProjectId(projectId).build());
-
     traceClient_v1 = TraceServiceClient.create();
-
     random = new Random();
   }
 
