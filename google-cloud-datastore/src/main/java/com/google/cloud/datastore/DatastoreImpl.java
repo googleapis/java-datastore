@@ -29,6 +29,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.datastore.v1.ExplainOptions;
@@ -60,6 +61,9 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   private static final ExceptionHandler TRANSACTION_OPERATION_EXCEPTION_HANDLER =
       TransactionOperationExceptionHandler.build();
   private final TraceUtil traceUtil = TraceUtil.getInstance();
+
+  private final com.google.cloud.datastore.telemetry.TraceUtil otelTraceUtil =
+      getOptions().getTraceUtil();
 
   private final ReadOptionProtoPreparer readOptionProtoPreparer;
   private final AggregationQueryExecutor aggregationQueryExecutor;
@@ -450,13 +454,26 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   com.google.datastore.v1.LookupResponse lookup(
       final com.google.datastore.v1.LookupRequest requestPb) {
-    Span span = traceUtil.startSpan(TraceUtil.SPAN_NAME_LOOKUP);
-    try (Scope scope = traceUtil.getTracer().withSpan(span)) {
+    com.google.cloud.datastore.telemetry.TraceUtil.Span span =
+        otelTraceUtil.startSpan(com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP);
+    final ReadOptions readOptions = requestPb.getReadOptions();
+    span.setAttribute(
+        "isTransactional", (readOptions.hasTransaction() || readOptions.hasNewTransaction()));
+
+    try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
       return RetryHelper.runWithRetries(
           new Callable<com.google.datastore.v1.LookupResponse>() {
             @Override
             public com.google.datastore.v1.LookupResponse call() throws DatastoreException {
-              return datastoreRpc.lookup(requestPb);
+              com.google.datastore.v1.LookupResponse response = datastoreRpc.lookup(requestPb);
+              span.addEvent(
+                  com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP + ": Completed",
+                  new ImmutableMap.Builder<String, Object>()
+                      .put("Received", response.getFoundCount())
+                      .put("Missing", response.getMissingCount())
+                      .put("Deferred", response.getDeferredCount())
+                      .build());
+              return response;
             }
           },
           retrySettings,
@@ -465,10 +482,10 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
               : TRANSACTION_OPERATION_EXCEPTION_HANDLER,
           getOptions().getClock());
     } catch (RetryHelperException e) {
-      span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
+      span.end(e);
       throw DatastoreException.translateAndThrow(e);
     } finally {
-      span.end(TraceUtil.END_SPAN_OPTIONS);
+      span.end();
     }
   }
 
