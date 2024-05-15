@@ -317,9 +317,9 @@ public class ITE2ETracingTest {
         "Error instantiating Datastore. Check that the service account credentials "
             + "were properly set.");
 
-    String PROJECT_ID = options.getProjectId();
-    String KIND1 = "kind1";
-    KEY1 = Key.newBuilder(PROJECT_ID, KIND1, "name", options.getDatabaseId()).build();
+    String projectId = options.getProjectId();
+    String kind1 = "kind1";
+    KEY1 = Key.newBuilder(projectId, kind1, "name", options.getDatabaseId()).build();
 
     // Set up the tracer for custom TraceID injection
     rootSpanName =
