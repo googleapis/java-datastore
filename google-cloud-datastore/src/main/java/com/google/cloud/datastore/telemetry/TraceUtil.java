@@ -31,11 +31,8 @@ public interface TraceUtil {
   static final String ATTRIBUTE_SERVICE_PREFIX = "gcp.datastore.";
   static final String ENABLE_TRACING_ENV_VAR = "DATASTORE_ENABLE_TRACING";
   static final String LIBRARY_NAME = "com.google.cloud.datastore";
-  static final String SPAN_NAME_LOOKUP = "Lookup";
-  static final String SPAN_NAME_COMMIT = "Commit";
-  static final String SPAN_NAME_RUN_QUERY = "RunQuery";
-  static final String SPAN_NAME_RUN_AGGREGATION_QUERY = "RunAggregationQuery";
 
+  static final String SPAN_NAME_LOOKUP = "Lookup";
   /**
    * Creates and returns an instance of the TraceUtil class.
    *
