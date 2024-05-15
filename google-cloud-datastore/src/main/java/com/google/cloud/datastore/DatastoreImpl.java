@@ -619,8 +619,11 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   com.google.datastore.v1.CommitResponse commit(
       final com.google.datastore.v1.CommitRequest requestPb) {
-    Span span = traceUtil.startSpan(TraceUtil.SPAN_NAME_COMMIT);
-    try (Scope scope = traceUtil.getTracer().withSpan(span)) {
+    com.google.cloud.datastore.telemetry.TraceUtil.Span span =
+        otelTraceUtil.startSpan(com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_COMMIT);
+    span.setAttribute("isTransactional", requestPb.hasTransaction());
+
+    try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
       return RetryHelper.runWithRetries(
           () -> datastoreRpc.commit(requestPb),
           retrySettings,
@@ -629,10 +632,10 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
               : TRANSACTION_OPERATION_EXCEPTION_HANDLER,
           getOptions().getClock());
     } catch (RetryHelperException e) {
-      span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
+      span.end(e);
       throw DatastoreException.translateAndThrow(e);
     } finally {
-      span.end(TraceUtil.END_SPAN_OPTIONS);
+      span.end();
     }
   }
 
