@@ -235,7 +235,7 @@ public class ITE2ETracingTest {
 
   @TestParameter boolean useGlobalOpenTelemetrySDK;
 
-  @TestParameter({"jimit-test-datastore" /*, "default", "test-db"*/})
+  @TestParameter({"default", "test-db"})
   String datastoreNamedDatabase;
 
   @BeforeClass
