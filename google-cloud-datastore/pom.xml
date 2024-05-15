@@ -131,6 +131,11 @@
     <!-- OpenTelemetry -->
     <dependency>
       <groupId>io.opentelemetry</groupId>
+      <artifactId>opentelemetry-sdk</artifactId>
+      <version>${opentelemetry.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.opentelemetry</groupId>
       <artifactId>opentelemetry-api</artifactId>
       <version>${opentelemetry.version}</version>
     </dependency>
@@ -196,12 +201,6 @@
       <scope>test</scope>
     </dependency>
     <!-- OpenTelemetry -->
-    <dependency>
-      <groupId>io.opentelemetry</groupId>
-      <artifactId>opentelemetry-sdk</artifactId>
-      <version>${opentelemetry.version}</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>io.opentelemetry</groupId>
       <artifactId>opentelemetry-sdk-common</artifactId>

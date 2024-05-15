@@ -26,10 +26,10 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.api.gax.rpc.NotFoundException;
 import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.DatastoreOpenTelemetryOptions;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.cloud.opentelemetry.trace.TraceConfiguration;
 import com.google.cloud.opentelemetry.trace.TraceExporter;
 import com.google.cloud.trace.v1.TraceServiceClient;
@@ -189,8 +189,6 @@ public class ITE2ETracingTest {
 
   private static final Logger logger = Logger.getLogger(ITE2ETracingTest.class.getName());
 
-  private static final String SERVICE = "google.datastore.v1.Datastore/";
-
   private static final String RUN_AGGREGATION_QUERY_RPC_NAME = "RunAggregationQuery";
 
   private static final String RUN_QUERY_RPC_NAME = "RunQuery";
@@ -237,7 +235,7 @@ public class ITE2ETracingTest {
 
   @TestParameter boolean useGlobalOpenTelemetrySDK;
 
-  @TestParameter({"default", "test-db"})
+  @TestParameter({"jimit-test-datastore" /*, "default", "test-db"*/})
   String datastoreNamedDatabase;
 
   @BeforeClass
@@ -284,34 +282,14 @@ public class ITE2ETracingTest {
     }
 
     // Initialize the Datastore DB w/ the OTel SDK. Ideally we'd do this is the @BeforeAll method
-    // but because gRPC traces need to be deterministically force-flushed, datastore.shutdown()
-    // must be called in @After for each test.
-    DatastoreOptions.Builder optionsBuilder;
-    if (isUsingGlobalOpenTelemetrySDK()) {
-      optionsBuilder =
-          DatastoreOptions.newBuilder()
-              .setOpenTelemetryOptions(
-                  DatastoreOpenTelemetryOptions.newBuilder().setTracingEnabled(true).build());
-    } else {
-      optionsBuilder =
-          DatastoreOptions.newBuilder()
-              .setOpenTelemetryOptions(
-                  DatastoreOpenTelemetryOptions.newBuilder()
-                      .setOpenTelemetry(openTelemetrySdk)
-                      .setTracingEnabled(true)
-                      .build());
-    }
-
+    // but because gRPC traces need to be deterministically force-flushed for every test
     String namedDb = datastoreNamedDatabase();
-    if (!namedDb.equals("default")) {
-      logger.log(Level.INFO, "Integration test using named database " + namedDb);
-      optionsBuilder = optionsBuilder.setDatabaseId(namedDb);
-    } else {
-      logger.log(Level.INFO, "Integration test using default database.");
-    }
-    optionsBuilder.setDatabaseId(namedDb);
-    options = optionsBuilder.build();
+    logger.log(Level.INFO, "Integration test using named database " + namedDb);
+    RemoteDatastoreHelper remoteDatastoreHelper =
+        RemoteDatastoreHelper.create(namedDb, openTelemetrySdk);
+    options = remoteDatastoreHelper.getOptions();
     datastore = options.getService();
+
     Preconditions.checkNotNull(
         datastore,
         "Error instantiating Datastore. Check that the service account credentials "
