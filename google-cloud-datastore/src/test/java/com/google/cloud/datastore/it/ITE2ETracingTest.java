@@ -17,7 +17,7 @@
 package com.google.cloud.datastore.it;
 
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP;
-import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUNQUERY;
+import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_QUERY;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SERVICE_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -571,6 +571,6 @@ public class ITE2ETracingTest {
     }
     waitForTracesToComplete();
 
-    fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_RUNQUERY);
+    fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_RUN_QUERY);
   }
 }
