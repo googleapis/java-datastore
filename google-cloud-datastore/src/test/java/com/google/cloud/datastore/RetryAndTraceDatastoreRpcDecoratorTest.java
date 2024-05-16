@@ -26,6 +26,10 @@ import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.datastore.v1.RunAggregationQueryRequest;
 import com.google.datastore.v1.RunAggregationQueryResponse;
+<<<<<<< HEAD
+=======
+
+>>>>>>> ec777fc (Build: retiring test assertions for OpenCensus spans - will be replacing this in hermetic integration tests for OpenTelemetry using in-memory span exports (in addition to ITE2ETraceTest.java).)
 import org.junit.Before;
 import org.junit.Test;
 
