@@ -16,8 +16,11 @@
 
 package com.google.cloud.datastore.it;
 
+import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP;
+import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_AGGREGATION_QUERY;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_QUERY;
+import static com.google.common.truth.Truth.assertThat;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SERVICE_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -26,12 +29,16 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.api.gax.rpc.NotFoundException;
+import com.google.cloud.datastore.AggregationQuery;
+import com.google.cloud.datastore.AggregationResult;
+import com.google.cloud.datastore.AggregationResults;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
+import com.google.cloud.datastore.StructuredQuery;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.cloud.opentelemetry.trace.TraceConfiguration;
@@ -94,6 +101,7 @@ import org.junit.runner.RunWith;
 // 5. Traces are read-back using TraceServiceClient and verified against expected Call Stacks.
 @RunWith(TestParameterInjector.class)
 public class ITE2ETracingTest {
+
   protected boolean isUsingGlobalOpenTelemetrySDK() {
     return useGlobalOpenTelemetrySDK;
   }
@@ -213,6 +221,10 @@ public class ITE2ETracingTest {
 
   private static Key KEY2;
 
+  private static Key KEY3;
+
+  private static Key KEY4;
+
   // Random int generator for trace ID and span ID
   private static Random random;
 
@@ -308,10 +320,17 @@ public class ITE2ETracingTest {
             .setNamespace(options.getNamespace())
             .build();
     KEY2 =
+        Key.newBuilder(projectId, kind1, "key3", options.getDatabaseId())
+            .setNamespace(options.getNamespace())
+            .build();
+    KEY3 =
+        Key.newBuilder(projectId, kind1, "key4", options.getDatabaseId())
+            .setNamespace(options.getNamespace())
+            .build();
+    KEY4 =
         Key.newBuilder(projectId, kind1, "key2", options.getDatabaseId())
             .setNamespace(options.getNamespace())
             .build();
-
     // Set up the tracer for custom TraceID injection
     rootSpanName =
         String.format("%s%d", this.getClass().getSimpleName(), System.currentTimeMillis());
@@ -573,5 +592,63 @@ public class ITE2ETracingTest {
     waitForTracesToComplete();
 
     fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_RUN_QUERY);
+  }
+
+  @Test
+  public void runAggregationQueryTraceTest() throws Exception {
+    Entity entity1 =
+        Entity.newBuilder(KEY1)
+            .set("pepper_name", "jalapeno")
+            .set("max_scoville_level", 10000)
+            .build();
+    Entity entity2 =
+        Entity.newBuilder(KEY2)
+            .set("pepper_name", "serrano")
+            .set("max_scoville_level", 25000)
+            .build();
+    Entity entity3 =
+        Entity.newBuilder(KEY3)
+            .set("pepper_name", "habanero")
+            .set("max_scoville_level", 350000)
+            .build();
+    Entity entity4 =
+        Entity.newBuilder(KEY4)
+            .set("pepper_name", "ghost")
+            .set("max_scoville_level", 1500000)
+            .build();
+
+    List<Entity> entityList = new ArrayList<>();
+    entityList.add(entity1);
+    entityList.add(entity2);
+    entityList.add(entity3);
+    entityList.add(entity4);
+
+    List<Entity> response = datastore.add(entity1, entity2, entity3, entity4);
+    assertEquals(entityList, response);
+
+    Span rootSpan = getNewRootSpanWithContext();
+    try (Scope ignored = rootSpan.makeCurrent()) {
+      PropertyFilter mediumSpicyFilters = PropertyFilter.lt("max_scoville_level", 100000);
+      StructuredQuery<Entity> mediumSpicyQuery =
+          Query.newEntityQueryBuilder()
+              .setKind(KEY1.getKind())
+              .setFilter(mediumSpicyFilters)
+              .build();
+      AggregationQuery countSpicyPeppers =
+          Query.newAggregationQueryBuilder()
+              .addAggregation(count().as("count"))
+              .over(mediumSpicyQuery)
+              .build();
+      AggregationResults results = datastore.runAggregation(countSpicyPeppers);
+      assertThat(results.size()).isEqualTo(1);
+      AggregationResult result = results.get(0);
+      assertThat(result.getLong("count")).isEqualTo(2L);
+    } finally {
+      rootSpan.end();
+    }
+
+    waitForTracesToComplete();
+
+    fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_RUN_AGGREGATION_QUERY);
   }
 }
