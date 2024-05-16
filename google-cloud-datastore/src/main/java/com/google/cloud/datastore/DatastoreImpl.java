@@ -242,7 +242,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   com.google.datastore.v1.RunQueryResponse runQuery(
       final com.google.datastore.v1.RunQueryRequest requestPb) {
     com.google.cloud.datastore.telemetry.TraceUtil.Span span =
-        otelTraceUtil.startSpan(com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUNQUERY);
+        otelTraceUtil.startSpan(com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_QUERY);
     ReadOptions readOptions = requestPb.getReadOptions();
     span.setAttribute(
         "isTransactional", readOptions.hasTransaction() || readOptions.hasNewTransaction());
@@ -258,7 +258,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
                   : TRANSACTION_OPERATION_EXCEPTION_HANDLER,
               getOptions().getClock());
       span.addEvent(
-          com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUNQUERY + ": Completed",
+          com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_QUERY + ": Completed",
           new ImmutableMap.Builder<String, Object>()
               .put("Received", response.getBatch().getEntityResultsCount())
               .put("More results", response.getBatch().getMoreResults().toString())
