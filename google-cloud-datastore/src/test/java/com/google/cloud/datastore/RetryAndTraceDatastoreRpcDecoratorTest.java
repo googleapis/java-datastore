@@ -15,8 +15,6 @@
  */
 package com.google.cloud.datastore;
 
-import static com.google.cloud.datastore.TraceUtil.END_SPAN_OPTIONS;
-import static com.google.cloud.datastore.TraceUtil.SPAN_NAME_RUN_AGGREGATION_QUERY;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.rpc.Code.UNAVAILABLE;
 import static org.easymock.EasyMock.createStrictMock;
@@ -28,7 +26,6 @@ import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.datastore.v1.RunAggregationQueryRequest;
 import com.google.datastore.v1.RunAggregationQueryResponse;
-
 import org.junit.Before;
 import org.junit.Test;
 
