@@ -632,7 +632,7 @@ public class ITE2ETracingTest {
   }
 
   public void runQueryTraceTest() throws Exception {
- Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
+    Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
     Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
     List<Entity> entityList = new ArrayList<>();
     entityList.add(entity1);
