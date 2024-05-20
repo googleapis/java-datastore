@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore.it;
 
+import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_COMMIT;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_QUERY;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SERVICE_NAME;
@@ -548,8 +549,90 @@ public class ITE2ETracingTest {
   }
 
   @Test
-  public void runQueryTraceTest() throws Exception {
+  public void commitTraceTest() throws Exception {
+    assertNotNull(customSpanContext);
+
+    Span rootSpan = getNewRootSpanWithContext();
+
+    Entity entity1 = Entity.newBuilder(KEY1).set("test_key", "test_value").build();
+    try (Scope ignored = rootSpan.makeCurrent()) {
+      Entity response = datastore.add(entity1);
+      assertEquals(entity1, response);
+    } finally {
+      rootSpan.end();
+    }
+    waitForTracesToComplete();
+
+    fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_COMMIT);
+  }
+
+  @Test
+  public void putTraceTest() throws Exception {
+    assertNotNull(customSpanContext);
+
+    Span rootSpan = getNewRootSpanWithContext();
+
+    Entity entity1 = Entity.newBuilder(KEY1).set("test_key", "test_value").build();
+    try (Scope ignored = rootSpan.makeCurrent()) {
+      Entity response = datastore.put(entity1);
+      assertEquals(entity1, response);
+    } finally {
+      rootSpan.end();
+    }
+    waitForTracesToComplete();
+
+    fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_COMMIT);
+  }
+
+  @Test
+  public void updateTraceTest() throws Exception {
+    assertNotNull(customSpanContext);
+
     Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
+    Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
+    List<Entity> entityList = new ArrayList<>();
+    entityList.add(entity1);
+    entityList.add(entity2);
+
+    List<Entity> response = datastore.add(entity1, entity2);
+    assertEquals(entityList, response);
+
+    Span rootSpan = getNewRootSpanWithContext();
+    try (Scope ignored = rootSpan.makeCurrent()) {
+      Entity entity1_update =
+          Entity.newBuilder(entity1).set("test_field", "new_test_value1").build();
+      Entity entity2_update =
+          Entity.newBuilder(entity2).set("test_field", "new_test_value1").build();
+      datastore.update(entity1_update, entity2_update);
+    } finally {
+      rootSpan.end();
+    }
+    waitForTracesToComplete();
+
+    fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_COMMIT);
+  }
+
+  @Test
+  public void deleteTraceTest() throws Exception {
+    assertNotNull(customSpanContext);
+
+    Entity entity1 = Entity.newBuilder(KEY1).set("test_key", "test_value").build();
+    Entity response = datastore.put(entity1);
+    assertEquals(entity1, response);
+
+    Span rootSpan = getNewRootSpanWithContext();
+
+    try (Scope ignored = rootSpan.makeCurrent()) {
+      datastore.delete(entity1.getKey());
+    } finally {
+      rootSpan.end();
+    }
+    waitForTracesToComplete();
+    fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_COMMIT);
+  }
+
+  public void runQueryTraceTest() throws Exception {
+ Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
     Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
     List<Entity> entityList = new ArrayList<>();
     entityList.add(entity1);
