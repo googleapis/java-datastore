@@ -17,10 +17,12 @@
 package com.google.cloud.datastore.it;
 
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
+import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_BEGIN_TRANSACTION;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_COMMIT;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_AGGREGATION_QUERY;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_QUERY;
+import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_LOOKUP;
 import static com.google.common.truth.Truth.assertThat;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SERVICE_NAME;
 import static org.junit.Assert.assertEquals;
@@ -39,8 +41,10 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
+import com.google.cloud.datastore.ReadOption;
 import com.google.cloud.datastore.StructuredQuery;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
+import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.cloud.opentelemetry.trace.TraceConfiguration;
 import com.google.cloud.opentelemetry.trace.TraceExporter;
@@ -67,6 +71,7 @@ import io.opentelemetry.sdk.trace.samplers.Sampler;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -735,4 +740,40 @@ public class ITE2ETracingTest {
 
     fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_RUN_AGGREGATION_QUERY);
   }
+
+  @Test
+  public void transactionalLookupTest() throws Exception {
+    assertNotNull(customSpanContext);
+
+    Span rootSpan = getNewRootSpanWithContext();
+    try (Scope ignored = rootSpan.makeCurrent()) {
+      Transaction transaction = datastore.newTransaction();
+      Entity entity = datastore.get(KEY1, ReadOption.transactionId(transaction.getTransactionId()));
+      assertNull(entity);
+    } finally {
+      rootSpan.end();
+    }
+    waitForTracesToComplete();
+
+    fetchAndValidateTrace(
+        customSpanContext.getTraceId(),
+        /*numExpectedSpans=*/ 2,
+        Collections.singletonList(
+            Collections.singletonList(SPAN_NAME_BEGIN_TRANSACTION)));
+
+    fetchAndValidateTrace(
+        customSpanContext.getTraceId(),
+        /*numExpectedSpans=*/ 2,
+        Collections.singletonList(
+            Collections.singletonList(SPAN_NAME_TRANSACTION_LOOKUP)));
+  }
+
+  @Test
+  public void runInTransactionQueryTest() throws Exception {}
+
+  @Test
+  public void runInTransactionAggregationQueryTest() throws Exception {}
+
+  @Test
+  public void readWriteTransactionTraceTest() throws Exception {}
 }
