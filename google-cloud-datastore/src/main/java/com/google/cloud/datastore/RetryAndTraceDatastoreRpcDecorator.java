@@ -30,6 +30,7 @@ import com.google.datastore.v1.CommitRequest;
 import com.google.datastore.v1.CommitResponse;
 import com.google.datastore.v1.LookupRequest;
 import com.google.datastore.v1.LookupResponse;
+import com.google.datastore.v1.ReadOptions;
 import com.google.datastore.v1.ReserveIdsRequest;
 import com.google.datastore.v1.ReserveIdsResponse;
 import com.google.datastore.v1.RollbackRequest;
@@ -101,9 +102,14 @@ public class RetryAndTraceDatastoreRpcDecorator implements DatastoreRpc {
 
   @Override
   public RunAggregationQueryResponse runAggregationQuery(RunAggregationQueryRequest request) {
-    return invokeRpc(
-        () -> datastoreRpc.runAggregationQuery(request),
-        com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_AGGREGATION_QUERY);
+    ReadOptions readOptions = request.getReadOptions();
+    boolean isTransactional = readOptions.hasTransaction() || readOptions.hasNewTransaction();
+    String spanName =
+        (isTransactional
+            ? com.google.cloud.datastore.telemetry.TraceUtil
+                .SPAN_NAME_TRANSACTION_RUN_AGGREGATION_QUERY
+            : com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_AGGREGATION_QUERY);
+    return invokeRpc(() -> datastoreRpc.runAggregationQuery(request), spanName);
   }
 
   public <O> O invokeRpc(Callable<O> block, String startSpan) {
