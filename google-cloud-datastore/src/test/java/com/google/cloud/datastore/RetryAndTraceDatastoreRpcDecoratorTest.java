@@ -15,11 +15,8 @@
  */
 package com.google.cloud.datastore;
 
-import static com.google.cloud.datastore.TraceUtil.END_SPAN_OPTIONS;
-import static com.google.cloud.datastore.TraceUtil.SPAN_NAME_RUN_AGGREGATION_QUERY;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.rpc.Code.UNAVAILABLE;
-import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -29,8 +26,6 @@ import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import com.google.datastore.v1.RunAggregationQueryRequest;
 import com.google.datastore.v1.RunAggregationQueryResponse;
-import io.opencensus.trace.Span;
-import io.opencensus.trace.Tracer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,7 +44,6 @@ public class RetryAndTraceDatastoreRpcDecoratorTest {
   @Before
   public void setUp() throws Exception {
     mockDatastoreRpc = createStrictMock(DatastoreRpc.class);
-    mockTraceUtil = createStrictMock(TraceUtil.class);
     datastoreRpcDecorator =
         new RetryAndTraceDatastoreRpcDecorator(
             mockDatastoreRpc, mockTraceUtil, retrySettings, datastoreOptions);
@@ -57,7 +51,6 @@ public class RetryAndTraceDatastoreRpcDecoratorTest {
 
   @Test
   public void testRunAggregationQuery() {
-    Span mockSpan = createStrictMock(Span.class);
     RunAggregationQueryRequest aggregationQueryRequest =
         RunAggregationQueryRequest.getDefaultInstance();
     RunAggregationQueryResponse aggregationQueryResponse =
@@ -69,16 +62,13 @@ public class RetryAndTraceDatastoreRpcDecoratorTest {
                 UNAVAILABLE.getNumber(), "API not accessible currently", UNAVAILABLE.name()))
         .times(2)
         .andReturn(aggregationQueryResponse);
-    expect(mockTraceUtil.startSpan(SPAN_NAME_RUN_AGGREGATION_QUERY)).andReturn(mockSpan);
-    expect(mockTraceUtil.getTracer()).andReturn(createNiceMock(Tracer.class));
-    mockSpan.end(END_SPAN_OPTIONS);
 
-    replay(mockDatastoreRpc, mockTraceUtil, mockSpan);
+    replay(mockDatastoreRpc);
 
     RunAggregationQueryResponse actualAggregationQueryResponse =
         datastoreRpcDecorator.runAggregationQuery(aggregationQueryRequest);
 
     assertThat(actualAggregationQueryResponse).isSameInstanceAs(aggregationQueryResponse);
-    verify(mockDatastoreRpc, mockTraceUtil, mockSpan);
+    verify(mockDatastoreRpc);
   }
 }
