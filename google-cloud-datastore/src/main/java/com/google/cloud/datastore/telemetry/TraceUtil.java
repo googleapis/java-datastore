@@ -39,6 +39,8 @@ public interface TraceUtil {
   static final String SPAN_NAME_TRANSACTION_LOOKUP = "Transaction.Lookup";
   static final String SPAN_NAME_TRANSACTION_COMMIT = "Transaction.Commit";
   static final String SPAN_NAME_ROLLBACK = "Transaction.Rollback";
+  static final String SPAN_NAME_TRANSACTION_RUN_AGGREGATION_QUERY =
+      "Transaction.RunAggregationQuery";
   /**
    * Creates and returns an instance of the TraceUtil class.
    *

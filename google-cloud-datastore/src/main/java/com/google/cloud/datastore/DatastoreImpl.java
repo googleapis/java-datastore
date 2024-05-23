@@ -469,27 +469,27 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   com.google.datastore.v1.LookupResponse lookup(
       final com.google.datastore.v1.LookupRequest requestPb) {
-    com.google.cloud.datastore.telemetry.TraceUtil.Span span =
-        otelTraceUtil.startSpan(com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP);
-    final ReadOptions readOptions = requestPb.getReadOptions();
-    span.setAttribute(
-        "isTransactional", (readOptions.hasTransaction() || readOptions.hasNewTransaction()));
+    ReadOptions readOptions = requestPb.getReadOptions();
+    boolean isTransactional = readOptions.hasTransaction() || readOptions.hasNewTransaction();
+    String spanName =
+        (isTransactional
+            ? com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_LOOKUP
+            : com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP);
+    com.google.cloud.datastore.telemetry.TraceUtil.Span span = otelTraceUtil.startSpan(spanName);
+    span.setAttribute("isTransactional", isTransactional);
 
     try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
       return RetryHelper.runWithRetries(
-          new Callable<com.google.datastore.v1.LookupResponse>() {
-            @Override
-            public com.google.datastore.v1.LookupResponse call() throws DatastoreException {
-              com.google.datastore.v1.LookupResponse response = datastoreRpc.lookup(requestPb);
-              span.addEvent(
-                  com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP + ": Completed",
-                  new ImmutableMap.Builder<String, Object>()
-                      .put("Received", response.getFoundCount())
-                      .put("Missing", response.getMissingCount())
-                      .put("Deferred", response.getDeferredCount())
-                      .build());
-              return response;
-            }
+          () -> {
+            com.google.datastore.v1.LookupResponse response = datastoreRpc.lookup(requestPb);
+            span.addEvent(
+                spanName + ": Completed",
+                new ImmutableMap.Builder<String, Object>()
+                    .put("Received", response.getFoundCount())
+                    .put("Missing", response.getMissingCount())
+                    .put("Deferred", response.getDeferredCount())
+                    .build());
+            return response;
           },
           retrySettings,
           requestPb.getReadOptions().getTransaction().isEmpty()
@@ -661,24 +661,20 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   com.google.datastore.v1.BeginTransactionResponse beginTransaction(
       final com.google.datastore.v1.BeginTransactionRequest requestPb) {
-    Span span = traceUtil.startSpan(TraceUtil.SPAN_NAME_BEGINTRANSACTION);
-    try (Scope scope = traceUtil.getTracer().withSpan(span)) {
+    com.google.cloud.datastore.telemetry.TraceUtil.Span span =
+        otelTraceUtil.startSpan(
+            com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_BEGIN_TRANSACTION);
+    try (com.google.cloud.datastore.telemetry.TraceUtil.Scope scope = span.makeCurrent()) {
       return RetryHelper.runWithRetries(
-          new Callable<com.google.datastore.v1.BeginTransactionResponse>() {
-            @Override
-            public com.google.datastore.v1.BeginTransactionResponse call()
-                throws DatastoreException {
-              return datastoreRpc.beginTransaction(requestPb);
-            }
-          },
+          () -> datastoreRpc.beginTransaction(requestPb),
           retrySettings,
           EXCEPTION_HANDLER,
           getOptions().getClock());
     } catch (RetryHelperException e) {
-      span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
+      span.end(e);
       throw DatastoreException.translateAndThrow(e);
     } finally {
-      span.end(TraceUtil.END_SPAN_OPTIONS);
+      span.end();
     }
   }
 
