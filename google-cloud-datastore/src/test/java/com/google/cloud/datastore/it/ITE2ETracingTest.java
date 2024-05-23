@@ -758,14 +758,12 @@ public class ITE2ETracingTest {
     fetchAndValidateTrace(
         customSpanContext.getTraceId(),
         /*numExpectedSpans=*/ 2,
-        Collections.singletonList(
-            Collections.singletonList(SPAN_NAME_BEGIN_TRANSACTION)));
+        Collections.singletonList(Collections.singletonList(SPAN_NAME_BEGIN_TRANSACTION)));
 
     fetchAndValidateTrace(
         customSpanContext.getTraceId(),
         /*numExpectedSpans=*/ 2,
-        Collections.singletonList(
-            Collections.singletonList(SPAN_NAME_TRANSACTION_LOOKUP)));
+        Collections.singletonList(Collections.singletonList(SPAN_NAME_TRANSACTION_LOOKUP)));
   }
 
   @Test
