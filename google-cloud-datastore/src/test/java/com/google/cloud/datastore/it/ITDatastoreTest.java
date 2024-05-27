@@ -195,9 +195,9 @@ public class ITDatastoreTest {
     KEY4 = Key.newBuilder(KEY2).setName("newName1").setNamespace(NAMESPACE).build();
     KEY5 = Key.newBuilder(KEY2).setName("newName2").setNamespace(NAMESPACE).build();
     KEY6 =
-            Key.newBuilder(options.getProjectId(), KIND2, 100, options.getDatabaseId())
-                    .setNamespace(NAMESPACE)
-                    .build();
+        Key.newBuilder(options.getProjectId(), KIND2, 100, options.getDatabaseId())
+            .setNamespace(NAMESPACE)
+            .build();
 
     LIST_VALUE2 = ListValue.of(Collections.singletonList(KeyValue.of(KEY1)));
 
