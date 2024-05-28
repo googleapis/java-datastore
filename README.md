@@ -103,6 +103,9 @@ See the [Cloud Datastore client library docs][javadocs] to learn how to
 use this Cloud Datastore Client Library.
 
 
+
+test
+
 See the [Google Cloud Datastore docs][cloud-datastore-activation] for more details on how to activate
 Cloud Datastore for your project.
 
