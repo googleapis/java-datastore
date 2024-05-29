@@ -36,6 +36,7 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.datastore.v1.stub.DatastoreStubSettings;
 import com.google.cloud.datastore.v1.stub.GrpcDatastoreStub;
+import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.common.base.Strings;
 import com.google.datastore.v1.AllocateIdsRequest;
 import com.google.datastore.v1.AllocateIdsResponse;
@@ -169,7 +170,8 @@ public class GrpcDatastoreRpc implements DatastoreRpc {
 
     DatastoreSettingsBuilder settingsBuilder =
         new DatastoreSettingsBuilder(DatastoreSettings.newBuilder().build());
-    settingsBuilder.setCredentialsProvider(datastoreOptions.getCredentialsProvider());
+    settingsBuilder.setCredentialsProvider(
+        GrpcTransportOptions.setUpCredentialsProvider(datastoreOptions));
     settingsBuilder.setTransportChannelProvider(datastoreOptions.getTransportChannelProvider());
     settingsBuilder.setInternalHeaderProvider(internalHeaderProvider);
     settingsBuilder.setHeaderProvider(

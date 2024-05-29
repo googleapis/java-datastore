@@ -19,7 +19,6 @@ package com.google.cloud.datastore;
 import static com.google.cloud.datastore.Validator.validateNamespace;
 
 import com.google.api.core.BetaApi;
-import com.google.api.gax.core.CredentialsProvider;
 import com.google.api.gax.grpc.InstantiatingGrpcChannelProvider;
 import com.google.api.gax.rpc.TransportChannelProvider;
 import com.google.cloud.ServiceDefaults;
@@ -51,7 +50,6 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   public static final String LOCAL_HOST_ENV_VAR = "DATASTORE_EMULATOR_HOST";
 
   private transient TransportChannelProvider channelProvider = null;
-  private transient CredentialsProvider credentialsProvider = null;
 
   private final String namespace;
   private final String databaseId;
@@ -89,7 +87,6 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     private String namespace;
     private String databaseId;
     private TransportChannelProvider channelProvider = null;
-    private CredentialsProvider credentialsProvider = null;
     private String host;
     private TransportOptions transportOptions;
 
@@ -100,7 +97,6 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       this.namespace = options.namespace;
       this.databaseId = options.databaseId;
       this.channelProvider = validateChannelProvider(options.channelProvider);
-      this.credentialsProvider = options.credentialsProvider;
     }
 
     @Override
@@ -113,6 +109,9 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       return super.setTransportOptions(transportOptions);
     }
 
+    /**
+     * Sets the transport to gRPC. Note this functionality is experimental and subject to change.
+     */
     @BetaApi
     public Builder setTransportOptions(GrpcTransportOptions transportOptions) {
       this.transportOptions = transportOptions;
@@ -128,24 +127,17 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     /**
      * Sets the {@link TransportChannelProvider} to use with this Datastore client.
      *
+     * <p>This is only compatible with clients using a gRPC transport (see {@code
+     * DatastoreOptions#setTransportOptions(GrpcTransportOptions)} for more details).
+     *
+     * <p>This functionality is experimental and subject to change.
+     *
      * @param channelProvider A InstantiatingGrpcChannelProvider object that defines the transport
      *     provider for this client.
      */
     @BetaApi
     public Builder setChannelProvider(TransportChannelProvider channelProvider) {
       this.channelProvider = validateChannelProvider(channelProvider);
-      return this;
-    }
-
-    /**
-     * Sets the {@link CredentialsProvider} to use with this Datastore client.
-     *
-     * @param credentialsProvider A CredentialsProvider object that defines the credential provider
-     *     for this client.
-     */
-    @BetaApi
-    public Builder setCredentialsProvider(CredentialsProvider credentialsProvider) {
-      this.credentialsProvider = credentialsProvider;
       return this;
     }
 
@@ -183,8 +175,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
     namespace = MoreObjects.firstNonNull(builder.namespace, defaultNamespace());
     databaseId = MoreObjects.firstNonNull(builder.databaseId, DEFAULT_DATABASE_ID);
 
-    if (getTransportOptions() instanceof HttpTransportOptions
-        && (builder.channelProvider != null || builder.credentialsProvider != null)) {
+    if (getTransportOptions() instanceof HttpTransportOptions && builder.channelProvider != null) {
       throw new IllegalArgumentException(
           "Only gRPC transport allows setting of channel provider or credentials provider");
     } else if (getTransportOptions() instanceof GrpcTransportOptions) {
@@ -193,16 +184,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
               ? builder.channelProvider
               : GrpcTransportOptions.setUpChannelProvider(
                   DatastoreSettings.defaultGrpcTransportProviderBuilder(), this);
-
-      this.credentialsProvider =
-          builder.credentialsProvider != null
-              ? builder.credentialsProvider
-              : GrpcTransportOptions.setUpCredentialsProvider(this);
     }
-  }
-
-  public CredentialsProvider getCredentialsProvider() {
-    return credentialsProvider;
   }
 
   public TransportChannelProvider getTransportChannelProvider() {
