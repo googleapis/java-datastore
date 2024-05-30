@@ -22,7 +22,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import com.google.api.gax.core.NoCredentialsProvider;
 import com.google.api.gax.grpc.ChannelPoolSettings;
 import com.google.api.gax.grpc.InstantiatingGrpcChannelProvider;
 import com.google.cloud.NoCredentials;
@@ -92,7 +91,6 @@ public class DatastoreOptionsTest {
 
   @Test
   public void testCustomChannelAndCredentials() {
-    NoCredentialsProvider noCredentialsProvider = NoCredentialsProvider.create();
     InstantiatingGrpcChannelProvider channelProvider =
         DatastoreSettings.defaultGrpcTransportProviderBuilder()
             .setChannelPoolSettings(
@@ -108,11 +106,10 @@ public class DatastoreOptionsTest {
             .setDatabaseId(DATABASE_ID)
             .setTransportOptions(GrpcTransportOptions.newBuilder().build())
             .setChannelProvider(channelProvider)
-            .setCredentialsProvider(noCredentialsProvider)
+            .setCredentials(NoCredentials.getInstance())
             .setHost("http://localhost:" + PORT)
             .build();
     assertEquals(datastoreOptions.getTransportChannelProvider(), channelProvider);
-    assertEquals(datastoreOptions.getCredentialsProvider(), noCredentialsProvider);
   }
 
   @Test
@@ -131,7 +128,7 @@ public class DatastoreOptionsTest {
                             .setMaxChannelCount(20)
                             .build())
                     .build())
-            .setCredentialsProvider(NoCredentialsProvider.create())
+            .setCredentials(NoCredentials.getInstance())
             .setHost("http://localhost:" + PORT);
     Assert.assertThrows(IllegalArgumentException.class, options::build);
   }
@@ -146,11 +143,9 @@ public class DatastoreOptionsTest {
         DatastoreOptions.newBuilder()
             .setTransportOptions(GrpcTransportOptions.newBuilder().build())
             .setProjectId(PROJECT_ID)
-            .setCredentialsProvider(NoCredentialsProvider.create())
+            .setCredentials(NoCredentials.getInstance())
             .build();
     assertThat(grpcTransportOptions.getTransportOptions()).isInstanceOf(GrpcTransportOptions.class);
-    assertThat(grpcTransportOptions.getCredentialsProvider())
-        .isInstanceOf(NoCredentialsProvider.class);
     assertThat(grpcTransportOptions.getTransportChannelProvider())
         .isInstanceOf(InstantiatingGrpcChannelProvider.class);
   }
@@ -161,7 +156,7 @@ public class DatastoreOptionsTest {
         DatastoreOptions.newBuilder()
             .setTransportOptions(GrpcTransportOptions.newBuilder().build())
             .setProjectId(PROJECT_ID)
-            .setCredentialsProvider(NoCredentialsProvider.create())
+            .setCredentials(NoCredentials.getInstance())
             .build();
     assertThat(grpcTransportOptions.getHost()).isEqualTo(DatastoreSettings.getDefaultEndpoint());
     assertThat(grpcTransportOptions.getHost()).isEqualTo("datastore.googleapis.com:443");
@@ -172,7 +167,7 @@ public class DatastoreOptionsTest {
             .setTransportOptions(GrpcTransportOptions.newBuilder().build())
             .setHost(customHost)
             .setProjectId(PROJECT_ID)
-            .setCredentialsProvider(NoCredentialsProvider.create())
+            .setCredentials(NoCredentials.getInstance())
             .build();
     assertThat(grpcTransportOptionsCustomHost.getHost()).isEqualTo(customHost);
 
