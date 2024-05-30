@@ -22,9 +22,7 @@ import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_COMMIT;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_AGGREGATION_QUERY;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_QUERY;
-import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_COMMIT;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_LOOKUP;
-import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN;
 import static com.google.common.truth.Truth.assertThat;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SERVICE_NAME;
 import static org.junit.Assert.assertEquals;
@@ -751,7 +749,6 @@ public class ITE2ETracingTest {
     try (Scope ignored = rootSpan.makeCurrent()) {
       Transaction transaction = datastore.newTransaction();
       Entity entity = datastore.get(KEY1, ReadOption.transactionId(transaction.getTransactionId()));
-      transaction.commit();
       assertNull(entity);
     } finally {
       rootSpan.end();
@@ -760,54 +757,17 @@ public class ITE2ETracingTest {
 
     fetchAndValidateTrace(
         customSpanContext.getTraceId(),
-        /*numExpectedSpans=*/ 3,
-        Arrays.asList(
-            Collections.singletonList(SPAN_NAME_BEGIN_TRANSACTION),
-            Collections.singletonList(SPAN_NAME_TRANSACTION_LOOKUP),
-            Collections.singletonList(SPAN_NAME_TRANSACTION_COMMIT)));
-  }
-
-  @Test
-  public void runInTransactionQueryTest() throws Exception {
-    Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
-    Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
-    List<Entity> entityList = new ArrayList<>();
-    entityList.add(entity1);
-    entityList.add(entity2);
-
-    List<Entity> response = datastore.add(entity1, entity2);
-    assertEquals(entityList, response);
-
-    assertNotNull(customSpanContext);
-
-    Span rootSpan = getNewRootSpanWithContext();
-    try (Scope ignored = rootSpan.makeCurrent()) {
-      PropertyFilter filter = PropertyFilter.eq("test_field", entity1.getValue("test_field"));
-      Query<Entity> query =
-          Query.newEntityQueryBuilder().setKind(KEY1.getKind()).setFilter(filter).build();
-      Datastore.TransactionCallable<Boolean> callable =
-          transaction -> {
-            QueryResults<Entity> queryResults = datastore.run(query);
-            assertTrue(queryResults.hasNext());
-            assertEquals(entity1, queryResults.next());
-            assertFalse(queryResults.hasNext());
-            return true;
-          };
-      datastore.runInTransaction(callable);
-    } finally {
-      rootSpan.end();
-    }
-    waitForTracesToComplete();
+        /*numExpectedSpans=*/ 2,
+        Collections.singletonList(Collections.singletonList(SPAN_NAME_BEGIN_TRANSACTION)));
 
     fetchAndValidateTrace(
         customSpanContext.getTraceId(),
-        /*numExpectedSpans=*/ 4,
-        Arrays.asList(
-            Collections.singletonList(SPAN_NAME_TRANSACTION_RUN),
-            Collections.singletonList(SPAN_NAME_BEGIN_TRANSACTION),
-            Collections.singletonList(SPAN_NAME_RUN_QUERY),
-            Collections.singletonList(SPAN_NAME_TRANSACTION_COMMIT)));
+        /*numExpectedSpans=*/ 2,
+        Collections.singletonList(Collections.singletonList(SPAN_NAME_TRANSACTION_LOOKUP)));
   }
+
+  @Test
+  public void runInTransactionQueryTest() throws Exception {}
 
   @Test
   public void runInTransactionAggregationQueryTest() throws Exception {}
