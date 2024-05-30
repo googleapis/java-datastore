@@ -21,7 +21,6 @@ import com.google.api.core.ApiFuture;
 import com.google.api.core.InternalExtensionOnly;
 import com.google.cloud.datastore.DatastoreOptions;
 import io.grpc.ManagedChannelBuilder;
-import io.opentelemetry.context.Context;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,7 +35,6 @@ public interface TraceUtil {
   static final String SPAN_NAME_COMMIT = "Commit";
   static final String SPAN_NAME_RUN_QUERY = "RunQuery";
   static final String SPAN_NAME_RUN_AGGREGATION_QUERY = "RunAggregationQuery";
-  static final String SPAN_NAME_TRANSACTION_RUN = "Transaction.run";
   static final String SPAN_NAME_BEGIN_TRANSACTION = "Transaction.Begin";
   static final String SPAN_NAME_TRANSACTION_LOOKUP = "Transaction.Lookup";
   static final String SPAN_NAME_TRANSACTION_COMMIT = "Transaction.Commit";
