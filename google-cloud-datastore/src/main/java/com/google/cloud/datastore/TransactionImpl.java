@@ -20,8 +20,6 @@ import static com.google.cloud.datastore.ReadOption.transactionId;
 
 import com.google.api.core.BetaApi;
 import com.google.cloud.datastore.models.ExplainOptions;
-import com.google.cloud.datastore.telemetry.TraceUtil.Context;
-import com.google.cloud.datastore.telemetry.TraceUtil.Scope;
 import com.google.common.collect.ImmutableList;
 import com.google.datastore.v1.ReadOptions;
 import com.google.datastore.v1.TransactionOptions;
@@ -30,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import javax.annotation.Nonnull;
 
 final class TransactionImpl extends BaseDatastoreBatchWriter implements Transaction {
 
@@ -39,8 +36,6 @@ final class TransactionImpl extends BaseDatastoreBatchWriter implements Transact
   private boolean rolledback;
 
   private final ReadOptionProtoPreparer readOptionProtoPreparer;
-
-  @Nonnull private final Context transactionTraceContext;
 
   static class ResponseImpl implements Transaction.Response {
 
@@ -83,7 +78,6 @@ final class TransactionImpl extends BaseDatastoreBatchWriter implements Transact
 
     transactionId = datastore.requestTransactionId(requestPb);
     this.readOptionProtoPreparer = new ReadOptionProtoPreparer();
-    this.transactionTraceContext = datastore.getOptions().getTraceUtil().currentContext();
   }
 
   @Override
@@ -102,9 +96,7 @@ final class TransactionImpl extends BaseDatastoreBatchWriter implements Transact
   @Override
   public List<Entity> fetch(Key... keys) {
     validateActive();
-    try (Scope ignored = transactionTraceContext.makeCurrent()) {
-      return DatastoreHelper.fetch(this, keys);
-    }
+    return DatastoreHelper.fetch(this, keys);
   }
 
   @Override
