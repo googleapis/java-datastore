@@ -67,7 +67,6 @@ import com.google.datastore.v1.RunQueryRequest;
 import com.google.datastore.v1.RunQueryResponse;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.protobuf.ByteString;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -79,21 +78,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import org.easymock.EasyMock;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.threeten.bp.Duration;
 
 @RunWith(JUnit4.class)
-public class DatastoreTest {
+public abstract class AbstractDatastoreTest {
 
   private static final LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0, 9090);
-  private static DatastoreOptions options = helper.getOptions();
-  private static Datastore datastore;
+  protected static DatastoreOptions options = helper.getOptions();
+  protected static Datastore datastore;
   private static final String PROJECT_ID = options.getProjectId();
   private static final String KIND1 = "kind1";
   private static final String KIND2 = "kind2";
@@ -166,11 +162,9 @@ public class DatastoreTest {
   private DatastoreRpcFactory rpcFactoryMock;
   private DatastoreRpc rpcMock;
 
-  @BeforeClass
-  public static void beforeClass() throws IOException, InterruptedException {
-    helper.start();
-    options = helper.getOptions();
-    datastore = options.getService();
+  public AbstractDatastoreTest(DatastoreOptions options, Datastore datastore) {
+    this.options =options;
+    this.datastore = datastore;
   }
 
   @Before
@@ -188,12 +182,6 @@ public class DatastoreTest {
     QueryResults<Key> result = datastore.run(query);
     datastore.delete(Iterators.toArray(result, Key.class));
     datastore.add(ENTITY1, ENTITY2);
-  }
-
-  @AfterClass
-  public static void afterClass() throws Exception {
-    datastore.close();
-    helper.stop(Duration.ofMinutes(1));
   }
 
   @Test
