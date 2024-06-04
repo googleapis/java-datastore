@@ -18,6 +18,7 @@ package com.google.cloud.datastore;
 
 import com.google.cloud.datastore.testing.LocalDatastoreHelper;
 import com.google.cloud.grpc.GrpcTransportOptions;
+import com.google.common.truth.Truth;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.threeten.bp.Duration;
@@ -56,6 +57,7 @@ public class DatastoreTestGrpc extends AbstractDatastoreTest{
   @AfterClass
   public static void afterClass() throws Exception {
     datastore.close();
+    Truth.assertThat(datastore.isClosed()).isTrue();
     helper.stop(Duration.ofMinutes(1));
   }
 }

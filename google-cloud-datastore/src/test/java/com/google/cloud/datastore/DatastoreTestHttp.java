@@ -55,7 +55,6 @@ public class DatastoreTestHttp extends AbstractDatastoreTest{
 
   @AfterClass
   public static void afterClass() throws Exception {
-    datastore.close();
     helper.stop(Duration.ofMinutes(1));
   }
 }
