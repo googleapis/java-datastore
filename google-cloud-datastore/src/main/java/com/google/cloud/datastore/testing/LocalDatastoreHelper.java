@@ -21,7 +21,6 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import com.google.api.core.InternalApi;
 import com.google.cloud.NoCredentials;
 import com.google.cloud.ServiceOptions;
-import com.google.cloud.TransportOptions;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.testing.BaseEmulatorHelper;

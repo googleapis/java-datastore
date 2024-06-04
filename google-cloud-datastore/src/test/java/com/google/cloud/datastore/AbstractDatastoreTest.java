@@ -163,7 +163,7 @@ public abstract class AbstractDatastoreTest {
   private DatastoreRpc rpcMock;
 
   public AbstractDatastoreTest(DatastoreOptions options, Datastore datastore) {
-    this.options =options;
+    this.options = options;
     this.datastore = datastore;
   }
 

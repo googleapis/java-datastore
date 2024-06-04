@@ -31,13 +31,12 @@ import com.google.cloud.datastore.DatastoreException;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
+import com.google.cloud.grpc.GrpcTransportOptions;
+import com.google.cloud.http.HttpTransportOptions;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.TimeoutException;
-
-import com.google.cloud.grpc.GrpcTransportOptions;
-import com.google.cloud.http.HttpTransportOptions;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -178,12 +177,15 @@ public class ITLocalDatastoreHelperTest {
     DatastoreOptions options = helper.getOptions();
     assertThat(options.getTransportOptions()).isInstanceOf(HttpTransportOptions.class);
   }
+
   @Test
   public void testSetGrpcTransportOptions() {
     LocalDatastoreHelper helper = LocalDatastoreHelper.create();
-    DatastoreOptions options = helper.getGrpcTransportOptions(GrpcTransportOptions.newBuilder().build());
+    DatastoreOptions options =
+        helper.getGrpcTransportOptions(GrpcTransportOptions.newBuilder().build());
     assertThat(options.getTransportOptions()).isInstanceOf(GrpcTransportOptions.class);
-    assertThat(options.getTransportChannelProvider()).isInstanceOf(InstantiatingGrpcChannelProvider.class);
+    assertThat(options.getTransportChannelProvider())
+        .isInstanceOf(InstantiatingGrpcChannelProvider.class);
   }
 
   @Test

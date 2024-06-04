@@ -18,17 +18,16 @@ package com.google.cloud.datastore;
 
 import com.google.cloud.datastore.testing.LocalDatastoreHelper;
 import com.google.cloud.grpc.GrpcTransportOptions;
+import java.io.IOException;
+import java.util.Arrays;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.threeten.bp.Duration;
 
-import java.io.IOException;
-import java.util.Arrays;
-
 @RunWith(Parameterized.class)
-public class DatastoreTestHttp extends AbstractDatastoreTest{
+public class DatastoreTestHttp extends AbstractDatastoreTest {
 
   private static final LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0, 9090);
 
@@ -41,11 +40,9 @@ public class DatastoreTestHttp extends AbstractDatastoreTest{
 
   @Parameterized.Parameters(name = "data options: {0}")
   public static Iterable<Object[]> data() {
-    return Arrays.asList(
-            new Object[][] {
-                    {options, datastore}
-            });
+    return Arrays.asList(new Object[][] {{options, datastore}});
   }
+
   @BeforeClass
   public static void beforeClass() throws IOException, InterruptedException {
     helper.start();
