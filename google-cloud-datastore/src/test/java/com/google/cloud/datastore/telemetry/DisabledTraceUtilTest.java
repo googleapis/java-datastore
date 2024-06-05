@@ -48,6 +48,7 @@ public class DisabledTraceUtilTest {
     DisabledTraceUtil traceUtil = new DisabledTraceUtil();
     assertThat(traceUtil.getCurrentContext().makeCurrent() instanceof DisabledTraceUtil.Scope)
         .isTrue();
-    assertThat(traceUtil.getCurrentSpan().makeCurrent() instanceof DisabledTraceUtil.Scope).isTrue();
+    assertThat(traceUtil.getCurrentSpan().makeCurrent() instanceof DisabledTraceUtil.Scope)
+        .isTrue();
   }
 }
