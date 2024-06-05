@@ -83,7 +83,7 @@ final class TransactionImpl extends BaseDatastoreBatchWriter implements Transact
 
     transactionId = datastore.requestTransactionId(requestPb);
     this.readOptionProtoPreparer = new ReadOptionProtoPreparer();
-    this.transactionTraceContext = datastore.getOptions().getTraceUtil().currentContext();
+    this.transactionTraceContext = datastore.getOptions().getTraceUtil().getCurrentContext();
   }
 
   @Override

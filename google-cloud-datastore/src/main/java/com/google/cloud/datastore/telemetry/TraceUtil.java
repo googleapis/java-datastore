@@ -21,7 +21,6 @@ import com.google.api.core.ApiFuture;
 import com.google.api.core.InternalExtensionOnly;
 import com.google.cloud.datastore.DatastoreOptions;
 import io.grpc.ManagedChannelBuilder;
-import io.opentelemetry.context.Context;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -135,9 +134,9 @@ public interface TraceUtil {
 
   /** Returns the current span. */
   @Nonnull
-  Span currentSpan();
+  Span getCurrentSpan();
 
   /** Returns the current Context. */
   @Nonnull
-  Context currentContext();
+  Context getCurrentContext();
 }

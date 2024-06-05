@@ -82,23 +82,23 @@ public class EnabledTraceUtilTest {
 
   @Test
   public void usesEnabledContext() {
-    assertThat(newEnabledTraceUtil().currentContext() instanceof EnabledTraceUtil.Context).isTrue();
+    assertThat(newEnabledTraceUtil().getCurrentContext() instanceof EnabledTraceUtil.Context).isTrue();
   }
 
   @Test
   public void usesEnabledSpan() {
     EnabledTraceUtil traceUtil = newEnabledTraceUtil();
-    assertThat(traceUtil.currentSpan() instanceof EnabledTraceUtil.Span).isTrue();
+    assertThat(traceUtil.getCurrentSpan() instanceof EnabledTraceUtil.Span).isTrue();
     assertThat(traceUtil.startSpan("foo") != null).isTrue();
     assertThat(
-            traceUtil.startSpan("foo", traceUtil.currentContext()) instanceof EnabledTraceUtil.Span)
+            traceUtil.startSpan("foo", traceUtil.getCurrentContext()) instanceof EnabledTraceUtil.Span)
         .isTrue();
   }
 
   @Test
   public void usesEnabledScope() {
     EnabledTraceUtil traceUtil = newEnabledTraceUtil();
-    assertThat(traceUtil.currentContext().makeCurrent() instanceof EnabledTraceUtil.Scope).isTrue();
-    assertThat(traceUtil.currentSpan().makeCurrent() instanceof EnabledTraceUtil.Scope).isTrue();
+    assertThat(traceUtil.getCurrentContext().makeCurrent() instanceof EnabledTraceUtil.Scope).isTrue();
+    assertThat(traceUtil.getCurrentSpan().makeCurrent() instanceof EnabledTraceUtil.Scope).isTrue();
   }
 }
