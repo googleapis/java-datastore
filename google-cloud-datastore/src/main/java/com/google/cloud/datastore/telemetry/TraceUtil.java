@@ -35,6 +35,7 @@ public interface TraceUtil {
   static final String SPAN_NAME_COMMIT = "Commit";
   static final String SPAN_NAME_RUN_QUERY = "RunQuery";
   static final String SPAN_NAME_RUN_AGGREGATION_QUERY = "RunAggregationQuery";
+  static final String SPAN_NAME_TRANSACTION_RUN = "Transaction.run";
   static final String SPAN_NAME_BEGIN_TRANSACTION = "Transaction.Begin";
   static final String SPAN_NAME_TRANSACTION_LOOKUP = "Transaction.Lookup";
   static final String SPAN_NAME_TRANSACTION_COMMIT = "Transaction.Commit";
@@ -133,9 +134,9 @@ public interface TraceUtil {
 
   /** Returns the current span. */
   @Nonnull
-  Span currentSpan();
+  Span getCurrentSpan();
 
   /** Returns the current Context. */
   @Nonnull
-  Context currentContext();
+  Context getCurrentContext();
 }
