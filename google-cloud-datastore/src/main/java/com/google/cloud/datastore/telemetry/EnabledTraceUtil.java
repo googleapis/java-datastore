@@ -300,13 +300,13 @@ public class EnabledTraceUtil implements TraceUtil {
 
   @Nonnull
   @Override
-  public TraceUtil.Span currentSpan() {
+  public TraceUtil.Span getCurrentSpan() {
     return new Span(io.opentelemetry.api.trace.Span.current(), "");
   }
 
   @Nonnull
   @Override
-  public TraceUtil.Context currentContext() {
+  public TraceUtil.Context getCurrentContext() {
     return new Context(io.opentelemetry.context.Context.current());
   }
 }
