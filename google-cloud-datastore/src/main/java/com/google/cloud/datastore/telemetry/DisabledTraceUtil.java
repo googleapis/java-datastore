@@ -102,13 +102,13 @@ public class DisabledTraceUtil implements TraceUtil {
 
   @Nonnull
   @Override
-  public TraceUtil.Span currentSpan() {
+  public TraceUtil.Span getCurrentSpan() {
     return new Span();
   }
 
   @Nonnull
   @Override
-  public TraceUtil.Context currentContext() {
+  public TraceUtil.Context getCurrentContext() {
     return new Context();
   }
 }
