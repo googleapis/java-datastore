@@ -105,6 +105,11 @@ custom_content: |
   running on Compute Engine or from your own desktop. To run the example on App Engine, simply move
   the code from the main method to your application's servlet class and change the print statements to
   display on your webpage.
+  
+  
+  gRPC Datastore Client
+  -------
+  In this feature launch, the Java Datastore client (https://github.com/googleapis/java-datastore)  now offers gRPC as a transport layer option with experimental support.
 
   Testing
   -------
