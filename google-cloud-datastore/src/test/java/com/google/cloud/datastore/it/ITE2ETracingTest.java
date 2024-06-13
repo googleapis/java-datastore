@@ -17,6 +17,7 @@
 package com.google.cloud.datastore.it;
 
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
+import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_ALLOCATE_IDS;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_BEGIN_TRANSACTION;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_COMMIT;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP;
@@ -38,7 +39,9 @@ import com.google.cloud.datastore.AggregationResults;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.IncompleteKey;
 import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.ReadOption;
@@ -573,6 +576,31 @@ public class ITE2ETracingTest {
   }
 
   @Test
+  public void allocateIdsTraceTest() throws Exception {
+    assertNotNull(customSpanContext);
+
+    Span rootSpan = getNewRootSpanWithContext();
+    try (Scope ignored = rootSpan.makeCurrent()) {
+      String kind1 = "kind1";
+      KeyFactory keyFactory = datastore.newKeyFactory().setKind(kind1);
+      IncompleteKey pk1 = keyFactory.newKey();
+      Key key1 = datastore.allocateId(pk1);
+      assertEquals(key1.getProjectId(), pk1.getProjectId());
+      assertEquals(key1.getNamespace(), pk1.getNamespace());
+      assertEquals(key1.getAncestors(), pk1.getAncestors());
+      assertEquals(key1.getKind(), pk1.getKind());
+      assertTrue(key1.hasId());
+      assertFalse(key1.hasName());
+      assertEquals(Key.newBuilder(pk1, key1.getId()).build(), key1);
+    } finally {
+      rootSpan.end();
+    }
+    waitForTracesToComplete();
+
+    fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_ALLOCATE_IDS);
+  }
+
+  @Test
   public void commitTraceTest() throws Exception {
     assertNotNull(customSpanContext);
 
@@ -654,6 +682,7 @@ public class ITE2ETracingTest {
     waitForTracesToComplete();
     fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_COMMIT);
   }
+
 
   @Test
   public void runQueryTraceTest() throws Exception {
