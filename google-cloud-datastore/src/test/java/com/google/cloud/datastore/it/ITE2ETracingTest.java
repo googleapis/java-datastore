@@ -685,7 +685,6 @@ public class ITE2ETracingTest {
     fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_COMMIT);
   }
 
-
   @Test
   public void runQueryTraceTest() throws Exception {
     Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
