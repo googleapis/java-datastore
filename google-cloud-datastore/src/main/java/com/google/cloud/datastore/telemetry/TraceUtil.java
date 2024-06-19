@@ -32,6 +32,7 @@ public interface TraceUtil {
   static final String ENABLE_TRACING_ENV_VAR = "DATASTORE_ENABLE_TRACING";
   static final String LIBRARY_NAME = "com.google.cloud.datastore";
   static final String SPAN_NAME_LOOKUP = "Lookup";
+  static final String SPAN_NAME_ALLOCATE_IDS = "AllocateIds";
   static final String SPAN_NAME_COMMIT = "Commit";
   static final String SPAN_NAME_RUN_QUERY = "RunQuery";
   static final String SPAN_NAME_RUN_AGGREGATION_QUERY = "RunAggregationQuery";
