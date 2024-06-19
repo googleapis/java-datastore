@@ -31,7 +31,6 @@ import io.opencensus.trace.Tracing;
 public class TraceUtil {
   private final Tracer tracer = Tracing.getTracer();
   private static final TraceUtil traceUtil = new TraceUtil();
-  static final String SPAN_NAME_ALLOCATEIDS = "CloudDatastoreOperation.allocateIds";
   static final String SPAN_NAME_TRANSACTION = "CloudDatastoreOperation.readWriteTransaction";
   static final String SPAN_NAME_BEGINTRANSACTION = "CloudDatastoreOperation.beginTransaction";
   static final String SPAN_NAME_COMMIT = "CloudDatastoreOperation.commit";
