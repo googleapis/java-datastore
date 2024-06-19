@@ -224,6 +224,7 @@ git clone -b grpc-experimental https://github.com/googleapis/java-datastore.git
 ```python
 # Go to the directory the code was downloaded to
 cd java-datastore/
+
 # Build the library
 mvn clean install -DskipTests=true
 ```
@@ -238,6 +239,7 @@ mvn clean install -DskipTests=true
 
 #### How to Use
 To opt-in to the gRPC transport behavior, simply add the below line of code (setTransportOptions) to your Datastore client instantiation.
+
 Example:
 ```java
 DatastoreOptions datastoreOptions =
@@ -254,19 +256,18 @@ Example:
 ```java
 // will default to existing HTTP transport behavior
 DatastoreOptions datastoreOptions = DatastoreOptions.newBuilder()
-.setProjectId("my-project")
-.setDatabaseId("my-database")
-.build();
+    .setProjectId("my-project")
+    .setDatabaseId("my-database")
+    .build();
 
 // will also default to existing HTTP transport behavior
 DatastoreOptions datastoreOptions =
-DatastoreOptions.newBuilder()
-.setProjectId("my-project")
-.setDatabaseId("my-database")
-.setTransportOptions(HttpTransportOptions.newBuilder()
-.setConnectTimeout(1000)
-.build())
-.build();
+            DatastoreOptions.newBuilder()
+              .setProjectId("my-project")
+              .setDatabaseId("my-database")
+              .setTransportOptions(HttpTransportOptions.newBuilder()
+              .setConnectTimeout(1000)
+              .build()).build();
 ```
 
 Note: client instantiations that already use setTransportOptions with HttpTransportOptions will continue to have the same behavior. Only transports that are explicitly set to gRPC will change.
@@ -274,10 +275,10 @@ Note: client instantiations that already use setTransportOptions with HttpTransp
 #### Verify Datastore Transport Options Type
 To verify which type of TransportOptions you have successfully configured, you can use the below lines of code to compare transport options type:
 ```java
-// Compares datastore transport options type
-
+// checks if using gRPC transport options
 boolean isGRPC = datastore.getOptions().getTransportOptions() instanceof GrpcTransportOptions;
 
+// checks if using HTTP transport options
 boolean isHTTP = datastore.getOptions().getTransportOptions() instanceof HTTPTransportOptions;
 ```
 
@@ -285,7 +286,9 @@ boolean isHTTP = datastore.getOptions().getTransportOptions() instanceof HTTPTra
 There are new gRPC specific features available to use in this update.
 
 ##### Channel Pooling
-To customize the number of channels your client uses, you can update the channel provider in the DatastoreOptions. See [ChannelPoolSettings](https://cloud.google.com/java/docs/reference/gax/latest/com.google.api.gax.grpc.ChannelPoolSettings) and [Performance Best Practices](https://grpc.io/docs/guides/performance/) for more information on channel pools and best practices for performance.
+To customize the number of channels your client uses, you can update the channel provider in the DatastoreOptions. 
+See [ChannelPoolSettings](https://cloud.google.com/java/docs/reference/gax/latest/com.google.api.gax.grpc.ChannelPoolSettings) and [Performance Best Practices](https://grpc.io/docs/guides/performance/) for more information on channel pools and best practices for performance.
+
 Example:
 ```java
 InstantiatingGrpcChannelProvider channelProvider =
@@ -298,10 +301,10 @@ InstantiatingGrpcChannelProvider channelProvider =
               .build();
 
 DatastoreOptions options = DatastoreOptions.newBuilder()
-.setProjectId("my-project")
-.setChannelProvider(channelProvider)
-.setTransportOptions(GrpcTransportOptions.newBuilder().build())
-.build();
+                          .setProjectId("my-project")
+                          .setChannelProvider(channelProvider)
+                          .setTransportOptions(GrpcTransportOptions.newBuilder().build())
+                          .build();
 ```
 Testing
 -------
