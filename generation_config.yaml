@@ -1,16 +1,6 @@
 gapic_generator_version: 2.41.0
-protoc_version: '25.3'
 googleapis_commitish: bcaed39fd1a805a6411a3992ea32dc1ba0ba7ec3
 libraries_bom_version: 26.38.0
-template_excludes:
-  - .kokoro/presubmit/integration.cfg
-  - .kokoro/presubmit/graalvm-native.cfg
-  - .kokoro/presubmit/graalvm-native-17.cfg
-  - .kokoro/nightly/integration.cfg
-  - .kokoro/nightly/java11-integration.cfg
-  - .kokoro/requirements.in
-  - .kokoro/requirements.txt
-  - .github/dependabot.yml
 libraries:
   - api_shortname: "datastore"
     name_pretty: "Cloud Datastore"
