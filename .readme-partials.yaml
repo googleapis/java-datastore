@@ -134,7 +134,7 @@ custom_content: |
   ```
   
   #### How to Use
-  To opt-in to the gRPC transport behavior, simply add the below line of code (setTransportOptions) to your Datastore client instantiation.
+  To opt-in to the gRPC transport behavior, simply add the below line of code (`setTransportOptions`) to your Datastore client instantiation.
   
   Example:
   ```java
@@ -145,9 +145,9 @@ custom_content: |
                .setTransportOptions(GrpcTransportOptions.newBuilder().build())
                .build();
   ```
-  Setting the transport options explicitly to GrpcTransportOptions will signal the client to use gRPC instead of HTTP when making calls to the server.
+  Setting the transport options explicitly to `GrpcTransportOptions` will signal the client to use gRPC instead of HTTP when making calls to the server.
   
-  To revert back to the existing stable behavior and transport, simply remove the transport options line or replace it with HttpTransportOptions. Please note this will require an application rebuild and restart.
+  To revert back to the existing stable behavior and transport, simply remove the transport options line or replace it with `HttpTransportOptions`. Please note this will require an application rebuild and restart.
   Example:
   ```java
   // will default to existing HTTP transport behavior
@@ -166,7 +166,7 @@ custom_content: |
                 .build()).build();
   ```
   
-  Note: client instantiations that already use setTransportOptions with HttpTransportOptions will continue to have the same behavior. Only transports that are explicitly set to gRPC will change.
+  Note: client instantiations that already use `setTransportOptions` with `HttpTransportOptions` will continue to have the same behavior. Only transports that are explicitly set to gRPC will change.
   
   #### Verify Datastore Transport Options Type
   To verify which type of TransportOptions you have successfully configured, you can use the below lines of code to compare transport options type:
