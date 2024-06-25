@@ -231,9 +231,9 @@ mvn clean install -DskipTests=true
 3. Add the following dependency to your project:
 ```xml
 <dependency>
-<groupId>com.google.cloud</groupId>
-<artifactId>google-cloud-datastore</artifactId>
-<version>2.20.0-grpc-experimental-1-SNAPSHOT</version>
+  <groupId>com.google.cloud</groupId>
+  <artifactId>google-cloud-datastore</artifactId>
+  <version>2.20.0-grpc-experimental-1-SNAPSHOT</version>
 </dependency>
 ```
 
