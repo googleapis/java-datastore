@@ -21,6 +21,7 @@ import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_ALLOCATE_
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_BEGIN_TRANSACTION;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_COMMIT;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP;
+import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RESERVE_IDS;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_AGGREGATION_QUERY;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_QUERY;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_COMMIT;
@@ -600,6 +601,25 @@ public class ITE2ETracingTest {
     waitForTracesToComplete();
 
     fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_ALLOCATE_IDS);
+  }
+
+  @Test
+  public void reserveIdsTraceTest() throws Exception {
+    assertNotNull(customSpanContext);
+
+    Span rootSpan = getNewRootSpanWithContext();
+    try (Scope ignored = rootSpan.makeCurrent()) {
+      KeyFactory keyFactory = datastore.newKeyFactory().setKind("MyKind");
+      Key key1 = keyFactory.newKey(10);
+      Key key2 = keyFactory.newKey("name");
+      List<Key> keyList = datastore.reserveIds(key1, key2);
+      assertEquals(2, keyList.size());
+    } finally {
+      rootSpan.end();
+    }
+    waitForTracesToComplete();
+
+    fetchAndValidateTrace(customSpanContext.getTraceId(), SPAN_NAME_RESERVE_IDS);
   }
 
   @Test
