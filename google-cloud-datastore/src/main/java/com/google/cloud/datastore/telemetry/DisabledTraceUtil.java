@@ -22,6 +22,8 @@ import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.telemetry.TraceUtil.SpanContext;
 import io.grpc.ManagedChannelBuilder;
 import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.api.trace.TracerProvider;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -33,7 +35,12 @@ import javax.annotation.Nullable;
 @InternalApi
 public class DisabledTraceUtil implements TraceUtil {
 
-  static class SpanContext implements TraceUtil.SpanContext {}
+  static class SpanContext implements TraceUtil.SpanContext {
+    @Override
+    public io.opentelemetry.api.trace.SpanContext getSpanContext() {
+      return null;
+    }
+  }
 
   static class Span implements TraceUtil.Span {
     @Override
@@ -124,5 +131,10 @@ public class DisabledTraceUtil implements TraceUtil {
   @Override
   public TraceUtil.SpanContext getCurrentSpanContext() {
     return new SpanContext();
+  }
+
+  @Override
+  public Tracer getTracer() {
+    return TracerProvider.noop().get(LIBRARY_NAME);
   }
 }

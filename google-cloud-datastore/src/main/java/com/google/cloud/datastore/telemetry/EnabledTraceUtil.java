@@ -80,7 +80,8 @@ public class EnabledTraceUtil implements TraceUtil {
       this.spanContext = spanContext;
     }
 
-    io.opentelemetry.api.trace.SpanContext getSpanContext() {
+    @Override
+    public io.opentelemetry.api.trace.SpanContext getSpanContext() {
       return this.spanContext;
     }
   }
@@ -306,7 +307,6 @@ public class EnabledTraceUtil implements TraceUtil {
 
   @Override
   public TraceUtil.Span startSpan(String spanName, TraceUtil.SpanContext parentSpanContext) {
-    assert (parentSpanContext instanceof SpanContext);
     SpanBuilder spanBuilder =
         tracer
             .spanBuilder(spanName)
@@ -314,8 +314,7 @@ public class EnabledTraceUtil implements TraceUtil {
             .setParent(
                 io.opentelemetry.context.Context.current()
                     .with(
-                        io.opentelemetry.api.trace.Span.wrap(
-                            ((SpanContext) parentSpanContext).getSpanContext())));
+                        io.opentelemetry.api.trace.Span.wrap(parentSpanContext.getSpanContext())));
     io.opentelemetry.api.trace.Span span =
         addSettingsAttributesToCurrentSpan(spanBuilder).startSpan();
     return new Span(span, spanName);
@@ -337,5 +336,10 @@ public class EnabledTraceUtil implements TraceUtil {
   @Override
   public TraceUtil.SpanContext getCurrentSpanContext() {
     return new SpanContext(io.opentelemetry.api.trace.Span.current().getSpanContext());
+  }
+
+  @Override
+  public Tracer getTracer() {
+    return this.tracer;
   }
 }

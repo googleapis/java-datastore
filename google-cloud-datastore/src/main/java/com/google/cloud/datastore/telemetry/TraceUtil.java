@@ -22,6 +22,7 @@ import com.google.api.core.InternalExtensionOnly;
 import com.google.cloud.datastore.DatastoreOptions;
 import io.grpc.ManagedChannelBuilder;
 import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.Tracer;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -79,7 +80,9 @@ public interface TraceUtil {
   ApiFunction<ManagedChannelBuilder, ManagedChannelBuilder> getChannelConfigurator();
 
   /** Represents a trace span's context */
-  interface SpanContext {}
+  interface SpanContext {
+    io.opentelemetry.api.trace.SpanContext getSpanContext();
+  }
 
   /** Represents a trace span. */
   interface Span {
@@ -150,4 +153,7 @@ public interface TraceUtil {
   /** Returns the current SpanContext */
   @Nonnull
   SpanContext getCurrentSpanContext();
+
+  /** Returns the current OpenTelemetry Tracer when OpenTelemetry SDK is provided. */
+  Tracer getTracer();
 }
