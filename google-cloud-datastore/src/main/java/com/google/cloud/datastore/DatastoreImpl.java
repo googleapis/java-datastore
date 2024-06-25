@@ -51,6 +51,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -141,31 +142,31 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
     @Override
     public T call() throws DatastoreException {
-      io.opentelemetry.api.trace.Span runInternalSpan =
-          datastore
-              .getOptions()
-              .getOpenTelemetryOptions()
-              .getOpenTelemetry()
+      io.opentelemetry.api.trace.Span span =
+          Objects.requireNonNull(datastore
+                  .getOptions()
+                  .getOpenTelemetryOptions()
+                  .getOpenTelemetry())
               .getTracer(com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN)
               .spanBuilder(com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN)
               .setParent(
                   Context.current().with(io.opentelemetry.api.trace.Span.wrap(parentSpanContext)))
               .startSpan();
 
-      try (io.opentelemetry.context.Scope ignored = runInternalSpan.makeCurrent()) {
+      try (io.opentelemetry.context.Scope ignored = span.makeCurrent()) {
         transaction = datastore.newTransaction(options);
         T value = callable.run(transaction);
         transaction.commit();
         return value;
       } catch (Exception ex) {
         transaction.rollback();
-        runInternalSpan.end();
+        span.end();
         throw DatastoreException.propagateUserException(ex);
       } finally {
         if (transaction.isActive()) {
           transaction.rollback();
         }
-        runInternalSpan.end();
+        span.end();
         if (options != null
             && options.getModeCase().equals(TransactionOptions.ModeCase.READ_WRITE)) {
           setPrevTransactionId(transaction.getTransactionId());

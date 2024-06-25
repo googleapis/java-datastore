@@ -44,8 +44,6 @@ public interface TraceUtil {
   static final String SPAN_NAME_ROLLBACK = "Transaction.Rollback";
   static final String SPAN_NAME_TRANSACTION_RUN_AGGREGATION_QUERY =
       "Transaction.RunAggregationQuery";
-  static final String SPAN_NAME_ROLLBACK = "Transaction.Rollback";
-
   /**
    * Creates and returns an instance of the TraceUtil class.
    *
