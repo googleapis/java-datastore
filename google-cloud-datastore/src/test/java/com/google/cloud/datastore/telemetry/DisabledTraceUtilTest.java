@@ -38,7 +38,7 @@ public class DisabledTraceUtilTest {
     assertThat(traceUtil.getCurrentSpan() instanceof DisabledTraceUtil.Span).isTrue();
     assertThat(traceUtil.startSpan("foo") instanceof DisabledTraceUtil.Span).isTrue();
     assertThat(
-            traceUtil.startSpan("foo", traceUtil.getCurrentContext())
+            traceUtil.startSpan("foo", traceUtil.getCurrentSpanContext())
                 instanceof DisabledTraceUtil.Span)
         .isTrue();
   }

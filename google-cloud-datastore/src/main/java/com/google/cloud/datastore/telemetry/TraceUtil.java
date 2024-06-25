@@ -21,6 +21,7 @@ import com.google.api.core.ApiFuture;
 import com.google.api.core.InternalExtensionOnly;
 import com.google.cloud.datastore.DatastoreOptions;
 import io.grpc.ManagedChannelBuilder;
+import io.opentelemetry.api.trace.Span;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,13 +37,15 @@ public interface TraceUtil {
   static final String SPAN_NAME_COMMIT = "Commit";
   static final String SPAN_NAME_RUN_QUERY = "RunQuery";
   static final String SPAN_NAME_RUN_AGGREGATION_QUERY = "RunAggregationQuery";
-  static final String SPAN_NAME_TRANSACTION_RUN = "Transaction.run";
+  static final String SPAN_NAME_TRANSACTION_RUN = "Transaction.Run";
   static final String SPAN_NAME_BEGIN_TRANSACTION = "Transaction.Begin";
   static final String SPAN_NAME_TRANSACTION_LOOKUP = "Transaction.Lookup";
   static final String SPAN_NAME_TRANSACTION_COMMIT = "Transaction.Commit";
   static final String SPAN_NAME_ROLLBACK = "Transaction.Rollback";
   static final String SPAN_NAME_TRANSACTION_RUN_AGGREGATION_QUERY =
       "Transaction.RunAggregationQuery";
+  static final String SPAN_NAME_ROLLBACK = "Transaction.Rollback";
+
   /**
    * Creates and returns an instance of the TraceUtil class.
    *
@@ -77,6 +80,9 @@ public interface TraceUtil {
   @Nullable
   ApiFunction<ManagedChannelBuilder, ManagedChannelBuilder> getChannelConfigurator();
 
+  /** Represents a trace span's context */
+  interface SpanContext {}
+
   /** Represents a trace span. */
   interface Span {
     /** Adds the given event to this span. */
@@ -93,6 +99,8 @@ public interface TraceUtil {
 
     /** Adds the given attribute to this span. */
     Span setAttribute(String key, boolean value);
+
+    io.opentelemetry.api.trace.Span getSpan();
 
     /** Marks this span as the current span. */
     Scope makeCurrent();
@@ -128,10 +136,10 @@ public interface TraceUtil {
   Span startSpan(String spanName);
 
   /**
-   * Starts a new span with the given name and the given context as its parent, sets it as the
-   * current span, and returns it.
+   * Starts a new span with the given name and the span represented by the parentSpanContext as its
+   * parents, sets it as the current span and returns it.
    */
-  Span startSpan(String spanName, Context parent);
+  Span startSpan(String spanName, SpanContext parentSpanContext);
 
   /** Returns the current span. */
   @Nonnull
@@ -140,4 +148,8 @@ public interface TraceUtil {
   /** Returns the current Context. */
   @Nonnull
   Context getCurrentContext();
+
+  /** Returns the current SpanContext */
+  @Nonnull
+  SpanContext getCurrentSpanContext();
 }

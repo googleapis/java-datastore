@@ -22,16 +22,19 @@ import com.google.api.core.ApiFutureCallback;
 import com.google.api.core.ApiFutures;
 import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.telemetry.TraceUtil.SpanContext;
 import com.google.common.base.Throwables;
 import io.grpc.ManagedChannelBuilder;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.common.AttributesBuilder;
+import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanBuilder;
 import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.context.Context;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -68,6 +71,18 @@ public class EnabledTraceUtil implements TraceUtil {
   public ApiFunction<ManagedChannelBuilder, ManagedChannelBuilder> getChannelConfigurator() {
     // TODO(jimit) Update this to return a gRPC Channel Configurator after gRPC upgrade.
     return null;
+  }
+
+  static class SpanContext implements TraceUtil.SpanContext {
+    private final io.opentelemetry.api.trace.SpanContext spanContext;
+
+    public SpanContext(io.opentelemetry.api.trace.SpanContext spanContext) {
+      this.spanContext = spanContext;
+    }
+
+    io.opentelemetry.api.trace.SpanContext getSpanContext() {
+      return this.spanContext;
+    }
   }
 
   static class Span implements TraceUtil.Span {
@@ -181,6 +196,10 @@ public class EnabledTraceUtil implements TraceUtil {
       return this;
     }
 
+    public io.opentelemetry.api.trace.Span getSpan() {
+      return this.span;
+    }
+
     @Override
     public Scope makeCurrent() {
       try (io.opentelemetry.context.Scope scope = span.makeCurrent()) {
@@ -286,13 +305,17 @@ public class EnabledTraceUtil implements TraceUtil {
   }
 
   @Override
-  public TraceUtil.Span startSpan(String spanName, TraceUtil.Context parent) {
-    assert (parent instanceof Context);
+  public TraceUtil.Span startSpan(String spanName, TraceUtil.SpanContext parentSpanContext) {
+    assert (parentSpanContext instanceof SpanContext);
     SpanBuilder spanBuilder =
         tracer
             .spanBuilder(spanName)
             .setSpanKind(SpanKind.PRODUCER)
-            .setParent(((Context) parent).context);
+            .setParent(
+                io.opentelemetry.context.Context.current()
+                    .with(
+                        io.opentelemetry.api.trace.Span.wrap(
+                            ((SpanContext) parentSpanContext).getSpanContext())));
     io.opentelemetry.api.trace.Span span =
         addSettingsAttributesToCurrentSpan(spanBuilder).startSpan();
     return new Span(span, spanName);
@@ -308,5 +331,11 @@ public class EnabledTraceUtil implements TraceUtil {
   @Override
   public TraceUtil.Context getCurrentContext() {
     return new Context(io.opentelemetry.context.Context.current());
+  }
+
+  @Nonnull
+  @Override
+  public TraceUtil.SpanContext getCurrentSpanContext() {
+    return new SpanContext(io.opentelemetry.api.trace.Span.current().getSpanContext());
   }
 }

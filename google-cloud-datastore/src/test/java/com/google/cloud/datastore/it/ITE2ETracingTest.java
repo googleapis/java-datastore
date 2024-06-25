@@ -26,6 +26,7 @@ import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_QUERY
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_COMMIT;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_LOOKUP;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN;
+import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN_QUERY;
 import static com.google.common.truth.Truth.assertThat;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SERVICE_NAME;
 import static org.junit.Assert.assertEquals;
@@ -831,10 +832,9 @@ public class ITE2ETracingTest {
         customSpanContext.getTraceId(),
         /*numExpectedSpans=*/ 4,
         Arrays.asList(
-            Collections.singletonList(SPAN_NAME_TRANSACTION_RUN),
-            Collections.singletonList(SPAN_NAME_BEGIN_TRANSACTION),
-            Collections.singletonList(SPAN_NAME_RUN_QUERY),
-            Collections.singletonList(SPAN_NAME_TRANSACTION_COMMIT)));
+            Arrays.asList(SPAN_NAME_TRANSACTION_RUN, SPAN_NAME_BEGIN_TRANSACTION),
+            Arrays.asList(SPAN_NAME_TRANSACTION_RUN, SPAN_NAME_RUN_QUERY),
+            Arrays.asList(SPAN_NAME_TRANSACTION_RUN, SPAN_NAME_TRANSACTION_COMMIT)));
   }
 
   @Test
