@@ -143,10 +143,8 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     @Override
     public T call() throws DatastoreException {
       io.opentelemetry.api.trace.Span span =
-          Objects.requireNonNull(datastore
-                  .getOptions()
-                  .getOpenTelemetryOptions()
-                  .getOpenTelemetry())
+          Objects.requireNonNull(
+                  datastore.getOptions().getOpenTelemetryOptions().getOpenTelemetry())
               .getTracer(com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN)
               .spanBuilder(com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN)
               .setParent(
