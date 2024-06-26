@@ -292,8 +292,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
             ? com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN_QUERY
             : com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_QUERY);
     com.google.cloud.datastore.telemetry.TraceUtil.Span span = otelTraceUtil.startSpan(spanName);
-    span.setAttribute(
-        "isTransactional", readOptions.hasTransaction() || readOptions.hasNewTransaction());
+    span.setAttribute("isTransactional", isTransactional);
     span.setAttribute("readConsistency", readOptions.getReadConsistency().toString());
 
     try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
