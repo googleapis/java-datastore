@@ -27,6 +27,7 @@ import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_QUERY
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_COMMIT;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_LOOKUP;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN;
+import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN_QUERY;
 import static com.google.common.truth.Truth.assertThat;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SERVICE_NAME;
 import static org.junit.Assert.assertEquals;
@@ -816,7 +817,48 @@ public class ITE2ETracingTest {
   }
 
   @Test
+  public void transactionQueryTest() throws Exception {
+    // Set up
+    Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
+    Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
+    List<Entity> entityList = new ArrayList<>();
+    entityList.add(entity1);
+    entityList.add(entity2);
+
+    List<Entity> response = datastore.add(entity1, entity2);
+    assertEquals(entityList, response);
+
+    assertNotNull(customSpanContext);
+
+    // Test
+    Span rootSpan = getNewRootSpanWithContext();
+    try (Scope ignored = rootSpan.makeCurrent()) {
+      Transaction transaction = datastore.newTransaction();
+      PropertyFilter filter = PropertyFilter.eq("test_field", entity1.getValue("test_field"));
+      Query<Entity> query =
+          Query.newEntityQueryBuilder().setKind(KEY1.getKind()).setFilter(filter).build();
+      QueryResults<Entity> queryResults = transaction.run(query);
+      transaction.commit();
+      assertTrue(queryResults.hasNext());
+      assertEquals(entity1, queryResults.next());
+      assertFalse(queryResults.hasNext());
+    } finally {
+      rootSpan.end();
+    }
+    waitForTracesToComplete();
+
+    fetchAndValidateTrace(
+        customSpanContext.getTraceId(),
+        /*numExpectedSpans=*/ 3,
+        Arrays.asList(
+            Collections.singletonList(SPAN_NAME_BEGIN_TRANSACTION),
+            Collections.singletonList(SPAN_NAME_TRANSACTION_RUN_QUERY),
+            Collections.singletonList(SPAN_NAME_TRANSACTION_COMMIT)));
+  }
+
+  @Test
   public void runInTransactionQueryTest() throws Exception {
+    // Set up
     Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
     Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
     List<Entity> entityList = new ArrayList<>();
@@ -851,14 +893,13 @@ public class ITE2ETracingTest {
         customSpanContext.getTraceId(),
         /*numExpectedSpans=*/ 4,
         Arrays.asList(
-            Collections.singletonList(SPAN_NAME_TRANSACTION_RUN),
-            Collections.singletonList(SPAN_NAME_BEGIN_TRANSACTION),
-            Collections.singletonList(SPAN_NAME_RUN_QUERY),
-            Collections.singletonList(SPAN_NAME_TRANSACTION_COMMIT)));
+            Arrays.asList(SPAN_NAME_TRANSACTION_RUN, SPAN_NAME_BEGIN_TRANSACTION),
+            Arrays.asList(SPAN_NAME_TRANSACTION_RUN, SPAN_NAME_RUN_QUERY),
+            Arrays.asList(SPAN_NAME_TRANSACTION_RUN, SPAN_NAME_TRANSACTION_COMMIT)));
   }
 
   @Test
-  public void runInTransactionAggregationQueryTest() throws Exception {}
+  public void transactionRunQueryTest() throws Exception {}
 
   @Test
   public void readWriteTransactionTraceTest() throws Exception {}
