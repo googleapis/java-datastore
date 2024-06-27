@@ -143,7 +143,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       options = options.toBuilder().setReadWrite(readWrite).build();
     }
 
-    private io.opentelemetry.api.trace.Span startSpanInternal(
+    private io.opentelemetry.api.trace.Span startSpanWithParentContext(
         String spanName,
         com.google.cloud.datastore.telemetry.TraceUtil.SpanContext parentSpanContext) {
       com.google.cloud.datastore.telemetry.TraceUtil otelTraceUtil =
@@ -169,7 +169,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       // debugging. The code below works and is idiomatic but could be prettier and more consistent
       // with the use of TraceUtil-provided framework.
       io.opentelemetry.api.trace.Span span =
-          startSpanInternal(
+          startSpanWithParentContext(
               com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN,
               parentSpanContext);
       try (io.opentelemetry.context.Scope ignored = span.makeCurrent()) {
