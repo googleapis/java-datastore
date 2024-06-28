@@ -793,7 +793,7 @@ public class ITE2ETracingTest {
   }
 
   @Test
-  public void transactionalLookupTest() throws Exception {
+  public void newTransactionReadTest() throws Exception {
     assertNotNull(customSpanContext);
 
     Span rootSpan = getNewRootSpanWithContext();
@@ -817,7 +817,7 @@ public class ITE2ETracingTest {
   }
 
   @Test
-  public void transactionQueryTest() throws Exception {
+  public void newTransactionQueryTest() throws Exception {
     // Set up
     Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
     Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
@@ -853,6 +853,61 @@ public class ITE2ETracingTest {
         Arrays.asList(
             Collections.singletonList(SPAN_NAME_BEGIN_TRANSACTION),
             Collections.singletonList(SPAN_NAME_TRANSACTION_RUN_QUERY),
+            Collections.singletonList(SPAN_NAME_TRANSACTION_COMMIT)));
+  }
+
+  @Test
+  public void newTransactionReadWriteTraceTest() throws Exception {
+    // Set up
+    Entity entity1 = Entity.newBuilder(KEY1).set("pepper_type", "jalapeno").build();
+    Entity entity2 = Entity.newBuilder(KEY2).set("pepper_type", "jalapeno").build();
+    List<Entity> entityList = new ArrayList<>();
+    entityList.add(entity1);
+    entityList.add(entity2);
+
+    List<Entity> response = datastore.add(entity1, entity2);
+    assertEquals(entityList, response);
+
+    String simplified_spice_level = "not_spicy";
+    Entity entity1update =
+        Entity.newBuilder(entity1).set("spice_level", simplified_spice_level).build();
+
+    assertNotNull(customSpanContext);
+
+    // Test
+    Span rootSpan = getNewRootSpanWithContext();
+    try (Scope ignored = rootSpan.makeCurrent()) {
+      Transaction transaction = datastore.newTransaction();
+      entity1 = transaction.get(KEY1);
+      switch (entity1.getString("pepper_type")) {
+        case "jalapeno":
+          simplified_spice_level = "mild";
+          break;
+
+        case "jabanero":
+          simplified_spice_level = "hot";
+          break;
+      }
+      transaction.update(entity1update);
+      transaction.delete(KEY2);
+      transaction.commit();
+      assertFalse(transaction.isActive());
+    } finally {
+      rootSpan.end();
+    }
+
+    waitForTracesToComplete();
+
+    List<Entity> list = datastore.fetch(KEY1, KEY2);
+    assertEquals(list.get(0), entity1update);
+    assertNull(list.get(1));
+
+    fetchAndValidateTrace(
+        customSpanContext.getTraceId(),
+        /*numExpectedSpans=*/ 3,
+        Arrays.asList(
+            Collections.singletonList(SPAN_NAME_BEGIN_TRANSACTION),
+            Collections.singletonList(SPAN_NAME_TRANSACTION_LOOKUP),
             Collections.singletonList(SPAN_NAME_TRANSACTION_COMMIT)));
   }
 
@@ -897,10 +952,4 @@ public class ITE2ETracingTest {
             Arrays.asList(SPAN_NAME_TRANSACTION_RUN, SPAN_NAME_RUN_QUERY),
             Arrays.asList(SPAN_NAME_TRANSACTION_RUN, SPAN_NAME_TRANSACTION_COMMIT)));
   }
-
-  @Test
-  public void transactionRunQueryTest() throws Exception {}
-
-  @Test
-  public void readWriteTransactionTraceTest() throws Exception {}
 }
