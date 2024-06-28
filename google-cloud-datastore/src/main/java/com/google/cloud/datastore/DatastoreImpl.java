@@ -66,7 +66,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       TransactionExceptionHandler.build();
   private static final ExceptionHandler TRANSACTION_OPERATION_EXCEPTION_HANDLER =
       TransactionOperationExceptionHandler.build();
-  private final TraceUtil traceUtil = TraceUtil.getInstance();
 
   private final com.google.cloud.datastore.telemetry.TraceUtil otelTraceUtil =
       getOptions().getTraceUtil();
@@ -83,7 +82,8 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     readOptionProtoPreparer = new ReadOptionProtoPreparer();
     aggregationQueryExecutor =
         new AggregationQueryExecutor(
-            new RetryAndTraceDatastoreRpcDecorator(datastoreRpc, traceUtil, retrySettings, options),
+            new RetryAndTraceDatastoreRpcDecorator(
+                datastoreRpc, otelTraceUtil, retrySettings, options),
             options);
   }
 

@@ -375,6 +375,7 @@ public class ITE2ETracingTest {
     tracer = null;
     retrievedTrace = null;
     customSpanContext = null;
+    openTelemetrySdk = null;
   }
 
   @AfterClass
