@@ -860,7 +860,7 @@ public class ITE2ETracingTest {
   public void newTransactionReadWriteTraceTest() throws Exception {
     // Set up
     Entity entity1 = Entity.newBuilder(KEY1).set("pepper_type", "jalapeno").build();
-    Entity entity2 = Entity.newBuilder(KEY2).set("pepper_type", "jalapeno").build();
+    Entity entity2 = Entity.newBuilder(KEY2).set("pepper_type", "habanero").build();
     List<Entity> entityList = new ArrayList<>();
     entityList.add(entity1);
     entityList.add(entity2);
