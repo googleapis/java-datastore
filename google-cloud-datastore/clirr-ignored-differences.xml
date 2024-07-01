@@ -60,4 +60,10 @@
         <method>RetryAndTraceDatastoreRpcDecorator(com.google.cloud.datastore.spi.v1.DatastoreRpc, com.google.cloud.datastore.TraceUtil, com.google.api.gax.retrying.RetrySettings, com.google.cloud.datastore.DatastoreOptions)</method>
         <differenceType>7005</differenceType>
     </difference>
+
+    <!-- Class removed -->
+    <difference>
+        <className>com/google/cloud/datastore/TraceUtil</className>
+        <differenceType>8001</differenceType>
+    </difference>
 </differences>
