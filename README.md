@@ -80,7 +80,7 @@ The client application making API calls must be granted [authorization scopes][a
 ### Prerequisites
 
 You will need a [Google Cloud Platform Console][developer-console] project with the Cloud Datastore [API enabled][enable-api].
-
+You will need to [enable billing][enable-billing] to use Google Cloud Datastore.
 [Follow these instructions][create-project] to get your project set up. You will also need to set up the local development environment by
 [installing the Google Cloud Command Line Interface][cloud-cli] and running the following commands in command line:
 `gcloud auth login` and `gcloud config set project [YOUR PROJECT ID]`.
@@ -93,11 +93,7 @@ to add `google-cloud-datastore` as a dependency in your code.
 ## About Cloud Datastore
 
 
-[Cloud Datastore][product-docs] is a fully managed, schemaless database for
-storing non-relational data. Cloud Datastore automatically scales with
-your users and supports ACID transactions, high availability of reads and
-writes, strong consistency for reads and ancestor queries, and eventual
-consistency for all other queries.
+[Cloud Datastore][product-docs] is a fully managed, schemaless database for storing non-relational data. Cloud Datastore automatically scales with your users and supports ACID transactions, high availability of reads and writes, strong consistency for reads and ancestor queries, and eventual consistency for all other queries.
 
 See the [Cloud Datastore client library docs][javadocs] to learn how to
 use this Cloud Datastore Client Library.
@@ -388,6 +384,10 @@ Samples are in the [`samples/`](https://github.com/googleapis/java-datastore/tre
 
 To get help, follow the instructions in the [shared Troubleshooting document][troubleshooting].
 
+## Transport
+
+Cloud Datastore uses both gRPC and HTTP/JSON for the transport layer.
+
 ## Supported Java Versions
 
 Java 8 or above is required for using this client.
@@ -492,7 +492,7 @@ Java is a registered trademark of Oracle and/or its affiliates.
 [contributing]: https://github.com/googleapis/java-datastore/blob/main/CONTRIBUTING.md
 [code-of-conduct]: https://github.com/googleapis/java-datastore/blob/main/CODE_OF_CONDUCT.md#contributor-code-of-conduct
 [license]: https://github.com/googleapis/java-datastore/blob/main/LICENSE
-
+[enable-billing]: https://cloud.google.com/apis/docs/getting-started#enabling_billing
 [enable-api]: https://console.cloud.google.com/flows/enableapi?apiid=datastore.googleapis.com
 [libraries-bom]: https://github.com/GoogleCloudPlatform/cloud-opensource-java/wiki/The-Google-Cloud-Platform-Libraries-BOM
 [shell_img]: https://gstatic.com/cloudssh/images/open-btn.png
