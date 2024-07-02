@@ -215,10 +215,6 @@ public class ITE2ETracingTest {
 
   private static final Logger logger = Logger.getLogger(ITE2ETracingTest.class.getName());
 
-  private static final String RUN_AGGREGATION_QUERY_RPC_NAME = "RunAggregationQuery";
-
-  private static final String RUN_QUERY_RPC_NAME = "RunQuery";
-
   private static final int NUM_TRACE_ID_BYTES = 32;
 
   private static final int NUM_SPAN_ID_BYTES = 16;
@@ -555,12 +551,12 @@ public class ITE2ETracingTest {
     assertTrue(traceCont.containsCallStack(rootSpanName, SPAN_NAME_LOOKUP));
 
     // Top-level mismatch
-    assertFalse(traceCont.containsCallStack(SPAN_NAME_LOOKUP, RUN_QUERY_RPC_NAME));
+    assertFalse(traceCont.containsCallStack(SPAN_NAME_LOOKUP, SPAN_NAME_RUN_QUERY));
 
     // Leaf-level mismatch/missing
     assertFalse(
         traceCont.containsCallStack(
-            rootSpanName, SPAN_NAME_LOOKUP, RUN_AGGREGATION_QUERY_RPC_NAME));
+            rootSpanName, SPAN_NAME_LOOKUP, SPAN_NAME_RUN_AGGREGATION_QUERY));
   }
 
   @Test
