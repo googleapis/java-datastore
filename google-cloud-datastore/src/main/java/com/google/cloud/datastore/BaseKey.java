@@ -201,7 +201,7 @@ public abstract class BaseKey implements Serializable {
         && Objects.equals(getPath(), other.getPath());
   }
 
-  com.google.datastore.v1.Key toPb() {
+  public com.google.datastore.v1.Key toPb() {
     com.google.datastore.v1.Key.Builder keyPb = com.google.datastore.v1.Key.newBuilder();
     com.google.datastore.v1.PartitionId.Builder partitionIdPb =
         com.google.datastore.v1.PartitionId.newBuilder();
