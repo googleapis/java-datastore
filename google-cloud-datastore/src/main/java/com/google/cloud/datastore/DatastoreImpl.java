@@ -25,6 +25,7 @@ import com.google.cloud.RetryHelper.RetryHelperException;
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.datastore.execution.AggregationQueryExecutor;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
+import com.google.cloud.datastore.telemetry.TraceUtil.Scope;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
@@ -39,9 +40,6 @@ import com.google.datastore.v1.ReserveIdsRequest;
 import com.google.datastore.v1.RunQueryResponse;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.protobuf.ByteString;
-import io.opencensus.common.Scope;
-import io.opencensus.trace.Span;
-import io.opencensus.trace.Status;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.trace.SpanBuilder;
 import io.opentelemetry.api.trace.SpanKind;
@@ -68,7 +66,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       TransactionExceptionHandler.build();
   private static final ExceptionHandler TRANSACTION_OPERATION_EXCEPTION_HANDLER =
       TransactionOperationExceptionHandler.build();
-  private final TraceUtil traceUtil = TraceUtil.getInstance();
 
   private final com.google.cloud.datastore.telemetry.TraceUtil otelTraceUtil =
       getOptions().getTraceUtil();
@@ -85,7 +82,8 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     readOptionProtoPreparer = new ReadOptionProtoPreparer();
     aggregationQueryExecutor =
         new AggregationQueryExecutor(
-            new RetryAndTraceDatastoreRpcDecorator(datastoreRpc, traceUtil, retrySettings, options),
+            new RetryAndTraceDatastoreRpcDecorator(
+                datastoreRpc, otelTraceUtil, retrySettings, options),
             options);
   }
 
@@ -744,8 +742,9 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   }
 
   void rollback(final com.google.datastore.v1.RollbackRequest requestPb) {
-    Span span = traceUtil.startSpan(TraceUtil.SPAN_NAME_ROLLBACK);
-    try (Scope scope = traceUtil.getTracer().withSpan(span)) {
+    com.google.cloud.datastore.telemetry.TraceUtil.Span span =
+        otelTraceUtil.startSpan(com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_ROLLBACK);
+    try (Scope scope = span.makeCurrent()) {
       RetryHelper.runWithRetries(
           new Callable<Void>() {
             @Override
@@ -758,10 +757,10 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
           EXCEPTION_HANDLER,
           getOptions().getClock());
     } catch (RetryHelperException e) {
-      span.setStatus(Status.UNKNOWN.withDescription(e.getMessage()));
+      span.end(e);
       throw DatastoreException.translateAndThrow(e);
     } finally {
-      span.end(TraceUtil.END_SPAN_OPTIONS);
+      span.end();
     }
   }
 }
