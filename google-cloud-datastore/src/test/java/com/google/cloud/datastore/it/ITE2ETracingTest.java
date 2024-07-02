@@ -886,7 +886,7 @@ public class ITE2ETracingTest {
           simplified_spice_level = "mild";
           break;
 
-        case "jabanero":
+        case "habanero":
           simplified_spice_level = "hot";
           break;
       }
@@ -941,7 +941,7 @@ public class ITE2ETracingTest {
           simplified_spice_level = "mild";
           break;
 
-        case "jabanero":
+        case "habanero":
           simplified_spice_level = "hot";
           break;
       }
