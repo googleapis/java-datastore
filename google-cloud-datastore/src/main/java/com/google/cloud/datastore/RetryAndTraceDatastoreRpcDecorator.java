@@ -22,6 +22,7 @@ import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.RetryHelper;
 import com.google.cloud.RetryHelper.RetryHelperException;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
+import com.google.cloud.datastore.telemetry.TraceUtil;
 import com.google.datastore.v1.AllocateIdsRequest;
 import com.google.datastore.v1.AllocateIdsResponse;
 import com.google.datastore.v1.BeginTransactionRequest;
@@ -55,13 +56,13 @@ public class RetryAndTraceDatastoreRpcDecorator implements DatastoreRpc {
 
   public RetryAndTraceDatastoreRpcDecorator(
       DatastoreRpc datastoreRpc,
-      TraceUtil traceUtil,
+      TraceUtil otelTraceUtil,
       RetrySettings retrySettings,
       DatastoreOptions datastoreOptions) {
     this.datastoreRpc = datastoreRpc;
     this.retrySettings = retrySettings;
     this.datastoreOptions = datastoreOptions;
-    this.otelTraceUtil = datastoreOptions.getTraceUtil();
+    this.otelTraceUtil = otelTraceUtil;
   }
 
   @Override
