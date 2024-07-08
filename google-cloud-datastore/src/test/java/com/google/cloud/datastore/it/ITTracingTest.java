@@ -20,12 +20,14 @@ import static com.google.cloud.datastore.telemetry.TraceUtil.*;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SERVICE_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOpenTelemetryOptions;
 import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.Query;
+import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.base.Preconditions;
 import com.google.testing.junit.testparameterinjector.TestParameter;
@@ -33,7 +35,6 @@ import com.google.testing.junit.testparameterinjector.TestParameterInjector;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
-import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
 import io.opentelemetry.sdk.OpenTelemetrySdkBuilder;
 import io.opentelemetry.sdk.common.CompletableResultCode;
@@ -46,12 +47,9 @@ import io.opentelemetry.sdk.trace.data.SpanData;
 import io.opentelemetry.sdk.trace.export.SimpleSpanProcessor;
 import io.opentelemetry.sdk.trace.samplers.Sampler;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,7 +63,7 @@ import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 
 @RunWith(TestParameterInjector.class)
-public abstract class ITTracingTest {
+public class ITTracingTest {
   protected boolean isUsingGlobalOpenTelemetrySDK() {
     return useGlobalOpenTelemetrySDK;
   }
@@ -93,6 +91,8 @@ public abstract class ITTracingTest {
   // private static final String LOOKUP_RPC_NAME = "Lookup";
   // private static final String RESERVE_IDS_RPC_NAME = "ReserveIds";
 
+  private static Key KEY1;
+
   private static OpenTelemetrySdk openTelemetrySdk;
 
   // We use an InMemorySpanExporter for testing which keeps all generated trace spans
@@ -103,13 +103,12 @@ public abstract class ITTracingTest {
   protected Datastore datastore;
   private static RemoteDatastoreHelper remoteDatastoreHelper;
 
-  @TestParameter
-  boolean useGlobalOpenTelemetrySDK;
+  @TestParameter boolean useGlobalOpenTelemetrySDK;
 
   @TestParameter({
-      /*(default)*/
-      "",
-      "test-db"
+    /*(default)*/
+    "",
+    "test-db"
   })
   String datastoreNamedDatabase;
 
@@ -159,6 +158,13 @@ public abstract class ITTracingTest {
         "Error instantiating Datastore. Check that the service account credentials "
             + "were properly set.");
 
+    String projectId = options.getProjectId();
+    String kind1 = "kind1";
+    KEY1 =
+        Key.newBuilder(projectId, kind1, "key1", options.getDatabaseId())
+            .setNamespace(options.getNamespace())
+            .build();
+
     // Clean up existing maps.
     spanNameToSpanId.clear();
     spanIdToParentSpanId.clear();
@@ -172,15 +178,14 @@ public abstract class ITTracingTest {
     }
     remoteDatastoreHelper.deleteNamespace();
     inMemorySpanExporter.reset();
+    CompletableResultCode completableResultCode =
+        openTelemetrySdk.getSdkTracerProvider().shutdown();
+    completableResultCode.join(TRACE_PROVIDER_SHUTDOWN_MILLIS, TimeUnit.MILLISECONDS);
     openTelemetrySdk = null;
   }
 
   @AfterClass
-  public static void teardown() {
-    CompletableResultCode completableResultCode =
-        openTelemetrySdk.getSdkTracerProvider().shutdown();
-    completableResultCode.join(TRACE_PROVIDER_SHUTDOWN_MILLIS, TimeUnit.MILLISECONDS);
-  }
+  public static void teardown() {}
 
   void waitForTracesToComplete() throws Exception {
     // The same way that querying the Cloud Trace backend may not give us the
@@ -365,7 +370,25 @@ public abstract class ITTracingTest {
   }
 
   @Test
-  public void lookupTraceTest() throws Exception {}
+  public void lookupTraceTest() throws Exception {
+    Entity entity = datastore.get(KEY1);
+    assertNull(entity);
+
+    List<SpanData> spans = prepareSpans();
+    assertEquals(1, spans.size());
+    assertSpanHierarchy(SPAN_NAME_LOOKUP);
+    SpanData span = getSpanByName(SPAN_NAME_LOOKUP);
+    assertTrue(
+        hasEvent(
+            span,
+            SPAN_NAME_LOOKUP,
+            Attributes.builder()
+                .put("Received", 0)
+                .put("Missing", 1)
+                .put("Deferred", 0)
+                .put("isTransactional", false)
+                .build()));
+  }
 
   @Test
   public void allocateIdsTraceTest() throws Exception {}
@@ -382,7 +405,8 @@ public abstract class ITTracingTest {
   @Test
   public void updateTraceTest() throws Exception {}
 
-  @Test void deleteTraceTest() throws Exception {}
+  @Test
+  public void deleteTraceTest() throws Exception {}
 
   @Test
   public void runQueryTraceTest() throws Exception {}
@@ -404,7 +428,6 @@ public abstract class ITTracingTest {
 
   @Test
   public void runInTransactionQueryTest() throws Exception {}
-
 
   // @Test
   // public void aggregateQueryGet() throws Exception {
@@ -432,7 +455,8 @@ public abstract class ITTracingTest {
   // public void bulkWriterCommit() throws Exception {
   //   ScheduledExecutorService bulkWriterExecutor = Executors.newSingleThreadScheduledExecutor();
   //   BulkWriter bulkWriter =
-  //       datastore.bulkWriter(BulkWriterOptions.builder().setExecutor(bulkWriterExecutor).build());
+  //
+  // datastore.bulkWriter(BulkWriterOptions.builder().setExecutor(bulkWriterExecutor).build());
   //   bulkWriter.set(
   //       datastore.collection("col").document("foo"),
   //       Collections.singletonMap("bulk-foo", "bulk-bar"));
@@ -486,7 +510,8 @@ public abstract class ITTracingTest {
   //
   // @Test
   // public void docRefSet() throws Exception {
-  //   datastore.collection("col").document("foo").set(Collections.singletonMap("foo", "bar")).get();
+  //   datastore.collection("col").document("foo").set(Collections.singletonMap("foo",
+  // "bar")).get();
   //
   //   List<SpanData> spans = prepareSpans();
   //   assertEquals(3, spans.size());
@@ -689,7 +714,8 @@ public abstract class ITTracingTest {
   //               .put("isTransactional", false)
   //               .build()));
   //   assertTrue(
-  //       hasEvent(span, "RunQuery: Completed", Attributes.builder().put("numDocuments", 0).build()));
+  //       hasEvent(span, "RunQuery: Completed", Attributes.builder().put("numDocuments",
+  // 0).build()));
   // }
   //
   // @Test
@@ -752,9 +778,11 @@ public abstract class ITTracingTest {
   //
   //   Attributes commitAttributes = getSpanByName(SPAN_NAME_TRANSACTION_COMMIT).getAttributes();
   //   assertEquals(
-  //       2L, commitAttributes.get(AttributeKey.longKey("gcp.datastore.numDocuments")).longValue());
+  //       2L,
+  // commitAttributes.get(AttributeKey.longKey("gcp.datastore.numDocuments")).longValue());
   //
-  //   Attributes runTransactionAttributes = getSpanByName(SPAN_NAME_TRANSACTION_RUN).getAttributes();
+  //   Attributes runTransactionAttributes =
+  // getSpanByName(SPAN_NAME_TRANSACTION_RUN).getAttributes();
   //   assertEquals(
   //       5L,
   //       runTransactionAttributes
@@ -799,7 +827,8 @@ public abstract class ITTracingTest {
   //       SPAN_NAME_TRANSACTION_BEGIN,
   //       grpcSpanName(BEGIN_TRANSACTION_RPC_NAME));
   //   assertSpanHierarchy(
-  //       SPAN_NAME_TRANSACTION_RUN, SPAN_NAME_TRANSACTION_ROLLBACK, grpcSpanName(ROLLBACK_RPC_NAME));
+  //       SPAN_NAME_TRANSACTION_RUN, SPAN_NAME_TRANSACTION_ROLLBACK,
+  // grpcSpanName(ROLLBACK_RPC_NAME));
   //
   //   SpanData runTransactionSpanData = getSpanByName(SPAN_NAME_TRANSACTION_RUN);
   //   assertEquals(StatusCode.ERROR, runTransactionSpanData.getStatus().getStatusCode());
