@@ -523,18 +523,18 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
             ? com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_LOOKUP
             : com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP);
     com.google.cloud.datastore.telemetry.TraceUtil.Span span = otelTraceUtil.startSpan(spanName);
-    span.setAttribute("isTransactional", isTransactional);
 
     try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
       return RetryHelper.runWithRetries(
           () -> {
             com.google.datastore.v1.LookupResponse response = datastoreRpc.lookup(requestPb);
             span.addEvent(
-                spanName + ": Completed",
+                spanName,
                 new ImmutableMap.Builder<String, Object>()
                     .put("Received", response.getFoundCount())
                     .put("Missing", response.getMissingCount())
                     .put("Deferred", response.getDeferredCount())
+                    .put("isTransactional", isTransactional)
                     .build());
             return response;
           },
