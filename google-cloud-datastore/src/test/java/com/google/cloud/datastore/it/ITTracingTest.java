@@ -27,7 +27,9 @@ import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOpenTelemetryOptions;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.IncompleteKey;
 import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.base.Preconditions;
 import com.google.testing.junit.testparameterinjector.TestParameter;
@@ -380,10 +382,29 @@ public class ITTracingTest {
   }
 
   @Test
-  public void allocateIdsTraceTest() throws Exception {}
+  public void allocateIdsTraceTest() throws Exception {
+    String kind1 = "kind1";
+    KeyFactory keyFactory = datastore.newKeyFactory().setKind(kind1);
+    IncompleteKey pk1 = keyFactory.newKey();
+    Key key1 = datastore.allocateId(pk1);
+
+    List<SpanData> spans = prepareSpans();
+    assertEquals(1, spans.size());
+    assertSpanHierarchy(SPAN_NAME_ALLOCATE_IDS);
+  }
 
   @Test
-  public void reserveIdsTraceTest() throws Exception {}
+  public void reserveIdsTraceTest() throws Exception {
+    KeyFactory keyFactory = datastore.newKeyFactory().setKind("MyKind");
+    Key key1 = keyFactory.newKey(10);
+    Key key2 = keyFactory.newKey("name");
+    List<Key> keyList = datastore.reserveIds(key1, key2);
+    assertEquals(2, keyList.size());
+
+    List<SpanData> spans = prepareSpans();
+    assertEquals(1, spans.size());
+    assertSpanHierarchy(SPAN_NAME_RESERVE_IDS);
+  }
 
   @Test
   public void commitTraceTest() throws Exception {}
