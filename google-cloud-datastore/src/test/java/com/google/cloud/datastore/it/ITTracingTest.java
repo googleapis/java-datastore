@@ -48,6 +48,7 @@ import io.opentelemetry.sdk.trace.data.EventData;
 import io.opentelemetry.sdk.trace.data.SpanData;
 import io.opentelemetry.sdk.trace.export.SimpleSpanProcessor;
 import io.opentelemetry.sdk.trace.samplers.Sampler;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +84,8 @@ public class ITTracingTest {
   private static final String SERVICE = "google.datastore.v1.Datastore/";
 
   private static Key KEY1;
+
+  private static Key KEY2;
 
   private static OpenTelemetrySdk openTelemetrySdk;
 
@@ -155,11 +158,12 @@ public class ITTracingTest {
         Key.newBuilder(projectId, kind1, "key1", options.getDatabaseId())
             .setNamespace(options.getNamespace())
             .build();
+    KEY2 =
+        Key.newBuilder(projectId, kind1, "key2", options.getDatabaseId())
+            .setNamespace(options.getNamespace())
+            .build();
 
-    // Clean up existing maps.
-    spanNameToSpanId.clear();
-    spanIdToParentSpanId.clear();
-    spanNameToSpanData.clear();
+    cleanupTestSpanContext();
   }
 
   @After
@@ -339,6 +343,13 @@ public class ITTracingTest {
     return false;
   }
 
+  void cleanupTestSpanContext() {
+    inMemorySpanExporter.reset();
+    spanNameToSpanId.clear();
+    spanIdToParentSpanId.clear();
+    spanNameToSpanData.clear();
+  }
+
   // This is a POJO used for testing APIs that take a POJO.
   public static class Pojo {
     public int bar;
@@ -407,16 +418,105 @@ public class ITTracingTest {
   }
 
   @Test
-  public void commitTraceTest() throws Exception {}
+  public void commitTraceTest() throws Exception {
+    Entity entity1 = Entity.newBuilder(KEY1).set("test_key", "test_value").build();
+    Entity response = datastore.add(entity1);
+    assertEquals(entity1, response);
+
+    List<SpanData> spans = prepareSpans();
+    assertEquals(1, spans.size());
+    assertSpanHierarchy(SPAN_NAME_COMMIT);
+  }
 
   @Test
-  public void putTraceTest() throws Exception {}
+  public void putTraceTest() throws Exception {
+    Entity entity1 = Entity.newBuilder(KEY1).set("test_key", "test_value").build();
+    Entity response = datastore.put(entity1);
+    assertEquals(entity1, response);
+
+    List<SpanData> spans = prepareSpans();
+    assertEquals(1, spans.size());
+    assertSpanHierarchy(SPAN_NAME_COMMIT);
+  }
 
   @Test
-  public void updateTraceTest() throws Exception {}
+  public void updateTraceTest() throws Exception {
+    Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
+    Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
+    List<Entity> entityList = new ArrayList<>();
+    entityList.add(entity1);
+    entityList.add(entity2);
+
+    List<Entity> response = datastore.add(entity1, entity2);
+    assertEquals(entityList, response);
+
+    List<SpanData> spans = prepareSpans();
+    assertEquals(1, spans.size());
+    assertSpanHierarchy(SPAN_NAME_COMMIT);
+
+    SpanData spanData = getSpanByName(SPAN_NAME_COMMIT);
+    assertTrue(
+        hasEvent(
+            spanData,
+            SPAN_NAME_COMMIT,
+            Attributes.builder()
+                .put("doc_count", response.size())
+                .put("isTransactional", false)
+                .put("transaction_id", "")
+                .build()));
+
+    // Clean Up test span context to verify update spans
+    cleanupTestSpanContext();
+
+    Entity entity1_update = Entity.newBuilder(entity1).set("test_field", "new_test_value1").build();
+    Entity entity2_update = Entity.newBuilder(entity2).set("test_field", "new_test_value1").build();
+    datastore.update(entity1_update, entity2_update);
+
+    spans = prepareSpans();
+    assertEquals(1, spans.size());
+    assertSpanHierarchy(SPAN_NAME_COMMIT);
+  }
 
   @Test
-  public void deleteTraceTest() throws Exception {}
+  public void deleteTraceTest() throws Exception {
+    Entity entity1 = Entity.newBuilder(KEY1).set("test_key", "test_value").build();
+    Entity response = datastore.put(entity1);
+    assertEquals(entity1, response);
+
+    List<SpanData> spans = prepareSpans();
+    assertEquals(1, spans.size());
+    assertSpanHierarchy(SPAN_NAME_COMMIT);
+
+    SpanData spanData = getSpanByName(SPAN_NAME_COMMIT);
+    assertTrue(
+        hasEvent(
+            spanData,
+            SPAN_NAME_COMMIT,
+            Attributes.builder()
+                .put("doc_count", 1)
+                .put("isTransactional", false)
+                .put("transaction_id", "")
+                .build()));
+
+    // Clean Up test span context to verify update spans
+    cleanupTestSpanContext();
+
+    datastore.delete(entity1.getKey());
+    spans = prepareSpans();
+    assertEquals(1, spans.size());
+    assertSpanHierarchy(SPAN_NAME_COMMIT);
+
+    spanData = getSpanByName(SPAN_NAME_COMMIT);
+    assertTrue(
+        hasEvent(
+            spanData,
+            SPAN_NAME_COMMIT,
+            Attributes.builder()
+                .put("doc_count", 1)
+                .put("isTransactional", false)
+                .put("transaction_id", "")
+                .build()));
+  }
 
   @Test
   public void runQueryTraceTest() throws Exception {}
