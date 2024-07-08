@@ -291,8 +291,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
             ? com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN_QUERY
             : com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_QUERY);
     com.google.cloud.datastore.telemetry.TraceUtil.Span span = otelTraceUtil.startSpan(spanName);
-    span.setAttribute("isTransactional", isTransactional);
-    span.setAttribute("readConsistency", readOptions.getReadConsistency().toString());
 
     try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
       RunQueryResponse response =
@@ -304,10 +302,17 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
                   : TRANSACTION_OPERATION_EXCEPTION_HANDLER,
               getOptions().getClock());
       span.addEvent(
-          spanName + ": Completed",
+          spanName,
           new ImmutableMap.Builder<String, Object>()
-              .put("Received", response.getBatch().getEntityResultsCount())
-              .put("More results", response.getBatch().getMoreResults().toString())
+              .put("response_count", response.getBatch().getEntityResultsCount())
+              .put("transactional", isTransactional)
+              .put("read_consistency", readOptions.getReadConsistency().toString())
+              .put(
+                  "transaction_id",
+                  (isTransactional
+                      ? requestPb.getReadOptions().getTransaction().toStringUtf8()
+                      : ""))
+              .put("more_results", response.getBatch().getMoreResults().toString())
               .build());
       return response;
     } catch (RetryHelperException e) {
@@ -704,7 +709,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
           spanName,
           new ImmutableMap.Builder<String, Object>()
               .put("doc_count", response.getMutationResultsCount())
-              .put("isTransactional", isTransactional)
+              .put("transactional", isTransactional)
               .put(
                   "transaction_id",
                   isTransactional ? requestPb.getTransaction().toStringUtf8() : "")

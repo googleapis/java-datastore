@@ -19,6 +19,7 @@ package com.google.cloud.datastore.it;
 import static com.google.cloud.datastore.telemetry.TraceUtil.*;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SERVICE_NAME;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -30,6 +31,9 @@ import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.IncompleteKey;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
+import com.google.cloud.datastore.Query;
+import com.google.cloud.datastore.QueryResults;
+import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.base.Preconditions;
 import com.google.testing.junit.testparameterinjector.TestParameter;
@@ -388,7 +392,7 @@ public class ITTracingTest {
                 .put("Received", 0)
                 .put("Missing", 1)
                 .put("Deferred", 0)
-                .put("isTransactional", false)
+                .put("transactional", false)
                 .build()));
   }
 
@@ -461,7 +465,7 @@ public class ITTracingTest {
             SPAN_NAME_COMMIT,
             Attributes.builder()
                 .put("doc_count", response.size())
-                .put("isTransactional", false)
+                .put("transactional", false)
                 .put("transaction_id", "")
                 .build()));
 
@@ -494,7 +498,7 @@ public class ITTracingTest {
             SPAN_NAME_COMMIT,
             Attributes.builder()
                 .put("doc_count", 1)
-                .put("isTransactional", false)
+                .put("transactional", false)
                 .put("transaction_id", "")
                 .build()));
 
@@ -513,13 +517,50 @@ public class ITTracingTest {
             SPAN_NAME_COMMIT,
             Attributes.builder()
                 .put("doc_count", 1)
-                .put("isTransactional", false)
+                .put("transactional", false)
                 .put("transaction_id", "")
                 .build()));
   }
 
   @Test
-  public void runQueryTraceTest() throws Exception {}
+  public void runQueryTraceTest() throws Exception {
+    Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
+    Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
+    List<Entity> entityList = new ArrayList<>();
+    entityList.add(entity1);
+    entityList.add(entity2);
+
+    List<Entity> response = datastore.add(entity1, entity2);
+    assertEquals(entityList, response);
+
+    // Clean Up test span context to verify RunQuery spans
+    cleanupTestSpanContext();
+
+    PropertyFilter filter = PropertyFilter.eq("test_field", entity1.getValue("test_field"));
+    Query<Entity> query =
+        Query.newEntityQueryBuilder().setKind(KEY1.getKind()).setFilter(filter).build();
+    QueryResults<Entity> queryResults = datastore.run(query);
+    assertTrue(queryResults.hasNext());
+    assertEquals(entity1, queryResults.next());
+    assertFalse(queryResults.hasNext());
+
+    List<SpanData> spans = prepareSpans();
+    assertEquals(1, spans.size());
+    assertSpanHierarchy(SPAN_NAME_RUN_QUERY);
+
+    SpanData span = getSpanByName(SPAN_NAME_RUN_QUERY);
+    assertTrue(
+        hasEvent(
+            span,
+            SPAN_NAME_RUN_QUERY,
+            Attributes.builder()
+                .put("response_count", 1)
+                .put("transactional", false)
+                .put("read_consistency", "READ_CONSISTENCY_UNSPECIFIED")
+                .put("more_results", "NO_MORE_RESULTS")
+                .put("transaction_id", "")
+                .build()));
+  }
 
   @Test
   public void runAggregationQueryTraceTest() throws Exception {}
