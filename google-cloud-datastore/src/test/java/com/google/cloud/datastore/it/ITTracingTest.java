@@ -685,6 +685,7 @@ public class ITTracingTest {
                 .put("Missing", 1)
                 .put("Received", 0)
                 .put("transactional", true)
+                .put("transaction_id", transaction.getTransactionId().toStringUtf8())
                 .build()));
 
     assertSpanHierarchy(SPAN_NAME_TRANSACTION_COMMIT);
@@ -701,10 +702,114 @@ public class ITTracingTest {
   }
 
   @Test
-  public void newTransactionQueryTest() throws Exception {}
+  public void newTransactionQueryTest() throws Exception {
+    Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
+    Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
+    List<Entity> entityList = new ArrayList<>();
+    entityList.add(entity1);
+    entityList.add(entity2);
+
+    List<Entity> response = datastore.add(entity1, entity2);
+    assertEquals(entityList, response);
+
+    // Clean Up test span context to verify Transaction RunQuery spans
+    cleanupTestSpanContext();
+
+    Transaction transaction = datastore.newTransaction();
+    PropertyFilter filter = PropertyFilter.eq("test_field", entity1.getValue("test_field"));
+    Query<Entity> query =
+        Query.newEntityQueryBuilder().setKind(KEY1.getKind()).setFilter(filter).build();
+    QueryResults<Entity> queryResults = transaction.run(query);
+    transaction.commit();
+    assertTrue(queryResults.hasNext());
+    assertEquals(entity1, queryResults.next());
+    assertFalse(queryResults.hasNext());
+
+    waitForTracesToComplete();
+
+    List<SpanData> spans = prepareSpans();
+    assertEquals(3, spans.size());
+
+    assertSpanHierarchy(SPAN_NAME_BEGIN_TRANSACTION);
+    assertSpanHierarchy(SPAN_NAME_TRANSACTION_RUN_QUERY);
+    assertSpanHierarchy(SPAN_NAME_TRANSACTION_COMMIT);
+    SpanData span = getSpanByName(SPAN_NAME_TRANSACTION_RUN_QUERY);
+    assertTrue(
+        hasEvent(
+            span,
+            SPAN_NAME_TRANSACTION_RUN_QUERY,
+            Attributes.builder()
+                .put("response_count", 1)
+                .put("transactional", true)
+                .put("read_consistency", "READ_CONSISTENCY_UNSPECIFIED")
+                .put("more_results", "NO_MORE_RESULTS")
+                .put("transaction_id", transaction.getTransactionId().toStringUtf8())
+                .build()));
+  }
 
   @Test
-  public void newTransactionRollbackTest() throws Exception {}
+  public void newTransactionRollbackTest() throws Exception {
+    Entity entity1 = Entity.newBuilder(KEY1).set("pepper_type", "jalapeno").build();
+    Entity entity2 = Entity.newBuilder(KEY2).set("pepper_type", "habanero").build();
+    List<Entity> entityList = new ArrayList<>();
+    entityList.add(entity1);
+    entityList.add(entity2);
+
+    List<Entity> response = datastore.add(entity1, entity2);
+    assertEquals(entityList, response);
+
+    // Clean Up test span context to verify Transaction Rollback spans
+    cleanupTestSpanContext();
+
+    String simplified_spice_level = "not_spicy";
+    Entity entity1update =
+        Entity.newBuilder(entity1).set("spice_level", simplified_spice_level).build();
+    Transaction transaction = datastore.newTransaction();
+    entity1 = transaction.get(KEY1);
+    switch (entity1.getString("pepper_type")) {
+      case "jalapeno":
+        simplified_spice_level = "mild";
+        break;
+
+      case "habanero":
+        simplified_spice_level = "hot";
+        break;
+    }
+    transaction.update(entity1update);
+    transaction.delete(KEY2);
+    transaction.rollback();
+    assertFalse(transaction.isActive());
+
+    waitForTracesToComplete();
+
+    List<SpanData> spans = prepareSpans();
+    assertEquals(3, spans.size());
+
+    assertSpanHierarchy(SPAN_NAME_BEGIN_TRANSACTION);
+    assertSpanHierarchy(SPAN_NAME_TRANSACTION_LOOKUP);
+    SpanData span = getSpanByName(SPAN_NAME_TRANSACTION_LOOKUP);
+    assertTrue(
+        hasEvent(
+            span,
+            SPAN_NAME_TRANSACTION_LOOKUP,
+            Attributes.builder()
+                .put("Deferred", 0)
+                .put("Missing", 0)
+                .put("Received", 1)
+                .put("transactional", true)
+                .put("transaction_id", transaction.getTransactionId().toStringUtf8())
+                .build()));
+
+    assertSpanHierarchy(SPAN_NAME_ROLLBACK);
+    span = getSpanByName(SPAN_NAME_ROLLBACK);
+    assertTrue(
+        hasEvent(
+            span,
+            SPAN_NAME_ROLLBACK,
+            Attributes.builder()
+                .put("transaction_id", transaction.getTransactionId().toStringUtf8())
+                .build()));
+  }
 
   @Test
   public void runInTransactionQueryTest() throws Exception {}
