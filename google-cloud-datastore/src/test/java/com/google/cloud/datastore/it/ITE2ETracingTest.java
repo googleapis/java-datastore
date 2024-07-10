@@ -334,7 +334,7 @@ public class ITE2ETracingTest {
             .setNamespace(options.getNamespace())
             .build();
     KEY2 =
-        Key.newBuilder(projectId, kind1, "key3", options.getDatabaseId())
+        Key.newBuilder(projectId, kind1, "key2", options.getDatabaseId())
             .setNamespace(options.getNamespace())
             .build();
     KEY3 =
@@ -342,7 +342,7 @@ public class ITE2ETracingTest {
             .setNamespace(options.getNamespace())
             .build();
     KEY4 =
-        Key.newBuilder(projectId, kind1, "key2", options.getDatabaseId())
+        Key.newBuilder(projectId, kind1, "key4", options.getDatabaseId())
             .setNamespace(options.getNamespace())
             .build();
     // Set up the tracer for custom TraceID injection
