@@ -157,7 +157,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
                       .with(
                           io.opentelemetry.api.trace.Span.wrap(
                               parentSpanContext.getSpanContext())));
-      return spanBuilder.startSpan();
+      return otelTraceUtil.addSettingsAttributesToCurrentSpan(spanBuilder).startSpan();
     }
 
     @Override

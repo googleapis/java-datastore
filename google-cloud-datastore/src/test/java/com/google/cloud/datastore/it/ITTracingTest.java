@@ -314,11 +314,6 @@ public class ITTracingTest {
             "gcp.datastore.memoryUtilization",
             "gcp.datastore.settings.host",
             "gcp.datastore.settings.databaseId",
-            "gcp.datastore.settings.channel.needsCredentials",
-            "gcp.datastore.settings.channel.needsEndpoint",
-            "gcp.datastore.settings.channel.needsHeaders",
-            "gcp.datastore.settings.channel.shouldAutoClose",
-            "gcp.datastore.settings.channel.transportName",
             "gcp.datastore.settings.retrySettings.maxRpcTimeout",
             "gcp.datastore.settings.retrySettings.retryDelayMultiplier",
             "gcp.datastore.settings.retrySettings.initialRetryDelay",
@@ -812,5 +807,42 @@ public class ITTracingTest {
   }
 
   @Test
-  public void runInTransactionQueryTest() throws Exception {}
+  public void runInTransactionQueryTest() throws Exception {
+    // Set up
+    Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
+    Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
+    List<Entity> entityList = new ArrayList<>();
+    entityList.add(entity1);
+    entityList.add(entity2);
+
+    List<Entity> response = datastore.add(entity1, entity2);
+    assertEquals(entityList, response);
+
+    // Clean Up test span context to verify Transaction Rollback spans
+    cleanupTestSpanContext();
+
+    PropertyFilter filter = PropertyFilter.eq("test_field", entity1.getValue("test_field"));
+    Query<Entity> query =
+        Query.newEntityQueryBuilder().setKind(KEY1.getKind()).setFilter(filter).build();
+    Datastore.TransactionCallable<Boolean> callable =
+        transaction -> {
+          QueryResults<Entity> queryResults = datastore.run(query);
+          assertTrue(queryResults.hasNext());
+          assertEquals(entity1, queryResults.next());
+          assertFalse(queryResults.hasNext());
+          return true;
+        };
+    datastore.runInTransaction(callable);
+
+    waitForTracesToComplete();
+
+    List<SpanData> spans = prepareSpans();
+    assertEquals(4, spans.size());
+
+    // Since the runInTransaction method runs the TransactionCallable opaquely in a transaction
+    // there is no way for the API user to know the transaction ID, so we will not validate it here.
+    assertSpanHierarchy(SPAN_NAME_TRANSACTION_RUN, SPAN_NAME_BEGIN_TRANSACTION);
+    assertSpanHierarchy(SPAN_NAME_TRANSACTION_RUN, SPAN_NAME_RUN_QUERY);
+    assertSpanHierarchy(SPAN_NAME_TRANSACTION_RUN, SPAN_NAME_TRANSACTION_COMMIT);
+  }
 }
