@@ -16,7 +16,9 @@
 
 package com.google.cloud.datastore.it;
 
+import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.cloud.datastore.telemetry.TraceUtil.*;
+import static com.google.common.truth.Truth.assertThat;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SERVICE_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -24,6 +26,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.cloud.datastore.AggregationQuery;
+import com.google.cloud.datastore.AggregationResult;
+import com.google.cloud.datastore.AggregationResults;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOpenTelemetryOptions;
 import com.google.cloud.datastore.DatastoreOptions;
@@ -33,7 +38,10 @@ import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
+import com.google.cloud.datastore.ReadOption;
+import com.google.cloud.datastore.StructuredQuery;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
+import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.base.Preconditions;
 import com.google.testing.junit.testparameterinjector.TestParameter;
@@ -90,6 +98,10 @@ public class ITTracingTest {
   private static Key KEY1;
 
   private static Key KEY2;
+
+  private static Key KEY3;
+
+  private static Key KEY4;
 
   private static OpenTelemetrySdk openTelemetrySdk;
 
@@ -166,7 +178,14 @@ public class ITTracingTest {
         Key.newBuilder(projectId, kind1, "key2", options.getDatabaseId())
             .setNamespace(options.getNamespace())
             .build();
-
+    KEY3 =
+        Key.newBuilder(projectId, kind1, "key3", options.getDatabaseId())
+            .setNamespace(options.getNamespace())
+            .build();
+    KEY4 =
+        Key.newBuilder(projectId, kind1, "key4", options.getDatabaseId())
+            .setNamespace(options.getNamespace())
+            .build();
     cleanupTestSpanContext();
   }
 
@@ -380,6 +399,8 @@ public class ITTracingTest {
     Entity entity = datastore.get(KEY1);
     assertNull(entity);
 
+    waitForTracesToComplete();
+
     List<SpanData> spans = prepareSpans();
     assertEquals(1, spans.size());
     assertSpanHierarchy(SPAN_NAME_LOOKUP);
@@ -403,6 +424,8 @@ public class ITTracingTest {
     IncompleteKey pk1 = keyFactory.newKey();
     Key key1 = datastore.allocateId(pk1);
 
+    waitForTracesToComplete();
+
     List<SpanData> spans = prepareSpans();
     assertEquals(1, spans.size());
     assertSpanHierarchy(SPAN_NAME_ALLOCATE_IDS);
@@ -416,6 +439,8 @@ public class ITTracingTest {
     List<Key> keyList = datastore.reserveIds(key1, key2);
     assertEquals(2, keyList.size());
 
+    waitForTracesToComplete();
+
     List<SpanData> spans = prepareSpans();
     assertEquals(1, spans.size());
     assertSpanHierarchy(SPAN_NAME_RESERVE_IDS);
@@ -427,6 +452,8 @@ public class ITTracingTest {
     Entity response = datastore.add(entity1);
     assertEquals(entity1, response);
 
+    waitForTracesToComplete();
+
     List<SpanData> spans = prepareSpans();
     assertEquals(1, spans.size());
     assertSpanHierarchy(SPAN_NAME_COMMIT);
@@ -437,6 +464,8 @@ public class ITTracingTest {
     Entity entity1 = Entity.newBuilder(KEY1).set("test_key", "test_value").build();
     Entity response = datastore.put(entity1);
     assertEquals(entity1, response);
+
+    waitForTracesToComplete();
 
     List<SpanData> spans = prepareSpans();
     assertEquals(1, spans.size());
@@ -476,6 +505,8 @@ public class ITTracingTest {
     Entity entity2_update = Entity.newBuilder(entity2).set("test_field", "new_test_value1").build();
     datastore.update(entity1_update, entity2_update);
 
+    waitForTracesToComplete();
+
     spans = prepareSpans();
     assertEquals(1, spans.size());
     assertSpanHierarchy(SPAN_NAME_COMMIT);
@@ -506,6 +537,9 @@ public class ITTracingTest {
     cleanupTestSpanContext();
 
     datastore.delete(entity1.getKey());
+
+    waitForTracesToComplete();
+
     spans = prepareSpans();
     assertEquals(1, spans.size());
     assertSpanHierarchy(SPAN_NAME_COMMIT);
@@ -544,6 +578,8 @@ public class ITTracingTest {
     assertEquals(entity1, queryResults.next());
     assertFalse(queryResults.hasNext());
 
+    waitForTracesToComplete();
+
     List<SpanData> spans = prepareSpans();
     assertEquals(1, spans.size());
     assertSpanHierarchy(SPAN_NAME_RUN_QUERY);
@@ -563,16 +599,109 @@ public class ITTracingTest {
   }
 
   @Test
-  public void runAggregationQueryTraceTest() throws Exception {}
+  public void runAggregationQueryTraceTest() throws Exception {
+    Entity entity1 =
+        Entity.newBuilder(KEY1)
+            .set("pepper_name", "jalapeno")
+            .set("max_scoville_level", 10000)
+            .build();
+    Entity entity2 =
+        Entity.newBuilder(KEY2)
+            .set("pepper_name", "serrano")
+            .set("max_scoville_level", 25000)
+            .build();
+    Entity entity3 =
+        Entity.newBuilder(KEY3)
+            .set("pepper_name", "habanero")
+            .set("max_scoville_level", 350000)
+            .build();
+    Entity entity4 =
+        Entity.newBuilder(KEY4)
+            .set("pepper_name", "ghost")
+            .set("max_scoville_level", 1500000)
+            .build();
+
+    List<Entity> entityList = new ArrayList<>();
+    entityList.add(entity1);
+    entityList.add(entity2);
+    entityList.add(entity3);
+    entityList.add(entity4);
+
+    List<Entity> response = datastore.add(entity1, entity2, entity3, entity4);
+    assertEquals(entityList, response);
+
+    // Clean Up test span context to verify RunAggregationQuery spans
+    cleanupTestSpanContext();
+
+    PropertyFilter mediumSpicyFilters = PropertyFilter.lt("max_scoville_level", 100000);
+    StructuredQuery<Entity> mediumSpicyQuery =
+        Query.newEntityQueryBuilder().setKind(KEY1.getKind()).setFilter(mediumSpicyFilters).build();
+    AggregationQuery countSpicyPeppers =
+        Query.newAggregationQueryBuilder()
+            .addAggregation(count().as("count"))
+            .over(mediumSpicyQuery)
+            .build();
+    AggregationResults results = datastore.runAggregation(countSpicyPeppers);
+    assertThat(results.size()).isEqualTo(1);
+    AggregationResult result = results.get(0);
+    assertThat(result.getLong("count")).isEqualTo(2L);
+
+    waitForTracesToComplete();
+
+    List<SpanData> spans = prepareSpans();
+    assertEquals(1, spans.size());
+    assertSpanHierarchy(SPAN_NAME_RUN_AGGREGATION_QUERY);
+  }
 
   @Test
-  public void newTransactionReadTraceTest() throws Exception {}
+  public void newTransactionReadWriteTraceTest() throws Exception {
+    // Transaction.Begin
+    Transaction transaction = datastore.newTransaction();
+
+    // Transaction.Lookup
+    Entity entity = datastore.get(KEY1, ReadOption.transactionId(transaction.getTransactionId()));
+    assertNull(entity);
+
+    Entity updatedEntity = Entity.newBuilder(KEY1).set("test_field", "new_test_value1").build();
+    transaction.put(updatedEntity);
+
+    // Transaction.Commit
+    transaction.commit();
+
+    waitForTracesToComplete();
+
+    List<SpanData> spans = prepareSpans();
+    assertEquals(3, spans.size());
+
+    assertSpanHierarchy(SPAN_NAME_BEGIN_TRANSACTION);
+    assertSpanHierarchy(SPAN_NAME_TRANSACTION_LOOKUP);
+    SpanData span = getSpanByName(SPAN_NAME_TRANSACTION_LOOKUP);
+    assertTrue(
+        hasEvent(
+            span,
+            SPAN_NAME_TRANSACTION_LOOKUP,
+            Attributes.builder()
+                .put("Deferred", 0)
+                .put("Missing", 1)
+                .put("Received", 0)
+                .put("transactional", true)
+                .build()));
+
+    assertSpanHierarchy(SPAN_NAME_TRANSACTION_COMMIT);
+    span = getSpanByName(SPAN_NAME_TRANSACTION_COMMIT);
+    assertTrue(
+        hasEvent(
+            span,
+            SPAN_NAME_TRANSACTION_COMMIT,
+            Attributes.builder()
+                .put("doc_count", 1)
+                .put("transactional", true)
+                .put("transaction_id", transaction.getTransactionId().toStringUtf8())
+                .build()));
+  }
 
   @Test
   public void newTransactionQueryTest() throws Exception {}
-
-  @Test
-  public void newTransactionReadWriteTraceTest() throws Exception {}
 
   @Test
   public void newTransactionRollbackTest() throws Exception {}

@@ -540,7 +540,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
                     .put("Received", response.getFoundCount())
                     .put("Missing", response.getMissingCount())
                     .put("Deferred", response.getDeferredCount())
-                    .put("isTransactional", isTransactional)
+                    .put("transactional", isTransactional)
                     .build());
             return response;
           },
