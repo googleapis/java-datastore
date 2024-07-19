@@ -22,6 +22,7 @@ import com.google.api.core.InternalExtensionOnly;
 import com.google.cloud.datastore.DatastoreOptions;
 import io.grpc.ManagedChannelBuilder;
 import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.SpanBuilder;
 import io.opentelemetry.api.trace.Tracer;
 import java.util.Map;
 import javax.annotation.Nonnull;
@@ -143,6 +144,12 @@ public interface TraceUtil {
    * parents, sets it as the current span and returns it.
    */
   Span startSpan(String spanName, SpanContext parentSpanContext);
+
+  /**
+   * Adds common SpanAttributes to the current span, useful when hand-creating a new Span without
+   * using the TraceUtil.Span interface.
+   */
+  SpanBuilder addSettingsAttributesToCurrentSpan(SpanBuilder spanBuilder);
 
   /** Returns the current span. */
   @Nonnull

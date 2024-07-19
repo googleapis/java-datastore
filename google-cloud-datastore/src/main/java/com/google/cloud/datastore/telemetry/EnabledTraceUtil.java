@@ -238,7 +238,8 @@ public class EnabledTraceUtil implements TraceUtil {
   }
 
   /** Applies the current Datastore instance settings as attributes to the current Span */
-  private SpanBuilder addSettingsAttributesToCurrentSpan(SpanBuilder spanBuilder) {
+  @Override
+  public SpanBuilder addSettingsAttributesToCurrentSpan(SpanBuilder spanBuilder) {
     spanBuilder =
         spanBuilder.setAllAttributes(
             Attributes.builder()

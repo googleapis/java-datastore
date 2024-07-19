@@ -157,7 +157,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
                       .with(
                           io.opentelemetry.api.trace.Span.wrap(
                               parentSpanContext.getSpanContext())));
-      return spanBuilder.startSpan();
+      return otelTraceUtil.addSettingsAttributesToCurrentSpan(spanBuilder).startSpan();
     }
 
     @Override
@@ -540,7 +540,10 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
                     .put("Received", response.getFoundCount())
                     .put("Missing", response.getMissingCount())
                     .put("Deferred", response.getDeferredCount())
-                    .put("isTransactional", isTransactional)
+                    .put("transactional", isTransactional)
+                    .put(
+                        "transaction_id",
+                        isTransactional ? readOptions.getTransaction().toStringUtf8() : "")
                     .build());
             return response;
           },
@@ -772,6 +775,11 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
           retrySettings,
           EXCEPTION_HANDLER,
           getOptions().getClock());
+      span.addEvent(
+          com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_ROLLBACK,
+          new ImmutableMap.Builder<String, Object>()
+              .put("transaction_id", requestPb.getTransaction().toStringUtf8())
+              .build());
     } catch (RetryHelperException e) {
       span.end(e);
       throw DatastoreException.translateAndThrow(e);

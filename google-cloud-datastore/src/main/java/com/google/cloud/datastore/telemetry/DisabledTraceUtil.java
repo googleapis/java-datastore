@@ -22,6 +22,7 @@ import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.telemetry.TraceUtil.SpanContext;
 import io.grpc.ManagedChannelBuilder;
 import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.SpanBuilder;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.api.trace.TracerProvider;
 import java.util.Map;
@@ -113,6 +114,10 @@ public class DisabledTraceUtil implements TraceUtil {
   @Override
   public TraceUtil.Span startSpan(String spanName, TraceUtil.SpanContext parentSpanContext) {
     return new Span();
+  }
+
+  public SpanBuilder addSettingsAttributesToCurrentSpan(SpanBuilder spanBuilder) {
+    return getTracer().spanBuilder("TRACING_DISABLED_NO_OP");
   }
 
   @Nonnull
