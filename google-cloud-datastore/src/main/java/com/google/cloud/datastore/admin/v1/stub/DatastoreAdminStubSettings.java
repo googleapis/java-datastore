@@ -21,6 +21,7 @@ import static com.google.cloud.datastore.admin.v1.DatastoreAdminClient.ListIndex
 import com.google.api.core.ApiFunction;
 import com.google.api.core.ApiFuture;
 import com.google.api.core.BetaApi;
+import com.google.api.core.ObsoleteApi;
 import com.google.api.gax.core.GaxProperties;
 import com.google.api.gax.core.GoogleCredentialsProvider;
 import com.google.api.gax.core.InstantiatingExecutorProvider;
@@ -270,6 +271,7 @@ public class DatastoreAdminStubSettings extends StubSettings<DatastoreAdminStubS
   }
 
   /** Returns the default service endpoint. */
+  @ObsoleteApi("Use getEndpoint() instead")
   public static String getDefaultEndpoint() {
     return "datastore.googleapis.com:443";
   }
