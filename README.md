@@ -19,7 +19,7 @@ If you are using Maven with [BOM][libraries-bom], add this to your pom.xml file:
     <dependency>
       <groupId>com.google.cloud</groupId>
       <artifactId>libraries-bom</artifactId>
-      <version>26.40.0</version>
+      <version>26.41.0</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -50,20 +50,20 @@ If you are using Maven without the BOM, add this to your dependencies:
 If you are using Gradle 5.x or later, add this to your dependencies:
 
 ```Groovy
-implementation platform('com.google.cloud:libraries-bom:26.40.0')
+implementation platform('com.google.cloud:libraries-bom:26.42.0')
 
 implementation 'com.google.cloud:google-cloud-datastore'
 ```
 If you are using Gradle without BOM, add this to your dependencies:
 
 ```Groovy
-implementation 'com.google.cloud:google-cloud-datastore:2.20.0'
+implementation 'com.google.cloud:google-cloud-datastore:2.20.2'
 ```
 
 If you are using SBT, add this to your dependencies:
 
 ```Scala
-libraryDependencies += "com.google.cloud" % "google-cloud-datastore" % "2.20.0"
+libraryDependencies += "com.google.cloud" % "google-cloud-datastore" % "2.20.2"
 ```
 <!-- {x-version-update-end} -->
 
@@ -286,7 +286,7 @@ boolean isHTTP = datastore.getOptions().getTransportOptions() instanceof HTTPTra
 There are new gRPC specific features available to use in this update.
 
 ##### Channel Pooling
-To customize the number of channels your client uses, you can update the channel provider in the DatastoreOptions.
+To customize the number of channels your client uses, you can update the channel provider in the DatastoreOptions. 
 See [ChannelPoolSettings](https://cloud.google.com/java/docs/reference/gax/latest/com.google.api.gax.grpc.ChannelPoolSettings) and [Performance Best Practices](https://grpc.io/docs/guides/performance/) for more information on channel pools and best practices for performance.
 
 Example:
@@ -480,7 +480,7 @@ Java is a registered trademark of Oracle and/or its affiliates.
 [kokoro-badge-link-5]: http://storage.googleapis.com/cloud-devrel-public/java/badges/java-datastore/java11.html
 [stability-image]: https://img.shields.io/badge/stability-stable-green
 [maven-version-image]: https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-datastore.svg
-[maven-version-link]: https://central.sonatype.com/artifact/com.google.cloud/google-cloud-datastore/2.20.0
+[maven-version-link]: https://central.sonatype.com/artifact/com.google.cloud/google-cloud-datastore/2.20.2
 [authentication]: https://github.com/googleapis/google-cloud-java#authentication
 [auth-scopes]: https://developers.google.com/identity/protocols/oauth2/scopes
 [predefined-iam-roles]: https://cloud.google.com/iam/docs/understanding-roles#predefined_roles
