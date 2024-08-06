@@ -126,7 +126,7 @@ public final class GqlQuery<V> extends Query<V> implements RecordQuery<V> {
       return Objects.equals(cursor, other.cursor) && Objects.equals(value, other.value);
     }
 
-    com.google.datastore.v1.GqlQueryParameter toPb() {
+    public com.google.datastore.v1.GqlQueryParameter toPb() {
       com.google.datastore.v1.GqlQueryParameter.Builder argPb =
           com.google.datastore.v1.GqlQueryParameter.newBuilder();
       if (cursor != null) {
@@ -513,7 +513,7 @@ public final class GqlQuery<V> extends Query<V> implements RecordQuery<V> {
         && Objects.equals(positionalBindings, other.positionalBindings);
   }
 
-  com.google.datastore.v1.GqlQuery toPb() {
+  public com.google.datastore.v1.GqlQuery toPb() {
     GqlQueryProtoPreparer protoPreparer = new GqlQueryProtoPreparer();
     return protoPreparer.prepare(this);
   }

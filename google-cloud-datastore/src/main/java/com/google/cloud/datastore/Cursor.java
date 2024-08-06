@@ -80,7 +80,7 @@ public final class Cursor implements Serializable {
     return new Cursor(ByteString.copyFrom(checkNotNull(bytes)));
   }
 
-  com.google.datastore.v1.Value toPb() {
+  public com.google.datastore.v1.Value toPb() {
     return com.google.datastore.v1.Value.newBuilder().setBlobValue(byteString).build();
   }
 }
