@@ -302,9 +302,9 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
                   : TRANSACTION_OPERATION_EXCEPTION_HANDLER,
               getOptions().getClock());
       span.addEvent(
-          spanName,
+          spanName + " complete.",
           new ImmutableMap.Builder<String, Object>()
-              .put("response_count", response.getBatch().getEntityResultsCount())
+              .put("doc_count", response.getBatch().getEntityResultsCount())
               .put("transactional", isTransactional)
               .put("read_consistency", readOptions.getReadConsistency().toString())
               .put(
@@ -535,7 +535,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
           () -> {
             com.google.datastore.v1.LookupResponse response = datastoreRpc.lookup(requestPb);
             span.addEvent(
-                spanName,
+                spanName + " complete.",
                 new ImmutableMap.Builder<String, Object>()
                     .put("Received", response.getFoundCount())
                     .put("Missing", response.getMissingCount())
@@ -709,7 +709,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
                   : TRANSACTION_OPERATION_EXCEPTION_HANDLER,
               getOptions().getClock());
       span.addEvent(
-          spanName,
+          spanName + " complete.",
           new ImmutableMap.Builder<String, Object>()
               .put("doc_count", response.getMutationResultsCount())
               .put("transactional", isTransactional)
