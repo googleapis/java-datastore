@@ -403,12 +403,13 @@ public class ITTracingTest {
     assertTrue(
         hasEvent(
             span,
-            SPAN_NAME_LOOKUP,
+            SPAN_NAME_LOOKUP + " complete.",
             Attributes.builder()
                 .put("Received", 0)
                 .put("Missing", 1)
                 .put("Deferred", 0)
                 .put("transactional", false)
+                .put("transaction_id", "")
                 .build()));
   }
 
@@ -486,7 +487,7 @@ public class ITTracingTest {
     assertTrue(
         hasEvent(
             spanData,
-            SPAN_NAME_COMMIT,
+            SPAN_NAME_COMMIT + " complete.",
             Attributes.builder()
                 .put("doc_count", response.size())
                 .put("transactional", false)
@@ -521,7 +522,7 @@ public class ITTracingTest {
     assertTrue(
         hasEvent(
             spanData,
-            SPAN_NAME_COMMIT,
+            SPAN_NAME_COMMIT + " complete.",
             Attributes.builder()
                 .put("doc_count", 1)
                 .put("transactional", false)
@@ -543,7 +544,7 @@ public class ITTracingTest {
     assertTrue(
         hasEvent(
             spanData,
-            SPAN_NAME_COMMIT,
+            SPAN_NAME_COMMIT + " complete.",
             Attributes.builder()
                 .put("doc_count", 1)
                 .put("transactional", false)
@@ -583,9 +584,9 @@ public class ITTracingTest {
     assertTrue(
         hasEvent(
             span,
-            SPAN_NAME_RUN_QUERY,
+            SPAN_NAME_RUN_QUERY + " complete.",
             Attributes.builder()
-                .put("response_count", 1)
+                .put("doc_count", 1)
                 .put("transactional", false)
                 .put("read_consistency", "READ_CONSISTENCY_UNSPECIFIED")
                 .put("more_results", "NO_MORE_RESULTS")
@@ -674,7 +675,7 @@ public class ITTracingTest {
     assertTrue(
         hasEvent(
             span,
-            SPAN_NAME_TRANSACTION_LOOKUP,
+            SPAN_NAME_TRANSACTION_LOOKUP + " complete.",
             Attributes.builder()
                 .put("Deferred", 0)
                 .put("Missing", 1)
@@ -688,7 +689,7 @@ public class ITTracingTest {
     assertTrue(
         hasEvent(
             span,
-            SPAN_NAME_TRANSACTION_COMMIT,
+            SPAN_NAME_TRANSACTION_COMMIT + " complete.",
             Attributes.builder()
                 .put("doc_count", 1)
                 .put("transactional", true)
@@ -732,9 +733,9 @@ public class ITTracingTest {
     assertTrue(
         hasEvent(
             span,
-            SPAN_NAME_TRANSACTION_RUN_QUERY,
+            SPAN_NAME_TRANSACTION_RUN_QUERY + " complete.",
             Attributes.builder()
-                .put("response_count", 1)
+                .put("doc_count", 1)
                 .put("transactional", true)
                 .put("read_consistency", "READ_CONSISTENCY_UNSPECIFIED")
                 .put("more_results", "NO_MORE_RESULTS")
@@ -786,7 +787,7 @@ public class ITTracingTest {
     assertTrue(
         hasEvent(
             span,
-            SPAN_NAME_TRANSACTION_LOOKUP,
+            SPAN_NAME_TRANSACTION_LOOKUP + " complete.",
             Attributes.builder()
                 .put("Deferred", 0)
                 .put("Missing", 0)
