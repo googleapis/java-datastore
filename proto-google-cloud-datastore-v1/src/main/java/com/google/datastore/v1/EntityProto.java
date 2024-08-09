@@ -94,11 +94,11 @@ public final class EntityProto {
           + "oogle.datastore.v1.Entity.PropertiesEntr"
           + "y\032M\n\017PropertiesEntry\022\013\n\003key\030\001 \001(\t\022)\n\005val"
           + "ue\030\002 \001(\0132\032.google.datastore.v1.Value:\0028\001"
-          + "B\275\001\n\027com.google.datastore.v1B\013EntityProt"
-          + "oP\001Z<google.golang.org/genproto/googleap"
-          + "is/datastore/v1;datastore\252\002\031Google.Cloud"
-          + ".Datastore.V1\312\002\031Google\\Cloud\\Datastore\\V"
-          + "1\352\002\034Google::Cloud::Datastore::V1b\006proto3"
+          + "B\274\001\n\027com.google.datastore.v1B\013EntityProt"
+          + "oP\001Z;cloud.google.com/go/datastore/apiv1"
+          + "/datastorepb;datastorepb\252\002\031Google.Cloud."
+          + "Datastore.V1\312\002\031Google\\Cloud\\Datastore\\V1"
+          + "\352\002\034Google::Cloud::Datastore::V1b\006proto3"
     };
     descriptor =
         com.google.protobuf.Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(
