@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.21.2](https://github.com/googleapis/java-datastore/compare/v2.21.1...v2.21.2) (2024-08-22)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.34.0 ([#1547](https://github.com/googleapis/java-datastore/issues/1547)) ([8c5f595](https://github.com/googleapis/java-datastore/commit/8c5f5954d88732ab929b4477a3f15b0052adc2ff))
+
+## [2.21.1](https://github.com/googleapis/java-datastore/compare/v2.21.0...v2.21.1) (2024-08-06)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.33.0 ([#1531](https://github.com/googleapis/java-datastore/issues/1531)) ([9e52395](https://github.com/googleapis/java-datastore/commit/9e52395f7ee71315331790284d35e7aad2f387ed))
+
+## [2.21.0](https://github.com/googleapis/java-datastore/compare/v2.20.2...v2.21.0) (2024-07-31)
+
+
+### Features
+
+* Enable hermetic library generation ([#1462](https://github.com/googleapis/java-datastore/issues/1462)) ([d142d9c](https://github.com/googleapis/java-datastore/commit/d142d9c95d91c8cadaf696efc12d6136814938ff))
+
 ## [2.20.2](https://github.com/googleapis/java-datastore/compare/v2.20.1...v2.20.2) (2024-06-28)
 
 
