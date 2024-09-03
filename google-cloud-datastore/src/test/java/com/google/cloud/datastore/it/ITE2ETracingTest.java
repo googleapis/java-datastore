@@ -338,7 +338,7 @@ public class ITE2ETracingTest {
             .setNamespace(options.getNamespace())
             .build();
     KEY3 =
-        Key.newBuilder(projectId, kind1, "key4", options.getDatabaseId())
+        Key.newBuilder(projectId, kind1, "key3", options.getDatabaseId())
             .setNamespace(options.getNamespace())
             .build();
     KEY4 =
@@ -381,9 +381,6 @@ public class ITE2ETracingTest {
   @AfterClass
   public static void teardown() throws Exception {
     traceClient_v1.close();
-    CompletableResultCode completableResultCode =
-        openTelemetrySdk.getSdkTracerProvider().shutdown();
-    completableResultCode.join(TRACE_PROVIDER_SHUTDOWN_MILLIS, TimeUnit.MILLISECONDS);
   }
 
   // Generates a random hex string of length `numBytes`
