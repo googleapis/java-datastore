@@ -18,8 +18,6 @@ package com.google.datastore.utils;
 import com.google.api.core.BetaApi;
 import com.google.datastore.v1.PartitionId;
 import com.google.datastore.v1.Query;
-import com.google.datastore.v1.client.Datastore;
-import com.google.datastore.v1.client.DatastoreException;
 import com.google.protobuf.Timestamp;
 import java.util.List;
 

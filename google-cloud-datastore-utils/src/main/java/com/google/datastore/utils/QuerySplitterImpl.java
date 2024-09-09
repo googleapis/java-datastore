@@ -15,7 +15,7 @@
  */
 package com.google.datastore.utils;
 
-import static com.google.datastore.v1.client.DatastoreHelper.makeAndFilter;
+import static com.google.datastore.utils.DatastoreHelper.makeAndFilter;
 
 import com.google.api.core.BetaApi;
 import com.google.datastore.utils.QuerySplitter;
@@ -33,9 +33,8 @@ import com.google.datastore.v1.QueryResultBatch;
 import com.google.datastore.v1.QueryResultBatch.MoreResultsType;
 import com.google.datastore.v1.ReadOptions;
 import com.google.datastore.v1.RunQueryRequest;
-import com.google.datastore.v1.client.Datastore;
-import com.google.datastore.v1.client.DatastoreException;
-import com.google.datastore.v1.client.DatastoreHelper;
+import com.google.datastore.utils.DatastoreException;
+import com.google.datastore.utils.DatastoreHelper;
 import com.google.protobuf.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +48,7 @@ import javax.annotation.Nullable;
  * <p>This implementation of the QuerySplitter uses the __scatter__ property to gather random split
  * points for a query.
  */
-final class QuerySplitterImpl implements com.google.datastore.utils.QuerySplitter {
+final class QuerySplitterImpl implements QuerySplitter {
 
     /** The number of keys to sample for each split. * */
     private static final int KEYS_PER_SPLIT = 32;
