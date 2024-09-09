@@ -17,7 +17,6 @@ package com.google.datastore.utils;
 
 import com.google.datastore.v1.*;
 import com.google.rpc.Code;
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -47,12 +46,14 @@ public class Datastore {
     return remoteRpc.getRpcCount();
   }
 
-  private com.google.datastore.utils.DatastoreException invalidResponseException(String method, IOException exception) {
+  private com.google.datastore.utils.DatastoreException invalidResponseException(
+      String method, IOException exception) {
     return RemoteRpc.makeException(
         remoteRpc.getUrl(), method, Code.UNAVAILABLE, "Invalid response", exception);
   }
 
-  public AllocateIdsResponse allocateIds(AllocateIdsRequest request) throws com.google.datastore.utils.DatastoreException {
+  public AllocateIdsResponse allocateIds(AllocateIdsRequest request)
+      throws com.google.datastore.utils.DatastoreException {
     try (InputStream is =
         remoteRpc.call("allocateIds", request, request.getProjectId(), request.getDatabaseId())) {
       return AllocateIdsResponse.parseFrom(is);
@@ -72,7 +73,8 @@ public class Datastore {
     }
   }
 
-  public CommitResponse commit(CommitRequest request) throws com.google.datastore.utils.DatastoreException {
+  public CommitResponse commit(CommitRequest request)
+      throws com.google.datastore.utils.DatastoreException {
     try (InputStream is =
         remoteRpc.call("commit", request, request.getProjectId(), request.getDatabaseId())) {
       return CommitResponse.parseFrom(is);
@@ -81,7 +83,8 @@ public class Datastore {
     }
   }
 
-  public LookupResponse lookup(LookupRequest request) throws com.google.datastore.utils.DatastoreException {
+  public LookupResponse lookup(LookupRequest request)
+      throws com.google.datastore.utils.DatastoreException {
     try (InputStream is =
         remoteRpc.call("lookup", request, request.getProjectId(), request.getDatabaseId())) {
       return LookupResponse.parseFrom(is);
@@ -90,7 +93,8 @@ public class Datastore {
     }
   }
 
-  public ReserveIdsResponse reserveIds(ReserveIdsRequest request) throws com.google.datastore.utils.DatastoreException {
+  public ReserveIdsResponse reserveIds(ReserveIdsRequest request)
+      throws com.google.datastore.utils.DatastoreException {
     try (InputStream is =
         remoteRpc.call("reserveIds", request, request.getProjectId(), request.getDatabaseId())) {
       return ReserveIdsResponse.parseFrom(is);
@@ -99,7 +103,8 @@ public class Datastore {
     }
   }
 
-  public RollbackResponse rollback(RollbackRequest request) throws com.google.datastore.utils.DatastoreException {
+  public RollbackResponse rollback(RollbackRequest request)
+      throws com.google.datastore.utils.DatastoreException {
     try (InputStream is =
         remoteRpc.call("rollback", request, request.getProjectId(), request.getDatabaseId())) {
       return RollbackResponse.parseFrom(is);
@@ -108,7 +113,8 @@ public class Datastore {
     }
   }
 
-  public RunQueryResponse runQuery(RunQueryRequest request) throws com.google.datastore.utils.DatastoreException {
+  public RunQueryResponse runQuery(RunQueryRequest request)
+      throws com.google.datastore.utils.DatastoreException {
     try (InputStream is =
         remoteRpc.call("runQuery", request, request.getProjectId(), request.getDatabaseId())) {
       return RunQueryResponse.parseFrom(is);

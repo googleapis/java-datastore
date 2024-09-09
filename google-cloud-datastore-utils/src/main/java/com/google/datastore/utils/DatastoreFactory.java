@@ -15,17 +15,16 @@
  */
 package com.google.datastore.utils;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.logging.*;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /** Client factory for {@link com.google.datastore.utils.Datastore}. */
 public class DatastoreFactory {
@@ -52,7 +51,8 @@ public class DatastoreFactory {
    *
    * @throws IllegalArgumentException if the server or credentials weren't provided.
    */
-  public com.google.datastore.utils.Datastore create(com.google.datastore.utils.DatastoreOptions options) {
+  public com.google.datastore.utils.Datastore create(
+      com.google.datastore.utils.DatastoreOptions options) {
     return new com.google.datastore.utils.Datastore(newRemoteRpc(options));
   }
 
@@ -96,7 +96,8 @@ public class DatastoreFactory {
   protected com.google.datastore.utils.RemoteRpc newRemoteRpc(DatastoreOptions options) {
     checkNotNull(options);
     HttpRequestFactory client = makeClient(options);
-    return new com.google.datastore.utils.RemoteRpc(client, options.getInitializer(), buildProjectEndpoint(options));
+    return new com.google.datastore.utils.RemoteRpc(
+        client, options.getInitializer(), buildProjectEndpoint(options));
   }
 
   private static String validateUrl(String url) {
