@@ -49,4 +49,6 @@ jobs:
           --target_branch ${{ github.base_ref }} \
           --current_branch $HEAD_REF
       env:
+        BASE_REF: ${{ github.base_ref }}
+        HEAD_REF: ${{ github.head_ref }}
         GH_TOKEN: ${{ secrets.CLOUD_JAVA_BOT_TOKEN }}
