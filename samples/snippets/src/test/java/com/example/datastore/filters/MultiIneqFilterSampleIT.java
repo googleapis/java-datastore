@@ -35,61 +35,61 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
 public class MultiIneqFilterSampleIT {
-    private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-    private Key taskKey1;
-    private Key taskKey2;
-    private Key taskKey3;
+  private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+  private Key taskKey1;
+  private Key taskKey2;
+  private Key taskKey3;
 
-    @Rule
-    public final SystemsOutRule systemsOutRule = new SystemsOutRule();
+  @Rule
+  public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
-    @Before
-    public void setUp() {
-        taskKey1 = datastore.newKeyFactory().setKind("Task").newKey("key1");
-        Entity task1 = Entity.newBuilder(taskKey1)
-            .set("category", "Personal")
-            .set("done", false)
-            .set("priority", 4)
-            .set("days", 3)
-            .set("description", "Learn Cloud Datastore")
-            .build();
+  @Before
+  public void setUp() {
+    taskKey1 = datastore.newKeyFactory().setKind("Task").newKey("key1");
+    Entity task1 = Entity.newBuilder(taskKey1)
+        .set("category", "Personal")
+        .set("done", false)
+        .set("priority", 4)
+        .set("days", 3)
+        .set("description", "Learn Cloud Datastore")
+        .build();
 
-        taskKey2 = datastore.newKeyFactory().setKind("Task").newKey("key2");
-        Entity task2 = Entity.newBuilder(taskKey2)
-            .set("category", "Personal")
-            .set("done", false)
-            .set("priority", 5)
-            .set("days", 5)
-            .set("description", "Integrate Cloud Datastore")
-            .build();
+    taskKey2 = datastore.newKeyFactory().setKind("Task").newKey("key2");
+    Entity task2 = Entity.newBuilder(taskKey2)
+        .set("category", "Personal")
+        .set("done", false)
+        .set("priority", 5)
+        .set("days", 5)
+        .set("description", "Integrate Cloud Datastore")
+        .build();
 
-        taskKey3 = datastore.newKeyFactory().setKind("Task").newKey("key3");
-        Entity task3 = Entity.newBuilder(taskKey3)
-            .set("category", "Personal")
-            .set("done", false)
-            .set("priority", 5)
-            .set("days", 2)
-            .set("description", "Set Up Cloud Datastore")
-            .build();
+    taskKey3 = datastore.newKeyFactory().setKind("Task").newKey("key3");
+    Entity task3 = Entity.newBuilder(taskKey3)
+        .set("category", "Personal")
+        .set("done", false)
+        .set("priority", 5)
+        .set("days", 2)
+        .set("description", "Set Up Cloud Datastore")
+        .build();
 
-        datastore.put(task1);
-        datastore.put(task2);
-        datastore.put(task3);
-    }
+    datastore.put(task1);
+    datastore.put(task2);
+    datastore.put(task3);
+  }
 
-    @After
-    public void tearDown() {
-        datastore.delete(taskKey1);
-        datastore.delete(taskKey2);
-        datastore.delete(taskKey3);
-    }
+  @After
+  public void tearDown() {
+    datastore.delete(taskKey1);
+    datastore.delete(taskKey2);
+    datastore.delete(taskKey3);
+  }
 
-    @Test
-    public void testMultiIneqFilter() throws Exception {
-      // Act
-        MultiIneqFilter.invoke();
+  @Test
+  public void testMultiIneqFilter() throws Exception {
+    // Act
+    MultiIneqFilter.invoke();
 
-      // Assert
-        systemsOutRule.assertContains("Entity");
-    }
+    // Assert
+    systemsOutRule.assertContains("Entity");
+  }
 }
