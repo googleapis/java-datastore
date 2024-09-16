@@ -16,6 +16,18 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_DEFERRED;
+import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_DOCUMENT_COUNT;
+import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_EXCEPTION_MESSAGE;
+import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_EXCEPTION_STACKTRACE;
+import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_EXCEPTION_TYPE;
+import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_MISSING;
+import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_MORE_RESULTS;
+import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_READ_CONSISTENCY;
+import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_RECEIVED;
+import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_TRANSACTIONAL;
+import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_TRANSACTION_ID;
+
 import com.google.api.core.BetaApi;
 import com.google.api.gax.retrying.RetrySettings;
 import com.google.cloud.BaseService;
@@ -182,9 +194,9 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
         span.recordException(
             ex,
             Attributes.builder()
-                .put("exception.message", ex.getMessage())
-                .put("exception.type", ex.getClass().getName())
-                .put("exception.stacktrace", Throwables.getStackTraceAsString(ex))
+                .put(ATTRIBUTES_KEY_EXCEPTION_MESSAGE, ex.getMessage())
+                .put(ATTRIBUTES_KEY_EXCEPTION_TYPE, ex.getClass().getName())
+                .put(ATTRIBUTES_KEY_EXCEPTION_STACKTRACE, Throwables.getStackTraceAsString(ex))
                 .build());
         span.end();
         throw DatastoreException.propagateUserException(ex);
@@ -304,15 +316,15 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       span.addEvent(
           spanName + " complete.",
           new ImmutableMap.Builder<String, Object>()
-              .put("doc_count", response.getBatch().getEntityResultsCount())
-              .put("transactional", isTransactional)
-              .put("read_consistency", readOptions.getReadConsistency().toString())
+              .put(ATTRIBUTES_KEY_DOCUMENT_COUNT, response.getBatch().getEntityResultsCount())
+              .put(ATTRIBUTES_KEY_TRANSACTIONAL, isTransactional)
+              .put(ATTRIBUTES_KEY_READ_CONSISTENCY, readOptions.getReadConsistency().toString())
               .put(
-                  "transaction_id",
+                  ATTRIBUTES_KEY_TRANSACTION_ID,
                   (isTransactional
                       ? requestPb.getReadOptions().getTransaction().toStringUtf8()
                       : ""))
-              .put("more_results", response.getBatch().getMoreResults().toString())
+              .put(ATTRIBUTES_KEY_MORE_RESULTS, response.getBatch().getMoreResults().toString())
               .build());
       return response;
     } catch (RetryHelperException e) {
@@ -537,12 +549,12 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
             span.addEvent(
                 spanName + " complete.",
                 new ImmutableMap.Builder<String, Object>()
-                    .put("Received", response.getFoundCount())
-                    .put("Missing", response.getMissingCount())
-                    .put("Deferred", response.getDeferredCount())
-                    .put("transactional", isTransactional)
+                    .put(ATTRIBUTES_KEY_RECEIVED, response.getFoundCount())
+                    .put(ATTRIBUTES_KEY_MISSING, response.getMissingCount())
+                    .put(ATTRIBUTES_KEY_DEFERRED, response.getDeferredCount())
+                    .put(ATTRIBUTES_KEY_TRANSACTIONAL, isTransactional)
                     .put(
-                        "transaction_id",
+                        ATTRIBUTES_KEY_TRANSACTION_ID,
                         isTransactional ? readOptions.getTransaction().toStringUtf8() : "")
                     .build());
             return response;
@@ -711,10 +723,10 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       span.addEvent(
           spanName + " complete.",
           new ImmutableMap.Builder<String, Object>()
-              .put("doc_count", response.getMutationResultsCount())
-              .put("transactional", isTransactional)
+              .put(ATTRIBUTES_KEY_DOCUMENT_COUNT, response.getMutationResultsCount())
+              .put(ATTRIBUTES_KEY_TRANSACTIONAL, isTransactional)
               .put(
-                  "transaction_id",
+                  ATTRIBUTES_KEY_TRANSACTION_ID,
                   isTransactional ? requestPb.getTransaction().toStringUtf8() : "")
               .build());
       return response;
@@ -778,7 +790,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       span.addEvent(
           com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_ROLLBACK,
           new ImmutableMap.Builder<String, Object>()
-              .put("transaction_id", requestPb.getTransaction().toStringUtf8())
+              .put(ATTRIBUTES_KEY_TRANSACTION_ID, requestPb.getTransaction().toStringUtf8())
               .build());
     } catch (RetryHelperException e) {
       span.end(e);

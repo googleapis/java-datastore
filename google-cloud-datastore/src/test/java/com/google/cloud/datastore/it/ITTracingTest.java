@@ -405,11 +405,11 @@ public class ITTracingTest {
             span,
             SPAN_NAME_LOOKUP + " complete.",
             Attributes.builder()
-                .put("Received", 0)
-                .put("Missing", 1)
-                .put("Deferred", 0)
-                .put("transactional", false)
-                .put("transaction_id", "")
+                .put(ATTRIBUTES_KEY_RECEIVED, 0)
+                .put(ATTRIBUTES_KEY_MISSING, 1)
+                .put(ATTRIBUTES_KEY_DEFERRED, 0)
+                .put(ATTRIBUTES_KEY_TRANSACTIONAL, false)
+                .put(ATTRIBUTES_KEY_TRANSACTION_ID, "")
                 .build()));
   }
 
@@ -489,9 +489,9 @@ public class ITTracingTest {
             spanData,
             SPAN_NAME_COMMIT + " complete.",
             Attributes.builder()
-                .put("doc_count", response.size())
-                .put("transactional", false)
-                .put("transaction_id", "")
+                .put(ATTRIBUTES_KEY_DOCUMENT_COUNT, response.size())
+                .put(ATTRIBUTES_KEY_TRANSACTIONAL, false)
+                .put(ATTRIBUTES_KEY_TRANSACTION_ID, "")
                 .build()));
 
     // Clean Up test span context to verify update spans
@@ -524,9 +524,9 @@ public class ITTracingTest {
             spanData,
             SPAN_NAME_COMMIT + " complete.",
             Attributes.builder()
-                .put("doc_count", 1)
-                .put("transactional", false)
-                .put("transaction_id", "")
+                .put(ATTRIBUTES_KEY_DOCUMENT_COUNT, 1)
+                .put(ATTRIBUTES_KEY_TRANSACTIONAL, false)
+                .put(ATTRIBUTES_KEY_TRANSACTION_ID, "")
                 .build()));
 
     // Clean Up test span context to verify update spans
@@ -546,9 +546,9 @@ public class ITTracingTest {
             spanData,
             SPAN_NAME_COMMIT + " complete.",
             Attributes.builder()
-                .put("doc_count", 1)
-                .put("transactional", false)
-                .put("transaction_id", "")
+                .put(ATTRIBUTES_KEY_DOCUMENT_COUNT, 1)
+                .put(ATTRIBUTES_KEY_TRANSACTIONAL, false)
+                .put(ATTRIBUTES_KEY_TRANSACTION_ID, "")
                 .build()));
   }
 
@@ -586,11 +586,11 @@ public class ITTracingTest {
             span,
             SPAN_NAME_RUN_QUERY + " complete.",
             Attributes.builder()
-                .put("doc_count", 1)
-                .put("transactional", false)
-                .put("read_consistency", "READ_CONSISTENCY_UNSPECIFIED")
-                .put("more_results", "NO_MORE_RESULTS")
-                .put("transaction_id", "")
+                .put(ATTRIBUTES_KEY_DOCUMENT_COUNT, 1)
+                .put(ATTRIBUTES_KEY_TRANSACTIONAL, false)
+                .put(ATTRIBUTES_KEY_READ_CONSISTENCY, "READ_CONSISTENCY_UNSPECIFIED")
+                .put(ATTRIBUTES_KEY_MORE_RESULTS, "NO_MORE_RESULTS")
+                .put(ATTRIBUTES_KEY_TRANSACTION_ID, "")
                 .build()));
   }
 
@@ -677,11 +677,11 @@ public class ITTracingTest {
             span,
             SPAN_NAME_TRANSACTION_LOOKUP + " complete.",
             Attributes.builder()
-                .put("Deferred", 0)
-                .put("Missing", 1)
-                .put("Received", 0)
-                .put("transactional", true)
-                .put("transaction_id", transaction.getTransactionId().toStringUtf8())
+                .put(ATTRIBUTES_KEY_DEFERRED, 0)
+                .put(ATTRIBUTES_KEY_MISSING, 1)
+                .put(ATTRIBUTES_KEY_RECEIVED, 0)
+                .put(ATTRIBUTES_KEY_TRANSACTIONAL, true)
+                .put(ATTRIBUTES_KEY_TRANSACTION_ID, transaction.getTransactionId().toStringUtf8())
                 .build()));
 
     assertSpanHierarchy(SPAN_NAME_TRANSACTION_COMMIT);
@@ -691,9 +691,9 @@ public class ITTracingTest {
             span,
             SPAN_NAME_TRANSACTION_COMMIT + " complete.",
             Attributes.builder()
-                .put("doc_count", 1)
-                .put("transactional", true)
-                .put("transaction_id", transaction.getTransactionId().toStringUtf8())
+                .put(ATTRIBUTES_KEY_DOCUMENT_COUNT, 1)
+                .put(ATTRIBUTES_KEY_TRANSACTIONAL, true)
+                .put(ATTRIBUTES_KEY_TRANSACTION_ID, transaction.getTransactionId().toStringUtf8())
                 .build()));
   }
 
@@ -735,11 +735,11 @@ public class ITTracingTest {
             span,
             SPAN_NAME_TRANSACTION_RUN_QUERY + " complete.",
             Attributes.builder()
-                .put("doc_count", 1)
-                .put("transactional", true)
-                .put("read_consistency", "READ_CONSISTENCY_UNSPECIFIED")
-                .put("more_results", "NO_MORE_RESULTS")
-                .put("transaction_id", transaction.getTransactionId().toStringUtf8())
+                .put(ATTRIBUTES_KEY_DOCUMENT_COUNT, 1)
+                .put(ATTRIBUTES_KEY_TRANSACTIONAL, true)
+                .put(ATTRIBUTES_KEY_READ_CONSISTENCY, "READ_CONSISTENCY_UNSPECIFIED")
+                .put(ATTRIBUTES_KEY_MORE_RESULTS, "NO_MORE_RESULTS")
+                .put(ATTRIBUTES_KEY_TRANSACTION_ID, transaction.getTransactionId().toStringUtf8())
                 .build()));
   }
 
@@ -789,11 +789,11 @@ public class ITTracingTest {
             span,
             SPAN_NAME_TRANSACTION_LOOKUP + " complete.",
             Attributes.builder()
-                .put("Deferred", 0)
-                .put("Missing", 0)
-                .put("Received", 1)
-                .put("transactional", true)
-                .put("transaction_id", transaction.getTransactionId().toStringUtf8())
+                .put(ATTRIBUTES_KEY_DEFERRED, 0)
+                .put(ATTRIBUTES_KEY_MISSING, 0)
+                .put(ATTRIBUTES_KEY_RECEIVED, 1)
+                .put(ATTRIBUTES_KEY_TRANSACTIONAL, true)
+                .put(ATTRIBUTES_KEY_TRANSACTION_ID, transaction.getTransactionId().toStringUtf8())
                 .build()));
 
     assertSpanHierarchy(SPAN_NAME_ROLLBACK);
@@ -803,7 +803,7 @@ public class ITTracingTest {
             span,
             SPAN_NAME_ROLLBACK,
             Attributes.builder()
-                .put("transaction_id", transaction.getTransactionId().toStringUtf8())
+                .put(ATTRIBUTES_KEY_TRANSACTION_ID, transaction.getTransactionId().toStringUtf8())
                 .build()));
   }
 
