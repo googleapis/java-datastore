@@ -32,43 +32,44 @@ import org.junit.runners.JUnit4;
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
 public class IndexingConsiderationQuerySampleIT {
 
-  private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+    private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-  private Key employeeKey1;
-  private Key employeeKey2;
-  private Key employeeKey3;
+    private Key employeeKey1;
+    private Key employeeKey2;
+    private Key employeeKey3;
 
-  @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
+    @Rule
+    public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
-  @Before
-  public void setUp() {
-    employeeKey1 = datastore.newKeyFactory().setKind("Employee").newKey("employee1");
-    Entity employee1 = Entity.newBuilder(employeeKey1).set("name", "Alice").set("salary", 100001).set("experience", 10).build();
+    @Before
+    public void setUp() {
+        employeeKey1 = datastore.newKeyFactory().setKind("Employee").newKey("employee1");
+        Entity employee1 = Entity.newBuilder(employeeKey1).set("name", "Alice").set("salary", 100001).set("experience", 10).build();
 
-    employeeKey2 = datastore.newKeyFactory().setKind("Employee").newKey("employee2");
-    Entity employee2 = Entity.newBuilder(employeeKey2).set("name", "Bob").set("salary", 90000).set("experience", 5).build();
+        employeeKey2 = datastore.newKeyFactory().setKind("Employee").newKey("employee2");
+        Entity employee2 = Entity.newBuilder(employeeKey2).set("name", "Bob").set("salary", 90000).set("experience", 5).build();
 
-    employeeKey3 = datastore.newKeyFactory().setKind("Employee").newKey("employee3");
-    Entity employee3 = Entity.newBuilder(employeeKey3).set("name", "Jay").set("salary", 120000).set("experience", 15).build();
+        employeeKey3 = datastore.newKeyFactory().setKind("Employee").newKey("employee3");
+        Entity employee3 = Entity.newBuilder(employeeKey3).set("name", "Jay").set("salary", 120000).set("experience", 15).build();
 
-    datastore.put(employee1);
-    datastore.put(employee2);
-    datastore.put(employee3);
-  }
+        datastore.put(employee1);
+        datastore.put(employee2);
+        datastore.put(employee3);
+    }
 
-  @After
-  public void tearDown() {
-    datastore.delete(employee1);
-    datastore.delete(employee2);
-    datastore.delete(employee3);
-  }
+    @After
+    public void tearDown() {
+        datastore.delete(employee1);
+        datastore.delete(employee2);
+        datastore.delete(employee3);
+    }
 
-  @Test
-  public void testIndexingConsiderationQuery() throws Exception {
-    // Act
-    IndexingConsiderationQuery.invoke();
+    @Test
+    public void testIndexingConsiderationQuery() throws Exception {
+        // Act
+        IndexingConsiderationQuery.invoke();
 
-    // Assert
-    systemsOutRule.assertContains("Entity");
-  }
+        // Assert
+        systemsOutRule.assertContains("Entity");
+    }
 }

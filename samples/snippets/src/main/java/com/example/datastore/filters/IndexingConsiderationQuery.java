@@ -37,14 +37,11 @@ public class IndexingConsiderationQuery {
 
         // Build a query with multi inequal filters and optimized index order of index properties.
         // [START datastore_query_indexing_considerations]
-        Query<Entity> query =
-                Query.newEntityQueryBuilder()
-                        .setKind("employees")
-                        .setFilter(
-                                CompositeFilter.and(
-                                        PropertyFilter.gt("salary", 100000), PropertyFilter.gt("experience", 0)))
-                        .setOrderBy(OrderBy("salary"), OrderBy("experience"))
-                        .build();
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind("employees")
+                .setFilter(CompositeFilter.and(PropertyFilter.gt("salary", 100000), PropertyFilter.gt("experience", 0)))
+                .setOrderBy(OrderBy("salary"), OrderBy("experience"))
+                .build();
         // [END datastore_query_indexing_considerations]
 
         // Get the results back from Datastore
@@ -59,10 +56,8 @@ public class IndexingConsiderationQuery {
             System.out.printf("Entity: %s%n", entity);
         }
 
-        AggregationResult customer1SalesAvgQueryResult =
-                Iterables.getOnlyElement(datastore.runAggregation(customer1SalesAvg));
+        AggregationResult customer1SalesAvgQueryResult = Iterables.getOnlyElement(datastore.runAggregation(customer1SalesAvg));
 
-        System.out.printf(
-                "Customer 1 sales avg is %d", customer1SalesAvgQueryResult.getLong("total_sales")); // 92
+        System.out.printf("Customer 1 sales avg is %d", customer1SalesAvgQueryResult.getLong("total_sales")); // 92
     }
 }
