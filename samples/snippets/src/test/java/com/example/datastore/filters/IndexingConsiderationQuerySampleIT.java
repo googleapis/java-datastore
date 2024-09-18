@@ -70,9 +70,9 @@ public class IndexingConsiderationQuerySampleIT {
 
   @After
   public void tearDown() {
-    datastore.delete(employee1);
-    datastore.delete(employee2);
-    datastore.delete(employee3);
+    datastore.delete(employeeKey1);
+    datastore.delete(employeeKey2);
+    datastore.delete(employeeKey3);
   }
 
   @Test

@@ -29,6 +29,7 @@ import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
 import com.google.cloud.datastore.StructuredQuery.Filter;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
+import com.google.cloud.datastore.StructuredQuery.OrderBy;
 
 public class IndexingConsiderationQuery {
   public static void invoke() throws Exception {
@@ -40,8 +41,10 @@ public class IndexingConsiderationQuery {
     // [START datastore_query_indexing_considerations]
     Query<Entity> query = Query.newEntityQueryBuilder()
             .setKind("employees")
-            .setFilter(CompositeFilter.and(PropertyFilter.gt("salary", 100000), PropertyFilter.gt("experience", 0)))
-            .setOrderBy(OrderBy("salary"), OrderBy("experience"))
+            .setFilter(CompositeFilter.and(
+                    PropertyFilter.gt("salary", 100000),
+                    PropertyFilter.gt("experience", 0)))
+            .setOrderBy(OrderBy.asc("salary"), OrderBy.asc("experience"))
             .build();
     // [END datastore_query_indexing_considerations]
 
@@ -56,9 +59,5 @@ public class IndexingConsiderationQuery {
       Entity entity = results.next();
       System.out.printf("Entity: %s%n", entity);
     }
-
-    AggregationResult customer1SalesAvgQueryResult = Iterables.getOnlyElement(datastore.runAggregation(customer1SalesAvg));
-
-    System.out.printf("Customer 1 sales avg is %d", customer1SalesAvgQueryResult.getLong("total_sales")); // 92
   }
 }
