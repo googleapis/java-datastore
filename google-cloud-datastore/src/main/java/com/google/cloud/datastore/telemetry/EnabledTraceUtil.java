@@ -208,11 +208,6 @@ public class EnabledTraceUtil implements TraceUtil {
     public void close() {
       scope.close();
     }
-
-    @Override
-    public String toString() {
-      return this.scope.toString();
-    }
   }
 
   static class Context implements TraceUtil.Context {
