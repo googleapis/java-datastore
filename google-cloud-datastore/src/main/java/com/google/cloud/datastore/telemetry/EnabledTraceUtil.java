@@ -22,18 +22,19 @@ import com.google.api.core.ApiFutureCallback;
 import com.google.api.core.ApiFutures;
 import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.telemetry.TraceUtil.Context;
+import com.google.cloud.datastore.telemetry.TraceUtil.Scope;
+import com.google.cloud.datastore.telemetry.TraceUtil.Span;
 import com.google.common.base.Throwables;
 import io.grpc.ManagedChannelBuilder;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.common.AttributesBuilder;
-import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanBuilder;
 import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
-import io.opentelemetry.context.Context;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -226,6 +227,12 @@ public class EnabledTraceUtil implements TraceUtil {
       try (io.opentelemetry.context.Scope scope = context.makeCurrent()) {
         return new Scope(scope);
       }
+    }
+
+    @Override
+    public TraceUtil.Context with(TraceUtil.Span withParentSpan) {
+      this.context.with(withParentSpan.getSpan());
+      return this;
     }
   }
 

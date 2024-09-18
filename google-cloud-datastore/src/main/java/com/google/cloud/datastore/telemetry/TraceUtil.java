@@ -20,6 +20,7 @@ import com.google.api.core.ApiFunction;
 import com.google.api.core.ApiFuture;
 import com.google.api.core.InternalExtensionOnly;
 import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.telemetry.EnabledTraceUtil.Context;
 import io.grpc.ManagedChannelBuilder;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanBuilder;
@@ -136,6 +137,8 @@ public interface TraceUtil {
   interface Context {
     /** Makes this context the current context. */
     Scope makeCurrent();
+
+    Context with(Span withParentSpan);
   }
 
   /** Represents a trace scope. */

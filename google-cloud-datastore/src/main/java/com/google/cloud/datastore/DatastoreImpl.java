@@ -108,8 +108,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     return new TransactionImpl(this);
   }
 
-  static class ReadWriteTransactionCallable<T> implements Callable<T> {
-
+  static class TracedReadWriteTransactionCallable<T> implements Callable<T> {
     private final Datastore datastore;
     private final TransactionCallable<T> callable;
     private volatile TransactionOptions options;
@@ -117,7 +116,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
     private final TraceUtil.Span parentSpan;
 
-    ReadWriteTransactionCallable(
+    TracedReadWriteTransactionCallable(
         Datastore datastore,
         TransactionCallable<T> callable,
         TransactionOptions options,
@@ -170,14 +169,73 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     }
   }
 
+  static class ReadWriteTransactionCallable<T> implements Callable<T> {
+    private final Datastore datastore;
+    private final TransactionCallable<T> callable;
+    private volatile TransactionOptions options;
+    private volatile Transaction transaction;
+
+    ReadWriteTransactionCallable(
+        Datastore datastore, TransactionCallable<T> callable, TransactionOptions options) {
+      this.datastore = datastore;
+      this.callable = callable;
+      this.options = options;
+      this.transaction = null;
+    }
+
+    Datastore getDatastore() {
+      return datastore;
+    }
+
+    TransactionOptions getOptions() {
+      return options;
+    }
+
+    Transaction getTransaction() {
+      return transaction;
+    }
+
+    void setPrevTransactionId(ByteString transactionId) {
+      TransactionOptions.ReadWrite readWrite =
+          TransactionOptions.ReadWrite.newBuilder().setPreviousTransaction(transactionId).build();
+      options = options.toBuilder().setReadWrite(readWrite).build();
+    }
+
+    @Override
+    public T call() throws DatastoreException {
+      try {
+        transaction = datastore.newTransaction(options);
+        T value = callable.run(transaction);
+        transaction.commit();
+        return value;
+      } catch (Exception ex) {
+        transaction.rollback();
+        throw DatastoreException.propagateUserException(ex);
+      } finally {
+        if (transaction.isActive()) {
+          transaction.rollback();
+        }
+        if (options != null
+            && options.getModeCase().equals(TransactionOptions.ModeCase.READ_WRITE)) {
+          setPrevTransactionId(transaction.getTransactionId());
+        }
+      }
+    }
+  }
+
   @Override
   public <T> T runInTransaction(final TransactionCallable<T> callable) {
     TraceUtil.Span span =
         otelTraceUtil.startSpan(
             com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN);
+    Callable<T> transactionCallable =
+        (getOptions().getOpenTelemetryOptions().isEnabled()
+            ? new TracedReadWriteTransactionCallable<T>(
+                this, callable, /*transactionOptions=*/ null, span)
+            : new ReadWriteTransactionCallable<T>(this, callable, /*transactionOptions=*/ null));
     try (Scope ignored = span.makeCurrent()) {
       return RetryHelper.runWithRetries(
-          new ReadWriteTransactionCallable<T>(this, callable, null, span),
+          transactionCallable,
           retrySettings,
           TRANSACTION_EXCEPTION_HANDLER,
           getOptions().getClock());
@@ -195,9 +253,15 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     TraceUtil.Span span =
         otelTraceUtil.startSpan(
             com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN);
+
+    Callable<T> transactionCallable =
+        (getOptions().getOpenTelemetryOptions().isEnabled()
+            ? new TracedReadWriteTransactionCallable<T>(this, callable, transactionOptions, span)
+            : new ReadWriteTransactionCallable<T>(this, callable, transactionOptions));
+
     try (Scope ignored = span.makeCurrent()) {
       return RetryHelper.runWithRetries(
-          new ReadWriteTransactionCallable<T>(this, callable, transactionOptions, span),
+          transactionCallable,
           retrySettings,
           TRANSACTION_EXCEPTION_HANDLER,
           getOptions().getClock());

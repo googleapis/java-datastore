@@ -176,11 +176,14 @@ public class DatastoreTest {
   public void setUp() {
     rpcFactoryMock = EasyMock.createStrictMock(DatastoreRpcFactory.class);
     rpcMock = EasyMock.createStrictMock(DatastoreRpc.class);
+    DatastoreOpenTelemetryOptions.Builder otelOptionsBuilder =
+        DatastoreOpenTelemetryOptions.newBuilder();
     rpcMockOptions =
         options
             .toBuilder()
             .setRetrySettings(ServiceOptions.getDefaultRetrySettings())
             .setServiceRpcFactory(rpcFactoryMock)
+            .setOpenTelemetryOptions(otelOptionsBuilder.setTracingEnabled(false).build())
             .build();
     EasyMock.expect(rpcFactoryMock.create(rpcMockOptions)).andReturn(rpcMock);
     StructuredQuery<Key> query = Query.newKeyQueryBuilder().build();

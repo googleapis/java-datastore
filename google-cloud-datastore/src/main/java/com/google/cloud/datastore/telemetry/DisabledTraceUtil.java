@@ -19,6 +19,7 @@ package com.google.cloud.datastore.telemetry;
 import com.google.api.core.ApiFunction;
 import com.google.api.core.ApiFuture;
 import com.google.api.core.InternalApi;
+import com.google.cloud.datastore.telemetry.TraceUtil.Context;
 import io.grpc.ManagedChannelBuilder;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanBuilder;
@@ -83,6 +84,11 @@ public class DisabledTraceUtil implements TraceUtil {
     @Override
     public Scope makeCurrent() {
       return new Scope();
+    }
+
+    @Override
+    public TraceUtil.Context with(TraceUtil.Span withParentSpan) {
+      return this;
     }
   }
 
