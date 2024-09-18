@@ -137,8 +137,6 @@ public interface TraceUtil {
   interface Context {
     /** Makes this context the current context. */
     Scope makeCurrent();
-
-    Context with(Span withParentSpan);
   }
 
   /** Represents a trace scope. */

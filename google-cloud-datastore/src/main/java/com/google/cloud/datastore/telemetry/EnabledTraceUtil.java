@@ -223,12 +223,6 @@ public class EnabledTraceUtil implements TraceUtil {
         return new Scope(scope);
       }
     }
-
-    @Override
-    public TraceUtil.Context with(TraceUtil.Span withParentSpan) {
-      this.context.with(withParentSpan.getSpan());
-      return this;
-    }
   }
 
   /** Applies the current Datastore instance settings as attributes to the current Span */

@@ -85,11 +85,6 @@ public class DisabledTraceUtil implements TraceUtil {
     public Scope makeCurrent() {
       return new Scope();
     }
-
-    @Override
-    public TraceUtil.Context with(TraceUtil.Span withParentSpan) {
-      return this;
-    }
   }
 
   static class Scope implements TraceUtil.Scope {
