@@ -183,7 +183,6 @@ public class DatastoreTest {
             .toBuilder()
             .setRetrySettings(ServiceOptions.getDefaultRetrySettings())
             .setServiceRpcFactory(rpcFactoryMock)
-            .setOpenTelemetryOptions(otelOptionsBuilder.setTracingEnabled(false).build())
             .build();
     EasyMock.expect(rpcFactoryMock.create(rpcMockOptions)).andReturn(rpcMock);
     StructuredQuery<Key> query = Query.newKeyQueryBuilder().build();
