@@ -22,19 +22,16 @@ import com.google.api.core.ApiFutureCallback;
 import com.google.api.core.ApiFutures;
 import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.telemetry.TraceUtil.SpanContext;
 import com.google.common.base.Throwables;
 import io.grpc.ManagedChannelBuilder;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.common.AttributesBuilder;
-import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanBuilder;
 import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
-import io.opentelemetry.context.Context;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -71,19 +68,6 @@ public class EnabledTraceUtil implements TraceUtil {
   public ApiFunction<ManagedChannelBuilder, ManagedChannelBuilder> getChannelConfigurator() {
     // TODO(jimit) Update this to return a gRPC Channel Configurator after gRPC upgrade.
     return null;
-  }
-
-  static class SpanContext implements TraceUtil.SpanContext {
-    private final io.opentelemetry.api.trace.SpanContext spanContext;
-
-    public SpanContext(io.opentelemetry.api.trace.SpanContext spanContext) {
-      this.spanContext = spanContext;
-    }
-
-    @Override
-    public io.opentelemetry.api.trace.SpanContext getSpanContext() {
-      return this.spanContext;
-    }
   }
 
   static class Span implements TraceUtil.Span {
@@ -220,6 +204,11 @@ public class EnabledTraceUtil implements TraceUtil {
     public void close() {
       scope.close();
     }
+
+    @Override
+    public String toString() {
+      return this.scope.toString();
+    }
   }
 
   static class Context implements TraceUtil.Context {
@@ -307,18 +296,13 @@ public class EnabledTraceUtil implements TraceUtil {
   }
 
   @Override
-  public TraceUtil.Span startSpan(String spanName, TraceUtil.SpanContext parentSpanContext) {
+  public TraceUtil.Span startSpan(String spanName, TraceUtil.Context parentContext) {
     SpanBuilder spanBuilder =
         tracer
             .spanBuilder(spanName)
             .setSpanKind(SpanKind.PRODUCER)
-            .setParent(
-                io.opentelemetry.context.Context.current()
-                    .with(
-                        io.opentelemetry.api.trace.Span.wrap(parentSpanContext.getSpanContext())));
-    io.opentelemetry.api.trace.Span span =
-        addSettingsAttributesToCurrentSpan(spanBuilder).startSpan();
-    return new Span(span, spanName);
+            .setParent(((EnabledTraceUtil.Context) parentContext).context);
+    return new Span(addSettingsAttributesToCurrentSpan(spanBuilder).startSpan(), spanName);
   }
 
   @Nonnull
@@ -331,12 +315,6 @@ public class EnabledTraceUtil implements TraceUtil {
   @Override
   public TraceUtil.Context getCurrentContext() {
     return new Context(io.opentelemetry.context.Context.current());
-  }
-
-  @Nonnull
-  @Override
-  public TraceUtil.SpanContext getCurrentSpanContext() {
-    return new SpanContext(io.opentelemetry.api.trace.Span.current().getSpanContext());
   }
 
   @Override

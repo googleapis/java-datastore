@@ -65,7 +65,7 @@ public class EnabledTraceUtilTest {
 
   @Test
   public void usesGlobalOpenTelemetryIfOpenTelemetryInstanceNotProvided() {
-    OpenTelemetrySdk globalOpenTelemetrySdk = OpenTelemetrySdk.builder().buildAndRegisterGlobal();
+    OpenTelemetrySdk ignored = OpenTelemetrySdk.builder().buildAndRegisterGlobal();
     DatastoreOptions firestoreOptions =
         getBaseOptions()
             .setOpenTelemetryOptions(
@@ -92,7 +92,7 @@ public class EnabledTraceUtilTest {
     assertThat(traceUtil.getCurrentSpan() instanceof EnabledTraceUtil.Span).isTrue();
     assertThat(traceUtil.startSpan("foo") != null).isTrue();
     assertThat(
-            traceUtil.startSpan("foo", traceUtil.getCurrentSpanContext())
+            traceUtil.startSpan("foo", traceUtil.getCurrentContext())
                 instanceof EnabledTraceUtil.Span)
         .isTrue();
   }

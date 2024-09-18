@@ -95,11 +95,6 @@ public interface TraceUtil {
   @Nullable
   ApiFunction<ManagedChannelBuilder, ManagedChannelBuilder> getChannelConfigurator();
 
-  /** Represents a trace span's context */
-  interface SpanContext {
-    io.opentelemetry.api.trace.SpanContext getSpanContext();
-  }
-
   /** Represents a trace span. */
   interface Span {
     /** Adds the given event to this span. */
@@ -156,7 +151,7 @@ public interface TraceUtil {
    * Starts a new span with the given name and the span represented by the parentSpanContext as its
    * parents, sets it as the current span and returns it.
    */
-  Span startSpan(String spanName, SpanContext parentSpanContext);
+  Span startSpan(String spanName, Context parentContext);
 
   /**
    * Adds common SpanAttributes to the current span, useful when hand-creating a new Span without
@@ -171,10 +166,6 @@ public interface TraceUtil {
   /** Returns the current Context. */
   @Nonnull
   Context getCurrentContext();
-
-  /** Returns the current SpanContext */
-  @Nonnull
-  SpanContext getCurrentSpanContext();
 
   /** Returns the current OpenTelemetry Tracer when OpenTelemetry SDK is provided. */
   Tracer getTracer();

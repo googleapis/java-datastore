@@ -19,7 +19,6 @@ package com.google.cloud.datastore.telemetry;
 import com.google.api.core.ApiFunction;
 import com.google.api.core.ApiFuture;
 import com.google.api.core.InternalApi;
-import com.google.cloud.datastore.telemetry.TraceUtil.SpanContext;
 import io.grpc.ManagedChannelBuilder;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanBuilder;
@@ -35,14 +34,6 @@ import javax.annotation.Nullable;
  */
 @InternalApi
 public class DisabledTraceUtil implements TraceUtil {
-
-  static class SpanContext implements TraceUtil.SpanContext {
-    @Override
-    public io.opentelemetry.api.trace.SpanContext getSpanContext() {
-      return null;
-    }
-  }
-
   static class Span implements TraceUtil.Span {
     @Override
     public void end() {}
@@ -112,7 +103,7 @@ public class DisabledTraceUtil implements TraceUtil {
   }
 
   @Override
-  public TraceUtil.Span startSpan(String spanName, TraceUtil.SpanContext parentSpanContext) {
+  public TraceUtil.Span startSpan(String spanName, TraceUtil.Context parentContext) {
     return new Span();
   }
 
@@ -130,12 +121,6 @@ public class DisabledTraceUtil implements TraceUtil {
   @Override
   public TraceUtil.Context getCurrentContext() {
     return new Context();
-  }
-
-  @Nonnull
-  @Override
-  public TraceUtil.SpanContext getCurrentSpanContext() {
-    return new SpanContext();
   }
 
   @Override
