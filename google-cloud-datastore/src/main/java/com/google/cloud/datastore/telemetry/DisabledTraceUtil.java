@@ -103,11 +103,6 @@ public class DisabledTraceUtil implements TraceUtil {
   }
 
   @Override
-  public TraceUtil.Span startSpan(String spanName, TraceUtil.Context parentContext) {
-    return new Span();
-  }
-
-  @Override
   public TraceUtil.Span startSpan(String spanName, TraceUtil.Span parentSpan) {
     return new Span();
   }

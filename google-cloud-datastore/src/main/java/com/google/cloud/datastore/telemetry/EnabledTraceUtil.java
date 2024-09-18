@@ -299,16 +299,6 @@ public class EnabledTraceUtil implements TraceUtil {
   }
 
   @Override
-  public TraceUtil.Span startSpan(String spanName, TraceUtil.Context parentContext) {
-    SpanBuilder spanBuilder =
-        tracer
-            .spanBuilder(spanName)
-            .setSpanKind(SpanKind.PRODUCER)
-            .setParent(((EnabledTraceUtil.Context) parentContext).context);
-    return new Span(addSettingsAttributesToCurrentSpan(spanBuilder).startSpan(), spanName);
-  }
-
-  @Override
   public TraceUtil.Span startSpan(String spanName, TraceUtil.Span parentSpan) {
     SpanBuilder spanBuilder =
         tracer

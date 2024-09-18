@@ -148,11 +148,9 @@ public interface TraceUtil {
   Span startSpan(String spanName);
 
   /**
-   * Starts a new span with the given name and the span represented by the parentSpanContext as its
-   * parents, sets it as the current span and returns it.
+   * Starts a new span with the given name and the span represented by the parentSpan as its parent,
+   * sets it as the current span and returns it.
    */
-  Span startSpan(String spanName, Context parentContext);
-
   Span startSpan(String spanName, Span parentSpan);
 
   /**
