@@ -153,6 +153,8 @@ public interface TraceUtil {
    */
   Span startSpan(String spanName, Context parentContext);
 
+  Span startSpan(String spanName, Span parentSpan);
+
   /**
    * Adds common SpanAttributes to the current span, useful when hand-creating a new Span without
    * using the TraceUtil.Span interface.

@@ -28,10 +28,12 @@ import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.common.AttributesBuilder;
+import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanBuilder;
 import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.context.Context;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -77,6 +79,11 @@ public class EnabledTraceUtil implements TraceUtil {
     public Span(io.opentelemetry.api.trace.Span span, String spanName) {
       this.span = span;
       this.spanName = spanName;
+    }
+
+    @Override
+    public io.opentelemetry.api.trace.Span getSpan() {
+      return this.span;
     }
 
     /** Ends this span. */
@@ -179,10 +186,6 @@ public class EnabledTraceUtil implements TraceUtil {
     public TraceUtil.Span setAttribute(String key, boolean value) {
       span.setAttribute(ATTRIBUTE_SERVICE_PREFIX + key, value);
       return this;
-    }
-
-    public io.opentelemetry.api.trace.Span getSpan() {
-      return this.span;
     }
 
     @Override
@@ -302,6 +305,16 @@ public class EnabledTraceUtil implements TraceUtil {
             .spanBuilder(spanName)
             .setSpanKind(SpanKind.PRODUCER)
             .setParent(((EnabledTraceUtil.Context) parentContext).context);
+    return new Span(addSettingsAttributesToCurrentSpan(spanBuilder).startSpan(), spanName);
+  }
+
+  @Override
+  public TraceUtil.Span startSpan(String spanName, TraceUtil.Span parentSpan) {
+    SpanBuilder spanBuilder =
+        tracer
+            .spanBuilder(spanName)
+            .setSpanKind(SpanKind.PRODUCER)
+            .setParent(io.opentelemetry.context.Context.current().with(parentSpan.getSpan()));
     return new Span(addSettingsAttributesToCurrentSpan(spanBuilder).startSpan(), spanName);
   }
 

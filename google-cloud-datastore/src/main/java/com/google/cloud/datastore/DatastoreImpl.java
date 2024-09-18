@@ -50,6 +50,7 @@ import com.google.datastore.v1.ReserveIdsRequest;
 import com.google.datastore.v1.RunQueryResponse;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.protobuf.ByteString;
+import io.opentelemetry.context.Context;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -114,18 +115,18 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     private volatile TransactionOptions options;
     private volatile Transaction transaction;
 
-    private final TraceUtil.Context parentContext;
+    private final TraceUtil.Span parentSpan;
 
     ReadWriteTransactionCallable(
         Datastore datastore,
         TransactionCallable<T> callable,
         TransactionOptions options,
-        @Nullable com.google.cloud.datastore.telemetry.TraceUtil.Context parentContext) {
+        @Nullable com.google.cloud.datastore.telemetry.TraceUtil.Span parentSpan) {
       this.datastore = datastore;
       this.callable = callable;
       this.options = options;
       this.transaction = null;
-      this.parentContext = parentContext;
+      this.parentSpan = parentSpan;
     }
 
     Datastore getDatastore() {
@@ -148,27 +149,19 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
     @Override
     public T call() throws DatastoreException {
-      TraceUtil.Span span =
-          datastore
-              .getOptions()
-              .getTraceUtil()
-              .startSpan(
-                  com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN,
-                  parentContext);
-      try (TraceUtil.Scope ignored = span.makeCurrent()) {
+      try (io.opentelemetry.context.Scope ignored =
+          Context.current().with(parentSpan.getSpan()).makeCurrent()) {
         transaction = datastore.newTransaction(options);
         T value = callable.run(transaction);
         transaction.commit();
         return value;
       } catch (Exception ex) {
         transaction.rollback();
-        span.end(ex);
         throw DatastoreException.propagateUserException(ex);
       } finally {
         if (transaction.isActive()) {
           transaction.rollback();
         }
-        span.end();
         if (options != null
             && options.getModeCase().equals(TransactionOptions.ModeCase.READ_WRITE)) {
           setPrevTransactionId(transaction.getTransactionId());
@@ -179,30 +172,40 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   @Override
   public <T> T runInTransaction(final TransactionCallable<T> callable) {
-    try {
+    TraceUtil.Span span =
+        otelTraceUtil.startSpan(
+            com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN);
+    try (Scope ignored = span.makeCurrent()) {
       return RetryHelper.runWithRetries(
-          new ReadWriteTransactionCallable<T>(
-              this, callable, null, otelTraceUtil.getCurrentContext()),
+          new ReadWriteTransactionCallable<T>(this, callable, null, span),
           retrySettings,
           TRANSACTION_EXCEPTION_HANDLER,
           getOptions().getClock());
     } catch (RetryHelperException e) {
+      span.end(e);
       throw DatastoreException.translateAndThrow(e);
+    } finally {
+      span.end();
     }
   }
 
   @Override
   public <T> T runInTransaction(
       final TransactionCallable<T> callable, TransactionOptions transactionOptions) {
-    try {
+    TraceUtil.Span span =
+        otelTraceUtil.startSpan(
+            com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN);
+    try (Scope ignored = span.makeCurrent()) {
       return RetryHelper.runWithRetries(
-          new ReadWriteTransactionCallable<T>(
-              this, callable, transactionOptions, otelTraceUtil.getCurrentContext()),
+          new ReadWriteTransactionCallable<T>(this, callable, transactionOptions, span),
           retrySettings,
           TRANSACTION_EXCEPTION_HANDLER,
           getOptions().getClock());
     } catch (RetryHelperException e) {
+      span.end(e);
       throw DatastoreException.translateAndThrow(e);
+    } finally {
+      span.end();
     }
   }
 

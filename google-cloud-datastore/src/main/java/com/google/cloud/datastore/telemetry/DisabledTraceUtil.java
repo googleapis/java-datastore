@@ -107,6 +107,11 @@ public class DisabledTraceUtil implements TraceUtil {
     return new Span();
   }
 
+  @Override
+  public TraceUtil.Span startSpan(String spanName, TraceUtil.Span parentSpan) {
+    return new Span();
+  }
+
   public SpanBuilder addSettingsAttributesToCurrentSpan(SpanBuilder spanBuilder) {
     return getTracer().spanBuilder("TRACING_DISABLED_NO_OP");
   }
