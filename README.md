@@ -19,7 +19,7 @@ If you are using Maven with [BOM][libraries-bom], add this to your pom.xml file:
     <dependency>
       <groupId>com.google.cloud</groupId>
       <artifactId>libraries-bom</artifactId>
-      <version>26.40.0</version>
+      <version>26.45.0</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -42,7 +42,7 @@ If you are using Maven without the BOM, add this to your dependencies:
 <dependency>
   <groupId>com.google.cloud</groupId>
   <artifactId>google-cloud-datastore</artifactId>
-  <version>2.21.2</version>
+  <version>2.21.3</version>
 </dependency>
 
 ```
@@ -80,7 +80,7 @@ The client application making API calls must be granted [authorization scopes][a
 ### Prerequisites
 
 You will need a [Google Cloud Platform Console][developer-console] project with the Cloud Datastore [API enabled][enable-api].
-
+You will need to [enable billing][enable-billing] to use Google Cloud Datastore.
 [Follow these instructions][create-project] to get your project set up. You will also need to set up the local development environment by
 [installing the Google Cloud Command Line Interface][cloud-cli] and running the following commands in command line:
 `gcloud auth login` and `gcloud config set project [YOUR PROJECT ID]`.
@@ -93,11 +93,7 @@ to add `google-cloud-datastore` as a dependency in your code.
 ## About Cloud Datastore
 
 
-[Cloud Datastore][product-docs] is a fully managed, schemaless database for
-storing non-relational data. Cloud Datastore automatically scales with
-your users and supports ACID transactions, high availability of reads and
-writes, strong consistency for reads and ancestor queries, and eventual
-consistency for all other queries.
+[Cloud Datastore][product-docs] is a fully managed, schemaless database for\nstoring non-relational data. Cloud Datastore automatically scales with\nyour users and supports ACID transactions, high availability of reads and\nwrites, strong consistency for reads and ancestor queries, and eventual\nconsistency for all other queries.
 
 See the [Cloud Datastore client library docs][javadocs] to learn how to
 use this Cloud Datastore Client Library.
@@ -286,7 +282,7 @@ boolean isHTTP = datastore.getOptions().getTransportOptions() instanceof HTTPTra
 There are new gRPC specific features available to use in this update.
 
 ##### Channel Pooling
-To customize the number of channels your client uses, you can update the channel provider in the DatastoreOptions.
+To customize the number of channels your client uses, you can update the channel provider in the DatastoreOptions. 
 See [ChannelPoolSettings](https://cloud.google.com/java/docs/reference/gax/latest/com.google.api.gax.grpc.ChannelPoolSettings) and [Performance Best Practices](https://grpc.io/docs/guides/performance/) for more information on channel pools and best practices for performance.
 
 Example:
@@ -356,7 +352,6 @@ Samples are in the [`samples/`](https://github.com/googleapis/java-datastore/tre
 
 | Sample                      | Source Code                       | Try it |
 | --------------------------- | --------------------------------- | ------ |
-| Native Image Datastore Sample | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/native-image-sample/src/main/java/com/example/datastore/NativeImageDatastoreSample.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/native-image-sample/src/main/java/com/example/datastore/NativeImageDatastoreSample.java) |
 | Quickstart Sample | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/QuickstartSample.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/QuickstartSample.java) |
 | Avg Aggregation On Kind | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationOnKind.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationOnKind.java) |
 | Avg Aggregation With Limit | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationWithLimit.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationWithLimit.java) |
@@ -387,6 +382,10 @@ Samples are in the [`samples/`](https://github.com/googleapis/java-datastore/tre
 ## Troubleshooting
 
 To get help, follow the instructions in the [shared Troubleshooting document][troubleshooting].
+
+## Transport
+
+Cloud Datastore uses both gRPC and HTTP/JSON for the transport layer.
 
 ## Supported Java Versions
 
@@ -492,7 +491,7 @@ Java is a registered trademark of Oracle and/or its affiliates.
 [contributing]: https://github.com/googleapis/java-datastore/blob/main/CONTRIBUTING.md
 [code-of-conduct]: https://github.com/googleapis/java-datastore/blob/main/CODE_OF_CONDUCT.md#contributor-code-of-conduct
 [license]: https://github.com/googleapis/java-datastore/blob/main/LICENSE
-
+[enable-billing]: https://cloud.google.com/apis/docs/getting-started#enabling_billing
 [enable-api]: https://console.cloud.google.com/flows/enableapi?apiid=datastore.googleapis.com
 [libraries-bom]: https://github.com/GoogleCloudPlatform/cloud-opensource-java/wiki/The-Google-Cloud-Platform-Libraries-BOM
 [shell_img]: https://gstatic.com/cloudssh/images/open-btn.png
