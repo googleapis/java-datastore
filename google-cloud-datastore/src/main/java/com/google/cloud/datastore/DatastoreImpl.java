@@ -18,9 +18,6 @@ package com.google.cloud.datastore;
 
 import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_DEFERRED;
 import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_DOCUMENT_COUNT;
-import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_EXCEPTION_MESSAGE;
-import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_EXCEPTION_STACKTRACE;
-import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_EXCEPTION_TYPE;
 import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_MISSING;
 import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_MORE_RESULTS;
 import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_READ_CONSISTENCY;
@@ -37,10 +34,10 @@ import com.google.cloud.RetryHelper.RetryHelperException;
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.datastore.execution.AggregationQueryExecutor;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
+import com.google.cloud.datastore.telemetry.TraceUtil;
 import com.google.cloud.datastore.telemetry.TraceUtil.Scope;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Throwables;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -53,10 +50,6 @@ import com.google.datastore.v1.ReserveIdsRequest;
 import com.google.datastore.v1.RunQueryResponse;
 import com.google.datastore.v1.TransactionOptions;
 import com.google.protobuf.ByteString;
-import io.opentelemetry.api.common.Attributes;
-import io.opentelemetry.api.trace.SpanBuilder;
-import io.opentelemetry.api.trace.SpanKind;
-import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.context.Context;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -115,25 +108,24 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     return new TransactionImpl(this);
   }
 
-  static class ReadWriteTransactionCallable<T> implements Callable<T> {
-
+  static class TracedReadWriteTransactionCallable<T> implements Callable<T> {
     private final Datastore datastore;
     private final TransactionCallable<T> callable;
     private volatile TransactionOptions options;
     private volatile Transaction transaction;
 
-    private final com.google.cloud.datastore.telemetry.TraceUtil.SpanContext parentSpanContext;
+    private final TraceUtil.Span parentSpan;
 
-    ReadWriteTransactionCallable(
+    TracedReadWriteTransactionCallable(
         Datastore datastore,
         TransactionCallable<T> callable,
         TransactionOptions options,
-        @Nullable com.google.cloud.datastore.telemetry.TraceUtil.SpanContext parentSpanContext) {
+        @Nullable com.google.cloud.datastore.telemetry.TraceUtil.Span parentSpan) {
       this.datastore = datastore;
       this.callable = callable;
       this.options = options;
       this.transaction = null;
-      this.parentSpanContext = parentSpanContext;
+      this.parentSpan = parentSpan;
     }
 
     Datastore getDatastore() {
@@ -154,57 +146,75 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       options = options.toBuilder().setReadWrite(readWrite).build();
     }
 
-    private io.opentelemetry.api.trace.Span startSpanWithParentContext(
-        String spanName,
-        com.google.cloud.datastore.telemetry.TraceUtil.SpanContext parentSpanContext) {
-      com.google.cloud.datastore.telemetry.TraceUtil otelTraceUtil =
-          datastore.getOptions().getTraceUtil();
-      SpanBuilder spanBuilder =
-          otelTraceUtil
-              .getTracer()
-              .spanBuilder(com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN)
-              .setSpanKind(SpanKind.PRODUCER)
-              .setParent(
-                  Context.current()
-                      .with(
-                          io.opentelemetry.api.trace.Span.wrap(
-                              parentSpanContext.getSpanContext())));
-      return otelTraceUtil.addSettingsAttributesToCurrentSpan(spanBuilder).startSpan();
-    }
-
     @Override
     public T call() throws DatastoreException {
-      // TODO Instead of using OTel Spans directly, TraceUtil.Span should be used here. However,
-      // the same code in startSpanInternal doesn't work when EnabledTraceUtil.StartSpan is called
-      // probably because of some thread-local caching that is getting lost. This needs more
-      // debugging. The code below works and is idiomatic but could be prettier and more consistent
-      // with the use of TraceUtil-provided framework.
-      io.opentelemetry.api.trace.Span span =
-          startSpanWithParentContext(
-              com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN,
-              parentSpanContext);
-      try (io.opentelemetry.context.Scope ignored = span.makeCurrent()) {
+      try (io.opentelemetry.context.Scope ignored =
+          Context.current().with(parentSpan.getSpan()).makeCurrent()) {
         transaction = datastore.newTransaction(options);
         T value = callable.run(transaction);
         transaction.commit();
         return value;
       } catch (Exception ex) {
         transaction.rollback();
-        span.setStatus(StatusCode.ERROR, ex.getMessage());
-        span.recordException(
-            ex,
-            Attributes.builder()
-                .put(ATTRIBUTES_KEY_EXCEPTION_MESSAGE, ex.getMessage())
-                .put(ATTRIBUTES_KEY_EXCEPTION_TYPE, ex.getClass().getName())
-                .put(ATTRIBUTES_KEY_EXCEPTION_STACKTRACE, Throwables.getStackTraceAsString(ex))
-                .build());
-        span.end();
         throw DatastoreException.propagateUserException(ex);
       } finally {
         if (transaction.isActive()) {
           transaction.rollback();
         }
-        span.end();
+        if (options != null
+            && options.getModeCase().equals(TransactionOptions.ModeCase.READ_WRITE)) {
+          setPrevTransactionId(transaction.getTransactionId());
+        }
+      }
+    }
+  }
+
+  static class ReadWriteTransactionCallable<T> implements Callable<T> {
+    private final Datastore datastore;
+    private final TransactionCallable<T> callable;
+    private volatile TransactionOptions options;
+    private volatile Transaction transaction;
+
+    ReadWriteTransactionCallable(
+        Datastore datastore, TransactionCallable<T> callable, TransactionOptions options) {
+      this.datastore = datastore;
+      this.callable = callable;
+      this.options = options;
+      this.transaction = null;
+    }
+
+    Datastore getDatastore() {
+      return datastore;
+    }
+
+    TransactionOptions getOptions() {
+      return options;
+    }
+
+    Transaction getTransaction() {
+      return transaction;
+    }
+
+    void setPrevTransactionId(ByteString transactionId) {
+      TransactionOptions.ReadWrite readWrite =
+          TransactionOptions.ReadWrite.newBuilder().setPreviousTransaction(transactionId).build();
+      options = options.toBuilder().setReadWrite(readWrite).build();
+    }
+
+    @Override
+    public T call() throws DatastoreException {
+      try {
+        transaction = datastore.newTransaction(options);
+        T value = callable.run(transaction);
+        transaction.commit();
+        return value;
+      } catch (Exception ex) {
+        transaction.rollback();
+        throw DatastoreException.propagateUserException(ex);
+      } finally {
+        if (transaction.isActive()) {
+          transaction.rollback();
+        }
         if (options != null
             && options.getModeCase().equals(TransactionOptions.ModeCase.READ_WRITE)) {
           setPrevTransactionId(transaction.getTransactionId());
@@ -215,30 +225,51 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   @Override
   public <T> T runInTransaction(final TransactionCallable<T> callable) {
-    try {
+    TraceUtil.Span span =
+        otelTraceUtil.startSpan(
+            com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN);
+    Callable<T> transactionCallable =
+        (getOptions().getOpenTelemetryOptions().isEnabled()
+            ? new TracedReadWriteTransactionCallable<T>(
+                this, callable, /*transactionOptions=*/ null, span)
+            : new ReadWriteTransactionCallable<T>(this, callable, /*transactionOptions=*/ null));
+    try (Scope ignored = span.makeCurrent()) {
       return RetryHelper.runWithRetries(
-          new ReadWriteTransactionCallable<T>(
-              this, callable, null, otelTraceUtil.getCurrentSpanContext()),
+          transactionCallable,
           retrySettings,
           TRANSACTION_EXCEPTION_HANDLER,
           getOptions().getClock());
     } catch (RetryHelperException e) {
+      span.end(e);
       throw DatastoreException.translateAndThrow(e);
+    } finally {
+      span.end();
     }
   }
 
   @Override
   public <T> T runInTransaction(
       final TransactionCallable<T> callable, TransactionOptions transactionOptions) {
-    try {
+    TraceUtil.Span span =
+        otelTraceUtil.startSpan(
+            com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_TRANSACTION_RUN);
+
+    Callable<T> transactionCallable =
+        (getOptions().getOpenTelemetryOptions().isEnabled()
+            ? new TracedReadWriteTransactionCallable<T>(this, callable, transactionOptions, span)
+            : new ReadWriteTransactionCallable<T>(this, callable, transactionOptions));
+
+    try (Scope ignored = span.makeCurrent()) {
       return RetryHelper.runWithRetries(
-          new ReadWriteTransactionCallable<T>(
-              this, callable, transactionOptions, otelTraceUtil.getCurrentSpanContext()),
+          transactionCallable,
           retrySettings,
           TRANSACTION_EXCEPTION_HANDLER,
           getOptions().getClock());
     } catch (RetryHelperException e) {
+      span.end(e);
       throw DatastoreException.translateAndThrow(e);
+    } finally {
+      span.end();
     }
   }
 
@@ -747,8 +778,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       final com.google.datastore.v1.BeginTransactionRequest requestPb) {
     com.google.cloud.datastore.telemetry.TraceUtil.Span span =
         otelTraceUtil.startSpan(
-            com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_BEGIN_TRANSACTION,
-            otelTraceUtil.getCurrentSpanContext());
+            com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_BEGIN_TRANSACTION);
     try (com.google.cloud.datastore.telemetry.TraceUtil.Scope scope = span.makeCurrent()) {
       return RetryHelper.runWithRetries(
           () -> datastoreRpc.beginTransaction(requestPb),

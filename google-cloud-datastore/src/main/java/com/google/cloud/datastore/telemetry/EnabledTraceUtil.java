@@ -22,19 +22,19 @@ import com.google.api.core.ApiFutureCallback;
 import com.google.api.core.ApiFutures;
 import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.telemetry.TraceUtil.SpanContext;
+import com.google.cloud.datastore.telemetry.TraceUtil.Context;
+import com.google.cloud.datastore.telemetry.TraceUtil.Scope;
+import com.google.cloud.datastore.telemetry.TraceUtil.Span;
 import com.google.common.base.Throwables;
 import io.grpc.ManagedChannelBuilder;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.common.AttributesBuilder;
-import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanBuilder;
 import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
-import io.opentelemetry.context.Context;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -73,19 +73,6 @@ public class EnabledTraceUtil implements TraceUtil {
     return null;
   }
 
-  static class SpanContext implements TraceUtil.SpanContext {
-    private final io.opentelemetry.api.trace.SpanContext spanContext;
-
-    public SpanContext(io.opentelemetry.api.trace.SpanContext spanContext) {
-      this.spanContext = spanContext;
-    }
-
-    @Override
-    public io.opentelemetry.api.trace.SpanContext getSpanContext() {
-      return this.spanContext;
-    }
-  }
-
   static class Span implements TraceUtil.Span {
     private final io.opentelemetry.api.trace.Span span;
     private final String spanName;
@@ -93,6 +80,11 @@ public class EnabledTraceUtil implements TraceUtil {
     public Span(io.opentelemetry.api.trace.Span span, String spanName) {
       this.span = span;
       this.spanName = spanName;
+    }
+
+    @Override
+    public io.opentelemetry.api.trace.Span getSpan() {
+      return this.span;
     }
 
     /** Ends this span. */
@@ -195,10 +187,6 @@ public class EnabledTraceUtil implements TraceUtil {
     public TraceUtil.Span setAttribute(String key, boolean value) {
       span.setAttribute(ATTRIBUTE_SERVICE_PREFIX + key, value);
       return this;
-    }
-
-    public io.opentelemetry.api.trace.Span getSpan() {
-      return this.span;
     }
 
     @Override
@@ -307,18 +295,13 @@ public class EnabledTraceUtil implements TraceUtil {
   }
 
   @Override
-  public TraceUtil.Span startSpan(String spanName, TraceUtil.SpanContext parentSpanContext) {
+  public TraceUtil.Span startSpan(String spanName, TraceUtil.Span parentSpan) {
     SpanBuilder spanBuilder =
         tracer
             .spanBuilder(spanName)
             .setSpanKind(SpanKind.PRODUCER)
-            .setParent(
-                io.opentelemetry.context.Context.current()
-                    .with(
-                        io.opentelemetry.api.trace.Span.wrap(parentSpanContext.getSpanContext())));
-    io.opentelemetry.api.trace.Span span =
-        addSettingsAttributesToCurrentSpan(spanBuilder).startSpan();
-    return new Span(span, spanName);
+            .setParent(io.opentelemetry.context.Context.current().with(parentSpan.getSpan()));
+    return new Span(addSettingsAttributesToCurrentSpan(spanBuilder).startSpan(), spanName);
   }
 
   @Nonnull
@@ -331,12 +314,6 @@ public class EnabledTraceUtil implements TraceUtil {
   @Override
   public TraceUtil.Context getCurrentContext() {
     return new Context(io.opentelemetry.context.Context.current());
-  }
-
-  @Nonnull
-  @Override
-  public TraceUtil.SpanContext getCurrentSpanContext() {
-    return new SpanContext(io.opentelemetry.api.trace.Span.current().getSpanContext());
   }
 
   @Override
