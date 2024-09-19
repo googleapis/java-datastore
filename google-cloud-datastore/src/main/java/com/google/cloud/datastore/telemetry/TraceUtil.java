@@ -47,10 +47,6 @@ public interface TraceUtil {
   static final String SPAN_NAME_ROLLBACK = "Transaction.Rollback";
   static final String SPAN_NAME_TRANSACTION_RUN_AGGREGATION_QUERY =
       "Transaction.RunAggregationQuery";
-
-  static final String ATTRIBUTES_KEY_EXCEPTION_MESSAGE = "exception.message";
-  static final String ATTRIBUTES_KEY_EXCEPTION_TYPE = "exception.type";
-  static final String ATTRIBUTES_KEY_EXCEPTION_STACKTRACE = "exception.stacktrace";
   static final String ATTRIBUTES_KEY_DOCUMENT_COUNT = "doc_count";
   static final String ATTRIBUTES_KEY_TRANSACTIONAL = "transactional";
   static final String ATTRIBUTES_KEY_TRANSACTION_ID = "transaction_id";
