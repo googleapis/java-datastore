@@ -40,7 +40,7 @@ public class IndexingConsiderationQuery {
     // Build a query with multi inequal filters and optimized index order of index properties.
     // [START datastore_query_indexing_considerations]
     Query<Entity> query = Query.newEntityQueryBuilder()
-            .setKind("employees")
+            .setKind("Employee")
             .setFilter(CompositeFilter.and(
                     PropertyFilter.gt("salary", 100000),
                     PropertyFilter.gt("experience", 0)))

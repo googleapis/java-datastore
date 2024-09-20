@@ -61,7 +61,8 @@ public class IndexingConsiderationQuerySampleIT {
     Entity employee3 = Entity.newBuilder(employeeKey3)
             .set("name", "Jay")
             .set("salary", 120000)
-            .set("experience", 15).build();
+            .set("experience", 15)
+            .build();
 
     datastore.put(employee1);
     datastore.put(employee2);

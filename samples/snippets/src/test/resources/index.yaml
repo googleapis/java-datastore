@@ -23,7 +23,7 @@ indexes:
   properties:
   - name: tag
   - name: tag
-- kind: employees
+- kind: Employee
   properties:
     - name: salary
     - name: experience
