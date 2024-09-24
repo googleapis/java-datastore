@@ -17,39 +17,38 @@
 package com.example.datastore.filters;
 
 // sample-metadata:
-//   title: Queries with indexing considerations
-//   description: The following query produces a result set
-//   that is ordered according to the index definition.
+//   title: Queries with order fileds
+//   description: The following query order properties
+//   in the decreasing order of query constraint selectivity.
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
 import com.google.cloud.datastore.StructuredQuery.Filter;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 
-public class IndexingConsiderationQuery {
+public class OrderFieldsQuery {
   public static void invoke() throws Exception {
 
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-    // Build a query with multi inequal filters and optimized index order of index properties.
-    // [START datastore_query_indexing_considerations]
-    Query<Entity> query = Query.newEntityQueryBuilder()
-            .setKind("employees")
-            .setFilter(CompositeFilter.and(
-                    PropertyFilter.gt("salary", 100000),
-                    PropertyFilter.gt("experience", 0)))
-            .setOrderBy(OrderBy.asc("salary"), OrderBy.asc("experience"))
-            .build();
-    // [END datastore_query_indexing_considerations]
+    // Build a query with order properties in the decreasing order of query constraint selectivity.
+    // [START datastore_query_order_fields]
+    Query<Entity> query =
+            Query.newEntityQueryBuilder()
+                    .setKind("employees")
+                    .setFilter(PropertyFilter.gt("salary", 100000))
+                    .setOrderBy(OrderBy("salary"))
+                    .build();
 
     // Get the results back from Datastore
     QueryResults<Entity> results = datastore.run(query);
+    // Order results by `experience`
+    // [END datastore_query_order_fields]
 
     if (!results.hasNext()) {
       throw new Exception("query yielded no results");

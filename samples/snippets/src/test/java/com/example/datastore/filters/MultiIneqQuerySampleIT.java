@@ -30,7 +30,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
-public class IndexingConsiderationQuerySampleIT {
+public class MultiIneqQuerySampleIT {
 
   private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
@@ -43,21 +43,21 @@ public class IndexingConsiderationQuerySampleIT {
 
   @Before
   public void setUp() {
-    employeeKey1 = datastore.newKeyFactory().setKind("Employee").newKey("employee1");
+    employeeKey1 = datastore.newKeyFactory().setKind("employees").newKey("employee1");
     Entity employee1 = Entity.newBuilder(employeeKey1)
             .set("name", "Alice")
             .set("salary", 100001)
             .set("experience", 10)
             .build();
 
-    employeeKey2 = datastore.newKeyFactory().setKind("Employee").newKey("employee2");
+    employeeKey2 = datastore.newKeyFactory().setKind("employees").newKey("employee2");
     Entity employee2 = Entity.newBuilder(employeeKey2)
             .set("name", "Bob")
             .set("salary", 90000)
             .set("experience", 5)
             .build();
 
-    employeeKey3 = datastore.newKeyFactory().setKind("Employee").newKey("employee3");
+    employeeKey3 = datastore.newKeyFactory().setKind("employees").newKey("employee3");
     Entity employee3 = Entity.newBuilder(employeeKey3)
             .set("name", "Jay")
             .set("salary", 120000)
@@ -80,6 +80,15 @@ public class IndexingConsiderationQuerySampleIT {
   public void testIndexingConsiderationQuery() throws Exception {
     // Act
     IndexingConsiderationQuery.invoke();
+
+    // Assert
+    systemsOutRule.assertContains("Entity");
+  }
+
+  @Test
+  public void testOrderFieldsQuery() throws Exception {
+    // Act
+    OrderFieldsQuery.invoke();
 
     // Assert
     systemsOutRule.assertContains("Entity");
