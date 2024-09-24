@@ -42,7 +42,7 @@ public class OrderFieldsQuery {
             Query.newEntityQueryBuilder()
                     .setKind("employees")
                     .setFilter(PropertyFilter.gt("salary", 100000))
-                    .setOrderBy(OrderBy("salary"))
+                    .setOrderBy(OrderBy.asc("salary"))
                     .build();
 
     // Get the results back from Datastore
