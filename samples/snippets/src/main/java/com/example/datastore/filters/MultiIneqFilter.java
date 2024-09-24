@@ -18,7 +18,9 @@ package com.example.datastore.filters;
 
 // sample-metadata:
 //   title: Range and inequality filters on multiple properties
-//   description: The following query uses range filters on priority and days to return all tasks with priority greater than four and with less than three days to complete.
+//   description: The following query uses range filters on
+//   priority and days to return all tasks with priority greater
+//   than four and with less than three days to complete.
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
