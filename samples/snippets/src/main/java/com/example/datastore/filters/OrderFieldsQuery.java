@@ -21,6 +21,8 @@ package com.example.datastore.filters;
 //   description: The following query order properties
 //   in the decreasing order of query constraint selectivity.
 
+// [START datastore_query_order_fields]
+
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
@@ -37,7 +39,6 @@ public class OrderFieldsQuery {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
     // Build a query with order properties in the decreasing order of query constraint selectivity.
-    // [START datastore_query_order_fields]
     Query<Entity> query =
             Query.newEntityQueryBuilder()
                     .setKind("employees")
@@ -48,7 +49,6 @@ public class OrderFieldsQuery {
     // Get the results back from Datastore
     QueryResults<Entity> results = datastore.run(query);
     // Order results by `experience`
-    // [END datastore_query_order_fields]
 
     if (!results.hasNext()) {
       throw new Exception("query yielded no results");
@@ -60,3 +60,4 @@ public class OrderFieldsQuery {
     }
   }
 }
+// [END datastore_query_order_fields]

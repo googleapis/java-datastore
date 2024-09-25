@@ -21,6 +21,8 @@ package com.example.datastore.filters;
 //   description: The following query produces a result set
 //   that is ordered according to the index definition.
 
+// [START datastore_query_indexing_considerations]
+
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
@@ -38,7 +40,6 @@ public class IndexingConsiderationQuery {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
     // Build a query with multi inequal filters and optimized index order of index properties.
-    // [START datastore_query_indexing_considerations]
     Query<Entity> query = Query.newEntityQueryBuilder()
             .setKind("employees")
             .setFilter(CompositeFilter.and(
@@ -46,7 +47,6 @@ public class IndexingConsiderationQuery {
                     PropertyFilter.gt("experience", 0)))
             .setOrderBy(OrderBy.asc("salary"), OrderBy.asc("experience"))
             .build();
-    // [END datastore_query_indexing_considerations]
 
     // Get the results back from Datastore
     QueryResults<Entity> results = datastore.run(query);
@@ -61,3 +61,4 @@ public class IndexingConsiderationQuery {
     }
   }
 }
+// [END datastore_query_indexing_considerations]
