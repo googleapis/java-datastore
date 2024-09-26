@@ -30,7 +30,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
@@ -86,10 +87,9 @@ public class MultiIneqFilterSampleIT {
 
   @Test
   public void testMultiIneqFilter() throws Exception {
-    // Act
-    MultiIneqFilter.invoke();
+    List<Entity> results = MultiIneqFilter.invoke();
 
-    // Assert
-    systemsOutRule.assertContains("Entity");
+    assertEquals(3, results.size());
+    assertEquals("Learn Cloud Datastore", results.get(0).getString("description"));
   }
 }

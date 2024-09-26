@@ -29,6 +29,8 @@ import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MultiIneqFilter {
   public static void invoke() throws Exception {
@@ -51,9 +53,11 @@ public class MultiIneqFilter {
       throw new Exception("query yielded no results");
     }
 
+    List<Entity> entities = new ArrayList<>();
     while (results.hasNext()) {
-      Entity entity = results.next();
-      System.out.printf("Entity: %s%n", entity);
+      entities.add(results.next());
     }
+
+    return entities;
   }
 }
