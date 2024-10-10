@@ -1264,7 +1264,6 @@ public final class Mutation extends com.google.protobuf.GeneratedMessageV3
     @java.lang.Override
     public com.google.datastore.v1.Mutation buildPartial() {
       com.google.datastore.v1.Mutation result = new com.google.datastore.v1.Mutation(this);
-      buildPartialRepeatedFields(result);
       if (bitField0_ != 0) {
         buildPartial0(result);
       }
