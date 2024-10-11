@@ -94,6 +94,10 @@ public class RemoteDatastoreHelper {
     return create(databaseId, DatastoreOptions.getDefaultHttpTransportOptions(), openTelemetrySdk);
   }
 
+  public static RemoteDatastoreHelper create(String databaseId, TransportOptions transportOptions) {
+    return create(databaseId, transportOptions, /*openTelemetrySdk=*/ null);
+  }
+
   /** Creates a {@code RemoteStorageHelper} object. */
   public static RemoteDatastoreHelper create(
       String databaseId, TransportOptions transportOptions, @Nullable OpenTelemetrySdk openTelemetrySdk) {
