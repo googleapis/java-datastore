@@ -79,18 +79,21 @@ public class RemoteDatastoreHelper {
 
   /** Creates a {@code RemoteStorageHelper} object. */
   public static RemoteDatastoreHelper create() {
-    return create("", DatastoreOptions.getDefaultHttpTransportOptions(), /*openTelemetrySdk=*/ null);
+    return create(
+        "", DatastoreOptions.getDefaultHttpTransportOptions(), /*openTelemetrySdk=*/ null);
   }
 
   public static RemoteDatastoreHelper create(String databaseId) {
-    return create(databaseId, DatastoreOptions.getDefaultHttpTransportOptions(), /*openTelemetrySdk=*/ null);
+    return create(
+        databaseId, DatastoreOptions.getDefaultHttpTransportOptions(), /*openTelemetrySdk=*/ null);
   }
 
   public static RemoteDatastoreHelper create(TransportOptions transportOptions) {
     return create("", transportOptions, /*openTelemetrySdk=*/ null);
   }
 
-  public static RemoteDatastoreHelper create(String databaseId, @Nullable OpenTelemetrySdk openTelemetrySdk) {
+  public static RemoteDatastoreHelper create(
+      String databaseId, @Nullable OpenTelemetrySdk openTelemetrySdk) {
     return create(databaseId, DatastoreOptions.getDefaultHttpTransportOptions(), openTelemetrySdk);
   }
 
@@ -100,7 +103,9 @@ public class RemoteDatastoreHelper {
 
   /** Creates a {@code RemoteStorageHelper} object. */
   public static RemoteDatastoreHelper create(
-      String databaseId, TransportOptions transportOptions, @Nullable OpenTelemetrySdk openTelemetrySdk) {
+      String databaseId,
+      TransportOptions transportOptions,
+      @Nullable OpenTelemetrySdk openTelemetrySdk) {
     DatastoreOptions.Builder datastoreOptionBuilder =
         DatastoreOptions.newBuilder()
             .setDatabaseId(databaseId)
@@ -108,7 +113,8 @@ public class RemoteDatastoreHelper {
             .setRetrySettings(retrySettings())
             .setTransportOptions(transportOptions);
     if (transportOptions instanceof GrpcTransportOptions) {
-      datastoreOptionBuilder = datastoreOptionBuilder.setTransportOptions((GrpcTransportOptions) transportOptions);
+      datastoreOptionBuilder =
+          datastoreOptionBuilder.setTransportOptions((GrpcTransportOptions) transportOptions);
     } else {
       datastoreOptionBuilder = datastoreOptionBuilder.setTransportOptions(transportOptions);
     }
