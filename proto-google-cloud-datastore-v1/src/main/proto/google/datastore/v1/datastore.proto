@@ -501,6 +501,18 @@ message ReserveIdsResponse {}
 
 // A mutation to apply to an entity.
 message Mutation {
+  // The possible ways to resolve a conflict detected in a mutation.
+  enum ConflictResolutionStrategy {
+    // Unspecified. Defaults to `SERVER_VALUE`.
+    STRATEGY_UNSPECIFIED = 0;
+
+    // The server entity is kept.
+    SERVER_VALUE = 1;
+
+    // The whole commit request fails.
+    FAIL = 3;
+  }
+
   // The mutation operation.
   //
   // For `insert`, `update`, and `upsert`:
