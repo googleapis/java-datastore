@@ -1,5 +1,111 @@
 # Changelog
 
+## [2.22.0](https://github.com/googleapis/java-datastore/compare/v2.21.3...v2.22.0) (2024-09-26)
+
+
+### Features
+
+* Add sample code for multiple inequalities indexing consideration query ([#1579](https://github.com/googleapis/java-datastore/issues/1579)) ([1286792](https://github.com/googleapis/java-datastore/commit/1286792d7b49229d698df652cd117d229a5cd97e))
+* Introducing Tracing with OpenTelemetry API [#1537](https://github.com/googleapis/java-datastore/issues/1537) ([#1576](https://github.com/googleapis/java-datastore/issues/1576)) ([5440c22](https://github.com/googleapis/java-datastore/commit/5440c22364074c108450c3a748a6a17d5f1dddda))
+
+
+### Bug Fixes
+
+* Update opentelemetry-sdk dependency to be test-only ([#1595](https://github.com/googleapis/java-datastore/issues/1595)) ([9d719e8](https://github.com/googleapis/java-datastore/commit/9d719e809ea830d8602399b72e432580f14ae6bd))
+* Update opentelemetry.version to 1.42.1 to match the BOM version ([#1598](https://github.com/googleapis/java-datastore/issues/1598)) ([23c5c26](https://github.com/googleapis/java-datastore/commit/23c5c2662117370c66c611604c56b878d41f4738))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:gapic-libraries-bom to v1.43.0 ([#1584](https://github.com/googleapis/java-datastore/issues/1584)) ([fae3b74](https://github.com/googleapis/java-datastore/commit/fae3b74eaa3494a27fd43f56435c01e8fc09e5ee))
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.36.0 ([#1590](https://github.com/googleapis/java-datastore/issues/1590)) ([2db9e43](https://github.com/googleapis/java-datastore/commit/2db9e439189baf8f97127f6cff1de5d47efb0073))
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.36.1 ([#1602](https://github.com/googleapis/java-datastore/issues/1602)) ([e1b7d4b](https://github.com/googleapis/java-datastore/commit/e1b7d4b205312d7d4c2a285f3d1f61388da65c83))
+* Update dependency com.google.guava:guava-testlib to v33.3.1-jre ([#1592](https://github.com/googleapis/java-datastore/issues/1592)) ([5d078a4](https://github.com/googleapis/java-datastore/commit/5d078a4b294d071716f51f0d4b9baa5d65a0fe90))
+* Update dependency com.google.testparameterinjector:test-parameter-injector to v1.17 ([#1585](https://github.com/googleapis/java-datastore/issues/1585)) ([8f74a49](https://github.com/googleapis/java-datastore/commit/8f74a49c5982d00bd168e78671163683f7b41126))
+
+## [2.21.3](https://github.com/googleapis/java-datastore/compare/v2.21.2...v2.21.3) (2024-09-11)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.35.0 ([#1561](https://github.com/googleapis/java-datastore/issues/1561)) ([5a79fd8](https://github.com/googleapis/java-datastore/commit/5a79fd8d1202e65c02423fe40402c41af6050efa))
+* Update dependency com.google.errorprone:error_prone_core to v2.31.0 ([#1523](https://github.com/googleapis/java-datastore/issues/1523)) ([8d3af32](https://github.com/googleapis/java-datastore/commit/8d3af322fb56032cd7a9d29e60fd93d1f3e7e632))
+* Update dependency com.google.guava:guava-testlib to v33.3.0-jre ([#1548](https://github.com/googleapis/java-datastore/issues/1548)) ([18ba37f](https://github.com/googleapis/java-datastore/commit/18ba37f60b5b3e69c95f6e55a28daf8c0de82ba9))
+* Update dependency org.easymock:easymock to v5.4.0 ([#1482](https://github.com/googleapis/java-datastore/issues/1482)) ([ee788a1](https://github.com/googleapis/java-datastore/commit/ee788a162841994e09a61bb81b94cbe93353a78e))
+
+## [2.21.2](https://github.com/googleapis/java-datastore/compare/v2.21.1...v2.21.2) (2024-08-22)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.34.0 ([#1547](https://github.com/googleapis/java-datastore/issues/1547)) ([8c5f595](https://github.com/googleapis/java-datastore/commit/8c5f5954d88732ab929b4477a3f15b0052adc2ff))
+
+## [2.21.1](https://github.com/googleapis/java-datastore/compare/v2.21.0...v2.21.1) (2024-08-06)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.33.0 ([#1531](https://github.com/googleapis/java-datastore/issues/1531)) ([9e52395](https://github.com/googleapis/java-datastore/commit/9e52395f7ee71315331790284d35e7aad2f387ed))
+
+## [2.21.0](https://github.com/googleapis/java-datastore/compare/v2.20.2...v2.21.0) (2024-07-31)
+
+
+### Features
+
+* Enable hermetic library generation ([#1462](https://github.com/googleapis/java-datastore/issues/1462)) ([d142d9c](https://github.com/googleapis/java-datastore/commit/d142d9c95d91c8cadaf696efc12d6136814938ff))
+
+## [2.20.2](https://github.com/googleapis/java-datastore/compare/v2.20.1...v2.20.2) (2024-06-28)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.32.0 ([#1492](https://github.com/googleapis/java-datastore/issues/1492)) ([d940c93](https://github.com/googleapis/java-datastore/commit/d940c937959942d753f9215e7ce940ab6742be46))
+
+## [2.20.1](https://github.com/googleapis/java-datastore/compare/v2.20.0...v2.20.1) (2024-06-04)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.31.0 ([#1471](https://github.com/googleapis/java-datastore/issues/1471)) ([42c643d](https://github.com/googleapis/java-datastore/commit/42c643d78562c5cbd6c17c29a0a124be8d05198a))
+* Update dependency com.google.errorprone:error_prone_core to v2.28.0 ([#1469](https://github.com/googleapis/java-datastore/issues/1469)) ([e3fac2b](https://github.com/googleapis/java-datastore/commit/e3fac2bf9992fcb2e91319df0520094865de2d49))
+* Update dependency com.google.guava:guava-testlib to v33.2.1-jre ([#1470](https://github.com/googleapis/java-datastore/issues/1470)) ([614e930](https://github.com/googleapis/java-datastore/commit/614e930f2bdccc517d4733e5fb7f3cefad696a20))
+
+## [2.20.0](https://github.com/googleapis/java-datastore/compare/v2.19.3...v2.20.0) (2024-05-27)
+
+
+### Features
+
+* New PropertyMask field which allows partial commits, lookups, and query results ([#1455](https://github.com/googleapis/java-datastore/issues/1455)) ([ff5e397](https://github.com/googleapis/java-datastore/commit/ff5e39775446216b4806f55f14dacb7fc8e8854b))
+
+
+### Bug Fixes
+
+* Migrate off TextPrinter's deprecated methods ([#1452](https://github.com/googleapis/java-datastore/issues/1452)) ([c3c1317](https://github.com/googleapis/java-datastore/commit/c3c131735863d71971110e2ac7ac0244ce16ee92))
+* Set the correct database id on the key parent when calling Key#getParent ([#1457](https://github.com/googleapis/java-datastore/issues/1457)) ([992815d](https://github.com/googleapis/java-datastore/commit/992815d9989d04f7b371dfa320ed17894626a07f))
+
+## [2.19.3](https://github.com/googleapis/java-datastore/compare/v2.19.2...v2.19.3) (2024-05-16)
+
+
+### Dependencies
+
+* Update actions/checkout action to v4 ([#1390](https://github.com/googleapis/java-datastore/issues/1390)) ([80dbca1](https://github.com/googleapis/java-datastore/commit/80dbca1246facf21b08d33e5c6a09b9708b6ce63))
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.30.1 ([#1443](https://github.com/googleapis/java-datastore/issues/1443)) ([79f6c46](https://github.com/googleapis/java-datastore/commit/79f6c46bdbabc66082f23e9562ee9541e0fdeac9))
+
+## [2.19.2](https://github.com/googleapis/java-datastore/compare/v2.19.1...v2.19.2) (2024-05-03)
+
+
+### Bug Fixes
+
+* **deps:** Update the Java code generator (gapic-generator-java) to 2.39.0 ([#1406](https://github.com/googleapis/java-datastore/issues/1406)) ([b265fb3](https://github.com/googleapis/java-datastore/commit/b265fb3c3b8ebc972edbe5a7beae816379846dac))
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:sdk-platform-java-config to v3.30.0 ([#1426](https://github.com/googleapis/java-datastore/issues/1426)) ([ac3a1c1](https://github.com/googleapis/java-datastore/commit/ac3a1c10f64c8338346f8fb39f4857f47e8fc639))
+* Update dependency com.google.errorprone:error_prone_core to v2.27.0 ([#1411](https://github.com/googleapis/java-datastore/issues/1411)) ([a3f5a2c](https://github.com/googleapis/java-datastore/commit/a3f5a2c24bff408479541e08278e888cf3166727))
+* Update dependency com.google.errorprone:error_prone_core to v2.27.1 ([#1421](https://github.com/googleapis/java-datastore/issues/1421)) ([48d7daf](https://github.com/googleapis/java-datastore/commit/48d7dafc0c7a49e95bf41d29865ac872b0de0faf))
+* Update dependency com.google.guava:guava-testlib to v33.2.0-jre ([#1422](https://github.com/googleapis/java-datastore/issues/1422)) ([5a5dfdf](https://github.com/googleapis/java-datastore/commit/5a5dfdfb0855cf485b875ab071b79979d24f98dd))
+
 ## [2.20.0](https://github.com/googleapis/java-datastore/compare/v2.19.3...v2.20.0) (2024-05-27)
 
 

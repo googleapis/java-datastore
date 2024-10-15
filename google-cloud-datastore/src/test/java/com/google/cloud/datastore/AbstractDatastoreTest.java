@@ -171,6 +171,8 @@ public abstract class AbstractDatastoreTest {
   public void setUp() {
     rpcFactoryMock = EasyMock.createStrictMock(DatastoreRpcFactory.class);
     rpcMock = EasyMock.createStrictMock(DatastoreRpc.class);
+    DatastoreOpenTelemetryOptions.Builder otelOptionsBuilder =
+        DatastoreOpenTelemetryOptions.newBuilder();
     rpcMockOptions =
         options
             .toBuilder()
