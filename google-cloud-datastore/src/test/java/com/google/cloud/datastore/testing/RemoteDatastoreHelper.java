@@ -110,8 +110,7 @@ public class RemoteDatastoreHelper {
         DatastoreOptions.newBuilder()
             .setDatabaseId(databaseId)
             .setNamespace(UUID.randomUUID().toString())
-            .setRetrySettings(retrySettings())
-            .setTransportOptions(transportOptions);
+            .setRetrySettings(retrySettings());
     if (transportOptions instanceof GrpcTransportOptions) {
       datastoreOptionBuilder =
           datastoreOptionBuilder.setTransportOptions((GrpcTransportOptions) transportOptions);
