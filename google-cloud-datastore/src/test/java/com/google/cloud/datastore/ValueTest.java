@@ -58,6 +58,9 @@ public class ValueTest {
           .put(ValueType.RAW_VALUE, new Object[] {RawValue.class, RAW_VALUE.get()})
           .put(ValueType.LAT_LNG, new Object[] {LatLngValue.class, LAT_LNG_VALUE.get()})
           .put(ValueType.STRING, new Object[] {StringValue.class, STRING_VALUE.get()})
+          .put(
+              ValueType.VECTOR,
+              new Object[] {ListValue.class, ImmutableList.of(1.25D, 1.30D, 1.35D)})
           .buildOrThrow();
 
   private ImmutableMap<ValueType, Value<?>> typeToValue;
