@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.VectorValue.VECTOR_MEANING;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.cloud.GcpLaunchStage;
@@ -214,8 +215,20 @@ public abstract class Value<V> implements Serializable {
   public static Value<?> fromPb(com.google.datastore.v1.Value proto) {
     ValueTypeCase descriptorId = proto.getValueTypeCase();
     ValueType valueType = ValueType.getByDescriptorId(descriptorId.getNumber());
-    return valueType == null
-        ? RawValue.MARSHALLER.fromProto(proto).build()
-        : valueType.getMarshaller().fromProto(proto).build();
+    if (valueType == null)
+      return RawValue.MARSHALLER.fromProto(proto).build();
+
+    Value<?> returnValue = valueType.getMarshaller().fromProto(proto).build();
+    if (valueType == ValueType.LIST && proto.getMeaning() == VECTOR_MEANING)
+    {
+      for (com.google.datastore.v1.Value item : proto.getArrayValue().getValuesList()) {
+        if (item.getValueTypeCase() != ValueTypeCase.DOUBLE_VALUE) {
+          return returnValue;
+        }
+      }
+      returnValue = VectorValue.MARSHALLER.fromProto(proto).build();
+    }
+
+    return returnValue;
   }
 }

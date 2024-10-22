@@ -16,19 +16,16 @@
 
 package com.google.cloud.datastore;
 
-import static com.google.datastore.v1.Value.ARRAY_VALUE_FIELD_NUMBER;
-
-import com.google.cloud.Timestamp;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
 
 /** A Google Cloud Datastore Vector value. A list value is a list of {@link Value} objects. */
-//public final class VectorValue extends Value<List<? extends Value<?>>> { {
 public final class VectorValue extends Value<List<Value<Double>>> {
 
     private static final long serialVersionUID = -5121887228607148859L;
+
+    public static final int VECTOR_MEANING = 31;
 
     static final BaseMarshaller<List<Value<Double>>, VectorValue, Builder> MARSHALLER =
             new BaseMarshaller<List<Value<Double>>, VectorValue, Builder>() {
@@ -36,7 +33,7 @@ public final class VectorValue extends Value<List<Value<Double>>> {
 
               @Override
               public int getProtoFieldId() {
-                return ARRAY_VALUE_FIELD_NUMBER;
+                return -1;
               }
 
               @Override
@@ -72,9 +69,9 @@ public final class VectorValue extends Value<List<Value<Double>>> {
         super(ValueType.VECTOR);
       }
 
-
       /** Adds the provided double values to the {@code VectorValue} builder. */
       public VectorValue.Builder addValue(Value<Double> first, Value<Double>... other) {
+        vectorBuilder.add(first);
         for (Value<Double> value : other) {
           vectorBuilder.add(value);
         }
@@ -118,7 +115,6 @@ public final class VectorValue extends Value<List<Value<Double>>> {
       }
     }
 
-
       public VectorValue(List<Value<Double>> values) {
         this(newBuilder().set(values));
       }
@@ -136,10 +132,15 @@ public final class VectorValue extends Value<List<Value<Double>>> {
       }
 
       /**
-       * Creates a {@code ListValue} object given a number of double values.
+       * Creates a {@code VectorValue} object given a number of double values.
        */
       public static VectorValue of(double first, double... other) {
         return newBuilder().addValue(first, other).build();
+      }
+
+      /** Creates a {@code VectorValue} object given a list of {@code Value} objects. */
+      public static VectorValue of(List<Value<Double>> values) {
+        return new VectorValue(values);
       }
 
       /**
@@ -149,8 +150,11 @@ public final class VectorValue extends Value<List<Value<Double>>> {
         return new Builder();
       }
 
-      public static VectorValue.Builder newBuilder(double first, double... other) {
-        return new VectorValue.Builder().addValue(first, other);
+      public static Builder newBuilder(double first, double... other) {
+        VectorValue.Builder builder = new VectorValue.Builder();
+        builder.setExcludeFromIndexes(true);
+        builder.setMeaning(VECTOR_MEANING);
+        return builder.addValue(first, other);
       }
     }
 
