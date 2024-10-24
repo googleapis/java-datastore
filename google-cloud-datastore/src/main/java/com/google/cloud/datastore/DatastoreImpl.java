@@ -649,28 +649,25 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   @Override
   public void update(Entity... entities) {
-    com.google.cloud.datastore.telemetry.TraceUtil.Span updateSpan =
+    com.google.cloud.datastore.telemetry.TraceUtil.Span span =
         otelTraceUtil.startSpan(SPAN_NAME_DATASTORE_UPDATE);
-    try (Scope ignored = updateSpan.makeCurrent()) {
+    try (Scope ignored = span.makeCurrent()) {
       if (entities.length > 0) {
         List<com.google.datastore.v1.Mutation> mutationsPb = new ArrayList<>();
         Map<Key, Entity> dedupEntities = new LinkedHashMap<>();
         for (Entity entity : entities) {
           dedupEntities.put(entity.getKey(), entity);
         }
-        updateSpan.addEvent("dedupEntities.put done");
         for (Entity entity : dedupEntities.values()) {
           mutationsPb.add(
               com.google.datastore.v1.Mutation.newBuilder().setUpdate(entity.toPb()).build());
         }
-        updateSpan.addEvent("mutationsPb.add done");
         commitMutation(mutationsPb);
-        updateSpan.addEvent("commitMutation returned");
       }
     } catch (Exception e) {
-      updateSpan.end(e);
+      span.end(e);
     } finally {
-      updateSpan.end();
+      span.end();
     }
   }
 
@@ -705,7 +702,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
         mutationsPb.add(
             com.google.datastore.v1.Mutation.newBuilder().setUpsert(entity.toPb()).build());
       }
-      putSpan.addEvent("dedupEntities.put done");
       com.google.datastore.v1.CommitResponse commitResponse = commitMutation(mutationsPb);
       putSpan.addEvent("commitMutation returned");
       Iterator<com.google.datastore.v1.MutationResult> mutationResults =
@@ -719,7 +715,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
               Entity.newBuilder(Key.fromPb(mutationResults.next().getKey()), entity).build());
         }
       }
-      putSpan.addEvent("responseBuilder.add done");
     } finally {
       putSpan.end();
     }
@@ -738,9 +733,7 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
           mutationsPb.add(
               com.google.datastore.v1.Mutation.newBuilder().setDelete(key.toPb()).build());
         }
-        deleteSpan.addEvent("mutationsPb.add done");
         commitMutation(mutationsPb);
-        deleteSpan.addEvent("commitMutation returned");
       }
     } finally {
       deleteSpan.end();
