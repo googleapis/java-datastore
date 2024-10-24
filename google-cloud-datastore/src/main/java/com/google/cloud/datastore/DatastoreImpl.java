@@ -27,6 +27,9 @@ import static com.google.cloud.datastore.telemetry.TraceUtil.ATTRIBUTES_KEY_TRAN
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_ALLOCATE_IDS;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_BEGIN_TRANSACTION;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_COMMIT;
+import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_COMMIT_MUTATION;
+import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_DATASTORE_PUT;
+import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_DATASTORE_UPDATE;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_LOOKUP;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RESERVE_IDS;
 import static com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_ROLLBACK;
@@ -646,17 +649,25 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   @Override
   public void update(Entity... entities) {
-    if (entities.length > 0) {
-      List<com.google.datastore.v1.Mutation> mutationsPb = new ArrayList<>();
-      Map<Key, Entity> dedupEntities = new LinkedHashMap<>();
-      for (Entity entity : entities) {
-        dedupEntities.put(entity.getKey(), entity);
+    com.google.cloud.datastore.telemetry.TraceUtil.Span span =
+        otelTraceUtil.startSpan(SPAN_NAME_DATASTORE_UPDATE);
+    try (Scope ignored = span.makeCurrent()) {
+      if (entities.length > 0) {
+        List<com.google.datastore.v1.Mutation> mutationsPb = new ArrayList<>();
+        Map<Key, Entity> dedupEntities = new LinkedHashMap<>();
+        for (Entity entity : entities) {
+          dedupEntities.put(entity.getKey(), entity);
+        }
+        for (Entity entity : dedupEntities.values()) {
+          mutationsPb.add(
+              com.google.datastore.v1.Mutation.newBuilder().setUpdate(entity.toPb()).build());
+        }
+        commitMutation(mutationsPb);
       }
-      for (Entity entity : dedupEntities.values()) {
-        mutationsPb.add(
-            com.google.datastore.v1.Mutation.newBuilder().setUpdate(entity.toPb()).build());
-      }
-      commitMutation(mutationsPb);
+    } catch (Exception e) {
+      span.end(e);
+    } finally {
+      span.end();
     }
   }
 
@@ -668,51 +679,64 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
   @SuppressWarnings("unchecked")
   @Override
   public List<Entity> put(FullEntity<?>... entities) {
-    if (entities.length == 0) {
-      return Collections.emptyList();
-    }
-    List<com.google.datastore.v1.Mutation> mutationsPb = new ArrayList<>();
-    Map<Key, Entity> dedupEntities = new LinkedHashMap<>();
-    for (FullEntity<?> entity : entities) {
-      Preconditions.checkArgument(entity.hasKey(), "Entity %s is missing a key", entity);
-      if (entity.getKey() instanceof Key) {
-        Entity completeEntity = Entity.convert((FullEntity<Key>) entity);
-        dedupEntities.put(completeEntity.getKey(), completeEntity);
-      } else {
+    ImmutableList.Builder<Entity> responseBuilder = ImmutableList.builder();
+    io.opentelemetry.api.trace.Span putSpan =
+        otelTraceUtil.getTracer().spanBuilder(SPAN_NAME_DATASTORE_PUT).startSpan();
+    try (io.opentelemetry.context.Scope ignored = putSpan.makeCurrent()) {
+      if (entities.length == 0) {
+        return Collections.emptyList();
+      }
+      List<com.google.datastore.v1.Mutation> mutationsPb = new ArrayList<>();
+      Map<Key, Entity> dedupEntities = new LinkedHashMap<>();
+      for (FullEntity<?> entity : entities) {
+        Preconditions.checkArgument(entity.hasKey(), "Entity %s is missing a key", entity);
+        if (entity.getKey() instanceof Key) {
+          Entity completeEntity = Entity.convert((FullEntity<Key>) entity);
+          dedupEntities.put(completeEntity.getKey(), completeEntity);
+        } else {
+          mutationsPb.add(
+              com.google.datastore.v1.Mutation.newBuilder().setUpsert(entity.toPb()).build());
+        }
+      }
+      for (Entity entity : dedupEntities.values()) {
         mutationsPb.add(
             com.google.datastore.v1.Mutation.newBuilder().setUpsert(entity.toPb()).build());
       }
-    }
-    for (Entity entity : dedupEntities.values()) {
-      mutationsPb.add(
-          com.google.datastore.v1.Mutation.newBuilder().setUpsert(entity.toPb()).build());
-    }
-    com.google.datastore.v1.CommitResponse commitResponse = commitMutation(mutationsPb);
-    Iterator<com.google.datastore.v1.MutationResult> mutationResults =
-        commitResponse.getMutationResultsList().iterator();
-    ImmutableList.Builder<Entity> responseBuilder = ImmutableList.builder();
-    for (FullEntity<?> entity : entities) {
-      Entity completeEntity = dedupEntities.get(entity.getKey());
-      if (completeEntity != null) {
-        responseBuilder.add(completeEntity);
-      } else {
-        responseBuilder.add(
-            Entity.newBuilder(Key.fromPb(mutationResults.next().getKey()), entity).build());
+      com.google.datastore.v1.CommitResponse commitResponse = commitMutation(mutationsPb);
+      putSpan.addEvent("commitMutation returned");
+      Iterator<com.google.datastore.v1.MutationResult> mutationResults =
+          commitResponse.getMutationResultsList().iterator();
+      for (FullEntity<?> entity : entities) {
+        Entity completeEntity = dedupEntities.get(entity.getKey());
+        if (completeEntity != null) {
+          responseBuilder.add(completeEntity);
+        } else {
+          responseBuilder.add(
+              Entity.newBuilder(Key.fromPb(mutationResults.next().getKey()), entity).build());
+        }
       }
+    } finally {
+      putSpan.end();
     }
     return responseBuilder.build();
   }
 
   @Override
   public void delete(Key... keys) {
-    if (keys.length > 0) {
-      List<com.google.datastore.v1.Mutation> mutationsPb = new ArrayList<>();
-      Set<Key> dedupKeys = new LinkedHashSet<>(Arrays.asList(keys));
-      for (Key key : dedupKeys) {
-        mutationsPb.add(
-            com.google.datastore.v1.Mutation.newBuilder().setDelete(key.toPb()).build());
+    io.opentelemetry.api.trace.Span deleteSpan =
+        otelTraceUtil.getTracer().spanBuilder(SPAN_NAME_DATASTORE_PUT).startSpan();
+    try (io.opentelemetry.context.Scope ignored = deleteSpan.makeCurrent()) {
+      if (keys.length > 0) {
+        List<com.google.datastore.v1.Mutation> mutationsPb = new ArrayList<>();
+        Set<Key> dedupKeys = new LinkedHashSet<>(Arrays.asList(keys));
+        for (Key key : dedupKeys) {
+          mutationsPb.add(
+              com.google.datastore.v1.Mutation.newBuilder().setDelete(key.toPb()).build());
+        }
+        commitMutation(mutationsPb);
       }
-      commitMutation(mutationsPb);
+    } finally {
+      deleteSpan.end();
     }
   }
 
@@ -723,13 +747,22 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
 
   private com.google.datastore.v1.CommitResponse commitMutation(
       List<com.google.datastore.v1.Mutation> mutationsPb) {
-    com.google.datastore.v1.CommitRequest.Builder requestPb =
-        com.google.datastore.v1.CommitRequest.newBuilder();
-    requestPb.setMode(com.google.datastore.v1.CommitRequest.Mode.NON_TRANSACTIONAL);
-    requestPb.setProjectId(getOptions().getProjectId());
-    requestPb.setDatabaseId(getOptions().getDatabaseId());
-    requestPb.addAllMutations(mutationsPb);
-    return commit(requestPb.build());
+    CommitResponse response = null;
+    io.opentelemetry.api.trace.Span commitMutationSpan =
+        otelTraceUtil.getTracer().spanBuilder(SPAN_NAME_COMMIT_MUTATION).startSpan();
+    try (io.opentelemetry.context.Scope ignored = commitMutationSpan.makeCurrent()) {
+      com.google.datastore.v1.CommitRequest.Builder requestPb =
+          com.google.datastore.v1.CommitRequest.newBuilder();
+      requestPb.setMode(com.google.datastore.v1.CommitRequest.Mode.NON_TRANSACTIONAL);
+      requestPb.setProjectId(getOptions().getProjectId());
+      requestPb.setDatabaseId(getOptions().getDatabaseId());
+      requestPb.addAllMutations(mutationsPb);
+      response = commit(requestPb.build());
+      commitMutationSpan.addEvent("commit returned");
+    } finally {
+      commitMutationSpan.end();
+    }
+    return response;
   }
 
   com.google.datastore.v1.CommitResponse commit(
@@ -737,8 +770,11 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     final boolean isTransactional =
         requestPb.hasTransaction() || requestPb.hasSingleUseTransaction();
     final String spanName = isTransactional ? SPAN_NAME_TRANSACTION_COMMIT : SPAN_NAME_COMMIT;
-    com.google.cloud.datastore.telemetry.TraceUtil.Span span = otelTraceUtil.startSpan(spanName);
-    try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
+    //    com.google.cloud.datastore.telemetry.TraceUtil.Span span =
+    // otelTraceUtil.startSpan(spanName);
+    io.opentelemetry.api.trace.Span span =
+        otelTraceUtil.getTracer().spanBuilder(spanName).startSpan();
+    try (io.opentelemetry.context.Scope ignored = span.makeCurrent()) {
       CommitResponse response =
           RetryHelper.runWithRetries(
               () -> datastoreRpc.commit(requestPb),
@@ -747,18 +783,19 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
                   ? EXCEPTION_HANDLER
                   : TRANSACTION_OPERATION_EXCEPTION_HANDLER,
               getOptions().getClock());
-      span.addEvent(
-          spanName + " complete.",
-          new ImmutableMap.Builder<String, Object>()
-              .put(ATTRIBUTES_KEY_DOCUMENT_COUNT, response.getMutationResultsCount())
-              .put(ATTRIBUTES_KEY_TRANSACTIONAL, isTransactional)
-              .put(
-                  ATTRIBUTES_KEY_TRANSACTION_ID,
-                  isTransactional ? requestPb.getTransaction().toStringUtf8() : "")
-              .build());
+      // span.addEvent(
+      //     spanName + " complete.",
+      //     new ImmutableMap.Builder<String, Object>()
+      //         .put(ATTRIBUTES_KEY_DOCUMENT_COUNT, response.getMutationResultsCount())
+      //         .put(ATTRIBUTES_KEY_TRANSACTIONAL, isTransactional)
+      //         .put(
+      //             ATTRIBUTES_KEY_TRANSACTION_ID,
+      //             isTransactional ? requestPb.getTransaction().toStringUtf8() : "")
+      //         .build());
+      span.addEvent("runWithRetries returned");
       return response;
     } catch (RetryHelperException e) {
-      span.end(e);
+      // span.end(e);
       throw DatastoreException.translateAndThrow(e);
     } finally {
       span.end();

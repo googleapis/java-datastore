@@ -47,6 +47,10 @@ public interface TraceUtil {
   static final String SPAN_NAME_ROLLBACK = "Transaction.Rollback";
   static final String SPAN_NAME_TRANSACTION_RUN_AGGREGATION_QUERY =
       "Transaction.RunAggregationQuery";
+  static final String SPAN_NAME_DATASTORE_UPDATE = "Datastore.Update";
+  static final String SPAN_NAME_DATASTORE_PUT = "Datastore.Put";
+  static final String SPAN_NAME_DATASTORE_DELETE = "Datastore.Delete";
+  static final String SPAN_NAME_COMMIT_MUTATION = "CommitMutation";
   static final String ATTRIBUTES_KEY_DOCUMENT_COUNT = "doc_count";
   static final String ATTRIBUTES_KEY_TRANSACTIONAL = "transactional";
   static final String ATTRIBUTES_KEY_TRANSACTION_ID = "transaction_id";
