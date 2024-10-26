@@ -18,19 +18,15 @@ package com.google.cloud.datastore;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
-import com.google.protobuf.ByteString;
 import com.google.protobuf.DoubleValue;
 import com.google.protobuf.Int32Value;
-
 import java.io.Serializable;
 import java.util.Objects;
-
 import javax.annotation.Nullable;
 
-
 /**
- * A query that finds the entities whose vector fields are closest to a certain query vector.
- * Create an instance of `FindNearest` with {@link Query#findNearest}.
+ * A query that finds the entities whose vector fields are closest to a certain query vector. Create
+ * an instance of `FindNearest` with {@link Query#findNearest}.
  */
 public final class FindNearest implements Serializable {
 
@@ -48,7 +44,13 @@ public final class FindNearest implements Serializable {
   private static final long serialVersionUID = 4688656124180403551L;
 
   /** Creates a VectorQuery */
-  public FindNearest(String vectorProperty, VectorValue queryVector, DistanceMeasure measure, int limit, @Nullable String distanceResultField,@Nullable Double distanceThreshold) {
+  public FindNearest(
+      String vectorProperty,
+      VectorValue queryVector,
+      DistanceMeasure measure,
+      int limit,
+      @Nullable String distanceResultField,
+      @Nullable Double distanceThreshold) {
     this.vectorProperty = vectorProperty;
     this.queryVector = queryVector;
     this.measure = measure;
@@ -57,21 +59,33 @@ public final class FindNearest implements Serializable {
     this.distanceThreshold = distanceThreshold;
   }
 
-  public FindNearest(String vectorProperty, VectorValue queryVector, DistanceMeasure measure, int limit) {
+  public FindNearest(
+      String vectorProperty, VectorValue queryVector, DistanceMeasure measure, int limit) {
     this(vectorProperty, queryVector, measure, limit, null, null);
   }
 
-  public FindNearest(String vectorProperty, VectorValue queryVector, DistanceMeasure measure, int limit, @Nullable String distanceResultField) {
+  public FindNearest(
+      String vectorProperty,
+      VectorValue queryVector,
+      DistanceMeasure measure,
+      int limit,
+      @Nullable String distanceResultField) {
     this(vectorProperty, queryVector, measure, limit, distanceResultField, null);
   }
 
-  public FindNearest(String vectorProperty, VectorValue queryVector, DistanceMeasure measure, int limit, @Nullable Double distanceThreshold) {
+  public FindNearest(
+      String vectorProperty,
+      VectorValue queryVector,
+      DistanceMeasure measure,
+      int limit,
+      @Nullable Double distanceThreshold) {
     this(vectorProperty, queryVector, measure, limit, null, distanceThreshold);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(vectorProperty, queryVector, measure, limit, distanceResultField, distanceThreshold);
+    return Objects.hash(
+        vectorProperty, queryVector, measure, limit, distanceResultField, distanceThreshold);
   }
 
   /**
@@ -90,11 +104,11 @@ public final class FindNearest implements Serializable {
     }
     FindNearest otherQuery = (FindNearest) obj;
     return Objects.equals(vectorProperty, otherQuery.vectorProperty)
-            && Objects.equals(queryVector, otherQuery.queryVector)
-            && Objects.equals(distanceResultField, otherQuery.distanceResultField)
-            && Objects.equals(distanceThreshold, otherQuery.distanceThreshold)
-            && limit == otherQuery.limit
-            && measure == otherQuery.measure;
+        && Objects.equals(queryVector, otherQuery.queryVector)
+        && Objects.equals(distanceResultField, otherQuery.distanceResultField)
+        && Objects.equals(distanceThreshold, otherQuery.distanceThreshold)
+        && limit == otherQuery.limit
+        && measure == otherQuery.measure;
   }
 
   @Override
@@ -111,22 +125,38 @@ public final class FindNearest implements Serializable {
 
   static FindNearest fromPb(com.google.datastore.v1.FindNearest findNearestPb) {
     String vectorProperty = findNearestPb.getVectorProperty().getName();
-    VectorValue queryVector = VectorValue.MARSHALLER.fromProto(findNearestPb.getQueryVector()).build();
-    DistanceMeasure distanceMeasure = DistanceMeasure.valueOf(findNearestPb.getDistanceMeasure().toString());
+    VectorValue queryVector =
+        VectorValue.MARSHALLER.fromProto(findNearestPb.getQueryVector()).build();
+    DistanceMeasure distanceMeasure =
+        DistanceMeasure.valueOf(findNearestPb.getDistanceMeasure().toString());
     int limit = findNearestPb.getLimit().getValue();
-    String distanceResultField = findNearestPb.getDistanceResultProperty() == null || findNearestPb.getDistanceResultProperty().isEmpty() ? null:findNearestPb.getDistanceResultProperty();
-    Double distanceThreshold = findNearestPb.getDistanceThreshold() == null || findNearestPb.getDistanceThreshold() == DoubleValue.getDefaultInstance() ? null : findNearestPb.getDistanceThreshold().getValue();
-    return new FindNearest(vectorProperty,queryVector, distanceMeasure, limit, distanceResultField, distanceThreshold);
+    String distanceResultField =
+        findNearestPb.getDistanceResultProperty() == null
+                || findNearestPb.getDistanceResultProperty().isEmpty()
+            ? null
+            : findNearestPb.getDistanceResultProperty();
+    Double distanceThreshold =
+        findNearestPb.getDistanceThreshold() == null
+                || findNearestPb.getDistanceThreshold() == DoubleValue.getDefaultInstance()
+            ? null
+            : findNearestPb.getDistanceThreshold().getValue();
+    return new FindNearest(
+        vectorProperty,
+        queryVector,
+        distanceMeasure,
+        limit,
+        distanceResultField,
+        distanceThreshold);
   }
 
   com.google.datastore.v1.FindNearest toPb() {
-    com.google.datastore.v1.FindNearest.Builder findNearestPb = com.google.datastore.v1.FindNearest.newBuilder();
+    com.google.datastore.v1.FindNearest.Builder findNearestPb =
+        com.google.datastore.v1.FindNearest.newBuilder();
     findNearestPb.getVectorPropertyBuilder().setName(vectorProperty);
     findNearestPb.setQueryVector(queryVector.toPb());
     findNearestPb.setDistanceMeasure(toProto(measure));
     findNearestPb.setLimit(Int32Value.of(limit));
-    if (distanceResultField != null)
-    {
+    if (distanceResultField != null) {
       findNearestPb.setDistanceResultProperty(distanceResultField);
     }
     if (distanceThreshold != null) {
@@ -136,7 +166,7 @@ public final class FindNearest implements Serializable {
   }
 
   protected static com.google.datastore.v1.FindNearest.DistanceMeasure toProto(
-          DistanceMeasure distanceMeasure) {
+      DistanceMeasure distanceMeasure) {
     switch (distanceMeasure) {
       case COSINE:
         return com.google.datastore.v1.FindNearest.DistanceMeasure.COSINE;
@@ -152,7 +182,7 @@ public final class FindNearest implements Serializable {
   /**
    * The distance measure to use when comparing vectors in a {@link FindNearest query}.
    *
-   * @see com.google.cloud.firestore.Query#findNearest
+   * @see com.google.cloud.datastore.Query#findNearest
    */
   public enum DistanceMeasure {
     /**

@@ -578,34 +578,29 @@ public class ITDatastoreConceptsTest {
   @Test
   public void testVectorSearch() {
     VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
-    FindNearest vectorQuery = new FindNearest("vector_property", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
+    FindNearest vectorQuery =
+        new FindNearest(
+            "vector_property", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
 
-    Query<Entity> query =
-            Query.newEntityQueryBuilder()
-                    .setFindNearest(vectorQuery)
-                    .build();
+    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
     assertValidQuery(query);
   }
 
   @Test
   public void testVectorSearchWithEmptyVector() {
     VectorValue emptyVector = VectorValue.newBuilder().build();
-    FindNearest vectorQuery = new FindNearest("vector_property", emptyVector, FindNearest.DistanceMeasure.EUCLIDEAN, 1);
-    Query<Entity> query =
-            Query.newEntityQueryBuilder()
-                    .setFindNearest(vectorQuery)
-                    .build();
+    FindNearest vectorQuery =
+        new FindNearest("vector_property", emptyVector, FindNearest.DistanceMeasure.EUCLIDEAN, 1);
+    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
     assertInvalidQuery(query);
   }
 
   @Test
   public void testVectorSearchWithUnmatchedVectorSize() {
     VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88, 4.33).build();
-    FindNearest vectorQuery = new FindNearest("vector_property", vectorValue, FindNearest.DistanceMeasure.DOT_PRODUCT, 1);
-    Query<Entity> query =
-            Query.newEntityQueryBuilder()
-                    .setFindNearest(vectorQuery)
-                    .build();
+    FindNearest vectorQuery =
+        new FindNearest("vector_property", vectorValue, FindNearest.DistanceMeasure.DOT_PRODUCT, 1);
+    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
     assertInvalidQuery(query);
   }
 

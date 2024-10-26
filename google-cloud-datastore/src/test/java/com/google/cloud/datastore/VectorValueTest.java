@@ -20,16 +20,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableList;
-import org.junit.Test;
-
 import java.util.List;
+import org.junit.Test;
 
 public class VectorValueTest {
   private static final List<Value<Double>> vectorList =
-          ImmutableList.of(DoubleValue.of(1.2), DoubleValue.of(3.6));
+      ImmutableList.of(DoubleValue.of(1.2), DoubleValue.of(3.6));
+
   @Test
   public void testToBuilder() {
-  //  StringValue value = StringValue.of(CONTENT);
+    //  StringValue value = StringValue.of(CONTENT);
     VectorValue value = VectorValue.of(0.3, 4.2, 3.7);
     assertEquals(value, value.toBuilder().build());
   }
@@ -37,13 +37,13 @@ public class VectorValueTest {
   @Test
   public void testOf() {
     VectorValue value = VectorValue.of(0.3, 4.2, 3.7);
-    assertEquals(ImmutableList.of(DoubleValue.of(0.3), DoubleValue.of(4.2), DoubleValue.of(3.7)),
-            value.get());
+    assertEquals(
+        ImmutableList.of(DoubleValue.of(0.3), DoubleValue.of(4.2), DoubleValue.of(3.7)),
+        value.get());
     assertTrue(value.excludeFromIndexes());
     assertEquals(31, value.getMeaning());
     VectorValue value1 = VectorValue.of(vectorList);
-    assertEquals(vectorList,
-            value1.get());
+    assertEquals(vectorList, value1.get());
     assertTrue(value1.excludeFromIndexes());
     assertEquals(31, value1.getMeaning());
   }
@@ -53,8 +53,9 @@ public class VectorValueTest {
   public void testBuilder() {
     VectorValue.Builder builder = VectorValue.newBuilder(0.3, 4.2, 3.7);
     VectorValue value = builder.setExcludeFromIndexes(true).build();
-    assertEquals(ImmutableList.of(DoubleValue.of(0.3), DoubleValue.of(4.2), DoubleValue.of(3.7)),
-            value.get());
+    assertEquals(
+        ImmutableList.of(DoubleValue.of(0.3), DoubleValue.of(4.2), DoubleValue.of(3.7)),
+        value.get());
     assertEquals(31, value.getMeaning());
     assertTrue(value.excludeFromIndexes());
   }

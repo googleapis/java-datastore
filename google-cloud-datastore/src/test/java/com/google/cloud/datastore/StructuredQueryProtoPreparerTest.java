@@ -15,12 +15,12 @@
  */
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.ProtoTestData.FindNearest;
 import static com.google.cloud.datastore.ProtoTestData.booleanValue;
 import static com.google.cloud.datastore.ProtoTestData.projection;
 import static com.google.cloud.datastore.ProtoTestData.propertyFilter;
 import static com.google.cloud.datastore.ProtoTestData.propertyOrder;
 import static com.google.cloud.datastore.ProtoTestData.propertyReference;
-import static com.google.cloud.datastore.ProtoTestData.FindNearest;
 import static com.google.cloud.datastore.Query.newEntityQueryBuilder;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.datastore.v1.PropertyFilter.Operator.EQUAL;
@@ -90,10 +90,13 @@ public class StructuredQueryProtoPreparerTest {
   @Test
   public void testFindNearest() {
     VectorValue VECTOR_VALUE = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
-    FindNearest FIND_NEAREST = new FindNearest("vector_property", VECTOR_VALUE, FindNearest.DistanceMeasure.COSINE, 1);
-    Query queryProto = protoPreparer.prepare(newEntityQueryBuilder().setFindNearest(FIND_NEAREST).build());
+    FindNearest FIND_NEAREST =
+        new FindNearest("vector_property", VECTOR_VALUE, FindNearest.DistanceMeasure.COSINE, 1);
+    Query queryProto =
+        protoPreparer.prepare(newEntityQueryBuilder().setFindNearest(FIND_NEAREST).build());
     assertThat(queryProto.getFindNearest())
-            .isEqualTo(FindNearest("vector_property", VECTOR_VALUE, FindNearest.DistanceMeasure.COSINE, 1));
+        .isEqualTo(
+            FindNearest("vector_property", VECTOR_VALUE, FindNearest.DistanceMeasure.COSINE, 1));
   }
 
   @Test

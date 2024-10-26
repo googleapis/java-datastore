@@ -215,12 +215,10 @@ public abstract class Value<V> implements Serializable {
   public static Value<?> fromPb(com.google.datastore.v1.Value proto) {
     ValueTypeCase descriptorId = proto.getValueTypeCase();
     ValueType valueType = ValueType.getByDescriptorId(descriptorId.getNumber());
-    if (valueType == null)
-      return RawValue.MARSHALLER.fromProto(proto).build();
+    if (valueType == null) return RawValue.MARSHALLER.fromProto(proto).build();
 
     Value<?> returnValue = valueType.getMarshaller().fromProto(proto).build();
-    if (valueType == ValueType.LIST && proto.getMeaning() == VECTOR_MEANING)
-    {
+    if (valueType == ValueType.LIST && proto.getMeaning() == VECTOR_MEANING) {
       for (com.google.datastore.v1.Value item : proto.getArrayValue().getValuesList()) {
         if (item.getValueTypeCase() != ValueTypeCase.DOUBLE_VALUE) {
           return returnValue;

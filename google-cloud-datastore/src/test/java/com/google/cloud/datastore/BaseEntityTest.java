@@ -36,7 +36,11 @@ public class BaseEntityTest {
   private static final Blob BLOB = Blob.copyFrom(new byte[] {1, 2});
   private static final Timestamp TIMESTAMP = Timestamp.now();
   private static final LatLng LAT_LNG = new LatLng(37.422035, -122.084124);
-  private static final VectorValue VECTOR = VectorValue.newBuilder(1.78, 2.56, 3.88).setMeaning(VECTOR_MEANING).setExcludeFromIndexes(true).build();
+  private static final VectorValue VECTOR =
+      VectorValue.newBuilder(1.78, 2.56, 3.88)
+          .setMeaning(VECTOR_MEANING)
+          .setExcludeFromIndexes(true)
+          .build();
   private static final Key KEY = Key.newBuilder("ds1", "k1", "n1").build();
   private static final Entity ENTITY = Entity.newBuilder(KEY).set("name", "foo").build();
   private static final IncompleteKey INCOMPLETE_KEY = IncompleteKey.newBuilder("ds1", "k1").build();

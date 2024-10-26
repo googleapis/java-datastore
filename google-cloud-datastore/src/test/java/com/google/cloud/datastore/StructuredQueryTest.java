@@ -51,7 +51,8 @@ public class StructuredQueryTest {
   private static final String DISTINCT_ON2 = "p7";
   private static final List<String> DISTINCT_ON = ImmutableList.of(DISTINCT_ON1, DISTINCT_ON2);
   private static final VectorValue VECTOR_VALUE = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
-  private static final FindNearest FIND_NEAREST = new FindNearest("vector_property", VECTOR_VALUE, FindNearest.DistanceMeasure.COSINE, 1);
+  private static final FindNearest FIND_NEAREST =
+      new FindNearest("vector_property", VECTOR_VALUE, FindNearest.DistanceMeasure.COSINE, 1);
   private static final EntityQuery ENTITY_QUERY =
       Query.newEntityQueryBuilder()
           .setNamespace(NAMESPACE)
@@ -157,8 +158,8 @@ public class StructuredQueryTest {
   @Test
   public void testToAndFromPb() {
     EntityQuery a = ENTITY_QUERY;
-    StructuredQuery<EntityQuery> pb = StructuredQuery.fromPb(
-            ResultType.ENTITY, ENTITY_QUERY.getNamespace(), ENTITY_QUERY.toPb());
+    StructuredQuery<EntityQuery> pb =
+        StructuredQuery.fromPb(ResultType.ENTITY, ENTITY_QUERY.getNamespace(), ENTITY_QUERY.toPb());
     assertEquals(
         ENTITY_QUERY,
         StructuredQuery.fromPb(
