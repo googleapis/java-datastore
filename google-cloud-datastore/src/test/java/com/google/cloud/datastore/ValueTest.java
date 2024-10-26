@@ -16,7 +16,6 @@
 
 package com.google.cloud.datastore;
 
-import static com.google.cloud.datastore.VectorValue.VECTOR_MEANING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -126,7 +125,13 @@ public class ValueTest {
   @Test
   public void testExcludeFromIndexes() {
     for (Map.Entry<ValueType, Value<?>> entry : typeToValue.entrySet()) {
-      assertFalse(entry.getValue().excludeFromIndexes());
+      if (entry.getKey() == ValueType.VECTOR)
+      {
+        assertTrue(entry.getValue().excludeFromIndexes());
+      }
+      else {
+        assertFalse(entry.getValue().excludeFromIndexes());
+      }
     }
     TestBuilder builder = new TestBuilder();
     assertFalse(builder.build().excludeFromIndexes());

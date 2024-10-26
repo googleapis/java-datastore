@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import static com.google.cloud.datastore.ProtoTestData.projection;
 import static com.google.cloud.datastore.ProtoTestData.propertyFilter;
 import static com.google.cloud.datastore.ProtoTestData.propertyOrder;
 import static com.google.cloud.datastore.ProtoTestData.propertyReference;
+import static com.google.cloud.datastore.ProtoTestData.FindNearest;
 import static com.google.cloud.datastore.Query.newEntityQueryBuilder;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.datastore.v1.PropertyFilter.Operator.EQUAL;
@@ -84,6 +85,15 @@ public class StructuredQueryProtoPreparerTest {
             newEntityQueryBuilder().setFilter(PropertyFilter.eq("done", true)).build());
 
     assertThat(queryProto.getFilter()).isEqualTo(propertyFilter("done", EQUAL, booleanValue(true)));
+  }
+
+  @Test
+  public void testFindNearest() {
+    VectorValue VECTOR_VALUE = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
+    FindNearest FIND_NEAREST = new FindNearest("vector_property", VECTOR_VALUE, FindNearest.DistanceMeasure.COSINE, 1);
+    Query queryProto = protoPreparer.prepare(newEntityQueryBuilder().setFindNearest(FIND_NEAREST).build());
+    assertThat(queryProto.getFindNearest())
+            .isEqualTo(FindNearest("vector_property", VECTOR_VALUE, FindNearest.DistanceMeasure.COSINE, 1));
   }
 
   @Test
