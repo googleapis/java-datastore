@@ -57,7 +57,7 @@ public interface Datastore extends Service<DatastoreOptions>, DatastoreReaderWri
      * @param readerWriter DatastoreReaderWriter associated with the new transaction
      * @return T The transaction result
      * @throws Exception upon failure
-   */
+     */
     T run(DatastoreReaderWriter readerWriter) throws Exception;
   }
 
