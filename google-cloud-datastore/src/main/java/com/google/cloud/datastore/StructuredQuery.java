@@ -917,7 +917,8 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
       for (com.google.datastore.v1.PropertyReference distinctOnPb : queryPb.getDistinctOnList()) {
         addDistinctOn(distinctOnPb.getName());
       }
-      if (queryPb.getFindNearest() != null && queryPb.getFindNearest() != com.google.datastore.v1.FindNearest.getDefaultInstance()) {
+      if (queryPb.getFindNearest() != null
+          && queryPb.getFindNearest() != com.google.datastore.v1.FindNearest.getDefaultInstance()) {
         setFindNearest(FindNearest.fromPb(queryPb.getFindNearest()));
       }
       return self();
