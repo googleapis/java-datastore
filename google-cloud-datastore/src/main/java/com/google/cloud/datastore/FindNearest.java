@@ -191,6 +191,7 @@ public final class FindNearest implements Serializable {
      * unit normalized vectors instead of COSINE distance, which is mathematically equivalent with
      * better performance.
      */
+    DISTANCE_MEASURE_UNSPECIFIED,
     COSINE,
     /** Measures the EUCLIDEAN distance between the vectors. */
     EUCLIDEAN,
