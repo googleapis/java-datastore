@@ -24,29 +24,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import com.google.cloud.Timestamp;
-import com.google.cloud.datastore.Cursor;
-import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.DatastoreException;
-import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.EntityQuery;
-import com.google.cloud.datastore.FullEntity;
-import com.google.cloud.datastore.IncompleteKey;
-import com.google.cloud.datastore.Key;
-import com.google.cloud.datastore.KeyFactory;
-import com.google.cloud.datastore.KeyQuery;
-import com.google.cloud.datastore.ListValue;
-import com.google.cloud.datastore.PathElement;
-import com.google.cloud.datastore.ProjectionEntity;
-import com.google.cloud.datastore.Query;
-import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.ReadOption;
-import com.google.cloud.datastore.StringValue;
-import com.google.cloud.datastore.StructuredQuery;
+import com.google.cloud.datastore.*;
 import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
-import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.testing.LocalDatastoreHelper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -399,6 +380,9 @@ public class ConceptsTest {
                 "description",
                 StringValue.newBuilder("Learn Cloud Datastore").setExcludeFromIndexes(true).build())
             .set("tag", "fun", "l", "programming", "learn")
+            .set(
+                    "vector_property",
+                    VectorValue.newBuilder(3.0, 1.0, 2.0).setExcludeFromIndexes(true).build())
             .build());
   }
 
@@ -714,6 +698,38 @@ public class ConceptsTest {
             .setOrderBy(OrderBy.asc("created"), OrderBy.asc("priority"))
             .build();
     // [END datastore_inequality_sort_invalid_not_first]
+    assertInvalidQuery(query);
+  }
+
+  @Test
+  public void testVectorSearch() {
+    setUpQueryTests();
+    VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
+    FindNearest vectorQuery =
+            new FindNearest(
+                    "vector_property", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
+
+    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
+    assertValidQuery(query);
+  }
+
+  @Test
+  public void testVectorSearchWithEmptyVector() {
+    setUpQueryTests();
+    VectorValue emptyVector = VectorValue.newBuilder().build();
+    FindNearest vectorQuery =
+            new FindNearest("vector_property", emptyVector, FindNearest.DistanceMeasure.EUCLIDEAN, 1);
+    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
+    assertInvalidQuery(query);
+  }
+
+  @Test
+  public void testVectorSearchWithUnmatchedVectorSize() {
+    setUpQueryTests();
+    VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88, 4.33).build();
+    FindNearest vectorQuery =
+            new FindNearest("vector_property", vectorValue, FindNearest.DistanceMeasure.DOT_PRODUCT, 1);
+    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
     assertInvalidQuery(query);
   }
 

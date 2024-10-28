@@ -26,24 +26,34 @@ import javax.annotation.Nullable;
 
 /**
  * A query that finds the entities whose vector fields are closest to a certain query vector. Create
- * an instance of `FindNearest` with {@link Query#findNearest}.
+ * an instance of `FindNearest` with {@link Query}.
  */
 public final class FindNearest implements Serializable {
 
+  /** An indexed vector property to search upon. */
   private final String vectorProperty;
+  /** The query vector that we are searching on. */
   private final VectorValue queryVector;
+  /** The Distance Measure to use, required. */
   private final DistanceMeasure measure;
+  /** The number of nearest neighbors to return. Must be a positive integer of no more than 100. */
   private final int limit;
-  /*
-  Optional. Optional name of the field to output the result of the vector
-     * distance calculation.
+
+  /**
+   * Optional. Optional name of the field to output the result of the vector distance calculation.
    */
   private final @Nullable String distanceResultField;
+
+  /**
+   * Optional. Option to specify a threshold for which no less similar documents will be returned.
+   * The behavior of the specified `distance_measure` will affect the meaning of the distance
+   * threshold.
+   */
   private final @Nullable Double distanceThreshold;
 
   private static final long serialVersionUID = 4688656124180403551L;
 
-  /** Creates a VectorQuery */
+  /** Creates a FindNearest query. */
   public FindNearest(
       String vectorProperty,
       VectorValue queryVector,
@@ -89,10 +99,10 @@ public final class FindNearest implements Serializable {
   }
 
   /**
-   * Returns true if this VectorQuery is equal to the provided object.
+   * Returns true if this FindNearest query is equal to the provided object.
    *
    * @param obj The object to compare against.
-   * @return Whether this VectorQuery is equal to the provided object.
+   * @return Whether this FindNearest query is equal to the provided object.
    */
   @Override
   public boolean equals(Object obj) {
@@ -179,19 +189,15 @@ public final class FindNearest implements Serializable {
     }
   }
 
-  /**
-   * The distance measure to use when comparing vectors in a {@link FindNearest query}.
-   *
-   * @see com.google.cloud.datastore.Query#findNearest
-   */
+  /** The distance measure to use when comparing vectors in a {@link FindNearest query}. */
   public enum DistanceMeasure {
+    DISTANCE_MEASURE_UNSPECIFIED,
     /**
      * COSINE distance compares vectors based on the angle between them, which allows you to measure
      * similarity that isn't based on the vectors' magnitude. We recommend using DOT_PRODUCT with
      * unit normalized vectors instead of COSINE distance, which is mathematically equivalent with
      * better performance.
      */
-    DISTANCE_MEASURE_UNSPECIFIED,
     COSINE,
     /** Measures the EUCLIDEAN distance between the vectors. */
     EUCLIDEAN,

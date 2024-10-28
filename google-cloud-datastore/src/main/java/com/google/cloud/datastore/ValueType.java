@@ -63,7 +63,7 @@ public enum ValueType {
   /** Represents a {@link LatLng} value. */
   LAT_LNG(LatLngValue.MARSHALLER),
 
-  /** Represents a {@link Vector} value. */
+  /** Represents a {@link VectorValue} value. */
   VECTOR(VectorValue.MARSHALLER);
 
   private static final ImmutableMap<Integer, ValueType> DESCRIPTOR_TO_TYPE_MAP;
