@@ -91,6 +91,6 @@ public interface Batch extends DatastoreBatchWriter {
    * Returns the batch associated {@link Datastore}.
    *
    * @return The batch associated datastore
-   * */
+   */
   Datastore getDatastore();
 }
