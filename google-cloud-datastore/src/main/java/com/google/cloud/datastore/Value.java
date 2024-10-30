@@ -218,6 +218,7 @@ public abstract class Value<V> implements Serializable {
     if (valueType == null) return RawValue.MARSHALLER.fromProto(proto).build();
 
     Value<?> returnValue = valueType.getMarshaller().fromProto(proto).build();
+    // If the proto  is a list of doubles with a meaning of 31, use the VectorValue marshaller.
     if (valueType == ValueType.LIST && proto.getMeaning() == VECTOR_MEANING) {
       for (com.google.datastore.v1.Value item : proto.getArrayValue().getValuesList()) {
         if (item.getValueTypeCase() != ValueTypeCase.DOUBLE_VALUE) {
