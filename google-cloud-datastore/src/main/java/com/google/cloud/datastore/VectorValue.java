@@ -142,6 +142,7 @@ public final class VectorValue extends Value<List<Value<Double>>> {
   /** Returns a builder for {@code VectorValue} objects. */
   public static Builder newBuilder() {
     Builder builder = new VectorValue.Builder();
+    builder.setExcludeFromIndexes(true);
     builder.setMeaning(VECTOR_MEANING);
     return builder;
   }
