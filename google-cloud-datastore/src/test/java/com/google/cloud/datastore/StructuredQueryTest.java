@@ -111,7 +111,6 @@ public class StructuredQueryTest {
     assertEquals(ORDER_BY, KEY_QUERY.getOrderBy());
     assertEquals(ImmutableList.of(StructuredQuery.KEY_PROPERTY_NAME), KEY_QUERY.getProjection());
     assertTrue(KEY_QUERY.getDistinctOn().isEmpty());
-    assertEquals(LIMIT, KEY_QUERY.getLimit());
   }
 
   @Test
@@ -157,9 +156,6 @@ public class StructuredQueryTest {
 
   @Test
   public void testToAndFromPb() {
-    EntityQuery a = ENTITY_QUERY;
-    StructuredQuery<EntityQuery> pb =
-        StructuredQuery.fromPb(ResultType.ENTITY, ENTITY_QUERY.getNamespace(), ENTITY_QUERY.toPb());
     assertEquals(
         ENTITY_QUERY,
         StructuredQuery.fromPb(

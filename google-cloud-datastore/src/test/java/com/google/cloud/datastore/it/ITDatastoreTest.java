@@ -2124,54 +2124,54 @@ public class ITDatastoreTest {
                 Key.newBuilder(PROJECT_ID, KIND1, "name-01", options.getDatabaseId()).build())
             .set(
                 "vector_property",
-                VectorValue.newBuilder(3.0, 1.0, 2.0).setExcludeFromIndexes(true).build())
+                VectorValue.newBuilder(3.0, 9.0, 11.1).setExcludeFromIndexes(true).build())
             .build();
-    datastore.put(entity1);
-
-    VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
-
-    // Query to find the nearest 1 neighbor
-    FindNearest vectorQuery =
-        new FindNearest(
-            "vector_property", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
-    Query<Entity> queryWithVectorSearch =
-        Query.newEntityQueryBuilder().setKind(KIND1).setFindNearest(vectorQuery).build();
-    QueryResults<Entity> vectorSearchResult = datastore.run(queryWithVectorSearch);
-    assertTrue(vectorSearchResult.hasNext());
-    assertEquals(entity1, vectorSearchResult.next());
-    assertFalse(vectorSearchResult.hasNext());
-
     Entity entity2 =
         Entity.newBuilder(
                 Key.newBuilder(PROJECT_ID, KIND1, "name-02", options.getDatabaseId()).build())
             .set(
                 "vector_property",
-                VectorValue.newBuilder(5.0, 0.7, 2.0).setExcludeFromIndexes(true).build())
+                VectorValue.newBuilder(2.8, 2.56, 3.8).setExcludeFromIndexes(true).build())
             .build();
     Entity entity3 =
         Entity.newBuilder(
                 Key.newBuilder(PROJECT_ID, KIND1, "name-03", options.getDatabaseId()).build())
             .set(
                 "vector_property",
-                VectorValue.newBuilder(2.0, 1.7, 1.0).setExcludeFromIndexes(true).build())
+                VectorValue.newBuilder(2.8, 2.56, 3.88).setExcludeFromIndexes(true).build())
             .build();
-    datastore.put(entity2, entity3);
+    datastore.put(entity1, entity2, entity3);
 
-    // Query to find the nearest 2 neighbors
-    FindNearest vectorQueryWithLimit =
+    // Query to find the nearest 2 neighbors with COSINE distance
+    FindNearest findNearestQuery =
+        new FindNearest(
+            "vector_property",
+            VectorValue.newBuilder(1.78, 2.56, 3.88).build(),
+            FindNearest.DistanceMeasure.COSINE,
+            2,
+            "distance");
+    Query<Entity> queryWithVectorSearch =
+        Query.newEntityQueryBuilder().setKind(KIND1).setFindNearest(findNearestQuery).build();
+    QueryResults<Entity> vectorSearchResult = datastore.run(queryWithVectorSearch);
+    List<Entity> resultsCopy = makeResultsCopy(vectorSearchResult);
+    // Should return nearest 2 neighbors
+    assertEquals(2, resultsCopy.size());
+
+    // Query to find the nearest neighbor with EUCLIDEAN distance
+    FindNearest findNearestWithLimit1 =
         new FindNearest(
             "vector_property",
             VectorValue.newBuilder(2.8, 2.56, 3.88).build(),
             FindNearest.DistanceMeasure.EUCLIDEAN,
-            2,
+            1,
             "distance");
-
-    Query<Entity> queryWithVectorSearchLimit =
-        Query.newEntityQueryBuilder().setKind(KIND1).setFindNearest(vectorQueryWithLimit).build();
-    QueryResults<Entity> resultsWithVectorLimit = datastore.run(queryWithVectorSearchLimit);
-    List<Entity> resultsCopy = makeResultsCopy(resultsWithVectorLimit);
-    assertEquals(2, resultsCopy.size());
-
+    Query<Entity> vectorQueryWithLimit1 =
+        Query.newEntityQueryBuilder().setKind(KIND1).setFindNearest(findNearestWithLimit1).build();
+    QueryResults<Entity> resultsWithVectorLimit1 = datastore.run(vectorQueryWithLimit1);
+    assertTrue(resultsWithVectorLimit1.hasNext());
+    // entity3 should be the nearest neighbor
+    assertEquals(entity3, resultsWithVectorLimit1.next());
+    assertFalse(resultsWithVectorLimit1.hasNext());
     datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
   }
 

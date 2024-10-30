@@ -29,7 +29,6 @@ public class VectorValueTest {
 
   @Test
   public void testToBuilder() {
-    //  StringValue value = StringValue.of(CONTENT);
     VectorValue value = VectorValue.of(0.3, 4.2, 3.7);
     assertEquals(value, value.toBuilder().build());
   }

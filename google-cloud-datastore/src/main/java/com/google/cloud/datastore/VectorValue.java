@@ -20,7 +20,9 @@ import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
 
-/** A Google Cloud Datastore Vector value. A list value is a list of {@link Value} objects. */
+/**
+ * A Google Cloud Datastore Vector value. A Vector value is a list of Double {@link Value} objects.
+ */
 public final class VectorValue extends Value<List<Value<Double>>> {
 
   private static final long serialVersionUID = -5121887228607148859L;
@@ -87,7 +89,7 @@ public final class VectorValue extends Value<List<Value<Double>>> {
     }
 
     /**
-     * Sets the list of values of this {@code ListValue} builder to {@code values}. The provided
+     * Sets the list of values of this {@code VectorValue} builder to {@code values}. The provided
      * list is copied.
      *
      * @see com.google.cloud.datastore.Value.BaseBuilder#set(java.lang.Object)
@@ -106,7 +108,7 @@ public final class VectorValue extends Value<List<Value<Double>>> {
       return vectorBuilder.build();
     }
 
-    /** Creates a {@code ListValue} object. */
+    /** Creates a {@code VectorValue} object. */
     @Override
     public VectorValue build() {
       return new VectorValue(this);
@@ -121,7 +123,7 @@ public final class VectorValue extends Value<List<Value<Double>>> {
     super(builder);
   }
 
-  /** Returns a builder for the list value object. */
+  /** Returns a builder for the vector value object. */
   @Override
   public Builder toBuilder() {
     return new Builder().mergeFrom(this);
@@ -137,10 +139,9 @@ public final class VectorValue extends Value<List<Value<Double>>> {
     return new VectorValue(values);
   }
 
-  /** Returns a builder for {@code ListValue} objects. */
+  /** Returns a builder for {@code VectorValue} objects. */
   public static Builder newBuilder() {
     Builder builder = new VectorValue.Builder();
-    builder.setExcludeFromIndexes(true);
     builder.setMeaning(VECTOR_MEANING);
     return builder;
   }
