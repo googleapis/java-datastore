@@ -734,33 +734,15 @@ public class ConceptsTest {
   @Test
   public void testVectorSearch() {
     setUpQueryTests();
+    // [START datastore_vector_search]
     VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
     FindNearest vectorQuery =
         new FindNearest(
             "vector_property", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
 
     Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
+    // [END datastore_vector_search]
     assertValidQuery(query);
-  }
-
-  @Test
-  public void testVectorSearchWithEmptyVector() {
-    setUpQueryTests();
-    VectorValue emptyVector = VectorValue.newBuilder().build();
-    FindNearest vectorQuery =
-        new FindNearest("vector_property", emptyVector, FindNearest.DistanceMeasure.EUCLIDEAN, 1);
-    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
-    assertInvalidQuery(query);
-  }
-
-  @Test
-  public void testVectorSearchWithUnmatchedVectorSize() {
-    setUpQueryTests();
-    VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88, 4.33).build();
-    FindNearest vectorQuery =
-        new FindNearest("vector_property", vectorValue, FindNearest.DistanceMeasure.DOT_PRODUCT, 1);
-    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
-    assertInvalidQuery(query);
   }
 
   @Test
