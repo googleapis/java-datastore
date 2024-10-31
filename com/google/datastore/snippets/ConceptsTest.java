@@ -732,20 +732,6 @@ public class ConceptsTest {
   }
 
   @Test
-  public void testVectorSearch() {
-    setUpQueryTests();
-    // [START datastore_vector_search]
-    VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
-    FindNearest vectorQuery =
-        new FindNearest(
-            "vector_property", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
-
-    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
-    // [END datastore_vector_search]
-    assertValidQuery(query);
-  }
-
-  @Test
   public void testLimit() {
     setUpQueryTests();
     // [START datastore_limit]
@@ -1211,5 +1197,19 @@ public class ConceptsTest {
     Entity result = results.next();
     // [END datastore_stale_read]
     assertValidQueryRealBackend(query);
+  }
+
+  @Test
+  public void testVectorSearch() {
+    setUpQueryTests();
+    // [START datastore_vector_search]
+    VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
+    FindNearest vectorQuery =
+            new FindNearest(
+                    "vector_property", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
+
+    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
+    // [END datastore_vector_search]
+    assertValidQuery(query);
   }
 }
