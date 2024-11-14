@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import com.google.api.core.InternalApi;
 import com.google.cloud.NoCredentials;
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.testing.BaseEmulatorHelper;
 import com.google.common.collect.ImmutableList;
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   private static final String GCLOUD_CMD_TEXT = "gcloud beta emulators datastore start";
   private static final String GCLOUD_CMD_PORT_FLAG = "--host-port=";
   private static final String VERSION_PREFIX = "cloud-datastore-emulator ";
-  private static final String MIN_VERSION = "2.0.2";
+  private static final String MIN_VERSION = "2.0.2"; // latest version compatible with java 8
 
   // Downloadable emulator settings
   private static final String BIN_NAME = "cloud-datastore-emulator/cloud_datastore_emulator";
@@ -213,6 +214,14 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
    */
   public DatastoreOptions getOptions(String namespace) {
     return optionsBuilder.setNamespace(namespace).build();
+  }
+
+  /**
+   * Returns a {@link DatastoreOptions} instance that sets the host to use the Datastore emulator on
+   * localhost. The transportOptions is set to {@code grpcTransportOptions}.
+   */
+  public DatastoreOptions getGrpcTransportOptions(GrpcTransportOptions grpcTransportOptions) {
+    return optionsBuilder.setTransportOptions(grpcTransportOptions).build();
   }
 
   public DatastoreOptions.Builder setNamespace(String namespace) {

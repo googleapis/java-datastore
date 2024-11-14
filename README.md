@@ -227,7 +227,7 @@ mvn clean install -DskipTests=true
 <dependency>
   <groupId>com.google.cloud</groupId>
   <artifactId>google-cloud-datastore</artifactId>
-  <version>2.20.0-grpc-experimental-1-SNAPSHOT</version>
+  <version>2.22.0-grpc-experimental-1-SNAPSHOT</version>
 </dependency>
 ```
 
