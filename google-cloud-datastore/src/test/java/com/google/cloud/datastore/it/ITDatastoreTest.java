@@ -674,7 +674,7 @@ public class ITDatastoreTest {
     Truth.assertThat(debugStats.get("index_entries_scanned"))
         .isEqualTo(expectedIndexEntriesScanned);
 
-    Duration executionDuration = executionStats.getExecutionDurationDuration();
+    Duration executionDuration = executionStats.getExecutionJavaTimeDuration();
     Truth.assertThat(executionDuration).isIn(Range.greaterThan(Duration.ofMillis(0)));
 
     long readOperations = executionStats.getReadOperations();
