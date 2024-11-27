@@ -53,14 +53,14 @@ public class ExecutionStats {
     return debugStats;
   }
 
-  /** This method is obsolete. Use {@link #getExecutionJavaTimeDuration()} instead. */
-  @ObsoleteApi("Use getExecutionJavaTimeDuration() instead")
+  /** This method is obsolete. Use {@link #getExecutionDurationJavaTime()} instead. */
+  @ObsoleteApi("Use getExecutionDurationJavaTime() instead")
   public org.threeten.bp.Duration getExecutionDuration() {
-    return toThreetenDuration(getExecutionJavaTimeDuration());
+    return toThreetenDuration(getExecutionDurationJavaTime());
   }
 
   /** Returns the total time to execute the query in the backend. */
-  public java.time.Duration getExecutionJavaTimeDuration() {
+  public java.time.Duration getExecutionDurationJavaTime() {
     return executionDuration;
   }
 
