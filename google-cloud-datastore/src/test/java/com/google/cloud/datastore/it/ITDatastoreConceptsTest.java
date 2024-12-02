@@ -156,9 +156,7 @@ public class ITDatastoreConceptsTest {
                 "description",
                 StringValue.newBuilder("Learn Cloud Datastore").setExcludeFromIndexes(true).build())
             .set("tag", "fun", "l", "programming", "learn")
-            .set(
-                "embedding_field",
-                VectorValue.newBuilder(3.0, 1.0, 2.0).build())
+            .set("embedding_field", VectorValue.newBuilder(3.0, 1.0, 2.0).build())
             .build());
   }
 
@@ -582,8 +580,8 @@ public class ITDatastoreConceptsTest {
         new FindNearest(
             "embedding_field", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
 
-    Query<Entity> query = Query.newEntityQueryBuilder()
-            .setKind(TASK_CONCEPTS).setFindNearest(vectorQuery).build();
+    Query<Entity> query =
+        Query.newEntityQueryBuilder().setKind(TASK_CONCEPTS).setFindNearest(vectorQuery).build();
     assertValidQuery(query);
   }
 
@@ -592,7 +590,8 @@ public class ITDatastoreConceptsTest {
     VectorValue emptyVector = VectorValue.newBuilder().build();
     FindNearest vectorQuery =
         new FindNearest("embedding_field", emptyVector, FindNearest.DistanceMeasure.EUCLIDEAN, 1);
-    Query<Entity> query = Query.newEntityQueryBuilder().setKind(TASK_CONCEPTS).setFindNearest(vectorQuery).build();
+    Query<Entity> query =
+        Query.newEntityQueryBuilder().setKind(TASK_CONCEPTS).setFindNearest(vectorQuery).build();
     assertInvalidQuery(query);
   }
 
@@ -601,7 +600,8 @@ public class ITDatastoreConceptsTest {
     VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88, 4.33).build();
     FindNearest vectorQuery =
         new FindNearest("embedding_field", vectorValue, FindNearest.DistanceMeasure.DOT_PRODUCT, 1);
-    Query<Entity> query = Query.newEntityQueryBuilder().setKind(TASK_CONCEPTS).setFindNearest(vectorQuery).build();
+    Query<Entity> query =
+        Query.newEntityQueryBuilder().setKind(TASK_CONCEPTS).setFindNearest(vectorQuery).build();
     assertInvalidQuery(query);
   }
 

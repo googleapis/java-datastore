@@ -149,7 +149,13 @@ public class ITDatastoreTest {
 
     PROJECT_ID = this.options.getProjectId();
     NAMESPACE = this.options.getNamespace();
-    System.out.println("Project: " + PROJECT_ID + ", Namespace: " + NAMESPACE + ", db: " + options.getDatabaseId());
+    System.out.println(
+        "Project: "
+            + PROJECT_ID
+            + ", Namespace: "
+            + NAMESPACE
+            + ", db: "
+            + options.getDatabaseId());
 
     ROOT_KEY =
         Key.newBuilder(PROJECT_ID, "rootkey", "default", options.getDatabaseId())
@@ -172,7 +178,8 @@ public class ITDatastoreTest {
         Key.newBuilder(options.getProjectId(), KIND2, 100, options.getDatabaseId())
             .setNamespace(NAMESPACE)
             .build();
-    VECTORKEY = Key.newBuilder(PROJECT_ID, VECTOR_KIND, "bean1", options.getDatabaseId())
+    VECTORKEY =
+        Key.newBuilder(PROJECT_ID, VECTOR_KIND, "bean1", options.getDatabaseId())
             .setNamespace(NAMESPACE)
             .build();
 
@@ -225,28 +232,21 @@ public class ITDatastoreTest {
             .set("partial2", ENTITY2)
             .build();
     VECTOR_ENTITY_1 =
-            Entity.newBuilder(VECTORKEY)
-                    .set("name", "Arabica")
-                    .set(
-                            "embedding_field",
-                            VectorValue.newBuilder(1.0, 7.0, 11.1).build())
-                    .build();
+        Entity.newBuilder(VECTORKEY)
+            .set("name", "Arabica")
+            .set("embedding_field", VectorValue.newBuilder(1.0, 7.0, 11.1).build())
+            .build();
     VECTOR_ENTITY_2 =
-            Entity.newBuilder(
-                            Key.newBuilder(VECTORKEY).setName("bean2").build())
-                    .set("name", "Robusta")
-                    .set(
-                            "embedding_field",
-                            VectorValue.newBuilder(1.0, 9.0, 11.1).build()).set("vector_distance", 0)
-                    .build();
+        Entity.newBuilder(Key.newBuilder(VECTORKEY).setName("bean2").build())
+            .set("name", "Robusta")
+            .set("embedding_field", VectorValue.newBuilder(1.0, 9.0, 11.1).build())
+            .set("vector_distance", 0)
+            .build();
     VECTOR_ENTITY_3 =
-            Entity.newBuilder(
-                            Key.newBuilder(VECTORKEY).setName("bean3").build())
-                    .set("name", "Excelsa")
-                    .set(
-                            "embedding_field",
-                            VectorValue.newBuilder(4.0, 9.0, 11.1).build())
-                    .build();
+        Entity.newBuilder(Key.newBuilder(VECTORKEY).setName("bean3").build())
+            .set("name", "Excelsa")
+            .set("embedding_field", VectorValue.newBuilder(4.0, 9.0, 11.1).build())
+            .build();
 
     Key aggregationKey1 = datastore.newKeyFactory().setKind(MARKS_KIND).newKey(1);
     Key aggregationKey2 = datastore.newKeyFactory().setKind(MARKS_KIND).newKey(2);
@@ -289,7 +289,7 @@ public class ITDatastoreTest {
   @Parameterized.Parameters(name = "database: {2}")
   public static Iterable<Object[]> data() {
     return Arrays.asList(
-            new Object[][] {{OPTIONS_1, DATASTORE_1, "default"}, {OPTIONS_2, DATASTORE_2, "test-db"}});
+        new Object[][] {{OPTIONS_1, DATASTORE_1, "default"}, {OPTIONS_2, DATASTORE_2, "test-db"}});
   }
 
   private <T> Iterator<T> getStronglyConsistentResults(Query scQuery, Query query)
@@ -2120,13 +2120,16 @@ public class ITDatastoreTest {
     datastore.put(VECTOR_ENTITY_1, VECTOR_ENTITY_2, VECTOR_ENTITY_3);
     // Test FindNearest query with limit
     FindNearest findNearestQueryWithLimit =
-            new FindNearest(
-                    "embedding_field",
-                    VectorValue.newBuilder(1, 9, 11.1).build(),
-                    FindNearest.DistanceMeasure.DOT_PRODUCT,
-                    3);
+        new FindNearest(
+            "embedding_field",
+            VectorValue.newBuilder(1, 9, 11.1).build(),
+            FindNearest.DistanceMeasure.DOT_PRODUCT,
+            3);
     Query<Entity> queryWithLimit =
-            Query.newEntityQueryBuilder().setKind(VECTOR_KIND).setFindNearest(findNearestQueryWithLimit).build();
+        Query.newEntityQueryBuilder()
+            .setKind(VECTOR_KIND)
+            .setFindNearest(findNearestQueryWithLimit)
+            .build();
 
     QueryResults<Entity> resultWithLimit = datastore.run(queryWithLimit);
 
@@ -2142,26 +2145,31 @@ public class ITDatastoreTest {
 
     VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
     FindNearest vectorQuery =
-            new FindNearest(
-                    "embedding_field", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
+        new FindNearest(
+            "embedding_field", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
 
     Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
 
-
     // Test FindNearest query with distanceThreshold
     FindNearest findNearestQueryWithThreshold =
-            new FindNearest(
-                    "embedding_field",
-                    VectorValue.newBuilder(1, 9, 11.1).build(),
-                    FindNearest.DistanceMeasure.EUCLIDEAN,
-                    3, "vector_distance", 2.0);
+        new FindNearest(
+            "embedding_field",
+            VectorValue.newBuilder(1, 9, 11.1).build(),
+            FindNearest.DistanceMeasure.EUCLIDEAN,
+            3,
+            "vector_distance",
+            2.0);
     Query<Entity> queryWithWithThreshold =
-            Query.newEntityQueryBuilder().setKind(VECTOR_KIND).setFindNearest(findNearestQueryWithThreshold).build();
+        Query.newEntityQueryBuilder()
+            .setKind(VECTOR_KIND)
+            .setFindNearest(findNearestQueryWithThreshold)
+            .build();
     QueryResults<Entity> resultWithThreshold = datastore.run(queryWithWithThreshold);
     List<Entity> resultsCopyWithThreshold = makeResultsCopy(resultWithThreshold);
     // Verify threshold was applied regardless of limit
     assertEquals(2, resultsCopyWithThreshold.size());
-    // Verify qualified EUCLIDEAN distance: d((1, 9, 11.1), (1, 9, 11.1)) = 0.0, d((1, 9, 11.1), (1, 7, 11.1)) = 2.0
+    // Verify qualified EUCLIDEAN distance: d((1, 9, 11.1), (1, 9, 11.1)) = 0.0, d((1, 9, 11.1), (1,
+    // 7, 11.1)) = 2.0
     assertEquals(DoubleValue.of(0.0), resultsCopyWithThreshold.get(0).getValue("vector_distance"));
     assertEquals(DoubleValue.of(2.0), resultsCopyWithThreshold.get(1).getValue("vector_distance"));
   }
@@ -2171,21 +2179,26 @@ public class ITDatastoreTest {
     datastore.put(VECTOR_ENTITY_1, VECTOR_ENTITY_2, VECTOR_ENTITY_3);
     // Test FindNearest query with distanceField
     FindNearest findNearestQueryWithDistanceField =
-            new FindNearest(
-                    "embedding_field",
-                    VectorValue.newBuilder(1, 9, 11.1).build(),
-                    FindNearest.DistanceMeasure.DOT_PRODUCT,
-                    3, "vector_distance", 0.0);
+        new FindNearest(
+            "embedding_field",
+            VectorValue.newBuilder(1, 9, 11.1).build(),
+            FindNearest.DistanceMeasure.DOT_PRODUCT,
+            3,
+            "vector_distance",
+            0.0);
     Query<Entity> queryWithWithDistanceField =
-            Query.newEntityQueryBuilder().setKind(VECTOR_KIND).setFindNearest(findNearestQueryWithDistanceField).build();
+        Query.newEntityQueryBuilder()
+            .setKind(VECTOR_KIND)
+            .setFindNearest(findNearestQueryWithDistanceField)
+            .build();
     QueryResults<Entity> resultWithDistanceField = datastore.run(queryWithWithDistanceField);
     List<Entity> resultsCopyWithDistanceField = makeResultsCopy(resultWithDistanceField);
     // Verify results count
     assertEquals(3, resultsCopyWithDistanceField.size());
-    for (int i = 0; i < resultsCopyWithDistanceField.size(); i++)
-    {
+    for (int i = 0; i < resultsCopyWithDistanceField.size(); i++) {
       // Verify distance field was not 0
-      assertNotEquals(DoubleValue.of(0.0), resultsCopyWithDistanceField.get(i).getValue("vector_distance"));
+      assertNotEquals(
+          DoubleValue.of(0.0), resultsCopyWithDistanceField.get(i).getValue("vector_distance"));
     }
   }
 
@@ -2238,7 +2251,7 @@ public class ITDatastoreTest {
       assertEquals(entity2, withReadTime.next());
       assertFalse(withReadTime.hasNext());
     } finally {
-    //  datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
+      //  datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
     }
   }
 

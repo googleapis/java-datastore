@@ -409,9 +409,7 @@ public class ConceptsTest {
                 "description",
                 StringValue.newBuilder("Learn Cloud Datastore").setExcludeFromIndexes(true).build())
             .set("tag", "fun", "l", "programming", "learn")
-            .set(
-                "vector_property",
-                VectorValue.newBuilder(3.0, 1.0, 2.0).build())
+            .set("vector_property", VectorValue.newBuilder(3.0, 1.0, 2.0).build())
             .build());
   }
 
@@ -1204,8 +1202,8 @@ public class ConceptsTest {
     // [START datastore_vector_search]
     VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
     FindNearest vectorQuery =
-            new FindNearest(
-                    "vector_property", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
+        new FindNearest(
+            "vector_property", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
 
     Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
     // [END datastore_vector_search]
