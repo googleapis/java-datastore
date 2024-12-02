@@ -39,12 +39,10 @@ public class VectorValueTest {
     assertEquals(
         ImmutableList.of(DoubleValue.of(0.3), DoubleValue.of(4.2), DoubleValue.of(3.7)),
         value.get());
-    assertTrue(value.excludeFromIndexes());
     assertEquals(31, value.getMeaning());
-    VectorValue value1 = VectorValue.of(vectorList);
-    assertEquals(vectorList, value1.get());
-    assertTrue(value1.excludeFromIndexes());
-    assertEquals(31, value1.getMeaning());
+    VectorValue vectorListValue = VectorValue.of(vectorList);
+    assertEquals(vectorList, vectorListValue.get());
+    assertEquals(31, vectorListValue.getMeaning());
   }
 
   @SuppressWarnings("deprecation")

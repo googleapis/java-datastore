@@ -39,7 +39,6 @@ public class BaseEntityTest {
   private static final VectorValue VECTOR =
       VectorValue.newBuilder(1.78, 2.56, 3.88)
           .setMeaning(VECTOR_MEANING)
-          .setExcludeFromIndexes(true)
           .build();
   private static final Key KEY = Key.newBuilder("ds1", "k1", "n1").build();
   private static final Entity ENTITY = Entity.newBuilder(KEY).set("name", "foo").build();

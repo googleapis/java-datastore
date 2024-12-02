@@ -157,8 +157,8 @@ public class ITDatastoreConceptsTest {
                 StringValue.newBuilder("Learn Cloud Datastore").setExcludeFromIndexes(true).build())
             .set("tag", "fun", "l", "programming", "learn")
             .set(
-                "vector_property",
-                VectorValue.newBuilder(3.0, 1.0, 2.0).setExcludeFromIndexes(true).build())
+                "embedding_field",
+                VectorValue.newBuilder(3.0, 1.0, 2.0).build())
             .build());
   }
 
@@ -580,9 +580,10 @@ public class ITDatastoreConceptsTest {
     VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
     FindNearest vectorQuery =
         new FindNearest(
-            "vector_property", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
+            "embedding_field", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
 
-    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
+    Query<Entity> query = Query.newEntityQueryBuilder()
+            .setKind(TASK_CONCEPTS).setFindNearest(vectorQuery).build();
     assertValidQuery(query);
   }
 
@@ -590,8 +591,8 @@ public class ITDatastoreConceptsTest {
   public void testVectorSearchWithEmptyVector() {
     VectorValue emptyVector = VectorValue.newBuilder().build();
     FindNearest vectorQuery =
-        new FindNearest("vector_property", emptyVector, FindNearest.DistanceMeasure.EUCLIDEAN, 1);
-    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
+        new FindNearest("embedding_field", emptyVector, FindNearest.DistanceMeasure.EUCLIDEAN, 1);
+    Query<Entity> query = Query.newEntityQueryBuilder().setKind(TASK_CONCEPTS).setFindNearest(vectorQuery).build();
     assertInvalidQuery(query);
   }
 
@@ -599,8 +600,8 @@ public class ITDatastoreConceptsTest {
   public void testVectorSearchWithUnmatchedVectorSize() {
     VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88, 4.33).build();
     FindNearest vectorQuery =
-        new FindNearest("vector_property", vectorValue, FindNearest.DistanceMeasure.DOT_PRODUCT, 1);
-    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
+        new FindNearest("embedding_field", vectorValue, FindNearest.DistanceMeasure.DOT_PRODUCT, 1);
+    Query<Entity> query = Query.newEntityQueryBuilder().setKind(TASK_CONCEPTS).setFindNearest(vectorQuery).build();
     assertInvalidQuery(query);
   }
 

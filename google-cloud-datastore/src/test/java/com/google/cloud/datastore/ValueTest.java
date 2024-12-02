@@ -125,11 +125,7 @@ public class ValueTest {
   @Test
   public void testExcludeFromIndexes() {
     for (Map.Entry<ValueType, Value<?>> entry : typeToValue.entrySet()) {
-      if (entry.getKey() == ValueType.VECTOR) {
-        assertTrue(entry.getValue().excludeFromIndexes());
-      } else {
-        assertFalse(entry.getValue().excludeFromIndexes());
-      }
+      assertFalse(entry.getValue().excludeFromIndexes());
     }
     TestBuilder builder = new TestBuilder();
     assertFalse(builder.build().excludeFromIndexes());

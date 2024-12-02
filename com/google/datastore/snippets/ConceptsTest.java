@@ -412,7 +412,7 @@ public class ConceptsTest {
             .set("tag", "fun", "l", "programming", "learn")
             .set(
                 "vector_property",
-                VectorValue.newBuilder(3.0, 1.0, 2.0).setExcludeFromIndexes(true).build())
+                VectorValue.newBuilder(3.0, 1.0, 2.0).build())
             .build());
   }
 
