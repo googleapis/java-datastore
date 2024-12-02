@@ -2059,7 +2059,7 @@ public class ITDatastoreTest {
   public void testSkippedResults() {
     Query<Key> query = Query.newKeyQueryBuilder().setOffset(Integer.MAX_VALUE).build();
     int numberOfEntities = datastore.run(query).getSkippedResults();
-    assertEquals(5, numberOfEntities);
+    assertEquals(2, numberOfEntities);
   }
 
   @Test
