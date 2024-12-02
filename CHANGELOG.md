@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.24.3](https://github.com/googleapis/java-datastore/compare/v2.24.2...v2.24.3) (2024-11-18)
+
+
+### Dependencies
+
+* Update sdk platform java dependencies ([#1662](https://github.com/googleapis/java-datastore/issues/1662)) ([b4d3ab9](https://github.com/googleapis/java-datastore/commit/b4d3ab9a72bb2a4dff59bf54abcc5d9536b2596b))
+
+## [2.24.2](https://github.com/googleapis/java-datastore/compare/v2.24.1...v2.24.2) (2024-11-06)
+
+
+### Bug Fixes
+
+* **doc:** Add discriptions for TransactionCallable interface ([#1644](https://github.com/googleapis/java-datastore/issues/1644)) ([173a883](https://github.com/googleapis/java-datastore/commit/173a88330cc5693f54504348cf39bf3191db2250))
+* **doc:** Fix return types for batch interface ([#1645](https://github.com/googleapis/java-datastore/issues/1645)) ([1189211](https://github.com/googleapis/java-datastore/commit/11892116f0fb8eacb711a8f48e780e48a232f987))
+
 ## [2.24.1](https://github.com/googleapis/java-datastore/compare/v2.24.0...v2.24.1) (2024-10-28)
 
 
