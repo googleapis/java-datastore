@@ -21,8 +21,8 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.api.gax.retrying.RetrySettings;
 import com.google.api.gax.rpc.UnaryCallSettings;
 import com.google.cloud.datastore.DatastoreOptions;
-import org.junit.Test;
 import java.time.Duration;
+import org.junit.Test;
 
 public class RpcUtilsTest {
 
