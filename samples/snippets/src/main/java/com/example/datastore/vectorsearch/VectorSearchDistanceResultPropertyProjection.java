@@ -20,11 +20,11 @@ package com.example.datastore.vectorsearch;
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.FindNearest;
+import com.google.cloud.datastore.ProjectionEntity;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.ProjectionEntity;
 import com.google.cloud.datastore.VectorValue;
-import com.google.cloud.datastore.FindNearest;
 
 public class VectorSearchDistanceResultPropertyProjection {
   public static void invoke() throws Exception {
@@ -33,15 +33,17 @@ public class VectorSearchDistanceResultPropertyProjection {
 
     // Create vector search query with projection
     Query<ProjectionEntity> vectorSearchQuery =
-            Query.newProjectionEntityQueryBuilder()
-                    .setKind("CoffeeBean")
-                    .setFindNearest(new FindNearest(
-                            "embedding_field",
-                            VectorValue.newBuilder(1, 9, 11.1).build(),
-                            FindNearest.DistanceMeasure.DOT_PRODUCT,
-                            3, "vector_distance"))
-                    .setProjection("vector_distance")
-                    .build();
+        Query.newProjectionEntityQueryBuilder()
+            .setKind("CoffeeBean")
+            .setFindNearest(
+                new FindNearest(
+                    "embedding_field",
+                    VectorValue.newBuilder(1, 9, 11.1).build(),
+                    FindNearest.DistanceMeasure.DOT_PRODUCT,
+                    3,
+                    "vector_distance"))
+            .setProjection("vector_distance")
+            .build();
 
     // Execute vector search query
     QueryResults<ProjectionEntity> results = datastore.run(vectorSearchQuery);
@@ -52,7 +54,9 @@ public class VectorSearchDistanceResultPropertyProjection {
 
     while (results.hasNext()) {
       ProjectionEntity entity = results.next();
-      System.out.printf("Entity: %s, Distance: %s%n", entity.getKey().getName(), entity.getDouble("vector_distance"));
+      System.out.printf(
+          "Entity: %s, Distance: %s%n",
+          entity.getKey().getName(), entity.getDouble("vector_distance"));
     }
   }
 }

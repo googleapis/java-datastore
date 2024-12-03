@@ -18,16 +18,16 @@ package com.example.datastore.vectorsearch;
 
 // [START datastore_vector_search_large_response]
 
-import com.google.common.collect.Iterators;
-import java.util.Iterator;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.FindNearest;
+import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.VectorValue;
-import com.google.cloud.datastore.FindNearest;
+import com.google.common.collect.Iterators;
+import java.util.Iterator;
 
 public class VectorSearchLargeResponse {
   public static void invoke() throws Exception {
@@ -36,14 +36,17 @@ public class VectorSearchLargeResponse {
 
     // Create a keys-only vector search query
     Query<Key> vectorSearchKeyOnlyQuery =
-            Query.newKeyQueryBuilder()
-                    .setKind("CoffeeBean")
-                    .setFindNearest(new FindNearest(
-                            "embedding_field",
-                            VectorValue.newBuilder(1, 9, 11.1).build(),
-                            FindNearest.DistanceMeasure.EUCLIDEAN,
-                            3, "vector_distance", 2.0))
-                    .build();
+        Query.newKeyQueryBuilder()
+            .setKind("CoffeeBean")
+            .setFindNearest(
+                new FindNearest(
+                    "embedding_field",
+                    VectorValue.newBuilder(1, 9, 11.1).build(),
+                    FindNearest.DistanceMeasure.EUCLIDEAN,
+                    3,
+                    "vector_distance",
+                    2.0))
+            .build();
 
     QueryResults<Key> keyResults = datastore.run(vectorSearchKeyOnlyQuery);
     Key[] keys = Iterators.toArray(keyResults, Key.class);
@@ -58,7 +61,9 @@ public class VectorSearchLargeResponse {
     // Combine and print results
     while (keyResults.hasNext()) {
       Key keyResult = keyResults.next();
-      System.out.printf("Entity: %s, Distance: %s%n", keyResult.getName(), entities.next().getDouble("vector_distance"));
+      System.out.printf(
+          "Entity: %s, Distance: %s%n",
+          keyResult.getName(), entities.next().getDouble("vector_distance"));
     }
   }
 }
