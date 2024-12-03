@@ -29,9 +29,9 @@ import com.google.cloud.datastore.StructuredQuery;
 import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.cloud.http.HttpTransportOptions;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
+import java.time.Duration;
 import java.util.UUID;
 import javax.annotation.Nullable;
-import org.threeten.bp.Duration;
 
 /**
  * Utility to create a remote datastore configuration for testing. Datastore options can be obtained

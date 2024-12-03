@@ -19,12 +19,12 @@ package com.google.cloud.datastore;
 import com.google.cloud.datastore.testing.LocalDatastoreHelper;
 import com.google.cloud.grpc.GrpcTransportOptions;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Arrays;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.threeten.bp.Duration;
 
 @RunWith(Parameterized.class)
 public class DatastoreTestHttp extends AbstractDatastoreTest {
@@ -52,6 +52,6 @@ public class DatastoreTestHttp extends AbstractDatastoreTest {
 
   @AfterClass
   public static void afterClass() throws Exception {
-    helper.stop(Duration.ofMinutes(1));
+    helper.stopDuration(Duration.ofMinutes(1));
   }
 }
