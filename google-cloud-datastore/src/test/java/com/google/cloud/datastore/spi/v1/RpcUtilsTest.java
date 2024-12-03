@@ -40,9 +40,9 @@ public class RpcUtilsTest {
     // datastoreOptions with custom retry settings
     RetrySettings customRetrySettings =
         RetrySettings.newBuilder()
-            .setTotalTimeoutDuraion(Duration.ofMinutes(2))
-            .setInitialRpcTimeoutDuraion(Duration.ofSeconds(5))
-            .setMaxRpcTimeoutDuraion(Duration.ofSeconds(10))
+            .setTotalTimeoutDuration(Duration.ofMinutes(2))
+            .setInitialRpcTimeoutDuration(Duration.ofSeconds(5))
+            .setMaxRpcTimeoutDuration(Duration.ofSeconds(10))
             .setRetryDelayMultiplier(1.5)
             .setMaxAttempts(5)
             .build();
