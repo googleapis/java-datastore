@@ -212,13 +212,13 @@ In this feature launch, the [Java Datastore client](https://github.com/googleapi
 The client can be built from the `grpc-experimental` branch on GitHub. For private preview, you can also download the artifact with the instructions provided below.
 
 1. Download the datastore private preview package with dependencies:
-  ```python
-  https://datastore-sdk-feature-release.web.app/google-cloud-datastore-2.20.0-grpc-experimental-1-SNAPSHOT-jar-with-dependencies.jar
-  ```
+```
+curl -o <path-to-downloaded-jar>  https://datastore-sdk-feature-release.web.app/google-cloud-datastore-2.20.0-grpc-experimental-1-SNAPSHOT-jar-with-dependencies.jar
+```
 2. Run the following commands to install JDK locally:
-  ```python
-  mvn install:install-file -Dfile=<path-to-downloaded-jar> -DgroupId=com.google.cloud -DartifactId=google-cloud-datastore -Dversion=2.20.0-grpc
-  ```
+```
+mvn install:install-file -Dfile=<path-to-downloaded-jar> -DgroupId=com.google.cloud -DartifactId=google-cloud-datastore -Dversion=2.20.0-grpc
+```
 3. Edit your pom.xml to add above package to `<dependencies/>` section:
   ```xml
   <dependency>
@@ -292,7 +292,7 @@ The default connection pool size is right for most applications, and in most cas
 
 However sometimes you may want to change your connection pool size due to high throughput or buffered requests. Ideally, to leave room for traffic fluctuations, a connection pool has about twice the number of connections it takes for maximum saturation. Because a connection can handle a maximum of 100 concurrent requests, between 10 and 50 outstanding requests per connection is optimal. The limit of 100 concurrent streams per gRPC connection is enforced in Google's middleware layer, and you are not able to reconfigure this number.
 
-The following steps help you calculate the optimal number of connections in your channel pool using client-side metrics such as those available from [OpenCensus](https://opencensus.io/guides/grpc/java/#examining-metrics).
+The following steps help you calculate the optimal number of connections in your channel pool using client-side metrics.
 
 From your client-side metrics, gather the following information:
 
@@ -305,8 +305,8 @@ From your client-side metrics, gather the following information:
 
 These steps are expressed in the following equations:
 ```java
-(QPS sec ÷ (1,000 ÷ latency ms)) ÷ 50 streams = Minimum optimal number of connections
-(QPS sec ÷ (1,000 ÷ latency ms)) ÷ 10 streams = Maximum optimal number of connections
+(QPS ÷ (1,000 ÷ latency ms)) ÷ 50 streams = Minimum optimal number of connections
+(QPS ÷ (1,000 ÷ latency ms)) ÷ 10 streams = Maximum optimal number of connections
 ```
 
 ###### Example
