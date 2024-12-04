@@ -194,9 +194,9 @@ custom_content: |
   
   However sometimes you may want to change your connection pool size due to high throughput or buffered requests. Ideally, to leave room for traffic fluctuations, a connection pool has about twice the number of connections it takes for maximum saturation. Because a connection can handle a maximum of 100 concurrent requests, between 10 and 50 outstanding requests per connection is optimal. The limit of 100 concurrent streams per gRPC connection is enforced in Google's middleware layer, and you are not able to reconfigure this number.
   
-  The following steps help you calculate the optimal number of connections in your channel pool using client-side metrics.
+  The following steps help you calculate the optimal number of connections in your channel pool using estimate per-client QPS and average latency numbers.
 
-  From your client-side metrics, gather the following information:
+  To calculate the optimal connections, gather the following information:
 
   1. The maximum number of queries per second (QPS) per client when your application is running a typical workload.
   2. The average latency (the response time for a single request) in ms.
