@@ -212,29 +212,29 @@ In this feature launch, the [Java Datastore client](https://github.com/googleapi
 The client can be built from the `grpc-experimental` branch on GitHub. For private preview, you can also download the artifact with the instructions provided below.
 
 1. Download the datastore private preview package with dependencies:
-```python
-https://datastore-sdk-feature-release.web.app/google-cloud-datastore-2.20.0-grpc-experimental-1-SNAPSHOT-jar-with-dependencies.jar
-```
+  ```python
+  https://datastore-sdk-feature-release.web.app/google-cloud-datastore-2.20.0-grpc-experimental-1-SNAPSHOT-jar-with-dependencies.jar
+  ```
 2. Run the following commands to install JDK locally:
-```python
-mvn install:install-file -Dfile=<path-to-downloaded-jar> -DgroupId=com.google.cloud -DartifactId=google-cloud-datastore -Dversion=2.20.0-grpc
-```
+  ```python
+  mvn install:install-file -Dfile=<path-to-downloaded-jar> -DgroupId=com.google.cloud -DartifactId=google-cloud-datastore -Dversion=2.20.0-grpc
+  ```
 3. Edit your pom.xml to add above package to `<dependencies/>` section:
-```xml
-<dependency>
+  ```xml
+  <dependency>
   <groupId>com.google.cloud</groupId>
   <artifactId>google-cloud-datastore</artifactId>
   <version>2.20.0-grpc-experimental-1-SNAPSHOT</version>
-</dependency>
-```
+  </dependency>
+  ```
 
 And if you have not yet, add below to `<repositories/>` section:
-```xml
-<repository>
-   <id>local-repo</id>
-   <url>file://${user.home}/.m2/repository</url>
-</repository>
-```
+  ```xml
+  <repository>
+  <id>local-repo</id>
+  <url>file://${user.home}/.m2/repository</url>
+  </repository>
+  ```
 
 #### How to Use
 To opt-in to the gRPC transport behavior, simply add the below line of code (`setTransportOptions`) to your Datastore client instantiation.
@@ -286,7 +286,7 @@ There are new gRPC specific features available to use in this update.
 
 ##### Connection Pool
 A connection pool, also known as a channel pool, is a cache of database connections that are shared and reused to improve connection latency and performance. With this update, now you will be able to configure the channel pool to improve application performance. This section guides you in determining the optimal connection pool size and configuring it within the Java datastore client.
-To customize the number of channels your client uses, you can update the channel provider in the DatastoreOptions. 
+To customize the number of channels your client uses, you can update the channel provider in the DatastoreOptions.
 ###### Determine the best connection pool size
 The default connection pool size is right for most applications, and in most cases there's no need to change it.
 
@@ -310,12 +310,15 @@ These steps are expressed in the following equations:
 ```
 
 ###### Example
-Your application typically sends 50,000 requests per second, and the average latency is 10 ms. Divide 1,000 by 10 ms to determine that you can send 100 requests serially per second. Divide that number into 50,000 to get the parallelism needed to send 50,000 QPS: 500. Each channel can have at most 100 requests out concurrently, and your target channel utilization is between 10 and 50 concurrent streams. Therefore, to calculate the minimum, divide 500 by 50 to get 10. To find the maximum, divide 500 by 10 to get 50. This means that your channel pool size for this example should be between 10 and 50 connections.
+Your application typically sends 50,000 requests per second, and the average latency is 10 ms. Divide 1,000 by 10 ms to determine that you can send 100 requests serially per second.
+Divide that number into 50,000 to get the parallelism needed to send 50,000 QPS: 500. Each channel can have at most 100 requests out concurrently, and your target channel utilization
+is between 10 and 50 concurrent streams. Therefore, to calculate the minimum, divide 500 by 50 to get 10. To find the maximum, divide 500 by 10 to get 50. This means that your channel
+pool size for this example should be between 10 and 50 connections.
 
 It is also important to monitor your traffic after making changes and adjust the number of connections in your pool if necessary.
 
 ###### Set the pool size
-The following code sample demonstrates how to configure the channel pool in the client libraries using `DatastoreOptions`. 
+The following code sample demonstrates how to configure the channel pool in the client libraries using `DatastoreOptions`.
 See [ChannelPoolSettings](https://cloud.google.com/java/docs/reference/gax/latest/com.google.api.gax.grpc.ChannelPoolSettings) and [Performance Best Practices](https://grpc.io/docs/guides/performance/) for more information on channel pools and best practices for performance.
 
 Code Example
