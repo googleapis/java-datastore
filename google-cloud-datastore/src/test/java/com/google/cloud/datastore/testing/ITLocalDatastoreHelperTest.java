@@ -36,6 +36,7 @@ import com.google.cloud.http.HttpTransportOptions;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.concurrent.TimeoutException;
 import org.junit.After;
 import org.junit.Assert;
@@ -43,7 +44,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.threeten.bp.Duration;
 
 @RunWith(JUnit4.class)
 public class ITLocalDatastoreHelperTest {
@@ -199,7 +199,7 @@ public class ITLocalDatastoreHelperTest {
       assertNotNull(datastore.get(key));
       helper.reset();
       assertNull(datastore.get(key));
-      helper.stop(Duration.ofMinutes(1));
+      helper.stopDuration(Duration.ofMinutes(1));
       datastore.get(key);
       Assert.fail();
     } catch (DatastoreException ex) {
@@ -219,7 +219,7 @@ public class ITLocalDatastoreHelperTest {
       assertNotNull(datastore.get(key));
       helper.reset();
       assertNull(datastore.get(key));
-      helper.stop(Duration.ofMinutes(1));
+      helper.stopDuration(Duration.ofMinutes(1));
       datastore.get(key);
       Assert.fail();
     } catch (DatastoreException ex) {

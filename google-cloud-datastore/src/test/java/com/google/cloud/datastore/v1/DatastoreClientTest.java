@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,12 +32,15 @@ import com.google.datastore.v1.BeginTransactionResponse;
 import com.google.datastore.v1.CommitRequest;
 import com.google.datastore.v1.CommitResponse;
 import com.google.datastore.v1.EntityResult;
+import com.google.datastore.v1.ExplainMetrics;
+import com.google.datastore.v1.ExplainOptions;
 import com.google.datastore.v1.Key;
 import com.google.datastore.v1.LookupRequest;
 import com.google.datastore.v1.LookupResponse;
 import com.google.datastore.v1.Mutation;
 import com.google.datastore.v1.MutationResult;
 import com.google.datastore.v1.PartitionId;
+import com.google.datastore.v1.PropertyMask;
 import com.google.datastore.v1.Query;
 import com.google.datastore.v1.QueryResultBatch;
 import com.google.datastore.v1.ReadOptions;
@@ -159,6 +162,7 @@ public class DatastoreClientTest {
             .setBatch(QueryResultBatch.newBuilder().build())
             .setQuery(Query.newBuilder().build())
             .setTransaction(ByteString.EMPTY)
+            .setExplainMetrics(ExplainMetrics.newBuilder().build())
             .build();
     mockDatastore.addResponse(expectedResponse);
 
@@ -168,6 +172,8 @@ public class DatastoreClientTest {
             .setDatabaseId("databaseId1688905718")
             .setPartitionId(PartitionId.newBuilder().build())
             .setReadOptions(ReadOptions.newBuilder().build())
+            .setPropertyMask(PropertyMask.newBuilder().build())
+            .setExplainOptions(ExplainOptions.newBuilder().build())
             .build();
 
     RunQueryResponse actualResponse = client.runQuery(request);
@@ -183,6 +189,8 @@ public class DatastoreClientTest {
     Assert.assertEquals(request.getReadOptions(), actualRequest.getReadOptions());
     Assert.assertEquals(request.getQuery(), actualRequest.getQuery());
     Assert.assertEquals(request.getGqlQuery(), actualRequest.getGqlQuery());
+    Assert.assertEquals(request.getPropertyMask(), actualRequest.getPropertyMask());
+    Assert.assertEquals(request.getExplainOptions(), actualRequest.getExplainOptions());
     Assert.assertTrue(
         channelProvider.isHeaderSent(
             ApiClientHeaderProvider.getDefaultApiClientHeaderKey(),
@@ -201,6 +209,8 @@ public class DatastoreClientTest {
               .setDatabaseId("databaseId1688905718")
               .setPartitionId(PartitionId.newBuilder().build())
               .setReadOptions(ReadOptions.newBuilder().build())
+              .setPropertyMask(PropertyMask.newBuilder().build())
+              .setExplainOptions(ExplainOptions.newBuilder().build())
               .build();
       client.runQuery(request);
       Assert.fail("No exception raised");
@@ -216,6 +226,7 @@ public class DatastoreClientTest {
             .setBatch(AggregationResultBatch.newBuilder().build())
             .setQuery(AggregationQuery.newBuilder().build())
             .setTransaction(ByteString.EMPTY)
+            .setExplainMetrics(ExplainMetrics.newBuilder().build())
             .build();
     mockDatastore.addResponse(expectedResponse);
 
@@ -225,6 +236,7 @@ public class DatastoreClientTest {
             .setDatabaseId("databaseId1688905718")
             .setPartitionId(PartitionId.newBuilder().build())
             .setReadOptions(ReadOptions.newBuilder().build())
+            .setExplainOptions(ExplainOptions.newBuilder().build())
             .build();
 
     RunAggregationQueryResponse actualResponse = client.runAggregationQuery(request);
@@ -240,6 +252,7 @@ public class DatastoreClientTest {
     Assert.assertEquals(request.getReadOptions(), actualRequest.getReadOptions());
     Assert.assertEquals(request.getAggregationQuery(), actualRequest.getAggregationQuery());
     Assert.assertEquals(request.getGqlQuery(), actualRequest.getGqlQuery());
+    Assert.assertEquals(request.getExplainOptions(), actualRequest.getExplainOptions());
     Assert.assertTrue(
         channelProvider.isHeaderSent(
             ApiClientHeaderProvider.getDefaultApiClientHeaderKey(),
@@ -258,6 +271,7 @@ public class DatastoreClientTest {
               .setDatabaseId("databaseId1688905718")
               .setPartitionId(PartitionId.newBuilder().build())
               .setReadOptions(ReadOptions.newBuilder().build())
+              .setExplainOptions(ExplainOptions.newBuilder().build())
               .build();
       client.runAggregationQuery(request);
       Assert.fail("No exception raised");

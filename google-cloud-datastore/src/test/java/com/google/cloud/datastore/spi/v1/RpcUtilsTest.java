@@ -21,8 +21,8 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.api.gax.retrying.RetrySettings;
 import com.google.api.gax.rpc.UnaryCallSettings;
 import com.google.cloud.datastore.DatastoreOptions;
+import java.time.Duration;
 import org.junit.Test;
-import org.threeten.bp.Duration;
 
 public class RpcUtilsTest {
 
@@ -40,9 +40,9 @@ public class RpcUtilsTest {
     // datastoreOptions with custom retry settings
     RetrySettings customRetrySettings =
         RetrySettings.newBuilder()
-            .setTotalTimeout(Duration.ofMinutes(2))
-            .setInitialRpcTimeout(Duration.ofSeconds(5))
-            .setMaxRpcTimeout(Duration.ofSeconds(10))
+            .setTotalTimeoutDuration(Duration.ofMinutes(2))
+            .setInitialRpcTimeoutDuration(Duration.ofSeconds(5))
+            .setMaxRpcTimeoutDuration(Duration.ofSeconds(10))
             .setRetryDelayMultiplier(1.5)
             .setMaxAttempts(5)
             .build();

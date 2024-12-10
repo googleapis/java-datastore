@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,19 +73,151 @@ import javax.annotation.Generated;
  * <p>Note: close() needs to be called on the DatastoreClient object to clean up resources such as
  * threads. In the example above, try-with-resources is used, which automatically calls close().
  *
- * <p>The surface of this class includes several types of Java methods for each of the API's
- * methods:
- *
- * <ol>
- *   <li>A "flattened" method. With this type of method, the fields of the request type have been
- *       converted into function parameters. It may be the case that not all fields are available as
- *       parameters, and not every API method will have a flattened method entry point.
- *   <li>A "request object" method. This type of method only takes one parameter, a request object,
- *       which must be constructed before the call. Not every API method will have a request object
- *       method.
- *   <li>A "callable" method. This type of method takes no parameters and returns an immutable API
- *       callable object, which can be used to initiate calls to the service.
- * </ol>
+ * <table>
+ *    <caption>Methods</caption>
+ *    <tr>
+ *      <th>Method</th>
+ *      <th>Description</th>
+ *      <th>Method Variants</th>
+ *    </tr>
+ *    <tr>
+ *      <td><p> Lookup</td>
+ *      <td><p> Looks up entities by key.</td>
+ *      <td>
+ *      <p>Request object method variants only take one parameter, a request object, which must be constructed before the call.</p>
+ *      <ul>
+ *           <li><p> lookup(LookupRequest request)
+ *      </ul>
+ *      <p>"Flattened" method variants have converted the fields of the request object into function parameters to enable multiple ways to call the same method.</p>
+ *      <ul>
+ *           <li><p> lookup(String projectId, ReadOptions readOptions, List&lt;Key&gt; keys)
+ *      </ul>
+ *      <p>Callable method variants take no parameters and return an immutable API callable object, which can be used to initiate calls to the service.</p>
+ *      <ul>
+ *           <li><p> lookupCallable()
+ *      </ul>
+ *       </td>
+ *    </tr>
+ *    <tr>
+ *      <td><p> RunQuery</td>
+ *      <td><p> Queries for entities.</td>
+ *      <td>
+ *      <p>Request object method variants only take one parameter, a request object, which must be constructed before the call.</p>
+ *      <ul>
+ *           <li><p> runQuery(RunQueryRequest request)
+ *      </ul>
+ *      <p>Callable method variants take no parameters and return an immutable API callable object, which can be used to initiate calls to the service.</p>
+ *      <ul>
+ *           <li><p> runQueryCallable()
+ *      </ul>
+ *       </td>
+ *    </tr>
+ *    <tr>
+ *      <td><p> RunAggregationQuery</td>
+ *      <td><p> Runs an aggregation query.</td>
+ *      <td>
+ *      <p>Request object method variants only take one parameter, a request object, which must be constructed before the call.</p>
+ *      <ul>
+ *           <li><p> runAggregationQuery(RunAggregationQueryRequest request)
+ *      </ul>
+ *      <p>Callable method variants take no parameters and return an immutable API callable object, which can be used to initiate calls to the service.</p>
+ *      <ul>
+ *           <li><p> runAggregationQueryCallable()
+ *      </ul>
+ *       </td>
+ *    </tr>
+ *    <tr>
+ *      <td><p> BeginTransaction</td>
+ *      <td><p> Begins a new transaction.</td>
+ *      <td>
+ *      <p>Request object method variants only take one parameter, a request object, which must be constructed before the call.</p>
+ *      <ul>
+ *           <li><p> beginTransaction(BeginTransactionRequest request)
+ *      </ul>
+ *      <p>"Flattened" method variants have converted the fields of the request object into function parameters to enable multiple ways to call the same method.</p>
+ *      <ul>
+ *           <li><p> beginTransaction(String projectId)
+ *      </ul>
+ *      <p>Callable method variants take no parameters and return an immutable API callable object, which can be used to initiate calls to the service.</p>
+ *      <ul>
+ *           <li><p> beginTransactionCallable()
+ *      </ul>
+ *       </td>
+ *    </tr>
+ *    <tr>
+ *      <td><p> Commit</td>
+ *      <td><p> Commits a transaction, optionally creating, deleting or modifying some entities.</td>
+ *      <td>
+ *      <p>Request object method variants only take one parameter, a request object, which must be constructed before the call.</p>
+ *      <ul>
+ *           <li><p> commit(CommitRequest request)
+ *      </ul>
+ *      <p>"Flattened" method variants have converted the fields of the request object into function parameters to enable multiple ways to call the same method.</p>
+ *      <ul>
+ *           <li><p> commit(String projectId, CommitRequest.Mode mode, List&lt;Mutation&gt; mutations)
+ *           <li><p> commit(String projectId, CommitRequest.Mode mode, ByteString transaction, List&lt;Mutation&gt; mutations)
+ *      </ul>
+ *      <p>Callable method variants take no parameters and return an immutable API callable object, which can be used to initiate calls to the service.</p>
+ *      <ul>
+ *           <li><p> commitCallable()
+ *      </ul>
+ *       </td>
+ *    </tr>
+ *    <tr>
+ *      <td><p> Rollback</td>
+ *      <td><p> Rolls back a transaction.</td>
+ *      <td>
+ *      <p>Request object method variants only take one parameter, a request object, which must be constructed before the call.</p>
+ *      <ul>
+ *           <li><p> rollback(RollbackRequest request)
+ *      </ul>
+ *      <p>"Flattened" method variants have converted the fields of the request object into function parameters to enable multiple ways to call the same method.</p>
+ *      <ul>
+ *           <li><p> rollback(String projectId, ByteString transaction)
+ *      </ul>
+ *      <p>Callable method variants take no parameters and return an immutable API callable object, which can be used to initiate calls to the service.</p>
+ *      <ul>
+ *           <li><p> rollbackCallable()
+ *      </ul>
+ *       </td>
+ *    </tr>
+ *    <tr>
+ *      <td><p> AllocateIds</td>
+ *      <td><p> Allocates IDs for the given keys, which is useful for referencing an entity before it is inserted.</td>
+ *      <td>
+ *      <p>Request object method variants only take one parameter, a request object, which must be constructed before the call.</p>
+ *      <ul>
+ *           <li><p> allocateIds(AllocateIdsRequest request)
+ *      </ul>
+ *      <p>"Flattened" method variants have converted the fields of the request object into function parameters to enable multiple ways to call the same method.</p>
+ *      <ul>
+ *           <li><p> allocateIds(String projectId, List&lt;Key&gt; keys)
+ *      </ul>
+ *      <p>Callable method variants take no parameters and return an immutable API callable object, which can be used to initiate calls to the service.</p>
+ *      <ul>
+ *           <li><p> allocateIdsCallable()
+ *      </ul>
+ *       </td>
+ *    </tr>
+ *    <tr>
+ *      <td><p> ReserveIds</td>
+ *      <td><p> Prevents the supplied keys' IDs from being auto-allocated by Cloud Datastore.</td>
+ *      <td>
+ *      <p>Request object method variants only take one parameter, a request object, which must be constructed before the call.</p>
+ *      <ul>
+ *           <li><p> reserveIds(ReserveIdsRequest request)
+ *      </ul>
+ *      <p>"Flattened" method variants have converted the fields of the request object into function parameters to enable multiple ways to call the same method.</p>
+ *      <ul>
+ *           <li><p> reserveIds(String projectId, List&lt;Key&gt; keys)
+ *      </ul>
+ *      <p>Callable method variants take no parameters and return an immutable API callable object, which can be used to initiate calls to the service.</p>
+ *      <ul>
+ *           <li><p> reserveIdsCallable()
+ *      </ul>
+ *       </td>
+ *    </tr>
+ *  </table>
  *
  * <p>See the individual methods for example code.
  *
@@ -241,6 +373,7 @@ public class DatastoreClient implements BackgroundResource {
    *           .setDatabaseId("databaseId1688905718")
    *           .setReadOptions(ReadOptions.newBuilder().build())
    *           .addAllKeys(new ArrayList<Key>())
+   *           .setPropertyMask(PropertyMask.newBuilder().build())
    *           .build();
    *   LookupResponse response = datastoreClient.lookup(request);
    * }
@@ -272,6 +405,7 @@ public class DatastoreClient implements BackgroundResource {
    *           .setDatabaseId("databaseId1688905718")
    *           .setReadOptions(ReadOptions.newBuilder().build())
    *           .addAllKeys(new ArrayList<Key>())
+   *           .setPropertyMask(PropertyMask.newBuilder().build())
    *           .build();
    *   ApiFuture<LookupResponse> future = datastoreClient.lookupCallable().futureCall(request);
    *   // Do something.
@@ -302,6 +436,8 @@ public class DatastoreClient implements BackgroundResource {
    *           .setDatabaseId("databaseId1688905718")
    *           .setPartitionId(PartitionId.newBuilder().build())
    *           .setReadOptions(ReadOptions.newBuilder().build())
+   *           .setPropertyMask(PropertyMask.newBuilder().build())
+   *           .setExplainOptions(ExplainOptions.newBuilder().build())
    *           .build();
    *   RunQueryResponse response = datastoreClient.runQuery(request);
    * }
@@ -333,6 +469,8 @@ public class DatastoreClient implements BackgroundResource {
    *           .setDatabaseId("databaseId1688905718")
    *           .setPartitionId(PartitionId.newBuilder().build())
    *           .setReadOptions(ReadOptions.newBuilder().build())
+   *           .setPropertyMask(PropertyMask.newBuilder().build())
+   *           .setExplainOptions(ExplainOptions.newBuilder().build())
    *           .build();
    *   ApiFuture<RunQueryResponse> future = datastoreClient.runQueryCallable().futureCall(request);
    *   // Do something.
@@ -363,6 +501,7 @@ public class DatastoreClient implements BackgroundResource {
    *           .setDatabaseId("databaseId1688905718")
    *           .setPartitionId(PartitionId.newBuilder().build())
    *           .setReadOptions(ReadOptions.newBuilder().build())
+   *           .setExplainOptions(ExplainOptions.newBuilder().build())
    *           .build();
    *   RunAggregationQueryResponse response = datastoreClient.runAggregationQuery(request);
    * }
@@ -394,6 +533,7 @@ public class DatastoreClient implements BackgroundResource {
    *           .setDatabaseId("databaseId1688905718")
    *           .setPartitionId(PartitionId.newBuilder().build())
    *           .setReadOptions(ReadOptions.newBuilder().build())
+   *           .setExplainOptions(ExplainOptions.newBuilder().build())
    *           .build();
    *   ApiFuture<RunAggregationQueryResponse> future =
    *       datastoreClient.runAggregationQueryCallable().futureCall(request);
