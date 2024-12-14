@@ -38,15 +38,15 @@ public class VectorSearchSampleIT {
   private Key coffeeBeanKey2;
   private Key coffeeBeanKey3;
 
-  @Rule
-  public final SystemsOutRule systemsOutRule = new SystemsOutRule();
+  @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   @Before
   public void setUp() {
-    //DatastoreOptions.getDefaultHttpTransportOptions()
+    // DatastoreOptions.getDefaultHttpTransportOptions()
     coffeeBeanKey1 = datastore.newKeyFactory().setKind("CoffeeBean").newKey("Kahawa");
     // Prepares the entity with a vector embedding
-    Entity entity1 = Entity.newBuilder(coffeeBeanKey1)
+    Entity entity1 =
+        Entity.newBuilder(coffeeBeanKey1)
             .set("name", "Arabica")
             .set("description", "Information about the Arabica coffee beans.")
             .set("roast", "dark")
@@ -54,7 +54,8 @@ public class VectorSearchSampleIT {
             .build();
 
     coffeeBeanKey2 = datastore.newKeyFactory().setKind("CoffeeBean").newKey("Robusta");
-    Entity entity2 = Entity.newBuilder(coffeeBeanKey2)
+    Entity entity2 =
+        Entity.newBuilder(coffeeBeanKey2)
             .set("name", "Robusta")
             .set("description", "Information about the Robusta coffee beans.")
             .set("roast", "light")
@@ -62,7 +63,8 @@ public class VectorSearchSampleIT {
             .build();
 
     coffeeBeanKey3 = datastore.newKeyFactory().setKind("CoffeeBean").newKey("Excelsa");
-    Entity entity3 = Entity.newBuilder(coffeeBeanKey3)
+    Entity entity3 =
+        Entity.newBuilder(coffeeBeanKey3)
             .set("name", "Excelsa")
             .set("description", "Information about the Excelsa coffee beans.")
             .set("roast", "dark")

@@ -33,14 +33,15 @@ public class VectorSearchBasic {
 
     // Create vector search query
     Query<Entity> vectorSearchQuery =
-            Query.newEntityQueryBuilder()
-                    .setKind("CoffeeBean")
-                    .setFindNearest(new FindNearest(
-                            "embedding_field",
-                            VectorValue.newBuilder(1, 9, 11.1).build(),
-                            FindNearest.DistanceMeasure.EUCLIDEAN,
-                            1))
-                    .build();
+        Query.newEntityQueryBuilder()
+            .setKind("CoffeeBean")
+            .setFindNearest(
+                new FindNearest(
+                    "embedding_field",
+                    VectorValue.newBuilder(1, 9, 11.1).build(),
+                    FindNearest.DistanceMeasure.EUCLIDEAN,
+                    1))
+            .build();
 
     // Execute vector search query
     QueryResults<Entity> results = datastore.run(vectorSearchQuery);

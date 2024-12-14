@@ -39,20 +39,23 @@ public class VectorSearchLargeResponse {
 
     // Create a keys-only vector search query
     StructuredQuery<ProjectionEntity> keyOnlyVectorQuery =
-            Query.newProjectionEntityQueryBuilder()
-                    .setKind("CoffeeBean")
-                    .setProjection("__key__")
-                    .setFindNearest(new FindNearest(
-                            "embedding_field",
-                            VectorValue.newBuilder(1, 9, 11.1).build(),
-                            FindNearest.DistanceMeasure.EUCLIDEAN,
-                            3, "vector_distance", 2.0))
-                    .build();
+        Query.newProjectionEntityQueryBuilder()
+            .setKind("CoffeeBean")
+            .setProjection("__key__")
+            .setFindNearest(
+                new FindNearest(
+                    "embedding_field",
+                    VectorValue.newBuilder(1, 9, 11.1).build(),
+                    FindNearest.DistanceMeasure.EUCLIDEAN,
+                    3,
+                    "vector_distance",
+                    2.0))
+            .build();
 
     QueryResults<ProjectionEntity> keyOnlyResults = datastore.run(keyOnlyVectorQuery);
     ProjectionEntity[] keyEntities = Iterators.toArray(keyOnlyResults, ProjectionEntity.class);
     Key[] keys =
-            ImmutableList.copyOf(keyEntities).stream().map(e -> e.getKey()).toArray(Key[]::new);
+        ImmutableList.copyOf(keyEntities).stream().map(e -> e.getKey()).toArray(Key[]::new);
     System.out.printf("Key query result size: %s%n", keys.length);
 
     // Lookup the full entities using the result of the keys only query.
@@ -62,10 +65,11 @@ public class VectorSearchLargeResponse {
 
     // Combine and print results
     for (int i = 0; i < keyEntities.length; i++) {
-      System.out.printf("Entity: %s, Distance: %s, Roast: %s%n",
-              keyEntities[i].getKey().getName(),
-              keyEntities[i].getDouble("vector_distance"),
-              entitiesArray[i].getString("roast"));
+      System.out.printf(
+          "Entity: %s, Distance: %s, Roast: %s%n",
+          keyEntities[i].getKey().getName(),
+          keyEntities[i].getDouble("vector_distance"),
+          entitiesArray[i].getString("roast"));
     }
   }
 }

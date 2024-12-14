@@ -34,12 +34,12 @@ public class StoreVectors {
 
     // Prepares the entity with a vector embedding
     Entity entity =
-            Entity.newBuilder(key)
-                    .set("name", "Kahawa")
-                    .set("description", "Information about the Kahawa coffee beans.")
-                    .set("roast", "dark")
-                    .set("embedding_field", VectorValue.newBuilder(1.0, 7.0, 11.1).build())
-                    .build();
+        Entity.newBuilder(key)
+            .set("name", "Kahawa")
+            .set("description", "Information about the Kahawa coffee beans.")
+            .set("roast", "dark")
+            .set("embedding_field", VectorValue.newBuilder(1.0, 7.0, 11.1).build())
+            .build();
 
     // Saves the entity
     datastore.put(entity);
@@ -47,9 +47,9 @@ public class StoreVectors {
 
     // Retrieve entity
     Entity retrieved = datastore.get(key);
-    System.out.printf("Retrieved %s with embedding_field: %s%n",
-            key.getName(),
-            retrieved.getVector("embedding_field"));
+    System.out.printf(
+        "Retrieved %s with embedding_field: %s%n",
+        key.getName(), retrieved.getVector("embedding_field"));
   }
 }
 // [END datastore_store_vectors]

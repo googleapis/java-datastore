@@ -33,15 +33,17 @@ public class VectorSearchDistanceResultPropertyProjection {
 
     // Create vector search query with projection
     Query<ProjectionEntity> vectorSearchQuery =
-            Query.newProjectionEntityQueryBuilder()
-                    .setKind("CoffeeBean")
-                    .setFindNearest(new FindNearest(
-                            "embedding_field",
-                            VectorValue.newBuilder(1, 9, 11.1).build(),
-                            FindNearest.DistanceMeasure.EUCLIDEAN,
-                            3, "vector_distance"))
-                    .setProjection("roast")
-                    .build();
+        Query.newProjectionEntityQueryBuilder()
+            .setKind("CoffeeBean")
+            .setFindNearest(
+                new FindNearest(
+                    "embedding_field",
+                    VectorValue.newBuilder(1, 9, 11.1).build(),
+                    FindNearest.DistanceMeasure.EUCLIDEAN,
+                    3,
+                    "vector_distance"))
+            .setProjection("roast")
+            .build();
 
     // Execute vector search query
     QueryResults<ProjectionEntity> results = datastore.run(vectorSearchQuery);
@@ -52,9 +54,9 @@ public class VectorSearchDistanceResultPropertyProjection {
 
     while (results.hasNext()) {
       ProjectionEntity entity = results.next();
-      System.out.printf("Entity: %s, Distance: %s%n",
-              entity.getKey().getName(),
-              entity.getDouble("vector_distance"));
+      System.out.printf(
+          "Entity: %s, Distance: %s%n",
+          entity.getKey().getName(), entity.getDouble("vector_distance"));
     }
   }
 }
