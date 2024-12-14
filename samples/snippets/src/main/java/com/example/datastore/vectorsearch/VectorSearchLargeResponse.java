@@ -18,16 +18,19 @@ package com.example.datastore.vectorsearch;
 
 // [START datastore_vector_search_large_response]
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import java.util.Iterator;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.FindNearest;
+import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.ProjectionEntity;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.StructuredQuery;
 import com.google.cloud.datastore.VectorValue;
-import com.google.cloud.datastore.FindNearest;
 
 public class VectorSearchLargeResponse {
   public static void invoke() throws Exception {
@@ -35,9 +38,10 @@ public class VectorSearchLargeResponse {
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
     // Create a keys-only vector search query
-    Query<Key> vectorSearchKeyOnlyQuery =
-            Query.newKeyQueryBuilder()
+    StructuredQuery<ProjectionEntity> keyOnlyVectorQuery =
+            Query.newProjectionEntityQueryBuilder()
                     .setKind("CoffeeBean")
+                    .setProjection("__key__")
                     .setFindNearest(new FindNearest(
                             "embedding_field",
                             VectorValue.newBuilder(1, 9, 11.1).build(),
@@ -45,20 +49,20 @@ public class VectorSearchLargeResponse {
                             3, "vector_distance", 2.0))
                     .build();
 
-    QueryResults<Key> keyResults = datastore.run(vectorSearchKeyOnlyQuery);
-    Key[] keys = Iterators.toArray(keyResults, Key.class);
+    QueryResults<ProjectionEntity> keyOnlyResults = datastore.run(keyOnlyVectorQuery);
+    ProjectionEntity[] keyEntities = Iterators.toArray(keyOnlyResults, ProjectionEntity.class);
+    Key[] keys = ImmutableList.copyOf(keyEntities).stream().map(e -> e.getKey()).toArray(Key[]::new);
+    System.out.printf("Key query result size: %s%n", keys.length);
 
-    // Next, perform a second query for the remaining data
+    // Lookup the full entities using the result of the keys only query.
     Iterator<Entity> entities = datastore.get(keys);
-
-    if (!keyResults.hasNext()) {
-      throw new Exception("query yielded no results");
-    }
+    Entity[] entitiesArray = Iterators.toArray(entities, Entity.class);
+    System.out.printf("Entity query result size: %s%n", entitiesArray.length);
 
     // Combine and print results
-    while (keyResults.hasNext()) {
-      Key keyResult = keyResults.next();
-      System.out.printf("Entity: %s, Distance: %s%n", keyResult.getName(), entities.next().getDouble("vector_distance"));
+    for (int i = 0; i < keyEntities.length; i++)
+    {
+      System.out.printf("Entity: %s, Distance: %s, Roast: %s%n", keyEntities[i].getKey().getName(), keyEntities[i].getDouble("vector_distance"), entitiesArray[i].getString("roast"));
     }
   }
 }

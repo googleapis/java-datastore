@@ -30,7 +30,6 @@ public class VectorSearchBasic {
   public static void invoke() throws Exception {
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-
     // Create vector search query
     Query<Entity> vectorSearchQuery =
             Query.newEntityQueryBuilder()
@@ -38,8 +37,8 @@ public class VectorSearchBasic {
                     .setFindNearest(new FindNearest(
                             "embedding_field",
                             VectorValue.newBuilder(1, 9, 11.1).build(),
-                            FindNearest.DistanceMeasure.DOT_PRODUCT,
-                            3))
+                            FindNearest.DistanceMeasure.EUCLIDEAN,
+                            1))
                     .build();
 
     // Execute vector search query

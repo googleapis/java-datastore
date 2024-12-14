@@ -38,9 +38,9 @@ public class VectorSearchDistanceResultPropertyProjection {
                     .setFindNearest(new FindNearest(
                             "embedding_field",
                             VectorValue.newBuilder(1, 9, 11.1).build(),
-                            FindNearest.DistanceMeasure.DOT_PRODUCT,
+                            FindNearest.DistanceMeasure.EUCLIDEAN,
                             3, "vector_distance"))
-                    .setProjection("vector_distance")
+                    .setProjection("roast")
                     .build();
 
     // Execute vector search query

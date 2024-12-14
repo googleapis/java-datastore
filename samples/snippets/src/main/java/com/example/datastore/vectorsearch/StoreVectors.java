@@ -47,7 +47,7 @@ public class StoreVectors {
 
     // Retrieve entity
     Entity retrieved = datastore.get(key);
-    System.out.printf("Retrieved %s: %s%n", key.getName(), retrieved.getString("description"));
+    System.out.printf("Retrieved %s with embedding_field: %s%n", key.getName(), retrieved.getVector("embedding_field"));
   }
 }
 // [END datastore_store_vectors]

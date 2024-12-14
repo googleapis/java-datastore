@@ -40,8 +40,8 @@ public class VectorSearchPrefilter {
                     .setFindNearest(new FindNearest(
                             "embedding_field",
                             VectorValue.newBuilder(1, 9, 11.1).build(),
-                            FindNearest.DistanceMeasure.DOT_PRODUCT,
-                            3))
+                            FindNearest.DistanceMeasure.EUCLIDEAN,
+                            3, "vector_distance", 3.0))
                     .build();
 
     // Execute vector search query
@@ -53,7 +53,7 @@ public class VectorSearchPrefilter {
 
     while (results.hasNext()) {
       Entity entity = results.next();
-      System.out.printf("Entity: %s%n", entity.getKey().getName());
+      System.out.printf("Entity: %s, Distance: %s%n", entity.getKey().getName(), entity.getDouble("vector_distance"));
     }
   }
 }
