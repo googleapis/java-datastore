@@ -21,11 +21,11 @@ package com.example.datastore.vectorsearch;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Query;
-import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
-import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.VectorValue;
 import com.google.cloud.datastore.FindNearest;
+import com.google.cloud.datastore.Query;
+import com.google.cloud.datastore.QueryResults;
+import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
+import com.google.cloud.datastore.VectorValue;
 
 public class VectorSearchPrefilter {
   public static void invoke() throws Exception {

@@ -21,10 +21,10 @@ package com.example.datastore.vectorsearch;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.FindNearest;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.VectorValue;
-import com.google.cloud.datastore.FindNearest;
 
 public class VectorSearchDistanceResultProperty {
   public static void invoke() throws Exception {
@@ -33,14 +33,16 @@ public class VectorSearchDistanceResultProperty {
 
     // Create vector search query with distance result property
     Query<Entity> vectorSearchQuery =
-            Query.newEntityQueryBuilder()
-                    .setKind("CoffeeBean")
-                    .setFindNearest(new FindNearest(
-                            "embedding_field",
-                            VectorValue.newBuilder(1, 9, 11.1).build(),
-                            FindNearest.DistanceMeasure.DOT_PRODUCT,
-                            3, "vector_distance"))
-                    .build();
+        Query.newEntityQueryBuilder()
+            .setKind("CoffeeBean")
+            .setFindNearest(
+                new FindNearest(
+                    "embedding_field",
+                    VectorValue.newBuilder(1, 9, 11.1).build(),
+                    FindNearest.DistanceMeasure.DOT_PRODUCT,
+                    3,
+                    "vector_distance"))
+            .build();
 
     // Execute vector search query
     QueryResults<Entity> results = datastore.run(vectorSearchQuery);
@@ -51,7 +53,9 @@ public class VectorSearchDistanceResultProperty {
 
     while (results.hasNext()) {
       Entity entity = results.next();
-      System.out.printf("Entity: %s, Distance: %s%n", entity.getKey().getName(), entity.getDouble("vector_distance"));
+      System.out.printf(
+          "Entity: %s, Distance: %s%n",
+          entity.getKey().getName(), entity.getDouble("vector_distance"));
     }
   }
 }

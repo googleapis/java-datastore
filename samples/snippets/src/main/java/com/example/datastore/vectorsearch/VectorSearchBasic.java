@@ -21,15 +21,16 @@ package com.example.datastore.vectorsearch;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.FindNearest;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.VectorValue;
-import com.google.cloud.datastore.FindNearest;
 
 public class VectorSearchBasic {
   public static void invoke() throws Exception {
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+
     // Create vector search query
     Query<Entity> vectorSearchQuery =
             Query.newEntityQueryBuilder()

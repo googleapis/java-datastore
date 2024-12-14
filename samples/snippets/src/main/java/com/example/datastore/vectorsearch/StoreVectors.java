@@ -20,8 +20,8 @@ package com.example.datastore.vectorsearch;
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.VectorValue;
 
 public class StoreVectors {
@@ -34,12 +34,12 @@ public class StoreVectors {
 
     // Prepares the entity with a vector embedding
     Entity entity =
-            Entity.newBuilder(key)
-                    .set("name", "Kahawa")
-                    .set("description", "Information about the Kahawa coffee beans.")
-                    .set("roast", "dark")
-                    .set("embedding_field", VectorValue.newBuilder(1.0, 7.0, 11.1).build())
-                    .build();
+        Entity.newBuilder(key)
+            .set("name", "Kahawa")
+            .set("description", "Information about the Kahawa coffee beans.")
+            .set("roast", "dark")
+            .set("embedding_field", VectorValue.newBuilder(1.0, 7.0, 11.1).build())
+            .build();
 
     // Saves the entity
     datastore.put(entity);
