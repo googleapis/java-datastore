@@ -13,9 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.example.datastore.vectorsearch;
 
-import com.google.cloud.datastore.*;
+import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.VectorValue;
 import com.rule.SystemsOutRule;
 import org.junit.After;
 import org.junit.Before;
@@ -23,8 +28,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.DatastoreOptions;
 
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
@@ -43,31 +46,28 @@ public class VectorSearchSampleIT {
     //DatastoreOptions.getDefaultHttpTransportOptions()
     coffeeBeanKey1 = datastore.newKeyFactory().setKind("CoffeeBean").newKey("Kahawa");
     // Prepares the entity with a vector embedding
-    Entity entity1 =
-            Entity.newBuilder(coffeeBeanKey1)
-                    .set("name", "Arabica")
-                    .set("description", "Information about the Arabica coffee beans.")
-                    .set("roast", "dark")
-                    .set("embedding_field", VectorValue.newBuilder(1.0, 7.0, 11.1).build())
-                    .build();
+    Entity entity1 = Entity.newBuilder(coffeeBeanKey1)
+            .set("name", "Arabica")
+            .set("description", "Information about the Arabica coffee beans.")
+            .set("roast", "dark")
+            .set("embedding_field", VectorValue.newBuilder(1.0, 7.0, 11.1).build())
+            .build();
 
     coffeeBeanKey2 = datastore.newKeyFactory().setKind("CoffeeBean").newKey("Robusta");
-    Entity entity2 =
-            Entity.newBuilder(coffeeBeanKey2)
-                    .set("name", "Robusta")
-                    .set("description", "Information about the Robusta coffee beans.")
-                    .set("roast", "light")
-                    .set("embedding_field", VectorValue.newBuilder(1.0, 9.0, 11.1).build())
-                    .build();
+    Entity entity2 = Entity.newBuilder(coffeeBeanKey2)
+            .set("name", "Robusta")
+            .set("description", "Information about the Robusta coffee beans.")
+            .set("roast", "light")
+            .set("embedding_field", VectorValue.newBuilder(1.0, 9.0, 11.1).build())
+            .build();
 
     coffeeBeanKey3 = datastore.newKeyFactory().setKind("CoffeeBean").newKey("Excelsa");
-    Entity entity3 =
-            Entity.newBuilder(coffeeBeanKey3)
-                    .set("name", "Excelsa")
-                    .set("description", "Information about the Excelsa coffee beans.")
-                    .set("roast", "dark")
-                    .set("embedding_field", VectorValue.newBuilder(4.0, 9.0, 11.1).build())
-                    .build();
+    Entity entity3 = Entity.newBuilder(coffeeBeanKey3)
+            .set("name", "Excelsa")
+            .set("description", "Information about the Excelsa coffee beans.")
+            .set("roast", "dark")
+            .set("embedding_field", VectorValue.newBuilder(4.0, 9.0, 11.1).build())
+            .build();
 
     datastore.put(entity1);
     datastore.put(entity2);

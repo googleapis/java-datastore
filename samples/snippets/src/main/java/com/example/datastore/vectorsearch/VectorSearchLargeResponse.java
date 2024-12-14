@@ -18,9 +18,6 @@ package com.example.datastore.vectorsearch;
 
 // [START datastore_vector_search_large_response]
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterators;
-import java.util.Iterator;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
@@ -31,6 +28,9 @@ import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
 import com.google.cloud.datastore.StructuredQuery;
 import com.google.cloud.datastore.VectorValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterators;
+import java.util.Iterator;
 
 public class VectorSearchLargeResponse {
   public static void invoke() throws Exception {
@@ -51,7 +51,8 @@ public class VectorSearchLargeResponse {
 
     QueryResults<ProjectionEntity> keyOnlyResults = datastore.run(keyOnlyVectorQuery);
     ProjectionEntity[] keyEntities = Iterators.toArray(keyOnlyResults, ProjectionEntity.class);
-    Key[] keys = ImmutableList.copyOf(keyEntities).stream().map(e -> e.getKey()).toArray(Key[]::new);
+    Key[] keys =
+            ImmutableList.copyOf(keyEntities).stream().map(e -> e.getKey()).toArray(Key[]::new);
     System.out.printf("Key query result size: %s%n", keys.length);
 
     // Lookup the full entities using the result of the keys only query.
@@ -60,9 +61,11 @@ public class VectorSearchLargeResponse {
     System.out.printf("Entity query result size: %s%n", entitiesArray.length);
 
     // Combine and print results
-    for (int i = 0; i < keyEntities.length; i++)
-    {
-      System.out.printf("Entity: %s, Distance: %s, Roast: %s%n", keyEntities[i].getKey().getName(), keyEntities[i].getDouble("vector_distance"), entitiesArray[i].getString("roast"));
+    for (int i = 0; i < keyEntities.length; i++) {
+      System.out.printf("Entity: %s, Distance: %s, Roast: %s%n",
+              keyEntities[i].getKey().getName(),
+              keyEntities[i].getDouble("vector_distance"),
+              entitiesArray[i].getString("roast"));
     }
   }
 }

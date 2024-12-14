@@ -52,7 +52,9 @@ public class VectorSearchDistanceResultPropertyProjection {
 
     while (results.hasNext()) {
       ProjectionEntity entity = results.next();
-      System.out.printf("Entity: %s, Distance: %s%n", entity.getKey().getName(), entity.getDouble("vector_distance"));
+      System.out.printf("Entity: %s, Distance: %s%n",
+              entity.getKey().getName(),
+              entity.getDouble("vector_distance"));
     }
   }
 }
