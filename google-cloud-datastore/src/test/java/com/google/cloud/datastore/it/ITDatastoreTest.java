@@ -32,44 +32,12 @@ import static org.junit.Assert.fail;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.Tuple;
-import com.google.cloud.datastore.AggregationQuery;
-import com.google.cloud.datastore.AggregationResult;
-import com.google.cloud.datastore.AggregationResults;
-import com.google.cloud.datastore.Batch;
-import com.google.cloud.datastore.BooleanValue;
-import com.google.cloud.datastore.Cursor;
-import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.*;
 import com.google.cloud.datastore.Datastore.TransactionCallable;
-import com.google.cloud.datastore.DatastoreException;
-import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.DatastoreReaderWriter;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.EntityQuery;
-import com.google.cloud.datastore.EntityValue;
-import com.google.cloud.datastore.FullEntity;
-import com.google.cloud.datastore.GqlQuery;
-import com.google.cloud.datastore.IncompleteKey;
-import com.google.cloud.datastore.Key;
-import com.google.cloud.datastore.KeyFactory;
-import com.google.cloud.datastore.KeyValue;
-import com.google.cloud.datastore.LatLng;
-import com.google.cloud.datastore.LatLngValue;
-import com.google.cloud.datastore.ListValue;
-import com.google.cloud.datastore.NullValue;
-import com.google.cloud.datastore.PathElement;
-import com.google.cloud.datastore.ProjectionEntity;
-import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.Query.ResultType;
-import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.ReadOption;
-import com.google.cloud.datastore.StringValue;
-import com.google.cloud.datastore.StructuredQuery;
 import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
-import com.google.cloud.datastore.TimestampValue;
-import com.google.cloud.datastore.Transaction;
-import com.google.cloud.datastore.ValueType;
 import com.google.cloud.datastore.models.ExecutionStats;
 import com.google.cloud.datastore.models.ExplainMetrics;
 import com.google.cloud.datastore.models.ExplainOptions;
@@ -125,6 +93,7 @@ public class ITDatastoreTest {
   private static final String KIND1 = "kind1";
   private static final String KIND2 = "kind2";
   private static final String KIND3 = "kind3";
+  private static final String VECTOR_KIND = "CoffeeBean";
   private static final NullValue NULL_VALUE = NullValue.of();
   private static final StringValue STR_VALUE = StringValue.of("str");
   private static final BooleanValue BOOL_VALUE =
@@ -145,6 +114,7 @@ public class ITDatastoreTest {
   private static Key KEY4;
   private static Key KEY5;
   private static Key KEY6;
+  private static Key VECTORKEY;
   private static final String MARKS_KIND = "Marks";
   private static FullEntity<IncompleteKey> PARTIAL_ENTITY1;
   private static FullEntity<IncompleteKey> PARTIAL_ENTITY2;
@@ -156,6 +126,9 @@ public class ITDatastoreTest {
   private static Entity AGGREGATION_ENTITY_1;
   private static Entity AGGREGATION_ENTITY_2;
   private static Entity AGGREGATION_ENTITY_3;
+  private static Entity VECTOR_ENTITY_1;
+  private static Entity VECTOR_ENTITY_2;
+  private static Entity VECTOR_ENTITY_3;
 
   @Rule public Timeout globalTimeout = Timeout.seconds(100);
 
@@ -176,6 +149,13 @@ public class ITDatastoreTest {
 
     PROJECT_ID = this.options.getProjectId();
     NAMESPACE = this.options.getNamespace();
+    System.out.println(
+        "Project: "
+            + PROJECT_ID
+            + ", Namespace: "
+            + NAMESPACE
+            + ", db: "
+            + options.getDatabaseId());
 
     ROOT_KEY =
         Key.newBuilder(PROJECT_ID, "rootkey", "default", options.getDatabaseId())
@@ -196,6 +176,10 @@ public class ITDatastoreTest {
     KEY5 = Key.newBuilder(KEY2).setName("newName2").setNamespace(NAMESPACE).build();
     KEY6 =
         Key.newBuilder(options.getProjectId(), KIND2, 100, options.getDatabaseId())
+            .setNamespace(NAMESPACE)
+            .build();
+    VECTORKEY =
+        Key.newBuilder(PROJECT_ID, VECTOR_KIND, "bean1", options.getDatabaseId())
             .setNamespace(NAMESPACE)
             .build();
 
@@ -246,6 +230,22 @@ public class ITDatastoreTest {
             .set("null", NULL_VALUE)
             .set("partial1", PARTIAL_ENTITY2)
             .set("partial2", ENTITY2)
+            .build();
+    VECTOR_ENTITY_1 =
+        Entity.newBuilder(VECTORKEY)
+            .set("name", "Arabica")
+            .set("embedding_field", VectorValue.newBuilder(1.0, 7.0, 11.1).build())
+            .build();
+    VECTOR_ENTITY_2 =
+        Entity.newBuilder(Key.newBuilder(VECTORKEY).setName("bean2").build())
+            .set("name", "Robusta")
+            .set("embedding_field", VectorValue.newBuilder(1.0, 9.0, 11.1).build())
+            .set("vector_distance", 0)
+            .build();
+    VECTOR_ENTITY_3 =
+        Entity.newBuilder(Key.newBuilder(VECTORKEY).setName("bean3").build())
+            .set("name", "Excelsa")
+            .set("embedding_field", VectorValue.newBuilder(4.0, 9.0, 11.1).build())
             .build();
 
     Key aggregationKey1 = datastore.newKeyFactory().setKind(MARKS_KIND).newKey(1);
@@ -2116,6 +2116,93 @@ public class ITDatastoreTest {
   }
 
   @Test
+  public void testVectorSearchQueryWithLimit() {
+    datastore.put(VECTOR_ENTITY_1, VECTOR_ENTITY_2, VECTOR_ENTITY_3);
+    // Test FindNearest query with limit
+    FindNearest findNearestQueryWithLimit =
+        new FindNearest(
+            "embedding_field",
+            VectorValue.newBuilder(1, 9, 11.1).build(),
+            FindNearest.DistanceMeasure.DOT_PRODUCT,
+            3);
+    Query<Entity> queryWithLimit =
+        Query.newEntityQueryBuilder()
+            .setKind(VECTOR_KIND)
+            .setFindNearest(findNearestQueryWithLimit)
+            .build();
+
+    QueryResults<Entity> resultWithLimit = datastore.run(queryWithLimit);
+
+    List<Entity> resultsCopyWithLimit = makeResultsCopy(resultWithLimit);
+
+    // Verify limit was applied
+    assertEquals(3, resultsCopyWithLimit.size());
+  }
+
+  @Test
+  public void testVectorSearchQueryWithDistanceThreshold() {
+    datastore.put(VECTOR_ENTITY_1, VECTOR_ENTITY_2, VECTOR_ENTITY_3);
+
+    VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
+    FindNearest vectorQuery =
+        new FindNearest(
+            "embedding_field", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
+
+    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
+
+    // Test FindNearest query with distanceThreshold
+    FindNearest findNearestQueryWithThreshold =
+        new FindNearest(
+            "embedding_field",
+            VectorValue.newBuilder(1, 9, 11.1).build(),
+            FindNearest.DistanceMeasure.EUCLIDEAN,
+            3,
+            "vector_distance",
+            2.0);
+    Query<Entity> queryWithWithThreshold =
+        Query.newEntityQueryBuilder()
+            .setKind(VECTOR_KIND)
+            .setFindNearest(findNearestQueryWithThreshold)
+            .build();
+    QueryResults<Entity> resultWithThreshold = datastore.run(queryWithWithThreshold);
+    List<Entity> resultsCopyWithThreshold = makeResultsCopy(resultWithThreshold);
+    // Verify threshold was applied regardless of limit
+    assertEquals(2, resultsCopyWithThreshold.size());
+    // Verify qualified EUCLIDEAN distance: d((1, 9, 11.1), (1, 9, 11.1)) = 0.0, d((1, 9, 11.1), (1,
+    // 7, 11.1)) = 2.0
+    assertEquals(DoubleValue.of(0.0), resultsCopyWithThreshold.get(0).getValue("vector_distance"));
+    assertEquals(DoubleValue.of(2.0), resultsCopyWithThreshold.get(1).getValue("vector_distance"));
+  }
+
+  @Test
+  public void testQueryWithVectorSearchWithDistanceField() {
+    datastore.put(VECTOR_ENTITY_1, VECTOR_ENTITY_2, VECTOR_ENTITY_3);
+    // Test FindNearest query with distanceField
+    FindNearest findNearestQueryWithDistanceField =
+        new FindNearest(
+            "embedding_field",
+            VectorValue.newBuilder(1, 9, 11.1).build(),
+            FindNearest.DistanceMeasure.DOT_PRODUCT,
+            3,
+            "vector_distance",
+            0.0);
+    Query<Entity> queryWithWithDistanceField =
+        Query.newEntityQueryBuilder()
+            .setKind(VECTOR_KIND)
+            .setFindNearest(findNearestQueryWithDistanceField)
+            .build();
+    QueryResults<Entity> resultWithDistanceField = datastore.run(queryWithWithDistanceField);
+    List<Entity> resultsCopyWithDistanceField = makeResultsCopy(resultWithDistanceField);
+    // Verify results count
+    assertEquals(3, resultsCopyWithDistanceField.size());
+    for (int i = 0; i < resultsCopyWithDistanceField.size(); i++) {
+      // Verify distance field was not 0
+      assertNotEquals(
+          DoubleValue.of(0.0), resultsCopyWithDistanceField.get(i).getValue("vector_distance"));
+    }
+  }
+
+  @Test
   public void testQueryWithReadTime() throws InterruptedException {
     Entity entity1 =
         Entity.newBuilder(
@@ -2164,7 +2251,7 @@ public class ITDatastoreTest {
       assertEquals(entity2, withReadTime.next());
       assertFalse(withReadTime.hasNext());
     } finally {
-      datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
+      //  datastore.delete(entity1.getKey(), entity2.getKey(), entity3.getKey());
     }
   }
 
