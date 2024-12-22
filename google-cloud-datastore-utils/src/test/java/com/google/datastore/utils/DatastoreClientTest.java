@@ -24,6 +24,8 @@ import static org.junit.Assert.fail;
 
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
+import com.google.datastore.utils.testing.MockCredential;
+import com.google.datastore.utils.testing.MockDatastoreFactory;
 import com.google.datastore.v1.AllocateIdsRequest;
 import com.google.datastore.v1.AllocateIdsResponse;
 import com.google.datastore.v1.BeginTransactionRequest;
@@ -42,152 +44,146 @@ import com.google.datastore.v1.RunAggregationQueryRequest;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.RunQueryRequest;
 import com.google.datastore.v1.RunQueryResponse;
-import com.google.datastore.utils.testing.MockCredential;
-import com.google.datastore.utils.testing.MockDatastoreFactory;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Message;
 import com.google.rpc.Code;
-
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.SocketTimeoutException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Tests for {@link DatastoreFactory} and {@link Datastore}.
- */
+/** Tests for {@link DatastoreFactory} and {@link Datastore}. */
 @RunWith(JUnit4.class)
 public class DatastoreClientTest {
   private static final String PROJECT_ID = "project-id";
 
   private DatastoreFactory factory = new MockDatastoreFactory();
   private DatastoreOptions.Builder options =
-          new DatastoreOptions.Builder().projectId(PROJECT_ID).credential(new MockCredential());
+      new DatastoreOptions.Builder().projectId(PROJECT_ID).credential(new MockCredential());
 
   @Test
   public void options_NoProjectIdOrProjectEndpoint() {
     IllegalArgumentException exception =
-            assertThrows(
-                    IllegalArgumentException.class,
-                    () -> factory.create(new DatastoreOptions.Builder().build()));
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> factory.create(new DatastoreOptions.Builder().build()));
     assertThat(exception)
-            .hasMessageThat()
-            .contains("Either project ID or project endpoint must be provided");
+        .hasMessageThat()
+        .contains("Either project ID or project endpoint must be provided");
     factory.create(options.build());
   }
 
   @Test
   public void options_ProjectIdAndProjectEndpoint() throws Exception {
     IllegalArgumentException exception =
-            assertThrows(
-                    IllegalArgumentException.class,
-                    () ->
-                            new DatastoreOptions.Builder()
-                                    .projectId(PROJECT_ID)
-                                    .projectEndpoint(
-                                            "http://localhost:1234/datastore/v1beta42/projects/project-id"));
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new DatastoreOptions.Builder()
+                    .projectId(PROJECT_ID)
+                    .projectEndpoint(
+                        "http://localhost:1234/datastore/v1beta42/projects/project-id"));
     assertThat(exception)
-            .hasMessageThat()
-            .contains("Cannot set both project endpoint and project ID");
+        .hasMessageThat()
+        .contains("Cannot set both project endpoint and project ID");
   }
 
   @Test
   public void options_LocalHostAndProjectEndpoint() throws Exception {
     IllegalArgumentException exception =
-            assertThrows(
-                    IllegalArgumentException.class,
-                    () ->
-                            new DatastoreOptions.Builder()
-                                    .localHost("localhost:8080")
-                                    .projectEndpoint(
-                                            "http://localhost:1234/datastore/v1beta42/projects/project-id"));
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new DatastoreOptions.Builder()
+                    .localHost("localhost:8080")
+                    .projectEndpoint(
+                        "http://localhost:1234/datastore/v1beta42/projects/project-id"));
     assertThat(exception)
-            .hasMessageThat()
-            .contains("Can set at most one of project endpoint, host, and local host");
+        .hasMessageThat()
+        .contains("Can set at most one of project endpoint, host, and local host");
   }
 
   @Test
   public void options_HostAndProjectEndpoint() throws Exception {
     IllegalArgumentException exception =
-            assertThrows(
-                    IllegalArgumentException.class,
-                    () ->
-                            new DatastoreOptions.Builder()
-                                    .host("foo-datastore.googleapis.com")
-                                    .projectEndpoint(
-                                            "http://localhost:1234/datastore/v1beta42/projects/project-id"));
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new DatastoreOptions.Builder()
+                    .host("foo-datastore.googleapis.com")
+                    .projectEndpoint(
+                        "http://localhost:1234/datastore/v1beta42/projects/project-id"));
     assertThat(exception)
-            .hasMessageThat()
-            .contains("Can set at most one of project endpoint, host, and local host");
+        .hasMessageThat()
+        .contains("Can set at most one of project endpoint, host, and local host");
   }
 
   @Test
   public void options_HostAndLocalHost() throws Exception {
     IllegalArgumentException exception =
-            assertThrows(
-                    IllegalArgumentException.class,
-                    () ->
-                            new DatastoreOptions.Builder()
-                                    .host("foo-datastore.googleapis.com")
-                                    .localHost("localhost:8080"));
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new DatastoreOptions.Builder()
+                    .host("foo-datastore.googleapis.com")
+                    .localHost("localhost:8080"));
     assertThat(exception)
-            .hasMessageThat()
-            .contains("Can set at most one of project endpoint, host, and local host");
+        .hasMessageThat()
+        .contains("Can set at most one of project endpoint, host, and local host");
   }
 
   @Test
   public void options_InvalidLocalHost() throws Exception {
     IllegalArgumentException exception =
-            assertThrows(
-                    IllegalArgumentException.class,
-                    () ->
-                            factory.create(
-                                    new DatastoreOptions.Builder()
-                                            .projectId(PROJECT_ID)
-                                            .localHost("!not a valid url!")
-                                            .build()));
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                factory.create(
+                    new DatastoreOptions.Builder()
+                        .projectId(PROJECT_ID)
+                        .localHost("!not a valid url!")
+                        .build()));
     assertThat(exception).hasMessageThat().contains("Illegal character");
   }
 
   @Test
   public void options_SchemeInLocalHost() {
     IllegalArgumentException exception =
-            assertThrows(
-                    IllegalArgumentException.class,
-                    () -> new DatastoreOptions.Builder().localHost("http://localhost:8080"));
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new DatastoreOptions.Builder().localHost("http://localhost:8080"));
     assertThat(exception)
-            .hasMessageThat()
-            .contains("Local host \"http://localhost:8080\" must not include scheme");
+        .hasMessageThat()
+        .contains("Local host \"http://localhost:8080\" must not include scheme");
   }
 
   @Test
   public void options_InvalidHost() {
     IllegalArgumentException exception =
-            assertThrows(
-                    IllegalArgumentException.class,
-                    () ->
-                            factory.create(
-                                    new DatastoreOptions.Builder()
-                                            .projectId(PROJECT_ID)
-                                            .host("!not a valid url!")
-                                            .build()));
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                factory.create(
+                    new DatastoreOptions.Builder()
+                        .projectId(PROJECT_ID)
+                        .host("!not a valid url!")
+                        .build()));
     assertThat(exception).hasMessageThat().contains("Illegal character");
   }
 
   @Test
   public void options_SchemeInHost() {
     IllegalArgumentException exception =
-            assertThrows(
-                    IllegalArgumentException.class,
-                    () -> new DatastoreOptions.Builder().host("http://foo-datastore.googleapis.com"));
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new DatastoreOptions.Builder().host("http://foo-datastore.googleapis.com"));
 
     assertThat(exception)
-            .hasMessageThat()
-            .contains("Host \"http://foo-datastore.googleapis.com\" must not include scheme.");
+        .hasMessageThat()
+        .contains("Host \"http://foo-datastore.googleapis.com\" must not include scheme.");
   }
 
   @Test
@@ -198,84 +194,84 @@ public class DatastoreClientTest {
   @Test
   public void create_Host() {
     Datastore datastore =
-            factory.create(
-                    new DatastoreOptions.Builder()
-                            .projectId(PROJECT_ID)
-                            .host("foo-datastore.googleapis.com")
-                            .build());
+        factory.create(
+            new DatastoreOptions.Builder()
+                .projectId(PROJECT_ID)
+                .host("foo-datastore.googleapis.com")
+                .build());
     assertThat(datastore.remoteRpc.getUrl())
-            .isEqualTo("https://foo-datastore.googleapis.com/v1/projects/project-id");
+        .isEqualTo("https://foo-datastore.googleapis.com/v1/projects/project-id");
   }
 
   @Test
   public void create_LocalHost() {
     Datastore datastore =
-            factory.create(
-                    new DatastoreOptions.Builder()
-                            .projectId(PROJECT_ID)
-                            .localHost("localhost:8080")
-                            .build());
+        factory.create(
+            new DatastoreOptions.Builder()
+                .projectId(PROJECT_ID)
+                .localHost("localhost:8080")
+                .build());
     assertThat(datastore.remoteRpc.getUrl())
-            .isEqualTo("http://localhost:8080/v1/projects/project-id");
+        .isEqualTo("http://localhost:8080/v1/projects/project-id");
   }
 
   @Test
   public void create_LocalHostIp() {
     Datastore datastore =
-            factory.create(
-                    new DatastoreOptions.Builder()
-                            .projectId(PROJECT_ID)
-                            .localHost("127.0.0.1:8080")
-                            .build());
+        factory.create(
+            new DatastoreOptions.Builder()
+                .projectId(PROJECT_ID)
+                .localHost("127.0.0.1:8080")
+                .build());
     assertThat(datastore.remoteRpc.getUrl())
-            .isEqualTo("http://127.0.0.1:8080/v1/projects/project-id");
+        .isEqualTo("http://127.0.0.1:8080/v1/projects/project-id");
   }
 
   @Test
   public void create_DefaultHost() {
     Datastore datastore =
-            factory.create(new DatastoreOptions.Builder().projectId(PROJECT_ID).build());
+        factory.create(new DatastoreOptions.Builder().projectId(PROJECT_ID).build());
     assertThat(datastore.remoteRpc.getUrl())
-            .isEqualTo("https://datastore.googleapis.com/v1/projects/project-id");
+        .isEqualTo("https://datastore.googleapis.com/v1/projects/project-id");
   }
 
   @Test
   public void create_ProjectEndpoint() {
     Datastore datastore =
-            factory.create(
-                    new DatastoreOptions.Builder()
-                            .projectEndpoint("http://prom-qa/datastore/v1beta42/projects/project-id")
-                            .build());
+        factory.create(
+            new DatastoreOptions.Builder()
+                .projectEndpoint("http://prom-qa/datastore/v1beta42/projects/project-id")
+                .build());
     assertThat(datastore.remoteRpc.getUrl())
-            .isEqualTo("http://prom-qa/datastore/v1beta42/projects/project-id");
+        .isEqualTo("http://prom-qa/datastore/v1beta42/projects/project-id");
   }
 
   @Test
   public void create_ProjectEndpointNoScheme() {
     IllegalArgumentException exception =
-            assertThrows(
-                    IllegalArgumentException.class,
-                    () ->
-                            factory.create(
-                                    new DatastoreOptions.Builder()
-                                            .projectEndpoint("localhost:1234/datastore/v1beta42/projects/project-id")
-                                            .build()));
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                factory.create(
+                    new DatastoreOptions.Builder()
+                        .projectEndpoint("localhost:1234/datastore/v1beta42/projects/project-id")
+                        .build()));
     assertThat(exception)
-            .hasMessageThat()
-            .contains(
-                    "Project endpoint \"localhost:1234/datastore/v1beta42/projects/project-id\" must"
-                            + " include scheme.");
+        .hasMessageThat()
+        .contains(
+            "Project endpoint \"localhost:1234/datastore/v1beta42/projects/project-id\" must"
+                + " include scheme.");
   }
 
   @Test
   public void initializer() throws Exception {
     options.initializer(
-            new HttpRequestInitializer() {
-              @Override
-              public void initialize(HttpRequest request) {
-                request.getHeaders().setCookie("magic");
-              }
-            });
+        new HttpRequestInitializer() {
+          @Override
+          public void initialize(HttpRequest request) {
+            request.getHeaders().setCookie("magic");
+          }
+        });
     Datastore datastore = factory.create(options.build());
     MockDatastoreFactory mockClient = (MockDatastoreFactory) factory;
     AllocateIdsRequest request = AllocateIdsRequest.newBuilder().build();
@@ -336,9 +332,9 @@ public class DatastoreClientTest {
     request.getQueryBuilder();
     RunQueryResponse.Builder response = RunQueryResponse.newBuilder();
     response
-            .getBatchBuilder()
-            .setEntityResultType(EntityResult.ResultType.FULL)
-            .setMoreResults(QueryResultBatch.MoreResultsType.NOT_FINISHED);
+        .getBatchBuilder()
+        .setEntityResultType(EntityResult.ResultType.FULL)
+        .setMoreResults(QueryResultBatch.MoreResultsType.NOT_FINISHED);
     expectRpc("runQuery", request.build(), response.build());
   }
 

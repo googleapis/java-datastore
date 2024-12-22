@@ -15,6 +15,8 @@
  */
 package com.google.datastore.utils;
 
+import static org.junit.Assert.*;
+
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
@@ -27,21 +29,16 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.MessageLite;
 import com.google.rpc.Code;
 import com.google.rpc.Status;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.GZIPOutputStream;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-import static org.junit.Assert.*;
-
-/**
- * Test for {@link RemoteRpc}.
- */
+/** Test for {@link RemoteRpc}. */
 @RunWith(JUnit4.class)
 public class RemoteRpcTest {
 
@@ -50,40 +47,40 @@ public class RemoteRpcTest {
   @Test
   public void testException() {
     Status statusProto =
-            Status.newBuilder()
-                    .setCode(Code.UNAUTHENTICATED_VALUE)
-                    .setMessage("The request does not have valid authentication credentials.")
-                    .build();
+        Status.newBuilder()
+            .setCode(Code.UNAUTHENTICATED_VALUE)
+            .setMessage("The request does not have valid authentication credentials.")
+            .build();
     DatastoreException exception =
-            RemoteRpc.makeException(
-                    "url",
-                    METHOD_NAME,
-                    new ByteArrayInputStream(statusProto.toByteArray()),
-                    "application/x-protobuf",
-                    Charsets.UTF_8,
-                    new RuntimeException(),
-                    401);
+        RemoteRpc.makeException(
+            "url",
+            METHOD_NAME,
+            new ByteArrayInputStream(statusProto.toByteArray()),
+            "application/x-protobuf",
+            Charsets.UTF_8,
+            new RuntimeException(),
+            401);
     assertEquals(Code.UNAUTHENTICATED, exception.getCode());
     assertEquals(
-            "The request does not have valid authentication credentials.", exception.getMessage());
+        "The request does not have valid authentication credentials.", exception.getMessage());
     assertEquals(METHOD_NAME, exception.getMethodName());
   }
 
   @Test
   public void testInvalidProtoException() {
     DatastoreException exception =
-            RemoteRpc.makeException(
-                    "url",
-                    METHOD_NAME,
-                    new ByteArrayInputStream("<invalid proto>".getBytes()),
-                    "application/x-protobuf",
-                    Charsets.UTF_8,
-                    new RuntimeException(),
-                    401);
+        RemoteRpc.makeException(
+            "url",
+            METHOD_NAME,
+            new ByteArrayInputStream("<invalid proto>".getBytes()),
+            "application/x-protobuf",
+            Charsets.UTF_8,
+            new RuntimeException(),
+            401);
     assertEquals(Code.INTERNAL, exception.getCode());
     assertEquals(
-            "Unable to parse Status protocol buffer: HTTP status code was 401.",
-            exception.getMessage());
+        "Unable to parse Status protocol buffer: HTTP status code was 401.",
+        exception.getMessage());
     assertEquals(METHOD_NAME, exception.getMethodName());
   }
 
@@ -91,18 +88,18 @@ public class RemoteRpcTest {
   public void testEmptyProtoException() {
     Status statusProto = Status.newBuilder().build();
     DatastoreException exception =
-            RemoteRpc.makeException(
-                    "url",
-                    METHOD_NAME,
-                    new ByteArrayInputStream(statusProto.toByteArray()),
-                    "application/x-protobuf",
-                    Charsets.UTF_8,
-                    new RuntimeException(),
-                    404);
+        RemoteRpc.makeException(
+            "url",
+            METHOD_NAME,
+            new ByteArrayInputStream(statusProto.toByteArray()),
+            "application/x-protobuf",
+            Charsets.UTF_8,
+            new RuntimeException(),
+            404);
     assertEquals(Code.INTERNAL, exception.getCode());
     assertEquals(
-            "Unexpected OK error code with HTTP status code of 404. Message: .",
-            exception.getMessage());
+        "Unexpected OK error code with HTTP status code of 404. Message: .",
+        exception.getMessage());
     assertEquals(METHOD_NAME, exception.getMethodName());
   }
 
@@ -110,14 +107,14 @@ public class RemoteRpcTest {
   public void testEmptyProtoExceptionUnauthenticated() {
     Status statusProto = Status.newBuilder().build();
     DatastoreException exception =
-            RemoteRpc.makeException(
-                    "url",
-                    METHOD_NAME,
-                    new ByteArrayInputStream(statusProto.toByteArray()),
-                    "application/x-protobuf",
-                    Charsets.UTF_8,
-                    new RuntimeException(),
-                    401);
+        RemoteRpc.makeException(
+            "url",
+            METHOD_NAME,
+            new ByteArrayInputStream(statusProto.toByteArray()),
+            "application/x-protobuf",
+            Charsets.UTF_8,
+            new RuntimeException(),
+            401);
     assertEquals(Code.UNAUTHENTICATED, exception.getCode());
     assertEquals("Unauthenticated.", exception.getMessage());
     assertEquals(METHOD_NAME, exception.getMethodName());
@@ -126,17 +123,17 @@ public class RemoteRpcTest {
   @Test
   public void testPlainTextException() {
     DatastoreException exception =
-            RemoteRpc.makeException(
-                    "url",
-                    METHOD_NAME,
-                    new ByteArrayInputStream("Text Error".getBytes()),
-                    "text/plain",
-                    Charsets.UTF_8,
-                    new RuntimeException(),
-                    401);
+        RemoteRpc.makeException(
+            "url",
+            METHOD_NAME,
+            new ByteArrayInputStream("Text Error".getBytes()),
+            "text/plain",
+            Charsets.UTF_8,
+            new RuntimeException(),
+            401);
     assertEquals(Code.INTERNAL, exception.getCode());
     assertEquals(
-            "Non-protobuf error: Text Error. HTTP status code was 401.", exception.getMessage());
+        "Non-protobuf error: Text Error. HTTP status code was 401.", exception.getMessage());
     assertEquals(METHOD_NAME, exception.getMethodName());
   }
 
@@ -144,11 +141,11 @@ public class RemoteRpcTest {
   public void testGzip() throws IOException, DatastoreException {
     BeginTransactionResponse response = newBeginTransactionResponse();
     InjectedTestValues injectedTestValues =
-            new InjectedTestValues(gzip(response), new byte[1], true);
+        new InjectedTestValues(gzip(response), new byte[1], true);
     RemoteRpc rpc = newRemoteRpc(injectedTestValues);
 
     InputStream is =
-            rpc.call("beginTransaction", BeginTransactionResponse.getDefaultInstance(), "", "");
+        rpc.call("beginTransaction", BeginTransactionResponse.getDefaultInstance(), "", "");
     BeginTransactionResponse parsedResponse = BeginTransactionResponse.parseFrom(is);
     is.close();
 
@@ -161,15 +158,15 @@ public class RemoteRpcTest {
   public void testHttpHeaders_apiFormat() throws IOException {
     String projectId = "project-id";
     MessageLite request =
-            RollbackRequest.newBuilder().setTransaction(ByteString.copyFromUtf8(projectId)).build();
+        RollbackRequest.newBuilder().setTransaction(ByteString.copyFromUtf8(projectId)).build();
     RemoteRpc rpc =
-            newRemoteRpc(
-                    new InjectedTestValues(gzip(newBeginTransactionResponse()), new byte[1], true));
+        newRemoteRpc(
+            new InjectedTestValues(gzip(newBeginTransactionResponse()), new byte[1], true));
     HttpRequest httpRequest =
-            rpc.getClient().buildPostRequest(rpc.resolveURL("blah"), new ProtoHttpContent(request));
+        rpc.getClient().buildPostRequest(rpc.resolveURL("blah"), new ProtoHttpContent(request));
     rpc.setHeaders(request, httpRequest, projectId, "");
     assertNotNull(
-            httpRequest.getHeaders().getFirstHeaderStringValue(RemoteRpc.API_FORMAT_VERSION_HEADER));
+        httpRequest.getHeaders().getFirstHeaderStringValue(RemoteRpc.API_FORMAT_VERSION_HEADER));
   }
 
   @Test
@@ -177,44 +174,44 @@ public class RemoteRpcTest {
     String projectId = "my-project";
     String databaseId = "my-db";
     MessageLite request =
-            RollbackRequest.newBuilder()
-                    .setTransaction(ByteString.copyFromUtf8(projectId))
-                    .setDatabaseId(databaseId)
-                    .build();
+        RollbackRequest.newBuilder()
+            .setTransaction(ByteString.copyFromUtf8(projectId))
+            .setDatabaseId(databaseId)
+            .build();
     RemoteRpc rpc =
-            newRemoteRpc(
-                    new InjectedTestValues(gzip(newBeginTransactionResponse()), new byte[1], true));
+        newRemoteRpc(
+            new InjectedTestValues(gzip(newBeginTransactionResponse()), new byte[1], true));
     HttpRequest httpRequest =
-            rpc.getClient().buildPostRequest(rpc.resolveURL("blah"), new ProtoHttpContent(request));
+        rpc.getClient().buildPostRequest(rpc.resolveURL("blah"), new ProtoHttpContent(request));
     rpc.setHeaders(request, httpRequest, projectId, databaseId);
     assertEquals(
-            "project_id=my-project&database_id=my-db",
-            httpRequest.getHeaders().get(RemoteRpc.X_GOOG_REQUEST_PARAMS_HEADER));
+        "project_id=my-project&database_id=my-db",
+        httpRequest.getHeaders().get(RemoteRpc.X_GOOG_REQUEST_PARAMS_HEADER));
 
     MessageLite request2 =
-            RollbackRequest.newBuilder().setTransaction(ByteString.copyFromUtf8(projectId)).build();
+        RollbackRequest.newBuilder().setTransaction(ByteString.copyFromUtf8(projectId)).build();
     RemoteRpc rpc2 =
-            newRemoteRpc(
-                    new InjectedTestValues(gzip(newBeginTransactionResponse()), new byte[1], true));
+        newRemoteRpc(
+            new InjectedTestValues(gzip(newBeginTransactionResponse()), new byte[1], true));
     HttpRequest httpRequest2 =
-            rpc2.getClient().buildPostRequest(rpc2.resolveURL("blah"), new ProtoHttpContent(request2));
+        rpc2.getClient().buildPostRequest(rpc2.resolveURL("blah"), new ProtoHttpContent(request2));
     rpc2.setHeaders(request, httpRequest2, projectId, "");
     assertEquals(
-            "project_id=my-project",
-            httpRequest2.getHeaders().get(RemoteRpc.X_GOOG_REQUEST_PARAMS_HEADER));
+        "project_id=my-project",
+        httpRequest2.getHeaders().get(RemoteRpc.X_GOOG_REQUEST_PARAMS_HEADER));
   }
 
   private static BeginTransactionResponse newBeginTransactionResponse() {
     return BeginTransactionResponse.newBuilder()
-            .setTransaction(ByteString.copyFromUtf8("blah-blah-blah"))
-            .build();
+        .setTransaction(ByteString.copyFromUtf8("blah-blah-blah"))
+        .build();
   }
 
   private static RemoteRpc newRemoteRpc(InjectedTestValues injectedTestValues) {
     return new RemoteRpc(
-            new MyHttpTransport(injectedTestValues).createRequestFactory(),
-            null,
-            "https://www.example.com/v1/projects/p");
+        new MyHttpTransport(injectedTestValues).createRequestFactory(),
+        null,
+        "https://www.example.com/v1/projects/p");
   }
 
   private byte[] gzip(BeginTransactionResponse response) throws IOException {
@@ -245,9 +242,7 @@ public class RemoteRpcTest {
     }
   }
 
-  /**
-   * {@link HttpTransport} that allows injection of the returned {@link LowLevelHttpRequest}.
-   */
+  /** {@link HttpTransport} that allows injection of the returned {@link LowLevelHttpRequest}. */
   private static class MyHttpTransport extends HttpTransport {
 
     private final InjectedTestValues injectedTestValues;
@@ -284,9 +279,7 @@ public class RemoteRpcTest {
     }
   }
 
-  /**
-   * {@link LowLevelHttpResponse} that allows injected properties.
-   */
+  /** {@link LowLevelHttpResponse} that allows injected properties. */
   private static class MyLowLevelHttpResponse extends LowLevelHttpResponse {
 
     private final InjectedTestValues injectedTestValues;

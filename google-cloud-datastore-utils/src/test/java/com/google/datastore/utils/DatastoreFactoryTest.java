@@ -27,9 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Test for {@link DatastoreFactory}.
- */
+/** Test for {@link DatastoreFactory}. */
 @RunWith(JUnit4.class)
 public class DatastoreFactoryTest {
   private static final String PROJECT_ID = "project-id";
@@ -57,19 +55,17 @@ public class DatastoreFactoryTest {
     NetHttpTransport transport = new NetHttpTransport();
     GoogleCredential credential = new GoogleCredential.Builder().setTransport(transport).build();
     DatastoreOptions options =
-            new DatastoreOptions.Builder().projectId(PROJECT_ID).credential(credential).build();
+        new DatastoreOptions.Builder().projectId(PROJECT_ID).credential(credential).build();
     HttpRequestFactory f = factory.makeClient(options);
     assertEquals(transport, f.getTransport());
   }
 
-  /**
-   * Specifying a transport, but not a credential, the factory will use the transport specified.
-   */
+  /** Specifying a transport, but not a credential, the factory will use the transport specified. */
   @Test
   public void makeClient_WithTransport() {
     NetHttpTransport transport = new NetHttpTransport();
     DatastoreOptions options =
-            new DatastoreOptions.Builder().projectId(PROJECT_ID).transport(transport).build();
+        new DatastoreOptions.Builder().projectId(PROJECT_ID).transport(transport).build();
     HttpRequestFactory f = factory.makeClient(options);
     assertEquals(transport, f.getTransport());
   }
@@ -83,13 +79,13 @@ public class DatastoreFactoryTest {
     NetHttpTransport credTransport = new NetHttpTransport();
     NetHttpTransport transport = new NetHttpTransport();
     GoogleCredential credential =
-            new GoogleCredential.Builder().setTransport(credTransport).build();
+        new GoogleCredential.Builder().setTransport(credTransport).build();
     DatastoreOptions options =
-            new DatastoreOptions.Builder()
-                    .projectId(PROJECT_ID)
-                    .credential(credential)
-                    .transport(transport)
-                    .build();
+        new DatastoreOptions.Builder()
+            .projectId(PROJECT_ID)
+            .credential(credential)
+            .transport(transport)
+            .build();
     HttpRequestFactory f = factory.makeClient(options);
     assertNotSame(credTransport, f.getTransport());
     assertEquals(transport, f.getTransport());
