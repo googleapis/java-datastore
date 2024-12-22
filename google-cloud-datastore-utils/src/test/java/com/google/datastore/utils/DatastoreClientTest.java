@@ -47,15 +47,19 @@ import com.google.datastore.utils.testing.MockDatastoreFactory;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Message;
 import com.google.rpc.Code;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.SocketTimeoutException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** Tests for {@link DatastoreFactory} and {@link Datastore}. */
+/**
+ * Tests for {@link DatastoreFactory} and {@link Datastore}.
+ */
 @RunWith(JUnit4.class)
 public class DatastoreClientTest {
   private static final String PROJECT_ID = "project-id";

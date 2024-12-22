@@ -27,7 +27,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** Test for {@link DatastoreFactory}. */
+/**
+ * Test for {@link DatastoreFactory}.
+ */
 @RunWith(JUnit4.class)
 public class DatastoreFactoryTest {
   private static final String PROJECT_ID = "project-id";
@@ -60,7 +62,9 @@ public class DatastoreFactoryTest {
     assertEquals(transport, f.getTransport());
   }
 
-  /** Specifying a transport, but not a credential, the factory will use the transport specified. */
+  /**
+   * Specifying a transport, but not a credential, the factory will use the transport specified.
+   */
   @Test
   public void makeClient_WithTransport() {
     NetHttpTransport transport = new NetHttpTransport();
