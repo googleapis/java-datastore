@@ -90,20 +90,21 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>-Xmx2048m</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>
+
     <profiles>
         <profile>
             <id>native</id>
             <properties>
-                <!--
-                Override the default match pattern for native image tests since we have a custom
-                test specifically for native image validation.
-                -->
-                <test>com.google.cloud.datastore.it.ITDatastoreConceptsTest</test>
+                <!-- skip native tests for this module, it will be tested in google-cloud-datastore-->
+                <skipTests>true</skipTests>
             </properties>
         </profile>
     </profiles>
