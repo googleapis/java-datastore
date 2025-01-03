@@ -98,7 +98,7 @@ public final class PathElement implements Serializable {
         && Objects.equals(name, other.name);
   }
 
-  com.google.datastore.v1.Key.PathElement toPb() {
+  public com.google.datastore.v1.Key.PathElement toPb() {
     com.google.datastore.v1.Key.PathElement.Builder pathElementPb =
         com.google.datastore.v1.Key.PathElement.newBuilder();
     pathElementPb.setKind(kind);
