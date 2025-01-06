@@ -211,10 +211,12 @@ public class ITLocalDatastoreHelperTest {
       assertNotNull(ex.getMessage());
     }
   }
-    @Test
+
+  @Test
   public void testCreateWithFirestoreInDatastoreMode()
-          throws IOException, InterruptedException, TimeoutException {
-    LocalDatastoreHelper helper = LocalDatastoreHelper.newBuilder().setFirestoreInDatastoreMode(true).build();
+      throws IOException, InterruptedException, TimeoutException {
+    LocalDatastoreHelper helper =
+        LocalDatastoreHelper.newBuilder().setFirestoreInDatastoreMode(true).build();
     assertTrue(helper.isFirestoreInDatastoreMode());
     helper.start();
     Datastore datastore = helper.getOptions().getService();

@@ -76,7 +76,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   private static final double DEFAULT_CONSISTENCY = 0.9;
   private static final String DEFAULT_PROJECT_ID = PROJECT_ID_PREFIX + UUID.randomUUID();
   private static final String FIRESTORE_IN_DATASTORE_MODE_FLAG =
-          "--use-firestore-in-datastore-mode";
+      "--use-firestore-in-datastore-mode";
 
   private static final Logger LOGGER = Logger.getLogger(LocalDatastoreHelper.class.getName());
 
@@ -141,6 +141,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
       this.storeOnDisk = storeOnDisk;
       return this;
     }
+
     public Builder setFirestoreInDatastoreMode(boolean firestoreInDatastoreMode) {
       this.firestoreInDatastoreMode = firestoreInDatastoreMode;
       return this;
@@ -187,7 +188,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     List<String> binCommand = new ArrayList<>(Arrays.asList(binName, "start"));
     binCommand.add("--testing");
     if (builder.firestoreInDatastoreMode) {
-       binCommand.add(FIRESTORE_IN_DATASTORE_MODE_FLAG);
+      binCommand.add(FIRESTORE_IN_DATASTORE_MODE_FLAG);
     } else {
       // At most one of --consistency | --use-firestore-in-datastore-mode can be specified.
       // --consistency will be ignored with --use-firestore-in-datastore-mode.
@@ -257,7 +258,9 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     return storeOnDisk;
   }
 
-  /** Returns {@code true} use firestore-in-datastore-mode, otherwise {@code false} use native mode. */
+  /**
+   * Returns {@code true} use firestore-in-datastore-mode, otherwise {@code false} use native mode.
+   */
   public boolean isFirestoreInDatastoreMode() {
     return firestoreInDatastoreMode;
   }
