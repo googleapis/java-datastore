@@ -53,6 +53,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   private final double consistency;
   private final Path gcdPath;
   private boolean storeOnDisk;
+  private boolean firestoreInDatastoreMode;
 
   // Gcloud emulator settings
   private static final String GCLOUD_CMD_TEXT = "gcloud beta emulators datastore start";
@@ -74,6 +75,8 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   private static final String PROJECT_FLAG = "--project=";
   private static final double DEFAULT_CONSISTENCY = 0.9;
   private static final String DEFAULT_PROJECT_ID = PROJECT_ID_PREFIX + UUID.randomUUID();
+  private static final String FIRESTORE_IN_DATASTORE_MODE_FLAG =
+          "--use-firestore-in-datastore-mode";
 
   private static final Logger LOGGER = Logger.getLogger(LocalDatastoreHelper.class.getName());
 
@@ -102,6 +105,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     private int port;
     private Path dataDir;
     private boolean storeOnDisk = true;
+    private boolean firestoreInDatastoreMode = false;
     private String projectId;
 
     private Builder() {}
@@ -110,6 +114,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
       this.consistency = helper.consistency;
       this.dataDir = helper.gcdPath;
       this.storeOnDisk = helper.storeOnDisk;
+      this.firestoreInDatastoreMode = helper.firestoreInDatastoreMode;
     }
 
     public Builder setConsistency(double consistency) {
@@ -136,6 +141,10 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
       this.storeOnDisk = storeOnDisk;
       return this;
     }
+    public Builder setFirestoreInDatastoreMode(boolean firestoreInDatastoreMode) {
+      this.firestoreInDatastoreMode = firestoreInDatastoreMode;
+      return this;
+    }
 
     /** Creates a {@code LocalDatastoreHelper} object. */
     public LocalDatastoreHelper build() {
@@ -152,14 +161,21 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     this.consistency = builder.consistency > 0 ? builder.consistency : DEFAULT_CONSISTENCY;
     this.gcdPath = builder.dataDir;
     this.storeOnDisk = builder.storeOnDisk;
+    this.firestoreInDatastoreMode = builder.firestoreInDatastoreMode;
     String binName = BIN_NAME;
     if (isWindows()) {
       binName = BIN_NAME.replace("/", "\\");
     }
     List<String> gcloudCommand = new ArrayList<>(Arrays.asList(GCLOUD_CMD_TEXT.split(" ")));
     gcloudCommand.add(GCLOUD_CMD_PORT_FLAG + "localhost:" + getPort());
-    gcloudCommand.add(CONSISTENCY_FLAG + builder.consistency);
     gcloudCommand.add(PROJECT_FLAG + projectId);
+    if (builder.firestoreInDatastoreMode) {
+      gcloudCommand.add(FIRESTORE_IN_DATASTORE_MODE_FLAG);
+    } else {
+      // At most one of --consistency | --use-firestore-in-datastore-mode can be specified.
+      // --consistency will be ignored with --use-firestore-in-datastore-mode.
+      gcloudCommand.add(CONSISTENCY_FLAG + builder.consistency);
+    }
     if (!builder.storeOnDisk) {
       gcloudCommand.add("--no-store-on-disk");
     }
@@ -170,8 +186,14 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
         new GcloudEmulatorRunner(gcloudCommand, VERSION_PREFIX, MIN_VERSION);
     List<String> binCommand = new ArrayList<>(Arrays.asList(binName, "start"));
     binCommand.add("--testing");
+    if (builder.firestoreInDatastoreMode) {
+       binCommand.add(FIRESTORE_IN_DATASTORE_MODE_FLAG);
+    } else {
+      // At most one of --consistency | --use-firestore-in-datastore-mode can be specified.
+      // --consistency will be ignored with --use-firestore-in-datastore-mode.
+      binCommand.add(CONSISTENCY_FLAG + getConsistency());
+    }
     binCommand.add(BIN_CMD_PORT_FLAG + getPort());
-    binCommand.add(CONSISTENCY_FLAG + getConsistency());
     DownloadableEmulatorRunner downloadRunner =
         new DownloadableEmulatorRunner(binCommand, EMULATOR_URL, MD5_CHECKSUM, ACCESS_TOKEN);
     this.emulatorRunners = ImmutableList.of(gcloudRunner, downloadRunner);
@@ -233,6 +255,11 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   /** Returns {@code true} data persist on disk, otherwise {@code false} data not store on disk. */
   public boolean isStoreOnDisk() {
     return storeOnDisk;
+  }
+
+  /** Returns {@code true} use firestore-in-datastore-mode, otherwise {@code false} use native mode. */
+  public boolean isFirestoreInDatastoreMode() {
+    return firestoreInDatastoreMode;
   }
 
   /**
