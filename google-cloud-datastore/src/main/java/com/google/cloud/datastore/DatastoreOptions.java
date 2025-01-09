@@ -19,6 +19,7 @@ package com.google.cloud.datastore;
 import static com.google.cloud.datastore.Validator.validateNamespace;
 
 import com.google.api.core.BetaApi;
+import com.google.api.gax.grpc.ChannelPoolSettings;
 import com.google.api.gax.grpc.InstantiatingGrpcChannelProvider;
 import com.google.api.gax.rpc.TransportChannelProvider;
 import com.google.cloud.ServiceDefaults;
@@ -222,7 +223,9 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
           builder.channelProvider != null
               ? builder.channelProvider
               : GrpcTransportOptions.setUpChannelProvider(
-                  DatastoreSettings.defaultGrpcTransportProviderBuilder(), this);
+                  DatastoreSettings.defaultGrpcTransportProviderBuilder().setChannelPoolSettings(
+                      ChannelPoolSettings.builder().setMinChannelCount(1).setInitialChannelCount(4)
+                          .build()), this);
     }
   }
 
