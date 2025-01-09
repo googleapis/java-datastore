@@ -75,7 +75,6 @@ public class GrpcDatastoreRpc implements DatastoreRpc {
               ? getClientContextForEmulator(datastoreOptions)
               : getClientContext(datastoreOptions);
 
-      //
       DatastoreStubSettings datastoreStubSettings =
           DatastoreStubSettings.newBuilder(clientContext)
               .applyToAllUnaryMethods(retrySettingSetter(datastoreOptions))
