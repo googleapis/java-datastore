@@ -114,7 +114,9 @@ public class DatastoreOptionsTest {
             .setCredentials(NoCredentials.getInstance())
             .setHost("http://localhost:" + PORT)
             .build();
-    ChannelPoolSettings channelPoolSettings = ((InstantiatingGrpcChannelProvider) datastoreOptions.getTransportChannelProvider()).getChannelPoolSettings();
+    ChannelPoolSettings channelPoolSettings =
+        ((InstantiatingGrpcChannelProvider) datastoreOptions.getTransportChannelProvider())
+            .getChannelPoolSettings();
     assertEquals(channelPoolSettings.getInitialChannelCount(), 1);
     assertEquals(channelPoolSettings.getMinChannelCount(), 1);
     assertEquals(channelPoolSettings.getMaxChannelCount(), 4);
