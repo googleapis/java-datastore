@@ -75,6 +75,7 @@ public class GrpcDatastoreRpc implements DatastoreRpc {
               ? getClientContextForEmulator(datastoreOptions)
               : getClientContext(datastoreOptions);
 
+      /* For grpc transport options, configure default gRPC Connection pool with minChannelCount = 1 and maxChannelCount = 4 */
       DatastoreStubSettings datastoreStubSettings =
           DatastoreStubSettings.newBuilder(clientContext)
               .applyToAllUnaryMethods(retrySettingSetter(datastoreOptions))

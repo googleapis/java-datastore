@@ -219,6 +219,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       throw new IllegalArgumentException(
           "Only gRPC transport allows setting of channel provider or credentials provider");
     } else if (getTransportOptions() instanceof GrpcTransportOptions) {
+      // For grpc transport options, configure default gRPC Connection pool with minChannelCount = 1 and maxChannelCount = 4
       this.channelProvider =
           builder.channelProvider != null
               ? builder.channelProvider
@@ -227,7 +228,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
                       .setChannelPoolSettings(
                           ChannelPoolSettings.builder()
                               .setMinChannelCount(1)
-                              .setInitialChannelCount(4)
+                              .setMaxChannelCount(4)
                               .build()),
                   this);
     }
