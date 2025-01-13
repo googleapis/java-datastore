@@ -78,12 +78,14 @@ public class GrpcDatastoreRpc implements DatastoreRpc {
       DatastoreStubSettings datastoreStubSettings =
           DatastoreStubSettings.newBuilder(clientContext)
               .applyToAllUnaryMethods(retrySettingSetter(datastoreOptions))
-              .setTransportChannelProvider(DatastoreSettings.defaultGrpcTransportProviderBuilder()
-                  .setChannelPoolSettings(ChannelPoolSettings.builder()
-                      .setMinChannelCount(1)
-                      .setMaxChannelCount(4)
+              .setTransportChannelProvider(
+                  DatastoreSettings.defaultGrpcTransportProviderBuilder()
+                      .setChannelPoolSettings(
+                          ChannelPoolSettings.builder()
+                              .setMinChannelCount(1)
+                              .setMaxChannelCount(4)
+                              .build())
                       .build())
-                  .build())
               .build();
       datastoreStub = GrpcDatastoreStub.create(datastoreStubSettings);
     } catch (IOException e) {

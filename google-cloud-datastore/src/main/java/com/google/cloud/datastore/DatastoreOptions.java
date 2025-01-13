@@ -223,9 +223,13 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
           builder.channelProvider != null
               ? builder.channelProvider
               : GrpcTransportOptions.setUpChannelProvider(
-                  DatastoreSettings.defaultGrpcTransportProviderBuilder().setChannelPoolSettings(
-                      ChannelPoolSettings.builder().setMinChannelCount(1).setInitialChannelCount(4)
-                          .build()), this);
+                  DatastoreSettings.defaultGrpcTransportProviderBuilder()
+                      .setChannelPoolSettings(
+                          ChannelPoolSettings.builder()
+                              .setMinChannelCount(1)
+                              .setInitialChannelCount(4)
+                              .build()),
+                  this);
     }
   }
 
