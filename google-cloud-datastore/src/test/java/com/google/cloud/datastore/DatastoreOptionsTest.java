@@ -104,6 +104,23 @@ public class DatastoreOptionsTest {
   }
 
   @Test
+  public void testGrpcDefaultChannelConfigurations() {
+    DatastoreOptions datastoreOptions =
+        DatastoreOptions.newBuilder()
+            .setServiceRpcFactory(datastoreRpcFactory)
+            .setProjectId(PROJECT_ID)
+            .setDatabaseId(DATABASE_ID)
+            .setTransportOptions(GrpcTransportOptions.newBuilder().build())
+            .setCredentials(NoCredentials.getInstance())
+            .setHost("http://localhost:" + PORT)
+            .build();
+    ChannelPoolSettings channelPoolSettings = ((InstantiatingGrpcChannelProvider) datastoreOptions.getTransportChannelProvider()).getChannelPoolSettings();
+    assertEquals(channelPoolSettings.getInitialChannelCount(), 1);
+    assertEquals(channelPoolSettings.getMinChannelCount(), 1);
+    assertEquals(channelPoolSettings.getMaxChannelCount(), 4);
+  }
+
+  @Test
   public void testCustomChannelAndCredentials() {
     InstantiatingGrpcChannelProvider channelProvider =
         DatastoreSettings.defaultGrpcTransportProviderBuilder()
