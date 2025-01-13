@@ -51,6 +51,9 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   private static final String DEFAULT_DATABASE_ID = "";
   public static final String PROJECT_ID_ENV_VAR = "DATASTORE_PROJECT_ID";
   public static final String LOCAL_HOST_ENV_VAR = "DATASTORE_EMULATOR_HOST";
+  public static final int INIT_CHANNEL_COUNT = 1;
+  public static final int MIN_CHANNEL_COUNT = 1;
+  public static final int MAX_CHANNEL_COUNT = 4;
 
   private transient TransportChannelProvider channelProvider = null;
 
@@ -228,8 +231,9 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
                   DatastoreSettings.defaultGrpcTransportProviderBuilder()
                       .setChannelPoolSettings(
                           ChannelPoolSettings.builder()
-                              .setMinChannelCount(1)
-                              .setMaxChannelCount(4)
+                              .setInitialChannelCount(INIT_CHANNEL_COUNT)
+                              .setMinChannelCount(MIN_CHANNEL_COUNT)
+                              .setMaxChannelCount(MAX_CHANNEL_COUNT)
                               .build()),
                   this);
     }

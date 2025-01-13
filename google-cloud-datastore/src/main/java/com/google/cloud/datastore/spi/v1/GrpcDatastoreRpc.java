@@ -83,8 +83,9 @@ public class GrpcDatastoreRpc implements DatastoreRpc {
                   DatastoreSettings.defaultGrpcTransportProviderBuilder()
                       .setChannelPoolSettings(
                           ChannelPoolSettings.builder()
-                              .setMinChannelCount(1)
-                              .setMaxChannelCount(4)
+                              .setInitialChannelCount(DatastoreOptions.INIT_CHANNEL_COUNT)
+                              .setMinChannelCount(DatastoreOptions.MIN_CHANNEL_COUNT)
+                              .setMaxChannelCount(DatastoreOptions.MAX_CHANNEL_COUNT)
                               .build())
                       .build())
               .build();

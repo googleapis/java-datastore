@@ -117,9 +117,9 @@ public class DatastoreOptionsTest {
     ChannelPoolSettings channelPoolSettings =
         ((InstantiatingGrpcChannelProvider) datastoreOptions.getTransportChannelProvider())
             .getChannelPoolSettings();
-    assertEquals(channelPoolSettings.getInitialChannelCount(), 1);
-    assertEquals(channelPoolSettings.getMinChannelCount(), 1);
-    assertEquals(channelPoolSettings.getMaxChannelCount(), 4);
+    assertEquals(channelPoolSettings.getInitialChannelCount(), DatastoreOptions.INIT_CHANNEL_COUNT);
+    assertEquals(channelPoolSettings.getMinChannelCount(), DatastoreOptions.MIN_CHANNEL_COUNT);
+    assertEquals(channelPoolSettings.getMaxChannelCount(), DatastoreOptions.MAX_CHANNEL_COUNT);
   }
 
   @Test
