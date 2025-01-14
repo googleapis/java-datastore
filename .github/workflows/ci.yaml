@@ -76,7 +76,7 @@ jobs:
       run: echo "JAVA=${JAVA_HOME}\bin\java" >> $GITHUB_ENV
       shell: bash
     - name: "Set jvm system property environment variable for surefire plugin (unit tests)"
-      run: echo "SUREFIRE_JVM_OPT=-Djvm=${JAVA_HOME}/bin/java" >> $GITHUB_ENV
+      run: echo "SUREFIRE_JVM_OPT=-Djvm=${JAVA_HOME}\bin\java" >> $GITHUB_ENV
       shell: bash
     - uses: actions/setup-java@v4
       with:
