@@ -82,6 +82,8 @@ graalvm17)
     ;;
 samples)
     SAMPLES_DIR=samples
+    echo "SUREFIRE_JVM_OPT: ${SUREFIRE_JVM_OPT}"
+    echo "Java 11: ${JAVA11_HOME}"
     # only run ITs in snapshot/ on presubmit PRs. run ITs in all 3 samples/ subdirectories otherwise.
     if [[ ! -z ${KOKORO_GITHUB_PULL_REQUEST_NUMBER} ]]
     then
