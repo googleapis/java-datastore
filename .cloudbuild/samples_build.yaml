@@ -14,6 +14,11 @@ steps:
 - name: gcr.io/cloud-devrel-public-resources/java8
   entrypoint: pwd
 - name: gcr.io/cloud-devrel-public-resources/java8
+  entrypoint: echo
+  args: [
+    '${JAVA11_HOME}'
+  ]
+- name: gcr.io/cloud-devrel-public-resources/java8
   entrypoint: bash
   args: [
     '.kokoro/build.sh'
@@ -22,6 +27,7 @@ steps:
   - 'JOB_TYPE=samples'
   - 'GOOGLE_CLOUD_PROJECT=cloud-java-ci-sample'
   - 'KOKORO_GITHUB_PULL_REQUEST_NUMBER=$_PR_NUMBER'
+  - 'SUREFIRE_JVM_OPT=-Djvm=${JAVA11_HOME}/bin/java'
 - name: gcr.io/cloud-devrel-public-resources/java8
   entrypoint: echo
   args: [
