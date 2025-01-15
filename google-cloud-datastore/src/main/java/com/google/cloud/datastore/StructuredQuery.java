@@ -101,6 +101,7 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
   private final Cursor endCursor;
   private final int offset;
   private final Integer limit;
+  private final FindNearest findNearest;
 
   private final ResultType<V> resultType;
 
@@ -731,6 +732,9 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
     /** Adds settings to the existing order by clause. */
     Builder<V> addOrderBy(OrderBy orderBy, OrderBy... others);
 
+    /** Sets the find_nearest for the query. */
+    Builder<V> setFindNearest(FindNearest findNearest);
+
     StructuredQuery<V> build();
   }
 
@@ -753,6 +757,7 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
     private Cursor endCursor;
     private int offset;
     private Integer limit;
+    private FindNearest findNearest;
 
     BuilderImpl(ResultType<V> resultType) {
       this.resultType = resultType;
@@ -770,6 +775,7 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
       endCursor = query.endCursor;
       offset = query.offset;
       limit = query.limit;
+      findNearest = query.findNearest;
     }
 
     @SuppressWarnings("unchecked")
@@ -841,6 +847,13 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
       return self();
     }
 
+    @Override
+    public B setFindNearest(FindNearest findNearest) {
+      Preconditions.checkArgument(findNearest != null, "vector query must not be null");
+      this.findNearest = findNearest;
+      return self();
+    }
+
     B clearProjection() {
       projection.clear();
       return self();
@@ -904,6 +917,10 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
       for (com.google.datastore.v1.PropertyReference distinctOnPb : queryPb.getDistinctOnList()) {
         addDistinctOn(distinctOnPb.getName());
       }
+      if (queryPb.getFindNearest() != null
+          && queryPb.getFindNearest() != com.google.datastore.v1.FindNearest.getDefaultInstance()) {
+        setFindNearest(FindNearest.fromPb(queryPb.getFindNearest()));
+      }
       return self();
     }
   }
@@ -920,6 +937,7 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
     endCursor = builder.endCursor;
     offset = builder.offset;
     limit = builder.limit;
+    findNearest = builder.findNearest;
   }
 
   @Override
@@ -935,6 +953,7 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
         .add("orderBy", orderBy)
         .add("projection", projection)
         .add("distinctOn", distinctOn)
+        .add("findNearest", findNearest)
         .toString();
   }
 
@@ -950,7 +969,8 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
         filter,
         orderBy,
         projection,
-        distinctOn);
+        distinctOn,
+        findNearest);
   }
 
   @Override
@@ -971,7 +991,8 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
         && Objects.equals(filter, other.filter)
         && Objects.equals(orderBy, other.orderBy)
         && Objects.equals(projection, other.projection)
-        && Objects.equals(distinctOn, other.distinctOn);
+        && Objects.equals(distinctOn, other.distinctOn)
+        && Objects.equals(findNearest, other.findNearest);
   }
 
   /** Returns the kind for this query. */
@@ -1021,6 +1042,11 @@ public abstract class StructuredQuery<V> extends Query<V> implements RecordQuery
   /** Returns the limit for this query. */
   public Integer getLimit() {
     return limit;
+  }
+
+  /** Returns the vector query for this query. */
+  public FindNearest getFindNearest() {
+    return findNearest;
   }
 
   public abstract Builder<V> toBuilder();

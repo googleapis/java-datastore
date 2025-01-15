@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore;
 
+import static com.google.cloud.datastore.VectorValue.VECTOR_MEANING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -35,6 +36,8 @@ public class BaseEntityTest {
   private static final Blob BLOB = Blob.copyFrom(new byte[] {1, 2});
   private static final Timestamp TIMESTAMP = Timestamp.now();
   private static final LatLng LAT_LNG = new LatLng(37.422035, -122.084124);
+  private static final VectorValue VECTOR =
+      VectorValue.newBuilder(1.78, 2.56, 3.88).setMeaning(VECTOR_MEANING).build();
   private static final Key KEY = Key.newBuilder("ds1", "k1", "n1").build();
   private static final Entity ENTITY = Entity.newBuilder(KEY).set("name", "foo").build();
   private static final IncompleteKey INCOMPLETE_KEY = IncompleteKey.newBuilder("ds1", "k1").build();
@@ -76,6 +79,7 @@ public class BaseEntityTest {
     builder.set("stringList", "s1", "s2", "s3");
     builder.set("longList", 1, 23, 456);
     builder.set("latLngList", LAT_LNG, LAT_LNG);
+    builder.set("vector", VECTOR);
   }
 
   @Test
@@ -183,6 +187,16 @@ public class BaseEntityTest {
   }
 
   @Test
+  public void testGetVector() {
+    BaseEntity<Key> entity = builder.build();
+    List<DoubleValue> vectorList = entity.getVector("vector");
+    assertEquals(3, vectorList.size());
+    assertEquals(Double.valueOf(1.78), vectorList.get(0).get());
+    assertEquals(Double.valueOf(2.56), vectorList.get(1).get());
+    assertEquals(Double.valueOf(3.88), vectorList.get(2).get());
+  }
+
+  @Test
   public void testGetList() {
     BaseEntity<Key> entity = builder.build();
     List<? extends Value<?>> list = entity.getList("list1");
@@ -229,7 +243,7 @@ public class BaseEntityTest {
             .add("entity", "partialEntity", "null", "timestamp", "blob", "key", "blobList")
             .add(
                 "booleanList", "timestampList", "doubleList", "keyList", "entityList", "stringList")
-            .add("longList", "latLng", "latLngList")
+            .add("longList", "latLng", "latLngList", "vector")
             .build();
     BaseEntity<Key> entity = builder.build();
     assertEquals(names, entity.getNames());

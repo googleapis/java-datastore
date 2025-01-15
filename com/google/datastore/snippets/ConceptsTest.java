@@ -30,6 +30,7 @@ import com.google.cloud.datastore.DatastoreException;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.EntityQuery;
+import com.google.cloud.datastore.FindNearest;
 import com.google.cloud.datastore.FullEntity;
 import com.google.cloud.datastore.IncompleteKey;
 import com.google.cloud.datastore.Key;
@@ -47,6 +48,7 @@ import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.Transaction;
+import com.google.cloud.datastore.VectorValue;
 import com.google.cloud.datastore.testing.LocalDatastoreHelper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -407,6 +409,7 @@ public class ConceptsTest {
                 "description",
                 StringValue.newBuilder("Learn Cloud Datastore").setExcludeFromIndexes(true).build())
             .set("tag", "fun", "l", "programming", "learn")
+            .set("vector_property", VectorValue.newBuilder(3.0, 1.0, 2.0).build())
             .build());
   }
 
@@ -1191,5 +1194,19 @@ public class ConceptsTest {
     Entity result = results.next();
     // [END datastore_stale_read]
     assertValidQueryRealBackend(query);
+  }
+
+  @Test
+  public void testVectorSearch() {
+    setUpQueryTests();
+    // [START datastore_vector_search]
+    VectorValue vectorValue = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
+    FindNearest vectorQuery =
+        new FindNearest(
+            "vector_property", vectorValue, FindNearest.DistanceMeasure.COSINE, 1, "distance");
+
+    Query<Entity> query = Query.newEntityQueryBuilder().setFindNearest(vectorQuery).build();
+    // [END datastore_vector_search]
+    assertValidQuery(query);
   }
 }

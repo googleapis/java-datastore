@@ -14,40 +14,38 @@
  * limitations under the License.
  */
 
-package com.example.datastore.filters;
+package com.example.datastore.vectorsearch;
 
-// sample-metadata:
-//   title: Queries with order fields
-//   description: The following query order properties
-//   in the decreasing order of query constraint selectivity.
-
-// [START datastore_query_order_fields]
+// [START datastore_vector_search_distance_result_property]
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.FindNearest;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.StructuredQuery.OrderBy;
-import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
+import com.google.cloud.datastore.VectorValue;
 
-public class OrderFieldsQuery {
+public class VectorSearchDistanceResultProperty {
   public static void invoke() throws Exception {
-
     // Instantiates a client
     Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-    // Build a query with order properties in the decreasing order of query constraint selectivity.
-    Query<Entity> query =
+    // Create vector search query with distance result property
+    Query<Entity> vectorSearchQuery =
         Query.newEntityQueryBuilder()
-            .setKind("employees")
-            .setFilter(PropertyFilter.gt("salary", 100000))
-            .setOrderBy(OrderBy.asc("salary"))
+            .setKind("CoffeeBean")
+            .setFindNearest(
+                new FindNearest(
+                    "embedding_field",
+                    VectorValue.newBuilder(1, 9, 11.1).build(),
+                    FindNearest.DistanceMeasure.DOT_PRODUCT,
+                    3,
+                    "vector_distance"))
             .build();
 
-    // Get the results back from Datastore
-    QueryResults<Entity> results = datastore.run(query);
-    // Order results by `experience`
+    // Execute vector search query
+    QueryResults<Entity> results = datastore.run(vectorSearchQuery);
 
     if (!results.hasNext()) {
       throw new Exception("query yielded no results");
@@ -55,8 +53,10 @@ public class OrderFieldsQuery {
 
     while (results.hasNext()) {
       Entity entity = results.next();
-      System.out.printf("Entity: %s%n", entity);
+      System.out.printf(
+          "Entity: %s, Distance: %s%n",
+          entity.getKey().getName(), entity.getDouble("vector_distance"));
     }
   }
 }
-// [END datastore_query_order_fields]
+// [END datastore_vector_search_distance_result_property]
