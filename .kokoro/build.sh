@@ -60,6 +60,9 @@ javadoc)
     RETURN_CODE=$?
     ;;
 integration)
+  echo "SUREFIRE_JVM_OPT: ${SUREFIRE_JVM_OPT}"
+  echo "Java 11: ${JAVA11_HOME}"
+  echo "Java: ${JAVA}"
     mvn -B ${INTEGRATION_TEST_ARGS} \
       -ntp \
       -Penable-integration-tests \
