@@ -22,8 +22,8 @@ steps:
   - 'JOB_TYPE=samples'
   - 'GOOGLE_CLOUD_PROJECT=cloud-java-ci-sample'
   - 'KOKORO_GITHUB_PULL_REQUEST_NUMBER=$_PR_NUMBER'
-  - 'JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/bin/java'
-  - 'JAVA=/usr/lib/jvm/java-11-openjdk-amd64'
+  - 'JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64'
+  - 'JAVA=/usr/lib/jvm/java-11-openjdk-amd64/bin/java'
   - 'SUREFIRE_JVM_OPT=-Djvm=/usr/lib/jvm/java-11-openjdk-amd64/bin/java'
 - name: gcr.io/cloud-devrel-public-resources/java8
   entrypoint: echo
