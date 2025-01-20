@@ -81,7 +81,6 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
       "--use-firestore-in-datastore-mode";
 
   private static final Logger LOGGER = Logger.getLogger(LocalDatastoreHelper.class.getName());
-  LOGGER.
 
   static {
     try {
