@@ -27,6 +27,7 @@ source ${scriptDir}/common.sh
 # require JDK 11 to compile the classes touching GraalVM classes.
 if [ -n "${JAVA11_HOME}" ]; then
   setJava "${JAVA11_HOME}"
+  echo "Java: ${JAVA}"
 fi
 
 
