@@ -25,7 +25,7 @@ source ${scriptDir}/common.sh
 
 # Kokoro integration test uses both JDK 11 and JDK 8. Integration
 # tests require JDK 11 to compile the classes.
-if [ -n "${JAVA11_HOME}" && ! -z "${JAVA8_HOME}"]; then
+if [ -n "${JAVA11_HOME}" && ! -n "${JAVA8_HOME}"]; then
   setJava "${JAVA11_HOME}"
   echo "Java:${JAVA}"
   echo "Java 11:${JAVA11_HOME}"
