@@ -62,7 +62,7 @@ javadoc)
 integration)
     # Kokoro integration test uses both JDK 11 and JDK 8. Integration
     # tests require JDK 11 to compile the classes.
-    if [ -n "${JAVA11_HOME}" ] && [ -n "${JAVA8_HOME}" ]; then
+    if [[ -n "${JAVA11_HOME}"  &&  -n "${JAVA8_HOME}" ]]; then
       export JAVA=${JAVA11_HOME}/bin/java
       export SUREFIRE_JVM_OPT="-Djvm=${JAVA8_HOME}/bin/java"
       echo "Java:${JAVA}"
