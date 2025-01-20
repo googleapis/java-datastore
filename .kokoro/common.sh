@@ -52,9 +52,12 @@ function retry_with_backoff {
     return $exit_code
 }
 
-## Helper functionss
+## Helper functions
 function now() { date +"%Y-%m-%d %H:%M:%S" | tr -d '\n'; }
 function msg() { println "$*" >&2; }
 function println() { printf '%s\n' "$(now) $*"; }
+function setJava() {
+  export JAVA=$1/bin/java
+}
 
 ## Helper comment to trigger updated repo dependency release

@@ -23,6 +23,13 @@ cd ${scriptDir}/..
 # include common functions
 source ${scriptDir}/common.sh
 
+# Kokoro integration test uses both JDK 11 and JDK 8. GraalVM dependencies
+# require JDK 11 to compile the classes touching GraalVM classes.
+if [ -n "${JAVA11_HOME}" ]; then
+  setJava "${JAVA11_HOME}"
+fi
+
+
 # Print out Maven & Java version
 mvn -version
 echo ${JOB_TYPE}
