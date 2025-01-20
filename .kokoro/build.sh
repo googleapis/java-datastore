@@ -78,6 +78,7 @@ integration)
       -Dclirr.skip=true \
       -Denforcer.skip=true \
       -fae \
+      ${SUREFIRE_JVM_OPT} \
       verify
     RETURN_CODE=$?
     ;;
