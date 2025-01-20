@@ -26,7 +26,9 @@ import com.google.cloud.ServiceOptions;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.testing.BaseEmulatorHelper;
 import com.google.common.collect.ImmutableList;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.FileVisitResult;
@@ -79,6 +81,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
       "--use-firestore-in-datastore-mode";
 
   private static final Logger LOGGER = Logger.getLogger(LocalDatastoreHelper.class.getName());
+  LOGGER.
 
   static {
     try {
@@ -323,6 +326,34 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
    */
   @Override
   public void start() throws IOException, InterruptedException {
+    try {
+      // Run the gcloud --version command
+      Process process = Runtime.getRuntime().exec("gcloud --version");
+      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+      String line;
+      StringBuilder output = new StringBuilder();
+      while ((line = reader.readLine()) != null) {
+        output.append(line).append("\n");
+      }
+
+      // Check the exit code to see if the command was successful
+      int exitCode = process.waitFor();
+      if (exitCode == 0) {
+        System.out.println("gcloud is installed.\nVersion information:\n" + output);
+        LOGGER.info("gcloud is installed.\nVersion information:\n" + output);
+      } else {
+        System.err.println("gcloud is not installed or not in the PATH.");
+        LOGGER.severe("gcloud is not installed or not in the PATH.");
+      }
+
+    } catch (IOException | InterruptedException e) {
+      System.err.println("Error checking gcloud installation: " + e.getMessage());
+      LOGGER.severe("Error checking gcloud installation: " + e.getMessage());
+    }
+
+    String Java_version = System.getenv("JAVA");
+    LOGGER.info("java_evn Java: " + Java_version);
     String blockUntilOutput = "Dev App Server is now running";
     startProcess(blockUntilOutput);
   }
