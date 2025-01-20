@@ -70,7 +70,10 @@ javadoc)
 integration)
   echo "SUREFIRE_JVM_OPT: ${SUREFIRE_JVM_OPT}"
   echo "Java 11: ${JAVA11_HOME}"
+  echo "JAVA_HOME: ${JAVA_HOME}"
   echo "Java: ${JAVA}"
+  echo "INTEGRATION_TEST_ARGS: ${INTEGRATION_TEST_ARGS}"
+  java -version
     mvn -B ${INTEGRATION_TEST_ARGS} \
       -ntp \
       -Penable-integration-tests \
