@@ -190,7 +190,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     List<String> binCommand = new ArrayList<>(Arrays.asList(binName, "start"));
     binCommand.add("--testing");
     if (builder.firestoreInDatastoreMode) {
-      binCommand.add(FIRESTORE_IN_DATASTORE_MODE_FLAG);
+      binCommand.add("--firestore_in_datastore_mode");
     } else {
       // At most one of --consistency | --use-firestore-in-datastore-mode can be specified.
       // --consistency will be ignored with --use-firestore-in-datastore-mode.
