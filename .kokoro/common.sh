@@ -58,9 +58,6 @@ function msg() { println "$*" >&2; }
 function println() { printf '%s\n' "$(now) $*"; }
 function setJava() {
   export JAVA=$1/bin/java
-  export JAVA_HOME=$1
-  export SUREFIRE_JVM_OPT=-Djvm=${JAVA_HOME}/bin/java
-  export PATH=${JAVA_HOME}/bin:$PATH
 }
 
 ## Helper comment to trigger updated repo dependency release

@@ -23,13 +23,11 @@ cd ${scriptDir}/..
 # include common functions
 source ${scriptDir}/common.sh
 
-# Kokoro integration test uses both JDK 11 and JDK 8. GraalVM dependencies
-# require JDK 11 to compile the classes touching GraalVM classes.
-if [ -n "${JAVA11_HOME}" ]; then
+# Kokoro integration test uses both JDK 11 and JDK 8. Integration
+# tests require JDK 11 to compile the classes.
+if [ -n "${JAVA11_HOME}" && ! -z "${JAVA8_HOME}"]; then
   setJava "${JAVA11_HOME}"
-  echo "Java: ${JAVA}"
 fi
-
 
 # Print out Maven & Java version
 mvn -version
@@ -68,11 +66,6 @@ javadoc)
     RETURN_CODE=$?
     ;;
 integration)
-  echo "SUREFIRE_JVM_OPT: ${SUREFIRE_JVM_OPT}"
-  echo "Java 11: ${JAVA11_HOME}"
-  echo "JAVA_HOME: ${JAVA_HOME}"
-  echo "Java: ${JAVA}"
-  echo "INTEGRATION_TEST_ARGS: ${INTEGRATION_TEST_ARGS}"
   java -version
     mvn -B ${INTEGRATION_TEST_ARGS} \
       -ntp \
@@ -81,7 +74,6 @@ integration)
       -Dclirr.skip=true \
       -Denforcer.skip=true \
       -fae \
-      ${SUREFIRE_JVM_OPT} \
       verify
     RETURN_CODE=$?
     ;;
@@ -97,8 +89,6 @@ graalvm17)
     ;;
 samples)
     SAMPLES_DIR=samples
-    echo "SUREFIRE_JVM_OPT: ${SUREFIRE_JVM_OPT}"
-    echo "Java 11: ${JAVA11_HOME}"
     # only run ITs in snapshot/ on presubmit PRs. run ITs in all 3 samples/ subdirectories otherwise.
     if [[ ! -z ${KOKORO_GITHUB_PULL_REQUEST_NUMBER} ]]
     then
@@ -119,7 +109,6 @@ samples)
           -Dclirr.skip=true \
           -Denforcer.skip=true \
           -fae \
-          ${SUREFIRE_JVM_OPT} \
           verify
         RETURN_CODE=$?
         popd

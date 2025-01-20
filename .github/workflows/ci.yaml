@@ -59,7 +59,7 @@ jobs:
         env:
           JOB_TYPE: test
   windows:
-    # Building using Java 8 and run the tests with Java 11 runtime
+    # Building using Java 11 and run the tests with Java 8 runtime
     runs-on: windows-latest
     steps:
     - name: Support longpaths
@@ -69,12 +69,6 @@ jobs:
       with:
         java-version: 8
         distribution: temurin
-#    - name: "Set Java system property environment variable for surefire plugin (unit tests)"
-#      # Maven surefire plugin (unit tests) allows us to specify JVM to run the tests.
-#      # https://maven.apache.org/surefire/maven-surefire-plugin/test-mojo.html#jvm
-##      run: echo "SUREFIRE_JVM_OPT=-Djvm=${JAVA_HOME}/bin/java" >> $GITHUB_ENV
-#      run: echo "JAVA=${JAVA_HOME}\bin\java" >> $GITHUB_ENV
-#      shell: bash
     - name: "Set jvm system property environment variable for surefire plugin (unit tests)"
       run: echo "SUREFIRE_JVM_OPT=-Djvm=${JAVA_HOME}\bin\java" >> $GITHUB_ENV
       shell: bash
