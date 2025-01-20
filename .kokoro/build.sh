@@ -23,15 +23,6 @@ cd ${scriptDir}/..
 # include common functions
 source ${scriptDir}/common.sh
 
-# Kokoro integration test uses both JDK 11 and JDK 8. Integration
-# tests require JDK 11 to compile the classes.
-if [ -n "${JAVA11_HOME}" && ! -n "${JAVA8_HOME}"]; then
-  setJava "${JAVA11_HOME}"
-  echo "Java:${JAVA}"
-  echo "Java 11:${JAVA11_HOME}"
-  echo "Java 8:${JAVA8_HOME}"
-fi
-
 # Print out Maven & Java version
 mvn -version
 echo ${JOB_TYPE}
@@ -69,6 +60,8 @@ javadoc)
     RETURN_CODE=$?
     ;;
 integration)
+    # Kokoro integration test uses both JDK 11 and JDK 8. Integration
+    # tests require JDK 11 to compile the classes.
     if [ -n "${JAVA11_HOME}" ] && [ -n "${JAVA8_HOME}" ]; then
       export JAVA=${JAVA11_HOME}/bin/java
       export SUREFIRE_JVM_OPT="-Djvm=${JAVA8_HOME}/bin/java"
