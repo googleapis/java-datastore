@@ -27,6 +27,9 @@ source ${scriptDir}/common.sh
 # tests require JDK 11 to compile the classes.
 if [ -n "${JAVA11_HOME}" && ! -z "${JAVA8_HOME}"]; then
   setJava "${JAVA11_HOME}"
+  echo "Java:${JAVA}"
+  echo "Java 11:${JAVA11_HOME}"
+  echo "Java 8:${JAVA8_HOME}"
 fi
 
 # Print out Maven & Java version
@@ -66,7 +69,6 @@ javadoc)
     RETURN_CODE=$?
     ;;
 integration)
-  java -version
     mvn -B ${INTEGRATION_TEST_ARGS} \
       -ntp \
       -Penable-integration-tests \
