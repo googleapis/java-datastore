@@ -69,6 +69,15 @@ javadoc)
     RETURN_CODE=$?
     ;;
 integration)
+    if [ -n "${JAVA11_HOME}" ] && [ -n "${JAVA8_HOME}" ]; then
+      export JAVA=${JAVA11_HOME}/bin/java
+      export SUREFIRE_JVM_OPT="-Djvm=${JAVA8_HOME}/bin/java"
+      echo "Java:${JAVA}"
+      echo "Java 11:${JAVA11_HOME}"
+      echo "Java 8:${JAVA8_HOME}"
+      echo "SUREFIRE_JVM_OPT: ${SUREFIRE_JVM_OPT}"
+    fi
+    ;;
     mvn -B ${INTEGRATION_TEST_ARGS} \
       -ntp \
       -Penable-integration-tests \
