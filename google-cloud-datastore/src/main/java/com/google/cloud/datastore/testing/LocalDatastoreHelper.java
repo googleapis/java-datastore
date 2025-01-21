@@ -188,6 +188,8 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     List<String> binCommand = new ArrayList<>(Arrays.asList(binName, "start"));
     binCommand.add("--testing");
     if (builder.firestoreInDatastoreMode) {
+      // Downloadable emulator runner takes the flag in a different
+      // format: --firestore_in_datastore_mode
       binCommand.add("--firestore_in_datastore_mode");
     } else {
       // At most one of --consistency | --firestore_in_datastore_mode can be specified.
