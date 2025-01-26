@@ -60,6 +60,9 @@ public class StructuredQueryProtoPreparer implements ProtoPreparer<StructuredQue
               .build();
       queryPb.addProjection(expressionPb);
     }
+    if (query.getFindNearest() != null) {
+      queryPb.setFindNearest(query.getFindNearest().toPb());
+    }
 
     return queryPb.build();
   }
