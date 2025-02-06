@@ -19,6 +19,7 @@ package com.google.cloud.datastore;
 import static com.google.cloud.datastore.Validator.validateNamespace;
 
 import com.google.api.core.BetaApi;
+import com.google.api.gax.grpc.ChannelPoolSettings;
 import com.google.api.gax.grpc.InstantiatingGrpcChannelProvider;
 import com.google.api.gax.rpc.TransportChannelProvider;
 import com.google.cloud.ServiceDefaults;
@@ -50,6 +51,9 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   private static final String DEFAULT_DATABASE_ID = "";
   public static final String PROJECT_ID_ENV_VAR = "DATASTORE_PROJECT_ID";
   public static final String LOCAL_HOST_ENV_VAR = "DATASTORE_EMULATOR_HOST";
+  public static final int INIT_CHANNEL_COUNT = 1;
+  public static final int MIN_CHANNEL_COUNT = 1;
+  public static final int MAX_CHANNEL_COUNT = 4;
 
   private transient TransportChannelProvider channelProvider = null;
 
@@ -218,11 +222,20 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
       throw new IllegalArgumentException(
           "Only gRPC transport allows setting of channel provider or credentials provider");
     } else if (getTransportOptions() instanceof GrpcTransportOptions) {
+      // For grpc transport options, configure default gRPC Connection pool with minChannelCount = 1
+      // and maxChannelCount = 4
       this.channelProvider =
           builder.channelProvider != null
               ? builder.channelProvider
               : GrpcTransportOptions.setUpChannelProvider(
-                  DatastoreSettings.defaultGrpcTransportProviderBuilder(), this);
+                  DatastoreSettings.defaultGrpcTransportProviderBuilder()
+                      .setChannelPoolSettings(
+                          ChannelPoolSettings.builder()
+                              .setInitialChannelCount(INIT_CHANNEL_COUNT)
+                              .setMinChannelCount(MIN_CHANNEL_COUNT)
+                              .setMaxChannelCount(MAX_CHANNEL_COUNT)
+                              .build()),
+                  this);
     }
   }
 
