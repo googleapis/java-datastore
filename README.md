@@ -19,7 +19,7 @@ If you are using Maven with [BOM][libraries-bom], add this to your pom.xml file:
     <dependency>
       <groupId>com.google.cloud</groupId>
       <artifactId>libraries-bom</artifactId>
-      <version>26.41.0</version>
+      <version>26.54.0</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -36,13 +36,12 @@ If you are using Maven with [BOM][libraries-bom], add this to your pom.xml file:
 
 If you are using Maven without the BOM, add this to your dependencies:
 
-<!-- {x-version-update-start:google-cloud-datastore:released} -->
 
 ```xml
 <dependency>
   <groupId>com.google.cloud</groupId>
   <artifactId>google-cloud-datastore</artifactId>
-  <version>2.20.0</version>
+  <version>2.25.2</version>
 </dependency>
 
 ```
@@ -50,22 +49,21 @@ If you are using Maven without the BOM, add this to your dependencies:
 If you are using Gradle 5.x or later, add this to your dependencies:
 
 ```Groovy
-implementation platform('com.google.cloud:libraries-bom:26.42.0')
+implementation platform('com.google.cloud:libraries-bom:26.54.0')
 
 implementation 'com.google.cloud:google-cloud-datastore'
 ```
 If you are using Gradle without BOM, add this to your dependencies:
 
 ```Groovy
-implementation 'com.google.cloud:google-cloud-datastore:2.20.2'
+implementation 'com.google.cloud:google-cloud-datastore:2.26.1'
 ```
 
 If you are using SBT, add this to your dependencies:
 
 ```Scala
-libraryDependencies += "com.google.cloud" % "google-cloud-datastore" % "2.20.2"
+libraryDependencies += "com.google.cloud" % "google-cloud-datastore" % "2.26.1"
 ```
-<!-- {x-version-update-end} -->
 
 ## Authentication
 
@@ -80,7 +78,7 @@ The client application making API calls must be granted [authorization scopes][a
 ### Prerequisites
 
 You will need a [Google Cloud Platform Console][developer-console] project with the Cloud Datastore [API enabled][enable-api].
-
+You will need to [enable billing][enable-billing] to use Google Cloud Datastore.
 [Follow these instructions][create-project] to get your project set up. You will also need to set up the local development environment by
 [installing the Google Cloud Command Line Interface][cloud-cli] and running the following commands in command line:
 `gcloud auth login` and `gcloud config set project [YOUR PROJECT ID]`.
@@ -93,11 +91,7 @@ to add `google-cloud-datastore` as a dependency in your code.
 ## About Cloud Datastore
 
 
-[Cloud Datastore][product-docs] is a fully managed, schemaless database for
-storing non-relational data. Cloud Datastore automatically scales with
-your users and supports ACID transactions, high availability of reads and
-writes, strong consistency for reads and ancestor queries, and eventual
-consistency for all other queries.
+[Cloud Datastore][product-docs] is a fully managed, schemaless database for\nstoring non-relational data. Cloud Datastore automatically scales with\nyour users and supports ACID transactions, high availability of reads and\nwrites, strong consistency for reads and ancestor queries, and eventual\nconsistency for all other queries.
 
 See the [Cloud Datastore client library docs][javadocs] to learn how to
 use this Cloud Datastore Client Library.
@@ -214,28 +208,33 @@ gRPC Java Datastore Client User Guide
 -------
 In this feature launch, the [Java Datastore client](https://github.com/googleapis/java-datastore) now offers gRPC as a transport layer option with experimental support. Using [gRPC connection pooling](https://grpc.io/docs/guides/performance/) enables distributing RPCs over multiple connections which may improve performance.
 
-#### Download Instructions
-Instructions:
-1. Clone the grpc-experimental branch from GitHub:
-```python
-git clone -b grpc-experimental https://github.com/googleapis/java-datastore.git
-```
-2. Run the following commands to build the library:
-```python
-# Go to the directory the code was downloaded to
-cd java-datastore/
+#### Installation Instructions
+The client can be built from the `grpc-experimental` branch on GitHub. For private preview, you can also download the artifact with the instructions provided below.
 
-# Build the library
-mvn clean install -DskipTests=true
-```
-3. Add the following dependency to your project:
-```xml
-<dependency>
+1. Download the datastore private preview package with dependencies:
+  ```
+  curl -o <path-to-downloaded-jar>  https://datastore-sdk-feature-release.web.app/google-cloud-datastore-2.20.0-grpc-experimental-1-SNAPSHOT-jar-with-dependencies.jar
+  ```
+2. Run the following commands to install JDK locally:
+  ```
+  mvn install:install-file -Dfile=<path-to-downloaded-jar> -DgroupId=com.google.cloud -DartifactId=google-cloud-datastore -Dversion=2.20.0-grpc
+  ```
+3. Edit your pom.xml to add above package to `<dependencies/>` section:
+  ```xml
+  <dependency>
   <groupId>com.google.cloud</groupId>
   <artifactId>google-cloud-datastore</artifactId>
   <version>2.20.0-grpc-experimental-1-SNAPSHOT</version>
-</dependency>
-```
+  </dependency>
+  ```
+
+And if you have not yet, add below to `<repositories/>` section:
+  ```xml
+  <repository>
+  <id>local-repo</id>
+  <url>file://${user.home}/.m2/repository</url>
+  </repository>
+  ```
 
 #### How to Use
 To opt-in to the gRPC transport behavior, simply add the below line of code (`setTransportOptions`) to your Datastore client instantiation.
@@ -285,11 +284,44 @@ boolean isHTTP = datastore.getOptions().getTransportOptions() instanceof HTTPTra
 #### New Features
 There are new gRPC specific features available to use in this update.
 
-##### Channel Pooling
-To customize the number of channels your client uses, you can update the channel provider in the DatastoreOptions. 
+##### Connection Pool
+A connection pool, also known as a channel pool, is a cache of database connections that are shared and reused to improve connection latency and performance. With this update, now you will be able to configure the channel pool to improve application performance. This section guides you in determining the optimal connection pool size and configuring it within the Java datastore client.
+To customize the number of channels your client uses, you can update the channel provider in the DatastoreOptions.
+###### Determine the best connection pool size
+The default connection pool size is right for most applications, and in most cases there's no need to change it.
+
+However sometimes you may want to change your connection pool size due to high throughput or buffered requests. Ideally, to leave room for traffic fluctuations, a connection pool has about twice the number of connections it takes for maximum saturation. Because a connection can handle a maximum of 100 concurrent requests, between 10 and 50 outstanding requests per connection is optimal. The limit of 100 concurrent streams per gRPC connection is enforced in Google's middleware layer, and you are not able to reconfigure this number.
+
+The following steps help you calculate the optimal number of connections in your channel pool using estimate per-client QPS and average latency numbers.
+
+To calculate the optimal connections, gather the following information:
+
+1. The maximum number of queries per second (QPS) per client when your application is running a typical workload.
+2. The average latency (the response time for a single request) in ms.
+3. Determine the number of requests that you can send serially per second by dividing 1,000 by the average latency value.
+4. Divide the QPS in seconds by the number of serial requests per second.
+5. Divide the result by 50 requests per channel to determine the minimum optimal channel pool size. (If your calculation is less than 2, use at least 2 channels anyway, to ensure redundancy.)
+6. Divide the same result by 10 requests per channel to determine the maximum optimal channel pool size.
+
+These steps are expressed in the following equations:
+```java
+(QPS ÷ (1,000 ÷ latency ms)) ÷ 50 streams = Minimum optimal number of connections
+(QPS ÷ (1,000 ÷ latency ms)) ÷ 10 streams = Maximum optimal number of connections
+```
+
+###### Example
+Your application typically sends 50,000 requests per second, and the average latency is 10 ms. Divide 1,000 by 10 ms to determine that you can send 100 requests serially per second.
+Divide that number into 50,000 to get the parallelism needed to send 50,000 QPS: 500. Each channel can have at most 100 requests out concurrently, and your target channel utilization
+is between 10 and 50 concurrent streams. Therefore, to calculate the minimum, divide 500 by 50 to get 10. To find the maximum, divide 500 by 10 to get 50. This means that your channel
+pool size for this example should be between 10 and 50 connections.
+
+It is also important to monitor your traffic after making changes and adjust the number of connections in your pool if necessary.
+
+###### Set the pool size
+The following code sample demonstrates how to configure the channel pool in the client libraries using `DatastoreOptions`.
 See [ChannelPoolSettings](https://cloud.google.com/java/docs/reference/gax/latest/com.google.api.gax.grpc.ChannelPoolSettings) and [Performance Best Practices](https://grpc.io/docs/guides/performance/) for more information on channel pools and best practices for performance.
 
-Example:
+Code Example
 ```java
 InstantiatingGrpcChannelProvider channelProvider =
       DatastoreSettings.defaultGrpcTransportProviderBuilder()
@@ -356,7 +388,6 @@ Samples are in the [`samples/`](https://github.com/googleapis/java-datastore/tre
 
 | Sample                      | Source Code                       | Try it |
 | --------------------------- | --------------------------------- | ------ |
-| Native Image Datastore Sample | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/native-image-sample/src/main/java/com/example/datastore/NativeImageDatastoreSample.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/native-image-sample/src/main/java/com/example/datastore/NativeImageDatastoreSample.java) |
 | Quickstart Sample | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/QuickstartSample.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/QuickstartSample.java) |
 | Avg Aggregation On Kind | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationOnKind.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationOnKind.java) |
 | Avg Aggregation With Limit | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationWithLimit.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationWithLimit.java) |
@@ -375,7 +406,9 @@ Samples are in the [`samples/`](https://github.com/googleapis/java-datastore/tre
 | Sum Aggregation With Limit | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationWithLimit.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationWithLimit.java) |
 | Sum Aggregation With Order By | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationWithOrderBy.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationWithOrderBy.java) |
 | Sum Aggregation With Property Filter | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationWithPropertyFilter.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/SumAggregationWithPropertyFilter.java) |
+| Indexing Consideration Query | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/filters/IndexingConsiderationQuery.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/filters/IndexingConsiderationQuery.java) |
 | Create a union between two filters | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/filters/OrFilterQuery.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/filters/OrFilterQuery.java) |
+| Order Fields Query | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/filters/OrderFieldsQuery.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/filters/OrderFieldsQuery.java) |
 | Query Profile Explain | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/queryprofile/QueryProfileExplain.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/queryprofile/QueryProfileExplain.java) |
 | Query Profile Explain Aggregation | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/queryprofile/QueryProfileExplainAggregation.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/queryprofile/QueryProfileExplainAggregation.java) |
 | Query Profile Explain Analyze | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/queryprofile/QueryProfileExplainAnalyze.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/queryprofile/QueryProfileExplainAnalyze.java) |
@@ -387,6 +420,10 @@ Samples are in the [`samples/`](https://github.com/googleapis/java-datastore/tre
 ## Troubleshooting
 
 To get help, follow the instructions in the [shared Troubleshooting document][troubleshooting].
+
+## Transport
+
+Cloud Datastore uses both gRPC and HTTP/JSON for the transport layer.
 
 ## Supported Java Versions
 
@@ -480,7 +517,7 @@ Java is a registered trademark of Oracle and/or its affiliates.
 [kokoro-badge-link-5]: http://storage.googleapis.com/cloud-devrel-public/java/badges/java-datastore/java11.html
 [stability-image]: https://img.shields.io/badge/stability-stable-green
 [maven-version-image]: https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-datastore.svg
-[maven-version-link]: https://central.sonatype.com/artifact/com.google.cloud/google-cloud-datastore/2.20.2
+[maven-version-link]: https://central.sonatype.com/artifact/com.google.cloud/google-cloud-datastore/2.26.1
 [authentication]: https://github.com/googleapis/google-cloud-java#authentication
 [auth-scopes]: https://developers.google.com/identity/protocols/oauth2/scopes
 [predefined-iam-roles]: https://cloud.google.com/iam/docs/understanding-roles#predefined_roles
@@ -492,7 +529,7 @@ Java is a registered trademark of Oracle and/or its affiliates.
 [contributing]: https://github.com/googleapis/java-datastore/blob/main/CONTRIBUTING.md
 [code-of-conduct]: https://github.com/googleapis/java-datastore/blob/main/CODE_OF_CONDUCT.md#contributor-code-of-conduct
 [license]: https://github.com/googleapis/java-datastore/blob/main/LICENSE
-
+[enable-billing]: https://cloud.google.com/apis/docs/getting-started#enabling_billing
 [enable-api]: https://console.cloud.google.com/flows/enableapi?apiid=datastore.googleapis.com
 [libraries-bom]: https://github.com/GoogleCloudPlatform/cloud-opensource-java/wiki/The-Google-Cloud-Platform-Libraries-BOM
 [shell_img]: https://gstatic.com/cloudssh/images/open-btn.png

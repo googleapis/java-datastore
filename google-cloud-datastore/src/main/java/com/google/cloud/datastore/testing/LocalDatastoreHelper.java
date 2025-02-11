@@ -16,9 +16,11 @@
 
 package com.google.cloud.datastore.testing;
 
+import static com.google.api.gax.util.TimeConversionUtils.toJavaTimeDuration;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.api.core.InternalApi;
+import com.google.api.core.ObsoleteApi;
 import com.google.cloud.NoCredentials;
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.datastore.DatastoreOptions;
@@ -38,7 +40,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
-import org.threeten.bp.Duration;
 
 /**
  * Utility to start and stop local Google Cloud Datastore emulators.
@@ -52,12 +53,13 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   private final double consistency;
   private final Path gcdPath;
   private boolean storeOnDisk;
+  private boolean firestoreInDatastoreMode;
 
   // Gcloud emulator settings
   private static final String GCLOUD_CMD_TEXT = "gcloud beta emulators datastore start";
   private static final String GCLOUD_CMD_PORT_FLAG = "--host-port=";
   private static final String VERSION_PREFIX = "cloud-datastore-emulator ";
-  private static final String MIN_VERSION = "2.0.2";
+  private static final String MIN_VERSION = "2.3.1";
 
   // Downloadable emulator settings
   private static final String BIN_NAME = "cloud-datastore-emulator/cloud_datastore_emulator";
@@ -73,6 +75,8 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   private static final String PROJECT_FLAG = "--project=";
   private static final double DEFAULT_CONSISTENCY = 0.9;
   private static final String DEFAULT_PROJECT_ID = PROJECT_ID_PREFIX + UUID.randomUUID();
+  private static final String FIRESTORE_IN_DATASTORE_MODE_FLAG =
+      "--use-firestore-in-datastore-mode";
 
   private static final Logger LOGGER = Logger.getLogger(LocalDatastoreHelper.class.getName());
 
@@ -101,6 +105,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     private int port;
     private Path dataDir;
     private boolean storeOnDisk = true;
+    private boolean firestoreInDatastoreMode = false;
     private String projectId;
 
     private Builder() {}
@@ -109,6 +114,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
       this.consistency = helper.consistency;
       this.dataDir = helper.gcdPath;
       this.storeOnDisk = helper.storeOnDisk;
+      this.firestoreInDatastoreMode = helper.firestoreInDatastoreMode;
     }
 
     public Builder setConsistency(double consistency) {
@@ -136,6 +142,11 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
       return this;
     }
 
+    public Builder setFirestoreInDatastoreMode(boolean firestoreInDatastoreMode) {
+      this.firestoreInDatastoreMode = firestoreInDatastoreMode;
+      return this;
+    }
+
     /** Creates a {@code LocalDatastoreHelper} object. */
     public LocalDatastoreHelper build() {
       return new LocalDatastoreHelper(this);
@@ -151,26 +162,41 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     this.consistency = builder.consistency > 0 ? builder.consistency : DEFAULT_CONSISTENCY;
     this.gcdPath = builder.dataDir;
     this.storeOnDisk = builder.storeOnDisk;
+    this.firestoreInDatastoreMode = builder.firestoreInDatastoreMode;
     String binName = BIN_NAME;
     if (isWindows()) {
       binName = BIN_NAME.replace("/", "\\");
     }
     List<String> gcloudCommand = new ArrayList<>(Arrays.asList(GCLOUD_CMD_TEXT.split(" ")));
     gcloudCommand.add(GCLOUD_CMD_PORT_FLAG + "localhost:" + getPort());
-    gcloudCommand.add(CONSISTENCY_FLAG + builder.consistency);
     gcloudCommand.add(PROJECT_FLAG + projectId);
+    if (builder.firestoreInDatastoreMode) {
+      gcloudCommand.add(FIRESTORE_IN_DATASTORE_MODE_FLAG);
+    } else {
+      // At most one of --consistency | --use-firestore-in-datastore-mode can be specified.
+      // --consistency will be ignored with --use-firestore-in-datastore-mode.
+      gcloudCommand.add(CONSISTENCY_FLAG + builder.consistency);
+    }
     if (!builder.storeOnDisk) {
       gcloudCommand.add("--no-store-on-disk");
+    }
+    if (builder.dataDir != null) {
+      gcloudCommand.add("--data-dir=" + getGcdPath());
     }
     GcloudEmulatorRunner gcloudRunner =
         new GcloudEmulatorRunner(gcloudCommand, VERSION_PREFIX, MIN_VERSION);
     List<String> binCommand = new ArrayList<>(Arrays.asList(binName, "start"));
     binCommand.add("--testing");
-    binCommand.add(BIN_CMD_PORT_FLAG + getPort());
-    binCommand.add(CONSISTENCY_FLAG + getConsistency());
-    if (builder.dataDir != null) {
-      gcloudCommand.add("--data-dir=" + getGcdPath());
+    if (builder.firestoreInDatastoreMode) {
+      // Downloadable emulator runner takes the flag in a different
+      // format: --firestore_in_datastore_mode
+      binCommand.add("--firestore_in_datastore_mode");
+    } else {
+      // At most one of --consistency | --firestore_in_datastore_mode can be specified.
+      // --consistency will be ignored with --firestore_in_datastore_mode.
+      binCommand.add(CONSISTENCY_FLAG + getConsistency());
     }
+    binCommand.add(BIN_CMD_PORT_FLAG + getPort());
     DownloadableEmulatorRunner downloadRunner =
         new DownloadableEmulatorRunner(binCommand, EMULATOR_URL, MD5_CHECKSUM, ACCESS_TOKEN);
     this.emulatorRunners = ImmutableList.of(gcloudRunner, downloadRunner);
@@ -232,6 +258,13 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
   /** Returns {@code true} data persist on disk, otherwise {@code false} data not store on disk. */
   public boolean isStoreOnDisk() {
     return storeOnDisk;
+  }
+
+  /**
+   * Returns {@code true} use firestore-in-datastore-mode, otherwise {@code false} use native mode.
+   */
+  public boolean isFirestoreInDatastoreMode() {
+    return firestoreInDatastoreMode;
   }
 
   /**
@@ -307,6 +340,14 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
     sendPostRequest("/reset");
   }
 
+  /** This method is obsolete. Use {@link #stopDuration(java.time.Duration)} instead */
+  @ObsoleteApi("Use stopDuration(java.time.Duration) instead")
+  @Override
+  public void stop(org.threeten.bp.Duration timeout)
+      throws IOException, InterruptedException, TimeoutException {
+    stopDuration(toJavaTimeDuration(timeout));
+  }
+
   /**
    * Stops the Datastore emulator.
    *
@@ -319,15 +360,16 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
    *     this value high to ensure proper shutdown, like 5 seconds or more.
    */
   @Override
-  public void stop(Duration timeout) throws IOException, InterruptedException, TimeoutException {
+  public void stopDuration(java.time.Duration timeout)
+      throws IOException, InterruptedException, TimeoutException {
     sendPostRequest("/shutdown");
-    waitForProcess(timeout);
+    waitForProcessDuration(timeout);
     deleteRecursively(gcdPath);
   }
 
   /**
-   * Stops the Datastore emulator. The same as {@link #stop(Duration)} but with timeout duration of
-   * 20 seconds.
+   * Stops the Datastore emulator. The same as {@link #stopDuration(java.time.Duration)} but with
+   * timeout duration of 20 seconds.
    *
    * <p>It is important to stop the emulator. Since the emulator runs in its own process, not
    * stopping it might cause it to become orphan.
@@ -335,7 +377,7 @@ public class LocalDatastoreHelper extends BaseEmulatorHelper<DatastoreOptions> {
    * <p>It is not required to call {@link #reset()} before {@code stop()}.
    */
   public void stop() throws IOException, InterruptedException, TimeoutException {
-    stop(Duration.ofSeconds(20));
+    stopDuration(java.time.Duration.ofSeconds(20));
   }
 
   static void deleteRecursively(Path path) throws IOException {

@@ -77,7 +77,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.threeten.bp.Duration;
 
 /** Contains Cloud Datastore snippets demonstrating concepts for documentation. */
 @RunWith(JUnit4.class)
@@ -147,7 +146,7 @@ public class ConceptsTest {
    */
   @AfterClass
   public static void afterClass() throws IOException, InterruptedException, TimeoutException {
-    HELPER.stop(Duration.ofMinutes(1));
+    HELPER.stopDuration(java.time.Duration.ofMinutes(1));
   }
 
   private void assertValidKey(Key taskKey) {
@@ -297,8 +296,17 @@ public class ConceptsTest {
   public void testUpdate() {
     datastore.put(testEntity);
     // [START datastore_update]
-    Entity task = Entity.newBuilder(datastore.get(taskKey)).set("priority", 5).build();
-    datastore.update(task);
+    Entity task;
+    Transaction txn = datastore.newTransaction();
+    try {
+      task = Entity.newBuilder(txn.get(taskKey)).set("priority", 5).build();
+      txn.put(task);
+      txn.commit();
+    } finally {
+      if (txn.isActive()) {
+        txn.rollback();
+      }
+    }
     // [END datastore_update]
     assertEquals(task, datastore.get(taskKey));
   }
