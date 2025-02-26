@@ -18,8 +18,6 @@ updates:
     # it via template in the synthtool repository.
     ignore:
       - dependency-name: "*"
-    - dependency-name: "*"
-
 # rules for the `grpc-experimental` branch
   - package-ecosystem: maven
     directory: "/"
