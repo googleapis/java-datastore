@@ -42,6 +42,7 @@ public class ValueTest {
   private static final RawValue RAW_VALUE = RawValue.of(STRING_VALUE.toPb());
   private static final LatLngValue LAT_LNG_VALUE =
       LatLngValue.of(new LatLng(37.422035, -122.084124));
+  private static final VectorValue VECTOR_VALUE = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
   private static final ImmutableMap<ValueType, Object[]> TYPES =
       ImmutableMap.<ValueType, Object[]>builder()
           .put(ValueType.NULL, new Object[] {NullValue.class, NULL_VALUE.get()})
@@ -57,6 +58,7 @@ public class ValueTest {
           .put(ValueType.LONG, new Object[] {LongValue.class, 123L})
           .put(ValueType.RAW_VALUE, new Object[] {RawValue.class, RAW_VALUE.get()})
           .put(ValueType.LAT_LNG, new Object[] {LatLngValue.class, LAT_LNG_VALUE.get()})
+          .put(ValueType.VECTOR, new Object[] {VectorValue.class, VECTOR_VALUE.get()})
           .put(ValueType.STRING, new Object[] {StringValue.class, STRING_VALUE.get()})
           .buildOrThrow();
 
