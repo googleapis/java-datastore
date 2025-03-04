@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.27.0](https://github.com/googleapis/java-datastore/compare/v2.26.4...v2.27.0) (2025-03-04)
+
+
+### Features
+
+* Next release from main branch is 2.27.0 ([#1781](https://github.com/googleapis/java-datastore/issues/1781)) ([d29f47c](https://github.com/googleapis/java-datastore/commit/d29f47cbef9998acdc8b7b0f42d93574dab3cc7f))
+
+
+### Bug Fixes
+
+* **deps:** Update the Java code generator (gapic-generator-java) to 2.54.0 ([b9b302b](https://github.com/googleapis/java-datastore/commit/b9b302bb6c8bb1c8d8b175b776b2f65317511987))
+
 ## [2.26.4](https://github.com/googleapis/java-datastore/compare/v2.26.3...v2.26.4) (2025-02-26)
 
 
