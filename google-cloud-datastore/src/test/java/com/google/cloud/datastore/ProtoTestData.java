@@ -17,6 +17,7 @@ package com.google.cloud.datastore;
 
 import static com.google.datastore.v1.PropertyOrder.Direction.ASCENDING;
 
+import com.google.cloud.datastore.FindNearest.DistanceMeasure;
 import com.google.datastore.v1.AggregationQuery.Aggregation;
 import com.google.datastore.v1.AggregationQuery.Aggregation.Count;
 import com.google.datastore.v1.Filter;
@@ -27,6 +28,9 @@ import com.google.datastore.v1.PropertyFilter.Operator;
 import com.google.datastore.v1.PropertyOrder;
 import com.google.datastore.v1.PropertyReference;
 import com.google.datastore.v1.Value;
+import com.google.protobuf.DoubleValue;
+import com.google.protobuf.Int32Value;
+import javax.annotation.Nullable;
 
 public class ProtoTestData {
 
@@ -82,5 +86,34 @@ public class ProtoTestData {
 
   public static Projection projection(String value) {
     return Projection.newBuilder().setProperty(propertyReference(value)).build();
+  }
+
+  public static com.google.datastore.v1.FindNearest FindNearest(
+      String vectorProperty, VectorValue queryVector, DistanceMeasure measure, int limit) {
+    return FindNearest(vectorProperty, queryVector, measure, limit, null, null);
+  }
+
+  public static com.google.datastore.v1.FindNearest FindNearest(
+      String vectorProperty,
+      VectorValue queryVector,
+      DistanceMeasure measure,
+      int limit,
+      @Nullable String distanceResultField,
+      @Nullable Double distanceThreshold) {
+    com.google.datastore.v1.FindNearest.Builder builder =
+        com.google.datastore.v1.FindNearest.newBuilder()
+            .setVectorProperty(propertyReference(vectorProperty))
+            .setQueryVector(queryVector.toPb())
+            .setDistanceMeasure(FindNearest.toProto(measure))
+            .setLimit(Int32Value.of(limit));
+
+    if (distanceResultField != null) {
+      builder.setDistanceResultProperty(distanceResultField);
+    }
+    if (distanceThreshold != null) {
+      builder.setDistanceThreshold(DoubleValue.of(distanceThreshold));
+    }
+
+    return builder.build();
   }
 }
