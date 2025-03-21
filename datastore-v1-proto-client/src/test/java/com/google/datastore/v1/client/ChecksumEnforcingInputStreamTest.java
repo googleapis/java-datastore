@@ -21,6 +21,7 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -28,39 +29,88 @@ import org.junit.runners.JUnit4;
 /** Test for {@link ChecksumEnforcingInputStream}. */
 @RunWith(JUnit4.class)
 public class ChecksumEnforcingInputStreamTest {
-  public void test(int payloadSize) throws Exception {
-    // read 1000 bytes at a time
-    // Since checksum should be correct, do not expect IOException
-    try (ChecksumEnforcingInputStream testInstance = setUpData(payloadSize)) {
-      byte[] buf = new byte[1000];
-      while (testInstance.read(buf, 0, 1000) != -1) {
+  public long[] test(int payloadSize) throws Exception {
+    int chunkSize = 10240;
+    byte[] payload = preparePayload(payloadSize);
+    long start = System.nanoTime();
+    String expectedChecksum = EndToEndChecksumHandler.computeChecksum(payload);
+    long computeTime = System.nanoTime() - start;
+    long checksumTime = 0, noChecksumTime = 0;
+    try (ChecksumEnforcingInputStream testInstance = createStream(expectedChecksum, payload)) {
+      byte[] buf = new byte[chunkSize];
+      start = System.nanoTime();
+      while (testInstance.read(buf, 0, chunkSize) != -1) {
         // do nothing with the bytes read
       }
+      checksumTime = System.nanoTime() - start;
     } catch (IOException e) {
       fail("checksum verification failed! " + e.getMessage());
     }
+
+    try (ByteArrayInputStream testInstance = new ByteArrayInputStream(payload)) {
+      byte[] buf = new byte[chunkSize];
+      start = System.nanoTime();
+      while (testInstance.read(buf, 0, chunkSize) != -1) {
+        // do nothing with the bytes read
+      }
+      noChecksumTime = System.nanoTime() - start;
+    } catch (IOException e) {
+      fail("checksum verification failed! " + e.getMessage());
+    }
+
+    return new long[] {noChecksumTime, checksumTime, computeTime};
   }
 
   @Test
   public void read_withValidChecksum_differentPayloadSizes() throws Exception {
-    // test with various payload sizes (1, 2, 2**2, 2**3 etc upto 2**28 = 256MB)
-    for (int i = 0, payloadSize = 1; i < 29; i++) {
-      long start = System.currentTimeMillis();
-      test(payloadSize);
-      payloadSize *= 2;
-      long duration = System.currentTimeMillis() - start;
-      // log test duration times for bigger payloads
-      if (i > 20) {
-        System.out.println("Test duration for payloadsize = 2** " + i + " is: " + duration + "ms");
+    int iterations = 3;
+    int median = iterations / 2;
+    int minPower = 15;
+    int maxPower = 29;
+    long[][] readNoChecksum = new long[maxPower][];
+    long[][] readAndChecksum = new long[maxPower][];
+    long[][] compute = new long[maxPower][];
+
+    for (int j = minPower - 1; j < maxPower; j++) {
+      readNoChecksum[j] = new long[iterations];
+      readAndChecksum[j] = new long[iterations];
+      compute[j] = new long[iterations];
+    }
+
+    for (int i = 0; i < iterations; i++) {
+      // test with various payload sizes (1, 2, 2**2, 2**3 etc upto 2**28 = 256MB)
+      for (int j = minPower - 1; j < maxPower; j++) {
+        long[] result = test((int) Math.pow(2, j));
+        readNoChecksum[j][i] = result[0];
+        readAndChecksum[j][i] = result[1];
+        compute[j][i] = result[2];
       }
+    }
+
+    for (int j = minPower; j < maxPower; j++) {
+      Arrays.sort(readNoChecksum[j]);
+      Arrays.sort(readAndChecksum[j]);
+      Arrays.sort(compute[j]);
+      System.out.println(
+          "Payload "
+              + (int) Math.pow(2, j) / 1024
+              + " KB stream read: "
+              + readNoChecksum[j][median] / 1000.0
+              + " μs; stream read and calculate checksum: "
+              + readAndChecksum[j][median] / 1000.0
+              + " μs; stream checksum overhead: "
+              + (readAndChecksum[j][median] - readNoChecksum[j][median]) / 1000.0
+              + " μs; calculate checksum: "
+              + compute[j][median] / 1000.0
+              + " μs.");
     }
   }
 
   @Test
   public void read_withInvalidChecksum() {
-    // build a test instance with invalidchecksum
-    // read 1000 bytes at a time
-    // Since checksum should be correct, do not expect IOException
+    // Build a test instance with an invalid checksum.
+    // Read 1000 bytes at a time.
+    // Since checksum is invalid, do expect IOException.
     try (ChecksumEnforcingInputStream instance =
         new ChecksumEnforcingInputStream(
             new ByteArrayInputStream("hello there".getBytes(UTF_8)), "this checksum is invalid")) {
@@ -72,17 +122,19 @@ public class ChecksumEnforcingInputStreamTest {
       // this is expected
       return;
     }
-    fail("should have failed");
+    fail("should have raised IOException");
   }
 
   @Test
   public void markNotSupported() throws Exception {
-    try (ChecksumEnforcingInputStream testInstance = setUpData(1)) {
+    byte[] payload = preparePayload(1);
+    String expectedChecksum = EndToEndChecksumHandler.computeChecksum(payload);
+    try (ChecksumEnforcingInputStream testInstance = createStream(expectedChecksum, payload)) {
       assertFalse(testInstance.markSupported());
     }
   }
 
-  private ChecksumEnforcingInputStream setUpData(int payloadSize) throws Exception {
+  private byte[] preparePayload(int payloadSize) {
     // setup a String of size = input param: payloadSize
     String str = "This is a repeating string.";
     String payload;
@@ -96,8 +148,11 @@ public class ChecksumEnforcingInputStreamTest {
     } else {
       payload = str.substring(0, payloadSize);
     }
-    byte[] bytes = payload.getBytes(UTF_8);
-    String expectedChecksum = EndToEndChecksumHandler.computeChecksum(bytes);
-    return new ChecksumEnforcingInputStream(new ByteArrayInputStream(bytes), expectedChecksum);
+    return payload.getBytes(UTF_8);
+  }
+
+  private ChecksumEnforcingInputStream createStream(String checksum, byte[] bytes)
+      throws Exception {
+    return new ChecksumEnforcingInputStream(new ByteArrayInputStream(bytes), checksum);
   }
 }
