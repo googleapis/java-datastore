@@ -42,6 +42,7 @@ if [[ ! -z "${GOOGLE_APPLICATION_CREDENTIALS}" && "${GOOGLE_APPLICATION_CREDENTI
     export GOOGLE_APPLICATION_CREDENTIALS=$(realpath ${KOKORO_GFILE_DIR}/${GOOGLE_APPLICATION_CREDENTIALS})
 fi
 
+
 RETURN_CODE=0
 set +e
 
@@ -60,18 +61,6 @@ javadoc)
     RETURN_CODE=$?
     ;;
 integration)
-    # Kokoro integration tests use both JDK 11 and JDK 8. Integration
-    # tests require JDK 11 export as JAVA env variable to run cloud datastore
-    # emulator (https://cloud.google.com/sdk/docs/release-notes#39300_2022-07-12).
-    # For Java 8 environment, we will still run the tests using Java 8 with
-    # SUREFIRE_JVM_OPT for Maven surefire plugin:
-    # https://maven.apache.org/surefire/maven-surefire-plugin/test-mojo.html#jvm
-    if [[ -n "${JAVA11_HOME}"  &&  -n "${JAVA8_HOME}" ]]
-    then
-      export JAVA=${JAVA11_HOME}/bin/java
-      export SUREFIRE_JVM_OPT=-Djvm=${JAVA8_HOME}/bin/java
-    fi
-
     mvn -B ${INTEGRATION_TEST_ARGS} \
       -ntp \
       -Penable-integration-tests \
@@ -83,11 +72,6 @@ integration)
     RETURN_CODE=$?
     ;;
 graalvm)
-    # Run Unit and Integration Tests with Native Image
-    mvn -B ${INTEGRATION_TEST_ARGS} -ntp -Pnative test
-    RETURN_CODE=$?
-    ;;
-graalvm17)
     # Run Unit and Integration Tests with Native Image
     mvn -B ${INTEGRATION_TEST_ARGS} -ntp -Pnative test
     RETURN_CODE=$?
@@ -140,7 +124,7 @@ bash .kokoro/coerce_logs.sh
 if [[ "${ENABLE_FLAKYBOT}" == "true" ]]
 then
     chmod +x ${KOKORO_GFILE_DIR}/linux_amd64/flakybot
-    ${KOKORO_GFILE_DIR}/linux_amd64/flakybot -repo=googleapis/java-datastore
+    ${KOKORO_GFILE_DIR}/linux_amd64/flakybot -repo=googleapis/java-storage
 fi
 
 echo "exiting with ${RETURN_CODE}"
