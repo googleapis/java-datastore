@@ -119,7 +119,6 @@ public abstract class AbstractITDatastoreTest {
   private static final String KIND1 = "kind1";
   private static final String KIND2 = "kind2";
   private static final String KIND3 = "kind3";
-  private static final String MARKS_KIND = "Marks";
   private static final NullValue NULL_VALUE = NullValue.of();
   private static final StringValue STR_VALUE = StringValue.of("str");
   private static final BooleanValue BOOL_VALUE =
@@ -140,6 +139,7 @@ public abstract class AbstractITDatastoreTest {
   private static Key KEY4;
   private static Key KEY5;
   private static Key KEY6;
+  private static final String MARKS_KIND = "Marks";
   private static FullEntity<IncompleteKey> PARTIAL_ENTITY1;
   private static FullEntity<IncompleteKey> PARTIAL_ENTITY2;
   private static FullEntity<IncompleteKey> PARTIAL_ENTITY3;
