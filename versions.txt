@@ -7,3 +7,4 @@ proto-google-cloud-datastore-v1:0.118.1:0.118.2-SNAPSHOT
 datastore-v1-proto-client:2.27.1:2.27.2-SNAPSHOT
 proto-google-cloud-datastore-admin-v1:2.27.1:2.27.2-SNAPSHOT
 grpc-google-cloud-datastore-admin-v1:2.27.1:2.27.2-SNAPSHOT
+grpc-google-cloud-datastore-v1:2.27.1:2.27.2-SNAPSHOT
