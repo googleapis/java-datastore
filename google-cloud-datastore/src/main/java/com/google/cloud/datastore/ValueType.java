@@ -19,7 +19,7 @@ package com.google.cloud.datastore;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * The type of a Datastore property.
+ * The type of Datastore property.
  *
  * @see <a
  *     href="http://cloud.google.com/datastore/docs/concepts/entities#Datastore_Properties_and_value_types">Google
@@ -61,7 +61,10 @@ public enum ValueType {
   RAW_VALUE(RawValue.MARSHALLER),
 
   /** Represents a {@link LatLng} value. */
-  LAT_LNG(LatLngValue.MARSHALLER);
+  LAT_LNG(LatLngValue.MARSHALLER),
+
+  /** Represents a {@link VectorValue} value. */
+  VECTOR(VectorValue.MARSHALLER);
 
   private static final ImmutableMap<Integer, ValueType> DESCRIPTOR_TO_TYPE_MAP;
 

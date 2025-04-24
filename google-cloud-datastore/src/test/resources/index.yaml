@@ -46,3 +46,17 @@ indexes:
       - name: done
       - name: priority
         direction: desc
+  - kind: TaskConcepts
+    properties:
+      - name: __key__
+      - name: embedding_field
+        vectorConfig:
+          dimension: 3
+          flat: { }
+  - kind: CoffeeBean
+    properties:
+      - name: __key__
+      - name: embedding_field
+        vectorConfig:
+          dimension: 3
+          flat: { }

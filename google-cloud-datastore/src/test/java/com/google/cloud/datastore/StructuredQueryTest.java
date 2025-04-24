@@ -50,6 +50,9 @@ public class StructuredQueryTest {
   private static final String DISTINCT_ON1 = "p6";
   private static final String DISTINCT_ON2 = "p7";
   private static final List<String> DISTINCT_ON = ImmutableList.of(DISTINCT_ON1, DISTINCT_ON2);
+  private static final VectorValue VECTOR_VALUE = VectorValue.newBuilder(1.78, 2.56, 3.88).build();
+  private static final FindNearest FIND_NEAREST =
+      new FindNearest("vector_property", VECTOR_VALUE, FindNearest.DistanceMeasure.COSINE, 1);
   private static final EntityQuery ENTITY_QUERY =
       Query.newEntityQueryBuilder()
           .setNamespace(NAMESPACE)
@@ -60,6 +63,7 @@ public class StructuredQueryTest {
           .setLimit(LIMIT)
           .setFilter(AND_FILTER)
           .setOrderBy(ORDER_BY_1, ORDER_BY_2)
+          .setFindNearest(FIND_NEAREST)
           .build();
   private static final KeyQuery KEY_QUERY =
       Query.newKeyQueryBuilder()
@@ -71,6 +75,7 @@ public class StructuredQueryTest {
           .setLimit(LIMIT)
           .setFilter(OR_FILTER)
           .setOrderBy(ORDER_BY_1, ORDER_BY_2)
+          .setFindNearest(FIND_NEAREST)
           .build();
   private static final ProjectionEntityQuery PROJECTION_QUERY =
       Query.newProjectionEntityQueryBuilder()
@@ -82,6 +87,7 @@ public class StructuredQueryTest {
           .setLimit(LIMIT)
           .setFilter(AND_FILTER)
           .setOrderBy(ORDER_BY_1, ORDER_BY_2)
+          .setFindNearest(FIND_NEAREST)
           .setProjection(PROJECTION1, PROJECTION2)
           .setDistinctOn(DISTINCT_ON1, DISTINCT_ON2)
           .build();
@@ -123,6 +129,7 @@ public class StructuredQueryTest {
     assertEquals(LIMIT, query.getLimit());
     assertEquals(AND_FILTER, query.getFilter());
     assertEquals(ORDER_BY, query.getOrderBy());
+    assertEquals(FIND_NEAREST, query.getFindNearest());
   }
 
   @Test

@@ -616,6 +616,17 @@ public abstract class BaseEntity<K extends IncompleteKey> implements Serializabl
   }
 
   /**
+   * Returns the property value as a vector.
+   *
+   * @throws DatastoreException if no such property
+   * @throws ClassCastException if value is not a vector
+   */
+  @SuppressWarnings("unchecked")
+  public List<DoubleValue> getVector(String name) {
+    return (List<DoubleValue>) getValue(name).get();
+  }
+
+  /**
    * Returns the property value as a blob.
    *
    * @throws DatastoreException if no such property

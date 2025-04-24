@@ -27,3 +27,11 @@ indexes:
   properties:
     - name: salary
     - name: experience
+- kind: CoffeeBean
+  properties:
+    - name: roast
+    - name: __key__
+    - name: embedding_field
+      vectorConfig:
+        dimension: 3
+        flat: {}
