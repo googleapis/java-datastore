@@ -36,7 +36,6 @@ public interface ReserveIdsRequestOrBuilder
    * @return The projectId.
    */
   java.lang.String getProjectId();
-
   /**
    *
    *
@@ -65,7 +64,6 @@ public interface ReserveIdsRequestOrBuilder
    * @return The databaseId.
    */
   java.lang.String getDatabaseId();
-
   /**
    *
    *
@@ -94,7 +92,6 @@ public interface ReserveIdsRequestOrBuilder
    * </code>
    */
   java.util.List<com.google.datastore.v1.Key> getKeysList();
-
   /**
    *
    *
@@ -107,7 +104,6 @@ public interface ReserveIdsRequestOrBuilder
    * </code>
    */
   com.google.datastore.v1.Key getKeys(int index);
-
   /**
    *
    *
@@ -120,7 +116,6 @@ public interface ReserveIdsRequestOrBuilder
    * </code>
    */
   int getKeysCount();
-
   /**
    *
    *
@@ -133,7 +128,6 @@ public interface ReserveIdsRequestOrBuilder
    * </code>
    */
   java.util.List<? extends com.google.datastore.v1.KeyOrBuilder> getKeysOrBuilderList();
-
   /**
    *
    *

@@ -35,7 +35,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
     // @@protoc_insertion_point(message_implements:google.datastore.v1.Entity)
     EntityOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use Entity.newBuilder() to construct.
   private Entity(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -78,7 +77,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
   private int bitField0_;
   public static final int KEY_FIELD_NUMBER = 1;
   private com.google.datastore.v1.Key key_;
-
   /**
    *
    *
@@ -99,7 +97,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
   public boolean hasKey() {
     return ((bitField0_ & 0x00000001) != 0);
   }
-
   /**
    *
    *
@@ -120,7 +117,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.Key getKey() {
     return key_ == null ? com.google.datastore.v1.Key.getDefaultInstance() : key_;
   }
-
   /**
    *
    *
@@ -169,7 +165,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
   public int getPropertiesCount() {
     return internalGetProperties().getMap().size();
   }
-
   /**
    *
    *
@@ -191,14 +186,12 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
     }
     return internalGetProperties().getMap().containsKey(key);
   }
-
   /** Use {@link #getPropertiesMap()} instead. */
   @java.lang.Override
   @java.lang.Deprecated
   public java.util.Map<java.lang.String, com.google.datastore.v1.Value> getProperties() {
     return getPropertiesMap();
   }
-
   /**
    *
    *
@@ -217,7 +210,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
   public java.util.Map<java.lang.String, com.google.datastore.v1.Value> getPropertiesMap() {
     return internalGetProperties().getMap();
   }
-
   /**
    *
    *
@@ -244,7 +236,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
         internalGetProperties().getMap();
     return map.containsKey(key) ? map.get(key) : defaultValue;
   }
-
   /**
    *
    *
@@ -451,7 +442,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -696,7 +686,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
             com.google.datastore.v1.Key.Builder,
             com.google.datastore.v1.KeyOrBuilder>
         keyBuilder_;
-
     /**
      *
      *
@@ -716,7 +705,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
     public boolean hasKey() {
       return ((bitField0_ & 0x00000001) != 0);
     }
-
     /**
      *
      *
@@ -740,7 +728,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
         return keyBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -768,7 +755,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -793,7 +779,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -826,7 +811,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -851,7 +835,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -871,7 +854,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return getKeyFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -893,7 +875,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
         return key_ == null ? com.google.datastore.v1.Key.getDefaultInstance() : key_;
       }
     }
-
     /**
      *
      *
@@ -942,8 +923,7 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
           defaultEntry() {
         return PropertiesDefaultEntryHolder.defaultEntry;
       }
-    }
-    ;
+    };
 
     private static final PropertiesConverter propertiesConverter = new PropertiesConverter();
 
@@ -983,7 +963,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
     public int getPropertiesCount() {
       return internalGetProperties().ensureBuilderMap().size();
     }
-
     /**
      *
      *
@@ -1005,14 +984,12 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
       }
       return internalGetProperties().ensureBuilderMap().containsKey(key);
     }
-
     /** Use {@link #getPropertiesMap()} instead. */
     @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, com.google.datastore.v1.Value> getProperties() {
       return getPropertiesMap();
     }
-
     /**
      *
      *
@@ -1031,7 +1008,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
     public java.util.Map<java.lang.String, com.google.datastore.v1.Value> getPropertiesMap() {
       return internalGetProperties().getImmutableMap();
     }
-
     /**
      *
      *
@@ -1058,7 +1034,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
           internalGetMutableProperties().ensureBuilderMap();
       return map.containsKey(key) ? propertiesConverter.build(map.get(key)) : defaultValue;
     }
-
     /**
      *
      *
@@ -1091,7 +1066,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
       internalGetMutableProperties().clear();
       return this;
     }
-
     /**
      *
      *
@@ -1113,14 +1087,12 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
       internalGetMutableProperties().ensureBuilderMap().remove(key);
       return this;
     }
-
     /** Use alternate mutation accessors instead. */
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, com.google.datastore.v1.Value> getMutableProperties() {
       bitField0_ |= 0x00000002;
       return internalGetMutableProperties().ensureMessageMap();
     }
-
     /**
      *
      *
@@ -1146,7 +1118,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
       bitField0_ |= 0x00000002;
       return this;
     }
-
     /**
      *
      *
@@ -1173,7 +1144,6 @@ public final class Entity extends com.google.protobuf.GeneratedMessageV3
       bitField0_ |= 0x00000002;
       return this;
     }
-
     /**
      *
      *

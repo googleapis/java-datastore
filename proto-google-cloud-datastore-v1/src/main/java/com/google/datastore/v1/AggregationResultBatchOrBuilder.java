@@ -34,7 +34,6 @@ public interface AggregationResultBatchOrBuilder
    * <code>repeated .google.datastore.v1.AggregationResult aggregation_results = 1;</code>
    */
   java.util.List<com.google.datastore.v1.AggregationResult> getAggregationResultsList();
-
   /**
    *
    *
@@ -45,7 +44,6 @@ public interface AggregationResultBatchOrBuilder
    * <code>repeated .google.datastore.v1.AggregationResult aggregation_results = 1;</code>
    */
   com.google.datastore.v1.AggregationResult getAggregationResults(int index);
-
   /**
    *
    *
@@ -56,7 +54,6 @@ public interface AggregationResultBatchOrBuilder
    * <code>repeated .google.datastore.v1.AggregationResult aggregation_results = 1;</code>
    */
   int getAggregationResultsCount();
-
   /**
    *
    *
@@ -68,7 +65,6 @@ public interface AggregationResultBatchOrBuilder
    */
   java.util.List<? extends com.google.datastore.v1.AggregationResultOrBuilder>
       getAggregationResultsOrBuilderList();
-
   /**
    *
    *
@@ -94,7 +90,6 @@ public interface AggregationResultBatchOrBuilder
    * @return The enum numeric value on the wire for moreResults.
    */
   int getMoreResultsValue();
-
   /**
    *
    *
@@ -126,7 +121,6 @@ public interface AggregationResultBatchOrBuilder
    * @return Whether the readTime field is set.
    */
   boolean hasReadTime();
-
   /**
    *
    *
@@ -143,7 +137,6 @@ public interface AggregationResultBatchOrBuilder
    * @return The readTime.
    */
   com.google.protobuf.Timestamp getReadTime();
-
   /**
    *
    *

@@ -33,7 +33,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
     // @@protoc_insertion_point(message_implements:google.datastore.v1.Filter)
     FilterOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use Filter.newBuilder() to construct.
   private Filter(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -77,7 +76,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
     private FilterTypeCase(int value) {
       this.value = value;
     }
-
     /**
      * @param value The number of the enum to look for.
      * @return The enum associated with the given number.
@@ -111,7 +109,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
   }
 
   public static final int COMPOSITE_FILTER_FIELD_NUMBER = 1;
-
   /**
    *
    *
@@ -127,7 +124,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
   public boolean hasCompositeFilter() {
     return filterTypeCase_ == 1;
   }
-
   /**
    *
    *
@@ -146,7 +142,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
     }
     return com.google.datastore.v1.CompositeFilter.getDefaultInstance();
   }
-
   /**
    *
    *
@@ -165,7 +160,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
   }
 
   public static final int PROPERTY_FILTER_FIELD_NUMBER = 2;
-
   /**
    *
    *
@@ -181,7 +175,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
   public boolean hasPropertyFilter() {
     return filterTypeCase_ == 2;
   }
-
   /**
    *
    *
@@ -200,7 +193,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
     }
     return com.google.datastore.v1.PropertyFilter.getDefaultInstance();
   }
-
   /**
    *
    *
@@ -405,7 +397,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -638,7 +629,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
             com.google.datastore.v1.CompositeFilter.Builder,
             com.google.datastore.v1.CompositeFilterOrBuilder>
         compositeFilterBuilder_;
-
     /**
      *
      *
@@ -654,7 +644,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
     public boolean hasCompositeFilter() {
       return filterTypeCase_ == 1;
     }
-
     /**
      *
      *
@@ -680,7 +669,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
         return com.google.datastore.v1.CompositeFilter.getDefaultInstance();
       }
     }
-
     /**
      *
      *
@@ -703,7 +691,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
       filterTypeCase_ = 1;
       return this;
     }
-
     /**
      *
      *
@@ -724,7 +711,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
       filterTypeCase_ = 1;
       return this;
     }
-
     /**
      *
      *
@@ -757,7 +743,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
       filterTypeCase_ = 1;
       return this;
     }
-
     /**
      *
      *
@@ -783,7 +768,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -796,7 +780,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
     public com.google.datastore.v1.CompositeFilter.Builder getCompositeFilterBuilder() {
       return getCompositeFilterFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -817,7 +800,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
         return com.google.datastore.v1.CompositeFilter.getDefaultInstance();
       }
     }
-
     /**
      *
      *
@@ -856,7 +838,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
             com.google.datastore.v1.PropertyFilter.Builder,
             com.google.datastore.v1.PropertyFilterOrBuilder>
         propertyFilterBuilder_;
-
     /**
      *
      *
@@ -872,7 +853,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
     public boolean hasPropertyFilter() {
       return filterTypeCase_ == 2;
     }
-
     /**
      *
      *
@@ -898,7 +878,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
         return com.google.datastore.v1.PropertyFilter.getDefaultInstance();
       }
     }
-
     /**
      *
      *
@@ -921,7 +900,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
       filterTypeCase_ = 2;
       return this;
     }
-
     /**
      *
      *
@@ -942,7 +920,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
       filterTypeCase_ = 2;
       return this;
     }
-
     /**
      *
      *
@@ -975,7 +952,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
       filterTypeCase_ = 2;
       return this;
     }
-
     /**
      *
      *
@@ -1001,7 +977,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1014,7 +989,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
     public com.google.datastore.v1.PropertyFilter.Builder getPropertyFilterBuilder() {
       return getPropertyFilterFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -1035,7 +1009,6 @@ public final class Filter extends com.google.protobuf.GeneratedMessageV3
         return com.google.datastore.v1.PropertyFilter.getDefaultInstance();
       }
     }
-
     /**
      *
      *

@@ -36,7 +36,6 @@ public interface GetIndexRequestOrBuilder
    * @return The projectId.
    */
   java.lang.String getProjectId();
-
   /**
    *
    *
@@ -62,7 +61,6 @@ public interface GetIndexRequestOrBuilder
    * @return The indexId.
    */
   java.lang.String getIndexId();
-
   /**
    *
    *

@@ -37,7 +37,6 @@ public interface DatastoreFirestoreMigrationMetadataOrBuilder
    * @return The enum numeric value on the wire for migrationState.
    */
   int getMigrationStateValue();
-
   /**
    *
    *
@@ -65,7 +64,6 @@ public interface DatastoreFirestoreMigrationMetadataOrBuilder
    * @return The enum numeric value on the wire for migrationStep.
    */
   int getMigrationStepValue();
-
   /**
    *
    *

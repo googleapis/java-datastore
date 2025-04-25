@@ -34,7 +34,6 @@ public final class BeginTransactionResponse extends com.google.protobuf.Generate
     // @@protoc_insertion_point(message_implements:google.datastore.v1.BeginTransactionResponse)
     BeginTransactionResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use BeginTransactionResponse.newBuilder() to construct.
   private BeginTransactionResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -67,7 +66,6 @@ public final class BeginTransactionResponse extends com.google.protobuf.Generate
 
   public static final int TRANSACTION_FIELD_NUMBER = 1;
   private com.google.protobuf.ByteString transaction_ = com.google.protobuf.ByteString.EMPTY;
-
   /**
    *
    *
@@ -243,7 +241,6 @@ public final class BeginTransactionResponse extends com.google.protobuf.Generate
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -427,7 +424,6 @@ public final class BeginTransactionResponse extends com.google.protobuf.Generate
     private int bitField0_;
 
     private com.google.protobuf.ByteString transaction_ = com.google.protobuf.ByteString.EMPTY;
-
     /**
      *
      *
@@ -443,7 +439,6 @@ public final class BeginTransactionResponse extends com.google.protobuf.Generate
     public com.google.protobuf.ByteString getTransaction() {
       return transaction_;
     }
-
     /**
      *
      *
@@ -465,7 +460,6 @@ public final class BeginTransactionResponse extends com.google.protobuf.Generate
       onChanged();
       return this;
     }
-
     /**
      *
      *

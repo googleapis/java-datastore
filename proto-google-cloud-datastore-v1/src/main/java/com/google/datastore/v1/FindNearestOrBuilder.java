@@ -40,7 +40,6 @@ public interface FindNearestOrBuilder
    * @return Whether the vectorProperty field is set.
    */
   boolean hasVectorProperty();
-
   /**
    *
    *
@@ -57,7 +56,6 @@ public interface FindNearestOrBuilder
    * @return The vectorProperty.
    */
   com.google.datastore.v1.PropertyReference getVectorProperty();
-
   /**
    *
    *
@@ -87,7 +85,6 @@ public interface FindNearestOrBuilder
    * @return Whether the queryVector field is set.
    */
   boolean hasQueryVector();
-
   /**
    *
    *
@@ -102,7 +99,6 @@ public interface FindNearestOrBuilder
    * @return The queryVector.
    */
   com.google.datastore.v1.Value getQueryVector();
-
   /**
    *
    *
@@ -130,7 +126,6 @@ public interface FindNearestOrBuilder
    * @return The enum numeric value on the wire for distanceMeasure.
    */
   int getDistanceMeasureValue();
-
   /**
    *
    *
@@ -159,7 +154,6 @@ public interface FindNearestOrBuilder
    * @return Whether the limit field is set.
    */
   boolean hasLimit();
-
   /**
    *
    *
@@ -173,7 +167,6 @@ public interface FindNearestOrBuilder
    * @return The limit.
    */
   com.google.protobuf.Int32Value getLimit();
-
   /**
    *
    *
@@ -200,7 +193,6 @@ public interface FindNearestOrBuilder
    * @return The distanceResultProperty.
    */
   java.lang.String getDistanceResultProperty();
-
   /**
    *
    *
@@ -236,7 +228,6 @@ public interface FindNearestOrBuilder
    * @return Whether the distanceThreshold field is set.
    */
   boolean hasDistanceThreshold();
-
   /**
    *
    *
@@ -257,7 +248,6 @@ public interface FindNearestOrBuilder
    * @return The distanceThreshold.
    */
   com.google.protobuf.DoubleValue getDistanceThreshold();
-
   /**
    *
    *

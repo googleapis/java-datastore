@@ -36,7 +36,6 @@ public interface ImportEntitiesMetadataOrBuilder
    * @return Whether the common field is set.
    */
   boolean hasCommon();
-
   /**
    *
    *
@@ -49,7 +48,6 @@ public interface ImportEntitiesMetadataOrBuilder
    * @return The common.
    */
   com.google.datastore.admin.v1.CommonMetadata getCommon();
-
   /**
    *
    *
@@ -73,7 +71,6 @@ public interface ImportEntitiesMetadataOrBuilder
    * @return Whether the progressEntities field is set.
    */
   boolean hasProgressEntities();
-
   /**
    *
    *
@@ -86,7 +83,6 @@ public interface ImportEntitiesMetadataOrBuilder
    * @return The progressEntities.
    */
   com.google.datastore.admin.v1.Progress getProgressEntities();
-
   /**
    *
    *
@@ -110,7 +106,6 @@ public interface ImportEntitiesMetadataOrBuilder
    * @return Whether the progressBytes field is set.
    */
   boolean hasProgressBytes();
-
   /**
    *
    *
@@ -123,7 +118,6 @@ public interface ImportEntitiesMetadataOrBuilder
    * @return The progressBytes.
    */
   com.google.datastore.admin.v1.Progress getProgressBytes();
-
   /**
    *
    *
@@ -147,7 +141,6 @@ public interface ImportEntitiesMetadataOrBuilder
    * @return Whether the entityFilter field is set.
    */
   boolean hasEntityFilter();
-
   /**
    *
    *
@@ -160,7 +153,6 @@ public interface ImportEntitiesMetadataOrBuilder
    * @return The entityFilter.
    */
   com.google.datastore.admin.v1.EntityFilter getEntityFilter();
-
   /**
    *
    *
@@ -187,7 +179,6 @@ public interface ImportEntitiesMetadataOrBuilder
    * @return The inputUrl.
    */
   java.lang.String getInputUrl();
-
   /**
    *
    *

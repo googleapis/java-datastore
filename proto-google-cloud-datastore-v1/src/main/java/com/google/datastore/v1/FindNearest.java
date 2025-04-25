@@ -36,7 +36,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
     // @@protoc_insertion_point(message_implements:google.datastore.v1.FindNearest)
     FindNearestOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use FindNearest.newBuilder() to construct.
   private FindNearest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -142,7 +141,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
      * <code>DISTANCE_MEASURE_UNSPECIFIED = 0;</code>
      */
     public static final int DISTANCE_MEASURE_UNSPECIFIED_VALUE = 0;
-
     /**
      *
      *
@@ -155,7 +153,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
      * <code>EUCLIDEAN = 1;</code>
      */
     public static final int EUCLIDEAN_VALUE = 1;
-
     /**
      *
      *
@@ -173,7 +170,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
      * <code>COSINE = 2;</code>
      */
     public static final int COSINE_VALUE = 2;
-
     /**
      *
      *
@@ -277,7 +273,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
   private int bitField0_;
   public static final int VECTOR_PROPERTY_FIELD_NUMBER = 1;
   private com.google.datastore.v1.PropertyReference vectorProperty_;
-
   /**
    *
    *
@@ -297,7 +292,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
   public boolean hasVectorProperty() {
     return ((bitField0_ & 0x00000001) != 0);
   }
-
   /**
    *
    *
@@ -319,7 +313,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
         ? com.google.datastore.v1.PropertyReference.getDefaultInstance()
         : vectorProperty_;
   }
-
   /**
    *
    *
@@ -342,7 +335,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
 
   public static final int QUERY_VECTOR_FIELD_NUMBER = 2;
   private com.google.datastore.v1.Value queryVector_;
-
   /**
    *
    *
@@ -360,7 +352,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
   public boolean hasQueryVector() {
     return ((bitField0_ & 0x00000002) != 0);
   }
-
   /**
    *
    *
@@ -378,7 +369,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.Value getQueryVector() {
     return queryVector_ == null ? com.google.datastore.v1.Value.getDefaultInstance() : queryVector_;
   }
-
   /**
    *
    *
@@ -397,7 +387,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
 
   public static final int DISTANCE_MEASURE_FIELD_NUMBER = 3;
   private int distanceMeasure_ = 0;
-
   /**
    *
    *
@@ -415,7 +404,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
   public int getDistanceMeasureValue() {
     return distanceMeasure_;
   }
-
   /**
    *
    *
@@ -440,7 +428,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
 
   public static final int LIMIT_FIELD_NUMBER = 4;
   private com.google.protobuf.Int32Value limit_;
-
   /**
    *
    *
@@ -457,7 +444,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
   public boolean hasLimit() {
     return ((bitField0_ & 0x00000004) != 0);
   }
-
   /**
    *
    *
@@ -474,7 +460,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
   public com.google.protobuf.Int32Value getLimit() {
     return limit_ == null ? com.google.protobuf.Int32Value.getDefaultInstance() : limit_;
   }
-
   /**
    *
    *
@@ -494,7 +479,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object distanceResultProperty_ = "";
-
   /**
    *
    *
@@ -520,7 +504,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       return s;
     }
   }
-
   /**
    *
    *
@@ -549,7 +532,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
 
   public static final int DISTANCE_THRESHOLD_FIELD_NUMBER = 6;
   private com.google.protobuf.DoubleValue distanceThreshold_;
-
   /**
    *
    *
@@ -573,7 +555,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
   public boolean hasDistanceThreshold() {
     return ((bitField0_ & 0x00000008) != 0);
   }
-
   /**
    *
    *
@@ -599,7 +580,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
         ? com.google.protobuf.DoubleValue.getDefaultInstance()
         : distanceThreshold_;
   }
-
   /**
    *
    *
@@ -850,7 +830,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -1146,7 +1125,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
             com.google.datastore.v1.PropertyReference.Builder,
             com.google.datastore.v1.PropertyReferenceOrBuilder>
         vectorPropertyBuilder_;
-
     /**
      *
      *
@@ -1165,7 +1143,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
     public boolean hasVectorProperty() {
       return ((bitField0_ & 0x00000001) != 0);
     }
-
     /**
      *
      *
@@ -1190,7 +1167,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
         return vectorPropertyBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -1217,7 +1193,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1242,7 +1217,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1274,7 +1248,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1298,7 +1271,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1317,7 +1289,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return getVectorPropertyFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -1340,7 +1311,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
             : vectorProperty_;
       }
     }
-
     /**
      *
      *
@@ -1377,7 +1347,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
             com.google.datastore.v1.Value.Builder,
             com.google.datastore.v1.ValueOrBuilder>
         queryVectorBuilder_;
-
     /**
      *
      *
@@ -1394,7 +1363,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
     public boolean hasQueryVector() {
       return ((bitField0_ & 0x00000002) != 0);
     }
-
     /**
      *
      *
@@ -1417,7 +1385,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
         return queryVectorBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -1442,7 +1409,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1464,7 +1430,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1494,7 +1459,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1516,7 +1480,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1533,7 +1496,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return getQueryVectorFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -1554,7 +1516,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
             : queryVector_;
       }
     }
-
     /**
      *
      *
@@ -1584,7 +1545,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
     }
 
     private int distanceMeasure_ = 0;
-
     /**
      *
      *
@@ -1602,7 +1562,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
     public int getDistanceMeasureValue() {
       return distanceMeasure_;
     }
-
     /**
      *
      *
@@ -1623,7 +1582,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1645,7 +1603,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
           ? com.google.datastore.v1.FindNearest.DistanceMeasure.UNRECOGNIZED
           : result;
     }
-
     /**
      *
      *
@@ -1669,7 +1626,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1696,7 +1652,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
             com.google.protobuf.Int32Value.Builder,
             com.google.protobuf.Int32ValueOrBuilder>
         limitBuilder_;
-
     /**
      *
      *
@@ -1712,7 +1667,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
     public boolean hasLimit() {
       return ((bitField0_ & 0x00000008) != 0);
     }
-
     /**
      *
      *
@@ -1732,7 +1686,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
         return limitBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -1756,7 +1709,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1777,7 +1729,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1806,7 +1757,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1827,7 +1777,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1843,7 +1792,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return getLimitFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -1861,7 +1809,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
         return limit_ == null ? com.google.protobuf.Int32Value.getDefaultInstance() : limit_;
       }
     }
-
     /**
      *
      *
@@ -1890,7 +1837,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
     }
 
     private java.lang.Object distanceResultProperty_ = "";
-
     /**
      *
      *
@@ -1915,7 +1861,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -1940,7 +1885,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -1964,7 +1908,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1984,7 +1927,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2016,7 +1958,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
             com.google.protobuf.DoubleValue.Builder,
             com.google.protobuf.DoubleValueOrBuilder>
         distanceThresholdBuilder_;
-
     /**
      *
      *
@@ -2039,7 +1980,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
     public boolean hasDistanceThreshold() {
       return ((bitField0_ & 0x00000020) != 0);
     }
-
     /**
      *
      *
@@ -2068,7 +2008,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
         return distanceThresholdBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -2099,7 +2038,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2127,7 +2065,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2163,7 +2100,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2191,7 +2127,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2214,7 +2149,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return getDistanceThresholdFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -2241,7 +2175,6 @@ public final class FindNearest extends com.google.protobuf.GeneratedMessageV3
             : distanceThreshold_;
       }
     }
-
     /**
      *
      *

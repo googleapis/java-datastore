@@ -36,7 +36,6 @@ public interface ArrayValueOrBuilder
    * <code>repeated .google.datastore.v1.Value values = 1;</code>
    */
   java.util.List<com.google.datastore.v1.Value> getValuesList();
-
   /**
    *
    *
@@ -49,7 +48,6 @@ public interface ArrayValueOrBuilder
    * <code>repeated .google.datastore.v1.Value values = 1;</code>
    */
   com.google.datastore.v1.Value getValues(int index);
-
   /**
    *
    *
@@ -62,7 +60,6 @@ public interface ArrayValueOrBuilder
    * <code>repeated .google.datastore.v1.Value values = 1;</code>
    */
   int getValuesCount();
-
   /**
    *
    *
@@ -75,7 +72,6 @@ public interface ArrayValueOrBuilder
    * <code>repeated .google.datastore.v1.Value values = 1;</code>
    */
   java.util.List<? extends com.google.datastore.v1.ValueOrBuilder> getValuesOrBuilderList();
-
   /**
    *
    *

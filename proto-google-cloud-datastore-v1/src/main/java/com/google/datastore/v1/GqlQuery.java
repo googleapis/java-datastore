@@ -34,7 +34,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     // @@protoc_insertion_point(message_implements:google.datastore.v1.GqlQuery)
     GqlQueryOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use GqlQuery.newBuilder() to construct.
   private GqlQuery(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -81,7 +80,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object queryString_ = "";
-
   /**
    *
    *
@@ -106,7 +104,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       return s;
     }
   }
-
   /**
    *
    *
@@ -134,7 +131,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
 
   public static final int ALLOW_LITERALS_FIELD_NUMBER = 2;
   private boolean allowLiterals_ = false;
-
   /**
    *
    *
@@ -186,7 +182,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
   public int getNamedBindingsCount() {
     return internalGetNamedBindings().getMap().size();
   }
-
   /**
    *
    *
@@ -207,7 +202,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     }
     return internalGetNamedBindings().getMap().containsKey(key);
   }
-
   /** Use {@link #getNamedBindingsMap()} instead. */
   @java.lang.Override
   @java.lang.Deprecated
@@ -215,7 +209,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       getNamedBindings() {
     return getNamedBindingsMap();
   }
-
   /**
    *
    *
@@ -234,7 +227,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       getNamedBindingsMap() {
     return internalGetNamedBindings().getMap();
   }
-
   /**
    *
    *
@@ -260,7 +252,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
         internalGetNamedBindings().getMap();
     return map.containsKey(key) ? map.get(key) : defaultValue;
   }
-
   /**
    *
    *
@@ -291,7 +282,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
 
   @SuppressWarnings("serial")
   private java.util.List<com.google.datastore.v1.GqlQueryParameter> positionalBindings_;
-
   /**
    *
    *
@@ -309,7 +299,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
   public java.util.List<com.google.datastore.v1.GqlQueryParameter> getPositionalBindingsList() {
     return positionalBindings_;
   }
-
   /**
    *
    *
@@ -328,7 +317,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       getPositionalBindingsOrBuilderList() {
     return positionalBindings_;
   }
-
   /**
    *
    *
@@ -346,7 +334,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
   public int getPositionalBindingsCount() {
     return positionalBindings_.size();
   }
-
   /**
    *
    *
@@ -364,7 +351,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.GqlQueryParameter getPositionalBindings(int index) {
     return positionalBindings_.get(index);
   }
-
   /**
    *
    *
@@ -580,7 +566,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -880,7 +865,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     private int bitField0_;
 
     private java.lang.Object queryString_ = "";
-
     /**
      *
      *
@@ -904,7 +888,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -928,7 +911,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -951,7 +933,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -970,7 +951,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -996,7 +976,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     }
 
     private boolean allowLiterals_;
-
     /**
      *
      *
@@ -1015,7 +994,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     public boolean getAllowLiterals() {
       return allowLiterals_;
     }
-
     /**
      *
      *
@@ -1038,7 +1016,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1080,8 +1057,7 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
           defaultEntry() {
         return NamedBindingsDefaultEntryHolder.defaultEntry;
       }
-    }
-    ;
+    };
 
     private static final NamedBindingsConverter namedBindingsConverter =
         new NamedBindingsConverter();
@@ -1122,7 +1098,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
     public int getNamedBindingsCount() {
       return internalGetNamedBindings().ensureBuilderMap().size();
     }
-
     /**
      *
      *
@@ -1143,7 +1118,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       }
       return internalGetNamedBindings().ensureBuilderMap().containsKey(key);
     }
-
     /** Use {@link #getNamedBindingsMap()} instead. */
     @java.lang.Override
     @java.lang.Deprecated
@@ -1151,7 +1125,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
         getNamedBindings() {
       return getNamedBindingsMap();
     }
-
     /**
      *
      *
@@ -1170,7 +1143,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
         getNamedBindingsMap() {
       return internalGetNamedBindings().getImmutableMap();
     }
-
     /**
      *
      *
@@ -1196,7 +1168,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
           internalGetMutableNamedBindings().ensureBuilderMap();
       return map.containsKey(key) ? namedBindingsConverter.build(map.get(key)) : defaultValue;
     }
-
     /**
      *
      *
@@ -1228,7 +1199,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       internalGetMutableNamedBindings().clear();
       return this;
     }
-
     /**
      *
      *
@@ -1249,7 +1219,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       internalGetMutableNamedBindings().ensureBuilderMap().remove(key);
       return this;
     }
-
     /** Use alternate mutation accessors instead. */
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, com.google.datastore.v1.GqlQueryParameter>
@@ -1257,7 +1226,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       bitField0_ |= 0x00000004;
       return internalGetMutableNamedBindings().ensureMessageMap();
     }
-
     /**
      *
      *
@@ -1283,7 +1251,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       bitField0_ |= 0x00000004;
       return this;
     }
-
     /**
      *
      *
@@ -1309,7 +1276,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       bitField0_ |= 0x00000004;
       return this;
     }
-
     /**
      *
      *
@@ -1376,7 +1342,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
         return positionalBindingsBuilder_.getMessageList();
       }
     }
-
     /**
      *
      *
@@ -1397,7 +1362,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
         return positionalBindingsBuilder_.getCount();
       }
     }
-
     /**
      *
      *
@@ -1418,7 +1382,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
         return positionalBindingsBuilder_.getMessage(index);
       }
     }
-
     /**
      *
      *
@@ -1446,7 +1409,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1471,7 +1433,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1498,7 +1459,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1526,7 +1486,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1551,7 +1510,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1576,7 +1534,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1601,7 +1558,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1625,7 +1581,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1649,7 +1604,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1667,7 +1621,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
         int index) {
       return getPositionalBindingsFieldBuilder().getBuilder(index);
     }
-
     /**
      *
      *
@@ -1689,7 +1642,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
         return positionalBindingsBuilder_.getMessageOrBuilder(index);
       }
     }
-
     /**
      *
      *
@@ -1711,7 +1663,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
         return java.util.Collections.unmodifiableList(positionalBindings_);
       }
     }
-
     /**
      *
      *
@@ -1729,7 +1680,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       return getPositionalBindingsFieldBuilder()
           .addBuilder(com.google.datastore.v1.GqlQueryParameter.getDefaultInstance());
     }
-
     /**
      *
      *
@@ -1748,7 +1698,6 @@ public final class GqlQuery extends com.google.protobuf.GeneratedMessageV3
       return getPositionalBindingsFieldBuilder()
           .addBuilder(index, com.google.datastore.v1.GqlQueryParameter.getDefaultInstance());
     }
-
     /**
      *
      *

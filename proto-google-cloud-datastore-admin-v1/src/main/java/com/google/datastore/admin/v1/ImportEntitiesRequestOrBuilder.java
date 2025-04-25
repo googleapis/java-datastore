@@ -36,7 +36,6 @@ public interface ImportEntitiesRequestOrBuilder
    * @return The projectId.
    */
   java.lang.String getProjectId();
-
   /**
    *
    *
@@ -60,7 +59,6 @@ public interface ImportEntitiesRequestOrBuilder
    * <code>map&lt;string, string&gt; labels = 2;</code>
    */
   int getLabelsCount();
-
   /**
    *
    *
@@ -71,11 +69,9 @@ public interface ImportEntitiesRequestOrBuilder
    * <code>map&lt;string, string&gt; labels = 2;</code>
    */
   boolean containsLabels(java.lang.String key);
-
   /** Use {@link #getLabelsMap()} instead. */
   @java.lang.Deprecated
   java.util.Map<java.lang.String, java.lang.String> getLabels();
-
   /**
    *
    *
@@ -86,7 +82,6 @@ public interface ImportEntitiesRequestOrBuilder
    * <code>map&lt;string, string&gt; labels = 2;</code>
    */
   java.util.Map<java.lang.String, java.lang.String> getLabelsMap();
-
   /**
    *
    *
@@ -101,7 +96,6 @@ public interface ImportEntitiesRequestOrBuilder
       java.lang.String key,
       /* nullable */
       java.lang.String defaultValue);
-
   /**
    *
    *
@@ -138,7 +132,6 @@ public interface ImportEntitiesRequestOrBuilder
    * @return The inputUrl.
    */
   java.lang.String getInputUrl();
-
   /**
    *
    *
@@ -180,7 +173,6 @@ public interface ImportEntitiesRequestOrBuilder
    * @return Whether the entityFilter field is set.
    */
   boolean hasEntityFilter();
-
   /**
    *
    *
@@ -196,7 +188,6 @@ public interface ImportEntitiesRequestOrBuilder
    * @return The entityFilter.
    */
   com.google.datastore.admin.v1.EntityFilter getEntityFilter();
-
   /**
    *
    *

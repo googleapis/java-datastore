@@ -35,7 +35,6 @@ public interface CommitResponseOrBuilder
    * <code>repeated .google.datastore.v1.MutationResult mutation_results = 3;</code>
    */
   java.util.List<com.google.datastore.v1.MutationResult> getMutationResultsList();
-
   /**
    *
    *
@@ -47,7 +46,6 @@ public interface CommitResponseOrBuilder
    * <code>repeated .google.datastore.v1.MutationResult mutation_results = 3;</code>
    */
   com.google.datastore.v1.MutationResult getMutationResults(int index);
-
   /**
    *
    *
@@ -59,7 +57,6 @@ public interface CommitResponseOrBuilder
    * <code>repeated .google.datastore.v1.MutationResult mutation_results = 3;</code>
    */
   int getMutationResultsCount();
-
   /**
    *
    *
@@ -72,7 +69,6 @@ public interface CommitResponseOrBuilder
    */
   java.util.List<? extends com.google.datastore.v1.MutationResultOrBuilder>
       getMutationResultsOrBuilderList();
-
   /**
    *
    *
@@ -111,7 +107,6 @@ public interface CommitResponseOrBuilder
    * @return Whether the commitTime field is set.
    */
   boolean hasCommitTime();
-
   /**
    *
    *
@@ -124,7 +119,6 @@ public interface CommitResponseOrBuilder
    * @return The commitTime.
    */
   com.google.protobuf.Timestamp getCommitTime();
-
   /**
    *
    *

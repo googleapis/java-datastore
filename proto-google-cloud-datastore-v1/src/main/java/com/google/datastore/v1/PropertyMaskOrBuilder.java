@@ -46,7 +46,6 @@ public interface PropertyMaskOrBuilder
    * @return A list containing the paths.
    */
   java.util.List<java.lang.String> getPathsList();
-
   /**
    *
    *
@@ -69,7 +68,6 @@ public interface PropertyMaskOrBuilder
    * @return The count of paths.
    */
   int getPathsCount();
-
   /**
    *
    *
@@ -93,7 +91,6 @@ public interface PropertyMaskOrBuilder
    * @return The paths at the given index.
    */
   java.lang.String getPaths(int index);
-
   /**
    *
    *

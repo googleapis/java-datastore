@@ -35,7 +35,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
     // @@protoc_insertion_point(message_implements:google.datastore.admin.v1.MigrationProgressEvent)
     MigrationProgressEventOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use MigrationProgressEvent.newBuilder() to construct.
   private MigrationProgressEvent(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -129,7 +128,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
      * <code>CONCURRENCY_MODE_UNSPECIFIED = 0;</code>
      */
     public static final int CONCURRENCY_MODE_UNSPECIFIED_VALUE = 0;
-
     /**
      *
      *
@@ -140,7 +138,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
      * <code>PESSIMISTIC = 1;</code>
      */
     public static final int PESSIMISTIC_VALUE = 1;
-
     /**
      *
      *
@@ -151,7 +148,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
      * <code>OPTIMISTIC = 2;</code>
      */
     public static final int OPTIMISTIC_VALUE = 2;
-
     /**
      *
      *
@@ -271,7 +267,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
      * @return The enum numeric value on the wire for concurrencyMode.
      */
     int getConcurrencyModeValue();
-
     /**
      *
      *
@@ -287,7 +282,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
      */
     com.google.datastore.admin.v1.MigrationProgressEvent.ConcurrencyMode getConcurrencyMode();
   }
-
   /**
    *
    *
@@ -302,7 +296,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       // @@protoc_insertion_point(message_implements:google.datastore.admin.v1.MigrationProgressEvent.PrepareStepDetails)
       PrepareStepDetailsOrBuilder {
     private static final long serialVersionUID = 0L;
-
     // Use PrepareStepDetails.newBuilder() to construct.
     private PrepareStepDetails(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -336,7 +329,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
 
     public static final int CONCURRENCY_MODE_FIELD_NUMBER = 1;
     private int concurrencyMode_ = 0;
-
     /**
      *
      *
@@ -354,7 +346,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
     public int getConcurrencyModeValue() {
       return concurrencyMode_;
     }
-
     /**
      *
      *
@@ -548,7 +539,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      *
      *
@@ -745,7 +735,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       private int bitField0_;
 
       private int concurrencyMode_ = 0;
-
       /**
        *
        *
@@ -764,7 +753,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       public int getConcurrencyModeValue() {
         return concurrencyMode_;
       }
-
       /**
        *
        *
@@ -786,7 +774,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
         onChanged();
         return this;
       }
-
       /**
        *
        *
@@ -811,7 +798,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
             ? com.google.datastore.admin.v1.MigrationProgressEvent.ConcurrencyMode.UNRECOGNIZED
             : result;
       }
-
       /**
        *
        *
@@ -837,7 +823,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
         onChanged();
         return this;
       }
-
       /**
        *
        *
@@ -945,7 +930,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
      * @return The enum numeric value on the wire for concurrencyMode.
      */
     int getConcurrencyModeValue();
-
     /**
      *
      *
@@ -960,7 +944,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
      */
     com.google.datastore.admin.v1.MigrationProgressEvent.ConcurrencyMode getConcurrencyMode();
   }
-
   /**
    *
    *
@@ -976,7 +959,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       // @@protoc_insertion_point(message_implements:google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetails)
       RedirectWritesStepDetailsOrBuilder {
     private static final long serialVersionUID = 0L;
-
     // Use RedirectWritesStepDetails.newBuilder() to construct.
     private RedirectWritesStepDetails(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -1010,7 +992,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
 
     public static final int CONCURRENCY_MODE_FIELD_NUMBER = 1;
     private int concurrencyMode_ = 0;
-
     /**
      *
      *
@@ -1027,7 +1008,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
     public int getConcurrencyModeValue() {
       return concurrencyMode_;
     }
-
     /**
      *
      *
@@ -1226,7 +1206,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      *
      *
@@ -1429,7 +1408,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       private int bitField0_;
 
       private int concurrencyMode_ = 0;
-
       /**
        *
        *
@@ -1447,7 +1425,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       public int getConcurrencyModeValue() {
         return concurrencyMode_;
       }
-
       /**
        *
        *
@@ -1468,7 +1445,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
         onChanged();
         return this;
       }
-
       /**
        *
        *
@@ -1492,7 +1468,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
             ? com.google.datastore.admin.v1.MigrationProgressEvent.ConcurrencyMode.UNRECOGNIZED
             : result;
       }
-
       /**
        *
        *
@@ -1517,7 +1492,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
         onChanged();
         return this;
       }
-
       /**
        *
        *
@@ -1624,7 +1598,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
     private StepDetailsCase(int value) {
       this.value = value;
     }
-
     /**
      * @param value The number of the enum to look for.
      * @return The enum associated with the given number.
@@ -1659,7 +1632,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
 
   public static final int STEP_FIELD_NUMBER = 1;
   private int step_ = 0;
-
   /**
    *
    *
@@ -1678,7 +1650,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
   public int getStepValue() {
     return step_;
   }
-
   /**
    *
    *
@@ -1701,7 +1672,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
   }
 
   public static final int PREPARE_STEP_DETAILS_FIELD_NUMBER = 2;
-
   /**
    *
    *
@@ -1719,7 +1689,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
   public boolean hasPrepareStepDetails() {
     return stepDetailsCase_ == 2;
   }
-
   /**
    *
    *
@@ -1742,7 +1711,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
     return com.google.datastore.admin.v1.MigrationProgressEvent.PrepareStepDetails
         .getDefaultInstance();
   }
-
   /**
    *
    *
@@ -1765,7 +1733,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
   }
 
   public static final int REDIRECT_WRITES_STEP_DETAILS_FIELD_NUMBER = 3;
-
   /**
    *
    *
@@ -1783,7 +1750,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
   public boolean hasRedirectWritesStepDetails() {
     return stepDetailsCase_ == 3;
   }
-
   /**
    *
    *
@@ -1807,7 +1773,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
     return com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetails
         .getDefaultInstance();
   }
-
   /**
    *
    *
@@ -2040,7 +2005,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -2289,7 +2253,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
     private int bitField0_;
 
     private int step_ = 0;
-
     /**
      *
      *
@@ -2308,7 +2271,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
     public int getStepValue() {
       return step_;
     }
-
     /**
      *
      *
@@ -2330,7 +2292,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2351,7 +2312,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
           com.google.datastore.admin.v1.MigrationStep.forNumber(step_);
       return result == null ? com.google.datastore.admin.v1.MigrationStep.UNRECOGNIZED : result;
     }
-
     /**
      *
      *
@@ -2376,7 +2336,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2403,7 +2362,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
             com.google.datastore.admin.v1.MigrationProgressEvent.PrepareStepDetails.Builder,
             com.google.datastore.admin.v1.MigrationProgressEvent.PrepareStepDetailsOrBuilder>
         prepareStepDetailsBuilder_;
-
     /**
      *
      *
@@ -2421,7 +2379,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
     public boolean hasPrepareStepDetails() {
       return stepDetailsCase_ == 2;
     }
-
     /**
      *
      *
@@ -2453,7 +2410,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
             .getDefaultInstance();
       }
     }
-
     /**
      *
      *
@@ -2479,7 +2435,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       stepDetailsCase_ = 2;
       return this;
     }
-
     /**
      *
      *
@@ -2503,7 +2458,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       stepDetailsCase_ = 2;
       return this;
     }
-
     /**
      *
      *
@@ -2542,7 +2496,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       stepDetailsCase_ = 2;
       return this;
     }
-
     /**
      *
      *
@@ -2570,7 +2523,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       }
       return this;
     }
-
     /**
      *
      *
@@ -2586,7 +2538,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
         getPrepareStepDetailsBuilder() {
       return getPrepareStepDetailsFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -2612,7 +2563,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
             .getDefaultInstance();
       }
     }
-
     /**
      *
      *
@@ -2656,7 +2606,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
             com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetails.Builder,
             com.google.datastore.admin.v1.MigrationProgressEvent.RedirectWritesStepDetailsOrBuilder>
         redirectWritesStepDetailsBuilder_;
-
     /**
      *
      *
@@ -2674,7 +2623,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
     public boolean hasRedirectWritesStepDetails() {
       return stepDetailsCase_ == 3;
     }
-
     /**
      *
      *
@@ -2706,7 +2654,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
             .getDefaultInstance();
       }
     }
-
     /**
      *
      *
@@ -2732,7 +2679,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       stepDetailsCase_ = 3;
       return this;
     }
-
     /**
      *
      *
@@ -2756,7 +2702,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       stepDetailsCase_ = 3;
       return this;
     }
-
     /**
      *
      *
@@ -2797,7 +2742,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       stepDetailsCase_ = 3;
       return this;
     }
-
     /**
      *
      *
@@ -2825,7 +2769,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
       }
       return this;
     }
-
     /**
      *
      *
@@ -2841,7 +2784,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
         getRedirectWritesStepDetailsBuilder() {
       return getRedirectWritesStepDetailsFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -2867,7 +2809,6 @@ public final class MigrationProgressEvent extends com.google.protobuf.GeneratedM
             .getDefaultInstance();
       }
     }
-
     /**
      *
      *

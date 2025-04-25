@@ -39,7 +39,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     // @@protoc_insertion_point(message_implements:google.datastore.v1.TransactionOptions)
     TransactionOptionsOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use TransactionOptions.newBuilder() to construct.
   private TransactionOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -86,7 +85,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
      */
     com.google.protobuf.ByteString getPreviousTransaction();
   }
-
   /**
    *
    *
@@ -101,7 +99,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       // @@protoc_insertion_point(message_implements:google.datastore.v1.TransactionOptions.ReadWrite)
       ReadWriteOrBuilder {
     private static final long serialVersionUID = 0L;
-
     // Use ReadWrite.newBuilder() to construct.
     private ReadWrite(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -135,7 +132,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     public static final int PREVIOUS_TRANSACTION_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString previousTransaction_ =
         com.google.protobuf.ByteString.EMPTY;
-
     /**
      *
      *
@@ -313,7 +309,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      *
      *
@@ -500,7 +495,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
 
       private com.google.protobuf.ByteString previousTransaction_ =
           com.google.protobuf.ByteString.EMPTY;
-
       /**
        *
        *
@@ -516,7 +510,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       public com.google.protobuf.ByteString getPreviousTransaction() {
         return previousTransaction_;
       }
-
       /**
        *
        *
@@ -538,7 +531,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
         onChanged();
         return this;
       }
-
       /**
        *
        *
@@ -642,7 +634,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
      * @return Whether the readTime field is set.
      */
     boolean hasReadTime();
-
     /**
      *
      *
@@ -659,7 +650,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
      * @return The readTime.
      */
     com.google.protobuf.Timestamp getReadTime();
-
     /**
      *
      *
@@ -675,7 +665,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
      */
     com.google.protobuf.TimestampOrBuilder getReadTimeOrBuilder();
   }
-
   /**
    *
    *
@@ -690,7 +679,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       // @@protoc_insertion_point(message_implements:google.datastore.v1.TransactionOptions.ReadOnly)
       ReadOnlyOrBuilder {
     private static final long serialVersionUID = 0L;
-
     // Use ReadOnly.newBuilder() to construct.
     private ReadOnly(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -722,7 +710,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     private int bitField0_;
     public static final int READ_TIME_FIELD_NUMBER = 1;
     private com.google.protobuf.Timestamp readTime_;
-
     /**
      *
      *
@@ -742,7 +729,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     public boolean hasReadTime() {
       return ((bitField0_ & 0x00000001) != 0);
     }
-
     /**
      *
      *
@@ -762,7 +748,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     public com.google.protobuf.Timestamp getReadTime() {
       return readTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : readTime_;
     }
-
     /**
      *
      *
@@ -947,7 +932,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      *
      *
@@ -1154,7 +1138,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
               com.google.protobuf.Timestamp.Builder,
               com.google.protobuf.TimestampOrBuilder>
           readTimeBuilder_;
-
       /**
        *
        *
@@ -1173,7 +1156,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       public boolean hasReadTime() {
         return ((bitField0_ & 0x00000001) != 0);
       }
-
       /**
        *
        *
@@ -1196,7 +1178,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
           return readTimeBuilder_.getMessage();
         }
       }
-
       /**
        *
        *
@@ -1223,7 +1204,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
         onChanged();
         return this;
       }
-
       /**
        *
        *
@@ -1247,7 +1227,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
         onChanged();
         return this;
       }
-
       /**
        *
        *
@@ -1279,7 +1258,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
         }
         return this;
       }
-
       /**
        *
        *
@@ -1303,7 +1281,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
         onChanged();
         return this;
       }
-
       /**
        *
        *
@@ -1322,7 +1299,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
         onChanged();
         return getReadTimeFieldBuilder().getBuilder();
       }
-
       /**
        *
        *
@@ -1343,7 +1319,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
           return readTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : readTime_;
         }
       }
-
       /**
        *
        *
@@ -1455,7 +1430,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     private ModeCase(int value) {
       this.value = value;
     }
-
     /**
      * @param value The number of the enum to look for.
      * @return The enum associated with the given number.
@@ -1489,7 +1463,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
   }
 
   public static final int READ_WRITE_FIELD_NUMBER = 1;
-
   /**
    *
    *
@@ -1505,7 +1478,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
   public boolean hasReadWrite() {
     return modeCase_ == 1;
   }
-
   /**
    *
    *
@@ -1524,7 +1496,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     }
     return com.google.datastore.v1.TransactionOptions.ReadWrite.getDefaultInstance();
   }
-
   /**
    *
    *
@@ -1543,7 +1514,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
   }
 
   public static final int READ_ONLY_FIELD_NUMBER = 2;
-
   /**
    *
    *
@@ -1559,7 +1529,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
   public boolean hasReadOnly() {
     return modeCase_ == 2;
   }
-
   /**
    *
    *
@@ -1578,7 +1547,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     }
     return com.google.datastore.v1.TransactionOptions.ReadOnly.getDefaultInstance();
   }
-
   /**
    *
    *
@@ -1785,7 +1753,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -2026,7 +1993,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
             com.google.datastore.v1.TransactionOptions.ReadWrite.Builder,
             com.google.datastore.v1.TransactionOptions.ReadWriteOrBuilder>
         readWriteBuilder_;
-
     /**
      *
      *
@@ -2042,7 +2008,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     public boolean hasReadWrite() {
       return modeCase_ == 1;
     }
-
     /**
      *
      *
@@ -2068,7 +2033,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
         return com.google.datastore.v1.TransactionOptions.ReadWrite.getDefaultInstance();
       }
     }
-
     /**
      *
      *
@@ -2091,7 +2055,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       modeCase_ = 1;
       return this;
     }
-
     /**
      *
      *
@@ -2112,7 +2075,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       modeCase_ = 1;
       return this;
     }
-
     /**
      *
      *
@@ -2145,7 +2107,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       modeCase_ = 1;
       return this;
     }
-
     /**
      *
      *
@@ -2171,7 +2132,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       }
       return this;
     }
-
     /**
      *
      *
@@ -2184,7 +2144,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     public com.google.datastore.v1.TransactionOptions.ReadWrite.Builder getReadWriteBuilder() {
       return getReadWriteFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -2205,7 +2164,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
         return com.google.datastore.v1.TransactionOptions.ReadWrite.getDefaultInstance();
       }
     }
-
     /**
      *
      *
@@ -2244,7 +2202,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
             com.google.datastore.v1.TransactionOptions.ReadOnly.Builder,
             com.google.datastore.v1.TransactionOptions.ReadOnlyOrBuilder>
         readOnlyBuilder_;
-
     /**
      *
      *
@@ -2260,7 +2217,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     public boolean hasReadOnly() {
       return modeCase_ == 2;
     }
-
     /**
      *
      *
@@ -2286,7 +2242,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
         return com.google.datastore.v1.TransactionOptions.ReadOnly.getDefaultInstance();
       }
     }
-
     /**
      *
      *
@@ -2309,7 +2264,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       modeCase_ = 2;
       return this;
     }
-
     /**
      *
      *
@@ -2330,7 +2284,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       modeCase_ = 2;
       return this;
     }
-
     /**
      *
      *
@@ -2363,7 +2316,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       modeCase_ = 2;
       return this;
     }
-
     /**
      *
      *
@@ -2389,7 +2341,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
       }
       return this;
     }
-
     /**
      *
      *
@@ -2402,7 +2353,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
     public com.google.datastore.v1.TransactionOptions.ReadOnly.Builder getReadOnlyBuilder() {
       return getReadOnlyFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -2423,7 +2373,6 @@ public final class TransactionOptions extends com.google.protobuf.GeneratedMessa
         return com.google.datastore.v1.TransactionOptions.ReadOnly.getDefaultInstance();
       }
     }
-
     /**
      *
      *

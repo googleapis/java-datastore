@@ -33,7 +33,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
     // @@protoc_insertion_point(message_implements:google.datastore.v1.ExplainMetrics)
     ExplainMetricsOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use ExplainMetrics.newBuilder() to construct.
   private ExplainMetrics(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -65,7 +64,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
   private int bitField0_;
   public static final int PLAN_SUMMARY_FIELD_NUMBER = 1;
   private com.google.datastore.v1.PlanSummary planSummary_;
-
   /**
    *
    *
@@ -81,7 +79,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
   public boolean hasPlanSummary() {
     return ((bitField0_ & 0x00000001) != 0);
   }
-
   /**
    *
    *
@@ -99,7 +96,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
         ? com.google.datastore.v1.PlanSummary.getDefaultInstance()
         : planSummary_;
   }
-
   /**
    *
    *
@@ -118,7 +114,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
 
   public static final int EXECUTION_STATS_FIELD_NUMBER = 2;
   private com.google.datastore.v1.ExecutionStats executionStats_;
-
   /**
    *
    *
@@ -136,7 +131,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
   public boolean hasExecutionStats() {
     return ((bitField0_ & 0x00000002) != 0);
   }
-
   /**
    *
    *
@@ -156,7 +150,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
         ? com.google.datastore.v1.ExecutionStats.getDefaultInstance()
         : executionStats_;
   }
-
   /**
    *
    *
@@ -352,7 +345,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -576,7 +568,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
             com.google.datastore.v1.PlanSummary.Builder,
             com.google.datastore.v1.PlanSummaryOrBuilder>
         planSummaryBuilder_;
-
     /**
      *
      *
@@ -591,7 +582,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
     public boolean hasPlanSummary() {
       return ((bitField0_ & 0x00000001) != 0);
     }
-
     /**
      *
      *
@@ -612,7 +602,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
         return planSummaryBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -635,7 +624,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -655,7 +643,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -683,7 +670,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -703,7 +689,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -718,7 +703,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return getPlanSummaryFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -737,7 +721,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
             : planSummary_;
       }
     }
-
     /**
      *
      *
@@ -770,7 +753,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
             com.google.datastore.v1.ExecutionStats.Builder,
             com.google.datastore.v1.ExecutionStatsOrBuilder>
         executionStatsBuilder_;
-
     /**
      *
      *
@@ -787,7 +769,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
     public boolean hasExecutionStats() {
       return ((bitField0_ & 0x00000002) != 0);
     }
-
     /**
      *
      *
@@ -810,7 +791,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
         return executionStatsBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -835,7 +815,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -858,7 +837,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -888,7 +866,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -910,7 +887,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -927,7 +903,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return getExecutionStatsFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -948,7 +923,6 @@ public final class ExplainMetrics extends com.google.protobuf.GeneratedMessageV3
             : executionStats_;
       }
     }
-
     /**
      *
      *

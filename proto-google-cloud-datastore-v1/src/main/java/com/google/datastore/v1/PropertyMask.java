@@ -34,7 +34,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
     // @@protoc_insertion_point(message_implements:google.datastore.v1.PropertyMask)
     PropertyMaskOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use PropertyMask.newBuilder() to construct.
   private PropertyMask(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -70,7 +69,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
   @SuppressWarnings("serial")
   private com.google.protobuf.LazyStringArrayList paths_ =
       com.google.protobuf.LazyStringArrayList.emptyList();
-
   /**
    *
    *
@@ -95,7 +93,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
   public com.google.protobuf.ProtocolStringList getPathsList() {
     return paths_;
   }
-
   /**
    *
    *
@@ -120,7 +117,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
   public int getPathsCount() {
     return paths_.size();
   }
-
   /**
    *
    *
@@ -146,7 +142,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
   public java.lang.String getPaths(int index) {
     return paths_.get(index);
   }
-
   /**
    *
    *
@@ -337,7 +332,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -536,7 +530,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
       }
       bitField0_ |= 0x00000001;
     }
-
     /**
      *
      *
@@ -562,7 +555,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
       paths_.makeImmutable();
       return paths_;
     }
-
     /**
      *
      *
@@ -587,7 +579,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
     public int getPathsCount() {
       return paths_.size();
     }
-
     /**
      *
      *
@@ -613,7 +604,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
     public java.lang.String getPaths(int index) {
       return paths_.get(index);
     }
-
     /**
      *
      *
@@ -639,7 +629,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
     public com.google.protobuf.ByteString getPathsBytes(int index) {
       return paths_.getByteString(index);
     }
-
     /**
      *
      *
@@ -673,7 +662,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -706,7 +694,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -736,7 +723,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -765,7 +751,6 @@ public final class PropertyMask extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *

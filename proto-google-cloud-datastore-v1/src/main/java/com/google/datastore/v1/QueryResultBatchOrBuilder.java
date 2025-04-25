@@ -63,7 +63,6 @@ public interface QueryResultBatchOrBuilder
    * @return The enum numeric value on the wire for entityResultType.
    */
   int getEntityResultTypeValue();
-
   /**
    *
    *
@@ -87,7 +86,6 @@ public interface QueryResultBatchOrBuilder
    * <code>repeated .google.datastore.v1.EntityResult entity_results = 2;</code>
    */
   java.util.List<com.google.datastore.v1.EntityResult> getEntityResultsList();
-
   /**
    *
    *
@@ -98,7 +96,6 @@ public interface QueryResultBatchOrBuilder
    * <code>repeated .google.datastore.v1.EntityResult entity_results = 2;</code>
    */
   com.google.datastore.v1.EntityResult getEntityResults(int index);
-
   /**
    *
    *
@@ -109,7 +106,6 @@ public interface QueryResultBatchOrBuilder
    * <code>repeated .google.datastore.v1.EntityResult entity_results = 2;</code>
    */
   int getEntityResultsCount();
-
   /**
    *
    *
@@ -121,7 +117,6 @@ public interface QueryResultBatchOrBuilder
    */
   java.util.List<? extends com.google.datastore.v1.EntityResultOrBuilder>
       getEntityResultsOrBuilderList();
-
   /**
    *
    *
@@ -158,7 +153,6 @@ public interface QueryResultBatchOrBuilder
    * @return The enum numeric value on the wire for moreResults.
    */
   int getMoreResultsValue();
-
   /**
    *
    *
@@ -214,7 +208,6 @@ public interface QueryResultBatchOrBuilder
    * @return Whether the readTime field is set.
    */
   boolean hasReadTime();
-
   /**
    *
    *
@@ -236,7 +229,6 @@ public interface QueryResultBatchOrBuilder
    * @return The readTime.
    */
   com.google.protobuf.Timestamp getReadTime();
-
   /**
    *
    *

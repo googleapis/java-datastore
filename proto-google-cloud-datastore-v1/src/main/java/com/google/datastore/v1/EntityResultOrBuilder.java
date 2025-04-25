@@ -36,7 +36,6 @@ public interface EntityResultOrBuilder
    * @return Whether the entity field is set.
    */
   boolean hasEntity();
-
   /**
    *
    *
@@ -49,7 +48,6 @@ public interface EntityResultOrBuilder
    * @return The entity.
    */
   com.google.datastore.v1.Entity getEntity();
-
   /**
    *
    *
@@ -97,7 +95,6 @@ public interface EntityResultOrBuilder
    * @return Whether the createTime field is set.
    */
   boolean hasCreateTime();
-
   /**
    *
    *
@@ -113,7 +110,6 @@ public interface EntityResultOrBuilder
    * @return The createTime.
    */
   com.google.protobuf.Timestamp getCreateTime();
-
   /**
    *
    *
@@ -143,7 +139,6 @@ public interface EntityResultOrBuilder
    * @return Whether the updateTime field is set.
    */
   boolean hasUpdateTime();
-
   /**
    *
    *
@@ -159,7 +154,6 @@ public interface EntityResultOrBuilder
    * @return The updateTime.
    */
   com.google.protobuf.Timestamp getUpdateTime();
-
   /**
    *
    *

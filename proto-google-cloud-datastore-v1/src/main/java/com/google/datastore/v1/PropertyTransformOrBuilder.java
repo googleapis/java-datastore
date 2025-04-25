@@ -43,7 +43,6 @@ public interface PropertyTransformOrBuilder
    * @return The property.
    */
   java.lang.String getProperty();
-
   /**
    *
    *
@@ -76,7 +75,6 @@ public interface PropertyTransformOrBuilder
    * @return Whether the setToServerValue field is set.
    */
   boolean hasSetToServerValue();
-
   /**
    *
    *
@@ -89,7 +87,6 @@ public interface PropertyTransformOrBuilder
    * @return The enum numeric value on the wire for setToServerValue.
    */
   int getSetToServerValueValue();
-
   /**
    *
    *
@@ -124,7 +121,6 @@ public interface PropertyTransformOrBuilder
    * @return Whether the increment field is set.
    */
   boolean hasIncrement();
-
   /**
    *
    *
@@ -146,7 +142,6 @@ public interface PropertyTransformOrBuilder
    * @return The increment.
    */
   com.google.datastore.v1.Value getIncrement();
-
   /**
    *
    *
@@ -191,7 +186,6 @@ public interface PropertyTransformOrBuilder
    * @return Whether the maximum field is set.
    */
   boolean hasMaximum();
-
   /**
    *
    *
@@ -216,7 +210,6 @@ public interface PropertyTransformOrBuilder
    * @return The maximum.
    */
   com.google.datastore.v1.Value getMaximum();
-
   /**
    *
    *
@@ -264,7 +257,6 @@ public interface PropertyTransformOrBuilder
    * @return Whether the minimum field is set.
    */
   boolean hasMinimum();
-
   /**
    *
    *
@@ -289,7 +281,6 @@ public interface PropertyTransformOrBuilder
    * @return The minimum.
    */
   com.google.datastore.v1.Value getMinimum();
-
   /**
    *
    *
@@ -336,7 +327,6 @@ public interface PropertyTransformOrBuilder
    * @return Whether the appendMissingElements field is set.
    */
   boolean hasAppendMissingElements();
-
   /**
    *
    *
@@ -360,7 +350,6 @@ public interface PropertyTransformOrBuilder
    * @return The appendMissingElements.
    */
   com.google.datastore.v1.ArrayValue getAppendMissingElements();
-
   /**
    *
    *
@@ -404,7 +393,6 @@ public interface PropertyTransformOrBuilder
    * @return Whether the removeAllFromArray field is set.
    */
   boolean hasRemoveAllFromArray();
-
   /**
    *
    *
@@ -426,7 +414,6 @@ public interface PropertyTransformOrBuilder
    * @return The removeAllFromArray.
    */
   com.google.datastore.v1.ArrayValue getRemoveAllFromArray();
-
   /**
    *
    *

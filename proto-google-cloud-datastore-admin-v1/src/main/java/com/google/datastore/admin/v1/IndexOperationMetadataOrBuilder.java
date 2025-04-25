@@ -36,7 +36,6 @@ public interface IndexOperationMetadataOrBuilder
    * @return Whether the common field is set.
    */
   boolean hasCommon();
-
   /**
    *
    *
@@ -49,7 +48,6 @@ public interface IndexOperationMetadataOrBuilder
    * @return The common.
    */
   com.google.datastore.admin.v1.CommonMetadata getCommon();
-
   /**
    *
    *
@@ -73,7 +71,6 @@ public interface IndexOperationMetadataOrBuilder
    * @return Whether the progressEntities field is set.
    */
   boolean hasProgressEntities();
-
   /**
    *
    *
@@ -86,7 +83,6 @@ public interface IndexOperationMetadataOrBuilder
    * @return The progressEntities.
    */
   com.google.datastore.admin.v1.Progress getProgressEntities();
-
   /**
    *
    *
@@ -110,7 +106,6 @@ public interface IndexOperationMetadataOrBuilder
    * @return The indexId.
    */
   java.lang.String getIndexId();
-
   /**
    *
    *

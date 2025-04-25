@@ -33,7 +33,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
     // @@protoc_insertion_point(message_implements:google.datastore.v1.GqlQueryParameter)
     GqlQueryParameterOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use GqlQueryParameter.newBuilder() to construct.
   private GqlQueryParameter(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -79,7 +78,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
     private ParameterTypeCase(int value) {
       this.value = value;
     }
-
     /**
      * @param value The number of the enum to look for.
      * @return The enum associated with the given number.
@@ -113,7 +111,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
   }
 
   public static final int VALUE_FIELD_NUMBER = 2;
-
   /**
    *
    *
@@ -129,7 +126,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
   public boolean hasValue() {
     return parameterTypeCase_ == 2;
   }
-
   /**
    *
    *
@@ -148,7 +144,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
     }
     return com.google.datastore.v1.Value.getDefaultInstance();
   }
-
   /**
    *
    *
@@ -167,7 +162,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
   }
 
   public static final int CURSOR_FIELD_NUMBER = 3;
-
   /**
    *
    *
@@ -184,7 +178,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
   public boolean hasCursor() {
     return parameterTypeCase_ == 3;
   }
-
   /**
    *
    *
@@ -394,7 +387,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -623,7 +615,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
             com.google.datastore.v1.Value.Builder,
             com.google.datastore.v1.ValueOrBuilder>
         valueBuilder_;
-
     /**
      *
      *
@@ -639,7 +630,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
     public boolean hasValue() {
       return parameterTypeCase_ == 2;
     }
-
     /**
      *
      *
@@ -665,7 +655,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
         return com.google.datastore.v1.Value.getDefaultInstance();
       }
     }
-
     /**
      *
      *
@@ -688,7 +677,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
       parameterTypeCase_ = 2;
       return this;
     }
-
     /**
      *
      *
@@ -708,7 +696,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
       parameterTypeCase_ = 2;
       return this;
     }
-
     /**
      *
      *
@@ -741,7 +728,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
       parameterTypeCase_ = 2;
       return this;
     }
-
     /**
      *
      *
@@ -767,7 +753,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
       }
       return this;
     }
-
     /**
      *
      *
@@ -780,7 +765,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
     public com.google.datastore.v1.Value.Builder getValueBuilder() {
       return getValueFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -801,7 +785,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
         return com.google.datastore.v1.Value.getDefaultInstance();
       }
     }
-
     /**
      *
      *
@@ -848,7 +831,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
     public boolean hasCursor() {
       return parameterTypeCase_ == 3;
     }
-
     /**
      *
      *
@@ -867,7 +849,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
       }
       return com.google.protobuf.ByteString.EMPTY;
     }
-
     /**
      *
      *
@@ -890,7 +871,6 @@ public final class GqlQueryParameter extends com.google.protobuf.GeneratedMessag
       onChanged();
       return this;
     }
-
     /**
      *
      *

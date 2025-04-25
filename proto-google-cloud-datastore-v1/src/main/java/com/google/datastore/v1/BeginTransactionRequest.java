@@ -34,7 +34,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
     // @@protoc_insertion_point(message_implements:google.datastore.v1.BeginTransactionRequest)
     BeginTransactionRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use BeginTransactionRequest.newBuilder() to construct.
   private BeginTransactionRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -71,7 +70,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object projectId_ = "";
-
   /**
    *
    *
@@ -95,7 +93,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
       return s;
     }
   }
-
   /**
    *
    *
@@ -124,7 +121,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object databaseId_ = "";
-
   /**
    *
    *
@@ -151,7 +147,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
       return s;
     }
   }
-
   /**
    *
    *
@@ -181,7 +176,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
 
   public static final int TRANSACTION_OPTIONS_FIELD_NUMBER = 10;
   private com.google.datastore.v1.TransactionOptions transactionOptions_;
-
   /**
    *
    *
@@ -197,7 +191,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
   public boolean hasTransactionOptions() {
     return ((bitField0_ & 0x00000001) != 0);
   }
-
   /**
    *
    *
@@ -215,7 +208,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
         ? com.google.datastore.v1.TransactionOptions.getDefaultInstance()
         : transactionOptions_;
   }
-
   /**
    *
    *
@@ -414,7 +406,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -648,7 +639,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
     private int bitField0_;
 
     private java.lang.Object projectId_ = "";
-
     /**
      *
      *
@@ -671,7 +661,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -694,7 +683,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -716,7 +704,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -734,7 +721,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -759,7 +745,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
     }
 
     private java.lang.Object databaseId_ = "";
-
     /**
      *
      *
@@ -785,7 +770,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -811,7 +795,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -836,7 +819,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -857,7 +839,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -890,7 +871,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
             com.google.datastore.v1.TransactionOptions.Builder,
             com.google.datastore.v1.TransactionOptionsOrBuilder>
         transactionOptionsBuilder_;
-
     /**
      *
      *
@@ -905,7 +885,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
     public boolean hasTransactionOptions() {
       return ((bitField0_ & 0x00000004) != 0);
     }
-
     /**
      *
      *
@@ -926,7 +905,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
         return transactionOptionsBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -949,7 +927,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -970,7 +947,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -999,7 +975,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
       }
       return this;
     }
-
     /**
      *
      *
@@ -1019,7 +994,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1034,7 +1008,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
       onChanged();
       return getTransactionOptionsFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -1053,7 +1026,6 @@ public final class BeginTransactionRequest extends com.google.protobuf.Generated
             : transactionOptions_;
       }
     }
-
     /**
      *
      *

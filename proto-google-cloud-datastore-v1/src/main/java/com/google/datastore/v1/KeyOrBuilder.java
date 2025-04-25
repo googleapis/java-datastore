@@ -38,7 +38,6 @@ public interface KeyOrBuilder
    * @return Whether the partitionId field is set.
    */
   boolean hasPartitionId();
-
   /**
    *
    *
@@ -53,7 +52,6 @@ public interface KeyOrBuilder
    * @return The partitionId.
    */
   com.google.datastore.v1.PartitionId getPartitionId();
-
   /**
    *
    *
@@ -92,7 +90,6 @@ public interface KeyOrBuilder
    * <code>repeated .google.datastore.v1.Key.PathElement path = 2;</code>
    */
   java.util.List<com.google.datastore.v1.Key.PathElement> getPathList();
-
   /**
    *
    *
@@ -118,7 +115,6 @@ public interface KeyOrBuilder
    * <code>repeated .google.datastore.v1.Key.PathElement path = 2;</code>
    */
   com.google.datastore.v1.Key.PathElement getPath(int index);
-
   /**
    *
    *
@@ -144,7 +140,6 @@ public interface KeyOrBuilder
    * <code>repeated .google.datastore.v1.Key.PathElement path = 2;</code>
    */
   int getPathCount();
-
   /**
    *
    *
@@ -170,7 +165,6 @@ public interface KeyOrBuilder
    * <code>repeated .google.datastore.v1.Key.PathElement path = 2;</code>
    */
   java.util.List<? extends com.google.datastore.v1.Key.PathElementOrBuilder> getPathOrBuilderList();
-
   /**
    *
    *

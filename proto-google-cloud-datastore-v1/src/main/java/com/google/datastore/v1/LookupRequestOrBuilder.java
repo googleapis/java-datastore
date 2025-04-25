@@ -36,7 +36,6 @@ public interface LookupRequestOrBuilder
    * @return The projectId.
    */
   java.lang.String getProjectId();
-
   /**
    *
    *
@@ -65,7 +64,6 @@ public interface LookupRequestOrBuilder
    * @return The databaseId.
    */
   java.lang.String getDatabaseId();
-
   /**
    *
    *
@@ -94,7 +92,6 @@ public interface LookupRequestOrBuilder
    * @return Whether the readOptions field is set.
    */
   boolean hasReadOptions();
-
   /**
    *
    *
@@ -107,7 +104,6 @@ public interface LookupRequestOrBuilder
    * @return The readOptions.
    */
   com.google.datastore.v1.ReadOptions getReadOptions();
-
   /**
    *
    *
@@ -130,7 +126,6 @@ public interface LookupRequestOrBuilder
    * </code>
    */
   java.util.List<com.google.datastore.v1.Key> getKeysList();
-
   /**
    *
    *
@@ -142,7 +137,6 @@ public interface LookupRequestOrBuilder
    * </code>
    */
   com.google.datastore.v1.Key getKeys(int index);
-
   /**
    *
    *
@@ -154,7 +148,6 @@ public interface LookupRequestOrBuilder
    * </code>
    */
   int getKeysCount();
-
   /**
    *
    *
@@ -166,7 +159,6 @@ public interface LookupRequestOrBuilder
    * </code>
    */
   java.util.List<? extends com.google.datastore.v1.KeyOrBuilder> getKeysOrBuilderList();
-
   /**
    *
    *
@@ -196,7 +188,6 @@ public interface LookupRequestOrBuilder
    * @return Whether the propertyMask field is set.
    */
   boolean hasPropertyMask();
-
   /**
    *
    *
@@ -214,7 +205,6 @@ public interface LookupRequestOrBuilder
    * @return The propertyMask.
    */
   com.google.datastore.v1.PropertyMask getPropertyMask();
-
   /**
    *
    *

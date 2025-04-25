@@ -36,7 +36,6 @@ public interface RunQueryRequestOrBuilder
    * @return The projectId.
    */
   java.lang.String getProjectId();
-
   /**
    *
    *
@@ -65,7 +64,6 @@ public interface RunQueryRequestOrBuilder
    * @return The databaseId.
    */
   java.lang.String getDatabaseId();
-
   /**
    *
    *
@@ -97,7 +95,6 @@ public interface RunQueryRequestOrBuilder
    * @return Whether the partitionId field is set.
    */
   boolean hasPartitionId();
-
   /**
    *
    *
@@ -113,7 +110,6 @@ public interface RunQueryRequestOrBuilder
    * @return The partitionId.
    */
   com.google.datastore.v1.PartitionId getPartitionId();
-
   /**
    *
    *
@@ -140,7 +136,6 @@ public interface RunQueryRequestOrBuilder
    * @return Whether the readOptions field is set.
    */
   boolean hasReadOptions();
-
   /**
    *
    *
@@ -153,7 +148,6 @@ public interface RunQueryRequestOrBuilder
    * @return The readOptions.
    */
   com.google.datastore.v1.ReadOptions getReadOptions();
-
   /**
    *
    *
@@ -177,7 +171,6 @@ public interface RunQueryRequestOrBuilder
    * @return Whether the query field is set.
    */
   boolean hasQuery();
-
   /**
    *
    *
@@ -190,7 +183,6 @@ public interface RunQueryRequestOrBuilder
    * @return The query.
    */
   com.google.datastore.v1.Query getQuery();
-
   /**
    *
    *
@@ -214,7 +206,6 @@ public interface RunQueryRequestOrBuilder
    * @return Whether the gqlQuery field is set.
    */
   boolean hasGqlQuery();
-
   /**
    *
    *
@@ -227,7 +218,6 @@ public interface RunQueryRequestOrBuilder
    * @return The gqlQuery.
    */
   com.google.datastore.v1.GqlQuery getGqlQuery();
-
   /**
    *
    *
@@ -255,7 +245,6 @@ public interface RunQueryRequestOrBuilder
    * @return Whether the propertyMask field is set.
    */
   boolean hasPropertyMask();
-
   /**
    *
    *
@@ -272,7 +261,6 @@ public interface RunQueryRequestOrBuilder
    * @return The propertyMask.
    */
   com.google.datastore.v1.PropertyMask getPropertyMask();
-
   /**
    *
    *
@@ -303,7 +291,6 @@ public interface RunQueryRequestOrBuilder
    * @return Whether the explainOptions field is set.
    */
   boolean hasExplainOptions();
-
   /**
    *
    *
@@ -319,7 +306,6 @@ public interface RunQueryRequestOrBuilder
    * @return The explainOptions.
    */
   com.google.datastore.v1.ExplainOptions getExplainOptions();
-
   /**
    *
    *

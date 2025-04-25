@@ -82,7 +82,6 @@ public enum MigrationState implements com.google.protobuf.ProtocolMessageEnum {
    * <code>MIGRATION_STATE_UNSPECIFIED = 0;</code>
    */
   public static final int MIGRATION_STATE_UNSPECIFIED_VALUE = 0;
-
   /**
    *
    *
@@ -93,7 +92,6 @@ public enum MigrationState implements com.google.protobuf.ProtocolMessageEnum {
    * <code>RUNNING = 1;</code>
    */
   public static final int RUNNING_VALUE = 1;
-
   /**
    *
    *
@@ -104,7 +102,6 @@ public enum MigrationState implements com.google.protobuf.ProtocolMessageEnum {
    * <code>PAUSED = 2;</code>
    */
   public static final int PAUSED_VALUE = 2;
-
   /**
    *
    *

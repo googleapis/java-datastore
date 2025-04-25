@@ -37,7 +37,6 @@ public interface GqlQueryOrBuilder
    * @return The queryString.
    */
   java.lang.String getQueryString();
-
   /**
    *
    *
@@ -82,7 +81,6 @@ public interface GqlQueryOrBuilder
    * <code>map&lt;string, .google.datastore.v1.GqlQueryParameter&gt; named_bindings = 5;</code>
    */
   int getNamedBindingsCount();
-
   /**
    *
    *
@@ -97,11 +95,9 @@ public interface GqlQueryOrBuilder
    * <code>map&lt;string, .google.datastore.v1.GqlQueryParameter&gt; named_bindings = 5;</code>
    */
   boolean containsNamedBindings(java.lang.String key);
-
   /** Use {@link #getNamedBindingsMap()} instead. */
   @java.lang.Deprecated
   java.util.Map<java.lang.String, com.google.datastore.v1.GqlQueryParameter> getNamedBindings();
-
   /**
    *
    *
@@ -116,7 +112,6 @@ public interface GqlQueryOrBuilder
    * <code>map&lt;string, .google.datastore.v1.GqlQueryParameter&gt; named_bindings = 5;</code>
    */
   java.util.Map<java.lang.String, com.google.datastore.v1.GqlQueryParameter> getNamedBindingsMap();
-
   /**
    *
    *
@@ -135,7 +130,6 @@ public interface GqlQueryOrBuilder
       java.lang.String key,
       /* nullable */
       com.google.datastore.v1.GqlQueryParameter defaultValue);
-
   /**
    *
    *
@@ -165,7 +159,6 @@ public interface GqlQueryOrBuilder
    * <code>repeated .google.datastore.v1.GqlQueryParameter positional_bindings = 4;</code>
    */
   java.util.List<com.google.datastore.v1.GqlQueryParameter> getPositionalBindingsList();
-
   /**
    *
    *
@@ -180,7 +173,6 @@ public interface GqlQueryOrBuilder
    * <code>repeated .google.datastore.v1.GqlQueryParameter positional_bindings = 4;</code>
    */
   com.google.datastore.v1.GqlQueryParameter getPositionalBindings(int index);
-
   /**
    *
    *
@@ -195,7 +187,6 @@ public interface GqlQueryOrBuilder
    * <code>repeated .google.datastore.v1.GqlQueryParameter positional_bindings = 4;</code>
    */
   int getPositionalBindingsCount();
-
   /**
    *
    *
@@ -211,7 +202,6 @@ public interface GqlQueryOrBuilder
    */
   java.util.List<? extends com.google.datastore.v1.GqlQueryParameterOrBuilder>
       getPositionalBindingsOrBuilderList();
-
   /**
    *
    *

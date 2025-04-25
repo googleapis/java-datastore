@@ -33,7 +33,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
     // @@protoc_insertion_point(message_implements:google.datastore.v1.CommitRequest)
     CommitRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use CommitRequest.newBuilder() to construct.
   private CommitRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -122,7 +121,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
      * <code>MODE_UNSPECIFIED = 0;</code>
      */
     public static final int MODE_UNSPECIFIED_VALUE = 0;
-
     /**
      *
      *
@@ -135,7 +133,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
      * <code>TRANSACTIONAL = 1;</code>
      */
     public static final int TRANSACTIONAL_VALUE = 1;
-
     /**
      *
      *
@@ -247,7 +244,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
     private TransactionSelectorCase(int value) {
       this.value = value;
     }
-
     /**
      * @param value The number of the enum to look for.
      * @return The enum associated with the given number.
@@ -284,7 +280,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object projectId_ = "";
-
   /**
    *
    *
@@ -308,7 +303,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       return s;
     }
   }
-
   /**
    *
    *
@@ -337,7 +331,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object databaseId_ = "";
-
   /**
    *
    *
@@ -364,7 +357,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       return s;
     }
   }
-
   /**
    *
    *
@@ -394,7 +386,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
 
   public static final int MODE_FIELD_NUMBER = 5;
   private int mode_ = 0;
-
   /**
    *
    *
@@ -410,7 +401,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
   public int getModeValue() {
     return mode_;
   }
-
   /**
    *
    *
@@ -430,7 +420,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
   }
 
   public static final int TRANSACTION_FIELD_NUMBER = 1;
-
   /**
    *
    *
@@ -448,7 +437,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
   public boolean hasTransaction() {
     return transactionSelectorCase_ == 1;
   }
-
   /**
    *
    *
@@ -471,7 +459,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
   }
 
   public static final int SINGLE_USE_TRANSACTION_FIELD_NUMBER = 10;
-
   /**
    *
    *
@@ -490,7 +477,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
   public boolean hasSingleUseTransaction() {
     return transactionSelectorCase_ == 10;
   }
-
   /**
    *
    *
@@ -512,7 +498,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
     }
     return com.google.datastore.v1.TransactionOptions.getDefaultInstance();
   }
-
   /**
    *
    *
@@ -537,7 +522,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
 
   @SuppressWarnings("serial")
   private java.util.List<com.google.datastore.v1.Mutation> mutations_;
-
   /**
    *
    *
@@ -563,7 +547,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
   public java.util.List<com.google.datastore.v1.Mutation> getMutationsList() {
     return mutations_;
   }
-
   /**
    *
    *
@@ -590,7 +573,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       getMutationsOrBuilderList() {
     return mutations_;
   }
-
   /**
    *
    *
@@ -616,7 +598,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
   public int getMutationsCount() {
     return mutations_.size();
   }
-
   /**
    *
    *
@@ -642,7 +623,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.Mutation getMutations(int index) {
     return mutations_.get(index);
   }
-
   /**
    *
    *
@@ -894,7 +874,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -1222,7 +1201,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
     private int bitField0_;
 
     private java.lang.Object projectId_ = "";
-
     /**
      *
      *
@@ -1245,7 +1223,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -1268,7 +1245,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -1290,7 +1266,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1308,7 +1283,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1333,7 +1307,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
     }
 
     private java.lang.Object databaseId_ = "";
-
     /**
      *
      *
@@ -1359,7 +1332,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -1385,7 +1357,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -1410,7 +1381,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1431,7 +1401,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1459,7 +1428,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
     }
 
     private int mode_ = 0;
-
     /**
      *
      *
@@ -1475,7 +1443,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
     public int getModeValue() {
       return mode_;
     }
-
     /**
      *
      *
@@ -1494,7 +1461,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1512,7 +1478,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
           com.google.datastore.v1.CommitRequest.Mode.forNumber(mode_);
       return result == null ? com.google.datastore.v1.CommitRequest.Mode.UNRECOGNIZED : result;
     }
-
     /**
      *
      *
@@ -1534,7 +1499,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1569,7 +1533,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
     public boolean hasTransaction() {
       return transactionSelectorCase_ == 1;
     }
-
     /**
      *
      *
@@ -1589,7 +1552,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       }
       return com.google.protobuf.ByteString.EMPTY;
     }
-
     /**
      *
      *
@@ -1613,7 +1575,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1641,7 +1602,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
             com.google.datastore.v1.TransactionOptions.Builder,
             com.google.datastore.v1.TransactionOptionsOrBuilder>
         singleUseTransactionBuilder_;
-
     /**
      *
      *
@@ -1660,7 +1620,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
     public boolean hasSingleUseTransaction() {
       return transactionSelectorCase_ == 10;
     }
-
     /**
      *
      *
@@ -1689,7 +1648,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
         return com.google.datastore.v1.TransactionOptions.getDefaultInstance();
       }
     }
-
     /**
      *
      *
@@ -1715,7 +1673,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       transactionSelectorCase_ = 10;
       return this;
     }
-
     /**
      *
      *
@@ -1739,7 +1696,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       transactionSelectorCase_ = 10;
       return this;
     }
-
     /**
      *
      *
@@ -1776,7 +1732,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       transactionSelectorCase_ = 10;
       return this;
     }
-
     /**
      *
      *
@@ -1805,7 +1760,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1821,7 +1775,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
     public com.google.datastore.v1.TransactionOptions.Builder getSingleUseTransactionBuilder() {
       return getSingleUseTransactionFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -1845,7 +1798,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
         return com.google.datastore.v1.TransactionOptions.getDefaultInstance();
       }
     }
-
     /**
      *
      *
@@ -1926,7 +1878,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
         return mutationsBuilder_.getMessageList();
       }
     }
-
     /**
      *
      *
@@ -1955,7 +1906,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
         return mutationsBuilder_.getCount();
       }
     }
-
     /**
      *
      *
@@ -1984,7 +1934,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
         return mutationsBuilder_.getMessage(index);
       }
     }
-
     /**
      *
      *
@@ -2019,7 +1968,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2052,7 +2000,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2087,7 +2034,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2122,7 +2068,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2154,7 +2099,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2187,7 +2131,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2220,7 +2163,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2252,7 +2194,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2284,7 +2225,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2309,7 +2249,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
     public com.google.datastore.v1.Mutation.Builder getMutationsBuilder(int index) {
       return getMutationsFieldBuilder().getBuilder(index);
     }
-
     /**
      *
      *
@@ -2338,7 +2277,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
         return mutationsBuilder_.getMessageOrBuilder(index);
       }
     }
-
     /**
      *
      *
@@ -2368,7 +2306,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
         return java.util.Collections.unmodifiableList(mutations_);
       }
     }
-
     /**
      *
      *
@@ -2394,7 +2331,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       return getMutationsFieldBuilder()
           .addBuilder(com.google.datastore.v1.Mutation.getDefaultInstance());
     }
-
     /**
      *
      *
@@ -2420,7 +2356,6 @@ public final class CommitRequest extends com.google.protobuf.GeneratedMessageV3
       return getMutationsFieldBuilder()
           .addBuilder(index, com.google.datastore.v1.Mutation.getDefaultInstance());
     }
-
     /**
      *
      *

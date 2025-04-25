@@ -34,7 +34,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.Projection projection = 2;</code>
    */
   java.util.List<com.google.datastore.v1.Projection> getProjectionList();
-
   /**
    *
    *
@@ -45,7 +44,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.Projection projection = 2;</code>
    */
   com.google.datastore.v1.Projection getProjection(int index);
-
   /**
    *
    *
@@ -56,7 +54,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.Projection projection = 2;</code>
    */
   int getProjectionCount();
-
   /**
    *
    *
@@ -68,7 +65,6 @@ public interface QueryOrBuilder
    */
   java.util.List<? extends com.google.datastore.v1.ProjectionOrBuilder>
       getProjectionOrBuilderList();
-
   /**
    *
    *
@@ -91,7 +87,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.KindExpression kind = 3;</code>
    */
   java.util.List<com.google.datastore.v1.KindExpression> getKindList();
-
   /**
    *
    *
@@ -103,7 +98,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.KindExpression kind = 3;</code>
    */
   com.google.datastore.v1.KindExpression getKind(int index);
-
   /**
    *
    *
@@ -115,7 +109,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.KindExpression kind = 3;</code>
    */
   int getKindCount();
-
   /**
    *
    *
@@ -127,7 +120,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.KindExpression kind = 3;</code>
    */
   java.util.List<? extends com.google.datastore.v1.KindExpressionOrBuilder> getKindOrBuilderList();
-
   /**
    *
    *
@@ -152,7 +144,6 @@ public interface QueryOrBuilder
    * @return Whether the filter field is set.
    */
   boolean hasFilter();
-
   /**
    *
    *
@@ -165,7 +156,6 @@ public interface QueryOrBuilder
    * @return The filter.
    */
   com.google.datastore.v1.Filter getFilter();
-
   /**
    *
    *
@@ -187,7 +177,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.PropertyOrder order = 5;</code>
    */
   java.util.List<com.google.datastore.v1.PropertyOrder> getOrderList();
-
   /**
    *
    *
@@ -198,7 +187,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.PropertyOrder order = 5;</code>
    */
   com.google.datastore.v1.PropertyOrder getOrder(int index);
-
   /**
    *
    *
@@ -209,7 +197,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.PropertyOrder order = 5;</code>
    */
   int getOrderCount();
-
   /**
    *
    *
@@ -220,7 +207,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.PropertyOrder order = 5;</code>
    */
   java.util.List<? extends com.google.datastore.v1.PropertyOrderOrBuilder> getOrderOrBuilderList();
-
   /**
    *
    *
@@ -249,7 +235,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.PropertyReference distinct_on = 6;</code>
    */
   java.util.List<com.google.datastore.v1.PropertyReference> getDistinctOnList();
-
   /**
    *
    *
@@ -267,7 +252,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.PropertyReference distinct_on = 6;</code>
    */
   com.google.datastore.v1.PropertyReference getDistinctOn(int index);
-
   /**
    *
    *
@@ -285,7 +269,6 @@ public interface QueryOrBuilder
    * <code>repeated .google.datastore.v1.PropertyReference distinct_on = 6;</code>
    */
   int getDistinctOnCount();
-
   /**
    *
    *
@@ -304,7 +287,6 @@ public interface QueryOrBuilder
    */
   java.util.List<? extends com.google.datastore.v1.PropertyReferenceOrBuilder>
       getDistinctOnOrBuilderList();
-
   /**
    *
    *
@@ -384,7 +366,6 @@ public interface QueryOrBuilder
    * @return Whether the limit field is set.
    */
   boolean hasLimit();
-
   /**
    *
    *
@@ -400,7 +381,6 @@ public interface QueryOrBuilder
    * @return The limit.
    */
   com.google.protobuf.Int32Value getLimit();
-
   /**
    *
    *
@@ -433,7 +413,6 @@ public interface QueryOrBuilder
    * @return Whether the findNearest field is set.
    */
   boolean hasFindNearest();
-
   /**
    *
    *
@@ -452,7 +431,6 @@ public interface QueryOrBuilder
    * @return The findNearest.
    */
   com.google.datastore.v1.FindNearest getFindNearest();
-
   /**
    *
    *

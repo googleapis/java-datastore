@@ -33,7 +33,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
     // @@protoc_insertion_point(message_implements:google.datastore.v1.LookupResponse)
     LookupResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use LookupResponse.newBuilder() to construct.
   private LookupResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -72,7 +71,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
 
   @SuppressWarnings("serial")
   private java.util.List<com.google.datastore.v1.EntityResult> found_;
-
   /**
    *
    *
@@ -88,7 +86,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   public java.util.List<com.google.datastore.v1.EntityResult> getFoundList() {
     return found_;
   }
-
   /**
    *
    *
@@ -105,7 +102,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       getFoundOrBuilderList() {
     return found_;
   }
-
   /**
    *
    *
@@ -121,7 +117,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   public int getFoundCount() {
     return found_.size();
   }
-
   /**
    *
    *
@@ -137,7 +132,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.EntityResult getFound(int index) {
     return found_.get(index);
   }
-
   /**
    *
    *
@@ -158,7 +152,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
 
   @SuppressWarnings("serial")
   private java.util.List<com.google.datastore.v1.EntityResult> missing_;
-
   /**
    *
    *
@@ -174,7 +167,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   public java.util.List<com.google.datastore.v1.EntityResult> getMissingList() {
     return missing_;
   }
-
   /**
    *
    *
@@ -191,7 +183,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       getMissingOrBuilderList() {
     return missing_;
   }
-
   /**
    *
    *
@@ -207,7 +198,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   public int getMissingCount() {
     return missing_.size();
   }
-
   /**
    *
    *
@@ -223,7 +213,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.EntityResult getMissing(int index) {
     return missing_.get(index);
   }
-
   /**
    *
    *
@@ -244,7 +233,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
 
   @SuppressWarnings("serial")
   private java.util.List<com.google.datastore.v1.Key> deferred_;
-
   /**
    *
    *
@@ -260,7 +248,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   public java.util.List<com.google.datastore.v1.Key> getDeferredList() {
     return deferred_;
   }
-
   /**
    *
    *
@@ -276,7 +263,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   public java.util.List<? extends com.google.datastore.v1.KeyOrBuilder> getDeferredOrBuilderList() {
     return deferred_;
   }
-
   /**
    *
    *
@@ -292,7 +278,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   public int getDeferredCount() {
     return deferred_.size();
   }
-
   /**
    *
    *
@@ -308,7 +293,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.Key getDeferred(int index) {
     return deferred_.get(index);
   }
-
   /**
    *
    *
@@ -327,7 +311,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
 
   public static final int TRANSACTION_FIELD_NUMBER = 5;
   private com.google.protobuf.ByteString transaction_ = com.google.protobuf.ByteString.EMPTY;
-
   /**
    *
    *
@@ -352,7 +335,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
 
   public static final int READ_TIME_FIELD_NUMBER = 7;
   private com.google.protobuf.Timestamp readTime_;
-
   /**
    *
    *
@@ -368,7 +350,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   public boolean hasReadTime() {
     return ((bitField0_ & 0x00000001) != 0);
   }
-
   /**
    *
    *
@@ -384,7 +365,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
   public com.google.protobuf.Timestamp getReadTime() {
     return readTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : readTime_;
   }
-
   /**
    *
    *
@@ -604,7 +584,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -1022,7 +1001,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return foundBuilder_.getMessageList();
       }
     }
-
     /**
      *
      *
@@ -1041,7 +1019,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return foundBuilder_.getCount();
       }
     }
-
     /**
      *
      *
@@ -1060,7 +1037,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return foundBuilder_.getMessage(index);
       }
     }
-
     /**
      *
      *
@@ -1085,7 +1061,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1108,7 +1083,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1133,7 +1107,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1158,7 +1131,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1180,7 +1152,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1203,7 +1174,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1226,7 +1196,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1248,7 +1217,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1270,7 +1238,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1285,7 +1252,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
     public com.google.datastore.v1.EntityResult.Builder getFoundBuilder(int index) {
       return getFoundFieldBuilder().getBuilder(index);
     }
-
     /**
      *
      *
@@ -1304,7 +1270,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return foundBuilder_.getMessageOrBuilder(index);
       }
     }
-
     /**
      *
      *
@@ -1324,7 +1289,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return java.util.Collections.unmodifiableList(found_);
       }
     }
-
     /**
      *
      *
@@ -1340,7 +1304,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       return getFoundFieldBuilder()
           .addBuilder(com.google.datastore.v1.EntityResult.getDefaultInstance());
     }
-
     /**
      *
      *
@@ -1356,7 +1319,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       return getFoundFieldBuilder()
           .addBuilder(index, com.google.datastore.v1.EntityResult.getDefaultInstance());
     }
-
     /**
      *
      *
@@ -1423,7 +1385,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return missingBuilder_.getMessageList();
       }
     }
-
     /**
      *
      *
@@ -1442,7 +1403,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return missingBuilder_.getCount();
       }
     }
-
     /**
      *
      *
@@ -1461,7 +1421,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return missingBuilder_.getMessage(index);
       }
     }
-
     /**
      *
      *
@@ -1486,7 +1445,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1509,7 +1467,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1534,7 +1491,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1559,7 +1515,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1581,7 +1536,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1604,7 +1558,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1627,7 +1580,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1649,7 +1601,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1671,7 +1622,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1686,7 +1636,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
     public com.google.datastore.v1.EntityResult.Builder getMissingBuilder(int index) {
       return getMissingFieldBuilder().getBuilder(index);
     }
-
     /**
      *
      *
@@ -1705,7 +1654,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return missingBuilder_.getMessageOrBuilder(index);
       }
     }
-
     /**
      *
      *
@@ -1725,7 +1673,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return java.util.Collections.unmodifiableList(missing_);
       }
     }
-
     /**
      *
      *
@@ -1741,7 +1688,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       return getMissingFieldBuilder()
           .addBuilder(com.google.datastore.v1.EntityResult.getDefaultInstance());
     }
-
     /**
      *
      *
@@ -1757,7 +1703,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       return getMissingFieldBuilder()
           .addBuilder(index, com.google.datastore.v1.EntityResult.getDefaultInstance());
     }
-
     /**
      *
      *
@@ -1824,7 +1769,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return deferredBuilder_.getMessageList();
       }
     }
-
     /**
      *
      *
@@ -1843,7 +1787,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return deferredBuilder_.getCount();
       }
     }
-
     /**
      *
      *
@@ -1862,7 +1805,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return deferredBuilder_.getMessage(index);
       }
     }
-
     /**
      *
      *
@@ -1887,7 +1829,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1909,7 +1850,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1934,7 +1874,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1959,7 +1898,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1981,7 +1919,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2003,7 +1940,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2026,7 +1962,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2048,7 +1983,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2070,7 +2004,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2085,7 +2018,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
     public com.google.datastore.v1.Key.Builder getDeferredBuilder(int index) {
       return getDeferredFieldBuilder().getBuilder(index);
     }
-
     /**
      *
      *
@@ -2104,7 +2036,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return deferredBuilder_.getMessageOrBuilder(index);
       }
     }
-
     /**
      *
      *
@@ -2124,7 +2055,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return java.util.Collections.unmodifiableList(deferred_);
       }
     }
-
     /**
      *
      *
@@ -2139,7 +2069,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
     public com.google.datastore.v1.Key.Builder addDeferredBuilder() {
       return getDeferredFieldBuilder().addBuilder(com.google.datastore.v1.Key.getDefaultInstance());
     }
-
     /**
      *
      *
@@ -2155,7 +2084,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       return getDeferredFieldBuilder()
           .addBuilder(index, com.google.datastore.v1.Key.getDefaultInstance());
     }
-
     /**
      *
      *
@@ -2189,7 +2117,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
     }
 
     private com.google.protobuf.ByteString transaction_ = com.google.protobuf.ByteString.EMPTY;
-
     /**
      *
      *
@@ -2211,7 +2138,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
     public com.google.protobuf.ByteString getTransaction() {
       return transaction_;
     }
-
     /**
      *
      *
@@ -2239,7 +2165,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2270,7 +2195,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
             com.google.protobuf.Timestamp.Builder,
             com.google.protobuf.TimestampOrBuilder>
         readTimeBuilder_;
-
     /**
      *
      *
@@ -2285,7 +2209,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
     public boolean hasReadTime() {
       return ((bitField0_ & 0x00000010) != 0);
     }
-
     /**
      *
      *
@@ -2304,7 +2227,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return readTimeBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -2327,7 +2249,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2347,7 +2268,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2375,7 +2295,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2395,7 +2314,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2410,7 +2328,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return getReadTimeFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -2427,7 +2344,6 @@ public final class LookupResponse extends com.google.protobuf.GeneratedMessageV3
         return readTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : readTime_;
       }
     }
-
     /**
      *
      *

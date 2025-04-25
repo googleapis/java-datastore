@@ -33,7 +33,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     // @@protoc_insertion_point(message_implements:google.datastore.v1.QueryResultBatch)
     QueryResultBatchOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use QueryResultBatch.newBuilder() to construct.
   private QueryResultBatch(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -142,7 +141,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
      * <code>MORE_RESULTS_TYPE_UNSPECIFIED = 0;</code>
      */
     public static final int MORE_RESULTS_TYPE_UNSPECIFIED_VALUE = 0;
-
     /**
      *
      *
@@ -153,7 +151,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
      * <code>NOT_FINISHED = 1;</code>
      */
     public static final int NOT_FINISHED_VALUE = 1;
-
     /**
      *
      *
@@ -164,7 +161,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
      * <code>MORE_RESULTS_AFTER_LIMIT = 2;</code>
      */
     public static final int MORE_RESULTS_AFTER_LIMIT_VALUE = 2;
-
     /**
      *
      *
@@ -176,7 +172,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
      * <code>MORE_RESULTS_AFTER_CURSOR = 4;</code>
      */
     public static final int MORE_RESULTS_AFTER_CURSOR_VALUE = 4;
-
     /**
      *
      *
@@ -280,7 +275,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
   private int bitField0_;
   public static final int SKIPPED_RESULTS_FIELD_NUMBER = 6;
   private int skippedResults_ = 0;
-
   /**
    *
    *
@@ -299,7 +293,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
 
   public static final int SKIPPED_CURSOR_FIELD_NUMBER = 3;
   private com.google.protobuf.ByteString skippedCursor_ = com.google.protobuf.ByteString.EMPTY;
-
   /**
    *
    *
@@ -319,7 +312,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
 
   public static final int ENTITY_RESULT_TYPE_FIELD_NUMBER = 1;
   private int entityResultType_ = 0;
-
   /**
    *
    *
@@ -335,7 +327,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
   public int getEntityResultTypeValue() {
     return entityResultType_;
   }
-
   /**
    *
    *
@@ -358,7 +349,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
 
   @SuppressWarnings("serial")
   private java.util.List<com.google.datastore.v1.EntityResult> entityResults_;
-
   /**
    *
    *
@@ -372,7 +362,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
   public java.util.List<com.google.datastore.v1.EntityResult> getEntityResultsList() {
     return entityResults_;
   }
-
   /**
    *
    *
@@ -387,7 +376,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       getEntityResultsOrBuilderList() {
     return entityResults_;
   }
-
   /**
    *
    *
@@ -401,7 +389,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
   public int getEntityResultsCount() {
     return entityResults_.size();
   }
-
   /**
    *
    *
@@ -415,7 +402,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
   public com.google.datastore.v1.EntityResult getEntityResults(int index) {
     return entityResults_.get(index);
   }
-
   /**
    *
    *
@@ -432,7 +418,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
 
   public static final int END_CURSOR_FIELD_NUMBER = 4;
   private com.google.protobuf.ByteString endCursor_ = com.google.protobuf.ByteString.EMPTY;
-
   /**
    *
    *
@@ -451,7 +436,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
 
   public static final int MORE_RESULTS_FIELD_NUMBER = 5;
   private int moreResults_ = 0;
-
   /**
    *
    *
@@ -467,7 +451,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
   public int getMoreResultsValue() {
     return moreResults_;
   }
-
   /**
    *
    *
@@ -490,7 +473,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
 
   public static final int SNAPSHOT_VERSION_FIELD_NUMBER = 7;
   private long snapshotVersion_ = 0L;
-
   /**
    *
    *
@@ -517,7 +499,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
 
   public static final int READ_TIME_FIELD_NUMBER = 8;
   private com.google.protobuf.Timestamp readTime_;
-
   /**
    *
    *
@@ -542,7 +523,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
   public boolean hasReadTime() {
     return ((bitField0_ & 0x00000001) != 0);
   }
-
   /**
    *
    *
@@ -567,7 +547,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
   public com.google.protobuf.Timestamp getReadTime() {
     return readTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : readTime_;
   }
-
   /**
    *
    *
@@ -825,7 +804,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -1162,7 +1140,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     private int bitField0_;
 
     private int skippedResults_;
-
     /**
      *
      *
@@ -1178,7 +1155,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     public int getSkippedResults() {
       return skippedResults_;
     }
-
     /**
      *
      *
@@ -1198,7 +1174,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1218,7 +1193,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     }
 
     private com.google.protobuf.ByteString skippedCursor_ = com.google.protobuf.ByteString.EMPTY;
-
     /**
      *
      *
@@ -1235,7 +1209,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     public com.google.protobuf.ByteString getSkippedCursor() {
       return skippedCursor_;
     }
-
     /**
      *
      *
@@ -1258,7 +1231,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1279,7 +1251,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     }
 
     private int entityResultType_ = 0;
-
     /**
      *
      *
@@ -1295,7 +1266,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     public int getEntityResultTypeValue() {
       return entityResultType_;
     }
-
     /**
      *
      *
@@ -1314,7 +1284,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1332,7 +1301,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
           com.google.datastore.v1.EntityResult.ResultType.forNumber(entityResultType_);
       return result == null ? com.google.datastore.v1.EntityResult.ResultType.UNRECOGNIZED : result;
     }
-
     /**
      *
      *
@@ -1354,7 +1322,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1406,7 +1373,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
         return entityResultsBuilder_.getMessageList();
       }
     }
-
     /**
      *
      *
@@ -1423,7 +1389,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
         return entityResultsBuilder_.getCount();
       }
     }
-
     /**
      *
      *
@@ -1440,7 +1405,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
         return entityResultsBuilder_.getMessage(index);
       }
     }
-
     /**
      *
      *
@@ -1463,7 +1427,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       }
       return this;
     }
-
     /**
      *
      *
@@ -1484,7 +1447,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       }
       return this;
     }
-
     /**
      *
      *
@@ -1507,7 +1469,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       }
       return this;
     }
-
     /**
      *
      *
@@ -1530,7 +1491,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       }
       return this;
     }
-
     /**
      *
      *
@@ -1550,7 +1510,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       }
       return this;
     }
-
     /**
      *
      *
@@ -1571,7 +1530,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       }
       return this;
     }
-
     /**
      *
      *
@@ -1592,7 +1550,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       }
       return this;
     }
-
     /**
      *
      *
@@ -1612,7 +1569,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       }
       return this;
     }
-
     /**
      *
      *
@@ -1632,7 +1588,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       }
       return this;
     }
-
     /**
      *
      *
@@ -1645,7 +1600,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     public com.google.datastore.v1.EntityResult.Builder getEntityResultsBuilder(int index) {
       return getEntityResultsFieldBuilder().getBuilder(index);
     }
-
     /**
      *
      *
@@ -1662,7 +1616,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
         return entityResultsBuilder_.getMessageOrBuilder(index);
       }
     }
-
     /**
      *
      *
@@ -1680,7 +1633,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
         return java.util.Collections.unmodifiableList(entityResults_);
       }
     }
-
     /**
      *
      *
@@ -1694,7 +1646,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       return getEntityResultsFieldBuilder()
           .addBuilder(com.google.datastore.v1.EntityResult.getDefaultInstance());
     }
-
     /**
      *
      *
@@ -1708,7 +1659,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       return getEntityResultsFieldBuilder()
           .addBuilder(index, com.google.datastore.v1.EntityResult.getDefaultInstance());
     }
-
     /**
      *
      *
@@ -1744,7 +1694,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     }
 
     private com.google.protobuf.ByteString endCursor_ = com.google.protobuf.ByteString.EMPTY;
-
     /**
      *
      *
@@ -1760,7 +1709,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     public com.google.protobuf.ByteString getEndCursor() {
       return endCursor_;
     }
-
     /**
      *
      *
@@ -1782,7 +1730,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1802,7 +1749,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     }
 
     private int moreResults_ = 0;
-
     /**
      *
      *
@@ -1818,7 +1764,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     public int getMoreResultsValue() {
       return moreResults_;
     }
-
     /**
      *
      *
@@ -1837,7 +1782,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1857,7 +1801,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
           ? com.google.datastore.v1.QueryResultBatch.MoreResultsType.UNRECOGNIZED
           : result;
     }
-
     /**
      *
      *
@@ -1879,7 +1822,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1899,7 +1841,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     }
 
     private long snapshotVersion_;
-
     /**
      *
      *
@@ -1923,7 +1864,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     public long getSnapshotVersion() {
       return snapshotVersion_;
     }
-
     /**
      *
      *
@@ -1951,7 +1891,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1984,7 +1923,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
             com.google.protobuf.Timestamp.Builder,
             com.google.protobuf.TimestampOrBuilder>
         readTimeBuilder_;
-
     /**
      *
      *
@@ -2008,7 +1946,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
     public boolean hasReadTime() {
       return ((bitField0_ & 0x00000080) != 0);
     }
-
     /**
      *
      *
@@ -2036,7 +1973,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
         return readTimeBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -2068,7 +2004,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2097,7 +2032,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2134,7 +2068,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       }
       return this;
     }
-
     /**
      *
      *
@@ -2163,7 +2096,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2187,7 +2119,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
       onChanged();
       return getReadTimeFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -2213,7 +2144,6 @@ public final class QueryResultBatch extends com.google.protobuf.GeneratedMessage
         return readTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : readTime_;
       }
     }
-
     /**
      *
      *

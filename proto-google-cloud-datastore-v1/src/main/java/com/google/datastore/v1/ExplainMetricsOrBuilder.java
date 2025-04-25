@@ -36,7 +36,6 @@ public interface ExplainMetricsOrBuilder
    * @return Whether the planSummary field is set.
    */
   boolean hasPlanSummary();
-
   /**
    *
    *
@@ -49,7 +48,6 @@ public interface ExplainMetricsOrBuilder
    * @return The planSummary.
    */
   com.google.datastore.v1.PlanSummary getPlanSummary();
-
   /**
    *
    *
@@ -75,7 +73,6 @@ public interface ExplainMetricsOrBuilder
    * @return Whether the executionStats field is set.
    */
   boolean hasExecutionStats();
-
   /**
    *
    *
@@ -90,7 +87,6 @@ public interface ExplainMetricsOrBuilder
    * @return The executionStats.
    */
   com.google.datastore.v1.ExecutionStats getExecutionStats();
-
   /**
    *
    *

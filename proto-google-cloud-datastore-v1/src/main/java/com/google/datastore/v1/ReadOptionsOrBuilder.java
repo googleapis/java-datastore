@@ -36,7 +36,6 @@ public interface ReadOptionsOrBuilder
    * @return Whether the readConsistency field is set.
    */
   boolean hasReadConsistency();
-
   /**
    *
    *
@@ -49,7 +48,6 @@ public interface ReadOptionsOrBuilder
    * @return The enum numeric value on the wire for readConsistency.
    */
   int getReadConsistencyValue();
-
   /**
    *
    *
@@ -77,7 +75,6 @@ public interface ReadOptionsOrBuilder
    * @return Whether the transaction field is set.
    */
   boolean hasTransaction();
-
   /**
    *
    *
@@ -111,7 +108,6 @@ public interface ReadOptionsOrBuilder
    * @return Whether the newTransaction field is set.
    */
   boolean hasNewTransaction();
-
   /**
    *
    *
@@ -130,7 +126,6 @@ public interface ReadOptionsOrBuilder
    * @return The newTransaction.
    */
   com.google.datastore.v1.TransactionOptions getNewTransaction();
-
   /**
    *
    *
@@ -165,7 +160,6 @@ public interface ReadOptionsOrBuilder
    * @return Whether the readTime field is set.
    */
   boolean hasReadTime();
-
   /**
    *
    *
@@ -183,7 +177,6 @@ public interface ReadOptionsOrBuilder
    * @return The readTime.
    */
   com.google.protobuf.Timestamp getReadTime();
-
   /**
    *
    *

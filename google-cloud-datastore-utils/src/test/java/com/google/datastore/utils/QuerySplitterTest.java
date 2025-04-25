@@ -87,7 +87,8 @@ public class QuerySplitterTest {
   public void disallowsMultipleKinds() {
     com.google.datastore.utils.Datastore datastore = factory.create(options.build());
     Query queryWithMultipleKinds =
-        query.toBuilder()
+        query
+            .toBuilder()
             .addKind(KindExpression.newBuilder().setName("another-kind").build())
             .build();
     IllegalArgumentException exception =
@@ -116,7 +117,8 @@ public class QuerySplitterTest {
   public void disallowsInequalityFilter() {
     com.google.datastore.utils.Datastore datastore = factory.create(options.build());
     Query queryWithInequality =
-        query.toBuilder()
+        query
+            .toBuilder()
             .setFilter(makeFilter("foo", Operator.GREATER_THAN, makeValue("value")))
             .build();
     IllegalArgumentException exception =
@@ -167,13 +169,16 @@ public class QuerySplitterTest {
 
     assertThat(splittedQueries)
         .containsExactly(
-            query.toBuilder()
+            query
+                .toBuilder()
                 .setFilter(makeFilterWithKeyRange(propertyFilter, null, splitKey1))
                 .build(),
-            query.toBuilder()
+            query
+                .toBuilder()
                 .setFilter(makeFilterWithKeyRange(propertyFilter, splitKey1, splitKey3))
                 .build(),
-            query.toBuilder()
+            query
+                .toBuilder()
                 .setFilter(makeFilterWithKeyRange(propertyFilter, splitKey3, null))
                 .build());
 
@@ -218,13 +223,16 @@ public class QuerySplitterTest {
 
     assertThat(splitQueries)
         .containsExactly(
-            query.toBuilder()
+            query
+                .toBuilder()
                 .setFilter(makeFilterWithKeyRange(propertyFilter, null, splitKey1))
                 .build(),
-            query.toBuilder()
+            query
+                .toBuilder()
                 .setFilter(makeFilterWithKeyRange(propertyFilter, splitKey1, splitKey3))
                 .build(),
-            query.toBuilder()
+            query
+                .toBuilder()
                 .setFilter(makeFilterWithKeyRange(propertyFilter, splitKey3, null))
                 .build());
 
@@ -264,10 +272,12 @@ public class QuerySplitterTest {
 
     assertThat(splittedQueries)
         .containsExactly(
-            query.toBuilder()
+            query
+                .toBuilder()
                 .setFilter(makeFilterWithKeyRange(propertyFilter, null, splitKey0))
                 .build(),
-            query.toBuilder()
+            query
+                .toBuilder()
                 .setFilter(makeFilterWithKeyRange(propertyFilter, splitKey0, null))
                 .build());
 
@@ -311,13 +321,16 @@ public class QuerySplitterTest {
 
     assertThat(splittedQueries)
         .containsExactly(
-            query.toBuilder()
+            query
+                .toBuilder()
                 .setFilter(makeFilterWithKeyRange(propertyFilter, null, splitKey1))
                 .build(),
-            query.toBuilder()
+            query
+                .toBuilder()
                 .setFilter(makeFilterWithKeyRange(propertyFilter, splitKey1, splitKey3))
                 .build(),
-            query.toBuilder()
+            query
+                .toBuilder()
                 .setFilter(makeFilterWithKeyRange(propertyFilter, splitKey3, null))
                 .build());
 

@@ -39,7 +39,6 @@ public interface ExportEntitiesResponseOrBuilder
    * @return The outputUrl.
    */
   java.lang.String getOutputUrl();
-
   /**
    *
    *

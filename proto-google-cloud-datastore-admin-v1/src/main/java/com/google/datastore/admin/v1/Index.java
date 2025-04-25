@@ -33,7 +33,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
     // @@protoc_insertion_point(message_implements:google.datastore.admin.v1.Index)
     IndexOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use Index.newBuilder() to construct.
   private Index(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -123,7 +122,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
      * <code>ANCESTOR_MODE_UNSPECIFIED = 0;</code>
      */
     public static final int ANCESTOR_MODE_UNSPECIFIED_VALUE = 0;
-
     /**
      *
      *
@@ -134,7 +132,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
      * <code>NONE = 1;</code>
      */
     public static final int NONE_VALUE = 1;
-
     /**
      *
      *
@@ -284,7 +281,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
      * <code>DIRECTION_UNSPECIFIED = 0;</code>
      */
     public static final int DIRECTION_UNSPECIFIED_VALUE = 0;
-
     /**
      *
      *
@@ -296,7 +292,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
      * <code>ASCENDING = 1;</code>
      */
     public static final int ASCENDING_VALUE = 1;
-
     /**
      *
      *
@@ -478,7 +473,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
      * <code>STATE_UNSPECIFIED = 0;</code>
      */
     public static final int STATE_UNSPECIFIED_VALUE = 0;
-
     /**
      *
      *
@@ -492,7 +486,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
      * <code>CREATING = 1;</code>
      */
     public static final int CREATING_VALUE = 1;
-
     /**
      *
      *
@@ -505,7 +498,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
      * <code>READY = 2;</code>
      */
     public static final int READY_VALUE = 2;
-
     /**
      *
      *
@@ -519,7 +511,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
      * <code>DELETING = 3;</code>
      */
     public static final int DELETING_VALUE = 3;
-
     /**
      *
      *
@@ -640,7 +631,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
      * @return The name.
      */
     java.lang.String getName();
-
     /**
      *
      *
@@ -669,7 +659,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
      * @return The enum numeric value on the wire for direction.
      */
     int getDirectionValue();
-
     /**
      *
      *
@@ -686,7 +675,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
      */
     com.google.datastore.admin.v1.Index.Direction getDirection();
   }
-
   /**
    *
    *
@@ -701,7 +689,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       // @@protoc_insertion_point(message_implements:google.datastore.admin.v1.Index.IndexedProperty)
       IndexedPropertyOrBuilder {
     private static final long serialVersionUID = 0L;
-
     // Use IndexedProperty.newBuilder() to construct.
     private IndexedProperty(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -737,7 +724,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
 
     @SuppressWarnings("serial")
     private volatile java.lang.Object name_ = "";
-
     /**
      *
      *
@@ -761,7 +747,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         return s;
       }
     }
-
     /**
      *
      *
@@ -788,7 +773,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
 
     public static final int DIRECTION_FIELD_NUMBER = 2;
     private int direction_ = 0;
-
     /**
      *
      *
@@ -807,7 +791,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
     public int getDirectionValue() {
       return direction_;
     }
-
     /**
      *
      *
@@ -1001,7 +984,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       Builder builder = new Builder(parent);
       return builder;
     }
-
     /**
      *
      *
@@ -1202,7 +1184,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       private int bitField0_;
 
       private java.lang.Object name_ = "";
-
       /**
        *
        *
@@ -1225,7 +1206,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
           return (java.lang.String) ref;
         }
       }
-
       /**
        *
        *
@@ -1248,7 +1228,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
           return (com.google.protobuf.ByteString) ref;
         }
       }
-
       /**
        *
        *
@@ -1270,7 +1249,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         onChanged();
         return this;
       }
-
       /**
        *
        *
@@ -1288,7 +1266,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         onChanged();
         return this;
       }
-
       /**
        *
        *
@@ -1313,7 +1290,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       }
 
       private int direction_ = 0;
-
       /**
        *
        *
@@ -1332,7 +1308,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       public int getDirectionValue() {
         return direction_;
       }
-
       /**
        *
        *
@@ -1354,7 +1329,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         onChanged();
         return this;
       }
-
       /**
        *
        *
@@ -1375,7 +1349,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
             com.google.datastore.admin.v1.Index.Direction.forNumber(direction_);
         return result == null ? com.google.datastore.admin.v1.Index.Direction.UNRECOGNIZED : result;
       }
-
       /**
        *
        *
@@ -1400,7 +1373,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         onChanged();
         return this;
       }
-
       /**
        *
        *
@@ -1490,7 +1462,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object projectId_ = "";
-
   /**
    *
    *
@@ -1514,7 +1485,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       return s;
     }
   }
-
   /**
    *
    *
@@ -1543,7 +1513,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object indexId_ = "";
-
   /**
    *
    *
@@ -1567,7 +1536,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       return s;
     }
   }
-
   /**
    *
    *
@@ -1596,7 +1564,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object kind_ = "";
-
   /**
    *
    *
@@ -1620,7 +1587,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       return s;
     }
   }
-
   /**
    *
    *
@@ -1647,7 +1613,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
 
   public static final int ANCESTOR_FIELD_NUMBER = 5;
   private int ancestor_ = 0;
-
   /**
    *
    *
@@ -1666,7 +1631,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
   public int getAncestorValue() {
     return ancestor_;
   }
-
   /**
    *
    *
@@ -1692,7 +1656,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
 
   @SuppressWarnings("serial")
   private java.util.List<com.google.datastore.admin.v1.Index.IndexedProperty> properties_;
-
   /**
    *
    *
@@ -1712,7 +1675,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
   public java.util.List<com.google.datastore.admin.v1.Index.IndexedProperty> getPropertiesList() {
     return properties_;
   }
-
   /**
    *
    *
@@ -1733,7 +1695,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       getPropertiesOrBuilderList() {
     return properties_;
   }
-
   /**
    *
    *
@@ -1753,7 +1714,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
   public int getPropertiesCount() {
     return properties_.size();
   }
-
   /**
    *
    *
@@ -1773,7 +1733,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.admin.v1.Index.IndexedProperty getProperties(int index) {
     return properties_.get(index);
   }
-
   /**
    *
    *
@@ -1797,7 +1756,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
 
   public static final int STATE_FIELD_NUMBER = 7;
   private int state_ = 0;
-
   /**
    *
    *
@@ -1815,7 +1773,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
   public int getStateValue() {
     return state_;
   }
-
   /**
    *
    *
@@ -2042,7 +1999,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -2342,7 +2298,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
     private int bitField0_;
 
     private java.lang.Object projectId_ = "";
-
     /**
      *
      *
@@ -2365,7 +2320,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -2388,7 +2342,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -2410,7 +2363,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2428,7 +2380,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2453,7 +2404,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
     }
 
     private java.lang.Object indexId_ = "";
-
     /**
      *
      *
@@ -2476,7 +2426,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -2499,7 +2448,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -2521,7 +2469,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2539,7 +2486,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2564,7 +2510,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
     }
 
     private java.lang.Object kind_ = "";
-
     /**
      *
      *
@@ -2587,7 +2532,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -2610,7 +2554,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -2632,7 +2575,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2650,7 +2592,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2675,7 +2616,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
     }
 
     private int ancestor_ = 0;
-
     /**
      *
      *
@@ -2694,7 +2634,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
     public int getAncestorValue() {
       return ancestor_;
     }
-
     /**
      *
      *
@@ -2716,7 +2655,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2739,7 +2677,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
           ? com.google.datastore.admin.v1.Index.AncestorMode.UNRECOGNIZED
           : result;
     }
-
     /**
      *
      *
@@ -2764,7 +2701,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -2826,7 +2762,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         return propertiesBuilder_.getMessageList();
       }
     }
-
     /**
      *
      *
@@ -2849,7 +2784,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         return propertiesBuilder_.getCount();
       }
     }
-
     /**
      *
      *
@@ -2872,7 +2806,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         return propertiesBuilder_.getMessage(index);
       }
     }
-
     /**
      *
      *
@@ -2902,7 +2835,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2929,7 +2861,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2958,7 +2889,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -2988,7 +2918,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -3015,7 +2944,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -3042,7 +2970,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -3069,7 +2996,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -3095,7 +3021,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -3121,7 +3046,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -3141,7 +3065,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         int index) {
       return getPropertiesFieldBuilder().getBuilder(index);
     }
-
     /**
      *
      *
@@ -3165,7 +3088,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         return propertiesBuilder_.getMessageOrBuilder(index);
       }
     }
-
     /**
      *
      *
@@ -3189,7 +3111,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
         return java.util.Collections.unmodifiableList(properties_);
       }
     }
-
     /**
      *
      *
@@ -3209,7 +3130,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       return getPropertiesFieldBuilder()
           .addBuilder(com.google.datastore.admin.v1.Index.IndexedProperty.getDefaultInstance());
     }
-
     /**
      *
      *
@@ -3231,7 +3151,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
           .addBuilder(
               index, com.google.datastore.admin.v1.Index.IndexedProperty.getDefaultInstance());
     }
-
     /**
      *
      *
@@ -3270,7 +3189,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
     }
 
     private int state_ = 0;
-
     /**
      *
      *
@@ -3288,7 +3206,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
     public int getStateValue() {
       return state_;
     }
-
     /**
      *
      *
@@ -3309,7 +3226,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -3329,7 +3245,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
           com.google.datastore.admin.v1.Index.State.forNumber(state_);
       return result == null ? com.google.datastore.admin.v1.Index.State.UNRECOGNIZED : result;
     }
-
     /**
      *
      *
@@ -3353,7 +3268,6 @@ public final class Index extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *

@@ -36,7 +36,6 @@ public interface CreateIndexRequestOrBuilder
    * @return The projectId.
    */
   java.lang.String getProjectId();
-
   /**
    *
    *
@@ -63,7 +62,6 @@ public interface CreateIndexRequestOrBuilder
    * @return Whether the index field is set.
    */
   boolean hasIndex();
-
   /**
    *
    *
@@ -77,7 +75,6 @@ public interface CreateIndexRequestOrBuilder
    * @return The index.
    */
   com.google.datastore.admin.v1.Index getIndex();
-
   /**
    *
    *

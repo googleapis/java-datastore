@@ -36,7 +36,6 @@ public interface GqlQueryParameterOrBuilder
    * @return Whether the value field is set.
    */
   boolean hasValue();
-
   /**
    *
    *
@@ -49,7 +48,6 @@ public interface GqlQueryParameterOrBuilder
    * @return The value.
    */
   com.google.datastore.v1.Value getValue();
-
   /**
    *
    *
@@ -74,7 +72,6 @@ public interface GqlQueryParameterOrBuilder
    * @return Whether the cursor field is set.
    */
   boolean hasCursor();
-
   /**
    *
    *

@@ -33,7 +33,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     // @@protoc_insertion_point(message_implements:google.datastore.v1.EntityResult)
     EntityResultOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use EntityResult.newBuilder() to construct.
   private EntityResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -131,7 +130,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      * <code>RESULT_TYPE_UNSPECIFIED = 0;</code>
      */
     public static final int RESULT_TYPE_UNSPECIFIED_VALUE = 0;
-
     /**
      *
      *
@@ -142,7 +140,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      * <code>FULL = 1;</code>
      */
     public static final int FULL_VALUE = 1;
-
     /**
      *
      *
@@ -153,7 +150,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
      * <code>PROJECTION = 2;</code>
      */
     public static final int PROJECTION_VALUE = 2;
-
     /**
      *
      *
@@ -253,7 +249,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   private int bitField0_;
   public static final int ENTITY_FIELD_NUMBER = 1;
   private com.google.datastore.v1.Entity entity_;
-
   /**
    *
    *
@@ -269,7 +264,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   public boolean hasEntity() {
     return ((bitField0_ & 0x00000001) != 0);
   }
-
   /**
    *
    *
@@ -285,7 +279,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.Entity getEntity() {
     return entity_ == null ? com.google.datastore.v1.Entity.getDefaultInstance() : entity_;
   }
-
   /**
    *
    *
@@ -302,7 +295,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
 
   public static final int VERSION_FIELD_NUMBER = 4;
   private long version_ = 0L;
-
   /**
    *
    *
@@ -329,7 +321,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
 
   public static final int CREATE_TIME_FIELD_NUMBER = 6;
   private com.google.protobuf.Timestamp createTime_;
-
   /**
    *
    *
@@ -348,7 +339,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   public boolean hasCreateTime() {
     return ((bitField0_ & 0x00000002) != 0);
   }
-
   /**
    *
    *
@@ -367,7 +357,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   public com.google.protobuf.Timestamp getCreateTime() {
     return createTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : createTime_;
   }
-
   /**
    *
    *
@@ -387,7 +376,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
 
   public static final int UPDATE_TIME_FIELD_NUMBER = 5;
   private com.google.protobuf.Timestamp updateTime_;
-
   /**
    *
    *
@@ -406,7 +394,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   public boolean hasUpdateTime() {
     return ((bitField0_ & 0x00000004) != 0);
   }
-
   /**
    *
    *
@@ -425,7 +412,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
   public com.google.protobuf.Timestamp getUpdateTime() {
     return updateTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : updateTime_;
   }
-
   /**
    *
    *
@@ -445,7 +431,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
 
   public static final int CURSOR_FIELD_NUMBER = 3;
   private com.google.protobuf.ByteString cursor_ = com.google.protobuf.ByteString.EMPTY;
-
   /**
    *
    *
@@ -671,7 +656,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -937,7 +921,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
             com.google.datastore.v1.Entity.Builder,
             com.google.datastore.v1.EntityOrBuilder>
         entityBuilder_;
-
     /**
      *
      *
@@ -952,7 +935,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     public boolean hasEntity() {
       return ((bitField0_ & 0x00000001) != 0);
     }
-
     /**
      *
      *
@@ -971,7 +953,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
         return entityBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -994,7 +975,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1014,7 +994,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1042,7 +1021,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1062,7 +1040,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1077,7 +1054,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return getEntityFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -1094,7 +1070,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
         return entity_ == null ? com.google.datastore.v1.Entity.getDefaultInstance() : entity_;
       }
     }
-
     /**
      *
      *
@@ -1122,7 +1097,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     }
 
     private long version_;
-
     /**
      *
      *
@@ -1146,7 +1120,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     public long getVersion() {
       return version_;
     }
-
     /**
      *
      *
@@ -1174,7 +1147,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1207,7 +1179,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
             com.google.protobuf.Timestamp.Builder,
             com.google.protobuf.TimestampOrBuilder>
         createTimeBuilder_;
-
     /**
      *
      *
@@ -1225,7 +1196,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     public boolean hasCreateTime() {
       return ((bitField0_ & 0x00000004) != 0);
     }
-
     /**
      *
      *
@@ -1249,7 +1219,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
         return createTimeBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -1275,7 +1244,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1298,7 +1266,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1329,7 +1296,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1352,7 +1318,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1370,7 +1335,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return getCreateTimeFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -1392,7 +1356,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
             : createTime_;
       }
     }
-
     /**
      *
      *
@@ -1428,7 +1391,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
             com.google.protobuf.Timestamp.Builder,
             com.google.protobuf.TimestampOrBuilder>
         updateTimeBuilder_;
-
     /**
      *
      *
@@ -1446,7 +1408,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     public boolean hasUpdateTime() {
       return ((bitField0_ & 0x00000008) != 0);
     }
-
     /**
      *
      *
@@ -1470,7 +1431,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
         return updateTimeBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -1496,7 +1456,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1519,7 +1478,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1550,7 +1508,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1573,7 +1530,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1591,7 +1547,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return getUpdateTimeFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -1613,7 +1568,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
             : updateTime_;
       }
     }
-
     /**
      *
      *
@@ -1644,7 +1598,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     }
 
     private com.google.protobuf.ByteString cursor_ = com.google.protobuf.ByteString.EMPTY;
-
     /**
      *
      *
@@ -1661,7 +1614,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
     public com.google.protobuf.ByteString getCursor() {
       return cursor_;
     }
-
     /**
      *
      *
@@ -1684,7 +1636,6 @@ public final class EntityResult extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *

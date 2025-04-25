@@ -36,7 +36,6 @@ public interface TransactionOptionsOrBuilder
    * @return Whether the readWrite field is set.
    */
   boolean hasReadWrite();
-
   /**
    *
    *
@@ -49,7 +48,6 @@ public interface TransactionOptionsOrBuilder
    * @return The readWrite.
    */
   com.google.datastore.v1.TransactionOptions.ReadWrite getReadWrite();
-
   /**
    *
    *
@@ -73,7 +71,6 @@ public interface TransactionOptionsOrBuilder
    * @return Whether the readOnly field is set.
    */
   boolean hasReadOnly();
-
   /**
    *
    *
@@ -86,7 +83,6 @@ public interface TransactionOptionsOrBuilder
    * @return The readOnly.
    */
   com.google.datastore.v1.TransactionOptions.ReadOnly getReadOnly();
-
   /**
    *
    *

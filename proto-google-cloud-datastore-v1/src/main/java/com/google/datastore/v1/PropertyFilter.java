@@ -33,7 +33,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
     // @@protoc_insertion_point(message_implements:google.datastore.v1.PropertyFilter)
     PropertyFilterOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use PropertyFilter.newBuilder() to construct.
   private PropertyFilter(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -225,7 +224,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
      * <code>OPERATOR_UNSPECIFIED = 0;</code>
      */
     public static final int OPERATOR_UNSPECIFIED_VALUE = 0;
-
     /**
      *
      *
@@ -240,7 +238,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
      * <code>LESS_THAN = 1;</code>
      */
     public static final int LESS_THAN_VALUE = 1;
-
     /**
      *
      *
@@ -255,7 +252,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
      * <code>LESS_THAN_OR_EQUAL = 2;</code>
      */
     public static final int LESS_THAN_OR_EQUAL_VALUE = 2;
-
     /**
      *
      *
@@ -270,7 +266,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
      * <code>GREATER_THAN = 3;</code>
      */
     public static final int GREATER_THAN_VALUE = 3;
-
     /**
      *
      *
@@ -285,7 +280,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
      * <code>GREATER_THAN_OR_EQUAL = 4;</code>
      */
     public static final int GREATER_THAN_OR_EQUAL_VALUE = 4;
-
     /**
      *
      *
@@ -296,7 +290,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
      * <code>EQUAL = 5;</code>
      */
     public static final int EQUAL_VALUE = 5;
-
     /**
      *
      *
@@ -313,7 +306,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
      * <code>IN = 6;</code>
      */
     public static final int IN_VALUE = 6;
-
     /**
      *
      *
@@ -329,7 +321,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
      * <code>NOT_EQUAL = 9;</code>
      */
     public static final int NOT_EQUAL_VALUE = 9;
-
     /**
      *
      *
@@ -345,7 +336,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
      * <code>HAS_ANCESTOR = 11;</code>
      */
     public static final int HAS_ANCESTOR_VALUE = 11;
-
     /**
      *
      *
@@ -463,7 +453,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
   private int bitField0_;
   public static final int PROPERTY_FIELD_NUMBER = 1;
   private com.google.datastore.v1.PropertyReference property_;
-
   /**
    *
    *
@@ -479,7 +468,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
   public boolean hasProperty() {
     return ((bitField0_ & 0x00000001) != 0);
   }
-
   /**
    *
    *
@@ -497,7 +485,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
         ? com.google.datastore.v1.PropertyReference.getDefaultInstance()
         : property_;
   }
-
   /**
    *
    *
@@ -516,7 +503,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
 
   public static final int OP_FIELD_NUMBER = 2;
   private int op_ = 0;
-
   /**
    *
    *
@@ -532,7 +518,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
   public int getOpValue() {
     return op_;
   }
-
   /**
    *
    *
@@ -553,7 +538,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
 
   public static final int VALUE_FIELD_NUMBER = 3;
   private com.google.datastore.v1.Value value_;
-
   /**
    *
    *
@@ -569,7 +553,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
   public boolean hasValue() {
     return ((bitField0_ & 0x00000002) != 0);
   }
-
   /**
    *
    *
@@ -585,7 +568,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
   public com.google.datastore.v1.Value getValue() {
     return value_ == null ? com.google.datastore.v1.Value.getDefaultInstance() : value_;
   }
-
   /**
    *
    *
@@ -786,7 +768,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -1021,7 +1002,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
             com.google.datastore.v1.PropertyReference.Builder,
             com.google.datastore.v1.PropertyReferenceOrBuilder>
         propertyBuilder_;
-
     /**
      *
      *
@@ -1036,7 +1016,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
     public boolean hasProperty() {
       return ((bitField0_ & 0x00000001) != 0);
     }
-
     /**
      *
      *
@@ -1057,7 +1036,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
         return propertyBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -1080,7 +1058,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1100,7 +1077,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1128,7 +1104,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1148,7 +1123,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1163,7 +1137,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return getPropertyFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -1182,7 +1155,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
             : property_;
       }
     }
-
     /**
      *
      *
@@ -1210,7 +1182,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
     }
 
     private int op_ = 0;
-
     /**
      *
      *
@@ -1226,7 +1197,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
     public int getOpValue() {
       return op_;
     }
-
     /**
      *
      *
@@ -1245,7 +1215,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1263,7 +1232,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
           com.google.datastore.v1.PropertyFilter.Operator.forNumber(op_);
       return result == null ? com.google.datastore.v1.PropertyFilter.Operator.UNRECOGNIZED : result;
     }
-
     /**
      *
      *
@@ -1285,7 +1253,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1310,7 +1277,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
             com.google.datastore.v1.Value.Builder,
             com.google.datastore.v1.ValueOrBuilder>
         valueBuilder_;
-
     /**
      *
      *
@@ -1325,7 +1291,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
     public boolean hasValue() {
       return ((bitField0_ & 0x00000004) != 0);
     }
-
     /**
      *
      *
@@ -1344,7 +1309,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
         return valueBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -1367,7 +1331,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1387,7 +1350,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1415,7 +1377,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
       }
       return this;
     }
-
     /**
      *
      *
@@ -1435,7 +1396,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1450,7 +1410,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
       onChanged();
       return getValueFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -1467,7 +1426,6 @@ public final class PropertyFilter extends com.google.protobuf.GeneratedMessageV3
         return value_ == null ? com.google.datastore.v1.Value.getDefaultInstance() : value_;
       }
     }
-
     /**
      *
      *

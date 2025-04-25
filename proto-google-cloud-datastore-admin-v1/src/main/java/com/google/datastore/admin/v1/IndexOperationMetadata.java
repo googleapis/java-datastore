@@ -33,7 +33,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
     // @@protoc_insertion_point(message_implements:google.datastore.admin.v1.IndexOperationMetadata)
     IndexOperationMetadataOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use IndexOperationMetadata.newBuilder() to construct.
   private IndexOperationMetadata(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -67,7 +66,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
   private int bitField0_;
   public static final int COMMON_FIELD_NUMBER = 1;
   private com.google.datastore.admin.v1.CommonMetadata common_;
-
   /**
    *
    *
@@ -83,7 +81,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
   public boolean hasCommon() {
     return ((bitField0_ & 0x00000001) != 0);
   }
-
   /**
    *
    *
@@ -101,7 +98,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
         ? com.google.datastore.admin.v1.CommonMetadata.getDefaultInstance()
         : common_;
   }
-
   /**
    *
    *
@@ -120,7 +116,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
 
   public static final int PROGRESS_ENTITIES_FIELD_NUMBER = 2;
   private com.google.datastore.admin.v1.Progress progressEntities_;
-
   /**
    *
    *
@@ -136,7 +131,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
   public boolean hasProgressEntities() {
     return ((bitField0_ & 0x00000002) != 0);
   }
-
   /**
    *
    *
@@ -154,7 +148,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
         ? com.google.datastore.admin.v1.Progress.getDefaultInstance()
         : progressEntities_;
   }
-
   /**
    *
    *
@@ -175,7 +168,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object indexId_ = "";
-
   /**
    *
    *
@@ -199,7 +191,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
       return s;
     }
   }
-
   /**
    *
    *
@@ -411,7 +402,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -651,7 +641,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
             com.google.datastore.admin.v1.CommonMetadata.Builder,
             com.google.datastore.admin.v1.CommonMetadataOrBuilder>
         commonBuilder_;
-
     /**
      *
      *
@@ -666,7 +655,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
     public boolean hasCommon() {
       return ((bitField0_ & 0x00000001) != 0);
     }
-
     /**
      *
      *
@@ -687,7 +675,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
         return commonBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -710,7 +697,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -730,7 +716,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -758,7 +743,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
       }
       return this;
     }
-
     /**
      *
      *
@@ -778,7 +762,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -793,7 +776,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
       onChanged();
       return getCommonFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -812,7 +794,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
             : common_;
       }
     }
-
     /**
      *
      *
@@ -845,7 +826,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
             com.google.datastore.admin.v1.Progress.Builder,
             com.google.datastore.admin.v1.ProgressOrBuilder>
         progressEntitiesBuilder_;
-
     /**
      *
      *
@@ -860,7 +840,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
     public boolean hasProgressEntities() {
       return ((bitField0_ & 0x00000002) != 0);
     }
-
     /**
      *
      *
@@ -881,7 +860,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
         return progressEntitiesBuilder_.getMessage();
       }
     }
-
     /**
      *
      *
@@ -904,7 +882,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -925,7 +902,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -953,7 +929,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
       }
       return this;
     }
-
     /**
      *
      *
@@ -973,7 +948,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -988,7 +962,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
       onChanged();
       return getProgressEntitiesFieldBuilder().getBuilder();
     }
-
     /**
      *
      *
@@ -1007,7 +980,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
             : progressEntities_;
       }
     }
-
     /**
      *
      *
@@ -1035,7 +1007,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
     }
 
     private java.lang.Object indexId_ = "";
-
     /**
      *
      *
@@ -1058,7 +1029,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -1081,7 +1051,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -1103,7 +1072,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -1121,7 +1089,6 @@ public final class IndexOperationMetadata extends com.google.protobuf.GeneratedM
       onChanged();
       return this;
     }
-
     /**
      *
      *

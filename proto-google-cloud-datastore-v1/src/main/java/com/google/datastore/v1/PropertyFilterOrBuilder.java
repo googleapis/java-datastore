@@ -36,7 +36,6 @@ public interface PropertyFilterOrBuilder
    * @return Whether the property field is set.
    */
   boolean hasProperty();
-
   /**
    *
    *
@@ -49,7 +48,6 @@ public interface PropertyFilterOrBuilder
    * @return The property.
    */
   com.google.datastore.v1.PropertyReference getProperty();
-
   /**
    *
    *
@@ -73,7 +71,6 @@ public interface PropertyFilterOrBuilder
    * @return The enum numeric value on the wire for op.
    */
   int getOpValue();
-
   /**
    *
    *
@@ -99,7 +96,6 @@ public interface PropertyFilterOrBuilder
    * @return Whether the value field is set.
    */
   boolean hasValue();
-
   /**
    *
    *
@@ -112,7 +108,6 @@ public interface PropertyFilterOrBuilder
    * @return The value.
    */
   com.google.datastore.v1.Value getValue();
-
   /**
    *
    *

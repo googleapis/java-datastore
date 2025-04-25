@@ -34,7 +34,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
     // @@protoc_insertion_point(message_implements:google.datastore.admin.v1.DeleteIndexRequest)
     DeleteIndexRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use DeleteIndexRequest.newBuilder() to construct.
   private DeleteIndexRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -70,7 +69,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object projectId_ = "";
-
   /**
    *
    *
@@ -94,7 +92,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
       return s;
     }
   }
-
   /**
    *
    *
@@ -123,7 +120,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object indexId_ = "";
-
   /**
    *
    *
@@ -147,7 +143,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
       return s;
     }
   }
-
   /**
    *
    *
@@ -340,7 +335,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -541,7 +535,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
     private int bitField0_;
 
     private java.lang.Object projectId_ = "";
-
     /**
      *
      *
@@ -564,7 +557,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -587,7 +579,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -609,7 +600,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -627,7 +617,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -652,7 +641,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
     }
 
     private java.lang.Object indexId_ = "";
-
     /**
      *
      *
@@ -675,7 +663,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -698,7 +685,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -720,7 +706,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -738,7 +723,6 @@ public final class DeleteIndexRequest extends com.google.protobuf.GeneratedMessa
       onChanged();
       return this;
     }
-
     /**
      *
      *

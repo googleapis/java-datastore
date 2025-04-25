@@ -34,7 +34,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
     // @@protoc_insertion_point(message_implements:google.datastore.v1.AllocateIdsRequest)
     AllocateIdsRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-
   // Use AllocateIdsRequest.newBuilder() to construct.
   private AllocateIdsRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -71,7 +70,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object projectId_ = "";
-
   /**
    *
    *
@@ -95,7 +93,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       return s;
     }
   }
-
   /**
    *
    *
@@ -124,7 +121,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
 
   @SuppressWarnings("serial")
   private volatile java.lang.Object databaseId_ = "";
-
   /**
    *
    *
@@ -151,7 +147,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       return s;
     }
   }
-
   /**
    *
    *
@@ -183,7 +178,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
 
   @SuppressWarnings("serial")
   private java.util.List<com.google.datastore.v1.Key> keys_;
-
   /**
    *
    *
@@ -199,7 +193,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
   public java.util.List<com.google.datastore.v1.Key> getKeysList() {
     return keys_;
   }
-
   /**
    *
    *
@@ -215,7 +208,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
   public java.util.List<? extends com.google.datastore.v1.KeyOrBuilder> getKeysOrBuilderList() {
     return keys_;
   }
-
   /**
    *
    *
@@ -231,7 +223,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
   public int getKeysCount() {
     return keys_.size();
   }
-
   /**
    *
    *
@@ -247,7 +238,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
   public com.google.datastore.v1.Key getKeys(int index) {
     return keys_.get(index);
   }
-
   /**
    *
    *
@@ -443,7 +433,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
     Builder builder = new Builder(parent);
     return builder;
   }
-
   /**
    *
    *
@@ -702,7 +691,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
     private int bitField0_;
 
     private java.lang.Object projectId_ = "";
-
     /**
      *
      *
@@ -725,7 +713,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -748,7 +735,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -770,7 +756,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -788,7 +773,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -813,7 +797,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
     }
 
     private java.lang.Object databaseId_ = "";
-
     /**
      *
      *
@@ -839,7 +822,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
         return (java.lang.String) ref;
       }
     }
-
     /**
      *
      *
@@ -865,7 +847,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
         return (com.google.protobuf.ByteString) ref;
       }
     }
-
     /**
      *
      *
@@ -890,7 +871,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -911,7 +891,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       onChanged();
       return this;
     }
-
     /**
      *
      *
@@ -971,7 +950,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
         return keysBuilder_.getMessageList();
       }
     }
-
     /**
      *
      *
@@ -990,7 +968,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
         return keysBuilder_.getCount();
       }
     }
-
     /**
      *
      *
@@ -1009,7 +986,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
         return keysBuilder_.getMessage(index);
       }
     }
-
     /**
      *
      *
@@ -1034,7 +1010,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       }
       return this;
     }
-
     /**
      *
      *
@@ -1056,7 +1031,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       }
       return this;
     }
-
     /**
      *
      *
@@ -1081,7 +1055,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       }
       return this;
     }
-
     /**
      *
      *
@@ -1106,7 +1079,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       }
       return this;
     }
-
     /**
      *
      *
@@ -1128,7 +1100,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       }
       return this;
     }
-
     /**
      *
      *
@@ -1150,7 +1121,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       }
       return this;
     }
-
     /**
      *
      *
@@ -1172,7 +1142,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       }
       return this;
     }
-
     /**
      *
      *
@@ -1194,7 +1163,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       }
       return this;
     }
-
     /**
      *
      *
@@ -1216,7 +1184,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       }
       return this;
     }
-
     /**
      *
      *
@@ -1231,7 +1198,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
     public com.google.datastore.v1.Key.Builder getKeysBuilder(int index) {
       return getKeysFieldBuilder().getBuilder(index);
     }
-
     /**
      *
      *
@@ -1250,7 +1216,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
         return keysBuilder_.getMessageOrBuilder(index);
       }
     }
-
     /**
      *
      *
@@ -1269,7 +1234,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
         return java.util.Collections.unmodifiableList(keys_);
       }
     }
-
     /**
      *
      *
@@ -1284,7 +1248,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
     public com.google.datastore.v1.Key.Builder addKeysBuilder() {
       return getKeysFieldBuilder().addBuilder(com.google.datastore.v1.Key.getDefaultInstance());
     }
-
     /**
      *
      *
@@ -1300,7 +1263,6 @@ public final class AllocateIdsRequest extends com.google.protobuf.GeneratedMessa
       return getKeysFieldBuilder()
           .addBuilder(index, com.google.datastore.v1.Key.getDefaultInstance());
     }
-
     /**
      *
      *
