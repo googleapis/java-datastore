@@ -174,8 +174,7 @@ public abstract class AbstractDatastoreTest {
     DatastoreOpenTelemetryOptions.Builder otelOptionsBuilder =
         DatastoreOpenTelemetryOptions.newBuilder();
     rpcMockOptions =
-        options
-            .toBuilder()
+        options.toBuilder()
             .setRetrySettings(ServiceOptions.getDefaultRetrySettings())
             .setServiceRpcFactory(rpcFactoryMock)
             .build();
