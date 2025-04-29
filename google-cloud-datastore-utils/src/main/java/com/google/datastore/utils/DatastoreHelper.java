@@ -338,7 +338,9 @@ public final class DatastoreHelper {
     return;
   }
 
-  /** @see #getOptionsFromEnv() */
+  /**
+   * @see #getOptionsFromEnv()
+   */
   public static Datastore getDatastoreFromEnv() throws GeneralSecurityException, IOException {
     return DatastoreFactory.get().create(getOptionsFromEnv().build());
   }

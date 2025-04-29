@@ -80,16 +80,18 @@ public class RemoteDatastoreHelper {
   /** Creates a {@code RemoteStorageHelper} object. */
   public static RemoteDatastoreHelper create() {
     return create(
-        "", DatastoreOptions.getDefaultHttpTransportOptions(), /*openTelemetrySdk=*/ null);
+        "", DatastoreOptions.getDefaultHttpTransportOptions(), /* openTelemetrySdk= */ null);
   }
 
   public static RemoteDatastoreHelper create(String databaseId) {
     return create(
-        databaseId, DatastoreOptions.getDefaultHttpTransportOptions(), /*openTelemetrySdk=*/ null);
+        databaseId,
+        DatastoreOptions.getDefaultHttpTransportOptions(),
+        /* openTelemetrySdk= */ null);
   }
 
   public static RemoteDatastoreHelper create(TransportOptions transportOptions) {
-    return create("", transportOptions, /*openTelemetrySdk=*/ null);
+    return create("", transportOptions, /* openTelemetrySdk= */ null);
   }
 
   public static RemoteDatastoreHelper create(
@@ -98,7 +100,7 @@ public class RemoteDatastoreHelper {
   }
 
   public static RemoteDatastoreHelper create(String databaseId, TransportOptions transportOptions) {
-    return create(databaseId, transportOptions, /*openTelemetrySdk=*/ null);
+    return create(databaseId, transportOptions, /* openTelemetrySdk= */ null);
   }
 
   /** Creates a {@code RemoteStorageHelper} object. */

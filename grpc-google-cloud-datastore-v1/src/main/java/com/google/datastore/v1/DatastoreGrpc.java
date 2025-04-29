@@ -392,6 +392,19 @@ public final class DatastoreGrpc {
     return DatastoreStub.newStub(factory, channel);
   }
 
+  /** Creates a new blocking-style stub that supports all types of calls on the service */
+  public static DatastoreBlockingV2Stub newBlockingV2Stub(io.grpc.Channel channel) {
+    io.grpc.stub.AbstractStub.StubFactory<DatastoreBlockingV2Stub> factory =
+        new io.grpc.stub.AbstractStub.StubFactory<DatastoreBlockingV2Stub>() {
+          @java.lang.Override
+          public DatastoreBlockingV2Stub newStub(
+              io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            return new DatastoreBlockingV2Stub(channel, callOptions);
+          }
+        };
+    return DatastoreBlockingV2Stub.newStub(factory, channel);
+  }
+
   /**
    * Creates a new blocking-style stub that supports unary and streaming output calls on the service
    */
@@ -715,6 +728,138 @@ public final class DatastoreGrpc {
 
   /**
    * A stub to allow clients to do synchronous rpc calls to service Datastore.
+   *
+   * <pre>
+   * Each RPC normalizes the partition IDs of the keys in its input entities,
+   * and always returns entities with keys with normalized partition IDs.
+   * This applies to all keys and entities, including those in values, except keys
+   * with both an empty path and an empty or unset partition ID. Normalization of
+   * input keys sets the project ID (if not already set) to the project ID from
+   * the request.
+   * </pre>
+   */
+  public static final class DatastoreBlockingV2Stub
+      extends io.grpc.stub.AbstractBlockingStub<DatastoreBlockingV2Stub> {
+    private DatastoreBlockingV2Stub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+      super(channel, callOptions);
+    }
+
+    @java.lang.Override
+    protected DatastoreBlockingV2Stub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+      return new DatastoreBlockingV2Stub(channel, callOptions);
+    }
+
+    /**
+     *
+     *
+     * <pre>
+     * Looks up entities by key.
+     * </pre>
+     */
+    public com.google.datastore.v1.LookupResponse lookup(
+        com.google.datastore.v1.LookupRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getLookupMethod(), getCallOptions(), request);
+    }
+
+    /**
+     *
+     *
+     * <pre>
+     * Queries for entities.
+     * </pre>
+     */
+    public com.google.datastore.v1.RunQueryResponse runQuery(
+        com.google.datastore.v1.RunQueryRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getRunQueryMethod(), getCallOptions(), request);
+    }
+
+    /**
+     *
+     *
+     * <pre>
+     * Runs an aggregation query.
+     * </pre>
+     */
+    public com.google.datastore.v1.RunAggregationQueryResponse runAggregationQuery(
+        com.google.datastore.v1.RunAggregationQueryRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getRunAggregationQueryMethod(), getCallOptions(), request);
+    }
+
+    /**
+     *
+     *
+     * <pre>
+     * Begins a new transaction.
+     * </pre>
+     */
+    public com.google.datastore.v1.BeginTransactionResponse beginTransaction(
+        com.google.datastore.v1.BeginTransactionRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getBeginTransactionMethod(), getCallOptions(), request);
+    }
+
+    /**
+     *
+     *
+     * <pre>
+     * Commits a transaction, optionally creating, deleting or modifying some
+     * entities.
+     * </pre>
+     */
+    public com.google.datastore.v1.CommitResponse commit(
+        com.google.datastore.v1.CommitRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getCommitMethod(), getCallOptions(), request);
+    }
+
+    /**
+     *
+     *
+     * <pre>
+     * Rolls back a transaction.
+     * </pre>
+     */
+    public com.google.datastore.v1.RollbackResponse rollback(
+        com.google.datastore.v1.RollbackRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getRollbackMethod(), getCallOptions(), request);
+    }
+
+    /**
+     *
+     *
+     * <pre>
+     * Allocates IDs for the given keys, which is useful for referencing an entity
+     * before it is inserted.
+     * </pre>
+     */
+    public com.google.datastore.v1.AllocateIdsResponse allocateIds(
+        com.google.datastore.v1.AllocateIdsRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getAllocateIdsMethod(), getCallOptions(), request);
+    }
+
+    /**
+     *
+     *
+     * <pre>
+     * Prevents the supplied keys' IDs from being auto-allocated by Cloud
+     * Datastore.
+     * </pre>
+     */
+    public com.google.datastore.v1.ReserveIdsResponse reserveIds(
+        com.google.datastore.v1.ReserveIdsRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getReserveIdsMethod(), getCallOptions(), request);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do limited synchronous rpc calls to service Datastore.
    *
    * <pre>
    * Each RPC normalizes the partition IDs of the keys in its input entities,
