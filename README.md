@@ -211,7 +211,6 @@ The [Java Datastore client](https://github.com/googleapis/java-datastore) now of
 #### Installation Instructions
 To use this feature, please upgrade your Java-datastore SDK to version v2.28.0 or a newer release. You can find the latest versions [here](https://github.com/googleapis/java-datastore/releases).
 
-
 #### How to Use
 To opt-in to the gRPC transport behavior, simply add the below line of code (`setTransportOptions`) to your Datastore client instantiation.
 
