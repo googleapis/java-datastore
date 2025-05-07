@@ -19,7 +19,7 @@ If you are using Maven with [BOM][libraries-bom], add this to your pom.xml file:
     <dependency>
       <groupId>com.google.cloud</groupId>
       <artifactId>libraries-bom</artifactId>
-      <version>26.56.0</version>
+      <version>26.59.0</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -41,7 +41,7 @@ If you are using Maven without the BOM, add this to your dependencies:
 <dependency>
   <groupId>com.google.cloud</groupId>
   <artifactId>google-cloud-datastore</artifactId>
-  <version>2.26.4</version>
+  <version>2.27.2</version>
 </dependency>
 
 ```
@@ -49,20 +49,20 @@ If you are using Maven without the BOM, add this to your dependencies:
 If you are using Gradle 5.x or later, add this to your dependencies:
 
 ```Groovy
-implementation platform('com.google.cloud:libraries-bom:26.57.0')
+implementation platform('com.google.cloud:libraries-bom:26.59.0')
 
 implementation 'com.google.cloud:google-cloud-datastore'
 ```
 If you are using Gradle without BOM, add this to your dependencies:
 
 ```Groovy
-implementation 'com.google.cloud:google-cloud-datastore:2.27.1'
+implementation 'com.google.cloud:google-cloud-datastore:2.28.1'
 ```
 
 If you are using SBT, add this to your dependencies:
 
 ```Scala
-libraryDependencies += "com.google.cloud" % "google-cloud-datastore" % "2.27.1"
+libraryDependencies += "com.google.cloud" % "google-cloud-datastore" % "2.28.1"
 ```
 
 ## Authentication
@@ -206,35 +206,10 @@ display on your webpage.
 
 gRPC Java Datastore Client User Guide
 -------
-In this feature launch, the [Java Datastore client](https://github.com/googleapis/java-datastore) now offers gRPC as a transport layer option with experimental support. Using [gRPC connection pooling](https://grpc.io/docs/guides/performance/) enables distributing RPCs over multiple connections which may improve performance.
+The [Java Datastore client](https://github.com/googleapis/java-datastore) now offers gRPC as a transport layer option with experimental support. Using [gRPC connection pooling](https://grpc.io/docs/guides/performance/) enables distributing RPCs over multiple connections which may improve performance.
 
 #### Installation Instructions
-The client can be built from the `grpc-experimental` branch on GitHub. For private preview, you can also download the artifact with the instructions provided below.
-
-1. Download the datastore private preview package with dependencies:
-  ```
-  curl -o <path-to-downloaded-jar>  https://datastore-sdk-feature-release.web.app/google-cloud-datastore-2.20.0-grpc-experimental-1-SNAPSHOT-jar-with-dependencies.jar
-  ```
-2. Run the following commands to install JDK locally:
-  ```
-  mvn install:install-file -Dfile=<path-to-downloaded-jar> -DgroupId=com.google.cloud -DartifactId=google-cloud-datastore -Dversion=2.20.0-grpc
-  ```
-3. Edit your pom.xml to add above package to `<dependencies/>` section:
-  ```xml
-  <dependency>
-  <groupId>com.google.cloud</groupId>
-  <artifactId>google-cloud-datastore</artifactId>
-  <version>2.20.0-grpc-experimental-1-SNAPSHOT</version>
-  </dependency>
-  ```
-
-And if you have not yet, add below to `<repositories/>` section:
-  ```xml
-  <repository>
-  <id>local-repo</id>
-  <url>file://${user.home}/.m2/repository</url>
-  </repository>
-  ```
+To use this feature, please upgrade your Java-datastore SDK to version v2.28.0 or a newer release. You can find the latest versions [here](https://github.com/googleapis/java-datastore/releases).
 
 #### How to Use
 To opt-in to the gRPC transport behavior, simply add the below line of code (`setTransportOptions`) to your Datastore client instantiation.
@@ -517,7 +492,7 @@ Java is a registered trademark of Oracle and/or its affiliates.
 [kokoro-badge-link-5]: http://storage.googleapis.com/cloud-devrel-public/java/badges/java-datastore/java11.html
 [stability-image]: https://img.shields.io/badge/stability-stable-green
 [maven-version-image]: https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-datastore.svg
-[maven-version-link]: https://central.sonatype.com/artifact/com.google.cloud/google-cloud-datastore/2.27.1
+[maven-version-link]: https://central.sonatype.com/artifact/com.google.cloud/google-cloud-datastore/2.28.1
 [authentication]: https://github.com/googleapis/google-cloud-java#authentication
 [auth-scopes]: https://developers.google.com/identity/protocols/oauth2/scopes
 [predefined-iam-roles]: https://cloud.google.com/iam/docs/understanding-roles#predefined_roles

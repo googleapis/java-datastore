@@ -15,8 +15,9 @@ branchProtectionRules:
       - units (11)
       - 'Kokoro - Test: Integration'
       - cla/google
-      - 'Kokoro - Test: Java GraalVM Native Image'
-      - 'Kokoro - Test: Java 17 GraalVM Native Image'
+      - 'Kokoro - Test: Java GraalVM Native Image A'
+      - 'Kokoro - Test: Java GraalVM Native Image B'
+      - 'Kokoro - Test: Java GraalVM Native Image C'
       - javadoc
       - library_generation
       - unmanaged_dependency_check
@@ -141,22 +142,6 @@ branchProtectionRules:
       - 'Kokoro - Test: Java GraalVM Native Image'
       - 'Kokoro - Test: Java 17 GraalVM Native Image'
   - pattern: 2.17.x
-    isAdminEnforced: true
-    requiredApprovingReviewCount: 1
-    requiresCodeOwnerReviews: true
-    requiresStrictStatusChecks: false
-    requiredStatusCheckContexts:
-      - dependencies (17)
-      - lint
-      - clirr
-      - units (8)
-      - units (11)
-      - 'Kokoro - Test: Integration'
-      - cla/google
-      - 'Kokoro - Test: Java GraalVM Native Image'
-      - 'Kokoro - Test: Java 17 GraalVM Native Image'
-      - javadoc
-  - pattern: grpc-experimental
     isAdminEnforced: true
     requiredApprovingReviewCount: 1
     requiresCodeOwnerReviews: true
