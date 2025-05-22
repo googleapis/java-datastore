@@ -82,6 +82,7 @@ integration)
       -Dcheckstyle.skip=true \
       -DskipUnitTests=true \
       -Dfmt.skip=true \
+      -Dprotobuf.version=4.29.4 \
       -fae \
       verify
     RETURN_CODE=$?
