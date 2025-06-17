@@ -35,12 +35,15 @@ import io.opentelemetry.api.trace.SpanBuilder;
 import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.api.trace.TracerProvider;
+import io.opentelemetry.instrumentation.grpc.v1_6.GrpcTelemetry;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Tracing utility implementation, used to stub out tracing instrumentation when tracing is enabled.
+ * Tracing utility implementation, used to stub out tracing instrumentation when tracing is
+ * enabled.
  */
 @InternalApi
 public class EnabledTraceUtil implements TraceUtil {
@@ -66,14 +69,30 @@ public class EnabledTraceUtil implements TraceUtil {
     return openTelemetry;
   }
 
+  // The gRPC channel configurator that intercepts gRPC calls for tracing purposes.
+  public class OpenTelemetryGrpcChannelConfigurator
+      implements ApiFunction<ManagedChannelBuilder, ManagedChannelBuilder> {
+
+    @Override
+    public ManagedChannelBuilder apply(ManagedChannelBuilder managedChannelBuilder) {
+      GrpcTelemetry grpcTelemetry = GrpcTelemetry.create(getOpenTelemetry());
+      return managedChannelBuilder.intercept(grpcTelemetry.newClientInterceptor());
+    }
+  }
+
   @Override
   @Nullable
   public ApiFunction<ManagedChannelBuilder, ManagedChannelBuilder> getChannelConfigurator() {
-    // TODO(jimit) Update this to return a gRPC Channel Configurator after gRPC upgrade.
-    return null;
+    // Note: using `==` rather than `.equals` since OpenTelemetry has only 1 static instance of
+    // `TracerProvider.noop`.
+    if (openTelemetry.getTracerProvider() == TracerProvider.noop()) {
+      return null;
+    }
+    return new OpenTelemetryGrpcChannelConfigurator();
   }
 
   static class Span implements TraceUtil.Span {
+
     private final io.opentelemetry.api.trace.Span span;
     private final String spanName;
 
@@ -87,13 +106,17 @@ public class EnabledTraceUtil implements TraceUtil {
       return this.span;
     }
 
-    /** Ends this span. */
+    /**
+     * Ends this span.
+     */
     @Override
     public void end() {
       span.end();
     }
 
-    /** Ends this span in an error. */
+    /**
+     * Ends this span in an error.
+     */
     @Override
     public void end(Throwable error) {
       span.setStatus(StatusCode.ERROR, error.getMessage());
@@ -137,7 +160,9 @@ public class EnabledTraceUtil implements TraceUtil {
           });
     }
 
-    /** Adds the given event to this span. */
+    /**
+     * Adds the given event to this span.
+     */
     @Override
     public TraceUtil.Span addEvent(String name) {
       span.addEvent(name);
@@ -198,6 +223,7 @@ public class EnabledTraceUtil implements TraceUtil {
   }
 
   static class Scope implements TraceUtil.Scope {
+
     private final io.opentelemetry.context.Scope scope;
 
     Scope(io.opentelemetry.context.Scope scope) {
@@ -211,6 +237,7 @@ public class EnabledTraceUtil implements TraceUtil {
   }
 
   static class Context implements TraceUtil.Context {
+
     private final io.opentelemetry.context.Context context;
 
     Context(io.opentelemetry.context.Context context) {
@@ -225,7 +252,9 @@ public class EnabledTraceUtil implements TraceUtil {
     }
   }
 
-  /** Applies the current Datastore instance settings as attributes to the current Span */
+  /**
+   * Applies the current Datastore instance settings as attributes to the current Span
+   */
   @Override
   public SpanBuilder addSettingsAttributesToCurrentSpan(SpanBuilder spanBuilder) {
     spanBuilder =

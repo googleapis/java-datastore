@@ -66,18 +66,46 @@ public class EnabledTraceUtilTest {
   @Test
   public void usesGlobalOpenTelemetryIfOpenTelemetryInstanceNotProvided() {
     OpenTelemetrySdk ignored = OpenTelemetrySdk.builder().buildAndRegisterGlobal();
-    DatastoreOptions firestoreOptions =
+    DatastoreOptions datastoreOptions =
         getBaseOptions()
             .setOpenTelemetryOptions(
                 DatastoreOpenTelemetryOptions.newBuilder().setTracingEnabled(true).build())
             .build();
-    EnabledTraceUtil traceUtil = new EnabledTraceUtil(firestoreOptions);
+    EnabledTraceUtil traceUtil = new EnabledTraceUtil(datastoreOptions);
     assertThat(traceUtil.getOpenTelemetry()).isEqualTo(GlobalOpenTelemetry.get());
   }
 
   @Test
   public void enabledTraceUtilProvidesChannelConfigurator() {
     assertThat(newEnabledTraceUtil().getChannelConfigurator()).isNull();
+  }
+
+  @Test
+  public void openTelemetryInstanceRegistersGrpcChannelConfigurator() {
+    OpenTelemetrySdk myOpenTelemetrySdk = OpenTelemetrySdk.builder().build();
+    DatastoreOptions firestoreOptions =
+        getBaseOptions()
+            .setOpenTelemetryOptions(
+                DatastoreOpenTelemetryOptions.newBuilder()
+                    .setTracingEnabled(true)
+                    .setOpenTelemetry(myOpenTelemetrySdk)
+                    .build())
+            .build();
+    EnabledTraceUtil traceUtil = new EnabledTraceUtil(firestoreOptions);
+    assertThat(traceUtil.getChannelConfigurator()).isNotNull();
+  }
+
+  @Test
+  public void globalOpenTelemetryRegistersGrpcChannelConfigurator() {
+
+    OpenTelemetrySdk.builder().buildAndRegisterGlobal();
+    DatastoreOptions datastoreOptions =
+        getBaseOptions()
+            .setOpenTelemetryOptions(
+                DatastoreOpenTelemetryOptions.newBuilder().setTracingEnabled(true).build())
+            .build();
+    EnabledTraceUtil traceUtil = new EnabledTraceUtil(datastoreOptions);
+    assertThat(traceUtil.getChannelConfigurator()).isNotNull();
   }
 
   @Test
@@ -92,7 +120,7 @@ public class EnabledTraceUtilTest {
     assertThat(traceUtil.getCurrentSpan() instanceof EnabledTraceUtil.Span).isTrue();
     assertThat(traceUtil.startSpan("foo") != null).isTrue();
     assertThat(
-            traceUtil.startSpan("foo", traceUtil.getCurrentSpan()) instanceof EnabledTraceUtil.Span)
+        traceUtil.startSpan("foo", traceUtil.getCurrentSpan()) instanceof EnabledTraceUtil.Span)
         .isTrue();
   }
 
