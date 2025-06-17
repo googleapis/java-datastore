@@ -55,6 +55,7 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
   public static final String LOCAL_HOST_ENV_VAR = "DATASTORE_EMULATOR_HOST";
   public static final int INIT_CHANNEL_COUNT = 1;
   public static final int MIN_CHANNEL_COUNT = 1;
+  public static final int MAX_CHANNEL_COUNT = 4;
 
   private transient TransportChannelProvider channelProvider = null;
 
