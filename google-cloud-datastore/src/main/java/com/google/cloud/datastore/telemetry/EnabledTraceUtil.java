@@ -42,8 +42,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Tracing utility implementation, used to stub out tracing instrumentation when tracing is
- * enabled.
+ * Tracing utility implementation, used to stub out tracing instrumentation when tracing is enabled.
  */
 @InternalApi
 public class EnabledTraceUtil implements TraceUtil {
@@ -106,17 +105,13 @@ public class EnabledTraceUtil implements TraceUtil {
       return this.span;
     }
 
-    /**
-     * Ends this span.
-     */
+    /** Ends this span. */
     @Override
     public void end() {
       span.end();
     }
 
-    /**
-     * Ends this span in an error.
-     */
+    /** Ends this span in an error. */
     @Override
     public void end(Throwable error) {
       span.setStatus(StatusCode.ERROR, error.getMessage());
@@ -160,9 +155,7 @@ public class EnabledTraceUtil implements TraceUtil {
           });
     }
 
-    /**
-     * Adds the given event to this span.
-     */
+    /** Adds the given event to this span. */
     @Override
     public TraceUtil.Span addEvent(String name) {
       span.addEvent(name);
@@ -252,9 +245,7 @@ public class EnabledTraceUtil implements TraceUtil {
     }
   }
 
-  /**
-   * Applies the current Datastore instance settings as attributes to the current Span
-   */
+  /** Applies the current Datastore instance settings as attributes to the current Span */
   @Override
   public SpanBuilder addSettingsAttributesToCurrentSpan(SpanBuilder spanBuilder) {
     spanBuilder =

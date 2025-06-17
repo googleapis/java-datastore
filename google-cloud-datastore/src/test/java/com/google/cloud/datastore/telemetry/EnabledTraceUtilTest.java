@@ -120,7 +120,7 @@ public class EnabledTraceUtilTest {
     assertThat(traceUtil.getCurrentSpan() instanceof EnabledTraceUtil.Span).isTrue();
     assertThat(traceUtil.startSpan("foo") != null).isTrue();
     assertThat(
-        traceUtil.startSpan("foo", traceUtil.getCurrentSpan()) instanceof EnabledTraceUtil.Span)
+            traceUtil.startSpan("foo", traceUtil.getCurrentSpan()) instanceof EnabledTraceUtil.Span)
         .isTrue();
   }
 
