@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.30.0](https://github.com/googleapis/java-datastore/compare/v2.29.2...v2.30.0) (2025-06-20)
+
+
+### Features
+
+* Enable grpc configurator for client-side tracing ([#1886](https://github.com/googleapis/java-datastore/issues/1886)) ([97004c8](https://github.com/googleapis/java-datastore/commit/97004c85d73541ccfc26e0f4212e3a447d3e4ba6))
+
+
+### Dependencies
+
+* Update googleapis/sdk-platform-java action to v2.59.1 ([#1880](https://github.com/googleapis/java-datastore/issues/1880)) ([4fb9929](https://github.com/googleapis/java-datastore/commit/4fb992943152bb4533e0bbd80e373de61f5ec864))
+
 ## [2.29.2](https://github.com/googleapis/java-datastore/compare/v2.29.1...v2.29.2) (2025-06-13)
 
 
