@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.29.3](https://github.com/googleapis/java-datastore/compare/v2.29.2...v2.29.3) (2025-06-20)
+
+
+### Dependencies
+
+* Update googleapis/sdk-platform-java action to v2.59.1 ([#1880](https://github.com/googleapis/java-datastore/issues/1880)) ([4fb9929](https://github.com/googleapis/java-datastore/commit/4fb992943152bb4533e0bbd80e373de61f5ec864))
+
 ## [2.29.2](https://github.com/googleapis/java-datastore/compare/v2.29.1...v2.29.2) (2025-06-13)
 
 
