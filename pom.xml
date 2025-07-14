@@ -14,7 +14,7 @@
   <parent>
     <groupId>com.google.cloud</groupId>
     <artifactId>sdk-platform-java-config</artifactId>
-    <version>3.50.0</version>
+    <version>3.50.1</version>
   </parent>
 
   <developers>
@@ -184,7 +184,7 @@
       <dependency>
         <groupId>com.google.cloud</groupId>
         <artifactId>google-cloud-datastore-utils</artifactId>
-        <version>2.29.2</version><!-- {x-version-update:google-cloud-datastore-utils:current} -->
+        <version>2.30.0</version><!-- {x-version-update:google-cloud-datastore-utils:current} -->
       </dependency>
       <dependency>
         <groupId>com.google.cloud.datastore</groupId>
