@@ -22,20 +22,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Tests for ConfigureConnectionPool sample.
- */
+/** Tests for ConfigureConnectionPool sample. */
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
 public class ConfigureConnectionPoolIT {
 
-  @Rule
-  public final SystemsOutRule systemsOutRule = new SystemsOutRule();
+  @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   @Test
   public void testConfigureConnectionPool() throws Exception {
     ConfigureConnectionPool.main();
     systemsOutRule.assertContains(
-        "Connected with pool with InitialChannelCount: 10, MinChannelCount: 5, MaxChannelCount: 200");
+        "Connected with pool with InitialChannelCount: 10, MinChannelCount: 5, MaxChannelCount:"
+            + " 200");
   }
 }

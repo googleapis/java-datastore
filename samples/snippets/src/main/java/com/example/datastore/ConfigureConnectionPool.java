@@ -24,7 +24,6 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.v1.DatastoreSettings;
 import com.google.cloud.grpc.GrpcTransportOptions;
 
-
 public class ConfigureConnectionPool {
 
   public static void main(String... args) throws Exception {
@@ -38,21 +37,24 @@ public class ConfigureConnectionPool {
                     .build())
             .build();
 
-    DatastoreOptions datastoreOptions = DatastoreOptions.newBuilder()
-        .setProjectId("my-project")
-        .setChannelProvider(channelProvider)
-        .setTransportOptions(GrpcTransportOptions.newBuilder().build())
-        .build();
+    DatastoreOptions datastoreOptions =
+        DatastoreOptions.newBuilder()
+            .setProjectId("my-project")
+            .setChannelProvider(channelProvider)
+            .setTransportOptions(GrpcTransportOptions.newBuilder().build())
+            .build();
 
     ChannelPoolSettings channelPoolSettings =
         ((InstantiatingGrpcChannelProvider) datastoreOptions.getTransportChannelProvider())
             .getChannelPoolSettings();
 
-    System.out.printf(String.format(
-        "Connected with pool with InitialChannelCount: %d, MinChannelCount: %d, MaxChannelCount: %d",
-        channelPoolSettings.getInitialChannelCount(), channelPoolSettings.getMinChannelCount(),
-        channelPoolSettings.getMaxChannelCount()
-    ));
+    System.out.printf(
+        String.format(
+            "Connected with pool with InitialChannelCount: %d, MinChannelCount: %d,"
+                + " MaxChannelCount: %d",
+            channelPoolSettings.getInitialChannelCount(),
+            channelPoolSettings.getMinChannelCount(),
+            channelPoolSettings.getMaxChannelCount()));
   }
 }
 
