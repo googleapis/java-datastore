@@ -41,7 +41,7 @@ If you are using Maven without the BOM, add this to your dependencies:
 <dependency>
   <groupId>com.google.cloud</groupId>
   <artifactId>google-cloud-datastore</artifactId>
-  <version>2.31.0</version>
+  <version>2.31.2</version>
 </dependency>
 
 ```
@@ -49,20 +49,20 @@ If you are using Maven without the BOM, add this to your dependencies:
 If you are using Gradle 5.x or later, add this to your dependencies:
 
 ```Groovy
-implementation platform('com.google.cloud:libraries-bom:26.65.0')
+implementation platform('com.google.cloud:libraries-bom:26.66.0')
 
 implementation 'com.google.cloud:google-cloud-datastore'
 ```
 If you are using Gradle without BOM, add this to your dependencies:
 
 ```Groovy
-implementation 'com.google.cloud:google-cloud-datastore:2.31.2'
+implementation 'com.google.cloud:google-cloud-datastore:2.31.4'
 ```
 
 If you are using SBT, add this to your dependencies:
 
 ```Scala
-libraryDependencies += "com.google.cloud" % "google-cloud-datastore" % "2.31.2"
+libraryDependencies += "com.google.cloud" % "google-cloud-datastore" % "2.31.4"
 ```
 
 ## Authentication
@@ -363,6 +363,7 @@ Samples are in the [`samples/`](https://github.com/googleapis/java-datastore/tre
 
 | Sample                      | Source Code                       | Try it |
 | --------------------------- | --------------------------------- | ------ |
+| Configure Connection Pool | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/ConfigureConnectionPool.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/ConfigureConnectionPool.java) |
 | Quickstart Sample | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/QuickstartSample.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/QuickstartSample.java) |
 | Avg Aggregation On Kind | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationOnKind.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationOnKind.java) |
 | Avg Aggregation With Limit | [source code](https://github.com/googleapis/java-datastore/blob/main/samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationWithLimit.java) | [![Open in Cloud Shell][shell_img]](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/googleapis/java-datastore&page=editor&open_in_editor=samples/snippets/src/main/java/com/example/datastore/aggregation/AvgAggregationWithLimit.java) |
@@ -492,7 +493,7 @@ Java is a registered trademark of Oracle and/or its affiliates.
 [kokoro-badge-link-5]: http://storage.googleapis.com/cloud-devrel-public/java/badges/java-datastore/java11.html
 [stability-image]: https://img.shields.io/badge/stability-stable-green
 [maven-version-image]: https://img.shields.io/maven-central/v/com.google.cloud/google-cloud-datastore.svg
-[maven-version-link]: https://central.sonatype.com/artifact/com.google.cloud/google-cloud-datastore/2.31.2
+[maven-version-link]: https://central.sonatype.com/artifact/com.google.cloud/google-cloud-datastore/2.31.4
 [authentication]: https://github.com/googleapis/google-cloud-java#authentication
 [auth-scopes]: https://developers.google.com/identity/protocols/oauth2/scopes
 [predefined-iam-roles]: https://cloud.google.com/iam/docs/understanding-roles#predefined_roles
