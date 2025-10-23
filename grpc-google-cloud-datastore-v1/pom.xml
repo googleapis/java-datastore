@@ -63,9 +63,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>clirr-maven-plugin</artifactId>
-        <configuration>
-          <skip>true</skip> <!-- TODO(gapic_upgrade): remove after first release -->
-        </configuration>
       </plugin>
     </plugins>
   </build>
