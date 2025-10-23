@@ -636,7 +636,7 @@ public abstract class BaseEntity<K extends IncompleteKey> implements Serializabl
     return properties;
   }
 
-  final com.google.datastore.v1.Entity toPb() {
+  public final com.google.datastore.v1.Entity toPb() {
     com.google.datastore.v1.Entity.Builder entityPb = com.google.datastore.v1.Entity.newBuilder();
     for (Map.Entry<String, Value<?>> entry : properties.entrySet()) {
       entityPb.putProperties(entry.getKey(), entry.getValue().toPb());
