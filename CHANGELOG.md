@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.33.1-rc1](https://github.com/googleapis/java-datastore/compare/v2.33.0...v2.33.1-rc1) (2025-12-04)
+
+
+### Bug Fixes
+
+* next release candidate ([4824f2b](https://github.com/googleapis/java-datastore/commit/4824f2b214d3addcf25235f43cc9bf4a2ebb0a76))
+
 ## [2.33.0](https://github.com/googleapis/java-datastore/compare/v2.32.3...v2.33.0) (2025-11-13)
 
 
