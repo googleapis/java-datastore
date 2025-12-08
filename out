@@ -1,0 +1,795 @@
+command stderr:
++ source /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
+++ set -eo pipefail
+++++ realpath /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
++++ dirname /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
+++ utilities_script_dir=/usr/local/lib/python3.13/site-packages/library_generation/utils
++ get_output_folder
++++ pwd
+++ basename /workspace/java-datastore
++ [[ java-datastore != \o\u\t\p\u\t ]]
+++ pwd
++ echo /workspace/java-datastore/output
+command stdout:
+/workspace/java-datastore/output
+output_folder: /workspace/java-datastore/output
+generating library datastore
+command stderr:
++ source /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
+++ set -eo pipefail
+++++ realpath /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
++++ dirname /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
+++ utilities_script_dir=/usr/local/lib/python3.13/site-packages/library_generation/utils
++ mktemp -d
+command stdout:
+/tmp/tmp.1HIp4bLkPr
+build_file_folder: /workspace/java-datastore/output/google/datastore/v1
+arguments: 
+['--proto_path', 'google/datastore/v1', '--proto_only', 'false', '--gapic_additional_protos', '  google/cloud/common_resources.proto', '--transport', 'grpc+rest', '--rest_numeric_enums', 'true', '--gapic_yaml', 'google/datastore/v1/datastore_gapic.yaml', '--service_config', 'google/datastore/v1/datastore_grpc_service_config.json', '--service_yaml', 'google/datastore/v1/datastore_v1.yaml', '--include_samples', 'true', '--destination_path', 'java-google-datastore-v1']
+Generating library from google/datastore/v1 to /workspace/java-datastore
+/workspace/java-datastore/output /workspace/java-datastore
+/workspace/java-datastore
+/workspace/java-datastore/output/temp_preprocessed-22025 /workspace/java-datastore
+/workspace/java-datastore
+Library generation finished successfully
+command stderr:
++ source /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
+++ set -eo pipefail
+++++ realpath /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
++++ dirname /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
+++ utilities_script_dir=/usr/local/lib/python3.13/site-packages/library_generation/utils
++ build_owlbot_cli_source_folder /workspace/java-datastore /tmp/tmp.1HIp4bLkPr /workspace/java-datastore/output/java-google-datastore-v1 google/datastore/v1
++ local postprocessing_target=/workspace/java-datastore
++ local target_folder=/tmp/tmp.1HIp4bLkPr
++ local preprocessed_sources_path=/workspace/java-datastore/output/java-google-datastore-v1
++ local proto_path=google/datastore/v1
++ [[ -z google/datastore/v1 ]]
++ owlbot_staging_folder=/workspace/java-datastore/owl-bot-staging
++ mkdir -p /workspace/java-datastore/owl-bot-staging
++ mkdir -p /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java
++ copy_directory_if_exists /workspace/java-datastore/output/java-google-datastore-v1 proto /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library
++ local base_folder=/workspace/java-datastore/output/java-google-datastore-v1
++ local folder_prefix=proto
++ local destination_folder=/tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library
++ '[' '!' -d /workspace/java-datastore/output/java-google-datastore-v1 ']'
++ pushd /workspace/java-datastore/output/java-google-datastore-v1
+++ find . -maxdepth 1 -type d -name 'proto*'
+++ wc -l
++ [[ 1 -gt 0 ]]
++ cp -r /workspace/java-datastore/output/java-google-datastore-v1/proto-java-google-datastore-v1 /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library
++ popd
++ copy_directory_if_exists /workspace/java-datastore/output/java-google-datastore-v1 grpc /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/grpc-google-cloud-library
++ local base_folder=/workspace/java-datastore/output/java-google-datastore-v1
++ local folder_prefix=grpc
++ local destination_folder=/tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/grpc-google-cloud-library
++ '[' '!' -d /workspace/java-datastore/output/java-google-datastore-v1 ']'
++ pushd /workspace/java-datastore/output/java-google-datastore-v1
+++ find . -maxdepth 1 -type d -name 'grpc*'
+++ wc -l
++ [[ 1 -gt 0 ]]
++ cp -r /workspace/java-datastore/output/java-google-datastore-v1/grpc-java-google-datastore-v1 /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/grpc-google-cloud-library
++ popd
++ copy_directory_if_exists /workspace/java-datastore/output/java-google-datastore-v1 gapic /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library
++ local base_folder=/workspace/java-datastore/output/java-google-datastore-v1
++ local folder_prefix=gapic
++ local destination_folder=/tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library
++ '[' '!' -d /workspace/java-datastore/output/java-google-datastore-v1 ']'
++ pushd /workspace/java-datastore/output/java-google-datastore-v1
+++ find . -maxdepth 1 -type d -name 'gapic*'
+++ wc -l
++ [[ 1 -gt 0 ]]
++ cp -r /workspace/java-datastore/output/java-google-datastore-v1/gapic-java-google-datastore-v1 /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library
++ popd
++ copy_directory_if_exists /workspace/java-datastore/output/java-google-datastore-v1 samples /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/samples
++ local base_folder=/workspace/java-datastore/output/java-google-datastore-v1
++ local folder_prefix=samples
++ local destination_folder=/tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/samples
++ '[' '!' -d /workspace/java-datastore/output/java-google-datastore-v1 ']'
++ pushd /workspace/java-datastore/output/java-google-datastore-v1
+++ find . -maxdepth 1 -type d -name 'samples*'
+++ wc -l
++ [[ 1 -gt 0 ]]
++ cp -r /workspace/java-datastore/output/java-google-datastore-v1/samples /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/samples
++ popd
++ pushd /tmp/tmp.1HIp4bLkPr
++ git init
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: is subject to change. To configure the initial branch name to use in all
+hint: of your new repositories, which will suppress this warning, call:
+hint: 
+hint: 	git config --global init.defaultBranch <name>
+hint: 
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint: 
+hint: 	git branch -m <name>
++ git commit --allow-empty -m 'empty commit'
++ popd
+command stdout:
+/workspace/java-datastore/output/java-google-datastore-v1 /workspace/java-datastore/output
+/workspace/java-datastore/output
+/workspace/java-datastore/output/java-google-datastore-v1 /workspace/java-datastore/output
+/workspace/java-datastore/output
+/workspace/java-datastore/output/java-google-datastore-v1 /workspace/java-datastore/output
+/workspace/java-datastore/output
+/workspace/java-datastore/output/java-google-datastore-v1 /workspace/java-datastore/output
+/workspace/java-datastore/output
+/tmp/tmp.1HIp4bLkPr /workspace/java-datastore/output
+Initialized empty Git repository in /tmp/tmp.1HIp4bLkPr/.git/
+[master (root-commit) 337ca04] empty commit
+/workspace/java-datastore/output
+build_file_folder: /workspace/java-datastore/output/google/datastore/admin/v1
+arguments: 
+['--proto_path', 'google/datastore/admin/v1', '--proto_only', 'false', '--gapic_additional_protos', '  google/cloud/common_resources.proto', '--transport', 'grpc+rest', '--rest_numeric_enums', 'true', '--gapic_yaml', 'google/datastore/admin/v1/datastore_gapic.yaml', '--service_config', 'google/datastore/admin/v1/datastore_admin_grpc_service_config.json', '--service_yaml', 'google/datastore/admin/v1/datastore_v1.yaml', '--include_samples', 'true', '--destination_path', 'java-google-datastore-admin-v1']
+Generating library from google/datastore/admin/v1 to /workspace/java-datastore
+/workspace/java-datastore/output /workspace/java-datastore
+/workspace/java-datastore
+/workspace/java-datastore/output/temp_preprocessed-8014 /workspace/java-datastore
+/workspace/java-datastore
+Library generation finished successfully
+command stderr:
++ source /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
+++ set -eo pipefail
+++++ realpath /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
++++ dirname /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
+++ utilities_script_dir=/usr/local/lib/python3.13/site-packages/library_generation/utils
++ build_owlbot_cli_source_folder /workspace/java-datastore /tmp/tmp.1HIp4bLkPr /workspace/java-datastore/output/java-google-datastore-admin-v1 google/datastore/admin/v1
++ local postprocessing_target=/workspace/java-datastore
++ local target_folder=/tmp/tmp.1HIp4bLkPr
++ local preprocessed_sources_path=/workspace/java-datastore/output/java-google-datastore-admin-v1
++ local proto_path=google/datastore/admin/v1
++ [[ -z google/datastore/admin/v1 ]]
++ owlbot_staging_folder=/workspace/java-datastore/owl-bot-staging
++ mkdir -p /workspace/java-datastore/owl-bot-staging
++ mkdir -p /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java
++ copy_directory_if_exists /workspace/java-datastore/output/java-google-datastore-admin-v1 proto /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library
++ local base_folder=/workspace/java-datastore/output/java-google-datastore-admin-v1
++ local folder_prefix=proto
++ local destination_folder=/tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library
++ '[' '!' -d /workspace/java-datastore/output/java-google-datastore-admin-v1 ']'
++ pushd /workspace/java-datastore/output/java-google-datastore-admin-v1
+++ find . -maxdepth 1 -type d -name 'proto*'
+++ wc -l
++ [[ 1 -gt 0 ]]
++ cp -r /workspace/java-datastore/output/java-google-datastore-admin-v1/proto-java-google-datastore-admin-v1 /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library
++ popd
++ copy_directory_if_exists /workspace/java-datastore/output/java-google-datastore-admin-v1 grpc /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/grpc-google-cloud-library
++ local base_folder=/workspace/java-datastore/output/java-google-datastore-admin-v1
++ local folder_prefix=grpc
++ local destination_folder=/tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/grpc-google-cloud-library
++ '[' '!' -d /workspace/java-datastore/output/java-google-datastore-admin-v1 ']'
++ pushd /workspace/java-datastore/output/java-google-datastore-admin-v1
+++ find . -maxdepth 1 -type d -name 'grpc*'
+++ wc -l
++ [[ 1 -gt 0 ]]
++ cp -r /workspace/java-datastore/output/java-google-datastore-admin-v1/grpc-java-google-datastore-admin-v1 /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/grpc-google-cloud-library
++ popd
++ copy_directory_if_exists /workspace/java-datastore/output/java-google-datastore-admin-v1 gapic /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library
++ local base_folder=/workspace/java-datastore/output/java-google-datastore-admin-v1
++ local folder_prefix=gapic
++ local destination_folder=/tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library
++ '[' '!' -d /workspace/java-datastore/output/java-google-datastore-admin-v1 ']'
++ pushd /workspace/java-datastore/output/java-google-datastore-admin-v1
+++ find . -maxdepth 1 -type d -name 'gapic*'
+++ wc -l
++ [[ 1 -gt 0 ]]
++ cp -r /workspace/java-datastore/output/java-google-datastore-admin-v1/gapic-java-google-datastore-admin-v1 /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library
++ popd
++ copy_directory_if_exists /workspace/java-datastore/output/java-google-datastore-admin-v1 samples /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/samples
++ local base_folder=/workspace/java-datastore/output/java-google-datastore-admin-v1
++ local folder_prefix=samples
++ local destination_folder=/tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/samples
++ '[' '!' -d /workspace/java-datastore/output/java-google-datastore-admin-v1 ']'
++ pushd /workspace/java-datastore/output/java-google-datastore-admin-v1
+++ find . -maxdepth 1 -type d -name 'samples*'
+++ wc -l
++ [[ 1 -gt 0 ]]
++ cp -r /workspace/java-datastore/output/java-google-datastore-admin-v1/samples /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/samples
++ popd
++ pushd /tmp/tmp.1HIp4bLkPr
++ git init
++ git commit --allow-empty -m 'empty commit'
++ popd
+command stdout:
+/workspace/java-datastore/output/java-google-datastore-admin-v1 /workspace/java-datastore/output
+/workspace/java-datastore/output
+/workspace/java-datastore/output/java-google-datastore-admin-v1 /workspace/java-datastore/output
+/workspace/java-datastore/output
+/workspace/java-datastore/output/java-google-datastore-admin-v1 /workspace/java-datastore/output
+/workspace/java-datastore/output
+/workspace/java-datastore/output/java-google-datastore-admin-v1 /workspace/java-datastore/output
+/workspace/java-datastore/output
+/tmp/tmp.1HIp4bLkPr /workspace/java-datastore/output
+Reinitialized existing Git repository in /tmp/tmp.1HIp4bLkPr/.git/
+[master 6a463c5] empty commit
+/workspace/java-datastore/output
++++ readlink -f /usr/local/lib/python3.13/site-packages/library_generation/postprocess_library.sh
+++ dirname /usr/local/lib/python3.13/site-packages/library_generation/postprocess_library.sh
++ scripts_root=/usr/local/lib/python3.13/site-packages/library_generation
++ postprocessing_target=/workspace/java-datastore
++ preprocessed_sources_path=
++ versions_file=/workspace/java-datastore/versions.txt
++ owlbot_cli_source_folder=/tmp/tmp.1HIp4bLkPr
++ is_monorepo=false
++ libraries_bom_version=26.71.0
++ library_version=2.33.0
++ owlbot_yaml_file_name=.OwlBot-hermetic.yaml
++ source /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
+++ set -eo pipefail
+++++ realpath /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
++++ dirname /usr/local/lib/python3.13/site-packages/library_generation/utils/utilities.sh
+++ utilities_script_dir=/usr/local/lib/python3.13/site-packages/library_generation/utils
++ required_inputs=('postprocessing_target' 'versions_file' 'is_monorepo')
++ declare -a required_inputs
++ for required_input in "${required_inputs[@]}"
++ [[ -z /workspace/java-datastore ]]
++ for required_input in "${required_inputs[@]}"
++ [[ -z /workspace/java-datastore/versions.txt ]]
++ for required_input in "${required_inputs[@]}"
++ [[ -z false ]]
++ for owlbot_file in ".repo-metadata.json" "owlbot.py" "${owlbot_yaml_file_name}"
+++ find /workspace/java-datastore -name .repo-metadata.json
+++ wc -l
++ [[ 1 -eq 0 ]]
++ for owlbot_file in ".repo-metadata.json" "owlbot.py" "${owlbot_yaml_file_name}"
+++ find /workspace/java-datastore -name owlbot.py
+++ wc -l
++ [[ 1 -eq 0 ]]
++ for owlbot_file in ".repo-metadata.json" "owlbot.py" "${owlbot_yaml_file_name}"
+++ find /workspace/java-datastore -name .OwlBot-hermetic.yaml
+++ wc -l
++ [[ 1 -eq 0 ]]
++ [[ -z /tmp/tmp.1HIp4bLkPr ]]
++ [[ false == \t\r\u\e ]]
++ owlbot_yaml_relative_path=.github/.OwlBot-hermetic.yaml
++ repo_workspace=/workspace
++ preprocessed_libraries_binding=/tmp/tmp.1HIp4bLkPr
++ pushd /workspace/java-datastore
+/workspace/java-datastore /workspace/java-datastore
++ owl-bot copy-code --source-repo-commit-hash=none --source-repo=/tmp/tmp.1HIp4bLkPr --config-file=.github/.OwlBot-hermetic.yaml
+Using local source repo directory /tmp/tmp.1HIp4bLkPr
+git config --global --add safe.directory /tmp/tmp.1HIp4bLkPr
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/CommonMetadata.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/CommonMetadataOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/CreateIndexRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/CreateIndexRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/DatastoreAdminProto.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/DatastoreFirestoreMigrationMetadata.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/DatastoreFirestoreMigrationMetadataOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/DeleteIndexRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/DeleteIndexRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/EntityFilter.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/EntityFilterOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ExportEntitiesMetadata.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ExportEntitiesMetadataOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ExportEntitiesRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ExportEntitiesRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ExportEntitiesResponse.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ExportEntitiesResponseOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/GetIndexRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/GetIndexRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ImportEntitiesMetadata.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ImportEntitiesMetadataOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ImportEntitiesRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ImportEntitiesRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/Index.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/IndexOperationMetadata.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/IndexOperationMetadataOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/IndexOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/IndexProto.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ListIndexesRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ListIndexesRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ListIndexesResponse.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ListIndexesResponseOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationProgressEvent.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationProgressEventOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationProto.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationState.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationStateEvent.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationStateEventOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationStep.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/OperationType.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/Progress.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ProgressOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/proto/google/datastore/admin/v1/datastore_admin.proto
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/proto/google/datastore/admin/v1/index.proto
+rm  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/proto/google/datastore/admin/v1/migration.proto
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationQuery.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationQueryOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationResult.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationResultBatch.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationResultBatchOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationResultOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationResultProto.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AllocateIdsRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AllocateIdsRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AllocateIdsResponse.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AllocateIdsResponseOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ArrayValue.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ArrayValueOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/BeginTransactionRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/BeginTransactionRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/BeginTransactionResponse.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/BeginTransactionResponseOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/CommitRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/CommitRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/CommitResponse.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/CommitResponseOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/CompositeFilter.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/CompositeFilterOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/DatastoreProto.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Entity.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/EntityOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/EntityProto.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/EntityResult.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/EntityResultOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ExecutionStats.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ExecutionStatsOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ExplainMetrics.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ExplainMetricsOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ExplainOptions.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ExplainOptionsOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Filter.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/FilterOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/FindNearest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/FindNearestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/GqlQuery.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/GqlQueryOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/GqlQueryParameter.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/GqlQueryParameterOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Key.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/KeyOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/KindExpression.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/KindExpressionOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/LookupRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/LookupRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/LookupResponse.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/LookupResponseOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Mutation.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/MutationOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/MutationResult.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/MutationResultOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PartitionId.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PartitionIdOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PlanSummary.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PlanSummaryOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Projection.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ProjectionOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyFilter.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyFilterOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyMask.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyMaskOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyOrder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyOrderOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyReference.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyReferenceOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyTransform.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyTransformOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Query.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/QueryOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/QueryProfileProto.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/QueryProto.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/QueryResultBatch.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/QueryResultBatchOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ReadOptions.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ReadOptionsOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ReserveIdsRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ReserveIdsRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ReserveIdsResponse.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ReserveIdsResponseOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RollbackRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RollbackRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RollbackResponse.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RollbackResponseOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunAggregationQueryRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunAggregationQueryRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunAggregationQueryResponse.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunAggregationQueryResponseOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunQueryRequest.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunQueryRequestOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunQueryResponse.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunQueryResponseOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/TransactionOptions.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/TransactionOptionsOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Value.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ValueOrBuilder.java
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/proto/google/datastore/v1/aggregation_result.proto
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/proto/google/datastore/v1/datastore.proto
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/proto/google/datastore/v1/entity.proto
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/proto/google/datastore/v1/query_profile.proto
+rm  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/proto/google/datastore/v1/query.proto
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/proto/google/datastore/admin/v1
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/proto/google/datastore/admin
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/proto/google/datastore
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/proto/google/datastore/v1
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/proto/google/datastore
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com/google
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/proto/google
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com/google
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java/com
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/proto/google
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/proto
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main/java
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java/com
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/main
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/proto
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main/java
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-v1/src/main
+rmdir  /workspace/java-datastore/proto-google-cloud-datastore-v1/src
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/AggregationQuery.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationQuery.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/AggregationQueryOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationQueryOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/AggregationResult.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationResult.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/AggregationResultBatch.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationResultBatch.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/AggregationResultBatchOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationResultBatchOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/AggregationResultOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationResultOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/AggregationResultProto.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AggregationResultProto.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/AllocateIdsRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AllocateIdsRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/AllocateIdsRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AllocateIdsRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/AllocateIdsResponse.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AllocateIdsResponse.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/AllocateIdsResponseOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/AllocateIdsResponseOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ArrayValue.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ArrayValue.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ArrayValueOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ArrayValueOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/BeginTransactionRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/BeginTransactionRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/BeginTransactionRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/BeginTransactionRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/BeginTransactionResponse.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/BeginTransactionResponse.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/BeginTransactionResponseOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/BeginTransactionResponseOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/CommitRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/CommitRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/CommitRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/CommitRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/CommitResponse.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/CommitResponse.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/CommitResponseOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/CommitResponseOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/CompositeFilter.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/CompositeFilter.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/CompositeFilterOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/CompositeFilterOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/DatastoreProto.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/DatastoreProto.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/Entity.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Entity.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/EntityOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/EntityOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/EntityProto.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/EntityProto.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/EntityResult.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/EntityResult.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/EntityResultOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/EntityResultOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ExecutionStats.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ExecutionStats.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ExecutionStatsOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ExecutionStatsOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ExplainMetrics.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ExplainMetrics.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ExplainMetricsOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ExplainMetricsOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ExplainOptions.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ExplainOptions.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ExplainOptionsOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ExplainOptionsOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/Filter.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Filter.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/FilterOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/FilterOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/FindNearest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/FindNearest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/FindNearestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/FindNearestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/GqlQuery.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/GqlQuery.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/GqlQueryOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/GqlQueryOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/GqlQueryParameter.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/GqlQueryParameter.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/GqlQueryParameterOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/GqlQueryParameterOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/Key.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Key.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/KeyOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/KeyOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/KindExpression.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/KindExpression.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/KindExpressionOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/KindExpressionOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/LookupRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/LookupRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/LookupRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/LookupRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/LookupResponse.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/LookupResponse.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/LookupResponseOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/LookupResponseOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/Mutation.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Mutation.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/MutationOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/MutationOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/MutationResult.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/MutationResult.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/MutationResultOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/MutationResultOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PartitionId.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PartitionId.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PartitionIdOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PartitionIdOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PlanSummary.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PlanSummary.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PlanSummaryOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PlanSummaryOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/Projection.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Projection.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ProjectionOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ProjectionOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PropertyFilter.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyFilter.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PropertyFilterOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyFilterOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PropertyMask.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyMask.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PropertyMaskOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyMaskOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PropertyOrder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyOrder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PropertyOrderOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyOrderOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PropertyReference.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyReference.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PropertyReferenceOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyReferenceOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PropertyTransform.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyTransform.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/PropertyTransformOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/PropertyTransformOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/Query.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Query.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/QueryOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/QueryOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/QueryProfileProto.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/QueryProfileProto.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/QueryProto.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/QueryProto.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/QueryResultBatch.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/QueryResultBatch.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/QueryResultBatchOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/QueryResultBatchOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ReadOptions.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ReadOptions.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ReadOptionsOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ReadOptionsOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ReserveIdsRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ReserveIdsRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ReserveIdsRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ReserveIdsRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ReserveIdsResponse.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ReserveIdsResponse.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ReserveIdsResponseOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ReserveIdsResponseOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/RollbackRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RollbackRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/RollbackRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RollbackRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/RollbackResponse.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RollbackResponse.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/RollbackResponseOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RollbackResponseOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/RunAggregationQueryRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunAggregationQueryRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/RunAggregationQueryRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunAggregationQueryRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/RunAggregationQueryResponse.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunAggregationQueryResponse.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/RunAggregationQueryResponseOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunAggregationQueryResponseOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/RunQueryRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunQueryRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/RunQueryRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunQueryRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/RunQueryResponse.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunQueryResponse.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/RunQueryResponseOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/RunQueryResponseOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/TransactionOptions.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/TransactionOptions.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/TransactionOptionsOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/TransactionOptionsOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/Value.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/Value.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/v1/ValueOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/ValueOrBuilder.java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/proto
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/proto/google
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/proto/google/datastore
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/proto/google/datastore/v1
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/proto/google/datastore/v1/aggregation_result.proto /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/proto/google/datastore/v1/aggregation_result.proto
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/proto/google/datastore/v1/datastore.proto /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/proto/google/datastore/v1/datastore.proto
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/proto/google/datastore/v1/entity.proto /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/proto/google/datastore/v1/entity.proto
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/proto/google/datastore/v1/query_profile.proto /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/proto/google/datastore/v1/query_profile.proto
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/proto-google-cloud-library/src/main/proto/google/datastore/v1/query.proto /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-v1/src/main/proto/google/datastore/v1/query.proto
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/CommonMetadata.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/CommonMetadata.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/CommonMetadataOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/CommonMetadataOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/CreateIndexRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/CreateIndexRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/CreateIndexRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/CreateIndexRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/DatastoreAdminProto.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/DatastoreAdminProto.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/DatastoreFirestoreMigrationMetadata.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/DatastoreFirestoreMigrationMetadata.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/DatastoreFirestoreMigrationMetadataOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/DatastoreFirestoreMigrationMetadataOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/DeleteIndexRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/DeleteIndexRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/DeleteIndexRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/DeleteIndexRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/EntityFilter.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/EntityFilter.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/EntityFilterOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/EntityFilterOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ExportEntitiesMetadata.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ExportEntitiesMetadata.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ExportEntitiesMetadataOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ExportEntitiesMetadataOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ExportEntitiesRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ExportEntitiesRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ExportEntitiesRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ExportEntitiesRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ExportEntitiesResponse.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ExportEntitiesResponse.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ExportEntitiesResponseOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ExportEntitiesResponseOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/GetIndexRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/GetIndexRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/GetIndexRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/GetIndexRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ImportEntitiesMetadata.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ImportEntitiesMetadata.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ImportEntitiesMetadataOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ImportEntitiesMetadataOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ImportEntitiesRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ImportEntitiesRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ImportEntitiesRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ImportEntitiesRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/Index.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/Index.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/IndexOperationMetadata.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/IndexOperationMetadata.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/IndexOperationMetadataOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/IndexOperationMetadataOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/IndexOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/IndexOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/IndexProto.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/IndexProto.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ListIndexesRequest.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ListIndexesRequest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ListIndexesRequestOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ListIndexesRequestOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ListIndexesResponse.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ListIndexesResponse.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ListIndexesResponseOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ListIndexesResponseOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/MigrationProgressEvent.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationProgressEvent.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/MigrationProgressEventOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationProgressEventOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/MigrationProto.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationProto.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/MigrationState.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationState.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/MigrationStateEvent.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationStateEvent.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/MigrationStateEventOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationStateEventOrBuilder.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/MigrationStep.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/MigrationStep.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/OperationType.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/OperationType.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/Progress.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/Progress.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/java/com/google/datastore/admin/v1/ProgressOrBuilder.java /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/ProgressOrBuilder.java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/proto
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/proto/google
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/proto/google/datastore
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/proto/google/datastore/admin
+mkdir /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/proto/google/datastore/admin/v1
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/proto/google/datastore/admin/v1/datastore_admin.proto /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/proto/google/datastore/admin/v1/datastore_admin.proto
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/proto/google/datastore/admin/v1/index.proto /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/proto/google/datastore/admin/v1/index.proto
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/proto-google-cloud-library/src/main/proto/google/datastore/admin/v1/migration.proto /workspace/java-datastore/owl-bot-staging/v1/proto-google-cloud-datastore-admin-v1/src/main/proto/google/datastore/admin/v1/migration.proto
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-v1/src
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-v1/src/main
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-v1/src/main/java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-v1/src/main/java/com
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-v1/src/main/java/com/google
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-v1/src/main/java/com/google/datastore
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/grpc-google-cloud-library/src/main/java/com/google/datastore/v1/DatastoreGrpc.java /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-v1/src/main/java/com/google/datastore/v1/DatastoreGrpc.java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-admin-v1/src
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-admin-v1/src/main
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-admin-v1/src/main/java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-admin-v1/src/main/java/com
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-admin-v1/src/main/java/com/google
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin
+mkdir /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/grpc-google-cloud-library/src/main/java/com/google/datastore/admin/v1/DatastoreAdminGrpc.java /workspace/java-datastore/owl-bot-staging/v1/grpc-google-cloud-datastore-admin-v1/src/main/java/com/google/datastore/admin/v1/DatastoreAdminGrpc.java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/v1
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/v1/DatastoreClient.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/v1/DatastoreClient.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/v1/DatastoreSettings.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/v1/DatastoreSettings.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/v1/gapic_metadata.json /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/v1/gapic_metadata.json
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/v1/package-info.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/v1/package-info.java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/v1/stub
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/v1/stub/DatastoreStub.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/v1/stub/DatastoreStub.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/v1/stub/DatastoreStubSettings.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/v1/stub/DatastoreStubSettings.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/v1/stub/GrpcDatastoreCallableFactory.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/v1/stub/GrpcDatastoreCallableFactory.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/v1/stub/GrpcDatastoreStub.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/v1/stub/GrpcDatastoreStub.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/v1/stub/HttpJsonDatastoreCallableFactory.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/v1/stub/HttpJsonDatastoreCallableFactory.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/v1/stub/HttpJsonDatastoreStub.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/v1/stub/HttpJsonDatastoreStub.java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/resources
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/resources/META-INF
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/resources/META-INF/native-image
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/resources/META-INF/native-image/com.google.cloud.datastore.v1
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/main/resources/META-INF/native-image/com.google.cloud.datastore.v1/reflect-config.json /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/resources/META-INF/native-image/com.google.cloud.datastore.v1/reflect-config.json
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google/cloud
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google/cloud/datastore
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google/cloud/datastore/v1
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/test/java/com/google/cloud/datastore/v1/DatastoreClientHttpJsonTest.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google/cloud/datastore/v1/DatastoreClientHttpJsonTest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/test/java/com/google/cloud/datastore/v1/DatastoreClientTest.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google/cloud/datastore/v1/DatastoreClientTest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/test/java/com/google/cloud/datastore/v1/MockDatastore.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google/cloud/datastore/v1/MockDatastore.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/v1/generated-java/gapic-google-cloud-library/src/test/java/com/google/cloud/datastore/v1/MockDatastoreImpl.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google/cloud/datastore/v1/MockDatastoreImpl.java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/admin
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/admin/v1
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/admin/v1/DatastoreAdminClient.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/admin/v1/DatastoreAdminClient.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/admin/v1/DatastoreAdminSettings.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/admin/v1/DatastoreAdminSettings.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/admin/v1/gapic_metadata.json /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/admin/v1/gapic_metadata.json
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/admin/v1/package-info.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/admin/v1/package-info.java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/admin/v1/stub
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/admin/v1/stub/DatastoreAdminStub.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/admin/v1/stub/DatastoreAdminStub.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/admin/v1/stub/DatastoreAdminStubSettings.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/admin/v1/stub/DatastoreAdminStubSettings.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/admin/v1/stub/GrpcDatastoreAdminCallableFactory.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/admin/v1/stub/GrpcDatastoreAdminCallableFactory.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/admin/v1/stub/GrpcDatastoreAdminStub.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/admin/v1/stub/GrpcDatastoreAdminStub.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/admin/v1/stub/HttpJsonDatastoreAdminCallableFactory.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/admin/v1/stub/HttpJsonDatastoreAdminCallableFactory.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/main/java/com/google/cloud/datastore/admin/v1/stub/HttpJsonDatastoreAdminStub.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/java/com/google/cloud/datastore/admin/v1/stub/HttpJsonDatastoreAdminStub.java
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/resources/META-INF/native-image/com.google.cloud.datastore.admin.v1
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/main/resources/META-INF/native-image/com.google.cloud.datastore.admin.v1/reflect-config.json /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/main/resources/META-INF/native-image/com.google.cloud.datastore.admin.v1/reflect-config.json
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google/cloud/datastore/admin
+mkdir /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google/cloud/datastore/admin/v1
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/test/java/com/google/cloud/datastore/admin/v1/DatastoreAdminClientHttpJsonTest.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google/cloud/datastore/admin/v1/DatastoreAdminClientHttpJsonTest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/test/java/com/google/cloud/datastore/admin/v1/DatastoreAdminClientTest.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google/cloud/datastore/admin/v1/DatastoreAdminClientTest.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/test/java/com/google/cloud/datastore/admin/v1/MockDatastoreAdmin.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google/cloud/datastore/admin/v1/MockDatastoreAdmin.java
+cp /tmp/tmp.1HIp4bLkPr/google/datastore/admin/v1/generated-java/gapic-google-cloud-library/src/test/java/com/google/cloud/datastore/admin/v1/MockDatastoreAdminImpl.java /workspace/java-datastore/owl-bot-staging/v1/google-cloud-datastore/src/test/java/com/google/cloud/datastore/admin/v1/MockDatastoreAdminImpl.java
+git log -1 --format=%B
+Wrote commit message to /tmp/tmp-363-JPbV4AmT1aPi/commit-msg--363-WibpP26704za-.txt
++ [[ false == \t\r\u\e ]]
++ echo 'running owl-bot post-processor'
+running owl-bot post-processor
++ pushd /workspace/java-datastore
+/workspace/java-datastore /workspace/java-datastore /workspace/java-datastore
++ bash /usr/local/lib/python3.13/site-packages/library_generation/owlbot/bin/entrypoint.sh /usr/local/lib/python3.13/site-packages/library_generation /workspace/java-datastore/versions.txt false 26.71.0 2.33.0
++ scripts_root=/usr/local/lib/python3.13/site-packages/library_generation
++ versions_file=/workspace/java-datastore/versions.txt
++ is_monorepo=false
++ libraries_bom_version=26.71.0
++ library_version=2.33.0
++ [[ false == \t\r\u\e ]]
++ echo 'Retrieving files from owl-bot-staging directory...'
+Retrieving files from owl-bot-staging directory...
++ '[' -f owlbot.py ']'
++ export SYNTHTOOL_TEMPLATES=/usr/local/lib/python3.13/site-packages/library_generation/owlbot/templates
++ SYNTHTOOL_TEMPLATES=/usr/local/lib/python3.13/site-packages/library_generation/owlbot/templates
++ export SYNTHTOOL_LIBRARIES_BOM_VERSION=26.71.0
++ SYNTHTOOL_LIBRARIES_BOM_VERSION=26.71.0
++ export SYNTHTOOL_LIBRARY_VERSION=2.33.0
++ SYNTHTOOL_LIBRARY_VERSION=2.33.0
++ python3 owlbot.py
+No replacements made in owl-bot-staging/v1/proto-google-cloud-datastore-v1-java/src/**/*.java for pattern // Generated by the protocol buffer compiler.  DO NOT EDIT!, maybe replacement is no longer needed?
+bad metadata detected in samples/snippets/src/main/java/com/example/datastore/filters/IndexingConsiderationQuery.java
+bad metadata detected in samples/snippets/src/main/java/com/example/datastore/filters/OrderFieldsQuery.java
+.github/ISSUE_TEMPLATE/bug_report.md
+.github/ISSUE_TEMPLATE/feature_request.md
+.github/ISSUE_TEMPLATE/support_request.md
+.github/PULL_REQUEST_TEMPLATE.md
+.github/auto-label.yaml
+.github/blunderbuss.yml
+.github/dependabot.yml
+.github/generated-files-bot.yml
+.github/release-please.yml
+.github/release-trigger.yml
+.github/scripts/update_generation_config.sh
+.github/snippet-bot.yml
+.github/sync-repo-settings.yaml
+.github/trusted-contribution.yml
+.github/workflows/approve-readme.yaml
+.github/workflows/ci.yaml
+.github/workflows/renovate_config_check.yaml
+.github/workflows/samples.yaml
+.github/workflows/update_generation_config.yaml
+.kokoro/build.sh
+.kokoro/presubmit/graalvm-native-a.cfg
+.kokoro/presubmit/graalvm-native-b.cfg
+.kokoro/presubmit/graalvm-native-c.cfg
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+LICENSE
+README.md
+SECURITY.md
+java.header
+license-checks.xml
+renovate.json
+samples/install-without-bom/pom.xml
+samples/pom.xml
+samples/snapshot/pom.xml
+samples/snippets/pom.xml
++ unset SYNTHTOOL_TEMPLATES
++ unset SYNTHTOOL_LIBRARIES_BOM_VERSION
++ unset SYNTHTOOL_LIBRARY_VERSION
++ echo ...done
+...done
++ echo 'Generating missing pom.xml...'
+Generating missing pom.xml...
++ python3 /usr/local/lib/python3.13/site-packages/library_generation/owlbot/src/fix_poms.py /workspace/java-datastore/versions.txt false
+/usr/local/lib/python3.13/site-packages/library_generation/owlbot
+working directory: /workspace/java-datastore
+monorepo? False
+updating modules in cloud pom.xml
+updating modules in bom pom.xml
+updating modules in parent pom.xml
+updating modules in /workspace/java-datastore/versions.txt
++ echo ...done
+...done
++ echo 'Generating clirr-ignored-differences.xml...'
+Generating clirr-ignored-differences.xml...
++ /usr/local/lib/python3.13/site-packages/library_generation/owlbot/bin/write_clirr_ignore.sh /usr/local/lib/python3.13/site-packages/library_generation
++ echo ...done
+...done
++ echo 'Fixing missing license headers...'
+Fixing missing license headers...
++ python3 /usr/local/lib/python3.13/site-packages/library_generation/owlbot/src/fix-license-headers.py
+No replacements made in [PosixPath('/workspace/java-datastore/proto-google-cloud-datastore-v1/src/**/*Name.java'), PosixPath('/workspace/java-datastore/proto-google-cloud-datastore-v1/src/**/*Names.java')] for pattern /\*
+ \* Copyright \d{4} Google LLC
+ \*
+ \* Licensed under the Apache License, Version 2.0 \(the "License"\); you may not use this file except
+ \* in compliance with the License. You may obtain a copy of the License at
+ \*
+ \* http://www.apache.org/licenses/LICENSE-2.0
+ \*
+ \* Unless required by applicable law or agreed to in writing, software distributed under the License
+ \* is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ \* or implied. See the License for the specific language governing permissions and limitations under
+ \* the License.
+ \*/
+, maybe replacement is no longer needed?
+No replacements made in [PosixPath('/workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/**/*Name.java'), PosixPath('/workspace/java-datastore/proto-google-cloud-datastore-admin-v1/src/**/*Names.java')] for pattern /\*
+ \* Copyright \d{4} Google LLC
+ \*
+ \* Licensed under the Apache License, Version 2.0 \(the "License"\); you may not use this file except
+ \* in compliance with the License. You may obtain a copy of the License at
+ \*
+ \* http://www.apache.org/licenses/LICENSE-2.0
+ \*
+ \* Unless required by applicable law or agreed to in writing, software distributed under the License
+ \* is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ \* or implied. See the License for the specific language governing permissions and limitations under
+ \* the License.
+ \*/
+, maybe replacement is no longer needed?
++ echo ...done
+...done
++ echo 'Reformatting source...'
+Reformatting source...
++ /usr/local/lib/python3.13/site-packages/library_generation/owlbot/bin/format_source.sh /usr/local/lib/python3.13/site-packages/library_generation
++ echo ...done
+...done
++ popd
+/workspace/java-datastore /workspace/java-datastore
+Library postprocessing finished successfully
