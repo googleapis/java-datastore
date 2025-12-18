@@ -300,6 +300,7 @@
                 <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
                 <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
               </compilerArgs>
+              <!-- Only run Error-Prone Core in handwritten modules -->
               <annotationProcessorPaths>
                 <path>
                   <groupId>com.google.errorprone</groupId>
