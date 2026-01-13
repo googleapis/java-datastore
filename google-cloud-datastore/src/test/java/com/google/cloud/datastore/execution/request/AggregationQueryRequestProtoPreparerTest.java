@@ -43,9 +43,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.datastore.v1.ExplainOptions;
 import com.google.datastore.v1.RunAggregationQueryRequest;
 import java.util.HashMap;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AggregationQueryRequestProtoPreparerTest {
+class AggregationQueryRequestProtoPreparerTest {
 
   private static final String KIND = "Task";
   private static final String NAMESPACE = "ns";
@@ -90,7 +90,7 @@ public class AggregationQueryRequestProtoPreparerTest {
       new AggregationQueryRequestProtoPreparer(DATASTORE_OPTIONS);
 
   @Test
-  public void shouldPrepareAggregationQueryRequestWithGivenStructuredQuery() {
+  void shouldPrepareAggregationQueryRequestWithGivenStructuredQuery() {
     RunAggregationQueryRequest runAggregationQueryRequest =
         protoPreparer.prepare(QueryConfig.create(AGGREGATION_OVER_STRUCTURED_QUERY, null));
 
@@ -114,7 +114,7 @@ public class AggregationQueryRequestProtoPreparerTest {
   }
 
   @Test
-  public void shouldPrepareAggregationQueryRequestWithGivenGqlQuery() {
+  void shouldPrepareAggregationQueryRequestWithGivenGqlQuery() {
     RunAggregationQueryRequest runAggregationQueryRequest =
         protoPreparer.prepare(QueryConfig.create(AGGREGATION_OVER_GQL_QUERY, null));
 
@@ -137,7 +137,7 @@ public class AggregationQueryRequestProtoPreparerTest {
   }
 
   @Test
-  public void shouldPrepareReadOptionsWithGivenStructuredQuery() {
+  void shouldPrepareReadOptionsWithGivenStructuredQuery() {
     RunAggregationQueryRequest eventualConsistencyAggregationRequest =
         prepareQuery(AGGREGATION_OVER_STRUCTURED_QUERY, eventualConsistency());
     assertThat(eventualConsistencyAggregationRequest.getReadOptions().getReadConsistency())
@@ -151,7 +151,7 @@ public class AggregationQueryRequestProtoPreparerTest {
   }
 
   @Test
-  public void shouldPrepareReadOptionsWithGivenGqlQuery() {
+  void shouldPrepareReadOptionsWithGivenGqlQuery() {
     RunAggregationQueryRequest eventualConsistencyAggregationRequest =
         prepareQuery(AGGREGATION_OVER_GQL_QUERY, eventualConsistency());
     assertThat(eventualConsistencyAggregationRequest.getReadOptions().getReadConsistency())
@@ -165,7 +165,7 @@ public class AggregationQueryRequestProtoPreparerTest {
   }
 
   @Test
-  public void shouldPrepareAggregationQueryWithNamespaceFromDatastoreOptions() {
+  void shouldPrepareAggregationQueryWithNamespaceFromDatastoreOptions() {
     AggregationQuery structuredQueryWithoutNamespace =
         Query.newAggregationQueryBuilder()
             .addAggregation(count().as("total"))
@@ -187,7 +187,7 @@ public class AggregationQueryRequestProtoPreparerTest {
   }
 
   @Test
-  public void shouldPrepareAggregationQueryWithDifferentModes() {
+  void shouldPrepareAggregationQueryWithDifferentModes() {
     AggregationQuery structuredQueryWithoutNamespace =
         Query.newAggregationQueryBuilder()
             .addAggregation(count().as("total"))

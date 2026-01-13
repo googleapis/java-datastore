@@ -30,7 +30,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
-public class MultiIneqQuerySampleIT {
+class MultiIneqQuerySampleIT {
 
   private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
@@ -41,7 +41,7 @@ public class MultiIneqQuerySampleIT {
   @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   @Before
-  public void setUp() {
+  void setUp() {
     employeeKey1 = datastore.newKeyFactory().setKind("employees").newKey("employee1");
     Entity employee1 =
         Entity.newBuilder(employeeKey1)
@@ -72,14 +72,14 @@ public class MultiIneqQuerySampleIT {
   }
 
   @After
-  public void tearDown() {
+  void tearDown() {
     datastore.delete(employeeKey1);
     datastore.delete(employeeKey2);
     datastore.delete(employeeKey3);
   }
 
   @Test
-  public void testIndexingConsiderationQuery() throws Exception {
+  void testIndexingConsiderationQuery() throws Exception {
     // Act
     IndexingConsiderationQuery.invoke();
 
@@ -88,7 +88,7 @@ public class MultiIneqQuerySampleIT {
   }
 
   @Test
-  public void testOrderFieldsQuery() throws Exception {
+  void testOrderFieldsQuery() throws Exception {
     // Act
     OrderFieldsQuery.invoke();
 

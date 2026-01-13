@@ -26,14 +26,14 @@ import static com.google.cloud.datastore.aggregation.Aggregation.count;
 import static com.google.cloud.datastore.aggregation.Aggregation.sum;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.Tuple;
@@ -99,16 +99,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.Timeout;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-@RunWith(Parameterized.class)
-public abstract class AbstractITDatastoreTest {
+abstract class AbstractITDatastoreTest {
   protected static final String CUSTOM_DB_ID = "test-db";
 
   protected DatastoreOptions options;
@@ -151,17 +146,13 @@ public abstract class AbstractITDatastoreTest {
   private static Entity AGGREGATION_ENTITY_2;
   private static Entity AGGREGATION_ENTITY_3;
 
-  @Rule public Timeout globalTimeout = Timeout.seconds(100);
-
-  @Rule public MultipleAttemptsRule multipleAttemptsRule = new MultipleAttemptsRule(3);
-
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     datastore.put(ENTITY1, ENTITY2);
   }
 
-  @After
-  public void tearDown() {
+  @AfterEach
+  void tearDown() {
     EntityQuery allEntitiesQuery = Query.newEntityQueryBuilder().build();
     QueryResults<Entity> allEntities = datastore.run(allEntitiesQuery);
     Key[] keysToDelete =
@@ -309,7 +300,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void orQuery() {
+  void orQuery() {
     Key key = Key.newBuilder(KEY1, KIND2, 2).build();
     Entity entity3 =
         Entity.newBuilder(ENTITY1)
@@ -388,7 +379,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testQueryProfile() {
+  void testQueryProfile() {
     Key key = Key.newBuilder(KEY1, KIND2, 2).build();
     Entity entity3 =
         Entity.newBuilder(ENTITY1)
@@ -464,7 +455,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testNewTransactionCommit() {
+  void testNewTransactionCommit() {
     Transaction transaction = datastore.newTransaction();
     transaction.add(ENTITY3);
     Entity entity2 = Entity.newBuilder(ENTITY2).clear().setNull("bla").build();
@@ -487,7 +478,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testTransactionWithRead() throws Exception {
+  void testTransactionWithRead() throws Exception {
     StatementExecutor statementExecutor = new StatementExecutor();
     Transaction baseTransaction = datastore.newTransaction();
     assertNull(baseTransaction.get(KEY3));
@@ -522,7 +513,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testTransactionWithQuery() throws Exception {
+  void testTransactionWithQuery() throws Exception {
     StatementExecutor statementExecutor = new StatementExecutor();
     Query<Entity> query =
         Query.newEntityQueryBuilder()
@@ -566,7 +557,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testTransactionExplainOptionsAnalyze() {
+  void testTransactionExplainOptionsAnalyze() {
     StructuredQuery<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind(KIND2)
@@ -603,7 +594,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testTransactionExplainOptions() {
+  void testTransactionExplainOptions() {
     StructuredQuery<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind(KIND2)
@@ -660,7 +651,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testNewTransactionRollback() {
+  void testNewTransactionRollback() {
     Transaction transaction = datastore.newTransaction();
     transaction.add(ENTITY3);
     Entity entity2 =
@@ -685,7 +676,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testNewBatch() {
+  void testNewBatch() {
     Batch batch = datastore.newBatch();
     Entity entity1 = Entity.newBuilder(ENTITY1).clear().build();
     Entity entity2 = Entity.newBuilder(ENTITY2).clear().setNull("bla").build();
@@ -741,7 +732,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testRunGqlQueryNoCasting() throws InterruptedException {
+  void testRunGqlQueryNoCasting() throws InterruptedException {
     Query<Entity> query1 =
         Query.newGqlQueryBuilder(ResultType.ENTITY, "select * from " + KIND1)
             .setNamespace(NAMESPACE)
@@ -830,7 +821,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testRunGqlQueryWithCasting() throws InterruptedException {
+  void testRunGqlQueryWithCasting() throws InterruptedException {
     @SuppressWarnings("unchecked")
     Query<Entity> query1 =
         (Query<Entity>)
@@ -867,7 +858,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testRunAggregationQuery() {
+  void testRunAggregationQuery() {
     // verifying aggregation with an entity query
     testCountAggregationWith(
         builder ->
@@ -906,7 +897,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testRunAggregationQueryWithLimit() {
+  void testRunAggregationQueryWithLimit() {
     // verifying aggregation with an entity query
     testCountAggregationWithLimit(
         builder ->
@@ -979,7 +970,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testSumAggregation() {
+  void testSumAggregation() {
     datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
 
     EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
@@ -1001,7 +992,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testSumAggregationWithAutoGeneratedAlias() {
+  void testSumAggregationWithAutoGeneratedAlias() {
     datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
 
     EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
@@ -1023,7 +1014,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testSumAggregationInGqlQuery() {
+  void testSumAggregationInGqlQuery() {
     datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
 
     GqlQuery<?> gqlQuery =
@@ -1045,7 +1036,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testSumAggregationWithResultOfDoubleType() {
+  void testSumAggregationWithResultOfDoubleType() {
     datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
 
     EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
@@ -1067,7 +1058,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testAvgAggregation() {
+  void testAvgAggregation() {
     datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
 
     EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
@@ -1089,7 +1080,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testAvgAggregationWithAutoGeneratedAlias() {
+  void testAvgAggregationWithAutoGeneratedAlias() {
     datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
 
     EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
@@ -1111,7 +1102,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testAvgAggregationInGqlQuery() {
+  void testAvgAggregationInGqlQuery() {
     datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
 
     GqlQuery<?> gqlQuery =
@@ -1132,7 +1123,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testSumAndAvgAggregationTogether() {
+  void testSumAndAvgAggregationTogether() {
     datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
 
     EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
@@ -1153,7 +1144,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testTransactionShouldReturnAConsistentSnapshot() {
+  void testTransactionShouldReturnAConsistentSnapshot() {
     datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
 
     EntityQuery baseQuery = Query.newEntityQueryBuilder().setKind(MARKS_KIND).build();
@@ -1212,7 +1203,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testReadOnlyTransactionShouldNotLockTheDocuments()
+  void testReadOnlyTransactionShouldNotLockTheDocuments()
       throws ExecutionException, InterruptedException {
     ExecutorService executor = Executors.newSingleThreadExecutor();
     datastore.put(AGGREGATION_ENTITY_1, AGGREGATION_ENTITY_2);
@@ -1367,7 +1358,7 @@ public abstract class AbstractITDatastoreTest {
    *     Source</a>
    */
   @Test
-  public void testRunAggregationQueryInTransactionShouldReturnAConsistentSnapshot() {
+  void testRunAggregationQueryInTransactionShouldReturnAConsistentSnapshot() {
     Key newEntityKey = Key.newBuilder(KEY1, "newKind", "name-01").build();
     EntityQuery entityQuery =
         Query.newEntityQueryBuilder()
@@ -1433,7 +1424,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testRunAggregationQueryInAReadOnlyTransactionShouldNotLockTheCountedDocuments()
+  void testRunAggregationQueryInAReadOnlyTransactionShouldNotLockTheCountedDocuments()
       throws Exception {
     ExecutorService executor = Executors.newSingleThreadExecutor();
     EntityQuery entityQuery =
@@ -1482,7 +1473,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testRunAggregationQueryWithReadTime() throws InterruptedException {
+  void testRunAggregationQueryWithReadTime() throws InterruptedException {
     String alias = "total_count";
 
     // verifying aggregation readTime with an entity query
@@ -1522,7 +1513,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testRunStructuredQuery() throws InterruptedException {
+  void testRunStructuredQuery() throws InterruptedException {
     Query<Entity> query =
         Query.newEntityQueryBuilder().setKind(KIND1).setOrderBy(OrderBy.asc("__key__")).build();
 
@@ -1599,7 +1590,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testInNotInNeqFilters() throws InterruptedException {
+  void testInNotInNeqFilters() throws InterruptedException {
     Entity e1 =
         Entity.newBuilder(ENTITY1)
             .setKey(Key.newBuilder(INCOMPLETE_KEY1, "e1").build())
@@ -1691,7 +1682,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testAllocateId() {
+  void testAllocateId() {
     KeyFactory keyFactory = datastore.newKeyFactory().setKind(KIND1);
     IncompleteKey pk1 = keyFactory.newKey();
     Key key1 = datastore.allocateId(pk1);
@@ -1709,7 +1700,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testReserveIds() {
+  void testReserveIds() {
     KeyFactory keyFactory = datastore.newKeyFactory().setKind("MyKind");
     Key key1 = keyFactory.newKey(10);
     Key key2 = keyFactory.newKey("name");
@@ -1718,7 +1709,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testAllocateIdArray() {
+  void testAllocateIdArray() {
     KeyFactory keyFactory = datastore.newKeyFactory().setKind(KIND1);
     IncompleteKey incompleteKey1 = keyFactory.newKey();
     IncompleteKey incompleteKey2 =
@@ -1735,7 +1726,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testGet() {
+  void testGet() {
     Entity entity = datastore.get(KEY3);
     assertNull(entity);
 
@@ -1760,7 +1751,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testIncompleteKey() {
+  void testIncompleteKey() {
     Key parentKey = null;
     try {
       IncompleteKey incompleteKey = IncompleteKey.newBuilder(KEY6, KIND1).build();
@@ -1775,7 +1766,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testGetWithReadTime() throws InterruptedException {
+  void testGetWithReadTime() throws InterruptedException {
     Key key =
         Key.newBuilder(PROJECT_ID, "new_kind", "name", options.getDatabaseId())
             .setNamespace(NAMESPACE)
@@ -1803,7 +1794,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testGetArrayNoDeferredResults() {
+  void testGetArrayNoDeferredResults() {
     datastore.put(ENTITY3);
     Iterator<Entity> result =
         datastore.fetch(KEY1, Key.newBuilder(KEY1).setName("bla").build(), KEY2, KEY3).iterator();
@@ -1834,7 +1825,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testAddEntity() {
+  void testAddEntity() {
     List<Entity> keys = datastore.fetch(ENTITY1.getKey(), ENTITY3.getKey());
     assertEquals(ENTITY1, keys.get(0));
     assertNull(keys.get(1));
@@ -1859,7 +1850,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testUpdate() {
+  void testUpdate() {
     List<Entity> keys = datastore.fetch(ENTITY1.getKey(), ENTITY3.getKey());
     assertEquals(ENTITY1, keys.get(0));
     assertNull(keys.get(1));
@@ -1885,7 +1876,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testPut() {
+  void testPut() {
     Entity updatedEntity = Entity.newBuilder(ENTITY1).set("new_property", 42L).build();
     assertEquals(updatedEntity, datastore.put(updatedEntity));
     assertEquals(updatedEntity, datastore.get(updatedEntity.getKey()));
@@ -1909,7 +1900,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testDelete() {
+  void testDelete() {
     Iterator<Entity> keys =
         datastore.fetch(ENTITY1.getKey(), ENTITY2.getKey(), ENTITY3.getKey()).iterator();
     assertEquals(ENTITY1, keys.next());
@@ -1925,7 +1916,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testRunInTransaction() {
+  void testRunInTransaction() {
     Datastore.TransactionCallable<Integer> callable1 =
         new Datastore.TransactionCallable<Integer>() {
           private Integer attempts = 1;
@@ -1966,7 +1957,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testRunInTransactionReadWrite() {
+  void testRunInTransactionReadWrite() {
 
     final Entity entity1 = Entity.newBuilder(ENTITY1).clear().setNull("bla").build();
 
@@ -2018,14 +2009,14 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testSkippedResults() {
+  void testSkippedResults() {
     Query<Key> query = Query.newKeyQueryBuilder().setOffset(Integer.MAX_VALUE).build();
     int numberOfEntities = datastore.run(query).getSkippedResults();
     assertEquals(2, numberOfEntities);
   }
 
   @Test
-  public void testSetLimit() {
+  void testSetLimit() {
     datastore.put(ENTITY1);
     Query<Key> keyQuery = Query.newKeyQueryBuilder().setLimit(1).build();
     QueryResults<?> queryResults = datastore.run(keyQuery);
@@ -2038,7 +2029,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testGqlQueryWithNullBinding() {
+  void testGqlQueryWithNullBinding() {
     Query<Entity> query =
         Query.newGqlQueryBuilder(ResultType.ENTITY, "select * from " + KIND1)
             .setNamespace(NAMESPACE)
@@ -2051,7 +2042,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testQueryWithStartCursor() {
+  void testQueryWithStartCursor() {
     Entity entity1 =
         Entity.newBuilder(
                 Key.newBuilder(PROJECT_ID, KIND1, "name-01", options.getDatabaseId()).build())
@@ -2078,7 +2069,7 @@ public abstract class AbstractITDatastoreTest {
   }
 
   @Test
-  public void testQueryWithReadTime() throws InterruptedException {
+  void testQueryWithReadTime() throws InterruptedException {
     Entity entity1 =
         Entity.newBuilder(
                 Key.newBuilder(PROJECT_ID, "new_kind", "name-01")

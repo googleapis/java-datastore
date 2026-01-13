@@ -46,10 +46,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 
-public class AggregationQueryExecutorTest {
+class AggregationQueryExecutorTest {
 
   private static final String KIND = "Task";
   private static final String NAMESPACE = "ns";
@@ -58,16 +57,15 @@ public class AggregationQueryExecutorTest {
   private AggregationQueryExecutor queryExecutor;
   private DatastoreOptions datastoreOptions;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     mockRpc = EasyMock.createStrictMock(DatastoreRpc.class);
     datastoreOptions =
         DatastoreOptions.newBuilder().setProjectId("project-id").setNamespace(NAMESPACE).build();
     queryExecutor = new AggregationQueryExecutor(mockRpc, datastoreOptions);
   }
 
-  @Test
-  public void shouldExecuteAggregationQuery() {
+  void shouldExecuteAggregationQuery() {
     EntityQuery nestedQuery =
         Query.newEntityQueryBuilder()
             .setNamespace(NAMESPACE)
@@ -105,8 +103,7 @@ public class AggregationQueryExecutorTest {
                 null));
   }
 
-  @Test
-  public void shouldExecuteAggregationQueryWithReadOptions() {
+  void shouldExecuteAggregationQueryWithReadOptions() {
     EntityQuery nestedQuery =
         Query.newEntityQueryBuilder()
             .setNamespace(NAMESPACE)

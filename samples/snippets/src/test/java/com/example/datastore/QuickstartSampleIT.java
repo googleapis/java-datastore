@@ -30,7 +30,7 @@ import org.junit.runners.JUnit4;
 /** Tests for quickstart sample. */
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
-public class QuickstartSampleIT {
+class QuickstartSampleIT {
 
   @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
@@ -43,18 +43,18 @@ public class QuickstartSampleIT {
   }
 
   @Before
-  public void setUp() {
+  void setUp() {
     deleteTestEntity();
   }
 
   @After
-  public void tearDown() {
+  void tearDown() {
     System.setOut(null);
     deleteTestEntity();
   }
 
   @Test
-  public void testQuickstart() throws Exception {
+  void testQuickstart() throws Exception {
     QuickstartSample.main();
     systemsOutRule.assertContains("Saved sampletask1: Buy milk");
     systemsOutRule.assertContains("Retrieved sampletask1: Buy milk");

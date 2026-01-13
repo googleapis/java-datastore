@@ -30,7 +30,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
-public class OrFilterQuerySampleIT {
+class OrFilterQuerySampleIT {
 
   private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
   private final String fieldName = "description";
@@ -41,7 +41,7 @@ public class OrFilterQuerySampleIT {
   @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   @Before
-  public void setUp() {
+  void setUp() {
     taskKey1 = datastore.newKeyFactory().setKind("Task").newKey("sampleTask");
     Entity task1 = Entity.newBuilder(taskKey1).set(fieldName, "Buy milk").build();
 
@@ -53,13 +53,13 @@ public class OrFilterQuerySampleIT {
   }
 
   @After
-  public void tearDown() {
+  void tearDown() {
     datastore.delete(taskKey1);
     datastore.delete(taskKey2);
   }
 
   @Test
-  public void testOrFilterQuery() throws Exception {
+  void testOrFilterQuery() throws Exception {
     // Act
     OrFilterQuery.invoke();
 

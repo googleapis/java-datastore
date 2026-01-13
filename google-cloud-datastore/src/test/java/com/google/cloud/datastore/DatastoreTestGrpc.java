@@ -21,14 +21,10 @@ import com.google.cloud.grpc.GrpcTransportOptions;
 import com.google.common.truth.Truth;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Arrays;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 
-@RunWith(Parameterized.class)
-public class DatastoreTestGrpc extends AbstractDatastoreTest {
+class DatastoreTestGrpc extends AbstractDatastoreTest {
 
   private static final LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0, 9090);
 
@@ -36,24 +32,15 @@ public class DatastoreTestGrpc extends AbstractDatastoreTest {
       helper.getGrpcTransportOptions(GrpcTransportOptions.newBuilder().build());
   private static Datastore datastore = options.getService();
 
-  public DatastoreTestGrpc(DatastoreOptions options, Datastore datastore) {
-    super(options, datastore);
-  }
-
-  @Parameterized.Parameters(name = "data options: {0}")
-  public static Iterable<Object[]> data() {
-    return Arrays.asList(new Object[][] {{options, datastore}});
-  }
-
-  @BeforeClass
-  public static void beforeClass() throws IOException, InterruptedException {
+  @BeforeAll
+  static void beforeClass() throws IOException, InterruptedException {
     helper.start();
     options = helper.getGrpcTransportOptions(GrpcTransportOptions.newBuilder().build());
     datastore = options.getService();
   }
 
-  @AfterClass
-  public static void afterClass() throws Exception {
+  @AfterAll
+  static void afterClass() throws Exception {
     datastore.close();
     Truth.assertThat(datastore.isClosed()).isTrue();
     helper.stopDuration(Duration.ofMinutes(1));

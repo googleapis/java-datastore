@@ -37,15 +37,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AggregationQueryResponseTransformerTest {
+class AggregationQueryResponseTransformerTest {
 
   private final AggregationQueryResponseTransformer responseTransformer =
       new AggregationQueryResponseTransformer();
 
   @Test
-  public void shouldTransformAggregationQueryResponseWithIntValues() {
+  void shouldTransformAggregationQueryResponseWithIntValues() {
     Map<String, com.google.datastore.v1.Value> result1 =
         new HashMap<>(
             ImmutableMap.of(
@@ -85,7 +85,7 @@ public class AggregationQueryResponseTransformerTest {
   }
 
   @Test
-  public void shouldTransformAggregationQueryResponseWithIntValuesWithStats() {
+  void shouldTransformAggregationQueryResponseWithIntValuesWithStats() {
     Map<String, com.google.datastore.v1.Value> result1 =
         new HashMap<>(
             ImmutableMap.of(
@@ -159,7 +159,7 @@ public class AggregationQueryResponseTransformerTest {
   }
 
   @Test
-  public void shouldTransformAggregationQueryResponseWithDoubleValues() {
+  void shouldTransformAggregationQueryResponseWithDoubleValues() {
     Map<String, com.google.datastore.v1.Value> result1 =
         new HashMap<>(
             ImmutableMap.of(

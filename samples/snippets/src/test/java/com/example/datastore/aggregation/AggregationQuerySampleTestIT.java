@@ -30,14 +30,14 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class AggregationQuerySampleTestIT {
+class AggregationQuerySampleTestIT {
 
   private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
   @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   @Before
-  public void setUp() throws Exception {
+  void setUp() throws Exception {
     // Retrieving and deleting all the 'Task' entities.
     KeyQuery allKeysQuery = Query.newKeyQueryBuilder().setKind("Task").build();
     QueryResults<Key> allKeys = datastore.run(allKeysQuery);
@@ -46,33 +46,33 @@ public class AggregationQuerySampleTestIT {
   }
 
   @Test
-  public void testAggregationQueryAndCountAggregationSample() {
+  void testAggregationQueryAndCountAggregationSample() {
     CountAggregationOnKind.invoke();
     systemsOutRule.assertContains("Total tasks count is 3");
     systemsOutRule.assertContains("Total tasks (accessible from default alias) is 3");
   }
 
   @Test
-  public void testAggregationQueryAndCountAggregationWithLimitSample() {
+  void testAggregationQueryAndCountAggregationWithLimitSample() {
     CountAggregationWithLimit.invoke();
     systemsOutRule.assertContains("We have at least 2 tasks");
   }
 
   @Test
-  public void testAggregationQueryAndCountAggregationWithOrderBySample() {
+  void testAggregationQueryAndCountAggregationWithOrderBySample() {
     CountAggregationWithOrderBy.invoke();
     systemsOutRule.assertContains("Total 2 tasks found with priority field");
   }
 
   @Test
-  public void testAggregationQueryAndCountAggregationWithPropertyFilterSample() {
+  void testAggregationQueryAndCountAggregationWithPropertyFilterSample() {
     CountAggregationWithPropertyFilter.invoke();
     systemsOutRule.assertContains("Total completed tasks count is 2");
     systemsOutRule.assertContains("Total remaining tasks count is 1");
   }
 
   @Test
-  public void testAggregationQueryAndCountAggregationSampleWithGqlQuery() {
+  void testAggregationQueryAndCountAggregationSampleWithGqlQuery() {
     CountAggregationWithGqlQuery.invoke();
     systemsOutRule.assertContains("We have at least 2 tasks");
     systemsOutRule.assertContains("Total tasks count is 3");
@@ -80,68 +80,68 @@ public class AggregationQuerySampleTestIT {
   }
 
   @Test
-  public void testAggregationQueryAndCountWithStaleRead() throws InterruptedException {
+  void testAggregationQueryAndCountWithStaleRead() throws InterruptedException {
     CountAggregationWithStaleRead.invoke();
     systemsOutRule.assertContains("Latest tasks count is 3");
     systemsOutRule.assertContains("Stale tasks count is 2");
   }
 
   @Test
-  public void testAggregationQueryAndCountWithTransaction() throws InterruptedException {
+  void testAggregationQueryAndCountWithTransaction() throws InterruptedException {
     assertThrows(Exception.class, CountAggregationInTransaction::invoke);
     systemsOutRule.assertContains("Found existing 2 tasks, rolling back");
   }
 
   @Test
-  public void testSumAggregationWithKind() {
+  void testSumAggregationWithKind() {
     SumAggregationOnKind.invoke();
     systemsOutRule.assertContains("Total sales is 239");
   }
 
   @Test
-  public void testAvgAggregationWithKind() {
+  void testAvgAggregationWithKind() {
     AvgAggregationOnKind.invoke();
     systemsOutRule.assertContains("Average sales is 79.66666667");
   }
 
   @Test
-  public void testSumAggregationWithPropertyFilter() {
+  void testSumAggregationWithPropertyFilter() {
     SumAggregationWithPropertyFilter.invoke();
     systemsOutRule.assertContains("Customer 1 sales sum is 184");
   }
 
   @Test
-  public void testAvgAggregationWithPropertyFilter() {
+  void testAvgAggregationWithPropertyFilter() {
     AvgAggregationWithPropertyFilter.invoke();
     systemsOutRule.assertContains("Customer 1 sales avg is 92");
   }
 
   @Test
-  public void testSumAggregationWithLimit() {
+  void testSumAggregationWithLimit() {
     SumAggregationWithLimit.invoke();
     systemsOutRule.assertContains("We have a minimum sales sum of 144.");
   }
 
   @Test
-  public void testAvgAggregationWithLimit() {
+  void testAvgAggregationWithLimit() {
     AvgAggregationWithLimit.invoke();
     systemsOutRule.assertContains("Average with limit 2 is 72.");
   }
 
   @Test
-  public void testSumAggregationWithOrderBy() {
+  void testSumAggregationWithOrderBy() {
     SumAggregationWithOrderBy.invoke();
     systemsOutRule.assertContains("Total sum of 144 with valid customerId field");
   }
 
   @Test
-  public void testAvgAggregationWithOrderBy() {
+  void testAvgAggregationWithOrderBy() {
     AvgAggregationWithOrderBy.invoke();
     systemsOutRule.assertContains("Total avg of 72 with valid customerId field");
   }
 
   @Test
-  public void testMultipleAggregationsInStructuredQuery() {
+  void testMultipleAggregationsInStructuredQuery() {
     MultipleAggregationsInStructuredQuery.invoke();
     systemsOutRule.assertContains("Total sales count: 3");
     systemsOutRule.assertContains("Sum of sales: 239");
@@ -149,7 +149,7 @@ public class AggregationQuerySampleTestIT {
   }
 
   @Test
-  public void testMultipleAggregationsInGQLQuery() {
+  void testMultipleAggregationsInGQLQuery() {
     MultipleAggregationsInGqlQuery.invoke();
     systemsOutRule.assertContains("Total sales count: 3");
     systemsOutRule.assertContains("Sum of sales: 239");
