@@ -124,6 +124,14 @@
           <argLine>-Xmx2048m</argLine>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <!-- javadoc complains about: `error: No public or protected classes found to document` in tests -->
+          <failOnError>false</failOnError>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
