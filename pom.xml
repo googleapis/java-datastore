@@ -239,6 +239,32 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+
+        <configuration>
+          <!-- javadoc complains about: `error: No public or protected classes found to document` in tests -->
+          <!-- Allow package scope globally for sources and tests when building -->
+          <show>package</show>
+          <failOnError>false</failOnError>
+        </configuration>
+
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <!-- When building a JAR, the javadocs scope is set back to protected -->
+              <show>protected</show>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
   <modules>
