@@ -107,8 +107,7 @@ class ITTracingTest {
   protected Datastore datastore;
   private static RemoteDatastoreHelper remoteDatastoreHelper;
 
-  @TestParameter
-  boolean useGlobalOpenTelemetrySDK;
+  @TestParameter boolean useGlobalOpenTelemetrySDK;
 
   @TestParameter({
     /*(default)*/
