@@ -30,7 +30,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
-class QueryProfileSampleIT {
+public class QueryProfileSampleIT {
 
   private final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
   private final String fieldName = "description";
@@ -41,7 +41,7 @@ class QueryProfileSampleIT {
   @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   @Before
-  void setUp() {
+  public void setUp() {
     taskKey1 = datastore.newKeyFactory().setKind("Task").newKey("sampleTask");
     Entity task1 = Entity.newBuilder(taskKey1).set(fieldName, "Buy milk").build();
 
@@ -53,13 +53,13 @@ class QueryProfileSampleIT {
   }
 
   @After
-  void tearDown() {
+  public void tearDown() {
     datastore.delete(taskKey1);
     datastore.delete(taskKey2);
   }
 
   @Test
-  void testQueryProfileExplain() throws Exception {
+  public void testQueryProfileExplain() throws Exception {
     // Act
     QueryProfileExplain.invoke();
 
@@ -69,7 +69,7 @@ class QueryProfileSampleIT {
   }
 
   @Test
-  void testQueryProfileExplainAggregation() throws Exception {
+  public void testQueryProfileExplainAggregation() throws Exception {
     // Act
     QueryProfileExplainAggregation.invoke();
 
@@ -79,7 +79,7 @@ class QueryProfileSampleIT {
   }
 
   @Test
-  void testQueryProfileExplainAnalyze() throws Exception {
+  public void testQueryProfileExplainAnalyze() throws Exception {
     // Act
     QueryProfileExplainAnalyze.invoke();
 
@@ -91,7 +91,7 @@ class QueryProfileSampleIT {
   }
 
   @Test
-  void testQueryProfileExplainAnalyzeAggregation() throws Exception {
+  public void testQueryProfileExplainAnalyzeAggregation() throws Exception {
     // Act
     QueryProfileExplainAnalyzeAggregation.invoke();
 

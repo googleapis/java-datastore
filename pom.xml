@@ -202,14 +202,6 @@
       </dependency>
 
       <!-- Test dependencies -->
-      <!-- JUnit 4.x is still needed as the gapic-generator still generates tests with it -->
-      <!-- Remove once the gapic-generator is able to generate JUnit 5.x tests -->
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.2</version>
-        <scope>test</scope>
-      </dependency>
       <dependency>
         <groupId>org.easymock</groupId>
         <artifactId>easymock</artifactId>

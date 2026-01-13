@@ -25,12 +25,12 @@ import org.junit.runners.JUnit4;
 /** Tests for ConfigureConnectionPool sample. */
 @RunWith(JUnit4.class)
 @SuppressWarnings("checkstyle:abbreviationaswordinname")
-class ConfigureConnectionPoolIT {
+public class ConfigureConnectionPoolIT {
 
   @Rule public final SystemsOutRule systemsOutRule = new SystemsOutRule();
 
   @Test
-  void testConfigureConnectionPool() throws Exception {
+  public void testConfigureConnectionPool() throws Exception {
     ConfigureConnectionPool.main();
     systemsOutRule.assertContains(
         "Connected with pool with InitialChannelCount: 10, MinChannelCount: 5, MaxChannelCount:"
