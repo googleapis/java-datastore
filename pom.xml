@@ -147,7 +147,6 @@
 <!--    Related: https://github.com/googleapis/java-datastore/issues/1889 -->
 <!--    As of v2.42.0, the min JDK version needed is JDK 17+ -->
     <error-prone.version>2.42.0</error-prone.version>
-    <junit.version>5.10.3</junit.version>
   </properties>
 
   <dependencyManagement>
@@ -156,13 +155,6 @@
         <groupId>com.google.cloud</groupId>
         <artifactId>google-cloud-shared-dependencies</artifactId>
         <version>${google-cloud-shared-dependencies.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.junit</groupId>
-        <artifactId>junit-bom</artifactId>
-        <version>${junit.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -207,6 +199,16 @@
             <artifactId>proto-google-cloud-datastore-v1</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+
+      <!-- Test dependencies -->
+      <!-- JUnit 4.x is still needed as the gapic-generator still generates tests with it -->
+      <!-- Remove once the gapic-generator is able to generate JUnit 5.x tests -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.easymock</groupId>
