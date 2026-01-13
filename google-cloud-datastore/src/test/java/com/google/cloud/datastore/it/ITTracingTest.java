@@ -44,8 +44,8 @@ import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.cloud.datastore.Transaction;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.base.Preconditions;
-import com.google.testing.junit.testparameterinjector.TestParameter;
-import com.google.testing.junit.testparameterinjector.TestParameterInjector;
+import com.google.testing.junit.testparameterinjector.junit5.TestParameter;
+import com.google.testing.junit.testparameterinjector.junit5.TestParameterInjectorTest;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
@@ -71,10 +71,7 @@ import java.util.logging.Logger;
 import javax.annotation.Nullable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 
-@RunWith(TestParameterInjector.class)
 class ITTracingTest {
   protected boolean isUsingGlobalOpenTelemetrySDK() {
     return useGlobalOpenTelemetrySDK;
@@ -110,7 +107,8 @@ class ITTracingTest {
   protected Datastore datastore;
   private static RemoteDatastoreHelper remoteDatastoreHelper;
 
-  @TestParameter boolean useGlobalOpenTelemetrySDK;
+  @TestParameter
+  boolean useGlobalOpenTelemetrySDK;
 
   @TestParameter({
     /*(default)*/
@@ -381,7 +379,7 @@ class ITTracingTest {
     }
   }
 
-  @Test
+  @TestParameterInjectorTest
   void lookupTraceTest() throws Exception {
     Entity entity = datastore.get(KEY1);
     assertNull(entity);
@@ -405,7 +403,7 @@ class ITTracingTest {
                 .build()));
   }
 
-  @Test
+  @TestParameterInjectorTest
   void allocateIdsTraceTest() throws Exception {
     String kind1 = "kind1";
     KeyFactory keyFactory = datastore.newKeyFactory().setKind(kind1);
@@ -419,7 +417,7 @@ class ITTracingTest {
     assertSpanHierarchy(SPAN_NAME_ALLOCATE_IDS);
   }
 
-  @Test
+  @TestParameterInjectorTest
   void reserveIdsTraceTest() throws Exception {
     KeyFactory keyFactory = datastore.newKeyFactory().setKind("MyKind");
     Key key1 = keyFactory.newKey(10);
@@ -434,7 +432,7 @@ class ITTracingTest {
     assertSpanHierarchy(SPAN_NAME_RESERVE_IDS);
   }
 
-  @Test
+  @TestParameterInjectorTest
   void commitTraceTest() throws Exception {
     Entity entity1 = Entity.newBuilder(KEY1).set("test_key", "test_value").build();
     Entity response = datastore.add(entity1);
@@ -447,7 +445,7 @@ class ITTracingTest {
     assertSpanHierarchy(SPAN_NAME_COMMIT);
   }
 
-  @Test
+  @TestParameterInjectorTest
   void putTraceTest() throws Exception {
     Entity entity1 = Entity.newBuilder(KEY1).set("test_key", "test_value").build();
     Entity response = datastore.put(entity1);
@@ -460,7 +458,7 @@ class ITTracingTest {
     assertSpanHierarchy(SPAN_NAME_COMMIT);
   }
 
-  @Test
+  @TestParameterInjectorTest
   void updateTraceTest() throws Exception {
     Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
     Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
@@ -500,7 +498,7 @@ class ITTracingTest {
     assertSpanHierarchy(SPAN_NAME_COMMIT);
   }
 
-  @Test
+  @TestParameterInjectorTest
   void deleteTraceTest() throws Exception {
     Entity entity1 = Entity.newBuilder(KEY1).set("test_key", "test_value").build();
     Entity response = datastore.put(entity1);
@@ -544,7 +542,7 @@ class ITTracingTest {
                 .build()));
   }
 
-  @Test
+  @TestParameterInjectorTest
   void runQueryTraceTest() throws Exception {
     Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
     Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
@@ -586,7 +584,7 @@ class ITTracingTest {
                 .build()));
   }
 
-  @Test
+  @TestParameterInjectorTest
   void runAggregationQueryTraceTest() throws Exception {
     Entity entity1 =
         Entity.newBuilder(KEY1)
@@ -641,7 +639,7 @@ class ITTracingTest {
     assertSpanHierarchy(SPAN_NAME_RUN_AGGREGATION_QUERY);
   }
 
-  @Test
+  @TestParameterInjectorTest
   void newTransactionReadWriteTraceTest() throws Exception {
     // Transaction.Begin
     Transaction transaction = datastore.newTransaction();
@@ -689,7 +687,7 @@ class ITTracingTest {
                 .build()));
   }
 
-  @Test
+  @TestParameterInjectorTest
   void newTransactionQueryTest() throws Exception {
     Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
     Entity entity2 = Entity.newBuilder(KEY2).set("test_field", "test_value2").build();
@@ -735,7 +733,7 @@ class ITTracingTest {
                 .build()));
   }
 
-  @Test
+  @TestParameterInjectorTest
   void newTransactionRollbackTest() throws Exception {
     Entity entity1 = Entity.newBuilder(KEY1).set("pepper_type", "jalapeno").build();
     Entity entity2 = Entity.newBuilder(KEY2).set("pepper_type", "habanero").build();
@@ -799,7 +797,7 @@ class ITTracingTest {
                 .build()));
   }
 
-  @Test
+  @TestParameterInjectorTest
   void runInTransactionQueryTest() throws Exception {
     // Set up
     Entity entity1 = Entity.newBuilder(KEY1).set("test_field", "test_value1").build();
