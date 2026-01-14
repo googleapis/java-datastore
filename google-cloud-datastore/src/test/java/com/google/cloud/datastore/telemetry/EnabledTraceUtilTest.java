@@ -22,12 +22,16 @@ import com.google.cloud.datastore.DatastoreOpenTelemetryOptions;
 import com.google.cloud.datastore.DatastoreOptions;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
+@Execution(ExecutionMode.SAME_THREAD)
 class EnabledTraceUtilTest {
-  @BeforeEach
-  void setUp() {
+
+  @AfterEach
+  void cleanup() {
     GlobalOpenTelemetry.resetForTest();
   }
 
@@ -73,6 +77,7 @@ class EnabledTraceUtilTest {
             .build();
     EnabledTraceUtil traceUtil = new EnabledTraceUtil(datastoreOptions);
     assertThat(traceUtil.getOpenTelemetry()).isEqualTo(GlobalOpenTelemetry.get());
+    ignored.close();
   }
 
   @Test
@@ -97,8 +102,7 @@ class EnabledTraceUtilTest {
 
   @Test
   void globalOpenTelemetryRegistersGrpcChannelConfigurator() {
-
-    OpenTelemetrySdk.builder().buildAndRegisterGlobal();
+    OpenTelemetrySdk ignored = OpenTelemetrySdk.builder().buildAndRegisterGlobal();
     DatastoreOptions datastoreOptions =
         getBaseOptions()
             .setOpenTelemetryOptions(
@@ -106,6 +110,7 @@ class EnabledTraceUtilTest {
             .build();
     EnabledTraceUtil traceUtil = new EnabledTraceUtil(datastoreOptions);
     assertThat(traceUtil.getChannelConfigurator()).isNotNull();
+    ignored.close();
   }
 
   @Test

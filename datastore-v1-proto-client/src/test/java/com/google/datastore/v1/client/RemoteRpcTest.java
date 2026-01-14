@@ -36,11 +36,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.GZIPOutputStream;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.ResourceLock;
 
 /** Test for {@link RemoteRpc}. */
 class RemoteRpcTest {
 
+  private static final String E2E_CHECKSUM_RESOURCE_LOCK = "e2eChecksum";
   private static final String METHOD_NAME = "methodName";
 
   @Test
@@ -154,6 +158,7 @@ class RemoteRpcTest {
   }
 
   @Test
+  @ResourceLock(E2E_CHECKSUM_RESOURCE_LOCK)
   void testHttpHeaders_expectE2eChecksumHeader() throws IOException {
     // Enable E2E-Checksum system env variable
     RemoteRpc.setSystemEnvE2EChecksum(true);
@@ -177,6 +182,7 @@ class RemoteRpcTest {
   }
 
   @Test
+  @ResourceLock(E2E_CHECKSUM_RESOURCE_LOCK)
   void testHttpHeaders_doNotExpectE2eChecksumHeader() throws IOException {
     // disable E2E-Checksum system env variable
     RemoteRpc.setSystemEnvE2EChecksum(false);
