@@ -16,9 +16,9 @@
 
 package com.google.cloud.datastore;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.cloud.datastore.Query.ResultType;
 import com.google.cloud.datastore.StructuredQuery.CompositeFilter;
@@ -27,9 +27,9 @@ import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class StructuredQueryTest {
+class StructuredQueryTest {
 
   private static final String NAMESPACE = "ns";
   private static final String KIND = "k";
@@ -87,14 +87,14 @@ public class StructuredQueryTest {
           .build();
 
   @Test
-  public void testEntityQueryBuilder() {
+  void testEntityQueryBuilder() {
     compareBaseBuilderFields(ENTITY_QUERY);
     assertTrue(ENTITY_QUERY.getProjection().isEmpty());
     assertTrue(ENTITY_QUERY.getDistinctOn().isEmpty());
   }
 
   @Test
-  public void testKeyQueryBuilder() {
+  void testKeyQueryBuilder() {
     assertEquals(NAMESPACE, KEY_QUERY.getNamespace());
     assertEquals(KIND, KEY_QUERY.getKind());
     assertEquals(START_CURSOR, KEY_QUERY.getStartCursor());
@@ -108,7 +108,7 @@ public class StructuredQueryTest {
   }
 
   @Test
-  public void testProjectionEntityQueryBuilder() {
+  void testProjectionEntityQueryBuilder() {
     compareBaseBuilderFields(PROJECTION_QUERY);
     assertEquals(PROJECTION, PROJECTION_QUERY.getProjection());
     assertEquals(DISTINCT_ON, PROJECTION_QUERY.getDistinctOn());
@@ -126,7 +126,7 @@ public class StructuredQueryTest {
   }
 
   @Test
-  public void mergeFrom() {
+  void mergeFrom() {
     compareMergedQuery(
         ENTITY_QUERY, new EntityQuery.Builder().mergeFrom(ENTITY_QUERY.toPb()).build());
     compareMergedQuery(KEY_QUERY, new KeyQuery.Builder().mergeFrom(KEY_QUERY.toPb()).build());
@@ -148,7 +148,7 @@ public class StructuredQueryTest {
   }
 
   @Test
-  public void testToAndFromPb() {
+  void testToAndFromPb() {
     assertEquals(
         ENTITY_QUERY,
         StructuredQuery.fromPb(
@@ -165,7 +165,7 @@ public class StructuredQueryTest {
   }
 
   @Test
-  public void testToBuilder() {
+  void testToBuilder() {
     List<StructuredQuery<?>> queries =
         ImmutableList.<StructuredQuery<?>>of(ENTITY_QUERY, KEY_QUERY, PROJECTION_QUERY);
     for (StructuredQuery<?> query : queries) {
@@ -174,7 +174,7 @@ public class StructuredQueryTest {
   }
 
   @Test
-  public void testKeyOnly() {
+  void testKeyOnly() {
     assertTrue(KEY_QUERY.isKeyOnly());
     assertFalse(ENTITY_QUERY.isKeyOnly());
     assertFalse(PROJECTION_QUERY.isKeyOnly());

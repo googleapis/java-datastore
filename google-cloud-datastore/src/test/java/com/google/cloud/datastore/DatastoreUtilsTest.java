@@ -20,12 +20,12 @@ import static com.google.cloud.datastore.DatastoreUtils.isLocalHost;
 import static com.google.cloud.datastore.DatastoreUtils.removeScheme;
 import static com.google.common.truth.Truth.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class DatastoreUtilsTest {
+class DatastoreUtilsTest {
 
   @Test
-  public void testIsLocalHost() {
+  void testIsLocalHost() {
     assertThat(isLocalHost(null)).isFalse();
     assertThat(isLocalHost("")).isFalse();
     assertThat(isLocalHost("http://localhost:9090")).isTrue();
@@ -34,7 +34,7 @@ public class DatastoreUtilsTest {
   }
 
   @Test
-  public void testRemoveScheme() {
+  void testRemoveScheme() {
     assertThat(removeScheme("http://localhost:9090")).isEqualTo("localhost:9090");
     assertThat(removeScheme("https://localhost:9090")).isEqualTo("localhost:9090");
     assertThat(removeScheme("https://localhost:9090")).isEqualTo("localhost:9090");

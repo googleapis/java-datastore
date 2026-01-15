@@ -200,13 +200,8 @@
           </exclusion>
         </exclusions>
       </dependency>
+
       <!-- Test dependencies -->
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.2</version>
-        <scope>test</scope>
-      </dependency>
       <dependency>
         <groupId>org.easymock</groupId>
         <artifactId>easymock</artifactId>
@@ -221,17 +216,55 @@
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+            <reportFormat>plain</reportFormat>
+            <failIfNoTests>false</failIfNoTests>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
           <configuration>
             <ignoredUnusedDeclaredDependencies>
               <ignoredUnusedDeclaredDependency>com.google.http-client:google-http-client-jackson2</ignoredUnusedDeclaredDependency>
               <ignoredUnusedDeclaredDependency>com.google.oauth-client:google-oauth-client</ignoredUnusedDeclaredDependency>
               <ignoredUnusedDeclaredDependency>javax.annotation:javax.annotation-api</ignoredUnusedDeclaredDependency>
+              <!-- maven-dependency-plugin cannot detect the runtime usage of junit-jupiter-engine for executing JUnit 5+ tests. -->
+              <ignoredUnusedDeclaredDependency>org.junit.jupiter:junit-jupiter-engine</ignoredUnusedDeclaredDependency>
+              <!-- maven-dependency-plugin cannot detect the runtime usage of junit-vintage-engine for executing JUnit 4.x tests. -->
+              <ignoredUnusedDeclaredDependency>org.junit.vintage:junit-vintage-engine</ignoredUnusedDeclaredDependency>
             </ignoredUnusedDeclaredDependencies>
           </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+
+        <configuration>
+          <!-- javadoc complains about: `error: No public or protected classes found to document` in tests -->
+          <!-- Allow package scope globally for sources and tests when building -->
+          <show>package</show>
+          <failOnError>false</failOnError>
+        </configuration>
+
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <!-- When building a JAR, the javadocs scope is set back to protected -->
+              <show>protected</show>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
   <modules>
