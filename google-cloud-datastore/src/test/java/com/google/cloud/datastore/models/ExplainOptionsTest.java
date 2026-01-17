@@ -17,11 +17,11 @@ package com.google.cloud.datastore.models;
 
 import com.google.common.testing.EqualsTester;
 import com.google.common.truth.Truth;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ExplainOptionsTest {
+class ExplainOptionsTest {
   @Test
-  public void testModel() {
+  void testModel() {
     com.google.datastore.v1.ExplainOptions builtProto =
         com.google.datastore.v1.ExplainOptions.newBuilder().setAnalyze(true).build();
 
@@ -46,7 +46,7 @@ public class ExplainOptionsTest {
   }
 
   @Test
-  public void testEqualsAndHashcode() {
+  void testEqualsAndHashcode() {
     ExplainOptions explainOptions = ExplainOptions.newBuilder().build();
     ExplainOptions explainOptions2 = ExplainOptions.newBuilder().setAnalyze(true).build();
 

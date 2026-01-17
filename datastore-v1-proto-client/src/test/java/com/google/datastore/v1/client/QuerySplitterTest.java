@@ -22,8 +22,8 @@ import static com.google.datastore.v1.client.DatastoreHelper.makeKey;
 import static com.google.datastore.v1.client.DatastoreHelper.makeOrder;
 import static com.google.datastore.v1.client.DatastoreHelper.makePropertyReference;
 import static com.google.datastore.v1.client.DatastoreHelper.makeValue;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.google.datastore.v1.Entity;
 import com.google.datastore.v1.EntityResult;
@@ -46,13 +46,10 @@ import com.google.datastore.v1.client.testing.MockDatastoreFactory;
 import com.google.protobuf.Int32Value;
 import com.google.protobuf.Timestamp;
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
 /** Tests for {@link QuerySplitterImpl}. */
-@RunWith(JUnit4.class)
-public class QuerySplitterTest {
+class QuerySplitterTest {
   private static final String PROJECT_ID = "project-id";
   private static final PartitionId PARTITION =
       PartitionId.newBuilder().setProjectId(PROJECT_ID).build();
@@ -86,7 +83,7 @@ public class QuerySplitterTest {
       makeKey(KIND, String.format("%05d", 301)).setPartitionId(PARTITION).build();
 
   @Test
-  public void disallowsSortOrder() {
+  void disallowsSortOrder() {
     Datastore datastore = factory.create(options.build());
     Query queryWithOrder =
         query.toBuilder().addOrder(makeOrder("bar", Direction.ASCENDING)).build();
@@ -98,7 +95,7 @@ public class QuerySplitterTest {
   }
 
   @Test
-  public void disallowsMultipleKinds() {
+  void disallowsMultipleKinds() {
     Datastore datastore = factory.create(options.build());
     Query queryWithMultipleKinds =
         query.toBuilder()
@@ -114,7 +111,7 @@ public class QuerySplitterTest {
   }
 
   @Test
-  public void disallowsKindlessQuery() {
+  void disallowsKindlessQuery() {
     Datastore datastore = factory.create(options.build());
     Query kindlessQuery = query.toBuilder().clearKind().build();
     IllegalArgumentException exception =
@@ -125,7 +122,7 @@ public class QuerySplitterTest {
   }
 
   @Test
-  public void disallowsInequalityFilter() {
+  void disallowsInequalityFilter() {
     Datastore datastore = factory.create(options.build());
     Query queryWithInequality =
         query.toBuilder()
@@ -140,7 +137,7 @@ public class QuerySplitterTest {
   }
 
   @Test
-  public void splitsMustBePositive() {
+  void splitsMustBePositive() {
     Datastore datastore = factory.create(options.build());
     IllegalArgumentException exception =
         assertThrows(
@@ -150,7 +147,7 @@ public class QuerySplitterTest {
   }
 
   @Test
-  public void getSplits() throws Exception {
+  void getSplits() throws Exception {
     Datastore datastore = factory.create(options.build());
     MockDatastoreFactory mockClient = (MockDatastoreFactory) factory;
 
@@ -197,7 +194,7 @@ public class QuerySplitterTest {
   }
 
   @Test
-  public void getSplitsWithDatabaseId() throws Exception {
+  void getSplitsWithDatabaseId() throws Exception {
     Datastore datastore = factory.create(options.build());
     MockDatastoreFactory mockClient = (MockDatastoreFactory) factory;
 
@@ -247,7 +244,7 @@ public class QuerySplitterTest {
   }
 
   @Test
-  public void notEnoughSplits() throws Exception {
+  void notEnoughSplits() throws Exception {
     Datastore datastore = factory.create(options.build());
     MockDatastoreFactory mockClient = (MockDatastoreFactory) factory;
 
@@ -288,7 +285,7 @@ public class QuerySplitterTest {
   }
 
   @Test
-  public void getSplits_withReadTime() throws Exception {
+  void getSplits_withReadTime() throws Exception {
     Datastore datastore = factory.create(options.build());
     MockDatastoreFactory mockClient = (MockDatastoreFactory) factory;
 
