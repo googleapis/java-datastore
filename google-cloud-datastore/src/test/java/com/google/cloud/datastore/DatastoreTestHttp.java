@@ -20,37 +20,24 @@ import com.google.cloud.datastore.testing.LocalDatastoreHelper;
 import com.google.cloud.grpc.GrpcTransportOptions;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Arrays;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 
-@RunWith(Parameterized.class)
-public class DatastoreTestHttp extends AbstractDatastoreTest {
+class DatastoreTestHttp extends AbstractDatastoreTest {
 
   private static final LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0, 9090);
 
   private static DatastoreOptions options = helper.getOptions();
   private static Datastore datastore = options.getService();
 
-  public DatastoreTestHttp(DatastoreOptions options, Datastore datastore) {
-    super(options, datastore);
-  }
-
-  @Parameterized.Parameters(name = "data options: {0}")
-  public static Iterable<Object[]> data() {
-    return Arrays.asList(new Object[][] {{options, datastore}});
-  }
-
-  @BeforeClass
+  @BeforeAll
   public static void beforeClass() throws IOException, InterruptedException {
     helper.start();
     options = helper.getGrpcTransportOptions(GrpcTransportOptions.newBuilder().build());
     datastore = options.getService();
   }
 
-  @AfterClass
+  @AfterAll
   public static void afterClass() throws Exception {
     helper.stopDuration(Duration.ofMinutes(1));
   }
