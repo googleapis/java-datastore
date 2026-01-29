@@ -30,14 +30,14 @@ import com.google.datastore.v1.KindExpression;
 import com.google.datastore.v1.Query;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Int32Value;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class StructuredQueryProtoPreparerTest {
+class StructuredQueryProtoPreparerTest {
 
   private final StructuredQueryProtoPreparer protoPreparer = new StructuredQueryProtoPreparer();
 
   @Test
-  public void testKind() {
+  void testKind() {
     Query queryProto = protoPreparer.prepare(newEntityQueryBuilder().setKind("kind").build());
 
     assertThat(queryProto.getKind(0))
@@ -45,7 +45,7 @@ public class StructuredQueryProtoPreparerTest {
   }
 
   @Test
-  public void testStartCursor() {
+  void testStartCursor() {
     byte[] bytes = {1, 2};
     Query queryProto =
         protoPreparer.prepare(
@@ -55,7 +55,7 @@ public class StructuredQueryProtoPreparerTest {
   }
 
   @Test
-  public void testEndCursor() {
+  void testEndCursor() {
     byte[] bytes = {1, 2};
     Query queryProto =
         protoPreparer.prepare(newEntityQueryBuilder().setEndCursor(Cursor.copyFrom(bytes)).build());
@@ -64,21 +64,21 @@ public class StructuredQueryProtoPreparerTest {
   }
 
   @Test
-  public void testOffset() {
+  void testOffset() {
     Query queryProto = protoPreparer.prepare(newEntityQueryBuilder().setOffset(5).build());
 
     assertThat(queryProto.getOffset()).isEqualTo(5);
   }
 
   @Test
-  public void testLimit() {
+  void testLimit() {
     Query queryProto = protoPreparer.prepare(newEntityQueryBuilder().setLimit(5).build());
 
     assertThat(queryProto.getLimit()).isEqualTo(Int32Value.of(5));
   }
 
   @Test
-  public void testFilter() {
+  void testFilter() {
     Query queryProto =
         protoPreparer.prepare(
             newEntityQueryBuilder().setFilter(PropertyFilter.eq("done", true)).build());
@@ -87,7 +87,7 @@ public class StructuredQueryProtoPreparerTest {
   }
 
   @Test
-  public void testOrderBy() {
+  void testOrderBy() {
     Query queryProto =
         protoPreparer.prepare(
             newEntityQueryBuilder()
@@ -99,7 +99,7 @@ public class StructuredQueryProtoPreparerTest {
   }
 
   @Test
-  public void testDistinctOn() {
+  void testDistinctOn() {
     Query queryProto =
         protoPreparer.prepare(newEntityQueryBuilder().setDistinctOn("dept-id", "rank").build());
 
@@ -108,7 +108,7 @@ public class StructuredQueryProtoPreparerTest {
   }
 
   @Test
-  public void testProjections() {
+  void testProjections() {
     Query queryProto =
         protoPreparer.prepare(newEntityQueryBuilder().setProjection("dept-id", "rank").build());
 

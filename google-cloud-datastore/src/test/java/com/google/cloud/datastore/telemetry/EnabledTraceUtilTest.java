@@ -22,12 +22,16 @@ import com.google.cloud.datastore.DatastoreOpenTelemetryOptions;
 import com.google.cloud.datastore.DatastoreOptions;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
-public class EnabledTraceUtilTest {
-  @Before
-  public void setUp() {
+@Execution(ExecutionMode.SAME_THREAD)
+class EnabledTraceUtilTest {
+
+  @AfterEach
+  void cleanup() {
     GlobalOpenTelemetry.resetForTest();
   }
 
@@ -49,7 +53,7 @@ public class EnabledTraceUtilTest {
   }
 
   @Test
-  public void usesOpenTelemetryFromOptions() {
+  void usesOpenTelemetryFromOptions() {
     OpenTelemetrySdk myOpenTelemetrySdk = OpenTelemetrySdk.builder().build();
     DatastoreOptions firestoreOptions =
         getBaseOptions()
@@ -64,7 +68,7 @@ public class EnabledTraceUtilTest {
   }
 
   @Test
-  public void usesGlobalOpenTelemetryIfOpenTelemetryInstanceNotProvided() {
+  void usesGlobalOpenTelemetryIfOpenTelemetryInstanceNotProvided() {
     OpenTelemetrySdk ignored = OpenTelemetrySdk.builder().buildAndRegisterGlobal();
     DatastoreOptions datastoreOptions =
         getBaseOptions()
@@ -73,15 +77,16 @@ public class EnabledTraceUtilTest {
             .build();
     EnabledTraceUtil traceUtil = new EnabledTraceUtil(datastoreOptions);
     assertThat(traceUtil.getOpenTelemetry()).isEqualTo(GlobalOpenTelemetry.get());
+    ignored.close();
   }
 
   @Test
-  public void enabledTraceUtilProvidesChannelConfigurator() {
+  void enabledTraceUtilProvidesChannelConfigurator() {
     assertThat(newEnabledTraceUtil().getChannelConfigurator()).isNull();
   }
 
   @Test
-  public void openTelemetryInstanceRegistersGrpcChannelConfigurator() {
+  void openTelemetryInstanceRegistersGrpcChannelConfigurator() {
     OpenTelemetrySdk myOpenTelemetrySdk = OpenTelemetrySdk.builder().build();
     DatastoreOptions firestoreOptions =
         getBaseOptions()
@@ -96,9 +101,8 @@ public class EnabledTraceUtilTest {
   }
 
   @Test
-  public void globalOpenTelemetryRegistersGrpcChannelConfigurator() {
-
-    OpenTelemetrySdk.builder().buildAndRegisterGlobal();
+  void globalOpenTelemetryRegistersGrpcChannelConfigurator() {
+    OpenTelemetrySdk ignored = OpenTelemetrySdk.builder().buildAndRegisterGlobal();
     DatastoreOptions datastoreOptions =
         getBaseOptions()
             .setOpenTelemetryOptions(
@@ -106,16 +110,17 @@ public class EnabledTraceUtilTest {
             .build();
     EnabledTraceUtil traceUtil = new EnabledTraceUtil(datastoreOptions);
     assertThat(traceUtil.getChannelConfigurator()).isNotNull();
+    ignored.close();
   }
 
   @Test
-  public void usesEnabledContext() {
+  void usesEnabledContext() {
     assertThat(newEnabledTraceUtil().getCurrentContext() instanceof EnabledTraceUtil.Context)
         .isTrue();
   }
 
   @Test
-  public void usesEnabledSpan() {
+  void usesEnabledSpan() {
     EnabledTraceUtil traceUtil = newEnabledTraceUtil();
     assertThat(traceUtil.getCurrentSpan() instanceof EnabledTraceUtil.Span).isTrue();
     assertThat(traceUtil.startSpan("foo") != null).isTrue();
@@ -125,7 +130,7 @@ public class EnabledTraceUtilTest {
   }
 
   @Test
-  public void usesEnabledScope() {
+  void usesEnabledScope() {
     EnabledTraceUtil traceUtil = newEnabledTraceUtil();
     assertThat(traceUtil.getCurrentContext().makeCurrent() instanceof EnabledTraceUtil.Scope)
         .isTrue();

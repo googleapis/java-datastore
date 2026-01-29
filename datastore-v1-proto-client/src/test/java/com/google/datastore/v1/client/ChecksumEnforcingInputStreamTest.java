@@ -16,33 +16,32 @@
 package com.google.datastore.v1.client;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
 /** Test for {@link ChecksumEnforcingInputStream}. */
-@RunWith(JUnit4.class)
-public class ChecksumEnforcingInputStreamTest {
-  public void test(int payloadSize) throws Exception {
+class ChecksumEnforcingInputStreamTest {
+  void test(int payloadSize) throws Exception {
     // read 1000 bytes at a time
     // Since checksum should be correct, do not expect IOException
-    try (ChecksumEnforcingInputStream testInstance = setUpData(payloadSize)) {
-      byte[] buf = new byte[1000];
-      while (testInstance.read(buf, 0, 1000) != -1) {
-        // do nothing with the bytes read
-      }
-    } catch (IOException e) {
-      fail("checksum verification failed! " + e.getMessage());
-    }
+    assertDoesNotThrow(
+        () -> {
+          try (ChecksumEnforcingInputStream testInstance = setUpData(payloadSize)) {
+            byte[] buf = new byte[1000];
+            while (testInstance.read(buf, 0, 1000) != -1) {
+              // do nothing with the bytes read
+            }
+          }
+        });
   }
 
   @Test
-  public void read_withValidChecksum_differentPayloadSizes() throws Exception {
+  void read_withValidChecksum_differentPayloadSizes() throws Exception {
     // test with various payload sizes (1, 2, 2**2, 2**3 etc upto 2**28 = 256MB)
     for (int i = 0, payloadSize = 1; i < 29; i++) {
       long start = System.currentTimeMillis();
@@ -57,26 +56,24 @@ public class ChecksumEnforcingInputStreamTest {
   }
 
   @Test
-  public void read_withInvalidChecksum() {
-    // build a test instance with invalidchecksum
-    // read 1000 bytes at a time
-    // Since checksum should be correct, do not expect IOException
-    try (ChecksumEnforcingInputStream instance =
-        new ChecksumEnforcingInputStream(
-            new ByteArrayInputStream("hello there".getBytes(UTF_8)), "this checksum is invalid")) {
-      byte[] buf = new byte[1000];
-      while (instance.read(buf, 0, 1000) != -1) {
-        // do nothing with the bytes read
-      }
-    } catch (IOException e) {
-      // this is expected
-      return;
-    }
-    fail("should have failed");
+  void read_withInvalidChecksum() {
+    assertThrows(
+        IOException.class,
+        () -> {
+          try (ChecksumEnforcingInputStream instance =
+              new ChecksumEnforcingInputStream(
+                  new ByteArrayInputStream("hello there".getBytes(UTF_8)),
+                  "this checksum is invalid")) {
+            byte[] buf = new byte[1000];
+            while (instance.read(buf, 0, 1000) != -1) {
+              // do nothing with the bytes read
+            }
+          }
+        });
   }
 
   @Test
-  public void markNotSupported() throws Exception {
+  void markNotSupported() throws Exception {
     try (ChecksumEnforcingInputStream testInstance = setUpData(1)) {
       assertFalse(testInstance.markSupported());
     }

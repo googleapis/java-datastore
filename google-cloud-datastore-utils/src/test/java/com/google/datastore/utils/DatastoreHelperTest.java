@@ -16,8 +16,8 @@
 package com.google.datastore.utils;
 
 import static com.google.datastore.utils.DatastoreHelper.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.google.datastore.v1.Key;
 import com.google.datastore.v1.PartitionId;
@@ -26,13 +26,10 @@ import com.google.datastore.v1.Value.ValueTypeCase;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Timestamp;
 import java.util.Date;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
 /** Tests for {@link DatastoreHelper}. */
-@RunWith(JUnit4.class)
-public class DatastoreHelperTest {
+class DatastoreHelperTest {
 
   private static final Key PARENT =
       Key.newBuilder().addPath(Key.PathElement.newBuilder().setKind("Parent").setId(23L)).build();
@@ -44,65 +41,58 @@ public class DatastoreHelperTest {
       Key.newBuilder().addPath(Key.PathElement.newBuilder().setKind("Child").setId(26L)).build();
 
   @Test
-  public void testMakeKey_BadTypeForKind() {
-    try {
-      DatastoreHelper.makeKey(new Object());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+  void testMakeKey_BadTypeForKind() {
+    assertThrows(IllegalArgumentException.class, () -> DatastoreHelper.makeKey(new Object()));
   }
 
   @Test
-  public void testMakeKey_BadTypeForNameId() {
-    try {
-      DatastoreHelper.makeKey("kind", new Object());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+  void testMakeKey_BadTypeForNameId() {
+    assertThrows(
+        IllegalArgumentException.class, () -> DatastoreHelper.makeKey("kind", new Object()));
   }
 
   @Test
-  public void testMakeKey_Empty() {
+  void testMakeKey_Empty() {
     assertEquals(Key.newBuilder().build(), DatastoreHelper.makeKey().build());
   }
 
   @Test
-  public void testMakeKey_Incomplete() {
+  void testMakeKey_Incomplete() {
     assertEquals(
         Key.newBuilder().addPath(Key.PathElement.newBuilder().setKind("Foo")).build(),
         makeKey("Foo").build());
   }
 
   @Test
-  public void testMakeKey_IdInt() {
+  void testMakeKey_IdInt() {
     assertEquals(
         Key.newBuilder().addPath(Key.PathElement.newBuilder().setKind("Foo").setId(1)).build(),
         makeKey("Foo", 1).build());
   }
 
   @Test
-  public void testMakeKey_IdLong() {
+  void testMakeKey_IdLong() {
     assertEquals(
         Key.newBuilder().addPath(Key.PathElement.newBuilder().setKind("Foo").setId(1)).build(),
         makeKey("Foo", 1L).build());
   }
 
   @Test
-  public void testMakeKey_IdShort() {
+  void testMakeKey_IdShort() {
     assertEquals(
         Key.newBuilder().addPath(Key.PathElement.newBuilder().setKind("Foo").setId(1)).build(),
         makeKey("Foo", (short) 1).build());
   }
 
   @Test
-  public void testMakeKey_Name() {
+  void testMakeKey_Name() {
     assertEquals(
         Key.newBuilder().addPath(Key.PathElement.newBuilder().setKind("Foo").setName("hi")).build(),
         makeKey("Foo", "hi").build());
   }
 
   @Test
-  public void testMakeKey_KindNameKind() {
+  void testMakeKey_KindNameKind() {
     assertEquals(
         Key.newBuilder()
             .addPath(Key.PathElement.newBuilder().setKind("Foo").setName("hi"))
@@ -112,7 +102,7 @@ public class DatastoreHelperTest {
   }
 
   @Test
-  public void testMakeKey_KeyKind() {
+  void testMakeKey_KeyKind() {
     // 1 key at the beginning of the series
     assertEquals(
         Key.newBuilder()
@@ -123,7 +113,7 @@ public class DatastoreHelperTest {
   }
 
   @Test
-  public void testMakeKey_KindIdKeyKind() {
+  void testMakeKey_KindIdKeyKind() {
     // 1 key in the middle of the series
     assertEquals(
         Key.newBuilder()
@@ -135,7 +125,7 @@ public class DatastoreHelperTest {
   }
 
   @Test
-  public void testMakeKey_KindIdKey() {
+  void testMakeKey_KindIdKey() {
     // 1 key at the end of the series
     assertEquals(
         Key.newBuilder()
@@ -146,7 +136,7 @@ public class DatastoreHelperTest {
   }
 
   @Test
-  public void testMakeKey_KeyKindIdKey() {
+  void testMakeKey_KeyKindIdKey() {
     // 1 key at the beginning and 1 key at the end of the series
     assertEquals(
         Key.newBuilder()
@@ -158,13 +148,13 @@ public class DatastoreHelperTest {
   }
 
   @Test
-  public void testMakeKey_Key() {
+  void testMakeKey_Key() {
     // Just 1 key
     assertEquals(Key.newBuilder().addPath(CHILD.getPath(0)).build(), makeKey(CHILD).build());
   }
 
   @Test
-  public void testMakeKey_KeyKey() {
+  void testMakeKey_KeyKey() {
     // Just 2 keys
     assertEquals(
         Key.newBuilder().addPath(PARENT.getPath(0)).addPath(CHILD.getPath(0)).build(),
@@ -172,7 +162,7 @@ public class DatastoreHelperTest {
   }
 
   @Test
-  public void testMakeKey_KeyKeyKey() {
+  void testMakeKey_KeyKeyKey() {
     // Just 3 keys
     assertEquals(
         Key.newBuilder()
@@ -184,7 +174,7 @@ public class DatastoreHelperTest {
   }
 
   @Test
-  public void testMakeKey_KeyMultiLevelKey() {
+  void testMakeKey_KeyMultiLevelKey() {
     // 1 key with 2 elements
     assertEquals(
         Key.newBuilder()
@@ -196,7 +186,7 @@ public class DatastoreHelperTest {
   }
 
   @Test
-  public void testMakeKey_MultiLevelKeyKey() {
+  void testMakeKey_MultiLevelKeyKey() {
     // 1 key with 2 elements
     assertEquals(
         Key.newBuilder()
@@ -208,7 +198,7 @@ public class DatastoreHelperTest {
   }
 
   @Test
-  public void testMakeKey_MultiLevelKey() {
+  void testMakeKey_MultiLevelKey() {
     // 1 key with 3 elements
     assertEquals(
         Key.newBuilder()
@@ -220,7 +210,7 @@ public class DatastoreHelperTest {
   }
 
   @Test
-  public void testMakeKey_PartitionId() {
+  void testMakeKey_PartitionId() {
     PartitionId partitionId = PartitionId.newBuilder().setNamespaceId("namespace-id").build();
     Key parent = PARENT.toBuilder().setPartitionId(partitionId).build();
     assertEquals(
@@ -233,21 +223,20 @@ public class DatastoreHelperTest {
   }
 
   @Test
-  public void testMakeKey_NonMatchingPartitionId2() {
+  void testMakeKey_NonMatchingPartitionId2() {
     PartitionId partitionId1 = PartitionId.newBuilder().setNamespaceId("namespace-id").build();
     PartitionId partitionId2 =
         PartitionId.newBuilder().setNamespaceId("another-namespace-id").build();
-    try {
-      makeKey(
-          PARENT.toBuilder().setPartitionId(partitionId1).build(),
-          CHILD.toBuilder().setPartitionId(partitionId2).build());
-      fail("expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () ->
+            makeKey(
+                PARENT.toBuilder().setPartitionId(partitionId1).build(),
+                CHILD.toBuilder().setPartitionId(partitionId2).build()));
   }
 
   @Test
-  public void testMakeTimestampValue() throws Exception {
+  void testMakeTimestampValue() throws Exception {
     // Test cases with nanos == 0.
     assertConversion(-50_000, -50, 0);
     assertConversion(-1_000, -1, 0);
@@ -298,20 +287,12 @@ public class DatastoreHelperTest {
   }
 
   @Test
-  public void testProjectionHandling() {
+  void testProjectionHandling() {
     assertEquals(
         ByteString.copyFromUtf8("hi"), getByteString(makeValue("hi").setMeaning(18).build()));
-    try {
-      getByteString(makeValue("hi").build());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> getByteString(makeValue("hi").build()));
 
     assertEquals(new Date(1), toDate(makeValue(1000).setMeaning(18).build()));
-    try {
-      toDate(makeValue(1000).build());
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> toDate(makeValue(1000).build()));
   }
 }
