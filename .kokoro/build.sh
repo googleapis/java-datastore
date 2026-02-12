@@ -75,6 +75,7 @@ integration)
 
     mvn -B ${INTEGRATION_TEST_ARGS} \
       -ntp \
+      -Dprotobuf.version=4.33.5 \
       -Penable-integration-tests \
       -DtrimStackTrace=false \
       -Dclirr.skip=true \
