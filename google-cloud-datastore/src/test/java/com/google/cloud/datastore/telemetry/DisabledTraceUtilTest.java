@@ -17,23 +17,23 @@ package com.google.cloud.datastore.telemetry;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class DisabledTraceUtilTest {
+class DisabledTraceUtilTest {
   @Test
-  public void disabledTraceUtilDoesNotProvideChannelConfigurator() {
+  void disabledTraceUtilDoesNotProvideChannelConfigurator() {
     DisabledTraceUtil traceUtil = new DisabledTraceUtil();
     assertThat(traceUtil.getChannelConfigurator()).isNull();
   }
 
   @Test
-  public void usesDisabledContext() {
+  void usesDisabledContext() {
     DisabledTraceUtil traceUtil = new DisabledTraceUtil();
     assertThat(traceUtil.getCurrentContext() instanceof DisabledTraceUtil.Context).isTrue();
   }
 
   @Test
-  public void usesDisabledSpan() {
+  void usesDisabledSpan() {
     DisabledTraceUtil traceUtil = new DisabledTraceUtil();
     assertThat(traceUtil.getCurrentSpan() instanceof DisabledTraceUtil.Span).isTrue();
     assertThat(traceUtil.startSpan("foo") instanceof DisabledTraceUtil.Span).isTrue();
@@ -44,7 +44,7 @@ public class DisabledTraceUtilTest {
   }
 
   @Test
-  public void usesDisabledScope() {
+  void usesDisabledScope() {
     DisabledTraceUtil traceUtil = new DisabledTraceUtil();
     assertThat(traceUtil.getCurrentContext().makeCurrent() instanceof DisabledTraceUtil.Scope)
         .isTrue();

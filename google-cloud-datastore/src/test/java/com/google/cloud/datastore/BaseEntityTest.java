@@ -16,9 +16,10 @@
 
 package com.google.cloud.datastore;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.cloud.Timestamp;
 import com.google.common.collect.ImmutableList;
@@ -27,10 +28,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class BaseEntityTest {
+class BaseEntityTest {
 
   private static final Blob BLOB = Blob.copyFrom(new byte[] {1, 2});
   private static final Timestamp TIMESTAMP = Timestamp.now();
@@ -52,8 +53,8 @@ public class BaseEntityTest {
     }
   }
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     builder = new Builder();
     builder.set("blob", BLOB).set("boolean", true).set("timestamp", TIMESTAMP);
     builder.set("double", 1.25).set("key", KEY).set("string", "hello world");
@@ -79,7 +80,7 @@ public class BaseEntityTest {
   }
 
   @Test
-  public void testContains() {
+  void testContains() {
     BaseEntity<Key> entity = builder.build();
     assertTrue(entity.contains("list1"));
     assertFalse(entity.contains("bla"));
@@ -88,19 +89,23 @@ public class BaseEntityTest {
   }
 
   @Test
-  public void testGetValue() {
+  void testGetValue() {
     BaseEntity<Key> entity = builder.build();
     assertEquals(BlobValue.of(BLOB), entity.getValue("blob"));
   }
 
-  @Test(expected = DatastoreException.class)
-  public void testGetValueNotFound() {
-    BaseEntity<Key> entity = builder.clear().build();
-    entity.getValue("blob");
+  @Test
+  void testGetValueNotFound() {
+    assertThrows(
+        DatastoreException.class,
+        () -> {
+          BaseEntity<Key> entity = builder.clear().build();
+          entity.getValue("blob");
+        });
   }
 
   @Test
-  public void testIsNull() {
+  void testIsNull() {
     BaseEntity<Key> entity = builder.build();
     assertTrue(entity.isNull("null"));
     assertFalse(entity.isNull("blob"));
@@ -108,14 +113,18 @@ public class BaseEntityTest {
     assertTrue(entity.isNull("blob"));
   }
 
-  @Test(expected = DatastoreException.class)
-  public void testIsNullNotFound() {
-    BaseEntity<Key> entity = builder.clear().build();
-    entity.isNull("null");
+  @Test
+  void testIsNullNotFound() {
+    assertThrows(
+        DatastoreException.class,
+        () -> {
+          BaseEntity<Key> entity = builder.clear().build();
+          entity.isNull("null");
+        });
   }
 
   @Test
-  public void testGetString() {
+  void testGetString() {
     BaseEntity<Key> entity = builder.build();
     assertEquals("hello world", entity.getString("string"));
     assertEquals("bla", entity.getString("stringValue"));
@@ -124,7 +133,7 @@ public class BaseEntityTest {
   }
 
   @Test
-  public void testGetLong() {
+  void testGetLong() {
     BaseEntity<Key> entity = builder.build();
     assertEquals(125, entity.getLong("long"));
     entity = builder.set("long", LongValue.of(10)).build();
@@ -132,7 +141,7 @@ public class BaseEntityTest {
   }
 
   @Test
-  public void testGetDouble() {
+  void testGetDouble() {
     BaseEntity<Key> entity = builder.build();
     assertEquals(1.25, entity.getDouble("double"), 0);
     entity = builder.set("double", DoubleValue.of(10)).build();
@@ -140,7 +149,7 @@ public class BaseEntityTest {
   }
 
   @Test
-  public void testGetBoolean() throws Exception {
+  void testGetBoolean() throws Exception {
     BaseEntity<Key> entity = builder.build();
     assertTrue(entity.getBoolean("boolean"));
     entity = builder.set("boolean", BooleanValue.of(false)).build();
@@ -148,7 +157,7 @@ public class BaseEntityTest {
   }
 
   @Test
-  public void testGetTimestamp() {
+  void testGetTimestamp() {
     BaseEntity<Key> entity = builder.build();
     assertEquals(TIMESTAMP, entity.getTimestamp("timestamp"));
     Calendar cal = Calendar.getInstance();
@@ -159,13 +168,13 @@ public class BaseEntityTest {
   }
 
   @Test
-  public void testGetLatLng() {
+  void testGetLatLng() {
     BaseEntity<Key> entity = builder.build();
     assertEquals(LAT_LNG, entity.getLatLng("latLng"));
   }
 
   @Test
-  public void testGetKey() {
+  void testGetKey() {
     BaseEntity<Key> entity = builder.build();
     assertEquals(KEY, entity.getKey("key"));
     Key key = Key.newBuilder(KEY).setName("BLA").build();
@@ -174,7 +183,7 @@ public class BaseEntityTest {
   }
 
   @Test
-  public void testGetEntity() {
+  void testGetEntity() {
     BaseEntity<Key> entity = builder.build();
     assertEquals(ENTITY, entity.getEntity("entity"));
     assertEquals(PARTIAL_ENTITY, entity.getEntity("partialEntity"));
@@ -183,7 +192,7 @@ public class BaseEntityTest {
   }
 
   @Test
-  public void testGetList() {
+  void testGetList() {
     BaseEntity<Key> entity = builder.build();
     List<? extends Value<?>> list = entity.getList("list1");
     assertEquals(3, list.size());
@@ -213,7 +222,7 @@ public class BaseEntityTest {
   }
 
   @Test
-  public void testGetBlob() {
+  void testGetBlob() {
     BaseEntity<Key> entity = builder.build();
     assertEquals(BLOB, entity.getBlob("blob"));
     Blob blob = Blob.copyFrom(new byte[] {});
@@ -222,7 +231,7 @@ public class BaseEntityTest {
   }
 
   @Test
-  public void testNames() {
+  void testNames() {
     Set<String> names =
         ImmutableSet.<String>builder()
             .add("string", "stringValue", "boolean", "double", "long", "list1", "list2", "list3")
@@ -236,7 +245,7 @@ public class BaseEntityTest {
   }
 
   @Test
-  public void testKey() {
+  void testKey() {
     builder.setKey(KEY);
     BaseEntity<Key> entity = builder.build();
     assertEquals(KEY, entity.getKey());

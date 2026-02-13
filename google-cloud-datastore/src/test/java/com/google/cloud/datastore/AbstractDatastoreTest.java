@@ -24,14 +24,14 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.cloud.ServiceOptions;
 import com.google.cloud.Timestamp;
@@ -78,19 +78,22 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import org.easymock.EasyMock;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-@RunWith(JUnit4.class)
-public abstract class AbstractDatastoreTest {
+abstract class AbstractDatastoreTest {
 
   private static final LocalDatastoreHelper helper = LocalDatastoreHelper.create(1.0, 9090);
-  protected static DatastoreOptions options = helper.getOptions();
-  protected static Datastore datastore;
-  private static final String PROJECT_ID = options.getProjectId();
+  protected static final DatastoreOptions options;
+  protected static final Datastore datastore;
+  private static final String PROJECT_ID;
+
+  static {
+    options = helper.getOptions();
+    datastore = options.getService();
+    PROJECT_ID = options.getProjectId();
+  }
+
   private static final String KIND1 = "kind1";
   private static final String KIND2 = "kind2";
   private static final String KIND3 = "kind3";
@@ -162,13 +165,8 @@ public abstract class AbstractDatastoreTest {
   private DatastoreRpcFactory rpcFactoryMock;
   private DatastoreRpc rpcMock;
 
-  public AbstractDatastoreTest(DatastoreOptions options, Datastore datastore) {
-    this.options = options;
-    this.datastore = datastore;
-  }
-
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     rpcFactoryMock = EasyMock.createStrictMock(DatastoreRpcFactory.class);
     rpcMock = EasyMock.createStrictMock(DatastoreRpc.class);
     DatastoreOpenTelemetryOptions.Builder otelOptionsBuilder =
@@ -186,12 +184,12 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testGetOptions() {
+  void testGetOptions() {
     assertSame(options, datastore.getOptions());
   }
 
   @Test
-  public void testNewTransactionCommit() {
+  void testNewTransactionCommit() {
     Transaction transaction = datastore.newTransaction();
     transaction.add(ENTITY3);
     Entity entity2 = Entity.newBuilder(ENTITY2).clear().setNull("bla").build();
@@ -205,25 +203,15 @@ public abstract class AbstractDatastoreTest {
     assertEquals(ENTITY3, list.get(2));
     assertEquals(3, list.size());
 
-    try {
-      transaction.commit();
-      fail("Expecting a failure");
-    } catch (DatastoreException ex) {
-      // expected to fail
-    }
+    assertThrows(DatastoreException.class, transaction::commit);
 
-    try {
-      transaction.rollback();
-      fail("Expecting a failure");
-    } catch (DatastoreException ex) {
-      // expected to fail
-    }
+    assertThrows(DatastoreException.class, transaction::rollback);
 
     verifyNotUsable(transaction);
   }
 
   @Test
-  public void testTransactionWithRead() {
+  void testTransactionWithRead() {
     Transaction transaction = datastore.newTransaction();
     assertNull(transaction.get(KEY3));
     transaction.add(ENTITY3);
@@ -234,17 +222,12 @@ public abstract class AbstractDatastoreTest {
     assertEquals(ENTITY3, transaction.get(KEY3));
     // update entity3 during the transaction
     datastore.put(Entity.newBuilder(ENTITY3).clear().build());
-    transaction.update(ENTITY2);
-    try {
-      transaction.commit();
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      assertEquals("ABORTED", expected.getReason());
-    }
+    DatastoreException expected = assertThrows(DatastoreException.class, transaction::commit);
+    assertEquals("ABORTED", expected.getReason());
   }
 
   @Test
-  public void testTransactionWithQuery() {
+  void testTransactionWithQuery() {
     Query<Entity> query =
         Query.newEntityQueryBuilder()
             .setKind(KIND2)
@@ -264,16 +247,12 @@ public abstract class AbstractDatastoreTest {
     transaction.delete(ENTITY3.getKey());
     // update entity2 during the transaction
     datastore.put(Entity.newBuilder(ENTITY2).clear().build());
-    try {
-      transaction.commit();
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      assertEquals("ABORTED", expected.getReason());
-    }
+    DatastoreException expected = assertThrows(DatastoreException.class, transaction::commit);
+    assertEquals("ABORTED", expected.getReason());
   }
 
   @Test
-  public void testNewTransactionRollback() {
+  void testNewTransactionRollback() {
     Transaction transaction = datastore.newTransaction();
     transaction.add(ENTITY3);
     Entity entity2 =
@@ -287,12 +266,7 @@ public abstract class AbstractDatastoreTest {
     transaction.rollback();
     transaction.rollback(); // should be safe to repeat rollback calls
 
-    try {
-      transaction.commit();
-      fail("Expecting a failure");
-    } catch (DatastoreException ex) {
-      // expected to fail
-    }
+    assertThrows(DatastoreException.class, transaction::commit);
 
     verifyNotUsable(transaction);
 
@@ -304,7 +278,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testRunInTransactionWithReadWriteOption() {
+  void testRunInTransactionWithReadWriteOption() {
 
     EasyMock.expect(rpcMock.beginTransaction(EasyMock.anyObject(BeginTransactionRequest.class)))
         .andReturn(BeginTransactionResponse.getDefaultInstance());
@@ -345,37 +319,17 @@ public abstract class AbstractDatastoreTest {
   }
 
   private void verifyNotUsable(DatastoreWriter writer) {
-    try {
-      writer.add(ENTITY3);
-      fail("Expecting a failure");
-    } catch (DatastoreException ex) {
-      // expected to fail
-    }
+    assertThrows(DatastoreException.class, () -> writer.add(ENTITY3));
 
-    try {
-      writer.put(ENTITY3);
-      fail("Expecting a failure");
-    } catch (DatastoreException ex) {
-      // expected to fail
-    }
+    assertThrows(DatastoreException.class, () -> writer.put(ENTITY3));
 
-    try {
-      writer.update(ENTITY3);
-      fail("Expecting a failure");
-    } catch (DatastoreException ex) {
-      // expected to fail
-    }
+    assertThrows(DatastoreException.class, () -> writer.update(ENTITY3));
 
-    try {
-      writer.delete(ENTITY3.getKey());
-      fail("Expecting a failure");
-    } catch (DatastoreException ex) {
-      // expected to fail
-    }
+    assertThrows(DatastoreException.class, () -> writer.delete(ENTITY3.getKey()));
   }
 
   @Test
-  public void testNewBatch() {
+  void testNewBatch() {
     Batch batch = datastore.newBatch();
     Entity entity1 = Entity.newBuilder(ENTITY1).clear().build();
     Entity entity2 = Entity.newBuilder(ENTITY2).clear().setNull("bla").build();
@@ -413,12 +367,7 @@ public abstract class AbstractDatastoreTest {
         PARTIAL_ENTITY3.getProperties(), datastore.get(generatedKeys.get(0)).getProperties());
     assertEquals(PARTIAL_ENTITY3.getKey(), IncompleteKey.newBuilder(generatedKeys.get(0)).build());
 
-    try {
-      batch.submit();
-      fail("Expecting a failure");
-    } catch (DatastoreException ex) {
-      // expected to fail
-    }
+    assertThrows(DatastoreException.class, batch::submit);
     verifyNotUsable(batch);
 
     batch = datastore.newBatch();
@@ -435,7 +384,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testRunGqlQueryNoCasting() {
+  void testRunGqlQueryNoCasting() {
     Query<Entity> query1 =
         Query.newGqlQueryBuilder(ResultType.ENTITY, "select * from " + KIND1).build();
     QueryResults<Entity> results1 = datastore.run(query1);
@@ -489,7 +438,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testRunGqlQueryWithCasting() {
+  void testRunGqlQueryWithCasting() {
     @SuppressWarnings("unchecked")
     Query<Entity> query1 =
         (Query<Entity>) Query.newGqlQueryBuilder("select * from " + KIND1).build();
@@ -509,7 +458,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testGqlQueryPagination() throws DatastoreException {
+  void testGqlQueryPagination() throws DatastoreException {
     List<RunQueryResponse> responses = buildResponsesForQueryPagination();
     for (int i = 0; i < responses.size(); i++) {
       EasyMock.expect(rpcMock.runQuery(EasyMock.anyObject(RunQueryRequest.class)))
@@ -530,7 +479,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testRunAggregationQuery() {
+  void testRunAggregationQuery() {
     RunAggregationQueryResponse aggregationQueryResponse = placeholderAggregationQueryResponse();
     EasyMock.expect(rpcMock.runAggregationQuery(matches(aggregationQueryWithAlias("total_count"))))
         .andReturn(aggregationQueryResponse);
@@ -551,7 +500,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testRunStructuredQuery() {
+  void testRunStructuredQuery() {
     Query<Entity> query =
         Query.newEntityQueryBuilder().setKind(KIND1).setOrderBy(OrderBy.asc("__key__")).build();
     QueryResults<Entity> results1 = datastore.run(query);
@@ -594,7 +543,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testStructuredQueryPagination() throws DatastoreException {
+  void testStructuredQueryPagination() throws DatastoreException {
     List<RunQueryResponse> responses = buildResponsesForQueryPagination();
     for (int i = 0; i < responses.size(); i++) {
       EasyMock.expect(rpcMock.runQuery(EasyMock.anyObject(RunQueryRequest.class)))
@@ -613,7 +562,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testStructuredQueryPaginationWithMoreResults() throws DatastoreException {
+  void testStructuredQueryPaginationWithMoreResults() throws DatastoreException {
     List<RunQueryResponse> responses = buildResponsesForQueryPagination();
     for (int i = 0; i < responses.size(); i++) {
       EasyMock.expect(rpcMock.runQuery(EasyMock.anyObject(RunQueryRequest.class)))
@@ -676,7 +625,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testQueryPaginationWithLimit() throws DatastoreException {
+  void testQueryPaginationWithLimit() throws DatastoreException {
     List<RunQueryResponse> responses = buildResponsesForQueryPaginationWithLimit();
     List<ByteString> endCursors = Lists.newArrayListWithCapacity(responses.size());
     for (RunQueryResponse response : responses) {
@@ -713,14 +662,14 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testRunKeyQueryWithOffset() {
+  void testRunKeyQueryWithOffset() {
     Query<Key> query = Query.newKeyQueryBuilder().setOffset(Integer.MAX_VALUE).build();
     int numberOfEntities = datastore.run(query).getSkippedResults();
     assertEquals(2, numberOfEntities);
   }
 
   @Test
-  public void testRunKeyQueryWithLimit() {
+  void testRunKeyQueryWithLimit() {
     datastore.put(ENTITY1, ENTITY2);
     Query<Key> keyQuery = Query.newKeyQueryBuilder().setLimit(2).build();
     QueryResults queryResults = datastore.run(keyQuery);
@@ -796,7 +745,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testEventualConsistencyQuery() {
+  void testEventualConsistencyQuery() {
     ReadOptions readOption =
         ReadOptions.newBuilder().setReadConsistencyValue(ReadConsistency.EVENTUAL_VALUE).build();
     com.google.datastore.v1.GqlQuery query =
@@ -817,7 +766,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testReadTimeQuery() {
+  void testReadTimeQuery() {
     Timestamp timestamp = Timestamp.now();
     ReadOptions readOption = ReadOptions.newBuilder().setReadTime(timestamp.toProto()).build();
     com.google.datastore.v1.GqlQuery query =
@@ -831,14 +780,18 @@ public abstract class AbstractDatastoreTest {
     EasyMock.expect(rpcMock.runQuery(expectedRequest.build()))
         .andReturn(RunQueryResponse.newBuilder().build());
     EasyMock.replay(rpcFactoryMock, rpcMock);
-    Datastore datastore = rpcMockOptions.getService();
+    com.google.cloud.datastore.Datastore datastore = rpcMockOptions.getService();
     datastore.run(
         Query.newGqlQueryBuilder("FROM * SELECT *").build(), ReadOption.readTime(timestamp));
+    datastore.get(
+        ImmutableList.of(KEY1), com.google.cloud.datastore.ReadOption.readTime(timestamp));
+    datastore.fetch(
+        ImmutableList.of(KEY1), com.google.cloud.datastore.ReadOption.readTime(timestamp));
     EasyMock.verify(rpcFactoryMock, rpcMock);
   }
 
   @Test
-  public void testToUrlSafe() {
+  void testToUrlSafe() {
     byte[][] invalidUtf8 =
         new byte[][] {{(byte) 0xfe}, {(byte) 0xc1, (byte) 0xbf}, {(byte) 0xc0}, {(byte) 0x80}};
     for (byte[] bytes : invalidUtf8) {
@@ -849,7 +802,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testAllocateId() {
+  void testAllocateId() {
     KeyFactory keyFactory = datastore.newKeyFactory().setKind(KIND1);
     IncompleteKey pk1 = keyFactory.newKey();
     Key key1 = datastore.allocateId(pk1);
@@ -865,16 +818,13 @@ public abstract class AbstractDatastoreTest {
     assertNotEquals(key1, key2);
     assertEquals(Key.newBuilder(pk1, key2.getId()).build(), key2);
 
-    try {
-      datastore.allocateId(key1);
-      fail("Expecting a failure");
-    } catch (IllegalArgumentException expected) {
-      assertEquals(expected.getMessage(), "keys must be IncompleteKey instances");
-    }
+    IllegalArgumentException expected =
+        assertThrows(IllegalArgumentException.class, () -> datastore.allocateId(key1));
+    assertEquals(expected.getMessage(), "keys must be IncompleteKey instances");
   }
 
   @Test
-  public void testAllocateIdArray() {
+  void testAllocateIdArray() {
     KeyFactory keyFactory = datastore.newKeyFactory().setKind(KIND1);
     IncompleteKey incompleteKey1 = keyFactory.newKey();
     IncompleteKey incompleteKey2 =
@@ -886,16 +836,15 @@ public abstract class AbstractDatastoreTest {
     assertEquals(Key.newBuilder(incompleteKey1, result1.get(2).getId()).build(), result1.get(2));
     assertEquals(Key.newBuilder(incompleteKey2, result1.get(1).getId()).build(), result1.get(1));
 
-    try {
-      datastore.allocateId(incompleteKey1, incompleteKey2, key3);
-      fail("expecting a failure");
-    } catch (IllegalArgumentException expected) {
-      assertEquals(expected.getMessage(), "keys must be IncompleteKey instances");
-    }
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> datastore.allocateId(incompleteKey1, incompleteKey2, key3));
+    assertEquals(expected.getMessage(), "keys must be IncompleteKey instances");
   }
 
   @Test
-  public void testReserveIds() {
+  void testReserveIds() {
     ReserveIdsRequest reserveIdsRequest =
         ReserveIdsRequest.newBuilder().setProjectId(PROJECT_ID).addKeys(KEY1.toPb()).build();
     EasyMock.expect(rpcMock.reserveIds(reserveIdsRequest))
@@ -908,7 +857,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testReserveIdsWithKeys() {
+  void testReserveIdsWithKeys() {
     Datastore datastore = createStrictMock(Datastore.class);
     EasyMock.expect(datastore.reserveIds(KEY1, KEY2)).andReturn(Arrays.asList(KEY1, KEY2));
     replay(datastore);
@@ -919,7 +868,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testGet() {
+  void testGet() {
     Entity entity = datastore.get(KEY3);
     assertNull(entity);
 
@@ -944,7 +893,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testLookupEventualConsistency() {
+  void testLookupEventualConsistency() {
     ReadOptions readOption =
         ReadOptions.newBuilder().setReadConsistencyValue(ReadConsistency.EVENTUAL_VALUE).build();
     com.google.datastore.v1.Key key =
@@ -974,30 +923,23 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testLookupReadTime() {
+  void testLookupReadTime() {
     Timestamp timestamp = Timestamp.now();
     ReadOptions readOption = ReadOptions.newBuilder().setReadTime(timestamp.toProto()).build();
-    com.google.datastore.v1.Key key =
-        com.google.datastore.v1.Key.newBuilder()
-            .setPartitionId(PartitionId.newBuilder().setProjectId(PROJECT_ID).build())
-            .addPath(
-                com.google.datastore.v1.Key.PathElement.newBuilder()
-                    .setKind("kind1")
-                    .setName("name")
-                    .build())
-            .build();
-    LookupRequest lookupRequest =
-        LookupRequest.newBuilder()
-            .setProjectId(PROJECT_ID)
+    com.google.datastore.v1.GqlQuery query =
+        com.google.datastore.v1.GqlQuery.newBuilder().setQueryString("FROM * SELECT *").build();
+    RunQueryRequest.Builder expectedRequest =
+        RunQueryRequest.newBuilder()
             .setReadOptions(readOption)
-            .addKeys(key)
-            .build();
-    EasyMock.expect(rpcMock.lookup(lookupRequest))
-        .andReturn(LookupResponse.newBuilder().build())
-        .times(3);
+            .setGqlQuery(query)
+            .setProjectId(PROJECT_ID)
+            .setPartitionId(PartitionId.newBuilder().setProjectId(PROJECT_ID).build());
+    EasyMock.expect(rpcMock.runQuery(expectedRequest.build()))
+        .andReturn(RunQueryResponse.newBuilder().build());
     EasyMock.replay(rpcFactoryMock, rpcMock);
     com.google.cloud.datastore.Datastore datastore = rpcMockOptions.getService();
-    datastore.get(KEY1, com.google.cloud.datastore.ReadOption.readTime(timestamp));
+    datastore.run(
+        Query.newGqlQueryBuilder("FROM * SELECT *").build(), ReadOption.readTime(timestamp));
     datastore.get(
         ImmutableList.of(KEY1), com.google.cloud.datastore.ReadOption.readTime(timestamp));
     datastore.fetch(
@@ -1006,7 +948,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testGetArrayNoDeferredResults() {
+  void testGetArrayNoDeferredResults() {
     datastore.put(ENTITY3);
     Iterator<Entity> result =
         datastore.fetch(KEY1, Key.newBuilder(KEY1).setName("bla").build(), KEY2, KEY3).iterator();
@@ -1027,17 +969,13 @@ public abstract class AbstractDatastoreTest {
     assertEquals(EMPTY_LIST_VALUE, entity3.getValue("emptyList"));
     assertEquals(8, entity3.getNames().size());
     assertFalse(entity3.contains("bla"));
-    try {
-      entity3.getString("str");
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      // expected - no such property
-    }
+    DatastoreException expected =
+        assertThrows(DatastoreException.class, () -> entity3.getString("str"));
     assertFalse(result.hasNext());
   }
 
   @Test
-  public void testGetArrayDeferredResults() throws DatastoreException {
+  void testGetArrayDeferredResults() throws DatastoreException {
     Set<Key> requestedKeys = new HashSet<>();
     requestedKeys.add(KEY1);
     requestedKeys.add(KEY2);
@@ -1053,7 +991,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testFetchArrayDeferredResults() throws DatastoreException {
+  void testFetchArrayDeferredResults() throws DatastoreException {
     List<Entity> foundEntities =
         createDatastoreForDeferredLookup().fetch(KEY1, KEY2, KEY3, KEY4, KEY5);
     assertEquals(foundEntities.get(0).getKey(), KEY1);
@@ -1112,18 +1050,13 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testAddEntity() {
+  void testAddEntity() {
     List<Entity> keys = datastore.fetch(ENTITY1.getKey(), ENTITY3.getKey());
     assertEquals(ENTITY1, keys.get(0));
     assertNull(keys.get(1));
     assertEquals(2, keys.size());
 
-    try {
-      datastore.add(ENTITY1);
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      // expected;
-    }
+    assertThrows(DatastoreException.class, () -> datastore.add(ENTITY1));
 
     List<Entity> entities = datastore.add(ENTITY3, PARTIAL_ENTITY1, PARTIAL_ENTITY2);
     assertEquals(ENTITY3, datastore.get(ENTITY3.getKey()));
@@ -1137,18 +1070,13 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testUpdate() {
+  void testUpdate() {
     List<Entity> keys = datastore.fetch(ENTITY1.getKey(), ENTITY3.getKey());
     assertEquals(ENTITY1, keys.get(0));
     assertNull(keys.get(1));
     assertEquals(2, keys.size());
 
-    try {
-      datastore.update(ENTITY3);
-      fail("Expecting a failure");
-    } catch (DatastoreException expected) {
-      // expected;
-    }
+    assertThrows(DatastoreException.class, () -> datastore.update(ENTITY3));
     datastore.add(ENTITY3);
     assertEquals(ENTITY3, datastore.get(ENTITY3.getKey()));
     Entity entity3 = Entity.newBuilder(ENTITY3).clear().set("bla", new NullValue()).build();
@@ -1158,7 +1086,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testPut() {
+  void testPut() {
     Entity updatedEntity = Entity.newBuilder(ENTITY1).set("new_property", 42L).build();
     assertEquals(updatedEntity, datastore.put(updatedEntity));
     assertEquals(updatedEntity, datastore.get(updatedEntity.getKey()));
@@ -1179,7 +1107,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testDelete() {
+  void testDelete() {
     Iterator<Entity> keys =
         datastore.fetch(ENTITY1.getKey(), ENTITY2.getKey(), ENTITY3.getKey()).iterator();
     assertEquals(ENTITY1, keys.next());
@@ -1195,7 +1123,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testKeyFactory() {
+  void testKeyFactory() {
     KeyFactory keyFactory = datastore.newKeyFactory().setKind(KIND1);
     assertEquals(INCOMPLETE_KEY1, keyFactory.newKey());
     assertEquals(
@@ -1206,7 +1134,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testRetryableException() {
+  void testRetryableException() {
     LookupRequest requestPb =
         LookupRequest.newBuilder().setProjectId(PROJECT_ID).addKeys(KEY1.toPb()).build();
     LookupResponse responsePb =
@@ -1214,6 +1142,7 @@ public abstract class AbstractDatastoreTest {
             .addFound(EntityResult.newBuilder().setEntity(ENTITY1.toPb()))
             .build();
     EasyMock.expect(rpcMock.lookup(requestPb))
+        .andReturn(LookupResponse.newBuilder().build())
         .andThrow(new DatastoreException(14, "UNAVAILABLE", "UNAVAILABLE", null))
         .andReturn(responsePb);
     EasyMock.replay(rpcFactoryMock, rpcMock);
@@ -1224,7 +1153,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testRetryableExceptionForOperationWithTxn() {
+  void testRetryableExceptionForOperationWithTxn() {
     ByteString txnBytes = ByteString.copyFromUtf8("txn1");
     LookupRequest requestPb =
         LookupRequest.newBuilder()
@@ -1250,7 +1179,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testNonRetryableExceptionForOperationWithTxn() {
+  void testNonRetryableExceptionForOperationWithTxn() {
     ByteString txnBytes = ByteString.copyFromUtf8("txn1");
     LookupRequest requestPb =
         LookupRequest.newBuilder()
@@ -1264,19 +1193,19 @@ public abstract class AbstractDatastoreTest {
         .andThrow(new DatastoreException(10, "ABORTED", "ABORTED", null))
         .times(1);
     EasyMock.replay(rpcFactoryMock, rpcMock);
-    try {
-      Datastore datastore = rpcMockOptions.getService();
-      Transaction transaction = datastore.newTransaction();
-      transaction.get(KEY1);
-      Assert.fail();
-      EasyMock.verify(rpcFactoryMock, rpcMock);
-    } catch (DatastoreException ex) {
-      assertEquals("ABORTED", ex.getMessage());
-    }
+    DatastoreException ex =
+        assertThrows(
+            DatastoreException.class,
+            () -> {
+              Datastore datastore = rpcMockOptions.getService();
+              Transaction transaction = datastore.newTransaction();
+              transaction.get(KEY1);
+            });
+    assertEquals("ABORTED", ex.getMessage());
   }
 
   @Test
-  public void testNonRetryableException() {
+  void testNonRetryableException() {
     LookupRequest requestPb =
         LookupRequest.newBuilder().setProjectId(PROJECT_ID).addKeys(KEY1.toPb()).build();
     EasyMock.expect(rpcMock.lookup(requestPb))
@@ -1284,35 +1213,35 @@ public abstract class AbstractDatastoreTest {
             new DatastoreException(DatastoreException.UNKNOWN_CODE, "denied", "PERMISSION_DENIED"))
         .times(1);
     EasyMock.replay(rpcFactoryMock, rpcMock);
-    try {
-      Datastore datastore = rpcMockOptions.getService();
-      datastore.get(KEY1);
-      Assert.fail();
-      EasyMock.verify(rpcFactoryMock, rpcMock);
-    } catch (DatastoreException ex) {
-      assertEquals("denied", ex.getMessage());
-    }
+    DatastoreException ex =
+        assertThrows(
+            DatastoreException.class,
+            () -> {
+              Datastore datastore = rpcMockOptions.getService();
+              datastore.get(KEY1);
+            });
+    assertEquals("denied", ex.getMessage());
   }
 
   @Test
-  public void testRuntimeException() {
+  void testRuntimeException() {
     LookupRequest requestPb =
         LookupRequest.newBuilder().setProjectId(PROJECT_ID).addKeys(KEY1.toPb()).build();
     String exceptionMessage = "Artificial runtime exception";
     EasyMock.expect(rpcMock.lookup(requestPb)).andThrow(new RuntimeException(exceptionMessage));
     EasyMock.replay(rpcFactoryMock, rpcMock);
-    try {
-      Datastore datastore = rpcMockOptions.getService();
-      datastore.get(KEY1);
-      Assert.fail();
-      EasyMock.verify(rpcFactoryMock, rpcMock);
-    } catch (DatastoreException ex) {
-      assertEquals(exceptionMessage, ex.getCause().getMessage());
-    }
+    DatastoreException ex =
+        assertThrows(
+            DatastoreException.class,
+            () -> {
+              Datastore datastore = rpcMockOptions.getService();
+              datastore.get(KEY1);
+            });
+    assertEquals(exceptionMessage, ex.getCause().getMessage());
   }
 
   @Test
-  public void testGqlQueryWithNullBinding() {
+  void testGqlQueryWithNullBinding() {
     Query<Entity> query =
         Query.newGqlQueryBuilder(ResultType.ENTITY, "select * from " + KIND1)
             .setNullBinding("name")
@@ -1336,7 +1265,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testQueryWithStartCursor() {
+  void testQueryWithStartCursor() {
     Entity entity1 =
         Entity.newBuilder(Key.newBuilder(PROJECT_ID, KIND1, "name-01").build()).build();
     Entity entity2 =
@@ -1357,7 +1286,7 @@ public abstract class AbstractDatastoreTest {
   }
 
   @Test
-  public void testDatabaseIdKeyFactory() {
+  void testDatabaseIdKeyFactory() {
     KeyFactory keyFactory = datastore.newKeyFactory().setKind(KIND1);
 
     Key key1 = keyFactory.newKey("key1");
