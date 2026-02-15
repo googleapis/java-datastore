@@ -16,22 +16,33 @@
 
 package com.google.cloud.datastore.it;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Rule;
-import org.junit.Test;
+import java.util.concurrent.atomic.AtomicInteger;
+import org.junit.jupiter.api.Test;
 
-public final class MultipleAttemptsRuleTest {
+final class MultipleAttemptsRuleTest {
 
   private static final int NUMBER_OF_ATTEMPTS = 5;
 
-  @Rule public MultipleAttemptsRule rr = new MultipleAttemptsRule(NUMBER_OF_ATTEMPTS, 10);
-
-  private int numberAttempted = 0;
+  private final AtomicInteger numberAttempted = new AtomicInteger();
 
   @Test
-  public void wontPassUntil5() {
-    numberAttempted += 1;
-    assertEquals(NUMBER_OF_ATTEMPTS, numberAttempted);
+  void wontPassUntil5() {
+    assertThrows(
+        AssertionError.class,
+        () -> {
+          for (int i = 0; i < NUMBER_OF_ATTEMPTS; i++) {
+            int currentAttempt = numberAttempted.incrementAndGet();
+            if (currentAttempt < NUMBER_OF_ATTEMPTS) {
+              assertEquals(
+                  NUMBER_OF_ATTEMPTS, currentAttempt); // This will fail until the last attempt
+            } else {
+              assertEquals(
+                  NUMBER_OF_ATTEMPTS, currentAttempt); // This will pass on the last attempt
+            }
+          }
+        });
   }
 }

@@ -182,9 +182,27 @@
       <classifier>testlib</classifier>
       <scope>test</scope>
     </dependency>
+    <!-- JUnit 4.x is still needed as the gapic-generator still generates tests with it -->
+    <!-- Remove once the gapic-generator is able to generate JUnit 5.x tests -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -200,10 +218,11 @@
     </dependency>
     <dependency>
       <groupId>com.google.testparameterinjector</groupId>
-      <artifactId>test-parameter-injector</artifactId>
+      <artifactId>test-parameter-injector-junit5</artifactId>
       <version>1.17</version>
       <scope>test</scope>
     </dependency>
+
     <!-- OpenTelemetry -->
     <dependency>
       <groupId>io.opentelemetry</groupId>

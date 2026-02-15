@@ -15,22 +15,19 @@
  */
 package com.google.datastore.v1.client;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
 /** Tests for {@link DatastoreEmulator}. */
-@RunWith(JUnit4.class)
-public class DatastoreEmulatorTest {
+class DatastoreEmulatorTest {
 
   private static final DatastoreEmulatorOptions options =
       new DatastoreEmulatorOptions.Builder().build();
 
   @Test
-  public void testArgs() throws DatastoreEmulatorException {
+  void testArgs() throws DatastoreEmulatorException {
     DatastoreEmulator datastore =
         new DatastoreEmulator(null, "blar", options) {
           @Override
@@ -40,25 +37,15 @@ public class DatastoreEmulatorTest {
           }
         };
 
-    try {
-      datastore.start(null, "projectId");
-      fail("expected exception");
-    } catch (NullPointerException npe) {
-      // good
-    }
+    assertThrows(NullPointerException.class, () -> datastore.start(null, "projectId"));
 
-    try {
-      datastore.start("path/to/emulator", null);
-      fail("expected exception");
-    } catch (NullPointerException npe) {
-      // good
-    }
+    assertThrows(NullPointerException.class, () -> datastore.start("path/to/emulator", null));
 
     datastore.start("path/to/emulator", "projectId");
   }
 
   @Test
-  public void testLifecycle() throws DatastoreEmulatorException {
+  void testLifecycle() throws DatastoreEmulatorException {
     DatastoreEmulator datastore =
         new DatastoreEmulator(null, "blar", options) {
           @Override
@@ -77,23 +64,13 @@ public class DatastoreEmulatorTest {
     String myProject = "myproject";
 
     datastore.start(emulatorDir, myProject);
-    try {
-      datastore.start(emulatorDir, myProject);
-      fail("expected exception");
-    } catch (IllegalStateException e) {
-      // good
-    }
+    assertThrows(IllegalStateException.class, () -> datastore.start(emulatorDir, myProject));
 
     datastore.stop();
     // It's ok to stop if we've already stopped.
     datastore.stop();
 
     // Once we've stopped we can't start again.
-    try {
-      datastore.start(emulatorDir, myProject);
-      fail("expected exception");
-    } catch (IllegalStateException e) {
-      // good
-    }
+    assertThrows(IllegalStateException.class, () -> datastore.start(emulatorDir, myProject));
   }
 }
