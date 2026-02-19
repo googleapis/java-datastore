@@ -36,6 +36,7 @@ class EnabledMetricUtil implements MetricUtil {
   private final DoubleHistogram firstResponseLatency;
   private final DoubleHistogram transactionLatency;
   private final LongCounter transactionAttemptCount;
+  private final MetricsRecorder metricsRecorder;
 
   EnabledMetricUtil(DatastoreOptions datastoreOptions) {
     OpenTelemetry openTelemetry = datastoreOptions.getOpenTelemetryOptions().getOpenTelemetry();
@@ -68,6 +69,23 @@ class EnabledMetricUtil implements MetricUtil {
             .counterBuilder("transaction_attempt_count")
             .setDescription("Number of attempts performed for a transaction")
             .build();
+
+    this.metricsRecorder = new MetricsRecorder() {
+      @Override
+          public void recordFirstResponseLatency(double latencyMs, Map<String, String> attributes) {
+            firstResponseLatency.record(latencyMs, toOtelAttributes(attributes));
+          }
+
+          @Override
+          public void recordTransactionLatency(double latencyMs, Map<String, String> attributes) {
+            transactionLatency.record(latencyMs, toOtelAttributes(attributes));
+          }
+
+          @Override
+          public void recordTransactionAttemptCount(long count, Map<String, String> attributes) {
+            transactionAttemptCount.add(count, toOtelAttributes(attributes));
+          }
+        };
   }
 
   OpenTelemetry getOpenTelemetry() {
@@ -76,26 +94,10 @@ class EnabledMetricUtil implements MetricUtil {
 
   @Override
   public MetricsRecorder getMetricsRecorder() {
-    return new MetricsRecorder() {
-      @Override
-      public void recordFirstResponseLatency(long latencyMs, Map<String, String> attributes) {
-        firstResponseLatency.record((double) latencyMs, toOtelAttributes(attributes));
-      }
-
-      @Override
-      public void recordTransactionLatency(long latencyMs, Map<String, String> attributes) {
-        transactionLatency.record((double) latencyMs, toOtelAttributes(attributes));
-      }
-
-      @Override
-      public void recordTransactionAttemptCount(long count, Map<String, String> attributes) {
-        transactionAttemptCount.add(count, toOtelAttributes(attributes));
-      }
-    };
+    return metricsRecorder;
   }
 
-  private static Attributes toOtelAttributes(
-      Map<String, String> attributes) {
+  private static Attributes toOtelAttributes(Map<String, String> attributes) {
     AttributesBuilder builder = Attributes.builder();
     if (attributes != null) {
       attributes.forEach(builder::put);

@@ -49,10 +49,10 @@ interface MetricUtil {
   /** Interface to record specific metric operations. */
   interface MetricsRecorder {
     /** Records the latency of the first response from the server in milliseconds. */
-    void recordFirstResponseLatency(long latencyMs, Map<String, String> attributes);
+    void recordFirstResponseLatency(double latencyMs, Map<String, String> attributes);
 
     /** Records the total latency of a transaction in milliseconds. */
-    void recordTransactionLatency(long latencyMs, Map<String, String> attributes);
+    void recordTransactionLatency(double latencyMs, Map<String, String> attributes);
 
     /** Records the number of attempts a transaction took. */
     void recordTransactionAttemptCount(long count, Map<String, String> attributes);

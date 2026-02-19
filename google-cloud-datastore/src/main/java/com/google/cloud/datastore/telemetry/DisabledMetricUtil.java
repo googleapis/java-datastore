@@ -27,19 +27,17 @@ class DisabledMetricUtil implements MetricUtil {
   private static final MetricsRecorder NO_OP_RECORDER =
       new MetricsRecorder() {
         @Override
-        public void recordFirstResponseLatency(long latencyMs, Map<String, String> attributes) {
+        public void recordFirstResponseLatency(double latencyMs, Map<String, String> attributes) {
         }
 
         @Override
-        public void recordTransactionLatency(long latencyMs, Map<String, String> attributes) {
+        public void recordTransactionLatency(double latencyMs, Map<String, String> attributes) {
         }
 
         @Override
         public void recordTransactionAttemptCount(long count, Map<String, String> attributes) {
         }
       };
-
-  DisabledMetricUtil() {}
 
   @Override
   public MetricsRecorder getMetricsRecorder() {
