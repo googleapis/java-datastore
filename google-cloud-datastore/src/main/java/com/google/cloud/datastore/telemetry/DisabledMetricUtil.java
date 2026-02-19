@@ -16,14 +16,11 @@
 
 package com.google.cloud.datastore.telemetry;
 
-import com.google.api.core.InternalApi;
-
 /**
  * Metrics utility implementation, used to stub out metrics instrumentation when metrics are
  * disabled.
  */
-@InternalApi
-public class DisabledMetricUtil implements MetricUtil {
+class DisabledMetricUtil implements MetricUtil {
 
   private static final MetricsRecorder NO_OP_RECORDER =
       new MetricsRecorder() {

@@ -16,7 +16,6 @@
 
 package com.google.cloud.datastore.telemetry;
 
-import com.google.api.core.InternalApi;
 import com.google.cloud.datastore.DatastoreOptions;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
@@ -27,8 +26,7 @@ import io.opentelemetry.api.metrics.Meter;
 /**
  * Metrics utility implementation, used to record metrics when metrics are enabled.
  */
-@InternalApi
-public class EnabledMetricUtil implements MetricUtil {
+class EnabledMetricUtil implements MetricUtil {
   private final OpenTelemetry openTelemetry;
   private final Meter meter;
 

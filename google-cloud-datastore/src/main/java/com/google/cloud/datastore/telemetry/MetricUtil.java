@@ -16,13 +16,11 @@
 
 package com.google.cloud.datastore.telemetry;
 
-import com.google.api.core.InternalExtensionOnly;
 import com.google.cloud.datastore.DatastoreOptions;
 import javax.annotation.Nonnull;
 
 /** Utility interface to manage OpenTelemetry metrics instrumentation based on the configuration. */
-@InternalExtensionOnly
-public interface MetricUtil {
+interface MetricUtil {
   static final String METER_NAME = "com.google.cloud.datastore";
 
   /**
