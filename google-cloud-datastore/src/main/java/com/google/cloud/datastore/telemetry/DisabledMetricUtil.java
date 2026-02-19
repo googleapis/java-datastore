@@ -16,6 +16,8 @@
 
 package com.google.cloud.datastore.telemetry;
 
+import java.util.Map;
+
 /**
  * Metrics utility implementation, used to stub out metrics instrumentation when metrics are
  * disabled.
@@ -25,15 +27,15 @@ class DisabledMetricUtil implements MetricUtil {
   private static final MetricsRecorder NO_OP_RECORDER =
       new MetricsRecorder() {
         @Override
-        public void recordFirstResponseLatency(long latencyMs, java.util.Map<String, String> attributes) {
+        public void recordFirstResponseLatency(long latencyMs, Map<String, String> attributes) {
         }
 
         @Override
-        public void recordTransactionLatency(long latencyMs, java.util.Map<String, String> attributes) {
+        public void recordTransactionLatency(long latencyMs, Map<String, String> attributes) {
         }
 
         @Override
-        public void recordTransactionAttemptCount(long count, java.util.Map<String, String> attributes) {
+        public void recordTransactionAttemptCount(long count, Map<String, String> attributes) {
         }
       };
 

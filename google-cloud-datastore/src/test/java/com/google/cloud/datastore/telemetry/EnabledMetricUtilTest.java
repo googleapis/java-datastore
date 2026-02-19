@@ -24,6 +24,8 @@ import com.google.cloud.datastore.DatastoreOptions;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
+import java.util.Collections;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -77,7 +79,7 @@ public class EnabledMetricUtilTest {
     MetricUtil.MetricsRecorder recorder = metricUtil.getMetricsRecorder();
     assertThat(recorder).isNotNull();
 
-    java.util.Map<String, String> attributes = java.util.Collections.emptyMap();
+    Map<String, String> attributes = Collections.emptyMap();
 
     // Verifying it runs without throwing exceptions
     recorder.recordFirstResponseLatency(100, attributes);

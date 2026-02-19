@@ -19,9 +19,12 @@ package com.google.cloud.datastore.telemetry;
 import com.google.cloud.datastore.DatastoreOptions;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
-import io.opentelemetry.api.metrics.LongCounter;
+import io.opentelemetry.api.common.Attributes;
+import io.opentelemetry.api.common.AttributesBuilder;
 import io.opentelemetry.api.metrics.DoubleHistogram;
+import io.opentelemetry.api.metrics.LongCounter;
 import io.opentelemetry.api.metrics.Meter;
+import java.util.Map;
 
 /**
  * Metrics utility implementation, used to record metrics when metrics are enabled.
@@ -75,25 +78,25 @@ class EnabledMetricUtil implements MetricUtil {
   public MetricsRecorder getMetricsRecorder() {
     return new MetricsRecorder() {
       @Override
-      public void recordFirstResponseLatency(long latencyMs, java.util.Map<String, String> attributes) {
+      public void recordFirstResponseLatency(long latencyMs, Map<String, String> attributes) {
         firstResponseLatency.record((double) latencyMs, toOtelAttributes(attributes));
       }
 
       @Override
-      public void recordTransactionLatency(long latencyMs, java.util.Map<String, String> attributes) {
+      public void recordTransactionLatency(long latencyMs, Map<String, String> attributes) {
         transactionLatency.record((double) latencyMs, toOtelAttributes(attributes));
       }
 
       @Override
-      public void recordTransactionAttemptCount(long count, java.util.Map<String, String> attributes) {
+      public void recordTransactionAttemptCount(long count, Map<String, String> attributes) {
         transactionAttemptCount.add(count, toOtelAttributes(attributes));
       }
     };
   }
 
-  private static io.opentelemetry.api.common.Attributes toOtelAttributes(
-      java.util.Map<String, String> attributes) {
-    io.opentelemetry.api.common.AttributesBuilder builder = io.opentelemetry.api.common.Attributes.builder();
+  private static Attributes toOtelAttributes(
+      Map<String, String> attributes) {
+    AttributesBuilder builder = Attributes.builder();
     if (attributes != null) {
       attributes.forEach(builder::put);
     }

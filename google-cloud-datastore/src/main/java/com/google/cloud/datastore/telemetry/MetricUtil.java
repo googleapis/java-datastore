@@ -17,6 +17,7 @@
 package com.google.cloud.datastore.telemetry;
 
 import com.google.cloud.datastore.DatastoreOptions;
+import java.util.Map;
 import javax.annotation.Nonnull;
 
 /** Utility interface to manage OpenTelemetry metrics instrumentation based on the configuration. */
@@ -48,12 +49,12 @@ interface MetricUtil {
   /** Interface to record specific metric operations. */
   interface MetricsRecorder {
     /** Records the latency of the first response from the server in milliseconds. */
-    void recordFirstResponseLatency(long latencyMs, java.util.Map<String, String> attributes);
+    void recordFirstResponseLatency(long latencyMs, Map<String, String> attributes);
 
     /** Records the total latency of a transaction in milliseconds. */
-    void recordTransactionLatency(long latencyMs, java.util.Map<String, String> attributes);
+    void recordTransactionLatency(long latencyMs, Map<String, String> attributes);
 
     /** Records the number of attempts a transaction took. */
-    void recordTransactionAttemptCount(long count, java.util.Map<String, String> attributes);
+    void recordTransactionAttemptCount(long count, Map<String, String> attributes);
   }
 }

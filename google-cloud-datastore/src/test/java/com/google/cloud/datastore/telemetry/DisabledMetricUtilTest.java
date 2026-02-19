@@ -18,6 +18,8 @@ package com.google.cloud.datastore.telemetry;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.Collections;
+import java.util.Map;
 import org.junit.Test;
 
 public class DisabledMetricUtilTest {
@@ -27,7 +29,7 @@ public class DisabledMetricUtilTest {
     MetricUtil.MetricsRecorder recorder = metricUtil.getMetricsRecorder();
     assertThat(recorder).isNotNull();
 
-    java.util.Map<String, String> attributes = java.util.Collections.emptyMap();
+    Map<String, String> attributes = Collections.emptyMap();
     // Verifying it runs without throwing exceptions
     recorder.recordFirstResponseLatency(100, attributes);
     recorder.recordTransactionLatency(200, attributes);
