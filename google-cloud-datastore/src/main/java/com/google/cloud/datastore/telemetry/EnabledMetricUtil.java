@@ -76,24 +76,27 @@ class EnabledMetricUtil implements MetricUtil {
     return new MetricsRecorder() {
       @Override
       public void recordFirstResponseLatency(long latencyMs, java.util.Map<String, String> attributes) {
-        io.opentelemetry.api.common.AttributesBuilder builder = io.opentelemetry.api.common.Attributes.builder();
-        attributes.forEach(builder::put);
-        firstResponseLatency.record((double) latencyMs, builder.build());
+        firstResponseLatency.record((double) latencyMs, toOtelAttributes(attributes));
       }
 
       @Override
       public void recordTransactionLatency(long latencyMs, java.util.Map<String, String> attributes) {
-        io.opentelemetry.api.common.AttributesBuilder builder = io.opentelemetry.api.common.Attributes.builder();
-        attributes.forEach(builder::put);
-        transactionLatency.record((double) latencyMs, builder.build());
+        transactionLatency.record((double) latencyMs, toOtelAttributes(attributes));
       }
 
       @Override
       public void recordTransactionAttemptCount(long count, java.util.Map<String, String> attributes) {
-        io.opentelemetry.api.common.AttributesBuilder builder = io.opentelemetry.api.common.Attributes.builder();
-        attributes.forEach(builder::put);
-        transactionAttemptCount.add(count, builder.build());
+        transactionAttemptCount.add(count, toOtelAttributes(attributes));
       }
     };
+  }
+
+  private static io.opentelemetry.api.common.Attributes toOtelAttributes(
+      java.util.Map<String, String> attributes) {
+    io.opentelemetry.api.common.AttributesBuilder builder = io.opentelemetry.api.common.Attributes.builder();
+    if (attributes != null) {
+      attributes.forEach(builder::put);
+    }
+    return builder.build();
   }
 }
