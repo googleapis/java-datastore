@@ -27,9 +27,10 @@ public class DisabledMetricUtilTest {
     MetricUtil.MetricsRecorder recorder = metricUtil.getMetricsRecorder();
     assertThat(recorder).isNotNull();
 
+    java.util.Map<String, String> attributes = java.util.Collections.emptyMap();
     // Verifying it runs without throwing exceptions
-    recorder.recordFirstResponseLatency(100);
-    recorder.recordTransactionLatency(200);
-    recorder.recordTransactionAttemptCount(1);
+    recorder.recordFirstResponseLatency(100, attributes);
+    recorder.recordTransactionLatency(200, attributes);
+    recorder.recordTransactionAttemptCount(1, attributes);
   }
 }

@@ -20,7 +20,7 @@ import com.google.cloud.datastore.DatastoreOptions;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.metrics.LongCounter;
-import io.opentelemetry.api.metrics.LongHistogram;
+import io.opentelemetry.api.metrics.DoubleHistogram;
 import io.opentelemetry.api.metrics.Meter;
 
 /**
@@ -30,8 +30,8 @@ class EnabledMetricUtil implements MetricUtil {
   private final OpenTelemetry openTelemetry;
   private final Meter meter;
 
-  private final LongHistogram firstResponseLatency;
-  private final LongHistogram transactionLatency;
+  private final DoubleHistogram firstResponseLatency;
+  private final DoubleHistogram transactionLatency;
   private final LongCounter transactionAttemptCount;
 
   EnabledMetricUtil(DatastoreOptions datastoreOptions) {
@@ -49,8 +49,7 @@ class EnabledMetricUtil implements MetricUtil {
     this.firstResponseLatency =
         meter
             .histogramBuilder("first_response_latency")
-            .setDescription("Latency of the first response from the Datastore backend")
-            .ofLongs()
+            .setDescription("Latency of the first response from the Datastore service")
             .setUnit("ms")
             .build();
 
@@ -58,7 +57,6 @@ class EnabledMetricUtil implements MetricUtil {
         meter
             .histogramBuilder("transaction_latency")
             .setDescription("Total latency for successful transaction operations")
-            .ofLongs()
             .setUnit("ms")
             .build();
 
@@ -77,18 +75,24 @@ class EnabledMetricUtil implements MetricUtil {
   public MetricsRecorder getMetricsRecorder() {
     return new MetricsRecorder() {
       @Override
-      public void recordFirstResponseLatency(long latencyMs) {
-        firstResponseLatency.record(latencyMs);
+      public void recordFirstResponseLatency(long latencyMs, java.util.Map<String, String> attributes) {
+        io.opentelemetry.api.common.AttributesBuilder builder = io.opentelemetry.api.common.Attributes.builder();
+        attributes.forEach(builder::put);
+        firstResponseLatency.record((double) latencyMs, builder.build());
       }
 
       @Override
-      public void recordTransactionLatency(long latencyMs) {
-        transactionLatency.record(latencyMs);
+      public void recordTransactionLatency(long latencyMs, java.util.Map<String, String> attributes) {
+        io.opentelemetry.api.common.AttributesBuilder builder = io.opentelemetry.api.common.Attributes.builder();
+        attributes.forEach(builder::put);
+        transactionLatency.record((double) latencyMs, builder.build());
       }
 
       @Override
-      public void recordTransactionAttemptCount(long count) {
-        transactionAttemptCount.add(count);
+      public void recordTransactionAttemptCount(long count, java.util.Map<String, String> attributes) {
+        io.opentelemetry.api.common.AttributesBuilder builder = io.opentelemetry.api.common.Attributes.builder();
+        attributes.forEach(builder::put);
+        transactionAttemptCount.add(count, builder.build());
       }
     };
   }
