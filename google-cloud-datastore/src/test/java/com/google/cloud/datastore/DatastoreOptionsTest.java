@@ -82,15 +82,52 @@ public class DatastoreOptionsTest {
   @Test
   public void testOpenTelemetryOptionsEnabled() {
     options.setOpenTelemetryOptions(
-        DatastoreOpenTelemetryOptions.newBuilder().setTracingEnabled(true).build());
+        DatastoreOpenTelemetryOptions.newBuilder().setTracingEnabled(true).setMetricsEnabled(true).build());
     assertTrue(options.build().getOpenTelemetryOptions().isEnabled());
+    assertTrue(options.build().getOpenTelemetryOptions().isTracingEnabled());
+    assertTrue(options.build().getOpenTelemetryOptions().isMetricsEnabled());
   }
 
   @Test
   public void testOpenTelemetryOptionsDisabled() {
     options.setOpenTelemetryOptions(
-        DatastoreOpenTelemetryOptions.newBuilder().setTracingEnabled(false).build());
+        DatastoreOpenTelemetryOptions.newBuilder()
+            .setTracingEnabled(false)
+            .setMetricsEnabled(false)
+            .build());
     assertTrue(!options.build().getOpenTelemetryOptions().isEnabled());
+    assertTrue(!options.build().getOpenTelemetryOptions().isTracingEnabled());
+    assertTrue(!options.build().getOpenTelemetryOptions().isMetricsEnabled());
+  }
+
+  @Test
+  public void testMetricsEnabledDefault() {
+    DatastoreOpenTelemetryOptions o1 = DatastoreOpenTelemetryOptions.newBuilder().build();
+    assertTrue(!o1.isMetricsEnabled());
+    assertTrue(!o1.isTracingEnabled());
+    assertTrue(!o1.isEnabled());
+  }
+
+  @Test
+  public void testSetMetricsEnabled() {
+    DatastoreOpenTelemetryOptions o1 = DatastoreOpenTelemetryOptions.newBuilder().setMetricsEnabled(false).build();
+    assertTrue(!o1.isMetricsEnabled());
+    assertTrue(!o1.isEnabled());
+
+    DatastoreOpenTelemetryOptions o2 = DatastoreOpenTelemetryOptions.newBuilder().setMetricsEnabled(true).build();
+    assertTrue(o2.isMetricsEnabled());
+    assertTrue(o2.isEnabled());
+  }
+
+  @Test
+  public void testMixedEnabled() {
+    DatastoreOpenTelemetryOptions o1 = DatastoreOpenTelemetryOptions.newBuilder()
+        .setTracingEnabled(true)
+        .setMetricsEnabled(false)
+        .build();
+    assertTrue(o1.isTracingEnabled());
+    assertTrue(!o1.isMetricsEnabled());
+    assertTrue(o1.isEnabled());
   }
 
   @Test

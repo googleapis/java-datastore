@@ -21,16 +21,42 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class DatastoreOpenTelemetryOptions {
-  private final boolean enabled;
+  private final boolean tracingEnabled;
+  private final boolean metricsEnabled;
   private final @Nullable OpenTelemetry openTelemetry;
 
   DatastoreOpenTelemetryOptions(Builder builder) {
-    this.enabled = builder.enabled;
+    this.tracingEnabled = builder.tracingEnabled;
+    this.metricsEnabled = builder.metricsEnabled;
     this.openTelemetry = builder.openTelemetry;
   }
 
+  /**
+   * Returns whether either tracing or metrics are enabled.
+   *
+   * @return {@code true} if either tracing or metrics are enabled, {@code false}
+   *         otherwise.
+   */
   public boolean isEnabled() {
-    return enabled;
+    return tracingEnabled || metricsEnabled;
+  }
+
+  /**
+   * Returns whether tracing is enabled.
+   *
+   * @return {@code true} if tracing is enabled, {@code false} otherwise.
+   */
+  public boolean isTracingEnabled() {
+    return tracingEnabled;
+  }
+
+  /**
+   * Returns whether metrics are enabled.
+   *
+   * @return {@code true} if metrics are enabled, {@code false} otherwise.
+   */
+  public boolean isMetricsEnabled() {
+    return metricsEnabled;
   }
 
   @Nullable
@@ -50,17 +76,20 @@ public class DatastoreOpenTelemetryOptions {
 
   public static class Builder {
 
-    private boolean enabled;
+    private boolean tracingEnabled;
+    private boolean metricsEnabled;
 
     @Nullable private OpenTelemetry openTelemetry;
 
     private Builder() {
-      enabled = false;
+      tracingEnabled = false;
+      metricsEnabled = false;
       openTelemetry = null;
     }
 
     private Builder(DatastoreOpenTelemetryOptions options) {
-      this.enabled = options.enabled;
+      this.tracingEnabled = options.tracingEnabled;
+      this.metricsEnabled = options.metricsEnabled;
       this.openTelemetry = options.openTelemetry;
     }
 
@@ -76,7 +105,19 @@ public class DatastoreOpenTelemetryOptions {
      */
     @Nonnull
     public DatastoreOpenTelemetryOptions.Builder setTracingEnabled(boolean enabled) {
-      this.enabled = enabled;
+      this.tracingEnabled = enabled;
+      return this;
+    }
+
+    /**
+     * Sets whether metrics should be enabled.
+     *
+     * @param enabled Whether metrics should be enabled.
+     * @return the builder instance.
+     */
+    @Nonnull
+    public DatastoreOpenTelemetryOptions.Builder setMetricsEnabled(boolean enabled) {
+      this.metricsEnabled = enabled;
       return this;
     }
 
