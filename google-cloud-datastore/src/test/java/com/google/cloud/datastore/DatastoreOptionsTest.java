@@ -113,21 +113,24 @@ public class DatastoreOptionsTest {
 
   @Test
   public void testSetMetricsEnabled() {
-    DatastoreOpenTelemetryOptions o1 = DatastoreOpenTelemetryOptions.newBuilder().setMetricsEnabled(false).build();
+    DatastoreOpenTelemetryOptions o1 =
+        DatastoreOpenTelemetryOptions.newBuilder().setMetricsEnabled(false).build();
     assertTrue(!o1.isMetricsEnabled());
     assertTrue(!o1.isEnabled());
 
-    DatastoreOpenTelemetryOptions o2 = DatastoreOpenTelemetryOptions.newBuilder().setMetricsEnabled(true).build();
+    DatastoreOpenTelemetryOptions o2 =
+        DatastoreOpenTelemetryOptions.newBuilder().setMetricsEnabled(true).build();
     assertTrue(o2.isMetricsEnabled());
     assertTrue(o2.isEnabled());
   }
 
   @Test
   public void testMixedEnabled() {
-    DatastoreOpenTelemetryOptions o1 = DatastoreOpenTelemetryOptions.newBuilder()
-        .setTracingEnabled(true)
-        .setMetricsEnabled(false)
-        .build();
+    DatastoreOpenTelemetryOptions o1 =
+        DatastoreOpenTelemetryOptions.newBuilder()
+            .setTracingEnabled(true)
+            .setMetricsEnabled(false)
+            .build();
     assertTrue(o1.isTracingEnabled());
     assertTrue(!o1.isMetricsEnabled());
     assertTrue(o1.isEnabled());

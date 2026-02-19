@@ -34,8 +34,7 @@ public class DatastoreOpenTelemetryOptions {
   /**
    * Returns whether either tracing or metrics are enabled.
    *
-   * @return {@code true} if either tracing or metrics are enabled, {@code false}
-   *         otherwise.
+   * @return {@code true} if either tracing or metrics are enabled, {@code false} otherwise.
    */
   public boolean isEnabled() {
     return tracingEnabled || metricsEnabled;
@@ -93,11 +92,6 @@ public class DatastoreOpenTelemetryOptions {
       this.openTelemetry = options.openTelemetry;
     }
 
-    @Nonnull
-    public DatastoreOpenTelemetryOptions build() {
-      return new DatastoreOpenTelemetryOptions(this);
-    }
-
     /**
      * Sets whether tracing should be enabled.
      *
@@ -133,6 +127,11 @@ public class DatastoreOpenTelemetryOptions {
         @Nonnull OpenTelemetry openTelemetry) {
       this.openTelemetry = openTelemetry;
       return this;
+    }
+
+    @Nonnull
+    public DatastoreOpenTelemetryOptions build() {
+      return new DatastoreOpenTelemetryOptions(this);
     }
   }
 }
