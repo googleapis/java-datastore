@@ -69,7 +69,7 @@ class EnabledMetricUtil implements MetricUtil {
             .build();
   }
 
-  public OpenTelemetry getOpenTelemetry() {
+  OpenTelemetry getOpenTelemetry() {
     return openTelemetry;
   }
 
