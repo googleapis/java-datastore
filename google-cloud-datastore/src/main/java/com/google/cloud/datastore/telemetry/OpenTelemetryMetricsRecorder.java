@@ -23,12 +23,10 @@ import io.opentelemetry.api.metrics.DoubleHistogram;
 import io.opentelemetry.api.metrics.LongCounter;
 import io.opentelemetry.api.metrics.Meter;
 import java.util.Map;
-
 import javax.annotation.Nonnull;
 
 /**
- * OpenTelemetry metrics recorder implementation, used to record metrics when
- * metrics are enabled.
+ * OpenTelemetry metrics recorder implementation, used to record metrics when metrics are enabled.
  */
 class OpenTelemetryMetricsRecorder implements MetricsRecorder {
   private final OpenTelemetry openTelemetry;
@@ -42,22 +40,25 @@ class OpenTelemetryMetricsRecorder implements MetricsRecorder {
     this.openTelemetry = openTelemetry;
     this.meter = openTelemetry.getMeter(METER_NAME);
 
-    this.firstResponseLatency = meter
-        .histogramBuilder("first_response_latency")
-        .setDescription("Latency of the first response from the Datastore service")
-        .setUnit("ms")
-        .build();
+    this.firstResponseLatency =
+        meter
+            .histogramBuilder("first_response_latency")
+            .setDescription("Latency of the first response from the Datastore service")
+            .setUnit("ms")
+            .build();
 
-    this.transactionLatency = meter
-        .histogramBuilder("transaction_latency")
-        .setDescription("Total latency for successful transaction operations")
-        .setUnit("ms")
-        .build();
+    this.transactionLatency =
+        meter
+            .histogramBuilder("transaction_latency")
+            .setDescription("Total latency for successful transaction operations")
+            .setUnit("ms")
+            .build();
 
-    this.transactionAttemptCount = meter
-        .counterBuilder("transaction_attempt_count")
-        .setDescription("Number of attempts performed for a transaction")
-        .build();
+    this.transactionAttemptCount =
+        meter
+            .counterBuilder("transaction_attempt_count")
+            .setDescription("Number of attempts performed for a transaction")
+            .build();
   }
 
   OpenTelemetry getOpenTelemetry() {

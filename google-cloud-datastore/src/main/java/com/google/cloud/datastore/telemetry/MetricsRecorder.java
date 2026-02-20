@@ -16,22 +16,17 @@
 
 package com.google.cloud.datastore.telemetry;
 
-
-import java.util.Map;
-import javax.annotation.Nonnull;
-
 import com.google.cloud.datastore.DatastoreOpenTelemetryOptions;
-
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
+import java.util.Map;
+import javax.annotation.Nonnull;
 
 /** Interface to record specific metric operations. */
 public interface MetricsRecorder {
   static final String METER_NAME = "com.google.cloud.datastore";
 
-  /**
-   * Records the latency of the first response from the server in milliseconds.
-   */
+  /** Records the latency of the first response from the server in milliseconds. */
   void recordFirstResponseLatency(double latencyMs, Map<String, String> attributes);
 
   /** Records the total latency of a transaction in milliseconds. */
@@ -41,14 +36,12 @@ public interface MetricsRecorder {
   void recordTransactionAttemptCount(long count, Map<String, String> attributes);
 
   /**
-   * Returns a {@link MetricsRecorder} instance based on the provided
-   * OpenTelemetry options.
+   * Returns a {@link MetricsRecorder} instance based on the provided OpenTelemetry options.
    *
-   * @param options The
-   *                {@link com.google.cloud.datastore.DatastoreOpenTelemetryOptions}
-   *                configuring telemetry.
-   * @return An {@link OpenTelemetryMetricsRecorder} if metrics are enabled,
-   *         otherwise a {@link NoOpMetricsRecorder}.
+   * @param options The {@link com.google.cloud.datastore.DatastoreOpenTelemetryOptions} configuring
+   *     telemetry.
+   * @return An {@link OpenTelemetryMetricsRecorder} if metrics are enabled, otherwise a {@link
+   *     NoOpMetricsRecorder}.
    */
   static MetricsRecorder getInstance(@Nonnull DatastoreOpenTelemetryOptions options) {
     boolean isMetricsEnabled = options.isMetricsEnabled();

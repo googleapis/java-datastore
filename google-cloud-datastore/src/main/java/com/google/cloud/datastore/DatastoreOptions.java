@@ -20,7 +20,6 @@ import static com.google.cloud.datastore.Validator.validateNamespace;
 
 import com.google.api.core.ApiFunction;
 import com.google.api.core.BetaApi;
-import com.google.api.core.InternalApi;
 import com.google.api.gax.grpc.ChannelPoolSettings;
 import com.google.api.gax.grpc.InstantiatingGrpcChannelProvider;
 import com.google.api.gax.rpc.TransportChannelProvider;
@@ -65,7 +64,8 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
 
   private final transient @Nonnull DatastoreOpenTelemetryOptions openTelemetryOptions;
   private final transient @Nonnull com.google.cloud.datastore.telemetry.TraceUtil traceUtil;
-  private final transient @Nonnull com.google.cloud.datastore.telemetry.MetricsRecorder metricsRecorder;
+  private final transient @Nonnull com.google.cloud.datastore.telemetry.MetricsRecorder
+      metricsRecorder;
 
   public static class DefaultDatastoreFactory implements DatastoreFactory {
 
@@ -223,7 +223,8 @@ public class DatastoreOptions extends ServiceOptions<Datastore, DatastoreOptions
             ? builder.openTelemetryOptions
             : DatastoreOpenTelemetryOptions.newBuilder().build();
     this.traceUtil = com.google.cloud.datastore.telemetry.TraceUtil.getInstance(this);
-    metricsRecorder = com.google.cloud.datastore.telemetry.MetricsRecorder.getInstance(getOpenTelemetryOptions());
+    metricsRecorder =
+        com.google.cloud.datastore.telemetry.MetricsRecorder.getInstance(getOpenTelemetryOptions());
 
     namespace = MoreObjects.firstNonNull(builder.namespace, defaultNamespace());
     databaseId = MoreObjects.firstNonNull(builder.databaseId, DEFAULT_DATABASE_ID);

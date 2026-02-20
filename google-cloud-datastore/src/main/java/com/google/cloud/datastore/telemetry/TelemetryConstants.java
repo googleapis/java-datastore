@@ -18,10 +18,7 @@ package com.google.cloud.datastore.telemetry;
 
 import com.google.api.core.InternalApi;
 
-/**
- * Internal telemetry constants shared between OpenTelemetry tracing and
- * metrics.
- */
+/** Internal telemetry constants shared between OpenTelemetry tracing and metrics. */
 @InternalApi
 public class TelemetryConstants {
   public static final String METHOD_ALLOCATE_IDS = "allocateIds";
@@ -54,8 +51,8 @@ public class TelemetryConstants {
   public static final String SPAN_NAME_TRANSACTION_COMMIT = "Transaction.Commit";
   public static final String SPAN_NAME_TRANSACTION_RUN_QUERY = "Transaction.RunQuery";
   public static final String SPAN_NAME_ROLLBACK = "Transaction.Rollback";
-  public static final String SPAN_NAME_TRANSACTION_RUN_AGGREGATION_QUERY = "Transaction.RunAggregationQuery";
+  public static final String SPAN_NAME_TRANSACTION_RUN_AGGREGATION_QUERY =
+      "Transaction.RunAggregationQuery";
 
-  private TelemetryConstants() {
-  }
+  private TelemetryConstants() {}
 }
