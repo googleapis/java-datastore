@@ -22,7 +22,6 @@ import com.google.cloud.datastore.DatastoreOpenTelemetryOptions;
 import com.google.cloud.datastore.DatastoreOptions;
 import org.junit.Before;
 import org.junit.Test;
-import org.easymock.EasyMock;
 
 public class MetricsRecorderTest {
 
@@ -43,7 +42,8 @@ public class MetricsRecorderTest {
                     .setMetricsEnabled(true)
                     .build())
             .build();
-    MetricsRecorder datastoreMetricsRecorder = MetricsRecorder.getInstance(datastoreOptions.getOpenTelemetryOptions());
+    MetricsRecorder datastoreMetricsRecorder =
+        MetricsRecorder.getInstance(datastoreOptions.getOpenTelemetryOptions());
 
     assertTrue(datastoreMetricsRecorder instanceof OpenTelemetryMetricsRecorder);
   }
@@ -51,16 +51,18 @@ public class MetricsRecorderTest {
   @Test
   public void testGetInstanceWhenMetricsAreDisabled() {
 
-    DatastoreOptions datastoreOptions = DatastoreOptions.newBuilder()
-        .setProjectId("project-id")
+    DatastoreOptions datastoreOptions =
+        DatastoreOptions.newBuilder()
+            .setProjectId("project-id")
             .setOpenTelemetryOptions(
-            DatastoreOpenTelemetryOptions.newBuilder()
-                .setOpenTelemetry(io.opentelemetry.api.OpenTelemetry.noop())
-                .setMetricsEnabled(false)
-                .build())
+                DatastoreOpenTelemetryOptions.newBuilder()
+                    .setOpenTelemetry(io.opentelemetry.api.OpenTelemetry.noop())
+                    .setMetricsEnabled(false)
+                    .build())
             .build();
 
-    MetricsRecorder datastoreMetricsRecorder = MetricsRecorder.getInstance(datastoreOptions.getOpenTelemetryOptions());
+    MetricsRecorder datastoreMetricsRecorder =
+        MetricsRecorder.getInstance(datastoreOptions.getOpenTelemetryOptions());
     assertTrue(datastoreMetricsRecorder instanceof NoOpMetricsRecorder);
   }
 }

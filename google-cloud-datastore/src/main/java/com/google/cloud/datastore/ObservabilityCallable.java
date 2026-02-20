@@ -64,4 +64,9 @@ class ObservabilityCallable<V> implements Callable<V> {
       return delegate.call();
     }
   }
+
+  /** Returns the number of times this {@link Callable} has been called. */
+  public int getAttempts() {
+    return attempt;
+  }
 }

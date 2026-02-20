@@ -25,14 +25,15 @@ import static org.easymock.EasyMock.verify;
 
 import com.google.cloud.NoCredentials;
 import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.DatastoreOpenTelemetryOptions;
+import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.spi.v1.DatastoreRpc;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
 import io.opentelemetry.sdk.metrics.SdkMeterProvider;
 import io.opentelemetry.sdk.metrics.data.HistogramPointData;
+import io.opentelemetry.sdk.metrics.data.LongPointData;
 import io.opentelemetry.sdk.metrics.data.MetricData;
 import io.opentelemetry.sdk.testing.exporter.InMemoryMetricReader;
 import java.util.Collection;
@@ -53,15 +54,15 @@ public class DatastoreMetricsTest {
     OpenTelemetrySdk openTelemetry = OpenTelemetrySdk.builder().setMeterProvider(meterProvider).build();
 
     DatastoreOptions options = DatastoreOptions.newBuilder()
-        .setProjectId("test-project")
-        .setCredentials(NoCredentials.getInstance())
-        .setServiceRpcFactory(options1 -> rpcMock)
-        .setOpenTelemetryOptions(
-            DatastoreOpenTelemetryOptions.newBuilder()
-                .setMetricsEnabled(true)
-                .setOpenTelemetry(openTelemetry)
-                .build())
-        .build();
+            .setProjectId("test-project")
+            .setCredentials(NoCredentials.getInstance())
+            .setServiceRpcFactory(options1 -> rpcMock)
+            .setOpenTelemetryOptions(
+                    DatastoreOpenTelemetryOptions.newBuilder()
+                            .setMetricsEnabled(true)
+                            .setOpenTelemetry(openTelemetry)
+                            .build())
+            .build();
 
     datastore = options.getService();
   }
@@ -78,15 +79,60 @@ public class DatastoreMetricsTest {
     Collection<MetricData> metrics = metricReader.collectAllMetrics();
     assertThat(metrics).isNotEmpty();
     MetricData latencyMetric = metrics.stream()
-        .filter(m -> m.getName().equals("first_response_latency"))
-        .findFirst()
-        .orElse(null);
+            .filter(m -> m.getName().equals("first_response_latency"))
+            .findFirst()
+            .orElse(null);
     assertThat(latencyMetric).isNotNull();
 
     HistogramPointData point = (HistogramPointData) latencyMetric.getHistogramData().getPoints().iterator().next();
-    assertThat(point.getAttributes().get(AttributeKey.stringKey("method"))).isEqualTo(TelemetryConstants.METHOD_LOOKUP);
+    assertThat(point.getAttributes().get(AttributeKey.stringKey("method")))
+            .isEqualTo(TelemetryConstants.METHOD_LOOKUP);
     assertThat(point.getAttributes().get(AttributeKey.stringKey("status"))).isEqualTo("OK");
 
     verify(rpcMock);
+  }
+
+  @Test
+  public void testCommitTransactionMetrics() {
+      com.google.datastore.v1.CommitResponse response = com.google.datastore.v1.CommitResponse.newBuilder().build();
+      com.google.datastore.v1.BeginTransactionResponse beginTransactionResponse = com.google.datastore.v1.BeginTransactionResponse
+              .newBuilder()
+              .setTransaction(com.google.protobuf.ByteString.copyFromUtf8("transaction-id"))
+              .build();
+
+      expect(rpcMock.beginTransaction(anyObject())).andReturn(beginTransactionResponse);
+      expect(rpcMock.commit(anyObject())).andReturn(response);
+      replay(rpcMock);
+
+      com.google.cloud.datastore.Transaction transaction = datastore.newTransaction();
+      transaction.commit();
+
+      Collection<MetricData> metrics = metricReader.collectAllMetrics();
+      assertThat(metrics).isNotEmpty();
+
+      MetricData latencyMetric = metrics.stream()
+              .filter(m -> m.getName().equals("transaction_latency"))
+              .findFirst()
+              .orElse(null);
+      assertThat(latencyMetric).isNotNull();
+
+      HistogramPointData latencyPoint = (HistogramPointData) latencyMetric.getHistogramData().getPoints().iterator()
+              .next();
+      assertThat(latencyPoint.getAttributes().get(AttributeKey.stringKey("method")))
+              .isEqualTo(TelemetryConstants.METHOD_COMMIT);
+      assertThat(latencyPoint.getAttributes().get(AttributeKey.stringKey("status"))).isEqualTo("OK");
+
+      MetricData countMetric = metrics.stream()
+              .filter(m -> m.getName().equals("transaction_attempt_count"))
+              .findFirst()
+              .orElse(null);
+      assertThat(countMetric).isNotNull();
+
+      LongPointData countPoint = (LongPointData) countMetric.getLongSumData().getPoints().iterator()
+              .next();
+      assertThat(countPoint.getAttributes().get(AttributeKey.stringKey("method")))
+              .isEqualTo(TelemetryConstants.METHOD_COMMIT);
+      assertThat(countPoint.getAttributes().get(AttributeKey.stringKey("status"))).isEqualTo("OK");
+      assertThat(countPoint.getValue()).isEqualTo(1L);
   }
 }

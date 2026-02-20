@@ -40,8 +40,10 @@ import com.google.datastore.v1.RunAggregationQueryRequest;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.RunQueryRequest;
 import com.google.datastore.v1.RunQueryResponse;
+import com.google.common.base.Stopwatch;
+import com.google.common.collect.ImmutableMap;
 import java.util.concurrent.Callable;
-
+import java.util.concurrent.TimeUnit;
 /**
  * An implementation of {@link DatastoreRpc} which acts as a Decorator and decorates the underlying
  * {@link DatastoreRpc} with the logic of retry and Traceability.
@@ -117,7 +119,8 @@ public class RetryAndTraceDatastoreRpcDecorator implements DatastoreRpc {
     return invokeRpc(
         () -> datastoreRpc.runAggregationQuery(request),
         spanName,
-        com.google.cloud.datastore.telemetry.TelemetryConstants.METHOD_RUN_AGGREGATION_QUERY);
+        com.google.cloud.datastore.telemetry.TelemetryConstants.METHOD_RUN_AGGREGATION_QUERY,
+        isTransactional);
   }
 
   @Override
@@ -130,17 +133,35 @@ public class RetryAndTraceDatastoreRpcDecorator implements DatastoreRpc {
     return datastoreRpc.isClosed();
   }
 
-  public <O> O invokeRpc(Callable<O> block, String startSpan, String metricsMethodName) {
+  public <O> O invokeRpc(
+      Callable<O> block, String startSpan, String metricsMethodName, boolean isTransactional) {
     com.google.cloud.datastore.telemetry.TraceUtil.Span span = otelTraceUtil.startSpan(startSpan);
     try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
-      return RetryHelper.runWithRetries(
-          new ObservabilityCallable<>(block, metricsRecorder, metricsMethodName),
-          this.retrySettings,
-          EXCEPTION_HANDLER,
-          this.datastoreOptions.getClock());
-    } catch (RetryHelperException e) {
-      span.end(e);
-      throw DatastoreException.translateAndThrow(e);
+      ObservabilityCallable<O> obsCallable = new ObservabilityCallable<>(block, metricsRecorder, metricsMethodName);
+      Stopwatch transactionStopwatch = Stopwatch.createStarted();
+      try {
+        O result = RetryHelper.runWithRetries(
+            obsCallable, this.retrySettings, EXCEPTION_HANDLER, this.datastoreOptions.getClock());
+        if (isTransactional) {
+          metricsRecorder.recordTransactionLatency(
+              transactionStopwatch.elapsed(TimeUnit.MILLISECONDS),
+              ImmutableMap.of("status", "OK", "method", metricsMethodName));
+          metricsRecorder.recordTransactionAttemptCount(
+              obsCallable.getAttempts(), ImmutableMap.of("status", "OK", "method", metricsMethodName));
+        }
+        return result;
+      } catch (RetryHelperException e) {
+        if (isTransactional) {
+          String status = DatastoreException.getStatusFromException(e);
+          metricsRecorder.recordTransactionLatency(
+              transactionStopwatch.elapsed(TimeUnit.MILLISECONDS),
+              ImmutableMap.of("status", status, "method", metricsMethodName));
+          metricsRecorder.recordTransactionAttemptCount(
+              obsCallable.getAttempts(), ImmutableMap.of("status", status, "method", metricsMethodName));
+        }
+        span.end(e);
+        throw DatastoreException.translateAndThrow(e);
+      }
     } finally {
       span.end();
     }

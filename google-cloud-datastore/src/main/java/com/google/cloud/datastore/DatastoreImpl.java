@@ -354,30 +354,14 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     com.google.cloud.datastore.telemetry.TraceUtil.Span span = otelTraceUtil.startSpan(spanName);
 
     try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
-      Stopwatch stopwatch = Stopwatch.createStarted();
-      RunQueryResponse response;
-      try {
-        response =
-            RetryHelper.runWithRetries(
-                () -> datastoreRpc.runQuery(requestPb),
-                retrySettings,
-                requestPb.getReadOptions().getTransaction().isEmpty()
-                    ? EXCEPTION_HANDLER
-                    : TRANSACTION_OPERATION_EXCEPTION_HANDLER,
-                getOptions().getClock());
-        metricsRecorder.recordFirstResponseLatency(
-            stopwatch.elapsed(TimeUnit.MILLISECONDS),
-            ImmutableMap.of("status", "OK", "method", TelemetryConstants.METHOD_RUN_QUERY));
-      } catch (RetryHelperException e) {
-        metricsRecorder.recordFirstResponseLatency(
-            stopwatch.elapsed(TimeUnit.MILLISECONDS),
-            ImmutableMap.of(
-                "status",
-                DatastoreException.getStatusFromException(e),
-                "method",
-                com.google.cloud.datastore.telemetry.TelemetryConstants.METHOD_RUN_QUERY));
-        throw e;
-      }
+      RunQueryResponse response =
+          runWithObservability(
+              () -> datastoreRpc.runQuery(requestPb),
+              TelemetryConstants.METHOD_RUN_QUERY,
+              isTransactional,
+              requestPb.getReadOptions().getTransaction().isEmpty()
+                  ? EXCEPTION_HANDLER
+                  : TRANSACTION_OPERATION_EXCEPTION_HANDLER);
       span.addEvent(
           spanName + " complete.",
           new ImmutableMap.Builder<String, Object>()
@@ -441,22 +425,11 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     com.google.cloud.datastore.telemetry.TraceUtil.Span span =
         otelTraceUtil.startSpan(TelemetryConstants.SPAN_NAME_ALLOCATE_IDS);
     try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
-      com.google.datastore.v1.AllocateIdsResponse response =
-          RetryHelper.runWithRetries(
-              new ObservabilityCallable<>(
-                  new Callable<com.google.datastore.v1.AllocateIdsResponse>() {
-                    @Override
-                    public com.google.datastore.v1.AllocateIdsResponse call()
-                        throws DatastoreException {
-                      return datastoreRpc.allocateIds(requestPb);
-                    }
-                  },
-                  metricsRecorder,
-                  TelemetryConstants.METHOD_ALLOCATE_IDS),
-              retrySettings,
-              EXCEPTION_HANDLER,
-              getOptions().getClock());
-      return response;
+      return runWithObservability(
+          () -> datastoreRpc.allocateIds(requestPb),
+          TelemetryConstants.METHOD_ALLOCATE_IDS,
+          false,
+          EXCEPTION_HANDLER);
     } catch (RetryHelperException e) {
       span.end(e);
       throw DatastoreException.translateAndThrow(e);
@@ -613,30 +586,26 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     com.google.cloud.datastore.telemetry.TraceUtil.Span span = otelTraceUtil.startSpan(spanName);
 
     try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
-      return RetryHelper.runWithRetries(
-          new ObservabilityCallable<>(
-              () -> {
-                com.google.datastore.v1.LookupResponse response = datastoreRpc.lookup(requestPb);
-                span.addEvent(
-                    spanName + " complete.",
-                    new ImmutableMap.Builder<String, Object>()
-                        .put(ATTRIBUTES_KEY_RECEIVED, response.getFoundCount())
-                        .put(ATTRIBUTES_KEY_MISSING, response.getMissingCount())
-                        .put(ATTRIBUTES_KEY_DEFERRED, response.getDeferredCount())
-                        .put(ATTRIBUTES_KEY_TRANSACTIONAL, isTransactional)
-                        .put(
-                            ATTRIBUTES_KEY_TRANSACTION_ID,
-                            isTransactional ? readOptions.getTransaction().toStringUtf8() : "")
-                        .build());
-                return response;
-              },
-              metricsRecorder,
-              TelemetryConstants.METHOD_LOOKUP),
-          retrySettings,
-          requestPb.getReadOptions().getTransaction().isEmpty()
-              ? EXCEPTION_HANDLER
-              : TRANSACTION_OPERATION_EXCEPTION_HANDLER,
-          getOptions().getClock());
+      com.google.datastore.v1.LookupResponse response =
+          runWithObservability(
+              () -> datastoreRpc.lookup(requestPb),
+              TelemetryConstants.METHOD_LOOKUP,
+              isTransactional,
+              requestPb.getReadOptions().getTransaction().isEmpty()
+                  ? EXCEPTION_HANDLER
+                  : TRANSACTION_OPERATION_EXCEPTION_HANDLER);
+      span.addEvent(
+          spanName + " complete.",
+          new ImmutableMap.Builder<String, Object>()
+              .put(ATTRIBUTES_KEY_RECEIVED, response.getFoundCount())
+              .put(ATTRIBUTES_KEY_MISSING, response.getMissingCount())
+              .put(ATTRIBUTES_KEY_DEFERRED, response.getDeferredCount())
+              .put(ATTRIBUTES_KEY_TRANSACTIONAL, isTransactional)
+              .put(
+                  ATTRIBUTES_KEY_TRANSACTION_ID,
+                  isTransactional ? readOptions.getTransaction().toStringUtf8() : "")
+              .build());
+      return response;
     } catch (RetryHelperException e) {
       span.end(e);
       throw DatastoreException.translateAndThrow(e);
@@ -668,22 +637,11 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     com.google.cloud.datastore.telemetry.TraceUtil.Span span =
         otelTraceUtil.startSpan(TelemetryConstants.SPAN_NAME_RESERVE_IDS);
     try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
-      com.google.datastore.v1.ReserveIdsResponse response =
-          RetryHelper.runWithRetries(
-              new ObservabilityCallable<>(
-                  new Callable<com.google.datastore.v1.ReserveIdsResponse>() {
-                    @Override
-                    public com.google.datastore.v1.ReserveIdsResponse call()
-                        throws DatastoreException {
-                      return datastoreRpc.reserveIds(requestPb);
-                    }
-                  },
-                  metricsRecorder,
-                  TelemetryConstants.METHOD_RESERVE_IDS),
-              retrySettings,
-              EXCEPTION_HANDLER,
-              getOptions().getClock());
-      return response;
+      return runWithObservability(
+          () -> datastoreRpc.reserveIds(requestPb),
+          TelemetryConstants.METHOD_RESERVE_IDS,
+          false,
+          EXCEPTION_HANDLER);
     } catch (RetryHelperException e) {
       span.end(e);
       throw DatastoreException.translateAndThrow(e);
@@ -797,14 +755,13 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     com.google.cloud.datastore.telemetry.TraceUtil.Span span = otelTraceUtil.startSpan(spanName);
     try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
       CommitResponse response =
-          RetryHelper.runWithRetries(
-              new ObservabilityCallable<>(
-                  () -> datastoreRpc.commit(requestPb), metricsRecorder, methodName),
-              retrySettings,
+          runWithObservability(
+              () -> datastoreRpc.commit(requestPb),
+              methodName,
+              isTransactional,
               requestPb.getTransaction().isEmpty()
                   ? EXCEPTION_HANDLER
-                  : TRANSACTION_OPERATION_EXCEPTION_HANDLER,
-              getOptions().getClock());
+                  : TRANSACTION_OPERATION_EXCEPTION_HANDLER);
       span.addEvent(
           spanName + " complete.",
           new ImmutableMap.Builder<String, Object>()
@@ -833,21 +790,47 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     com.google.cloud.datastore.telemetry.TraceUtil.Span span =
         otelTraceUtil.startSpan(TelemetryConstants.SPAN_NAME_BEGIN_TRANSACTION);
     try (com.google.cloud.datastore.telemetry.TraceUtil.Scope scope = span.makeCurrent()) {
-      com.google.datastore.v1.BeginTransactionResponse response =
-          RetryHelper.runWithRetries(
-              new ObservabilityCallable<>(
-                  () -> datastoreRpc.beginTransaction(requestPb),
-                  metricsRecorder,
-                  TelemetryConstants.METHOD_BEGIN_TRANSACTION),
-              retrySettings,
-              EXCEPTION_HANDLER,
-              getOptions().getClock());
-      return response;
+      return runWithObservability(
+          () -> datastoreRpc.beginTransaction(requestPb),
+          TelemetryConstants.METHOD_BEGIN_TRANSACTION,
+          false,
+          EXCEPTION_HANDLER);
     } catch (RetryHelperException e) {
       span.end(e);
       throw DatastoreException.translateAndThrow(e);
     } finally {
       span.end();
+    }
+  }
+
+  private <V> V runWithObservability(
+      Callable<V> callable,
+      String methodName,
+      boolean isTransactional,
+      ExceptionHandler exceptionHandler) {
+    ObservabilityCallable<V> obsCallable = new ObservabilityCallable<>(callable, metricsRecorder, methodName);
+    Stopwatch transactionStopwatch = Stopwatch.createStarted();
+    try {
+      V result = RetryHelper.runWithRetries(
+          obsCallable, retrySettings, exceptionHandler, getOptions().getClock());
+      if (isTransactional) {
+        metricsRecorder.recordTransactionLatency(
+            transactionStopwatch.elapsed(TimeUnit.MILLISECONDS),
+            ImmutableMap.of("status", "OK", "method", methodName));
+        metricsRecorder.recordTransactionAttemptCount(
+            obsCallable.getAttempts(), ImmutableMap.of("status", "OK", "method", methodName));
+      }
+      return result;
+    } catch (RetryHelperException e) {
+      if (isTransactional) {
+        String status = DatastoreException.getStatusFromException(e);
+        metricsRecorder.recordTransactionLatency(
+            transactionStopwatch.elapsed(TimeUnit.MILLISECONDS),
+            ImmutableMap.of("status", status, "method", methodName));
+        metricsRecorder.recordTransactionAttemptCount(
+            obsCallable.getAttempts(), ImmutableMap.of("status", status, "method", methodName));
+      }
+      throw e;
     }
   }
 
@@ -864,20 +847,14 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     com.google.cloud.datastore.telemetry.TraceUtil.Span span =
         otelTraceUtil.startSpan(TelemetryConstants.SPAN_NAME_ROLLBACK);
     try (Scope scope = span.makeCurrent()) {
-      RetryHelper.runWithRetries(
-          new ObservabilityCallable<>(
-              new Callable<Void>() {
-                @Override
-                public Void call() throws DatastoreException {
-                  datastoreRpc.rollback(requestPb);
-                  return null;
-                }
-              },
-              metricsRecorder,
-              TelemetryConstants.METHOD_ROLLBACK),
-          retrySettings,
-          EXCEPTION_HANDLER,
-          getOptions().getClock());
+      runWithObservability(
+          () -> {
+            datastoreRpc.rollback(requestPb);
+            return null;
+          },
+          TelemetryConstants.METHOD_ROLLBACK,
+          true,
+          EXCEPTION_HANDLER);
       span.addEvent(
           TelemetryConstants.SPAN_NAME_ROLLBACK,
           new ImmutableMap.Builder<String, Object>()

@@ -16,7 +16,6 @@
 
 package com.google.cloud.datastore.telemetry;
 
-import static com.google.common.truth.Truth.assertThat;
 
 import java.util.Collections;
 import java.util.Map;
