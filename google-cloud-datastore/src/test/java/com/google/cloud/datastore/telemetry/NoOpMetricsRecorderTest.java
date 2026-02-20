@@ -16,6 +16,7 @@
 
 package com.google.cloud.datastore.telemetry;
 
+import static com.google.common.truth.Truth.assertThat;
 
 import java.util.Collections;
 import java.util.Map;
@@ -24,8 +25,7 @@ import org.junit.Test;
 public class NoOpMetricsRecorderTest {
 
   // TODO: This test is not very useful, we should add a test that verifies that
-  // the metrics are
-  // not recorded.
+  // the metrics are not recorded.
   @Test
   public void testRecorderRunsWithoutThrowingExceptions() {
     NoOpMetricsRecorder recorder = new NoOpMetricsRecorder();

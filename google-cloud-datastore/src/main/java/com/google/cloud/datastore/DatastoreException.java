@@ -160,4 +160,24 @@ public final class DatastoreException extends BaseHttpServiceException {
   static DatastoreException propagateUserException(Exception ex) {
     throw new DatastoreException(BaseServiceException.UNKNOWN_CODE, ex.getMessage(), null, ex);
   }
+
+  static String getStatusFromException(Throwable t) {
+    if (t == null) {
+      return "OK";
+    }
+    String status = "UNKNOWN";
+    Throwable current = t;
+    while (current != null) {
+      if (current instanceof DatastoreException) {
+        int code = ((DatastoreException) current).getCode();
+        if (code != 0) {
+          return String.valueOf(code);
+        } else {
+          return "OK";
+        }
+      }
+      current = current.getCause();
+    }
+    return status;
+  }
 }

@@ -22,6 +22,7 @@ import com.google.cloud.datastore.DatastoreOpenTelemetryOptions;
 import com.google.cloud.datastore.DatastoreOptions;
 import org.junit.Before;
 import org.junit.Test;
+import org.easymock.EasyMock;
 
 public class MetricsRecorderTest {
 
@@ -34,23 +35,32 @@ public class MetricsRecorderTest {
 
   @Test
   public void testGetInstanceMetricsEnabled() {
-    DatastoreOptions options =
+    DatastoreOptions datastoreOptions =
         optionsBuilder
             .setOpenTelemetryOptions(
-                DatastoreOpenTelemetryOptions.newBuilder().setMetricsEnabled(true).build())
+                DatastoreOpenTelemetryOptions.newBuilder()
+                    .setOpenTelemetry(io.opentelemetry.api.OpenTelemetry.noop())
+                    .setMetricsEnabled(true)
+                    .build())
             .build();
-    MetricsRecorder recorder = MetricsRecorder.getInstance(options);
-    assertTrue(recorder instanceof OpenTelemetryMetricsRecorder);
+    MetricsRecorder datastoreMetricsRecorder = MetricsRecorder.getInstance(datastoreOptions.getOpenTelemetryOptions());
+
+    assertTrue(datastoreMetricsRecorder instanceof OpenTelemetryMetricsRecorder);
   }
 
   @Test
-  public void testGetInstanceMetricsDisabled() {
-    DatastoreOptions options =
-        optionsBuilder
+  public void testGetInstanceWhenMetricsAreDisabled() {
+
+    DatastoreOptions datastoreOptions = DatastoreOptions.newBuilder()
+        .setProjectId("project-id")
             .setOpenTelemetryOptions(
-                DatastoreOpenTelemetryOptions.newBuilder().setMetricsEnabled(false).build())
+            DatastoreOpenTelemetryOptions.newBuilder()
+                .setOpenTelemetry(io.opentelemetry.api.OpenTelemetry.noop())
+                .setMetricsEnabled(false)
+                .build())
             .build();
-    MetricsRecorder recorder = MetricsRecorder.getInstance(options);
-    assertTrue(recorder instanceof NoOpMetricsRecorder);
+
+    MetricsRecorder datastoreMetricsRecorder = MetricsRecorder.getInstance(datastoreOptions.getOpenTelemetryOptions());
+    assertTrue(datastoreMetricsRecorder instanceof NoOpMetricsRecorder);
   }
 }

@@ -16,15 +16,22 @@
 
 package com.google.cloud.datastore.telemetry;
 
-import com.google.cloud.datastore.DatastoreOptions;
+
 import java.util.Map;
 import javax.annotation.Nonnull;
+
+import com.google.cloud.datastore.DatastoreOpenTelemetryOptions;
+
+import io.opentelemetry.api.GlobalOpenTelemetry;
+import io.opentelemetry.api.OpenTelemetry;
 
 /** Interface to record specific metric operations. */
 public interface MetricsRecorder {
   static final String METER_NAME = "com.google.cloud.datastore";
 
-  /** Records the latency of the first response from the server in milliseconds. */
+  /**
+   * Records the latency of the first response from the server in milliseconds.
+   */
   void recordFirstResponseLatency(double latencyMs, Map<String, String> attributes);
 
   /** Records the total latency of a transaction in milliseconds. */
@@ -34,18 +41,24 @@ public interface MetricsRecorder {
   void recordTransactionAttemptCount(long count, Map<String, String> attributes);
 
   /**
-   * Creates and returns an instance of the MetricsRecorder class.
+   * Returns a {@link MetricsRecorder} instance based on the provided
+   * OpenTelemetry options.
    *
-   * @param datastoreOptions The DatastoreOptions object that is requesting an instance of
-   *     MetricsRecorder.
-   * @return An instance of the MetricsRecorder class.
+   * @param options The
+   *                {@link com.google.cloud.datastore.DatastoreOpenTelemetryOptions}
+   *                configuring telemetry.
+   * @return An {@link OpenTelemetryMetricsRecorder} if metrics are enabled,
+   *         otherwise a {@link NoOpMetricsRecorder}.
    */
-  static MetricsRecorder getInstance(@Nonnull DatastoreOptions datastoreOptions) {
-    boolean isMetricsEnabled = datastoreOptions.getOpenTelemetryOptions().isMetricsEnabled();
+  static MetricsRecorder getInstance(@Nonnull DatastoreOpenTelemetryOptions options) {
+    boolean isMetricsEnabled = options.isMetricsEnabled();
 
     if (isMetricsEnabled) {
-      return new OpenTelemetryMetricsRecorder(
-          datastoreOptions.getOpenTelemetryOptions().getOpenTelemetry());
+      OpenTelemetry openTelemetry = options.getOpenTelemetry();
+      if (openTelemetry == null) {
+        return new OpenTelemetryMetricsRecorder(GlobalOpenTelemetry.get());
+      }
+      return new OpenTelemetryMetricsRecorder(openTelemetry);
     } else {
       return new NoOpMetricsRecorder();
     }

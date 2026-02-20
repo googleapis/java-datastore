@@ -40,7 +40,10 @@ import com.google.datastore.v1.RunAggregationQueryRequest;
 import com.google.datastore.v1.RunAggregationQueryResponse;
 import com.google.datastore.v1.RunQueryRequest;
 import com.google.datastore.v1.RunQueryResponse;
+import com.google.common.base.Stopwatch;
+import com.google.common.collect.ImmutableMap;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 /**
  * An implementation of {@link DatastoreRpc} which acts as a Decorator and decorates the underlying
@@ -51,19 +54,24 @@ public class RetryAndTraceDatastoreRpcDecorator implements DatastoreRpc {
 
   private final DatastoreRpc datastoreRpc;
   private final com.google.cloud.datastore.telemetry.TraceUtil otelTraceUtil;
+  private final com.google.cloud.datastore.telemetry.MetricsRecorder metricsRecorder;
   private final RetrySettings retrySettings;
   private final DatastoreOptions datastoreOptions;
 
   public RetryAndTraceDatastoreRpcDecorator(
       DatastoreRpc datastoreRpc,
       TraceUtil otelTraceUtil,
-      RetrySettings retrySettings,
+      com.google.cloud.datastore.telemetry.MetricsRecorder metricsRecorder,
+          RetrySettings retrySettings,
       DatastoreOptions datastoreOptions) {
     this.datastoreRpc = datastoreRpc;
     this.retrySettings = retrySettings;
     this.datastoreOptions = datastoreOptions;
     this.otelTraceUtil = otelTraceUtil;
+    this.metricsRecorder = metricsRecorder;
   }
+
+
 
   @Override
   public AllocateIdsResponse allocateIds(AllocateIdsRequest request) {
@@ -107,10 +115,11 @@ public class RetryAndTraceDatastoreRpcDecorator implements DatastoreRpc {
     boolean isTransactional = readOptions.hasTransaction() || readOptions.hasNewTransaction();
     String spanName =
         (isTransactional
-            ? com.google.cloud.datastore.telemetry.TraceUtil
+            ? com.google.cloud.datastore.telemetry.TelemetryConstants
                 .SPAN_NAME_TRANSACTION_RUN_AGGREGATION_QUERY
-            : com.google.cloud.datastore.telemetry.TraceUtil.SPAN_NAME_RUN_AGGREGATION_QUERY);
-    return invokeRpc(() -> datastoreRpc.runAggregationQuery(request), spanName);
+            : com.google.cloud.datastore.telemetry.TelemetryConstants.SPAN_NAME_RUN_AGGREGATION_QUERY);
+    return invokeRpc(() -> datastoreRpc.runAggregationQuery(request), spanName,
+        com.google.cloud.datastore.telemetry.TelemetryConstants.METHOD_RUN_AGGREGATION_QUERY);
   }
 
   @Override
@@ -123,11 +132,27 @@ public class RetryAndTraceDatastoreRpcDecorator implements DatastoreRpc {
     return datastoreRpc.isClosed();
   }
 
-  public <O> O invokeRpc(Callable<O> block, String startSpan) {
+  public <O> O invokeRpc(Callable<O> block, String startSpan, String metricsMethodName) {
     com.google.cloud.datastore.telemetry.TraceUtil.Span span = otelTraceUtil.startSpan(startSpan);
     try (com.google.cloud.datastore.telemetry.TraceUtil.Scope ignored = span.makeCurrent()) {
-      return RetryHelper.runWithRetries(
-          block, this.retrySettings, EXCEPTION_HANDLER, this.datastoreOptions.getClock());
+      Stopwatch stopwatch = Stopwatch.createStarted();
+      try {
+        O result = RetryHelper.runWithRetries(
+            block, this.retrySettings, EXCEPTION_HANDLER, this.datastoreOptions.getClock());
+        metricsRecorder.recordFirstResponseLatency(
+            stopwatch.elapsed(TimeUnit.MILLISECONDS),
+            ImmutableMap.of(
+                "status", "OK",
+                "method", metricsMethodName));
+        return result;
+      } catch (RetryHelperException e) {
+        metricsRecorder.recordFirstResponseLatency(
+            stopwatch.elapsed(TimeUnit.MILLISECONDS),
+            ImmutableMap.of(
+                "status", DatastoreException.getStatusFromException(e),
+                "method", metricsMethodName));
+        throw e;
+      }
     } catch (RetryHelperException e) {
       span.end(e);
       throw DatastoreException.translateAndThrow(e);

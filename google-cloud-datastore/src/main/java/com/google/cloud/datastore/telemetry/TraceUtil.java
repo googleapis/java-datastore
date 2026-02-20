@@ -33,20 +33,6 @@ public interface TraceUtil {
   static final String ATTRIBUTE_SERVICE_PREFIX = "gcp.datastore.";
   static final String ENABLE_TRACING_ENV_VAR = "DATASTORE_ENABLE_TRACING";
   static final String LIBRARY_NAME = "com.google.cloud.datastore";
-  static final String SPAN_NAME_LOOKUP = "Lookup";
-  static final String SPAN_NAME_ALLOCATE_IDS = "AllocateIds";
-  static final String SPAN_NAME_RESERVE_IDS = "ReserveIds";
-  static final String SPAN_NAME_COMMIT = "Commit";
-  static final String SPAN_NAME_RUN_QUERY = "RunQuery";
-  static final String SPAN_NAME_RUN_AGGREGATION_QUERY = "RunAggregationQuery";
-  static final String SPAN_NAME_TRANSACTION_RUN = "Transaction.Run";
-  static final String SPAN_NAME_BEGIN_TRANSACTION = "Transaction.Begin";
-  static final String SPAN_NAME_TRANSACTION_LOOKUP = "Transaction.Lookup";
-  static final String SPAN_NAME_TRANSACTION_COMMIT = "Transaction.Commit";
-  static final String SPAN_NAME_TRANSACTION_RUN_QUERY = "Transaction.RunQuery";
-  static final String SPAN_NAME_ROLLBACK = "Transaction.Rollback";
-  static final String SPAN_NAME_TRANSACTION_RUN_AGGREGATION_QUERY =
-      "Transaction.RunAggregationQuery";
   static final String ATTRIBUTES_KEY_DOCUMENT_COUNT = "doc_count";
   static final String ATTRIBUTES_KEY_TRANSACTIONAL = "transactional";
   static final String ATTRIBUTES_KEY_TRANSACTION_ID = "transaction_id";

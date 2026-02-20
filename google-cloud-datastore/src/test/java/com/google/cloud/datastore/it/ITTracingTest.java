@@ -17,6 +17,7 @@
 package com.google.cloud.datastore.it;
 
 import static com.google.cloud.datastore.aggregation.Aggregation.count;
+import static com.google.cloud.datastore.telemetry.TelemetryConstants.*;
 import static com.google.cloud.datastore.telemetry.TraceUtil.*;
 import static com.google.common.truth.Truth.assertThat;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.SERVICE_NAME;
