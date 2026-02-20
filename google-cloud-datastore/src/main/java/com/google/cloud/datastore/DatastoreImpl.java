@@ -826,21 +826,22 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
       String methodName,
       boolean isTransactional,
       ExceptionHandler exceptionHandler) {
-    // ObservabilityCallable strictly records first_response_latency and ignores
-    // subsequent retries.
+
+    // RetryHelper.runWithRetries will call the callable multiple times if there are
+    // retries. This
+    // occurs directly in the thread and is a blocking call. Use
+    // ObservabilityCallable to record
+    // metrics for each attempt and perform logic for any specific attempt.
     ObservabilityCallable<V> obsCallable = new ObservabilityCallable<>(callable, metricsRecorder, methodName);
 
-    // transactionStopwatch measures the total duration across all retries.
     Stopwatch transactionStopwatch = Stopwatch.createStarted();
     try {
       V result = RetryHelper.runWithRetries(
           obsCallable, retrySettings, exceptionHandler, getOptions().getClock());
       if (isTransactional) {
-        // Record the end-to-end execution time for the transaction.
         metricsRecorder.recordTransactionLatency(
             transactionStopwatch.elapsed(TimeUnit.MILLISECONDS),
             ImmutableMap.of("status", "OK", "method", methodName));
-        // Record the total number of attempts the transaction took to succeed.
         metricsRecorder.recordTransactionAttemptCount(
             obsCallable.getAttempts(), ImmutableMap.of("status", "OK", "method", methodName));
       }
@@ -848,8 +849,6 @@ final class DatastoreImpl extends BaseService<DatastoreOptions> implements Datas
     } catch (RetryHelperException e) {
       if (isTransactional) {
         String status = DatastoreException.getStatusFromException(e);
-        // Record the end-to-end execution time and total attempts for a failed
-        // transaction.
         metricsRecorder.recordTransactionLatency(
             transactionStopwatch.elapsed(TimeUnit.MILLISECONDS),
             ImmutableMap.of("status", status, "method", methodName));
