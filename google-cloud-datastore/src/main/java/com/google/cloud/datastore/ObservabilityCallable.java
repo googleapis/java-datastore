@@ -34,18 +34,32 @@ class ObservabilityCallable<V> implements Callable<V> {
   private final Callable<V> delegate;
   private final MetricsRecorder metricsRecorder;
   private final String methodName;
+  private final boolean isTransactional;
   private int attempt = 0;
+  private Stopwatch transactionStopwatch;
 
   ObservabilityCallable(Callable<V> delegate, MetricsRecorder metricsRecorder, String methodName) {
+    this(delegate, metricsRecorder, methodName, false);
+  }
+
+  ObservabilityCallable(
+      Callable<V> delegate,
+      MetricsRecorder metricsRecorder,
+      String methodName,
+      boolean isTransactional) {
     this.delegate = delegate;
     this.metricsRecorder = metricsRecorder;
     this.methodName = methodName;
+    this.isTransactional = isTransactional;
   }
 
   @Override
   public V call() throws Exception {
     attempt++;
     if (attempt == 1) {
+      if (isTransactional) {
+        transactionStopwatch = Stopwatch.createStarted();
+      }
       Stopwatch stopwatch = Stopwatch.createStarted();
       try {
         V result = delegate.call();
@@ -68,5 +82,27 @@ class ObservabilityCallable<V> implements Callable<V> {
   /** Returns the number of times this {@link Callable} has been called. */
   public int getAttempts() {
     return attempt;
+  }
+
+  /**
+   * Finalizes and records transaction metrics (latency and attempt count) if this
+   * operation
+   * was marked as transactional. This should be called after the retry loop
+   * completes (either
+   * successfully or throwing an exception).
+   */
+  public void recordTransactionMetrics(Throwable e) {
+    if (isTransactional && transactionStopwatch != null) {
+      String status = "OK";
+      if (e != null) {
+        status = DatastoreException.getStatusFromException(
+            e instanceof Exception ? (Exception) e : new Exception(e));
+      }
+      metricsRecorder.recordTransactionLatency(
+          transactionStopwatch.elapsed(TimeUnit.MILLISECONDS),
+          ImmutableMap.of("status", status, "method", methodName));
+      metricsRecorder.recordTransactionAttemptCount(
+          attempt, ImmutableMap.of("status", status, "method", methodName));
+    }
   }
 }
