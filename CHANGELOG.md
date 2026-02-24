@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.34.1](https://github.com/googleapis/java-datastore/compare/v2.34.0...v2.34.1) (2026-02-24)
+
+
+### Documentation
+
+* Redirect users to google-cloud-java ([#2051](https://github.com/googleapis/java-datastore/issues/2051)) ([4918282](https://github.com/googleapis/java-datastore/commit/49182829a392d04edc01ccdfb7142a5258d2a9a8))
+
 ## [2.34.0](https://github.com/googleapis/java-datastore/compare/v2.33.3...v2.34.0) (2026-02-11)
 
 
